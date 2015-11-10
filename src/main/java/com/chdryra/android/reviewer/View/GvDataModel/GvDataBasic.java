@@ -34,7 +34,7 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         mReviewId = reviewId;
     }
 
-    protected GvReviewId getReviewIdObject() {
+    protected GvReviewId getGvReviewId() {
         return mReviewId;
     }
 

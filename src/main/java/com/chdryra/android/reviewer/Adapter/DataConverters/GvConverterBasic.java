@@ -1,6 +1,9 @@
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.Adapter.DataConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverter;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

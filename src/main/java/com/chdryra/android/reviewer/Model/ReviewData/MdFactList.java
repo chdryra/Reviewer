@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
     //Constructors
-    public MdFactList(ReviewId reviewId) {
+    public MdFactList(MdReviewId reviewId) {
         super(reviewId);
     }
 
@@ -37,10 +37,10 @@ public class MdFactList extends MdDataList<MdFactList.MdFact> {
 
         private final String mLabel;
         private final String mValue;
-        private final ReviewId mReviewId;
+        private final MdReviewId mReviewId;
 
         //Constructors
-        public MdFact(String label, String value, ReviewId reviewId) {
+        public MdFact(MdReviewId reviewId, String label, String value) {
             mLabel = label;
             mValue = value;
             mReviewId = reviewId;

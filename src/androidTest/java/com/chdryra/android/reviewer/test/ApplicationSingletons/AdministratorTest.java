@@ -16,7 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
@@ -81,15 +81,15 @@ public class AdministratorTest extends InstrumentationTestCase {
         tagBuilder.setData();
         mAdmin.publishReviewBuilder();
 
-        IdableList<Review> reviews = repo.getReviews();
+        MdIdableList<Review> reviews = repo.getReviews();
         int newSize = reviews.size();
         assertEquals(numReviews + 1, newSize);
         assertNull(mAdmin.getReviewBuilderAdapter());
 
-        IdableList<Review> fromDb = db.loadReviewsFromDb();
+        MdIdableList<Review> fromDb = db.loadReviewsFromDb();
         assertEquals(numReviews + 1, fromDb.size());
         Review mostRecent = reviews.getItem(newSize - 1);
-        assertTrue(fromDb.containsId(mostRecent.getId()));
+        assertTrue(fromDb.containsId(mostRecent.getMdReviewId()));
     }
 
 

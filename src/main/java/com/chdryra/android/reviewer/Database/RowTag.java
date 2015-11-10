@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,27 +23,24 @@ public class RowTag implements DbTableRow {
 
     private String mTag;
     private String mReviews;
-    private DataValidator mValidator;
 
     //Constructors
-    public RowTag(ReviewTag tag, DataValidator validator) {
+    public RowTag(ItemTag tag) {
         mTag = tag.getTag();
         mReviews = "";
-        for (ReviewId id : tag.getReviews()) {
+        for (MdReviewId id : tag.getItemIds()) {
             mReviews += id.toString() + SEPARATOR;
         }
         mReviews = mReviews.substring(0, mReviews.length() - 1);
-        mValidator = validator;
     }
 
     //Via reflection
     public RowTag() {
     }
 
-    public RowTag(Cursor cursor, DataValidator validator) {
+    public RowTag(Cursor cursor) {
         mTag = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TAG));
         mReviews = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEWS));
-        mValidator = validator;
     }
 
     //public methods
@@ -76,7 +73,7 @@ public class RowTag implements DbTableRow {
     }
 
     @Override
-    public boolean hasData() {
-        return mValidator != null && mValidator.validateString(getRowId());
+    public boolean hasData(DataValidator validator) {
+        return validator.validateString(getRowId());
     }
 }

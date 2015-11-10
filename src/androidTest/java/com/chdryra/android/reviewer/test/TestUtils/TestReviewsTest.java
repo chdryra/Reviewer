@@ -15,14 +15,14 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
@@ -41,19 +41,19 @@ public class TestReviewsTest extends InstrumentationTestCase {
     @SmallTest
     public void testGetReviews() {
         ReviewsProvider provider = TestReviews.getReviews(getInstrumentation());
-        IdableList<Review> reviews = provider.getReviews();
+        MdIdableList<Review> reviews = provider.getReviews();
         assertEquals(2, reviews.size());
         testReview1(reviews.getItem(0), provider.getTagsManager());
         testReview2(reviews.getItem(1), provider.getTagsManager());
     }
 
     private void testReview1(Review review, TagsManager tagsManager) {
-        assertEquals("Tayyabs", review.getSubject().get());
+        assertEquals("Tayyabs", review.getSubject().getSubject());
         assertTrue(review.isRatingAverageOfCriteria());
-        assertEquals(3.5f, review.getRating().getValue());
+        assertEquals(3.5f, review.getRating().getRating());
 
         //Tags
-        ReviewTagCollection tags = tagsManager.getTags(review.getId());
+        ItemTagCollection tags = tagsManager.getTags(review.getMdReviewId());
         assertEquals(3, tags.size());
         assertEquals("Restaurant", tags.getItem(0).getTag());
         assertEquals("Pakistani", tags.getItem(1).getTag());
@@ -66,22 +66,22 @@ public class TestReviewsTest extends InstrumentationTestCase {
         MdCriterionList.MdCriterion criterion = criteria.getItem(0);
         assertEquals(review, criterion.getReviewId());
         Review child = criterion.getReview();
-        assertEquals("Food", child.getSubject().get());
-        assertEquals(4f, child.getRating().getValue());
+        assertEquals("Food", child.getSubject().getSubject());
+        assertEquals(4f, child.getRating().getRating());
         assertEquals(0, child.getCriteria().size());
 
         criterion = criteria.getItem(1);
         child = criterion.getReview();
-        assertEquals(review.getId(), criterion.getReviewId());
-        assertEquals("Service", child.getSubject().get());
-        assertEquals(2f, child.getRating().getValue());
+        assertEquals(review.getMdReviewId(), criterion.getReviewId());
+        assertEquals("Service", child.getSubject().getSubject());
+        assertEquals(2f, child.getRating().getRating());
         assertEquals(0, child.getCriteria().size());
 
         criterion = criteria.getItem(2);
         child = criterion.getReview();
-        assertEquals(review.getId(), criterion.getReviewId());
-        assertEquals("Value", child.getSubject().get());
-        assertEquals(4.5f, child.getRating().getValue());
+        assertEquals(review.getMdReviewId(), criterion.getReviewId());
+        assertEquals("Value", child.getSubject().getSubject());
+        assertEquals(4.5f, child.getRating().getRating());
         assertEquals(0, child.getCriteria().size());
 
         //Comments
@@ -131,12 +131,12 @@ public class TestReviewsTest extends InstrumentationTestCase {
     }
 
     private void testReview2(Review review, TagsManager tagsManager) {
-        assertEquals("The Weekend", review.getSubject().get());
+        assertEquals("The Weekend", review.getSubject().getSubject());
         assertFalse(review.isRatingAverageOfCriteria());
-        assertEquals(5f, review.getRating().getValue());
+        assertEquals(5f, review.getRating().getRating());
 
         //Tags
-        ReviewTagCollection tags = tagsManager.getTags(review.getId());
+        ItemTagCollection tags = tagsManager.getTags(review.getMdReviewId());
         assertEquals(4, tags.size());
         assertEquals("Reading", tags.getItem(0).getTag());
         assertEquals("Mum", tags.getItem(1).getTag());
@@ -149,23 +149,23 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
         MdCriterionList.MdCriterion criterion = children.getItem(0);
         Review child = criterion.getReview();
-        assertEquals(review.getId(), criterion.getReviewId());
-        assertEquals("Friday", child.getSubject().get());
-        assertEquals(4f, child.getRating().getValue());
+        assertEquals(review.getMdReviewId(), criterion.getReviewId());
+        assertEquals("Friday", child.getSubject().getSubject());
+        assertEquals(4f, child.getRating().getRating());
         assertEquals(0, child.getCriteria().size());
 
         criterion = children.getItem(1);
         child = criterion.getReview();
-        assertEquals(review.getId(), criterion.getReviewId());
-        assertEquals("Saturday", child.getSubject().get());
-        assertEquals(3.5f, child.getRating().getValue());
+        assertEquals(review.getMdReviewId(), criterion.getReviewId());
+        assertEquals("Saturday", child.getSubject().getSubject());
+        assertEquals(3.5f, child.getRating().getRating());
         assertEquals(0, child.getCriteria().size());
 
         criterion = children.getItem(2);
         child = criterion.getReview();
-        assertEquals(review.getId(), criterion.getReviewId());
-        assertEquals("Sunday", child.getSubject().get());
-        assertEquals(4f, child.getRating().getValue());
+        assertEquals(review.getMdReviewId(), criterion.getReviewId());
+        assertEquals("Sunday", child.getSubject().getSubject());
+        assertEquals(4f, child.getRating().getRating());
         assertEquals(0, child.getCriteria().size());
 
         //Comments

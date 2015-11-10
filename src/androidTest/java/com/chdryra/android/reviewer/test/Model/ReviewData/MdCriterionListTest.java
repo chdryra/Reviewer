@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -18,17 +18,17 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdCriterionListTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testMdCriterionHasData() {
         Review review = ReviewMocker.newReview();
-        ReviewId parentId = RandomReviewId.nextId();
-        MdCriterionList.MdCriterion criterion = new MdCriterionList.MdCriterion(review, parentId);
+        MdReviewId parentId = RandomReviewId.nextId();
+        MdCriterionList.MdCriterion criterion = new MdCriterionList.MdCriterion(parentId, review);
         assertTrue(criterion.hasData());
-        criterion = new MdCriterionList.MdCriterion(null, parentId);
+        criterion = new MdCriterionList.MdCriterion(parentId, null);
         assertFalse(criterion.hasData());
-        criterion = new MdCriterionList.MdCriterion(review, null);
+        criterion = new MdCriterionList.MdCriterion(null, review);
         assertFalse(criterion.hasData());
         criterion = new MdCriterionList.MdCriterion(null, null);
         assertFalse(criterion.hasData());
@@ -37,11 +37,11 @@ public class MdCriterionListTest extends TestCase {
     @SmallTest
     public void testMdCriterionGetters() {
         Review review = ReviewMocker.newReview();
-        ReviewId parentId = RandomReviewId.nextId();
-        MdCriterionList.MdCriterion criterion = new MdCriterionList.MdCriterion(review, parentId);
+        MdReviewId parentId = RandomReviewId.nextId();
+        MdCriterionList.MdCriterion criterion = new MdCriterionList.MdCriterion(parentId, review);
 
-        assertEquals(review.getSubject().get(), criterion.getSubject());
-        assertEquals(review.getRating().getValue(), criterion.getRating());
+        assertEquals(review.getSubject().getSubject(), criterion.getSubject());
+        assertEquals(review.getRating().getRating(), criterion.getRating());
         assertEquals(review, criterion.getReview());
         assertEquals(parentId, criterion.getReviewId());
     }
@@ -50,19 +50,19 @@ public class MdCriterionListTest extends TestCase {
     public void testMdCriterionEqualsHash() {
         Review review1 = ReviewMocker.newReview();
         Review review2 = ReviewMocker.newReview();
-        ReviewId parentId1 = RandomReviewId.nextId();
-        ReviewId parentId2 = RandomReviewId.nextId();
+        MdReviewId parentId1 = RandomReviewId.nextId();
+        MdReviewId parentId2 = RandomReviewId.nextId();
 
-        MdCriterionList.MdCriterion criterion1 = new MdCriterionList.MdCriterion(review1,
-                parentId1);
-        MdCriterionList.MdCriterion criterion1Copy = new MdCriterionList.MdCriterion(review1,
-                parentId1);
-        MdCriterionList.MdCriterion criterion12 = new MdCriterionList.MdCriterion(review1,
-                parentId2);
-        MdCriterionList.MdCriterion criterion21 = new MdCriterionList.MdCriterion(review2,
-                parentId1);
-        MdCriterionList.MdCriterion criterion2 = new MdCriterionList.MdCriterion(review2,
-                parentId2);
+        MdCriterionList.MdCriterion criterion1 = new MdCriterionList.MdCriterion(parentId1, review1
+        );
+        MdCriterionList.MdCriterion criterion1Copy = new MdCriterionList.MdCriterion(parentId1, review1
+        );
+        MdCriterionList.MdCriterion criterion12 = new MdCriterionList.MdCriterion(parentId2, review1
+        );
+        MdCriterionList.MdCriterion criterion21 = new MdCriterionList.MdCriterion(parentId1, review2
+        );
+        MdCriterionList.MdCriterion criterion2 = new MdCriterionList.MdCriterion(parentId2, review2
+        );
 
         MdDataUtils.testEqualsHash(criterion1, criterion1Copy, true);
         MdDataUtils.testEqualsHash(criterion1, criterion12, false);
@@ -74,13 +74,13 @@ public class MdCriterionListTest extends TestCase {
     @SmallTest
     public void testConstructor() {
         final int num = 3;
-        IdableList<Review> criteria = new IdableList<>();
+        MdIdableList<Review> criteria = new MdIdableList<>();
         for (int i = 0; i < num; ++i) {
             criteria.add(ReviewMocker.newReview());
         }
-        ReviewId parentId = RandomReviewId.nextId();
+        MdReviewId parentId = RandomReviewId.nextId();
 
-        MdCriterionList list = new MdCriterionList(criteria, parentId);
+        MdCriterionList list = new MdCriterionList(parentId, criteria);
         assertEquals(num, list.size());
         for (int i = 0; i < 3; ++i) {
             MdCriterionList.MdCriterion criterion = list.getItem(i);

@@ -2,16 +2,9 @@ package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created by: Rizwan Choudrey
@@ -101,19 +94,5 @@ public class RowFact implements ReviewDataRow, DataFact {
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
-    }
-
-    public MdFactList.MdFact toMdData() {
-        ReviewId id = ReviewId.fromString(mReviewId);
-        if (mIsUrl) {
-            String urlGuess = URLUtil.guessUrl(mValue.toLowerCase());
-            try {
-                return new MdUrlList.MdUrl(mLabel, new URL(urlGuess), id);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return new MdFactList.MdFact(mLabel, mValue, id);
     }
 }

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -24,26 +24,26 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdFactListTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testMdFactHasData() {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
 
-        MdFactList.MdFact fact = new MdFactList.MdFact(null, null, ID);
+        MdFactList.MdFact fact = new MdFactList.MdFact(ID, null, null);
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact("", null, ID);
+        fact = new MdFactList.MdFact(ID, "", null);
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(null, "", ID);
+        fact = new MdFactList.MdFact(ID, null, "");
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact("", "", ID);
+        fact = new MdFactList.MdFact(ID, "", "");
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(label, "", ID);
+        fact = new MdFactList.MdFact(ID, label, "");
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact("", value, ID);
+        fact = new MdFactList.MdFact(ID, "", value);
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(label, value, ID);
+        fact = new MdFactList.MdFact(ID, label, value);
         assertTrue(fact.hasData());
     }
 
@@ -51,7 +51,7 @@ public class MdFactListTest extends TestCase {
     public void testMdFactGetters() {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
-        MdFactList.MdFact fact = new MdFactList.MdFact(label, value, ID);
+        MdFactList.MdFact fact = new MdFactList.MdFact(ID, label, value);
         assertEquals(label, fact.getLabel());
         assertEquals(value, fact.getValue());
         assertEquals(ID, fact.getReviewId());
@@ -61,7 +61,7 @@ public class MdFactListTest extends TestCase {
     public void testIsUrl() {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
-        MdFactList.MdFact fact = new MdFactList.MdFact(label, value, ID);
+        MdFactList.MdFact fact = new MdFactList.MdFact(ID, label, value);
         assertFalse(fact.isUrl());
     }
 
@@ -71,13 +71,13 @@ public class MdFactListTest extends TestCase {
         String value1 = RandomString.nextWord();
         String label2 = RandomString.nextWord();
         String value2 = RandomString.nextWord();
-        ReviewId id2 = RandomReviewId.nextId();
+        MdReviewId id2 = RandomReviewId.nextId();
 
-        MdFactList.MdFact fact1 = new MdFactList.MdFact(label1, value1, ID);
+        MdFactList.MdFact fact1 = new MdFactList.MdFact(ID, label1, value1);
 
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(label1, value2, ID), false);
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(label2, value1, ID), false);
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(label1, value1, id2), false);
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(label1, value1, ID), true);
+        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(ID, label1, value2), false);
+        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(ID, label2, value1), false);
+        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(id2, label1, value1), false);
+        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(ID, label1, value1), true);
     }
 }

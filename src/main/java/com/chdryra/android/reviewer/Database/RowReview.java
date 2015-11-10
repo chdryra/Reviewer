@@ -33,18 +33,18 @@ public class RowReview implements ReviewDataRow {
 
     //Constructors
     public RowReview(Review review) {
-        mReviewId = review.getId().toString();
+        mReviewId = review.getMdReviewId().toString();
         mAuthorId = review.getAuthor().getUserId();
-        mPublishDate = review.getPublishDate().getDate().getTime();
-        mSubject = review.getSubject().get();
-        mRating = review.getRating().getValue();
+        mPublishDate = review.getPublishDate().getTime();
+        mSubject = review.getSubject().getSubject();
+        mRating = review.getRating().getRating();
         mRatingWeight = review.getRating().getWeight();
         mRatingIsAverage = review.isRatingAverageOfCriteria();
     }
 
     public RowReview(MdCriterionList.MdCriterion criterion) {
         this(criterion.getReview());
-        mParentId = criterion.getReviewId().toString();
+        mParentId = criterion.getReviewId();
     }
 
     //Via reflection

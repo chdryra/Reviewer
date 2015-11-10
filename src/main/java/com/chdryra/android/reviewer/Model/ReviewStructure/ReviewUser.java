@@ -8,16 +8,16 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
+import com.chdryra.android.reviewer.Model.ReviewData.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDate;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 
 import junit.framework.Assert;
 
@@ -32,9 +32,9 @@ import junit.framework.Assert;
  * review data.
  */
 public class ReviewUser implements Review {
-    private final ReviewId mId;
-    private final Author mAuthor;
-    private final PublishDate mPublishDate;
+    private final MdReviewId mId;
+    private final MdAuthor mAuthor;
+    private final MdDate mPublishDate;
     private final MdSubject mSubject;
     private final MdRating mRating;
     private final MdCriterionList mCriteria;
@@ -47,14 +47,14 @@ public class ReviewUser implements Review {
     private ReviewNode mNode;
 
     //Constructors
-    public ReviewUser(ReviewId id, Author author, PublishDate publishDate, MdSubject subject,
+    public ReviewUser(MdReviewId id, MdAuthor author, MdDate publishDate, MdSubject subject,
                       MdRating rating, MdCommentList comments,
                       MdImageList images,
                       MdFactList facts,
                       MdLocationList locations,
                       MdCriterionList criteria,
                       boolean ratingIsAverage,
-                      FactoryReview reviewFactory) {
+                      FactoryReviewNodeComponent componentFactory) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -73,10 +73,16 @@ public class ReviewUser implements Review {
         mFacts = facts;
         mLocations = locations;
         mCriteria = criteria;
-        mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
+        mNode = componentFactory.createReviewNodeComponent(this, false).makeTree();
     }
 
     //Overridden
+
+    @Override
+    public String getReviewId() {
+        return getMdReviewId().toString();
+    }
+
     @Override
     public MdSubject getSubject() {
         return mSubject;
@@ -88,12 +94,12 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public Author getAuthor() {
+    public MdAuthor getAuthor() {
         return mAuthor;
     }
 
     @Override
-    public PublishDate getPublishDate() {
+    public MdDate getPublishDate() {
         return mPublishDate;
     }
 
@@ -133,7 +139,7 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public ReviewId getId() {
+    public MdReviewId getMdReviewId() {
         return mId;
     }
 

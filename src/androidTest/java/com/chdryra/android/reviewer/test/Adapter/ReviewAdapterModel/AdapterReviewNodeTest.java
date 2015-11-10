@@ -14,14 +14,13 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
@@ -40,11 +39,11 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private Author mAuthor;
     private ReviewNode mNode;
     private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
-    private IdableList<ReviewNode> mReviews;
+    private MdIdableList<ReviewNode> mReviews;
 
     @SmallTest
     public void testGetSubject() {
-        assertEquals(mNode.getSubject().get(), mAdapter.getSubject());
+        assertEquals(mNode.getSubject().getSubject(), mAdapter.getSubject());
     }
 
     @SmallTest
@@ -64,8 +63,8 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         assertEquals(mReviews.size(), oList.size());
         for (int i = 0; i < mReviews.size(); ++i) {
             ReviewNode review = mReviews.getItem(i);
-            assertEquals(review.getRating().getValue(), oList.getItem(i).getRating());
-            assertEquals(review.getSubject().get(), oList.getItem(i).getSubject());
+            assertEquals(review.getRating().getRating(), oList.getItem(i).getRating());
+            assertEquals(review.getSubject().getSubject(), oList.getItem(i).getSubject());
             assertEquals(review.getAuthor(), oList.getItem(i).getAuthor());
             assertEquals(review.getPublishDate().getDate(), oList.getItem(i).getPublishDate());
         }
@@ -85,7 +84,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private float getRating() {
         float rating = 0f;
         for (Review review : mReviews) {
-            rating += review.getRating().getValue() / mReviews.size();
+            rating += review.getRating().getRating() / mReviews.size();
         }
 
         return rating;
@@ -94,9 +93,9 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private void setAdapter() {
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
         FactoryReview reviewFactory = new FactoryReview(new MdGvConverter());
-        Review review = reviewFactory.createReviewUser(publisher, RandomString.nextWord(), 0f);
-        ReviewTreeNode collection = reviewFactory.createReviewTreeNode(review, true);
-        mReviews = new IdableList<>();
+        Review review = reviewFactory.createUserReview(publisher, RandomString.nextWord(), 0f);
+        ReviewTreeNode collection = reviewFactory.createReviewNodeComponent(review, true);
+        mReviews = new MdIdableList<>();
         for (int i = 0; i < NUM; ++i) {
             ReviewTreeNode child = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
             mReviews.add(child);

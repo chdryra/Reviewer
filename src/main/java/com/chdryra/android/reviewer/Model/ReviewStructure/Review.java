@@ -8,16 +8,18 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthorReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataRating;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataSubject;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 
 /**
  * The fundamental interface for all review classes.
@@ -50,36 +52,38 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  * @see ReviewNode
  */
 
-public interface Review extends ReviewId.IdAble {
-    //abstract methods
+public interface Review extends MdReviewId.IdAble, DataReview {
     //abstract
-    MdSubject getSubject();
+    DataSubject getSubject();
 
-    MdRating getRating();
+    DataRating getRating();
 
-    Author getAuthor();
+    DataAuthorReview getAuthor();
 
-    PublishDate getPublishDate();
+    DataDateReview getPublishDate();
 
     ReviewNode getTreeRepresentation();
 
     boolean isRatingAverageOfCriteria();
 
     //Optional data
-    MdCriterionList getCriteria();
+    IdableList<? extends DataCriterion> getCriteria();
 
-    MdCommentList getComments();
+    IdableList<? extends DataComment> getComments();
 
-    MdFactList getFacts();
+    IdableList<? extends DataFact> getFacts();
 
-    MdImageList getImages();
+    IdableList<? extends DataImage> getImages();
 
-    MdLocationList getLocations();
+    IdableList<? extends DataLocation> getLocations();
 
     //Overridden
     //Core data
     @Override
-    ReviewId getId();
+    String getReviewId();
+
+    @Override
+    MdReviewId getMdReviewId();
 
     //For speed and comparison
     @Override

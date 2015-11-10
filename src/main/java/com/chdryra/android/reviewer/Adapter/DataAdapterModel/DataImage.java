@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import android.graphics.Bitmap;
 
-import java.util.Date;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 09/12/2014
@@ -21,7 +19,7 @@ public interface DataImage extends DataReview, Validatable{
     //abstract
     Bitmap getBitmap();
 
-    Date getDate();
+    DataDate getDate();
 
     String getCaption();
 

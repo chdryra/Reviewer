@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import java.text.DateFormat;
@@ -63,7 +64,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
      * Ignores case when comparing dates.
      * </p>
      */
-    public static class GvDate extends GvDataBasic<GvDate> {
+    public static class GvDate extends GvDataBasic<GvDate> implements DataDate{
         public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
         public static final Parcelable.Creator<GvDate> CREATOR = new Parcelable
                 .Creator<GvDate>() {
@@ -77,37 +78,38 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
             }
         };
 
-        private Date mDate;
+        private long mTime;
 
         //Constructors
         public GvDate() {
-            this(null, null);
+            this(null, 0);
         }
 
-        public GvDate(Date date) {
-            this(null, date);
+        public GvDate(long time) {
+            this(null, time);
         }
 
-        public GvDate(GvReviewId id, Date date) {
+        public GvDate(GvReviewId id, long time) {
             super(GvDate.TYPE, id);
-            mDate = date;
+            mTime = time;
         }
 
         public GvDate(GvDate date) {
-            this(date.getReviewIdObject(), date.getDate());
+            this(date.getGvReviewId(), date.getTime());
         }
 
         GvDate(Parcel in) {
             super(in);
-            mDate = (Date) in.readSerializable();
-        }
-
-        //public methods
-        public Date getDate() {
-            return mDate;
+            mTime = in.readLong();
         }
 
         //Overridden
+
+        @Override
+        public long getTime() {
+            return mTime;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -116,7 +118,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
         @Override
         public void writeToParcel(Parcel parcel, int i) {
             super.writeToParcel(parcel, i);
-            parcel.writeSerializable(mDate);
+            parcel.writeLong(mTime);
         }
 
         @Override
@@ -127,21 +129,21 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
 
             GvDate gvDate = (GvDate) o;
 
-            return !(mDate != null ? !mDate.equals(gvDate.mDate) : gvDate.mDate != null);
+            return mTime == gvDate.mTime;
 
         }
 
         @Override
         public int hashCode() {
             int result = super.hashCode();
-            result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
+            result = 31 * result + (int) (mTime ^ (mTime >>> 32));
             return result;
         }
 
         @Override
         public String getStringSummary() {
             DateFormat format = SimpleDateFormat.getDateInstance();
-            return format.format(mDate);
+            return format.format(new Date(mTime));
         }
 
         @Override
@@ -151,7 +153,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
 
         @Override
         public boolean isValidForDisplay() {
-            return mDate != null;
+            return mTime != 0;
         }
 
         @Override

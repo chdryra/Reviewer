@@ -14,28 +14,28 @@ package com.chdryra.android.reviewer.Model.ReviewStructure;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDate;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.TreeMethods.ReviewTreeComparer;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewNode;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
- * more editing or expanding of the node. Has the same {@link ReviewId} as the wrapped node.
+ * more editing or expanding of the node. Has the same {@link MdReviewId} as the wrapped node.
  * <p/>
  * <p>
  * Although a ReviewTree is unchangeable it may still be wrapped by another
  * {@link ReviewTreeNode},
- * thus acting as a fixed, published component of a new review tree with its own {@link ReviewId}.
+ * thus acting as a fixed, published component of a new review tree with its own {@link MdReviewId}.
  * </p>
  */
 public class ReviewTree implements ReviewNode {
@@ -68,7 +68,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public IdableList<ReviewNode> getChildren() {
+    public MdIdableList<ReviewNode> getChildren() {
         return mNode.getChildren();
     }
 
@@ -93,12 +93,12 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public Author getAuthor() {
+    public MdAuthor getAuthor() {
         return mNode.getAuthor();
     }
 
     @Override
-    public PublishDate getPublishDate() {
+    public MdDate getPublishDate() {
         return mNode.getPublishDate();
     }
 
@@ -138,8 +138,8 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public ReviewId getId() {
-        return mNode.getId();
+    public MdReviewId getMdReviewId() {
+        return mNode.getMdReviewId();
     }
 
     @Override

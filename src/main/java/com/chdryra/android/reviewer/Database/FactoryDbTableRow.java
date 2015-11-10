@@ -10,15 +10,15 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.Cursor;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,11 +29,6 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbTableRow {
-    private DataValidator mValidator;
-
-    public FactoryDbTableRow(DataValidator validator) {
-        mValidator = validator;
-    }
 
     public <T extends DbTableRow> T emptyRow(Class<T> rowClass) {
         try {
@@ -48,7 +43,7 @@ public class FactoryDbTableRow {
     public <T extends DbTableRow> T newRow(Cursor cursor, Class<T> rowClass) {
         try {
             Constructor c = rowClass.getConstructor(Cursor.class, DataValidator.class);
-            return rowClass.cast(c.newInstance(cursor, mValidator));
+            return rowClass.cast(c.newInstance(cursor));
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Couldn't find Cursor constructor for " + rowClass
                     .getName(), e);
@@ -62,34 +57,34 @@ public class FactoryDbTableRow {
     }
 
     public DbTableRow newRow(Review review) {
-        return new RowReview(review, mValidator);
+        return new RowReview(review);
     }
 
     public DbTableRow newRow(MdCriterionList.MdCriterion criterion) {
-        return new RowReview(criterion, mValidator);
+        return new RowReview(criterion);
     }
 
-    public DbTableRow newRow(Author author) {
-        return new RowAuthor(author, mValidator);
+    public DbTableRow newRow(DataAuthor author) {
+        return new RowAuthor(author);
     }
 
-    public DbTableRow newRow(ReviewTag tag) {
-        return new RowTag(tag, mValidator);
+    public DbTableRow newRow(ItemTag tag) {
+        return new RowTag(tag);
     }
 
-    public DbTableRow newRow(MdCommentList.MdComment comment, int index) {
-        return new RowComment(comment, index, mValidator);
+    public DbTableRow newRow(DataComment comment, int index) {
+        return new RowComment(comment, index);
     }
 
-    public DbTableRow newRow(MdFactList.MdFact fact, int index) {
-        return new RowFact(fact, index, mValidator);
+    public DbTableRow newRow(DataFact fact, int index) {
+        return new RowFact(fact, index);
     }
 
-    public DbTableRow newRow(MdLocationList.MdLocation location, int index) {
-        return new RowLocation(location, index, mValidator);
+    public DbTableRow newRow(DataLocation location, int index) {
+        return new RowLocation(location, index);
     }
 
-    public DbTableRow newRow(MdImageList.MdImage image, int index) {
-        return new RowImage(image, index, mValidator);
+    public DbTableRow newRow(DataImage image, int index) {
+        return new RowImage(image, index);
     }
 }

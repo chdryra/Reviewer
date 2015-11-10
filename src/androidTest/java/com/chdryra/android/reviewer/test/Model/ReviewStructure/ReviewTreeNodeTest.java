@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
@@ -28,14 +28,14 @@ public class ReviewTreeNodeTest extends TestCase {
     private static final int NUM = 3;
     private Review mReview;
     private Review mParent;
-    private IdableList<Review> mChildren;
+    private MdIdableList<Review> mChildren;
 
     @SmallTest
     public void testSetParent() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getMdReviewId());
         assertNull(node.getParent());
 
-        ReviewTreeNode parentNode = new ReviewTreeNode(mParent, false, mParent.getId());
+        ReviewTreeNode parentNode = new ReviewTreeNode(mParent, false, mParent.getMdReviewId());
         assertEquals(0, parentNode.getChildren().size());
 
         node.setParent(parentNode);
@@ -48,13 +48,13 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testAddChild() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getMdReviewId());
         assertEquals(0, node.getChildren().size());
 
-        IdableList<ReviewTreeNode> children = new IdableList<>();
+        MdIdableList<ReviewTreeNode> children = new MdIdableList<>();
         int i = 0;
         for (Review child : mChildren) {
-            ReviewTreeNode childNode = new ReviewTreeNode(child, false, child.getId());
+            ReviewTreeNode childNode = new ReviewTreeNode(child, false, child.getMdReviewId());
             children.add(childNode);
 
             assertNull(childNode.getParent());
@@ -66,7 +66,7 @@ public class ReviewTreeNodeTest extends TestCase {
             assertEquals(node, childNode.getParent());
         }
 
-        IdableList<ReviewNode> nodeChildren = node.getChildren();
+        MdIdableList<ReviewNode> nodeChildren = node.getChildren();
         assertEquals(children.size(), nodeChildren.size());
         for (i = 0; i < children.size(); ++i) {
             assertEquals(children.getItem(i), nodeChildren.getItem(i));
@@ -75,9 +75,9 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testReviewGetters() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getMdReviewId());
 
-        assertEquals(mReview.getId(), node.getId());
+        assertEquals(mReview.getMdReviewId(), node.getMdReviewId());
         assertEquals(mReview.getSubject(), node.getSubject());
         assertEquals(mReview.getRating(), node.getRating());
         assertEquals(mReview.getAuthor(), node.getAuthor());
@@ -91,31 +91,31 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testGetRatingAverage() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, true, mReview.getId());
+        ReviewTreeNode node = new ReviewTreeNode(mReview, true, mReview.getMdReviewId());
         for (Review child : mChildren) {
-            node.addChild(new ReviewTreeNode(child, false, child.getId()));
+            node.addChild(new ReviewTreeNode(child, false, child.getMdReviewId()));
         }
 
         float rating = 0;
         for (Review child : mChildren) {
-            rating += child.getRating().getValue() / mChildren.size();
+            rating += child.getRating().getRating() / mChildren.size();
         }
-        assertEquals(rating, node.getRating().getValue(), 0.0001);
+        assertEquals(rating, node.getRating().getRating(), 0.0001);
     }
 
     @SmallTest
     public void testGetIdUnique() {
         ReviewTreeNode node = new ReviewTreeNode(mReview, false, RandomReviewId.nextId());
-        assertFalse(mReview.getId().equals(node.getId()));
+        assertFalse(mReview.getMdReviewId().equals(node.getMdReviewId()));
     }
 
     @SmallTest
     public void testRemoveChild() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, true, mReview.getId());
+        ReviewTreeNode node = new ReviewTreeNode(mReview, true, mReview.getMdReviewId());
         Review child1 = mChildren.getItem(0);
         Review child2 = mChildren.getItem(1);
-        ReviewTreeNode childNode1 = new ReviewTreeNode(child1, false, child1.getId());
-        ReviewTreeNode childNode2 = new ReviewTreeNode(child2, false, child2.getId());
+        ReviewTreeNode childNode1 = new ReviewTreeNode(child1, false, child1.getMdReviewId());
+        ReviewTreeNode childNode2 = new ReviewTreeNode(child2, false, child2.getMdReviewId());
 
         assertEquals(0, node.getChildren().size());
         assertNull(childNode1.getParent());
@@ -132,7 +132,7 @@ public class ReviewTreeNodeTest extends TestCase {
         assertEquals(node, childNode1.getParent());
         assertEquals(node, childNode2.getParent());
 
-        node.removeChild(childNode1.getId());
+        node.removeChild(childNode1.getMdReviewId());
         assertEquals(1, node.getChildren().size());
         assertEquals(childNode2, node.getChildren().getItem(0));
         assertNull(childNode1.getParent());
@@ -142,16 +142,16 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testCreateTree() {
-        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getId());
-        node.setParent(new ReviewTreeNode(mParent, false, mParent.getId()));
+        ReviewTreeNode node = new ReviewTreeNode(mReview, false, mReview.getMdReviewId());
+        node.setParent(new ReviewTreeNode(mParent, false, mParent.getMdReviewId()));
         for (Review child : mChildren) {
-            node.addChild(new ReviewTreeNode(child, false, child.getId()));
+            node.addChild(new ReviewTreeNode(child, false, child.getMdReviewId()));
         }
 
-        ReviewNode tree = node.createTree();
+        ReviewNode tree = node.makeTree();
 
         assertNotNull(tree);
-        assertEquals(node.getId(), tree.getId());
+        assertEquals(node.getMdReviewId(), tree.getMdReviewId());
         assertEquals(node.getParent(), tree.getParent());
         assertEquals(node.getChildren(), tree.getChildren());
     }
@@ -161,7 +161,7 @@ public class ReviewTreeNodeTest extends TestCase {
     protected void setUp() throws Exception {
         mReview = ReviewMocker.newReview();
         mParent = ReviewMocker.newReview();
-        mChildren = new IdableList<>();
+        mChildren = new MdIdableList<>();
         for (int i = 0; i < NUM; ++i) {
             mChildren.add(ReviewMocker.newReview());
         }

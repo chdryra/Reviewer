@@ -107,7 +107,7 @@ public class GvCriterionList extends GvDataList<GvCriterionList.GvCriterion> {
         }
 
         public GvCriterion(GvCriterion child) {
-            this(child.getReviewIdObject(), child.getSubject(), child.getRating());
+            this(child.getGvReviewId(), child.getSubject(), child.getRating());
         }
 
         GvCriterion(Parcel in) {

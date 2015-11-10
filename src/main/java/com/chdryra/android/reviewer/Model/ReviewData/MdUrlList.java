@@ -21,7 +21,7 @@ import java.net.URL;
 public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
 
     //Constructors
-    public MdUrlList(ReviewId reviewId) {
+    public MdUrlList(MdReviewId reviewId) {
         super(reviewId);
     }
 
@@ -34,8 +34,8 @@ public class MdUrlList extends MdDataList<MdUrlList.MdUrl> {
         private final URL mUrl;
 
         //Constructors
-        public MdUrl(String label, URL url, ReviewId reviewId) {
-            super(label, url.toExternalForm(), reviewId);
+        public MdUrl(MdReviewId reviewId, String label, URL url) {
+            super(reviewId, label, url.toExternalForm());
             mUrl = url;
         }
 

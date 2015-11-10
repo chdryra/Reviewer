@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -24,22 +24,22 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdSubjectTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testGetters() {
         String title = RandomString.nextWord();
-        MdSubject subject = new MdSubject(title, ID);
-        assertEquals(title, subject.get());
+        MdSubject subject = new MdSubject(ID, title);
+        assertEquals(title, subject.getSubject());
         assertEquals(ID, subject.getReviewId());
     }
 
     @SmallTest
     public void testHasData() {
         String title = RandomString.nextWord();
-        MdSubject subject = new MdSubject("", ID);
+        MdSubject subject = new MdSubject(ID, "");
         assertFalse(subject.hasData());
-        subject = new MdSubject(title, ID);
+        subject = new MdSubject(ID, title);
         assertTrue(subject.hasData());
     }
 
@@ -47,11 +47,11 @@ public class MdSubjectTest extends TestCase {
     public void testEqualsHash() {
         String title1 = RandomString.nextWord();
         String title2 = RandomString.nextWord();
-        ReviewId id2 = RandomReviewId.nextId();
+        MdReviewId id2 = RandomReviewId.nextId();
 
-        MdSubject subject = new MdSubject(title1, ID);
-        MdDataUtils.testEqualsHash(subject, new MdSubject(title2, ID), false);
-        MdDataUtils.testEqualsHash(subject, new MdSubject(title1, id2), false);
-        MdDataUtils.testEqualsHash(subject, new MdSubject(title1, ID), true);
+        MdSubject subject = new MdSubject(ID, title1);
+        MdDataUtils.testEqualsHash(subject, new MdSubject(ID, title2), false);
+        MdDataUtils.testEqualsHash(subject, new MdSubject(id2, title1), false);
+        MdDataUtils.testEqualsHash(subject, new MdSubject(ID, title1), true);
     }
 }

@@ -17,8 +17,8 @@ import android.webkit.URLUtil;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
@@ -54,17 +54,17 @@ public class TestReviews {
     private static Author AUTHOR = new Author("Riz", UserId.generateId());
     private static TestReviews sReviews;
     private Instrumentation mInstr;
-    private IdableList<Review> mReviews;
+    private MdIdableList<Review> mReviews;
 
     private TestReviews(Instrumentation instr) {
         mInstr = instr;
-        mReviews = new IdableList<>();
+        mReviews = new MdIdableList<>();
     }
 
     //Static methods
     public static ReviewsProvider getReviews(Instrumentation instr) {
         TestReviews testReviews = get(instr);
-        IdableList<Review> reviews = testReviews.mReviews;
+        MdIdableList<Review> reviews = testReviews.mReviews;
         TagsManager tagsManager = new TagsManager();
         if (reviews.size() == 0) {
             reviews.add(testReviews.getReview(testReviews.getReview1(), tagsManager));

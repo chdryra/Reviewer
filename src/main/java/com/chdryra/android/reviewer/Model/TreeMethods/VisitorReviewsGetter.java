@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 
@@ -18,24 +18,24 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VisitorReviewsGetter implements VisitorReviewNode {
-    IdableList<Review> mReviews = new IdableList<>();
+    MdIdableList<Review> mReviews = new MdIdableList<>();
 
     //Static methods
-    public static IdableList<Review> flatten(ReviewNode node) {
+    public static MdIdableList<Review> flatten(ReviewNode node) {
         VisitorReviewsGetter flattener = new VisitorReviewsGetter();
         node.acceptVisitor(flattener);
         return flattener.getReviews();
     }
 
     //public methods
-    public IdableList<Review> getReviews() {
+    public MdIdableList<Review> getReviews() {
         return mReviews;
     }
 
     //Overridden
     @Override
     public void visit(ReviewNode node) {
-        IdableList<ReviewNode> children = node.getChildren();
+        MdIdableList<ReviewNode> children = node.getChildren();
         ReviewNode expanded = node.expand();
         if (children.size() == 0) {
             if (expanded.getReview() == node.getReview()) {

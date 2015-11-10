@@ -1,27 +1,28 @@
-package com.chdryra.android.reviewer.Model.ReviewStructure;
+package com.chdryra.android.reviewer.Database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.Database.DbTable;
-import com.chdryra.android.reviewer.Database.DbTableRow;
-import com.chdryra.android.reviewer.Database.ReviewDataRow;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Database.RowAuthor;
-import com.chdryra.android.reviewer.Database.RowReview;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterComments;
+import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterFacts;
+import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterImages;
+import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterLocations;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdData;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDate;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.UserData.UserId;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,30 +30,36 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUserDb implements Review {
-    private ReviewId mReviewId;
+    private MdReviewId mReviewId;
     private ReviewerDb mDatabase;
     private UserId mUserId;
-    private PublishDate mPublishDate;
+    private MdDate mPublishDate;
     private MdSubject mSubject;
     private MdRating mRating;
     private boolean mRatingIsAverage;
     private ReviewNode mNode;
 
     //Constructors
-    public ReviewUserDb(RowReview row, ReviewerDb database, FactoryReview reviewFactory) {
+    public ReviewUserDb(RowReview row,
+                        ReviewerDb database,
+                        FactoryReviewNodeComponent reviewFactory,
+                        MdConverterComments commentsConverter,
+                        MdConverterImages imagesConverter,
+                        MdConverterLocations locationsConverter,
+                        MdConverterFacts factsConverter) {
         mDatabase = database;
         init(row, reviewFactory);
     }
 
-    private void init(RowReview row, FactoryReview reviewFactory) {
+    private void init(RowReview row, FactoryReviewNodeComponent reviewFactory) {
         String subject = row.getSubject();
-        mReviewId = ReviewId.fromString(row.getReviewId());
-        mSubject = new MdSubject(subject, mReviewId);
-        mPublishDate = new PublishDate(row.getPublishDate());
+        mReviewId = new MdReviewId(row.getReviewId());
+        mSubject = new MdSubject(mReviewId, subject);
+        mPublishDate = new MdDate(mReviewId, row.getPublishDate());
         mUserId = UserId.fromString(row.getAuthorId());
-        mRating = new MdRating(row.getRating(), row.getRatingWeight(), mReviewId);
+        mRating = new MdRating(mReviewId, row.getRating(), row.getRatingWeight());
         mRatingIsAverage = row.isRatingIsAverage();
-        mNode = reviewFactory.createReviewTreeNode(this, false).createTree();
+        mNode = reviewFactory.createReviewNodeComponent(this, false).makeTree();
     }
 
     private <T extends DbTableRow> T getRowWhere(DbTable<T> table, String
@@ -68,12 +75,11 @@ public class ReviewUserDb implements Review {
         return row;
     }
 
-    private <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends ReviewDataRow<T1>> T2
-    loadFromDataTable(DbTable<T3> table, Class<T2> listClass) {
+    private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table) {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
 
         db.beginTransaction();
-        T2 data = mDatabase.loadFromDataTable(db, table, mReviewId.toString(), listClass);
+        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId.toString());
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
@@ -93,14 +99,14 @@ public class ReviewUserDb implements Review {
     }
 
     @Override
-    public Author getAuthor() {
+    public MdAuthor getAuthor() {
         RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.COLUMN_USER_ID,
                 mUserId.toString());
-        return new Author(row.getName(), UserId.fromString(row.getUserId()));
+        return new MdAuthor(mReviewId, row.getName(), row.getUserId());
     }
 
     @Override
-    public PublishDate getPublishDate() {
+    public MdDate getPublishDate() {
         return mPublishDate;
     }
 
@@ -117,9 +123,9 @@ public class ReviewUserDb implements Review {
     @Override
     public MdCriterionList getCriteria() {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-        IdableList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
+        MdIdableList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
                 .COLUMN_PARENT_ID, mReviewId.toString());
-        return new MdCriterionList(criteria, mReviewId);
+        return new MdCriterionList(mReviewId, criteria);
     }
 
     @Override
@@ -143,7 +149,7 @@ public class ReviewUserDb implements Review {
     }
 
     @Override
-    public ReviewId getId() {
+    public MdReviewId getMdReviewId() {
         return mReviewId;
     }
 }

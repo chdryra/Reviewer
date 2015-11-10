@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 
@@ -23,24 +23,24 @@ import junit.framework.TestCase;
  * On: 21/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewIdTest extends TestCase {
+public class MdReviewIdTest extends TestCase {
 
     @SmallTest
     public void testReviewId() {
         Author author = RandomAuthor.nextAuthor();
         PublishDate date = PublishDate.now();
         ReviewPublisher publisher = new ReviewPublisher(author, date);
-        ReviewId id1 = ReviewId.newId(publisher);
+        MdReviewId id1 = MdReviewId.newId(publisher);
         assertNotNull(id1);
         assertTrue(id1.hasData());
         assertEquals(id1, id1.getReviewId());
 
-        ReviewId id2 = ReviewId.newId(publisher);
+        MdReviewId id2 = MdReviewId.newId(publisher);
         assertNotNull(id2);
 
         assertFalse(id1.equals(id2));
 
-        ReviewId id3 = ReviewId.fromString(id2.toString());
+        MdReviewId id3 = MdReviewId.fromString(id2.toString());
         assertNotNull(id3);
         assertFalse(id1.equals(id3));
         assertTrue(id2.equals(id3));

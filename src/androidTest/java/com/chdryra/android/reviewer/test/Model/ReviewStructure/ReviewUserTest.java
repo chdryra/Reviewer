@@ -10,13 +10,13 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -55,29 +55,29 @@ public class ReviewUserTest extends TestCase {
 
     private ReviewPublisher mPublisher;
     private Review mReview;
-    private IdableList<Review> mCriteria;
+    private MdIdableList<Review> mCriteria;
 
     @SmallTest
     public void testGetId() {
-        assertNotNull(mReview.getId());
+        assertNotNull(mReview.getMdReviewId());
     }
 
     @SmallTest
     public void testGetSubject() {
         MdSubject subject = mReview.getSubject();
         assertNotNull(subject);
-        assertEquals(mReview.getId(), subject.getReviewId());
+        assertEquals(mReview.getMdReviewId(), subject.getReviewId());
         assertTrue(subject.hasData());
-        assertEquals(mSubject, mReview.getSubject().get());
+        assertEquals(mSubject, mReview.getSubject().getSubject());
     }
 
     @SmallTest
     public void testGetRating() {
         MdRating rating = mReview.getRating();
         assertNotNull(rating);
-        assertEquals(mReview.getId(), rating.getReviewId());
+        assertEquals(mReview.getMdReviewId(), rating.getReviewId());
         assertTrue(rating.hasData());
-        assertEquals(mRating, mReview.getRating().getValue());
+        assertEquals(mRating, mReview.getRating().getRating());
     }
 
     @SmallTest
@@ -113,12 +113,12 @@ public class ReviewUserTest extends TestCase {
     @SmallTest
     public void testGetCriteria() {
         MdCriterionList criteria = mReview.getCriteria();
-        assertEquals(mReview.getId(), criteria.getReviewId());
+        assertEquals(mReview.getMdReviewId(), criteria.getReviewId());
         assertEquals(mCriteria.size(), criteria.size());
         for (int i = 0; i < criteria.size(); ++i) {
             MdCriterionList.MdCriterion criterion = criteria.getItem(i);
             Review criterionReview = mCriteria.getItem(i);
-            assertEquals(mReview.getId(), criterion.getReviewId());
+            assertEquals(mReview.getMdReviewId(), criterion.getReviewId());
             assertEquals(criterionReview, criterion.getReview());
         }
     }
@@ -132,7 +132,7 @@ public class ReviewUserTest extends TestCase {
     }
 
     private Review newCriterion(ReviewPublisher publisher) {
-        return FactoryReview.createReviewUser(publisher, RandomString.nextWord(), RandomRating
+        return FactoryReview.createUserReview(publisher, RandomString.nextWord(), RandomRating
                 .nextRating());
     }
 
@@ -151,12 +151,12 @@ public class ReviewUserTest extends TestCase {
 
         mPublisher = new ReviewPublisher(mAuthor, mDate);
 
-        mCriteria = new IdableList<>();
+        mCriteria = new MdIdableList<>();
         for (int i = 0; i < NUM; ++i) {
             mCriteria.add(newCriterion(mPublisher));
         }
 
-        mReview = new ReviewUser(ReviewId.newId(mPublisher), mPublisher.getAuthor(),
+        mReview = new ReviewUser(MdReviewId.newId(mPublisher), mPublisher.getAuthor(),
                 mPublisher.getDate(), mSubject, mRating, mComments, mImages, mFacts,
                 mLocations, mCriteria, false);
     }

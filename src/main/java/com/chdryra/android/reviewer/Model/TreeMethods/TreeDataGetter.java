@@ -30,7 +30,7 @@ public class TreeDataGetter {
 
     //public methods
     public MdCriterionList getCriteria() {
-        MdCriterionList criteria = new MdCriterionList(mRoot.getId());
+        MdCriterionList criteria = new MdCriterionList(mRoot.getMdReviewId());
         criteria.addList(mRoot.getReview().getCriteria());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
@@ -41,7 +41,7 @@ public class TreeDataGetter {
     }
 
     public MdCommentList getComments() {
-        MdCommentList comments = new MdCommentList(mRoot.getId());
+        MdCommentList comments = new MdCommentList(mRoot.getMdReviewId());
         comments.addList(mRoot.getReview().getComments());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
@@ -52,7 +52,7 @@ public class TreeDataGetter {
     }
 
     public MdImageList getImages() {
-        MdImageList images = new MdImageList(mRoot.getId());
+        MdImageList images = new MdImageList(mRoot.getMdReviewId());
         images.addList(mRoot.getReview().getImages());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
@@ -63,7 +63,7 @@ public class TreeDataGetter {
     }
 
     public MdFactList getFacts() {
-        MdFactList facts = new MdFactList(mRoot.getId());
+        MdFactList facts = new MdFactList(mRoot.getMdReviewId());
         facts.addList(mRoot.getReview().getFacts());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
@@ -74,7 +74,7 @@ public class TreeDataGetter {
     }
 
     public MdLocationList getLocations() {
-        MdLocationList locations = new MdLocationList(mRoot.getId());
+        MdLocationList locations = new MdLocationList(mRoot.getMdReviewId());
         locations.addList(mRoot.getReview().getLocations());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);

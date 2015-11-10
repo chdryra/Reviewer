@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.TagsModel;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-
 import java.util.ArrayList;
 
 //import org.apache.commons.lang3.text.WordUtils;
@@ -18,46 +16,46 @@ import java.util.ArrayList;
  * The singleton that manages the tagging and untagging of Reviews.
  */
 public class TagsManager {
-    private final ReviewTagCollection mTags;
+    private final ItemTagCollection mTags;
 
     //Constructors
     public TagsManager() {
-        mTags = new ReviewTagCollection();
+        mTags = new ItemTagCollection();
     }
 
     //public methods
-    public ReviewTagCollection getTags() {
-        return new ReviewTagCollection(mTags);
+    public ItemTagCollection getTags() {
+        return new ItemTagCollection(mTags);
     }
 
-    public ReviewTagCollection getTags(ReviewId id) {
-        ReviewTagCollection tags = new ReviewTagCollection();
-        for (ReviewTag tag : mTags) {
-            if (tag.tagsReview(id)) tags.add(tag);
+    public ItemTagCollection getTags(String id) {
+        ItemTagCollection tags = new ItemTagCollection();
+        for (ItemTag tag : mTags) {
+            if (tag.tagsItem(id)) tags.add(tag);
         }
 
         return tags;
     }
 
-    public void tagReview(ReviewId id, ArrayList<String> tags) {
+    public void tagItem(String id, ArrayList<String> tags) {
         for (String tag : tags) {
-            tagReview(id, tag);
+            tagItem(id, tag);
         }
     }
 
-    public void tagReview(ReviewId id, String tag) {
-        ReviewTag reviewTag = mTags.get(tag);
-        if (reviewTag == null) {
-            mTags.add(new ReviewTag(tag, id));
+    public void tagItem(String id, String tag) {
+        ItemTag itemTag = mTags.get(tag);
+        if (itemTag == null) {
+            mTags.add(new ItemTag(tag, id));
         } else {
-            reviewTag.addReview(id);
+            itemTag.addItem(id);
         }
     }
 
-    public boolean untagReview(ReviewId id, ReviewTag tag) {
-        if (tag.tagsReview(id)) {
-            tag.removeReview(id);
-            if (tag.getReviews().size() == 0) {
+    public boolean untagItem(String id, ItemTag tag) {
+        if (tag.tagsItem(id)) {
+            tag.removeItem(id);
+            if (tag.getItemIds().size() == 0) {
                 mTags.remove(tag);
                 return true;
             }

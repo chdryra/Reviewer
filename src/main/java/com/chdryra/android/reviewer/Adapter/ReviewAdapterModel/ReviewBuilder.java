@@ -2,11 +2,10 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -140,7 +139,7 @@ public class ReviewBuilder {
 
         Review review = assembleReview(new ReviewPublisher(mAuthor, date));
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        mTagsManager.tagReview(review.getId(), tags.toStringArray());
+        mTagsManager.tagItem(review.getMdReviewId(), tags.toStringArray());
 
         return review;
     }
@@ -151,12 +150,12 @@ public class ReviewBuilder {
     }
 
     private Review assembleReview(ReviewPublisher publisher) {
-        IdableList<Review> criteria = new IdableList<>();
+        MdIdableList<Review> criteria = new MdIdableList<>();
         for (ReviewBuilder child : mChildren) {
             criteria.add(child.assembleReview(publisher));
         }
 
-        return mReviewFactory.createReviewUser(publisher, getSubject(), getRating(),
+        return mReviewFactory.createUserReview(publisher, getSubject(), getRating(),
                 getData(GvCommentList.GvComment.TYPE),
                 getData(GvImageList.GvImage.TYPE),
                 getData(GvFactList.GvFact.TYPE),

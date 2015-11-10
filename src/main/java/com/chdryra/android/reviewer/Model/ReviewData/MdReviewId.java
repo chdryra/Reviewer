@@ -9,8 +9,6 @@
 package com.chdryra.android.reviewer.Model.ReviewData;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
 
 /**
  * Review Data: Wrapper for a UUID
@@ -21,9 +19,9 @@ import com.chdryra.android.reviewer.Model.UserData.UserId;
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-public class ReviewId implements MdData {
+public class MdReviewId implements MdData {
     private static final String SPLITTER = ":";
-    private final UserId mId;
+    private final String mUserId;
     private long mTime;
     private int mIncrement;
     private String mString;
@@ -33,32 +31,23 @@ public class ReviewId implements MdData {
      */
     public interface IdAble {
         //abstract
-        ReviewId getId();
+        MdReviewId getMdReviewId();
     }
 
-    private ReviewId(ReviewPublisher publisher) {
-        mId = publisher.getUserId();
-        mTime = publisher.getTime();
-        mIncrement = publisher.getIncrement();
-        mString = mId.toString() + SPLITTER + String.valueOf(mTime) + SPLITTER +
+    public MdReviewId(String userId, long time, int increment) {
+        mUserId = userId;
+        mTime = time;
+        mIncrement = increment;
+        mString = mUserId + SPLITTER + String.valueOf(mTime) + SPLITTER +
                 String.valueOf(mIncrement);
     }
 
-    private ReviewId(String rdId) {
+    public MdReviewId(String rdId) {
         String[] split = rdId.split(SPLITTER);
-        mId = UserId.fromString(split[0]);
+        mUserId = split[0];
         mTime = Long.parseLong(split[1]);
         mIncrement = Integer.parseInt(split[2]);
         mString = rdId;
-    }
-
-    //Static methods
-    public static ReviewId newId(ReviewPublisher publisher) {
-        return new ReviewId(publisher);
-    }
-
-    public static ReviewId fromString(String rdId) {
-        return new ReviewId(rdId);
     }
 
     //Overridden
@@ -68,26 +57,26 @@ public class ReviewId implements MdData {
     }
 
     @Override
-    public boolean hasData(DataValidator dataValidator) {
-        return true;
+    public boolean hasData(DataValidator validator) {
+        return validator.validateString(mString);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewId)) return false;
+        if (!(o instanceof MdReviewId)) return false;
 
-        ReviewId reviewId = (ReviewId) o;
+        MdReviewId mdReviewId = (MdReviewId) o;
 
-        if (mTime != reviewId.mTime) return false;
-        if (mIncrement != reviewId.mIncrement) return false;
-        return mId.equals(reviewId.mId);
+        if (mTime != mdReviewId.mTime) return false;
+        if (mIncrement != mdReviewId.mIncrement) return false;
+        return mUserId.equals(mdReviewId.mUserId);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mId.hashCode();
+        int result = mUserId.hashCode();
         result = 31 * result + (int) (mTime ^ (mTime >>> 32));
         result = 31 * result + mIncrement;
         return result;

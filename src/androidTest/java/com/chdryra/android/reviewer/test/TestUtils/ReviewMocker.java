@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
@@ -44,13 +44,13 @@ public class ReviewMocker {
     private static ReviewNode getNewNode(boolean ratingIsAverage) {
         Review root = getNewReview(true);
         Review parent = getNewReview(false);
-        ReviewTreeNode rootNode = new ReviewTreeNode(root, ratingIsAverage, root.getId());
-        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false, parent.getId());
+        ReviewTreeNode rootNode = new ReviewTreeNode(root, ratingIsAverage, root.getMdReviewId());
+        ReviewTreeNode parentNode = new ReviewTreeNode(parent, false, parent.getMdReviewId());
         rootNode.setParent(parentNode);
 
         for (int i = 0; i < NUM; ++i) {
             Review review = getNewReview(true);
-            rootNode.addChild(new ReviewTreeNode(review, false, review.getId()));
+            rootNode.addChild(new ReviewTreeNode(review, false, review.getMdReviewId()));
         }
 
         return rootNode;
@@ -72,8 +72,8 @@ public class ReviewMocker {
         return review;
     }
 
-    private static IdableList<Review> getCriteria(ReviewPublisher publisher) {
-        IdableList<Review> criteria = new IdableList<>();
+    private static MdIdableList<Review> getCriteria(ReviewPublisher publisher) {
+        MdIdableList<Review> criteria = new MdIdableList<>();
         if (publisher != null) {
             for (int i = 0; i < NUM; ++i) {
                 criteria.add(new MockReview(publisher));
@@ -84,8 +84,8 @@ public class ReviewMocker {
     }
 
     static class MockReview extends ReviewUser {
-        private MockReview(ReviewPublisher publisher, IdableList<Review> criteria) {
-            super(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
+        private MockReview(ReviewPublisher publisher, MdIdableList<Review> criteria) {
+            super(MdReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
                     RandomString.nextWord(),
                     RandomRating.nextRating(),
                     GvDataMocker.newCommentList(NUM, false),
@@ -96,14 +96,14 @@ public class ReviewMocker {
         }
 
         private MockReview(ReviewPublisher publisher) {
-            super(ReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
+            super(MdReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
                     RandomString.nextWord(),
                     RandomRating.nextRating(),
                     GvDataMocker.newCommentList(0, false),
                     GvDataMocker.newImageList(0, false),
                     GvDataMocker.newFactList(0, false),
                     GvDataMocker.newLocationList(0, false),
-                    new IdableList<Review>(), false);
+                    new MdIdableList<Review>(), false);
         }
     }
 }

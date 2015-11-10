@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
@@ -137,7 +137,7 @@ public class ActivityFeedTest extends
     private ReviewsRepository createFeed() {
         Author author = RandomAuthor.nextAuthor();
         TagsManager tagsManager = new TagsManager();
-        IdableList<Review> reviews = new IdableList<>();
+        MdIdableList<Review> reviews = new MdIdableList<>();
         for (int i = 0; i < NUM; ++i) {
             ReviewBuilder builder = new ReviewBuilder(getActivity(), author, tagsManager);
             ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(builder);

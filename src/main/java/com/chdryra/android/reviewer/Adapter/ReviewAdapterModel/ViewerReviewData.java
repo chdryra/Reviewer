@@ -1,11 +1,11 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
@@ -54,10 +54,10 @@ class ViewerReviewData implements GridDataViewer<GvData> {
 
     protected GvList makeGridData() {
         Review review = mNode.getReview();
-        GvReviewId id = GvReviewId.getId(review.getId().toString());
+        GvReviewId id = GvReviewId.getId(review.getMdReviewId().toString());
 
         GvList data = new GvList(id);
-        data.add(getTags(review.getId().toString()));
+        data.add(getTags(review.getMdReviewId().toString()));
         data.add(mConverter.toGvDataList(review.getCriteria()));
         data.add(mConverter.toGvDataList(review.getImages()));
         data.add(mConverter.toGvDataList(review.getComments()));
@@ -104,11 +104,11 @@ class ViewerReviewData implements GridDataViewer<GvData> {
     }
 
     protected GvTagList getTags(String reviewId) {
-        ReviewId id = ReviewId.fromString(reviewId);
-        ReviewTagCollection tags = mTagsManager.getTags(id);
+        MdReviewId id = MdReviewId.fromString(reviewId);
+        ItemTagCollection tags = mTagsManager.getTags(id);
         GvReviewId gvid = GvReviewId.getId(reviewId);
         GvTagList tagList = new GvTagList(gvid);
-        for (ReviewTag tag : tags) {
+        for (ItemTag tag : tags) {
             tagList.add(new GvTagList.GvTag(gvid, tag.getTag()));
         }
 

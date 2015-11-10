@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.Date;
 import java.util.Random;
 
 /**
@@ -64,7 +63,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
     }
 
     public GvImageList getCovers() {
-        GvImageList covers = new GvImageList(getReviewId());
+        GvImageList covers = new GvImageList(getGvReviewId());
         for (GvImage image : this) {
             if (image.isCover()) covers.add(image);
         }
@@ -102,7 +101,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         };
 
         private final Bitmap mBitmap;
-        private final Date mDate;
+        private final GvDateList.GvDate mDate;
         private final LatLng mLatLng;
         private String mCaption;
         private boolean mIsCover = false;
@@ -111,11 +110,11 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         public GvImage() {
             super(GvImage.TYPE);
             mBitmap = null;
-            mDate = null;
+            mDate = new GvDateList.GvDate();
             mLatLng = null;
         }
 
-        public GvImage(Bitmap bitmap, Date date, LatLng latLng, String caption, boolean isCover) {
+        public GvImage(Bitmap bitmap, GvDateList.GvDate date, LatLng latLng, String caption, boolean isCover) {
             super(GvImage.TYPE);
             mBitmap = bitmap;
             mDate = date;
@@ -124,7 +123,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mIsCover = isCover;
         }
 
-        public GvImage(GvReviewId id, Bitmap bitmap, Date date, String caption, boolean isCover) {
+        public GvImage(GvReviewId id, Bitmap bitmap, GvDateList.GvDate date, String caption, boolean isCover) {
             super(GvImage.TYPE, id);
             mBitmap = bitmap;
             mDate = date;
@@ -134,7 +133,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         public GvImage(GvImage image) {
-            this(image.getReviewId(), image.getBitmap(), image.getDate(), image.getCaption(),
+            this(image.getGvReviewId(), image.getBitmap(), image.getDate(), image.getCaption(),
                     image.isCover());
         }
 
@@ -144,7 +143,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             mCaption = in.readString();
             mLatLng = in.readParcelable(LatLng.class.getClassLoader());
             mIsCover = in.readByte() != 0;
-            mDate = (Date) in.readSerializable();
+            mDate = in.readParcelable(GvDateList.GvDate.class.getClassLoader());
         }
 
         //public methods
@@ -189,7 +188,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
             parcel.writeString(mCaption);
             parcel.writeParcelable(mLatLng, i);
             parcel.writeByte((byte) (isCover() ? 1 : 0));
-            parcel.writeSerializable(mDate);
+            parcel.writeParcelable(mDate, i);
         }
 
         @Override
@@ -228,7 +227,7 @@ public class GvImageList extends GvDataList<GvImageList.GvImage> {
         }
 
         @Override
-        public Date getDate() {
+        public GvDateList.GvDate getDate() {
             return mDate;
         }
 

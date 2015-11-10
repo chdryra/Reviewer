@@ -35,7 +35,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
     //public methods
     public GvCommentList getSplitComments() {
-        GvCommentList splitComments = new GvCommentList(getReviewIdObject());
+        GvCommentList splitComments = new GvCommentList(getGvReviewId());
         for (GvCommentList.GvComment comment : this) {
             splitComments.addList(comment.getSplitComments());
         }
@@ -44,7 +44,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
     }
 
     public GvCommentList getHeadlines() {
-        GvCommentList headlines = new GvCommentList(getReviewIdObject());
+        GvCommentList headlines = new GvCommentList(getGvReviewId());
         for (GvComment comment : this) {
             if (comment.isHeadline()) headlines.add(comment);
         }
@@ -106,7 +106,7 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
 
         //Copy constructor
         public GvComment(GvComment comment) {
-            this(comment.getReviewIdObject(), comment.getComment(), comment.isHeadline());
+            this(comment.getGvReviewId(), comment.getComment(), comment.isHeadline());
         }
 
         private GvComment(GvReviewId id, String comment, GvComment unsplitParent) {
@@ -133,9 +133,9 @@ public class GvCommentList extends GvDataList<GvCommentList.GvComment> {
         }
 
         public GvCommentList getSplitComments() {
-            GvCommentList splitComments = new GvCommentList(getReviewIdObject());
+            GvCommentList splitComments = new GvCommentList(getGvReviewId());
             for (String comment : CommentFormatter.split(mComment)) {
-                splitComments.add(new GvComment(getReviewIdObject(), comment, this));
+                splitComments.add(new GvComment(getGvReviewId(), comment, this));
             }
 
             return splitComments;

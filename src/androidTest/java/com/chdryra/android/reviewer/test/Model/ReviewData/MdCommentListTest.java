@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -24,22 +24,22 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdCommentListTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testMdCommentHasData() {
-        MdCommentList.MdComment comment = new MdCommentList.MdComment(null, false, ID);
+        MdCommentList.MdComment comment = new MdCommentList.MdComment(ID, null, false);
         assertFalse(comment.hasData());
-        comment = new MdCommentList.MdComment("", false, ID);
+        comment = new MdCommentList.MdComment(ID, "", false);
         assertFalse(comment.hasData());
-        comment = new MdCommentList.MdComment(RandomString.nextSentence(), false, ID);
+        comment = new MdCommentList.MdComment(ID, RandomString.nextSentence(), false);
         assertTrue(comment.hasData());
     }
 
     @SmallTest
     public void testMdCommentGetters() {
         String sentence = RandomString.nextSentence();
-        MdCommentList.MdComment comment = new MdCommentList.MdComment(sentence, false, ID);
+        MdCommentList.MdComment comment = new MdCommentList.MdComment(ID, sentence, false);
         assertEquals(sentence, comment.getComment());
         assertEquals(ID, comment.getReviewId());
     }
@@ -47,9 +47,9 @@ public class MdCommentListTest extends TestCase {
     @SmallTest
     public void testMdCommentIsHeadline() {
         String sentence = RandomString.nextSentence();
-        MdCommentList.MdComment comment = new MdCommentList.MdComment(sentence, false, ID);
+        MdCommentList.MdComment comment = new MdCommentList.MdComment(ID, sentence, false);
         assertFalse(comment.isHeadline());
-        comment = new MdCommentList.MdComment(sentence, true, ID);
+        comment = new MdCommentList.MdComment(ID, sentence, true);
         assertTrue(comment.isHeadline());
     }
 
@@ -57,15 +57,15 @@ public class MdCommentListTest extends TestCase {
     public void testMdCommentEqualsHash() {
         String string1 = RandomString.nextSentence();
         String string2 = RandomString.nextSentence();
-        ReviewId id2 = RandomReviewId.nextId();
+        MdReviewId id2 = RandomReviewId.nextId();
 
-        MdCommentList.MdComment comment1 = new MdCommentList.MdComment(string1, true, ID);
+        MdCommentList.MdComment comment1 = new MdCommentList.MdComment(ID, string1, true);
 
-        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(string1, true, id2),
+        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(id2, string1, true),
                 false);
-        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(string1, false, ID),
+        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(ID, string1, false),
                 false);
-        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(string2, true, ID), false);
-        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(string1, true, ID), true);
+        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(ID, string2, true), false);
+        MdDataUtils.testEqualsHash(comment1, new MdCommentList.MdComment(ID, string1, true), true);
     }
 }

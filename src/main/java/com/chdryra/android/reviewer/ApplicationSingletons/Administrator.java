@@ -115,7 +115,7 @@ public class Administrator extends ApplicationSingleton {
         ReviewNode reviewNode = mApplicationContext.getReviewFactory().createMetaReview(review);
         FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
         LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode).getReviewView();
-        String tag = review.getSubject().get();
+        String tag = review.getSubject().getSubject();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, activity, requestCode, tag, new Bundle());
     }

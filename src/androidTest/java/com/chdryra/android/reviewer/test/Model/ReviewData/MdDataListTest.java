@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdData;
 import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 
 import junit.framework.TestCase;
@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdDataListTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
     private MdDataList<TestDatum> mData;
 
     @SmallTest
@@ -73,7 +73,7 @@ public class MdDataListTest extends TestCase {
     }
 
     private static class TestDatum implements MdData {
-        private ReviewId mId;
+        private MdReviewId mId;
 
         //Constructors
         public TestDatum() {
@@ -82,7 +82,7 @@ public class MdDataListTest extends TestCase {
 
         //Overridden
         @Override
-        public ReviewId getReviewId() {
+        public MdReviewId getReviewId() {
             return mId;
         }
 

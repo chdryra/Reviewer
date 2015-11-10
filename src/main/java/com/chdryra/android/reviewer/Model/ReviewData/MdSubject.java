@@ -8,26 +8,28 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Review Data: subject
  */
-public class MdSubject implements MdData {
+public class MdSubject implements MdData, DataSubject {
     private final String mSubject;
-    private final ReviewId mReviewId;
+    private final MdReviewId mReviewId;
 
     //Constructors
-    public MdSubject(String subject, ReviewId reviewId) {
+    public MdSubject(MdReviewId reviewId, String subject) {
         mSubject = subject;
         mReviewId = reviewId;
     }
 
-    public String get() {
+    //Overridden
+    @Override
+    public String getSubject() {
         return mSubject;
     }
 
-    //Overridden
     @Override
     public String getReviewId() {
         return mReviewId.toString();

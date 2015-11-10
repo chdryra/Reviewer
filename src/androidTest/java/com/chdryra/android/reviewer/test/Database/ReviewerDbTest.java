@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Database.RowReview;
 import com.chdryra.android.reviewer.Database.RowTag;
 import com.chdryra.android.reviewer.Database.DbTableRow;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdData;
@@ -38,11 +38,11 @@ import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -123,12 +123,12 @@ public class ReviewerDbTest extends AndroidTestCase {
         //Add
         assertEquals(0, getNumberRows(table));
         addReviewsToDatabase();
-        Map<Author, IdableList<Review>> authorMap = new HashMap<>();
+        Map<Author, MdIdableList<Review>> authorMap = new HashMap<>();
         for (Review review : mReviews) {
             Author author = review.getAuthor();
             testAuthorsRow(author, true);
             if (authorMap.get(author) == null) {
-                authorMap.put(author, new IdableList<Review>());
+                authorMap.put(author, new MdIdableList<Review>());
             }
             authorMap.get(author).add(review);
         }
@@ -137,8 +137,8 @@ public class ReviewerDbTest extends AndroidTestCase {
         //Delete
         for (Review review : mReviews) {
             deleteReviewFromDb(review);
-            IdableList<Review> authorReviews = authorMap.get(review.getAuthor());
-            authorReviews.remove(review.getId());
+            MdIdableList<Review> authorReviews = authorMap.get(review.getAuthor());
+            authorReviews.remove(review.getMdReviewId());
             testAuthorsRow(review.getAuthor(), authorReviews.size() > 0);
         }
         assertEquals(0, getNumberRows(table));
@@ -160,7 +160,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         for (Review review : mReviews) {
             deleteReviewFromDb(review);
             for (String tag : mTagsMap.keySet()) {
-                testTag(tag, mTagsMap.get(tag), review.getId().toString());
+                testTag(tag, mTagsMap.get(tag), review.getMdReviewId().toString());
             }
         }
         assertEquals(0, getNumberRows(table));
@@ -188,7 +188,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testLoadReviewsFromDb() {
-        IdableList<Review> fromDb = mDatabase.loadReviewsFromDb();
+        MdIdableList<Review> fromDb = mDatabase.loadReviewsFromDb();
         assertEquals(0, fromDb.size());
 
         addReviewsToDatabase();
@@ -196,7 +196,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         fromDb = mDatabase.loadReviewsFromDb();
         assertEquals(mReviews.size(), fromDb.size());
         for (Review review : mReviews) {
-            ReviewId id = review.getId();
+            MdReviewId id = review.getMdReviewId();
             Review dbReview = fromDb.get(id);
             assertNotNull(dbReview);
             assertEquals(review, dbReview);
@@ -207,11 +207,11 @@ public class ReviewerDbTest extends AndroidTestCase {
     public void testDeleteReviewFromDb() {
         addReviewsToDatabase();
         for (Review review : mReviews) {
-            IdableList<Review> fromDb = mDatabase.loadReviewsFromDb();
-            assertNotNull(fromDb.get(review.getId()));
+            MdIdableList<Review> fromDb = mDatabase.loadReviewsFromDb();
+            assertNotNull(fromDb.get(review.getMdReviewId()));
             deleteReviewFromDb(review);
             fromDb = mDatabase.loadReviewsFromDb();
-            assertNull(fromDb.get(review.getId()));
+            assertNull(fromDb.get(review.getMdReviewId()));
         }
     }
 
@@ -229,20 +229,20 @@ public class ReviewerDbTest extends AndroidTestCase {
 
         Random r = new Random();
         for (Review review : mReviews) {
-            ReviewId id = review.getId();
+            MdReviewId id = review.getMdReviewId();
             for (int i = 0; i < 2; ++i) {
                 int index = r.nextInt(numTags);
                 String tag = tags.getItem(index).getString();
-                mTagsManager.tagReview(id, tag);
+                mTagsManager.tagItem(id, tag);
             }
         }
 
         Map<String, ArrayList<String>> tagsMap = new HashMap<>();
-        ReviewTagCollection tagCollection = mTagsManager.getTags();
-        for (ReviewTag tag : tagCollection) {
+        ItemTagCollection tagCollection = mTagsManager.getTags();
+        for (ItemTag tag : tagCollection) {
             ArrayList<String> reviewList = new ArrayList<>();
-            ArrayList<ReviewId> tagged = tag.getReviews();
-            for (ReviewId id : tagged) {
+            ArrayList<MdReviewId> tagged = tag.getItemIds();
+            for (MdReviewId id : tagged) {
                 reviewList.add(id.toString());
             }
             tagsMap.put(tag.getTag(), reviewList);
@@ -251,14 +251,14 @@ public class ReviewerDbTest extends AndroidTestCase {
         return tagsMap;
     }
 
-    private void checkTagList(ReviewTagCollection lhs,
-                              ReviewTagCollection rhs) {
+    private void checkTagList(ItemTagCollection lhs,
+                              ItemTagCollection rhs) {
         assertEquals(lhs.size(), rhs.size());
         for (int i = 0; i < rhs.size(); ++i) {
-            ReviewTag tag = rhs.getItem(i);
+            ItemTag tag = rhs.getItem(i);
             assertEquals(lhs.getItem(i).getTag(), tag.getTag());
             ArrayList<String> tagged = mTagsMap.get(tag.getTag());
-            ArrayList<ReviewId> taggedIds = tag.getReviews();
+            ArrayList<MdReviewId> taggedIds = tag.getItemIds();
             for (int j = 0; j < taggedIds.size(); ++j) {
                 assertEquals(tagged.get(j), taggedIds.get(j).toString());
             }
@@ -438,8 +438,8 @@ public class ReviewerDbTest extends AndroidTestCase {
         }
 
         assertEquals(id, vals.get(RowReview.REVIEW_ID));
-        assertEquals(review.getSubject().get(), vals.get(RowReview.SUBJECT));
-        assertEquals(review.getRating().getValue(), vals.get(RowReview.RATING));
+        assertEquals(review.getSubject().getSubject(), vals.get(RowReview.SUBJECT));
+        assertEquals(review.getRating().getRating(), vals.get(RowReview.RATING));
         assertEquals(review.getAuthor().getUserId().toString(), vals.get(RowReview.AUTHOR_ID));
         assertEquals(review.getPublishDate().getTime(), vals.get(RowReview.PUBLISH_DATE));
         assertEquals(review.isRatingAverageOfCriteria(),
@@ -509,7 +509,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     }
 
     private void deleteReviewFromDb(Review review) {
-        mDatabase.deleteReviewFromDb(review.getId().toString());
+        mDatabase.deleteReviewFromDb(review.getMdReviewId().toString());
     }
 
     //Overridden

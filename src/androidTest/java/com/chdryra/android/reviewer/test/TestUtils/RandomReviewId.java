@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  */
 public class RandomReviewId {
     //Static methods
-    public static ReviewId nextId() {
-        return ReviewId.newId(RandomPublisher.nextPublisher());
+    public static MdReviewId nextId() {
+        return MdReviewId.newId(RandomPublisher.nextPublisher());
     }
 
     public static String nextIdString() {

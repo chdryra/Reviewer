@@ -10,10 +10,11 @@ package com.chdryra.android.reviewer.Model.ReviewData;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
-import java.util.Date;
+import junit.framework.Assert;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,13 +24,13 @@ import java.util.Date;
 public class MdImageList extends MdDataList<MdImageList.MdImage> {
 
     //Constructors
-    public MdImageList(ReviewId reviewId) {
+    public MdImageList(MdReviewId reviewId) {
         super(reviewId);
     }
 
     //public methods
     public MdImageList getCovers() {
-        MdImageList covers = new MdImageList(getReviewIdObject());
+        MdImageList covers = new MdImageList(getMdReviewId());
         for (MdImage image : this) {
             if (image.isCover()) covers.add(image);
         }
@@ -48,19 +49,23 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
     public static class MdImage implements MdData, DataImage {
 
         private final Bitmap mBitmap;
-        private final Date mDate;
+        private final MdDate mDate;
         private final String mCaption;
-        private final ReviewId mReviewId;
+        private final MdReviewId mReviewId;
         private boolean mIsCover = false;
 
         //Constructors
-        public MdImage(Bitmap bitmap, Date date, String caption, boolean isCover,
-                       ReviewId reviewId) {
+        public MdImage(MdReviewId reviewId, Bitmap bitmap, MdDate date, String caption, boolean isCover) {
             mBitmap = bitmap;
             mDate = date;
             mCaption = caption;
             mIsCover = isCover;
             mReviewId = reviewId;
+            if(reviewId != null) {
+                Assert.assertEquals(reviewId.toString(), date.getReviewId());
+            } else {
+                Assert.assertNull(date.getReviewId());
+            }
         }
 
         //Overridden
@@ -80,7 +85,7 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
         }
 
         @Override
-        public Date getDate() {
+        public DataDate getDate() {
             return mDate;
         }
 

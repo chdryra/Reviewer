@@ -5,9 +5,6 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -15,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocation implements ReviewDataRow<MdLocationList.MdLocation>, DataLocation {
+public class RowLocation implements ReviewDataRow, DataLocation {
     public static final String COLUMN_LOCATION_ID = "location_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_LATITUDE = "latitude";
@@ -31,8 +28,8 @@ public class RowLocation implements ReviewDataRow<MdLocationList.MdLocation>, Da
     private String mName;
 
     //Constructors
-    public RowLocation(MdLocationList.MdLocation location, int index) {
-        mReviewId = location.getReviewId().toString();
+    public RowLocation(DataLocation location, int index) {
+        mReviewId = location.getReviewId();
         mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
         mLatitude = location.getLatLng().latitude;
         mLongitude = location.getLatLng().longitude;
@@ -53,6 +50,11 @@ public class RowLocation implements ReviewDataRow<MdLocationList.MdLocation>, Da
 
 
     //Overridden
+
+    @Override
+    public String getReviewId() {
+        return mReviewId;
+    }
 
     @Override
     public LatLng getLatLng() {
@@ -89,11 +91,5 @@ public class RowLocation implements ReviewDataRow<MdLocationList.MdLocation>, Da
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
-    }
-
-    @Override
-    public MdLocationList.MdLocation toMdData(MdGvConverter converter) {
-        ReviewId id = ReviewId.fromString(mReviewId);
-        return new MdLocationList.MdLocation(getLatLng(), getName(), id);
     }
 }

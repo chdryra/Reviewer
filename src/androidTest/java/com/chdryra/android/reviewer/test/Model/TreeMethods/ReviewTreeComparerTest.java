@@ -28,7 +28,7 @@ public class ReviewTreeComparerTest extends TestCase {
     public void testCompareNodes() {
         ReviewNode node1 = ReviewMocker.newReviewNode(true);
 
-        ReviewTreeNode node2 = new ReviewTreeNode(node1.getReview(), true, node1.getId());
+        ReviewTreeNode node2 = new ReviewTreeNode(node1.getReview(), true, node1.getMdReviewId());
         assertFalse(ReviewTreeComparer.compareNodes(node1, node2));
         node2.setParent((ReviewTreeNode) node1.getParent());
         assertFalse(ReviewTreeComparer.compareNodes(node1, node2));

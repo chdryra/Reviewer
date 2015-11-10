@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -30,7 +30,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdImageListTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
 
     @SmallTest
     public void testGetCovers() {
@@ -55,9 +55,9 @@ public class MdImageListTest extends TestCase {
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
 
-        MdImageList.MdImage image = new MdImageList.MdImage(null, date, caption, false, ID);
+        MdImageList.MdImage image = new MdImageList.MdImage(ID, null, date, caption, false);
         assertFalse(image.hasData());
-        image = new MdImageList.MdImage(bitmap, date, caption, false, ID);
+        image = new MdImageList.MdImage(ID, bitmap, date, caption, false);
         assertTrue(image.hasData());
     }
 
@@ -67,7 +67,7 @@ public class MdImageListTest extends TestCase {
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
 
-        MdImageList.MdImage image = new MdImageList.MdImage(bitmap, date, caption, false, ID);
+        MdImageList.MdImage image = new MdImageList.MdImage(ID, bitmap, date, caption, false);
 
         assertTrue(bitmap.sameAs(image.getBitmap()));
         assertEquals(date, image.getDate());
@@ -81,9 +81,9 @@ public class MdImageListTest extends TestCase {
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
 
-        MdImageList.MdImage image = new MdImageList.MdImage(bitmap, date, caption, false, ID);
+        MdImageList.MdImage image = new MdImageList.MdImage(ID, bitmap, date, caption, false);
         assertFalse(image.isCover());
-        image = new MdImageList.MdImage(bitmap, date, caption, true, ID);
+        image = new MdImageList.MdImage(ID, bitmap, date, caption, true);
         assertTrue(image.isCover());
     }
 
@@ -95,22 +95,22 @@ public class MdImageListTest extends TestCase {
         Bitmap bitmap2 = BitmapMocker.nextBitmap();
         Date date2 = RandomDate.nextDate();
         String caption2 = RandomString.nextSentence();
-        ReviewId id2 = RandomReviewId.nextId();
+        MdReviewId id2 = RandomReviewId.nextId();
 
-        MdImageList.MdImage image1 = new MdImageList.MdImage(bitmap1, date1, caption1, false, ID);
+        MdImageList.MdImage image1 = new MdImageList.MdImage(ID, bitmap1, date1, caption1, false);
 
         MdImageList.MdImage image2;
-        image2 = new MdImageList.MdImage(bitmap2, date1, caption1, false, ID);
+        image2 = new MdImageList.MdImage(ID, bitmap2, date1, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(bitmap1, date2, caption1, false, ID);
+        image2 = new MdImageList.MdImage(ID, bitmap1, date2, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(bitmap1, date1, caption2, false, ID);
+        image2 = new MdImageList.MdImage(ID, bitmap1, date1, caption2, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(bitmap1, date1, caption1, true, ID);
+        image2 = new MdImageList.MdImage(ID, bitmap1, date1, caption1, true);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(bitmap1, date1, caption1, false, id2);
+        image2 = new MdImageList.MdImage(id2, bitmap1, date1, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(bitmap1, date1, caption1, false, ID);
+        image2 = new MdImageList.MdImage(ID, bitmap1, date1, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, true);
     }
 }

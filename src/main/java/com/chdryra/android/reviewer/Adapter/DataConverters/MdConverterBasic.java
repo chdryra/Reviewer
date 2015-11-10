@@ -1,7 +1,9 @@
-package com.chdryra.android.reviewer.Model.ReviewData;
+package com.chdryra.android.reviewer.Adapter.DataConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverter;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdData;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -38,9 +40,9 @@ public abstract class MdConverterBasic<T1, T2 extends MdData, T3 extends MdDataL
     }
 
     private T3 newList(String reviewId) {
-        ReviewId id = ReviewId.fromString(reviewId);
+        MdReviewId id = MdReviewId.fromString(reviewId);
         try {
-            Constructor<T3> ctor = mListClass.getConstructor(ReviewId.class);
+            Constructor<T3> ctor = mListClass.getConstructor(MdReviewId.class);
             return ctor.newInstance(id);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(NO_CTOR_ERR + mListClass.getName(), e);

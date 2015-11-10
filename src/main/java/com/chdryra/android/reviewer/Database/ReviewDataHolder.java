@@ -1,12 +1,14 @@
 package com.chdryra.android.reviewer.Database;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 
@@ -16,26 +18,26 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDataHolder {
-    private final ReviewId mId;
+    private final MdReviewId mId;
     private final Author mAuthor;
     private final PublishDate mPublishDate;
     private final String mSubject;
     private final float mRating;
     private final int mRatingWeight;
-    private final Iterable<DataComment> mComments;
-    private final Iterable<DataImage> mImages;
-    private final Iterable<DataFact> mFacts;
-    private final Iterable<DataLocation> mLocations;
-    private final IdableList<Review> mCritList;
+    private final Iterable<? extends DataComment> mComments;
+    private final Iterable<? extends DataImage> mImages;
+    private final Iterable<? extends DataFact> mFacts;
+    private final Iterable<? extends DataLocation> mLocations;
+    private final MdIdableList<Review> mCritList;
     private final boolean mIsAverage;
 
-    public ReviewDataHolder(ReviewId id, Author author, PublishDate publishDate,
+    public ReviewDataHolder(MdReviewId id, Author author, PublishDate publishDate,
                             String subject, float rating, int ratingWeight,
-                            Iterable<DataComment> comments,
-                            Iterable<DataImage> images,
-                            Iterable<DataFact> facts,
-                            Iterable<DataLocation> locations,
-                            IdableList<Review> critList, boolean isAverage) {
+                            Iterable<? extends DataComment> comments,
+                            Iterable<? extends DataImage> images,
+                            Iterable<? extends DataFact> facts,
+                            Iterable<? extends DataLocation> locations,
+                            MdIdableList<Review> critList, boolean isAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -50,15 +52,15 @@ public class ReviewDataHolder {
         mIsAverage = isAverage;
     }
 
-    public ReviewId getId() {
+    public MdReviewId getId() {
         return mId;
     }
 
-    public Author getAuthor() {
+    public DataAuthor getAuthor() {
         return mAuthor;
     }
 
-    public PublishDate getPublishDate() {
+    public DataDate getPublishDate() {
         return mPublishDate;
     }
 
@@ -74,23 +76,23 @@ public class ReviewDataHolder {
         return mRatingWeight;
     }
 
-    public Iterable<DataComment> getComments() {
+    public Iterable<? extends DataComment> getComments() {
         return mComments;
     }
 
-    public Iterable<DataImage> getImages() {
+    public Iterable<? extends DataImage> getImages() {
         return mImages;
     }
 
-    public Iterable<DataFact> getFacts() {
+    public Iterable<? extends DataFact> getFacts() {
         return mFacts;
     }
 
-    public Iterable<DataLocation> getLocations() {
+    public Iterable<? extends DataLocation> getLocations() {
         return mLocations;
     }
 
-    public IdableList<Review> getCritList() {
+    public MdIdableList<Review> getCritList() {
         return mCritList;
     }
 
@@ -104,6 +106,6 @@ public class ReviewDataHolder {
      * Email: rizwan.choudrey@gmail.com
      */
     public interface BuilderReviewUser {
-        Review createReviewUser(ReviewDataHolder review);
+        Review createUserReview(ReviewDataHolder review);
     }
 }

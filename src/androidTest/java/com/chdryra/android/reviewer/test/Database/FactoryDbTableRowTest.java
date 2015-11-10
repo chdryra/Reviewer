@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Database.RowLocation;
 import com.chdryra.android.reviewer.Database.RowReview;
 import com.chdryra.android.reviewer.Database.RowTag;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
@@ -52,15 +52,15 @@ public class FactoryDbTableRowTest extends TestCase {
     public void testStaticNewRow() {
         //Only checking one to see if logic flows through...
         Review review = ReviewMocker.newReview();
-        ReviewId parentId = RandomReviewId.nextId();
+        MdReviewId parentId = RandomReviewId.nextId();
         String[] cols = new String[]{RowReview.REVIEW_ID, RowReview.PARENT_ID, RowReview.AUTHOR_ID,
                 RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING, RowReview.IS_AVERAGE};
 
         MatrixCursor cursor = new MatrixCursor(cols);
-        String reviewId = review.getId().toString();
+        String reviewId = review.getMdReviewId().toString();
         String authorId = review.getAuthor().getUserId().toString();
         cursor.addRow(new Object[]{reviewId, parentId, authorId, review.getPublishDate().getTime(),
-                review.getSubject().get(), review.getRating().getValue(), review
+                review.getSubject().getSubject(), review.getRating().getRating(), review
                 .isRatingAverageOfCriteria() ? 1 : 0});
         cursor.moveToFirst();
         assertNotNull(FactoryDbTableRow.newRow(cursor, RowReview.class));
@@ -74,7 +74,7 @@ public class FactoryDbTableRowTest extends TestCase {
     @SmallTest
     public void testNewRowCriterion() {
         MdCriterionList.MdCriterion criterion =
-                new MdCriterionList.MdCriterion(ReviewMocker.newReview(), RandomReviewId.nextId());
+                new MdCriterionList.MdCriterion(RandomReviewId.nextId(), ReviewMocker.newReview());
         assertNotNull(FactoryDbTableRow.newRow(criterion));
     }
 

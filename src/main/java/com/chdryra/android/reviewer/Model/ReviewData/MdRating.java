@@ -8,33 +8,35 @@
 
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
  * Review Data: rating
  */
-public class MdRating implements MdData {
+public class MdRating implements MdData, DataRating {
     private final float mRating;
     private final int mWeight;
-    private final ReviewId mReviewId;
+    private final MdReviewId mReviewId;
 
     //Constructors
-    public MdRating(float rating, int weight, ReviewId reviewId) {
+    public MdRating(MdReviewId reviewId, float rating, int weight) {
         mRating = rating;
         mReviewId = reviewId;
         mWeight = weight;
     }
 
-    //public methods
-    public float getValue() {
+    //Overridden
+    @Override
+    public float getRating() {
         return mRating;
     }
 
+    @Override
     public int getWeight() {
         return mWeight;
     }
 
-    //Overridden
     @Override
     public String getReviewId() {
         return mReviewId.toString();

@@ -8,25 +8,25 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDate;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.TreeMethods.ReviewTreeComparer;
 import com.chdryra.android.reviewer.Model.TreeMethods.TreeDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingCalculator;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewNode;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 
 /**
- * Creates a new unique {@link ReviewId} if required so can represent a new review structure even
+ * Creates a new unique {@link MdReviewId} if required so can represent a new review structure even
  * though it wraps an existing review.
  * </p>
  * <p/>
@@ -34,27 +34,39 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  * Wraps a {@link Review} object in a node structure with potential children and a parent.
  * </p>
  */
-public class ReviewTreeNode implements ReviewNode {
-    private final ReviewId mId;
+public class ReviewTreeNode implements ReviewNodeComponent {
+    private final MdReviewId mId;
 
     private final Review mReview;
     private final TreeDataGetter mGetter;
-    private final IdableList<ReviewNode> mChildren;
-    private ReviewTreeNode mParent;
+    private final MdIdableList<ReviewNode> mChildren;
+    private ReviewNodeComponent mParent;
     private boolean mRatingIsAverage = false;
 
     //Constructors
-    public ReviewTreeNode(Review root, boolean ratingIsAverage, ReviewId nodeId) {
+    public ReviewTreeNode(Review review, boolean ratingIsAverage, MdReviewId nodeId) {
         mId = nodeId;
-        mReview = root;
-        mChildren = new IdableList<>();
+        mReview = review;
+        mChildren = new MdIdableList<>();
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
         mGetter = new TreeDataGetter(this);
     }
 
-    public boolean addChild(ReviewTreeNode childNode) {
-        if (mChildren.containsId(childNode.getId())) {
+    private void removeChild(ReviewNodeComponent childNode) {
+        if (!mChildren.containsId(childNode.getMdReviewId())) {
+            return;
+        }
+        mChildren.remove(childNode.getMdReviewId());
+        childNode.setParent(null);
+    }
+
+    //Overridden
+    //ReviewNode methods
+
+    @Override
+    public boolean addChild(ReviewNodeComponent childNode) {
+        if (mChildren.containsId(childNode.getMdReviewId())) {
             return false;
         }
         mChildren.add(childNode);
@@ -63,24 +75,16 @@ public class ReviewTreeNode implements ReviewNode {
         return true;
     }
 
-    public void removeChild(ReviewId reviewId) {
-        removeChild((ReviewTreeNode) mChildren.get(reviewId));
+    @Override
+    public void removeChild(MdReviewId mdReviewId) {
+        removeChild((ReviewTreeNode) mChildren.get(mdReviewId));
     }
 
-    public ReviewNode createTree() {
+    @Override
+    public ReviewNode makeTree() {
         return new ReviewTree(this);
     }
 
-    private void removeChild(ReviewTreeNode childNode) {
-        if (!mChildren.containsId(childNode.getId())) {
-            return;
-        }
-        mChildren.remove(childNode.getId());
-        childNode.setParent(null);
-    }
-
-    //Overridden
-    //ReviewNode methods
     @Override
     public Review getReview() {
         return mReview;
@@ -91,19 +95,15 @@ public class ReviewTreeNode implements ReviewNode {
         return mParent;
     }
 
-    public void setParent(ReviewTreeNode parentNode) {
-        if (mParent != null && parentNode != null && mParent.getId().equals(parentNode.getId())) {
+    @Override
+    public void setParent(ReviewNodeComponent parentNode) {
+        if (mParent != null && parentNode != null && mParent.getMdReviewId().equals(parentNode.getMdReviewId())) {
             return;
         }
 
-        if (mParent != null) {
-            mParent.removeChild(this);
-        }
-
+        if (mParent != null) mParent.removeChild(mId);
         mParent = parentNode;
-        if (mParent != null) {
-            mParent.addChild(this);
-        }
+        if (mParent != null) mParent.addChild(this);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public IdableList<ReviewNode> getChildren() {
+    public MdIdableList<ReviewNode> getChildren() {
         return mChildren;
     }
 
@@ -142,7 +142,7 @@ public class ReviewTreeNode implements ReviewNode {
         if (mRatingIsAverage) {
             VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
             acceptVisitor(visitor);
-            rating = new MdRating(visitor.getRating(), visitor.getWeight(), mId);
+            rating = new MdRating(mId, visitor.getRating(), visitor.getWeight());
         } else {
             rating = mReview.getRating();
         }
@@ -151,12 +151,12 @@ public class ReviewTreeNode implements ReviewNode {
     }
 
     @Override
-    public Author getAuthor() {
+    public MdAuthor getAuthor() {
         return mReview.getAuthor();
     }
 
     @Override
-    public PublishDate getPublishDate() {
+    public MdDate getPublishDate() {
         return mReview.getPublishDate();
     }
 
@@ -197,7 +197,7 @@ public class ReviewTreeNode implements ReviewNode {
 
     //Review methods
     @Override
-    public ReviewId getId() {
+    public MdReviewId getMdReviewId() {
         return mId;
     }
 

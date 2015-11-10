@@ -46,10 +46,10 @@ public class RowReviewTest extends TestCase {
                 RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING, RowReview.IS_AVERAGE};
 
         MatrixCursor cursor = new MatrixCursor(cols);
-        String reviewId = review.getId().toString();
+        String reviewId = review.getMdReviewId().toString();
         String authorId = review.getAuthor().getUserId().toString();
         cursor.addRow(new Object[]{reviewId, parentId, authorId, review.getPublishDate().getTime(),
-                review.getSubject().get(), review.getRating().getValue(), review
+                review.getSubject().getSubject(), review.getRating().getRating(), review
                 .isRatingAverageOfCriteria() ? 1 : 0});
         cursor.moveToFirst();
         testRow(review, parentId, new RowReview(cursor));
@@ -58,13 +58,13 @@ public class RowReviewTest extends TestCase {
     private void testRow(Review review, String parentId, RowReview row) {
         String authorId = review.getAuthor().getUserId().toString();
         ContentValues values = row.getContentValues();
-        assertEquals(review.getId().toString(), values.getAsString(RowReview.REVIEW_ID));
+        assertEquals(review.getMdReviewId().toString(), values.getAsString(RowReview.REVIEW_ID));
         assertEquals(parentId, values.getAsString(RowReview.PARENT_ID));
         assertEquals(authorId, values.getAsString(RowReview.AUTHOR_ID));
         assertEquals(review.getPublishDate().getTime(), (long) values.getAsLong(RowReview
                 .PUBLISH_DATE));
-        assertEquals(review.getSubject().get(), values.getAsString(RowReview.SUBJECT));
-        assertEquals(review.getRating().getValue(), values.getAsFloat(RowReview.RATING));
+        assertEquals(review.getSubject().getSubject(), values.getAsString(RowReview.SUBJECT));
+        assertEquals(review.getRating().getRating(), values.getAsFloat(RowReview.RATING));
         assertEquals(review.isRatingAverageOfCriteria(),
                 values.getAsBoolean(RowReview.IS_AVERAGE).booleanValue());
     }

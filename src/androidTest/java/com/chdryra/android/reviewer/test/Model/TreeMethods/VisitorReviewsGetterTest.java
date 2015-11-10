@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
@@ -30,16 +30,16 @@ public class VisitorReviewsGetterTest extends TestCase {
         VisitorReviewsGetter visitor = new VisitorReviewsGetter();
         node.acceptVisitor(visitor);
 
-        IdableList<Review> nodes = visitor.getReviews();
-        IdableList<Review> flattened = flatten(node);
+        MdIdableList<Review> nodes = visitor.getReviews();
+        MdIdableList<Review> flattened = flatten(node);
         assertEquals(flattened.size(), nodes.size());
         for (Review item : flattened) {
-            assertTrue(nodes.containsId(item.getId()));
+            assertTrue(nodes.containsId(item.getMdReviewId()));
         }
     }
 
-    private IdableList<Review> flatten(ReviewNode node) {
-        IdableList<Review> reviews = new IdableList<>();
+    private MdIdableList<Review> flatten(ReviewNode node) {
+        MdIdableList<Review> reviews = new MdIdableList<>();
         reviews.add(node.getReview());
 
         for (ReviewNode child : node.getChildren()) {

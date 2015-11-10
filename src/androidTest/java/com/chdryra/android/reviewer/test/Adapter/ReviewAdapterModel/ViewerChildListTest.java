@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -39,14 +39,14 @@ public class ViewerChildListTest extends AndroidTestCase {
         ViewerChildList wrapper = new ViewerChildList(getContext(), node, repo);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
-        IdableList<ReviewNode> children = node.getChildren();
+        MdIdableList<ReviewNode> children = node.getChildren();
         assertEquals(children.size(), data.size());
         GvReviewOverviewList list = (GvReviewOverviewList) data;
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode child = children.getItem(i);
             GvReviewOverviewList.GvReviewOverview item = list.getItem(i);
-            assertEquals(child.getSubject().get(), item.getSubject());
-            assertEquals(child.getRating().getValue(), item.getRating());
+            assertEquals(child.getSubject().getSubject(), item.getSubject());
+            assertEquals(child.getRating().getRating(), item.getRating());
             assertEquals(child.getAuthor(), item.getAuthor());
             assertEquals(child.getPublishDate().getDate(), item.getPublishDate());
             MdLocationList locs = child.getLocations();

@@ -10,21 +10,22 @@ package com.chdryra.android.reviewer.Model.ReviewData;
 
 import com.chdryra.android.mygenerallibrary.SortableList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.IdableCollection;
 
 /**
  * Review Data: Sortable collection of {@link MdData} objects that itself is considered Review Data
  *
  * @param <T>: {@link MdData} type in collection.
  */
-public class MdDataList<T extends MdData> extends SortableList<T> implements MdData {
-    private final ReviewId mReviewId;
+public class MdDataList<T extends MdData> extends SortableList<T> implements MdData, IdableCollection<T> {
+    private final MdReviewId mReviewId;
 
     //Constructors
-    public MdDataList(ReviewId reviewId) {
+    public MdDataList(MdReviewId reviewId) {
         mReviewId = reviewId;
     }
 
-    protected ReviewId getReviewIdObject() {
+    protected MdReviewId getMdReviewId() {
         return mReviewId;
     }
 

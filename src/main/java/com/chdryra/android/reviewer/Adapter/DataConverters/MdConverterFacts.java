@@ -1,9 +1,12 @@
-package com.chdryra.android.reviewer.Model.ReviewData;
+package com.chdryra.android.reviewer.Adapter.DataConverters;
 
 import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataUrl;
+import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,27 +16,27 @@ import java.net.URL;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdFactConverter extends MdConverterBasic<DataFact, MdFactList.MdFact, MdFactList> {
-    private MdUrlConverter mUrlConverter;
+public class MdConverterFacts extends MdConverterBasic<DataFact, MdFactList.MdFact, MdFactList> {
+    private MdConverterUrl mUrlConverter;
 
-    public MdFactConverter(MdUrlConverter urlConverter) {
+    public MdConverterFacts(MdConverterUrl urlConverter) {
         super(MdFactList.class);
         mUrlConverter = urlConverter;
     }
 
     @Override
     public MdFactList.MdFact convert(DataFact datum) {
-        ReviewId id = ReviewId.fromString(datum.getReviewId());
+        MdReviewId id = new MdReviewId(datum.getReviewId());
         MdFactList.MdFact fact = null;
         if (datum.isUrl()) fact = getMdUrl(datum);
 
-        if(fact == null) fact = new MdFactList.MdFact(datum.getLabel(), datum.getValue(), id);
+        if(fact == null) fact = new MdFactList.MdFact(id, datum.getLabel(), datum.getValue());
 
         return fact;
     }
 
     private MdUrlList.MdUrl getMdUrl(DataFact datum) {
-        ReviewId id = ReviewId.fromString(datum.getReviewId());
+        MdReviewId id = new MdReviewId(datum.getReviewId());
         try {
             DataUrl urlDatum = (DataUrl) datum;
             return mUrlConverter.convert(urlDatum);
@@ -41,7 +44,7 @@ public class MdFactConverter extends MdConverterBasic<DataFact, MdFactList.MdFac
             String urlGuess = URLUtil.guessUrl(datum.getValue());
             try {
                 URL url = new URL(urlGuess);
-                return new MdUrlList.MdUrl(datum.getLabel(), url, id);
+                return new MdUrlList.MdUrl(id, datum.getLabel(), url);
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
             }

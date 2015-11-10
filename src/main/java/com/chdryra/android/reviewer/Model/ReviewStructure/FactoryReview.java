@@ -8,23 +8,26 @@
 
 package com.chdryra.android.reviewer.Model.ReviewStructure;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Database.ReviewDataHolder;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdDate;
 import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 
 import java.util.ArrayList;
 
@@ -37,84 +40,79 @@ import java.util.ArrayList;
  * </p>
  */
 public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
+    private FactoryReviewNodeComponent mComponentFactory;
     private MdGvConverter mConverter;
 
     //Constructors
-    public FactoryReview(MdGvConverter converter) {
+    public FactoryReview(FactoryReviewNodeComponent componentFactory, MdGvConverter converter) {
+        mComponentFactory = componentFactory;
         mConverter = converter;
     }
 
-    public Review createReviewUser(ReviewPublisher publisher, String subject,
+    public Review createUserReview(ReviewPublisher publisher, String subject,
                                    float rating,
                                    Iterable<? extends DataComment> comments,
                                    Iterable<? extends DataImage> images,
                                    Iterable<? extends DataFact> facts,
                                    Iterable<? extends DataLocation> locations,
-                                   IdableList<Review> criteria, boolean ratingIsAverage) {
+                                   MdIdableList<Review> criteria, boolean ratingIsAverage) {
         return newReviewUser(publisher, subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
     }
 
-    public Review createReviewUser(ReviewPublisher publisher, String subject, float rating) {
+    public Review createUserReview(ReviewPublisher publisher, String subject, float rating) {
         return newReviewUser(publisher, subject, rating);
     }
 
-    public ReviewTreeNode createReviewTreeNode(Review review, boolean isAverage) {
-        return newReviewTreeNode(review, isAverage);
-    }
-
-    public ReviewNode createMetaReview(Review review) {
-        ReviewPublisher publisher = new ReviewPublisher(review.getAuthor(),
-                new PublishDate(review.getPublishDate().getTime()));
-        IdableList<Review> single = new IdableList<>();
+    public Review createMetaReview(ReviewPublisher publisher, Review review) {
+        MdIdableList<Review> single = new MdIdableList<>();
         single.add(review);
 
-        return createMetaReview(single, publisher, review.getSubject().get());
+        return createMetaReview(single, publisher, review.getSubject().getSubject());
     }
 
-    public ReviewNode createMetaReview(IdableList<Review> reviews, ReviewPublisher publisher,
+    public Review createMetaReview(MdIdableList<Review> reviews, ReviewPublisher publisher,
                                        String subject) {
-        Review meta = createReviewUser(publisher, subject, 0f);
-        ReviewTreeNode parent = createReviewTreeNode(meta, true);
+        Review meta = createUserReview(publisher, subject, 0f);
+        ReviewNodeComponent parent = mComponentFactory.createReviewNodeComponent(meta, true);
         for (Review review : reviews) {
-            parent.addChild(createReviewTreeNode(review, false));
+            ReviewNodeComponent child = mComponentFactory.createReviewNodeComponent(review, false);
+            parent.addChild(child);
         }
 
-        return parent.createTree();
+        return parent.makeTree();
     }
 
     //private methods
-    private Review newReviewUser(ReviewId id,
-                                 Author author,
-                                 PublishDate publishDate,
+    private Review newReviewUser(MdReviewId id,
+                                 DataAuthor author,
+                                 DataDate publishDate,
                                  String subject,
                                  float rating,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
-                                 IdableList<Review> criteria,
+                                 MdIdableList<Review> criteria,
                                  boolean ratingIsAverage) {
-        MdSubject mdSubject = new MdSubject(subject, id);
-        MdRating mdRating = new MdRating(rating, 1, id);
+        if (ratingIsAverage) {
+            ReviewPublisher publisher = new ReviewPublisher(author, publishDate);
+            Review meta = createMetaReview(criteria, publisher, "");
+            rating = meta.getRating().getRating();
+        }
+
+        MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getUserId());
+        MdDate mdDate = new MdDate(id, publishDate.getTime());
+        MdSubject mdSubject = new MdSubject(id, subject);
         MdCommentList mdComments = mConverter.toMdCommentList(comments, id);
         MdImageList mdImages = mConverter.toMdImageList(images, id);
         MdFactList mdFacts = mConverter.toMdFactList(facts, id);
         MdLocationList mdLocations = mConverter.toMdLocationList(locations, id);
-        MdCriterionList mdCriteria = new MdCriterionList(criteria, id);
-        if (ratingIsAverage) {
-            Review dummy = new ReviewUser(id, author, publishDate, mdSubject, mdRating, mdComments,
-                    mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, this);
-            ReviewTreeNode node = createReviewTreeNode(dummy, true);
-            for (Review criterion : criteria) {
-                node.addChild(createReviewTreeNode(criterion, false));
-            }
-            rating = node.getRating().getValue();
-        }
-        mdRating = new MdRating(rating, 1, id);
+        MdCriterionList mdCriteria = new MdCriterionList(id, criteria);
+        MdRating mdRating = new MdRating(id, rating, 1);
 
-        return new ReviewUser(id, author, publishDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, this);
+        return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
+                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mComponentFactory);
     }
 
     private Review newReviewUser(ReviewPublisher publisher, String subject, float
@@ -124,7 +122,7 @@ public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
                 new ArrayList<MdImageList.MdImage>(),
                 new ArrayList<MdFactList.MdFact>(),
                 new ArrayList<MdLocationList.MdLocation>(),
-                new IdableList<Review>(), false);
+                new MdIdableList<Review>(), false);
     }
 
     private Review newReviewUser(ReviewPublisher publisher, String subject, float rating,
@@ -132,10 +130,11 @@ public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
-                                 IdableList<Review> criteria, boolean ratingIsAverage) {
-        ReviewId id = ReviewId.newId(publisher);
-        return newReviewUser(id, publisher.getAuthor(), publisher.getDate(),
-                subject, rating,
+                                 MdIdableList<Review> criteria, boolean ratingIsAverage) {
+        DataAuthor author = publisher.getAuthor();
+        DataDate date = publisher.getDate();
+        MdReviewId id = new MdReviewId(author.getUserId(), date.getTime(), publisher.getIncrement());
+        return newReviewUser(id, author, date, subject, rating,
                 mConverter.toMdCommentList(comments, id),
                 mConverter.toMdImageList(images, id),
                 mConverter.toMdFactList(facts, id),
@@ -144,13 +143,9 @@ public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
                 ratingIsAverage);
     }
 
-    private ReviewTreeNode newReviewTreeNode(Review review, boolean isAverage) {
-        return new ReviewTreeNode(review, isAverage, review.getId());
-    }
-
-//Overridden
+    //Overridden
     @Override
-    public Review createReviewUser(ReviewDataHolder review) {
+    public Review createUserReview(ReviewDataHolder review) {
         return newReviewUser(review.getId(), review.getAuthor(), review.getPublishDate(),
                 review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
                 review.getFacts(), review.getLocations(), review.getCritList(), review.isAverage());

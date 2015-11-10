@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
@@ -12,9 +12,9 @@ import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
  */
 public interface ReviewsProvider {
     //abstract
-    Review getReview(ReviewId id);
+    Review getReview(MdReviewId id);
 
-    IdableList<Review> getReviews();
+    MdIdableList<Review> getReviews();
 
     TagsManager getTagsManager();
 

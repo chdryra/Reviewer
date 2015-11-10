@@ -146,7 +146,7 @@ public class MdGvConverterTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mMocker = new MdDataMocker(ReviewMocker.newReview().getId());
+        mMocker = new MdDataMocker(ReviewMocker.newReview().getMdReviewId());
         mConverter = new MdGvConverter();
     }
 }

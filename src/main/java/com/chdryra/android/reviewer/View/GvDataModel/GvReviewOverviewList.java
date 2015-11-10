@@ -14,6 +14,8 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
@@ -91,15 +93,15 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         private String mHeadline;
         private ArrayList<String> mLocationNames;
         private ArrayList<String> mTags;
-        private Author mAuthor;
-        private Date mPublishDate;
+        private DataAuthor mAuthor;
+        private DataDate mPublishDate;
 
         //Constructors
         public GvReviewOverview() {
             super(GvReviewOverview.TYPE);
         }
 
-        public GvReviewOverview(String id, Author author, Date publishDate, String subject,
+        public GvReviewOverview(String id, DataAuthor author, DataDate publishDate, String subject,
                                 float rating, Bitmap coverImage, String headline,
                                 ArrayList<String> locationNames,
                                 ArrayList<String> tags) {
@@ -107,7 +109,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
                     locationNames, tags);
         }
 
-        public GvReviewOverview(GvReviewId parentId, String id, Author author, Date publishDate,
+        public GvReviewOverview(GvReviewId parentId, String id, DataAuthor author, DataDate publishDate,
                                 String subject, float rating, Bitmap coverImage, String headline,
                                 ArrayList<String> locationNames, ArrayList<String> tags) {
             super(GvReviewOverview.TYPE, parentId);
@@ -123,7 +125,7 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         }
 
         public GvReviewOverview(GvReviewOverview review) {
-            this(review.getReviewId(), review.getId(), review.getAuthor(), review.getPublishDate
+            this(review.getGvReviewId(), review.getId(), review.getAuthor(), review.getPublishDate
                     (), review.getSubject(), review.getRating(), review.getCoverImage(), review
                     .getHeadline(), review.mLocationNames, review.mTags);
         }

@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.UserData.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
@@ -40,8 +40,8 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
         mReviewFactory = reviewFactory;
         Author author = repository.getAuthor();
         ReviewPublisher publisher = new ReviewPublisher(author, publishDate);
-        Review root = mReviewFactory.createReviewUser(publisher, title, 0f);
-        mNode = reviewFactory.createReviewTreeNode(root, true);
+        Review root = mReviewFactory.createUserReview(publisher, title, 0f);
+        mNode = reviewFactory.createReviewNodeComponent(root, true);
         for (Review review : repository.getReviews()) {
             addReview(review);
         }
@@ -60,10 +60,10 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
 
     //private methods
     private void addReview(Review review) {
-        mNode.addChild(mReviewFactory.createReviewTreeNode(review, false));
+        mNode.addChild(mReviewFactory.createReviewNodeComponent(review, false));
     }
 
-    private void removeReview(ReviewId id) {
+    private void removeReview(MdReviewId id) {
         mNode.removeChild(id);
     }
 
@@ -75,7 +75,7 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
     }
 
     @Override
-    public void onReviewRemoved(ReviewId id) {
+    public void onReviewRemoved(MdReviewId id) {
         removeReview(id);
         if(mReviewView != null) mReviewView.onGridDataChanged();
     }

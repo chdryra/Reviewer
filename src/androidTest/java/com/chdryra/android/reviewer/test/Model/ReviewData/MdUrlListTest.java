@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -28,25 +28,25 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdUrlListTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
     private URL mUrl;
 
     @SmallTest
     public void testMdUrlHasData() {
         String label = RandomString.nextWord();
 
-        MdUrlList.MdUrl url = new MdUrlList.MdUrl(null, mUrl, ID);
+        MdUrlList.MdUrl url = new MdUrlList.MdUrl(ID, null, mUrl);
         assertFalse(url.hasData());
-        url = new MdUrlList.MdUrl("", mUrl, ID);
+        url = new MdUrlList.MdUrl(ID, "", mUrl);
         assertFalse(url.hasData());
-        url = new MdUrlList.MdUrl(label, mUrl, ID);
+        url = new MdUrlList.MdUrl(ID, label, mUrl);
         assertTrue(url.hasData());
     }
 
     @SmallTest
     public void testMdUrlGetters() {
         String label = RandomString.nextWord();
-        MdUrlList.MdUrl url = new MdUrlList.MdUrl(label, mUrl, ID);
+        MdUrlList.MdUrl url = new MdUrlList.MdUrl(ID, label, mUrl);
         assertEquals(label, url.getLabel());
         assertEquals(mUrl, url.getUrl());
         assertEquals(mUrl.toExternalForm(), url.getValue());
@@ -56,7 +56,7 @@ public class MdUrlListTest extends TestCase {
     @SmallTest
     public void testIsUrl() {
         String label = RandomString.nextWord();
-        MdUrlList.MdUrl url = new MdUrlList.MdUrl(label, mUrl, ID);
+        MdUrlList.MdUrl url = new MdUrlList.MdUrl(ID, label, mUrl);
         assertTrue(url.isUrl());
     }
 
@@ -73,14 +73,14 @@ public class MdUrlListTest extends TestCase {
             fail();
         }
 
-        ReviewId id2 = RandomReviewId.nextId();
+        MdReviewId id2 = RandomReviewId.nextId();
 
-        MdUrlList.MdUrl url1 = new MdUrlList.MdUrl(label1, link1, ID);
+        MdUrlList.MdUrl url1 = new MdUrlList.MdUrl(ID, label1, link1);
 
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(label1, link2, ID), false);
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(label2, link1, ID), false);
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(label1, link1, id2), false);
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(label1, link1, ID), true);
+        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(ID, label1, link2), false);
+        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(ID, label2, link1), false);
+        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(id2, label1, link1), false);
+        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(ID, label1, link1), true);
     }
 
     //Overridden

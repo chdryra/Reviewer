@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.Model.ReviewData;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataCriterion;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 
@@ -10,42 +11,44 @@ import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
  */
 public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
     //Constructors
-    public MdCriterionList(ReviewId reviewId) {
-        super(reviewId);
+    public MdCriterionList(MdReviewId parentId) {
+        super(parentId);
     }
 
-    public MdCriterionList(IdableList<Review> criteria, ReviewId parentId) {
+    public MdCriterionList(MdReviewId parentId, MdIdableList<Review> criteria) {
         super(parentId);
         for (Review criterion : criteria) {
-            add(new MdCriterion(criterion, getReviewIdObject()));
+            add(new MdCriterion(getMdReviewId(), criterion));
         }
     }
 
     //Classes
-    public static class MdCriterion implements MdData {
-        private ReviewId mParentId;
+    public static class MdCriterion implements MdData, DataCriterion {
+        private MdReviewId mParentId;
         private Review mCriterion;
 
         //Constructors
-        public MdCriterion(Review criterion, ReviewId parent) {
+        public MdCriterion(MdReviewId parent, Review criterion) {
             mParentId = parent;
             mCriterion = criterion;
         }
 
-        //public methods
+        //Overridden
+        @Override
         public String getSubject() {
-            return mCriterion.getSubject().get();
+            return mCriterion.getSubject().getSubject();
         }
 
+        @Override
         public float getRating() {
-            return mCriterion.getRating().getValue();
+            return mCriterion.getRating().getRating();
         }
 
+        @Override
         public Review getReview() {
             return mCriterion;
         }
 
-        //Overridden
         @Override
         public String getReviewId() {
             return mParentId.toString();

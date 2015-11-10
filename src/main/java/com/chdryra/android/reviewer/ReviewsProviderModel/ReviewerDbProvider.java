@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.ReviewsProviderModel;
 
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbObserver;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
@@ -26,12 +26,12 @@ public class ReviewerDbProvider implements ReviewsProvider, ReviewerDbObserver {
 
     //Overridden
     @Override
-    public Review getReview(ReviewId id) {
+    public Review getReview(MdReviewId id) {
         return mDatabase.loadReviewFromDb(id.toString());
     }
 
     @Override
-    public IdableList<Review> getReviews() {
+    public MdIdableList<Review> getReviews() {
         return mDatabase.loadReviewsFromDb();
     }
 
@@ -60,7 +60,7 @@ public class ReviewerDbProvider implements ReviewsProvider, ReviewerDbObserver {
     @Override
     public void onReviewDeleted(String reviewId) {
         for (ReviewsProviderObserver observer : mObservers) {
-            observer.onReviewRemoved(ReviewId.fromString(reviewId));
+            observer.onReviewRemoved(MdReviewId.fromString(reviewId));
         }
     }
 }

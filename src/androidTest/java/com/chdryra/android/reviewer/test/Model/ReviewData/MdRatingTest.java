@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -26,22 +26,22 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdRatingTest extends TestCase {
-    private static final ReviewId ID = RandomReviewId.nextId();
+    private static final MdReviewId ID = RandomReviewId.nextId();
     private static final Random RANDOM = new Random();
 
     @SmallTest
     public void testGetters() {
         float score = RandomRating.nextRating();
         int weight = randomWeight();
-        MdRating rating = new MdRating(score, weight, ID);
-        assertEquals(score, rating.getValue());
+        MdRating rating = new MdRating(ID, score, weight);
+        assertEquals(score, rating.getRating());
         assertEquals(weight, rating.getWeight());
         assertEquals(ID, rating.getReviewId());
     }
 
     @SmallTest
     public void testHasData() {
-        MdRating rating = new MdRating(RandomRating.nextRating(), randomWeight(), ID);
+        MdRating rating = new MdRating(ID, RandomRating.nextRating(), randomWeight());
         assertTrue(rating.hasData());
     }
 
@@ -51,17 +51,17 @@ public class MdRatingTest extends TestCase {
         int weight1 = 1;
         float score2 = 2f;
         int weight2 = 2;
-        ReviewId id2 = RandomReviewId.nextId();
+        MdReviewId id2 = RandomReviewId.nextId();
 
-        MdRating rating1 = new MdRating(score1, weight1, ID);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight1, ID), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight2, ID), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight1, id2), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score2, weight2, id2), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight2, ID), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight1, id2), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight2, id2), false);
-        MdDataUtils.testEqualsHash(rating1, new MdRating(score1, weight1, ID), true);
+        MdRating rating1 = new MdRating(ID, score1, weight1);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(ID, score2, weight1), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(ID, score2, weight2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(id2, score2, weight1), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(id2, score2, weight2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(ID, score1, weight2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(id2, score1, weight1), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(id2, score1, weight2), false);
+        MdDataUtils.testEqualsHash(rating1, new MdRating(ID, score1, weight1), true);
     }
 
     private int randomWeight() {

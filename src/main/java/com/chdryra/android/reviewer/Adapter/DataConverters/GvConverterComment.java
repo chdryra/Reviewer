@@ -1,15 +1,17 @@
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.Adapter.DataConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvCommentConverter extends GvConverterBasic<DataComment, GvCommentList.GvComment, GvCommentList> {
+public class GvConverterComment extends GvConverterBasic<DataComment, GvCommentList.GvComment, GvCommentList> {
 
-    public GvCommentConverter() {
+    public GvConverterComment() {
         super(GvCommentList.class);
     }
 

@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
@@ -45,9 +45,9 @@ class ViewerTreeData extends ViewerReviewData {
         MdGvConverter converter = getConverter();
         GridDataViewer wrapper = mViewerFactory.newChildListViewer(node, converter,
                 getTagsManager(), adapterFactory);
-        ReviewId id = node.getId();
-        IdableList<ReviewNode> nodes = node.getChildren();
-        GvList data = new GvList(GvReviewId.getId(node.getId().toString()));
+        MdReviewId id = node.getMdReviewId();
+        MdIdableList<ReviewNode> nodes = node.getChildren();
+        GvList data = new GvList(GvReviewId.getId(node.getMdReviewId().toString()));
         data.add(wrapper.getGridData());
         data.add(mAggregater.getAggregate(converter.convertAuthors(nodes, id)));
         data.add(mAggregater.getAggregate(converter.convertSubjects(nodes, id)));
@@ -81,13 +81,13 @@ class ViewerTreeData extends ViewerReviewData {
 
     private GvTagList collectTags() {
         ReviewNode node = getReviewNode();
-        MdDataList<ReviewId> ids = new MdDataList<>(node.getId());
+        MdDataList<MdReviewId> ids = new MdDataList<>(node.getMdReviewId());
         for (Review review : VisitorReviewsGetter.flatten(node)) {
-            ids.add(review.getId());
+            ids.add(review.getMdReviewId());
         }
 
-        GvTagList tags = new GvTagList(GvReviewId.getId(node.getId().toString()));
-        for (ReviewId id : ids) {
+        GvTagList tags = new GvTagList(GvReviewId.getId(node.getMdReviewId().toString()));
+        for (MdReviewId id : ids) {
             for (GvTagList.GvTag tag : getTags(id.toString())) {
                 tags.add(tag);
             }

@@ -20,7 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
 
     //Constructors
-    public MdLocationList(ReviewId reviewId) {
+    public MdLocationList(MdReviewId reviewId) {
         super(reviewId);
     }
 
@@ -30,13 +30,12 @@ public class MdLocationList extends MdDataList<MdLocationList.MdLocation> {
      * Review Data: location
      */
     public static class MdLocation implements MdData, DataLocation {
-        public static final String LOCATION_DELIMITER = ",|";
         private final LatLng mLatLng;
         private final String mName;
-        private final ReviewId mReviewId;
+        private final MdReviewId mReviewId;
 
         //Constructors
-        public MdLocation(LatLng latLng, String name, ReviewId reviewId) {
+        public MdLocation(MdReviewId reviewId, LatLng latLng, String name) {
             mLatLng = latLng;
             mName = name;
             mReviewId = reviewId;

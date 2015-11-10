@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
@@ -50,12 +50,12 @@ public class FactoryReviewTest extends TestCase {
     private GvImageList mImages;
     private GvFactList mFacts;
     private GvLocationList mLocations;
-    private IdableList<Review> mCriteria;
+    private MdIdableList<Review> mCriteria;
 
     @SmallTest
     public void testCreateReviewUser() {
-        assertEquals(mSubject, mReview.getSubject().get());
-        assertEquals(mRating, mReview.getRating().getValue());
+        assertEquals(mSubject, mReview.getSubject().getSubject());
+        assertEquals(mRating, mReview.getRating().getRating());
         assertEquals(mAuthor, mReview.getAuthor());
         assertEquals(mDate, mReview.getPublishDate());
         MdGvEquality.check(mReview.getComments(), mComments);
@@ -73,22 +73,22 @@ public class FactoryReviewTest extends TestCase {
 
     @SmallTest
     public void testCreateReviewTreeNode() {
-        ReviewTreeNode node = FactoryReview.createReviewTreeNode(mReview, true);
+        ReviewTreeNode node = FactoryReview.createReviewNodeComponent(mReview, true);
         checkNode(node);
         assertTrue(node.isRatingAverageOfChildren());
-        node = FactoryReview.createReviewTreeNode(mReview, false);
+        node = FactoryReview.createReviewNodeComponent(mReview, false);
         checkNode(node);
         assertFalse(node.isRatingAverageOfChildren());
     }
 
     @SmallTest
     public void testCreateMetaReview() {
-        IdableList<Review> reviews = new IdableList<>();
+        MdIdableList<Review> reviews = new MdIdableList<>();
         float averageRating = 0f;
         for (int i = 0; i < NUM; ++i) {
             Review review = ReviewMocker.newReview();
             reviews.add(review);
-            averageRating += review.getRating().getValue() / NUM;
+            averageRating += review.getRating().getRating() / NUM;
         }
         String subject = RandomString.nextWord();
 
@@ -97,9 +97,9 @@ public class FactoryReviewTest extends TestCase {
 
         assertEquals(publisher.getAuthor(), meta.getAuthor());
         assertEquals(publisher.getDate(), meta.getPublishDate());
-        assertEquals(subject, meta.getSubject().get());
-        assertEquals(averageRating, meta.getRating().getValue());
-        IdableList<ReviewNode> children = meta.getChildren();
+        assertEquals(subject, meta.getSubject().getSubject());
+        assertEquals(averageRating, meta.getRating().getRating());
+        MdIdableList<ReviewNode> children = meta.getChildren();
         assertEquals(NUM, children.size());
         for (int i = 0; i < NUM; ++i) {
             assertEquals(reviews.getItem(i), children.getItem(i).getReview());
@@ -117,13 +117,13 @@ public class FactoryReviewTest extends TestCase {
         GvLocationList locations = GvDataMocker.newLocationList(NUM, false);
 
         ReviewPublisher publisher = new ReviewPublisher(author, date);
-        return FactoryReview.createReviewUser(publisher, subject, rating,
-                comments, images, facts, locations, new IdableList<Review>(), false);
+        return FactoryReview.createUserReview(publisher, subject, rating,
+                comments, images, facts, locations, new MdIdableList<Review>(), false);
     }
 
     private void checkNode(ReviewNode node) {
-        assertEquals(mSubject, node.getSubject().get());
-        assertEquals(node.isRatingAverageOfChildren() ? 0f : mRating, node.getRating().getValue());
+        assertEquals(mSubject, node.getSubject().getSubject());
+        assertEquals(node.isRatingAverageOfChildren() ? 0f : mRating, node.getRating().getRating());
         assertEquals(mAuthor, node.getAuthor());
         assertEquals(mDate, node.getPublishDate());
         MdGvEquality.check(node.getComments(), mComments);
@@ -132,7 +132,7 @@ public class FactoryReviewTest extends TestCase {
         MdGvEquality.check(node.getLocations(), mLocations);
 
         assertEquals(mReview, node.getReview());
-        assertEquals(mReview.getId(), node.getId());
+        assertEquals(mReview.getMdReviewId(), node.getMdReviewId());
         assertNull(node.getParent());
         assertEquals(0, node.getChildren().size());
     }
@@ -148,12 +148,12 @@ public class FactoryReviewTest extends TestCase {
         mImages = GvDataMocker.newImageList(NUM, false);
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
-        mCriteria = new IdableList<>();
+        mCriteria = new MdIdableList<>();
         for (int i = 0; i < NUM; ++i) {
             mCriteria.add(nextReview());
         }
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, mDate);
-        mReview = FactoryReview.createReviewUser(publisher, mSubject, mRating,
+        mReview = FactoryReview.createUserReview(publisher, mSubject, mRating,
                 mComments, mImages, mFacts, mLocations, mCriteria, false);
     }
 }

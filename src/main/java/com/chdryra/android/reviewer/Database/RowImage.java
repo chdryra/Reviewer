@@ -7,8 +7,6 @@ import android.graphics.BitmapFactory;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -18,7 +16,7 @@ import java.util.Date;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowImage implements ReviewDataRow<MdImageList.MdImage>, DataImage {
+public class RowImage implements ReviewDataRow, DataImage {
     public static final String COLUMN_IMAGE_ID = "image_id";
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_BITMAP = "bitmap";
@@ -36,8 +34,8 @@ public class RowImage implements ReviewDataRow<MdImageList.MdImage>, DataImage {
     private boolean mIsCover;
 
     //Constructors
-    public RowImage(MdImageList.MdImage image, int index) {
-        mReviewId = image.getReviewId().toString();
+    public RowImage(DataImage image, int index) {
+        mReviewId = image.getReviewId();
         mImageId = mReviewId + SEPARATOR + "i" + String.valueOf(index);
         mCaption = image.getCaption();
         mIsCover = image.isCover();
@@ -60,7 +58,13 @@ public class RowImage implements ReviewDataRow<MdImageList.MdImage>, DataImage {
         mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_COVER)) == 1;
     }
 
+
     //Overridden
+
+    @Override
+    public String getReviewId() {
+        return mReviewId;
+    }
 
     @Override
     public Bitmap getBitmap() {
@@ -108,11 +112,5 @@ public class RowImage implements ReviewDataRow<MdImageList.MdImage>, DataImage {
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
-    }
-
-    @Override
-    public MdImageList.MdImage toMdData() {
-        ReviewId id = ReviewId.fromString(mReviewId);
-        return new MdImageList.MdImage(getBitmap(), getDate(), mCaption, mIsCover, id);
     }
 }

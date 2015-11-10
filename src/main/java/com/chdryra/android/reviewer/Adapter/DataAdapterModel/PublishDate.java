@@ -6,7 +6,7 @@
  * Date: 10 June, 2015
  */
 
-package com.chdryra.android.reviewer.Model.ReviewData;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import java.util.Date;
 
@@ -15,8 +15,12 @@ import java.util.Date;
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishDate {
+public class PublishDate implements DataDate {
     private long mTime;
+
+    public PublishDate(PublishDate date) {
+        this(date.getTime());
+    }
 
     public PublishDate(long time) {
         if (time > new Date().getTime()) {

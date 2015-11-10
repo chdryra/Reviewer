@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 
@@ -11,21 +11,21 @@ import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StaticReviewsProvider implements ReviewsProvider {
-    private IdableList<Review> mReviews;
+    private MdIdableList<Review> mReviews;
     private TagsManager mTagsManager;
 
-    public StaticReviewsProvider(IdableList<Review> reviews, TagsManager tagsManager) {
+    public StaticReviewsProvider(MdIdableList<Review> reviews, TagsManager tagsManager) {
         mReviews = reviews;
         mTagsManager = tagsManager;
     }
 
     @Override
-    public Review getReview(ReviewId id) {
+    public Review getReview(MdReviewId id) {
         return mReviews.get(id);
     }
 
     @Override
-    public IdableList<Review> getReviews() {
+    public MdIdableList<Review> getReviews() {
         return mReviews;
     }
 

@@ -14,23 +14,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.Model.ReviewData.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
 import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdData;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTag;
-import com.chdryra.android.reviewer.Model.TagsModel.ReviewTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.UserData.Author;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -46,6 +42,7 @@ public class ReviewerDb implements ReviewerDbTables {
     private final TagsManager mTagsManager;
     private final ReviewLoader mReviewLoader;
     private final FactoryDbTableRow mRowFactory;
+    private final DataValidator mDataValidator;
     private final ArrayList<ReviewerDbObserver> mObservers;
 
     public interface ReviewLoader {
@@ -55,12 +52,14 @@ public class ReviewerDb implements ReviewerDbTables {
     public ReviewerDb(DbHelper<ReviewerDbContract> dbHelper,
                       ReviewLoader reviewLoader,
                       FactoryDbTableRow rowFactory,
-                      TagsManager tagsManager) {
+                      TagsManager tagsManager,
+                      DataValidator dataValidator) {
         mHelper = dbHelper;
         mTables = dbHelper.getContract();
         mTagsManager = tagsManager;
         mReviewLoader = reviewLoader;
         mRowFactory = rowFactory;
+        mDataValidator = dataValidator;
         mObservers = new ArrayList<>();
     }
 
@@ -148,11 +147,11 @@ public class ReviewerDb implements ReviewerDbTables {
         return review;
     }
 
-    public IdableList<Review> loadReviewsFromDb() {
+    public MdIdableList<Review> loadReviewsFromDb() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         db.beginTransaction();
-        IdableList<Review> reviews = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, null);
+        MdIdableList<Review> reviews = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, null);
         loadTags(db);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -174,10 +173,10 @@ public class ReviewerDb implements ReviewerDbTables {
         if (success) notifyOnDeleteReview(reviewId);
     }
 
-    public IdableList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
+    public MdIdableList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
 
-        IdableList<Review> reviews = new IdableList<>();
+        MdIdableList<Review> reviews = new MdIdableList<>();
         for (RowReview reviewRow : reviewsList) {
             reviews.add(loadReview(reviewRow, db));
         }
@@ -198,17 +197,17 @@ public class ReviewerDb implements ReviewerDbTables {
 
         return row;
     }
-
-    public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends ReviewDataRow<T1>> T2
-    loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2> listClass) {
-        TableRowList<T3> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
-        T2 dataList = newMdList(listClass, reviewId);
-        for (T3 row : rows) {
-            dataList.add(row.toMdData());
-        }
-
-        return dataList;
-    }
+//
+//    public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends ReviewDataRow<T1>> T2
+//    loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2> listClass) {
+//        TableRowList<T3> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
+//        T2 dataList = newMdList(listClass, reviewId);
+//        for (T3 row : rows) {
+//            dataList.add(row.toMdData());
+//        }
+//
+//        return dataList;
+//    }
 
     public <T1 extends DbTableRow> ArrayList<T1>
     loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
@@ -226,7 +225,7 @@ public class ReviewerDb implements ReviewerDbTables {
         for (RowTag tag : getRowsWhere(db, getTagsTable(), null, null)) {
             ArrayList<String> reviews = tag.getReviewIds();
             for (String reviewId : reviews) {
-                mTagsManager.tagReview(ReviewId.fromString(reviewId), tag.getTag());
+                mTagsManager.tagItem(reviewId, tag.getTag());
             }
         }
     }
@@ -244,15 +243,15 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private Review loadReview(RowReview reviewRow, SQLiteDatabase db) {
-        if (!reviewRow.hasData()) return null;
+        if (!reviewRow.hasData(mDataValidator)) return null;
         Review review = mReviewLoader.loadReview(reviewRow, this, db);
-        setTags(review.getId(), db);
+        setTags(reviewRow.getReviewId(), db);
 
         return review;
     }
 
-    private void setTags(ReviewId id, SQLiteDatabase db) {
-        ReviewTagCollection tags = mTagsManager.getTags(id);
+    private void setTags(String id, SQLiteDatabase db) {
+        ItemTagCollection tags = mTagsManager.getTags(id);
         if (tags.size() == 0) loadTags(db);
     }
 
@@ -295,8 +294,8 @@ public class ReviewerDb implements ReviewerDbTables {
     private boolean addReviewToDb(Review review, SQLiteDatabase db) {
         if (isReviewInDb(review, db)) return false;
 
-        Author author = review.getAuthor();
-        String userId = author.getUserId().toString();
+        DataAuthor author = review.getAuthor();
+        String userId = author.getUserId();
         DbTable<RowAuthor> authorsTable = getAuthorsTable();
         if (!isIdInTable(userId, authorsTable.getColumn(RowAuthor.COLUMN_USER_ID), authorsTable, db)) {
             addToAuthorsTable(author, db);
@@ -315,7 +314,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
     private boolean deleteReviewFromDb(String reviewId, SQLiteDatabase db) {
         RowReview row = getRowWhere(db, getReviewsTable(), getColumnNameReviewId(), reviewId);
-        if (!row.hasData()) return false;
+        if (!row.hasData(mDataValidator)) return false;
 
         String userId = row.getContentValues().getAsString(RowReview.COLUMN_AUTHOR_ID);
 
@@ -330,9 +329,9 @@ public class ReviewerDb implements ReviewerDbTables {
                 RowReview.COLUMN_AUTHOR_ID, userId);
         if (authored.size() == 0) deleteFromAuthorsTable(userId, db);
 
-        ReviewTagCollection tags = mTagsManager.getTags(ReviewId.fromString(reviewId));
-        for (ReviewTag tag : tags) {
-            if (mTagsManager.untagReview(ReviewId.fromString(reviewId), tag)) {
+        ItemTagCollection tags = mTagsManager.getTags(reviewId);
+        for (ItemTag tag : tags) {
+            if (mTagsManager.untagItem(reviewId, tag)) {
                 deleteFromTagsTable(tag.getTag(), db);
             }
         }
@@ -340,7 +339,7 @@ public class ReviewerDb implements ReviewerDbTables {
         return true;
     }
 
-    private void addToAuthorsTable(Author author, SQLiteDatabase db) {
+    private void addToAuthorsTable(DataAuthor author, SQLiteDatabase db) {
         insertRow(mRowFactory.newRow(author), getAuthorsTable(), db);
     }
 
@@ -349,8 +348,8 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private void addToTagsTable(Review review, SQLiteDatabase db) {
-        ReviewTagCollection tags = mTagsManager.getTags(review.getId());
-        for (ReviewTag tag : tags) {
+        ItemTagCollection tags = mTagsManager.getTags(review.getMdReviewId().toString());
+        for (ItemTag tag : tags) {
             insertOrReplaceRow(mRowFactory.newRow(tag), getTagsTable(), db);
         }
     }
@@ -399,28 +398,28 @@ public class ReviewerDb implements ReviewerDbTables {
 
     private void addToCommentsTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdCommentList.MdComment datum : review.getComments()) {
+        for (DataComment datum : review.getComments()) {
             insertRow(mRowFactory.newRow(datum, i++), getCommentsTable(), db);
         }
     }
 
     private void addToFactsTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdFactList.MdFact datum : review.getFacts()) {
+        for (DataFact datum : review.getFacts()) {
             insertRow(mRowFactory.newRow(datum, i++), getFactsTable(), db);
         }
     }
 
     private void addToLocationsTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdLocationList.MdLocation datum : review.getLocations()) {
+        for (DataLocation datum : review.getLocations()) {
             insertRow(mRowFactory.newRow(datum, i++), getLocationsTable(), db);
         }
     }
 
     private void addToImagesTable(Review review, SQLiteDatabase db) {
         int i = 1;
-        for (MdImageList.MdImage datum : review.getImages()) {
+        for (DataImage datum : review.getImages()) {
             insertRow(mRowFactory.newRow(datum, i++), getImagesTable(), db);
         }
     }
@@ -476,7 +475,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
     private boolean isReviewInDb(Review review, SQLiteDatabase db) {
         DbTable.DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
-        return isIdInTable(review.getId().toString(), reviewIdCol, getReviewsTable(), db);
+        return isIdInTable(review.getMdReviewId().toString(), reviewIdCol, getReviewsTable(), db);
     }
 
     private boolean isIdInTable(String id, DbTable.DbColumnDef idCol, DbTable table,
@@ -492,23 +491,4 @@ public class ReviewerDb implements ReviewerDbTables {
 
         return hasRow;
     }
-
-    private <T1 extends MdData, T2 extends MdDataList<T1>> T2 newMdList(Class<T2> listClass,
-                                                                        String reviewId) {
-        ReviewId id = ReviewId.fromString(reviewId);
-        try {
-            Constructor c = listClass.getConstructor(ReviewId.class);
-            return listClass.cast(c.newInstance(id));
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Couldn't find ReviewId constructor for " + listClass
-                    .getName(), e);
-        } catch (InstantiationException e) {
-            throw new RuntimeException("Couldn't instantiate class " + listClass.getName(), e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Couldn't access class " + listClass.getName(), e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException("Couldn't invoke class " + listClass.getName(), e);
-        }
-    }
-
 }

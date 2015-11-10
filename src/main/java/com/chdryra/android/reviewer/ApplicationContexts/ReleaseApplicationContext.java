@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Database.ReviewLoaderStatic;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.UserData.Author;
@@ -44,7 +45,8 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setMdGvConverter(new MdGvConverter());
 
         //FactoryReview
-        setFactoryReview(new FactoryReview(getMdGvConverter()));
+        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent();
+        setFactoryReview(new FactoryReview(factory, getMdGvConverter()));
 
         //TagsManager
         setTagsManager(new TagsManager());
@@ -71,9 +73,9 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                 = new DbSpecification<>(databaseName, contract, databaseVersion);
         DbHelper<ReviewerDbContract> dbHelper
                 = new DbHelper<>(context, spec, new DbContractExecutor());
-        ReviewerDb.ReviewLoader loader = new ReviewLoaderStatic(getReviewFactory());
-        FactoryDbTableRow factory =new FactoryDbTableRow(getDataValidator());
-        setReviewerDb(new ReviewerDb(dbHelper, loader, factory, getTagsManager()));
+        ReviewerDb.ReviewLoader loader = new ReviewLoaderStatic(getReviewFactory(), getDataValidator());
+        FactoryDbTableRow rowFactory =new FactoryDbTableRow();
+        setReviewerDb(new ReviewerDb(dbHelper, loader, rowFactory, getTagsManager()));
 
         //ReviewsRepository
         ReviewerDbProvider provider = new ReviewerDbProvider(getReviewerDb());
