@@ -14,18 +14,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 
 import java.util.ArrayList;
 
@@ -147,11 +147,11 @@ public class ReviewerDb implements ReviewerDbTables {
         return review;
     }
 
-    public MdIdableList<Review> loadReviewsFromDb() {
+    public MdIdableCollection<Review> loadReviewsFromDb() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         db.beginTransaction();
-        MdIdableList<Review> reviews = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, null);
+        MdIdableCollection<Review> reviews = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, null);
         loadTags(db);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -173,10 +173,10 @@ public class ReviewerDb implements ReviewerDbTables {
         if (success) notifyOnDeleteReview(reviewId);
     }
 
-    public MdIdableList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
+    public MdIdableCollection<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
 
-        MdIdableList<Review> reviews = new MdIdableList<>();
+        MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         for (RowReview reviewRow : reviewsList) {
             reviews.add(loadReview(reviewRow, db));
         }

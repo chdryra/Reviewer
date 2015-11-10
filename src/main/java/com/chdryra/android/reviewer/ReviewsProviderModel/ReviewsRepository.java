@@ -1,16 +1,16 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
@@ -53,7 +53,7 @@ public class ReviewsRepository implements ReviewsProvider {
 
     public <T extends GvData> ReviewNode createMetaReview(GvDataCollection<T> data,
                                                           String subject) {
-        MdIdableList<Review> reviews = new MdIdableList<>();
+        MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         for (int i = 0; i < data.size(); ++i) {
             reviews.add(getReview(data.getItem(i)));
         }
@@ -73,7 +73,7 @@ public class ReviewsRepository implements ReviewsProvider {
     public <T extends GvData> ReviewNode createFlattenedMetaReview(GvDataCollection<T> data,
                                                                    String subject) {
         ReviewNode meta = createMetaReview(data, subject);
-        MdIdableList<Review> flattened = VisitorReviewsGetter.flatten(meta);
+        MdIdableCollection<Review> flattened = VisitorReviewsGetter.flatten(meta);
 
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
         return mReviewFactory.createMetaReview(flattened, publisher, subject);
@@ -86,7 +86,7 @@ public class ReviewsRepository implements ReviewsProvider {
     }
 
     @Override
-    public MdIdableList<Review> getReviews() {
+    public MdIdableCollection<Review> getReviews() {
         return mProvider.getReviews();
     }
 

@@ -15,15 +15,15 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
@@ -41,7 +41,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
     @SmallTest
     public void testGetReviews() {
         ReviewsProvider provider = TestReviews.getReviews(getInstrumentation());
-        MdIdableList<Review> reviews = provider.getReviews();
+        MdIdableCollection<Review> reviews = provider.getReviews();
         assertEquals(2, reviews.size());
         testReview1(reviews.getItem(0), provider.getTagsManager());
         testReview2(reviews.getItem(1), provider.getTagsManager());
@@ -55,9 +55,9 @@ public class TestReviewsTest extends InstrumentationTestCase {
         //Tags
         ItemTagCollection tags = tagsManager.getTags(review.getMdReviewId());
         assertEquals(3, tags.size());
-        assertEquals("Restaurant", tags.getItem(0).getTag());
-        assertEquals("Pakistani", tags.getItem(1).getTag());
-        assertEquals("London", tags.getItem(2).getTag());
+        assertEquals("Restaurant", tags.getItemTag(0).getTag());
+        assertEquals("Pakistani", tags.getItemTag(1).getTag());
+        assertEquals("London", tags.getItemTag(2).getTag());
 
         //Children
         MdCriterionList criteria = review.getCriteria();
@@ -138,10 +138,10 @@ public class TestReviewsTest extends InstrumentationTestCase {
         //Tags
         ItemTagCollection tags = tagsManager.getTags(review.getMdReviewId());
         assertEquals(4, tags.size());
-        assertEquals("Reading", tags.getItem(0).getTag());
-        assertEquals("Mum", tags.getItem(1).getTag());
-        assertEquals("Kew Gardens", tags.getItem(2).getTag());
-        assertEquals("Baby", tags.getItem(3).getTag());
+        assertEquals("Reading", tags.getItemTag(0).getTag());
+        assertEquals("Mum", tags.getItemTag(1).getTag());
+        assertEquals("Kew Gardens", tags.getItemTag(2).getTag());
+        assertEquals("Baby", tags.getItemTag(3).getTag());
 
         //Children
         MdCriterionList children = review.getCriteria();

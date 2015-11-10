@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewUser;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewUser;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -72,8 +72,8 @@ public class ReviewMocker {
         return review;
     }
 
-    private static MdIdableList<Review> getCriteria(ReviewPublisher publisher) {
-        MdIdableList<Review> criteria = new MdIdableList<>();
+    private static MdIdableCollection<Review> getCriteria(ReviewPublisher publisher) {
+        MdIdableCollection<Review> criteria = new MdIdableCollection<>();
         if (publisher != null) {
             for (int i = 0; i < NUM; ++i) {
                 criteria.add(new MockReview(publisher));
@@ -84,7 +84,7 @@ public class ReviewMocker {
     }
 
     static class MockReview extends ReviewUser {
-        private MockReview(ReviewPublisher publisher, MdIdableList<Review> criteria) {
+        private MockReview(ReviewPublisher publisher, MdIdableCollection<Review> criteria) {
             super(MdReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
                     RandomString.nextWord(),
                     RandomRating.nextRating(),
@@ -103,7 +103,7 @@ public class ReviewMocker {
                     GvDataMocker.newImageList(0, false),
                     GvDataMocker.newFactList(0, false),
                     GvDataMocker.newLocationList(0, false),
-                    new MdIdableList<Review>(), false);
+                    new MdIdableCollection<Review>(), false);
         }
     }
 }

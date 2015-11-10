@@ -14,13 +14,13 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
 
 import java.text.DateFormat;
@@ -93,15 +93,16 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
         private String mHeadline;
         private ArrayList<String> mLocationNames;
         private ArrayList<String> mTags;
-        private DataAuthor mAuthor;
-        private DataDate mPublishDate;
+        private GvAuthorList.GvAuthor mAuthor;
+        private GvDateList.GvDate mPublishDate;
 
         //Constructors
         public GvReviewOverview() {
             super(GvReviewOverview.TYPE);
         }
 
-        public GvReviewOverview(String id, DataAuthor author, DataDate publishDate, String subject,
+        public GvReviewOverview(String id, GvAuthorList.GvAuthor author,
+                                GvDateList.GvDate publishDate, String subject,
                                 float rating, Bitmap coverImage, String headline,
                                 ArrayList<String> locationNames,
                                 ArrayList<String> tags) {
@@ -109,7 +110,8 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
                     locationNames, tags);
         }
 
-        public GvReviewOverview(GvReviewId parentId, String id, DataAuthor author, DataDate publishDate,
+        public GvReviewOverview(GvReviewId parentId, String id, GvAuthorList.GvAuthor author,
+                                GvDateList.GvDate publishDate,
                                 String subject, float rating, Bitmap coverImage, String headline,
                                 ArrayList<String> locationNames, ArrayList<String> tags) {
             super(GvReviewOverview.TYPE, parentId);
@@ -139,8 +141,8 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             mHeadline = in.readString();
             mLocationNames = TextUtils.splitString(in.readString(), ",");
             mTags = TextUtils.splitString(in.readString(), ",");
-            mAuthor = new Author(in.readString(), UserId.fromString(in.readString()));
-            mPublishDate = (Date) in.readSerializable();
+            mAuthor = in.readParcelable(GvAuthorList.GvAuthor.class.getClassLoader());
+            mPublishDate = in.readParcelable(GvDateList.GvDate.class.getClassLoader());
         }
 
         //public methods
@@ -182,11 +184,11 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             return mHeadline;
         }
 
-        public Author getAuthor() {
+        public GvAuthorList.GvAuthor getAuthor() {
             return mAuthor;
         }
 
-        public Date getPublishDate() {
+        public GvDateList.GvDate getPublishDate() {
             return mPublishDate;
         }
 
@@ -225,9 +227,8 @@ public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvRevi
             parcel.writeString(mHeadline);
             parcel.writeString(TextUtils.commaDelimited(mLocationNames));
             parcel.writeString(TextUtils.commaDelimited(mTags));
-            parcel.writeString(mAuthor.getName());
-            parcel.writeString(mAuthor.getUserId().toString());
-            parcel.writeSerializable(mPublishDate);
+            parcel.writeParcelable(mAuthor, i);
+            parcel.writeParcelable(mPublishDate, i);
         }
 
         //ignoring cover image as randomly chosen so screws up equality when comparing two

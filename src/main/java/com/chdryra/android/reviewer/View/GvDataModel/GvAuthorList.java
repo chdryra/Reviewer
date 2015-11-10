@@ -12,7 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**
@@ -53,7 +53,7 @@ public class GvAuthorList extends GvDataList<GvAuthorList.GvAuthor> {
 //Classes
 
     /**
-     * {@link } version of: {@link com.chdryra.android.reviewer.Model.UserData.Author}
+     * {@link } version of: {@link com.chdryra.android.reviewer.Models.UserModel.Author}
      * {@link ViewHolder}: {@link VhAuthor}
      * <p/>
      * <p>

@@ -14,15 +14,15 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewsRepository;
@@ -39,7 +39,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private Author mAuthor;
     private ReviewNode mNode;
     private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
-    private MdIdableList<ReviewNode> mReviews;
+    private MdIdableCollection<ReviewNode> mReviews;
 
     @SmallTest
     public void testGetSubject() {
@@ -95,7 +95,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         FactoryReview reviewFactory = new FactoryReview(new MdGvConverter());
         Review review = reviewFactory.createUserReview(publisher, RandomString.nextWord(), 0f);
         ReviewTreeNode collection = reviewFactory.createReviewNodeComponent(review, true);
-        mReviews = new MdIdableList<>();
+        mReviews = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {
             ReviewTreeNode child = (ReviewTreeNode) ReviewMocker.newReviewNode(false);
             mReviews.add(child);

@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.Adapter.DataConverters;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.MdData;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdData;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +30,7 @@ public abstract class MdConverterBasic<T1, T2 extends MdData, T3 extends MdDataL
     public abstract T2 convert(T1 datum);
 
     @Override
-    public T3 convert(Iterable<T1> data, String reviewId) {
+    public T3 convert(Iterable<? extends T1> data, String reviewId) {
         T3 list = newList(reviewId);
         for(T1 datum : data) {
             list.add(convert(datum));
@@ -40,7 +40,7 @@ public abstract class MdConverterBasic<T1, T2 extends MdData, T3 extends MdDataL
     }
 
     private T3 newList(String reviewId) {
-        MdReviewId id = MdReviewId.fromString(reviewId);
+        MdReviewId id = new MdReviewId(reviewId);
         try {
             Constructor<T3> ctor = mListClass.getConstructor(MdReviewId.class);
             return ctor.newInstance(id);

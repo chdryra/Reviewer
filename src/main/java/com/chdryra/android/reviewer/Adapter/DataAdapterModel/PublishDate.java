@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
+
 import java.util.Date;
 
 /**

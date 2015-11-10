@@ -10,19 +10,19 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdRating;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewUser;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewUser;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -55,7 +55,7 @@ public class ReviewUserTest extends TestCase {
 
     private ReviewPublisher mPublisher;
     private Review mReview;
-    private MdIdableList<Review> mCriteria;
+    private MdIdableCollection<Review> mCriteria;
 
     @SmallTest
     public void testGetId() {
@@ -151,7 +151,7 @@ public class ReviewUserTest extends TestCase {
 
         mPublisher = new ReviewPublisher(mAuthor, mDate);
 
-        mCriteria = new MdIdableList<>();
+        mCriteria = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {
             mCriteria.add(newCriterion(mPublisher));
         }

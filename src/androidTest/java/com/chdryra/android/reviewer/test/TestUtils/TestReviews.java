@@ -17,12 +17,12 @@ import android.webkit.URLUtil;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsProvider;
@@ -54,17 +54,17 @@ public class TestReviews {
     private static Author AUTHOR = new Author("Riz", UserId.generateId());
     private static TestReviews sReviews;
     private Instrumentation mInstr;
-    private MdIdableList<Review> mReviews;
+    private MdIdableCollection<Review> mReviews;
 
     private TestReviews(Instrumentation instr) {
         mInstr = instr;
-        mReviews = new MdIdableList<>();
+        mReviews = new MdIdableCollection<>();
     }
 
     //Static methods
     public static ReviewsProvider getReviews(Instrumentation instr) {
         TestReviews testReviews = get(instr);
-        MdIdableList<Review> reviews = testReviews.mReviews;
+        MdIdableCollection<Review> reviews = testReviews.mReviews;
         TagsManager tagsManager = new TagsManager();
         if (reviews.size() == 0) {
             reviews.add(testReviews.getReview(testReviews.getReview1(), tagsManager));

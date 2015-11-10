@@ -6,21 +6,21 @@ import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterComments;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterFacts;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterImages;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterLocations;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdAuthor;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDate;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdRating;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdAuthor;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDate;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdRating;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdSubject;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 
 import java.util.ArrayList;
 
@@ -123,7 +123,7 @@ public class ReviewUserDb implements Review {
     @Override
     public MdCriterionList getCriteria() {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-        MdIdableList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
+        MdIdableCollection<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
                 .COLUMN_PARENT_ID, mReviewId.toString());
         return new MdCriterionList(mReviewId, criteria);
     }

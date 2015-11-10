@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**

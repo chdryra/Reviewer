@@ -6,11 +6,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -90,7 +90,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
     @SmallTest
     public void testCreateMetaReviewDataList() {
         assertTrue(NUM > 2);
-        MdIdableList<Review> reviews = mRepo.getReviews();
+        MdIdableCollection<Review> reviews = mRepo.getReviews();
         String subject = RandomString.nextWord();
 
         Random rand = new Random();
@@ -112,7 +112,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
                 .getRating());
         assertEquals(subject, meta.getSubject().getSubject());
         assertEquals(averageRating, meta.getRating().getRating());
-        MdIdableList<ReviewNode> children = meta.getChildren();
+        MdIdableCollection<ReviewNode> children = meta.getChildren();
         assertEquals(2, children.size());
         assertEquals(review1, children.getItem(0).getReview());
         assertEquals(review2, children.getItem(1).getReview());
@@ -133,7 +133,7 @@ public class ReviewsRepositoryTest extends InstrumentationTestCase {
     }
 
     private MdCommentList getComments() {
-        MdIdableList<Review> reviews = mRepo.getReviews();
+        MdIdableCollection<Review> reviews = mRepo.getReviews();
         MdCommentList comments = new MdCommentList(null);
         for(Review review : reviews) {
             comments.addList(review.getComments());

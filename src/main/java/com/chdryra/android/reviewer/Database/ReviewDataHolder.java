@@ -1,16 +1,14 @@
 package com.chdryra.android.reviewer.Database;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,8 +17,8 @@ import com.chdryra.android.reviewer.Model.UserData.Author;
  */
 public class ReviewDataHolder {
     private final MdReviewId mId;
-    private final Author mAuthor;
-    private final PublishDate mPublishDate;
+    private final DataAuthor mAuthor;
+    private final DataDate mPublishDate;
     private final String mSubject;
     private final float mRating;
     private final int mRatingWeight;
@@ -28,16 +26,16 @@ public class ReviewDataHolder {
     private final Iterable<? extends DataImage> mImages;
     private final Iterable<? extends DataFact> mFacts;
     private final Iterable<? extends DataLocation> mLocations;
-    private final MdIdableList<Review> mCritList;
+    private final IdableCollection<Review> mCritList;
     private final boolean mIsAverage;
 
-    public ReviewDataHolder(MdReviewId id, Author author, PublishDate publishDate,
+    public ReviewDataHolder(MdReviewId id, DataAuthor author, DataDate publishDate,
                             String subject, float rating, int ratingWeight,
                             Iterable<? extends DataComment> comments,
                             Iterable<? extends DataImage> images,
                             Iterable<? extends DataFact> facts,
                             Iterable<? extends DataLocation> locations,
-                            MdIdableList<Review> critList, boolean isAverage) {
+                            IdableCollection<Review> critList, boolean isAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -92,7 +90,7 @@ public class ReviewDataHolder {
         return mLocations;
     }
 
-    public MdIdableList<Review> getCritList() {
+    public IdableCollection<Review> getCritList() {
         return mCritList;
     }
 

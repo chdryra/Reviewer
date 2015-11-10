@@ -2,11 +2,11 @@ package com.chdryra.android.reviewer.Adapter.DataConverters;
 
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataUrl;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdUrlList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 
 import java.net.MalformedURLException;
 import java.net.URL;

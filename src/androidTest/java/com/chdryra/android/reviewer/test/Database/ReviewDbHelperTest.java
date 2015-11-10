@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.SQL;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

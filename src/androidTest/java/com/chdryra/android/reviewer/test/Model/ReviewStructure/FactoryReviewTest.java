@@ -10,16 +10,16 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -50,7 +50,7 @@ public class FactoryReviewTest extends TestCase {
     private GvImageList mImages;
     private GvFactList mFacts;
     private GvLocationList mLocations;
-    private MdIdableList<Review> mCriteria;
+    private MdIdableCollection<Review> mCriteria;
 
     @SmallTest
     public void testCreateReviewUser() {
@@ -83,7 +83,7 @@ public class FactoryReviewTest extends TestCase {
 
     @SmallTest
     public void testCreateMetaReview() {
-        MdIdableList<Review> reviews = new MdIdableList<>();
+        MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         float averageRating = 0f;
         for (int i = 0; i < NUM; ++i) {
             Review review = ReviewMocker.newReview();
@@ -99,7 +99,7 @@ public class FactoryReviewTest extends TestCase {
         assertEquals(publisher.getDate(), meta.getPublishDate());
         assertEquals(subject, meta.getSubject().getSubject());
         assertEquals(averageRating, meta.getRating().getRating());
-        MdIdableList<ReviewNode> children = meta.getChildren();
+        MdIdableCollection<ReviewNode> children = meta.getChildren();
         assertEquals(NUM, children.size());
         for (int i = 0; i < NUM; ++i) {
             assertEquals(reviews.getItem(i), children.getItem(i).getReview());
@@ -118,7 +118,7 @@ public class FactoryReviewTest extends TestCase {
 
         ReviewPublisher publisher = new ReviewPublisher(author, date);
         return FactoryReview.createUserReview(publisher, subject, rating,
-                comments, images, facts, locations, new MdIdableList<Review>(), false);
+                comments, images, facts, locations, new MdIdableCollection<Review>(), false);
     }
 
     private void checkNode(ReviewNode node) {
@@ -148,7 +148,7 @@ public class FactoryReviewTest extends TestCase {
         mImages = GvDataMocker.newImageList(NUM, false);
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
-        mCriteria = new MdIdableList<>();
+        mCriteria = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {
             mCriteria.add(nextReview());
         }

@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,7 +14,7 @@ public interface ReviewsProvider {
     //abstract
     Review getReview(MdReviewId id);
 
-    MdIdableList<Review> getReviews();
+    MdIdableCollection<Review> getReviews();
 
     TagsManager getTagsManager();
 

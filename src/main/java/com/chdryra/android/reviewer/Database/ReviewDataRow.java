@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Database;
 
 import android.content.ContentValues;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataReview;
+import com.chdryra.android.reviewer.Interfaces.Data.DataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 /**

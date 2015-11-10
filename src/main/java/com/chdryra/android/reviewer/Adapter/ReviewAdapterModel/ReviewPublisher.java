@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataDate;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 
 /**
  * Created by: Rizwan Choudrey

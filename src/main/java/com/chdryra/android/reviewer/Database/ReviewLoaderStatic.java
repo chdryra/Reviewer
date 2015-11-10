@@ -3,12 +3,12 @@ package com.chdryra.android.reviewer.Database;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.UserData.Author;
-import com.chdryra.android.reviewer.Model.UserData.UserId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
+import com.chdryra.android.reviewer.Models.UserModel.UserId;
 
 import java.util.ArrayList;
 
@@ -57,7 +57,7 @@ public class ReviewLoaderStatic implements ReviewerDb.ReviewLoader{
         DbTable<RowImage> imagesTable = database.getImagesTable();
         ArrayList<RowImage> images = database.loadFromDataTable(db, imagesTable, reviewId);
 
-        MdIdableList<Review> critList = database.loadReviewsFromDbWhere(db,
+        MdIdableCollection<Review> critList = database.loadReviewsFromDbWhere(db,
                 RowReview.COLUMN_PARENT_ID, reviewId);
 
         ReviewDataHolder reviewDb = new ReviewDataHolder(id, author, publishDate, subject, rating,

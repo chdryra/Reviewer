@@ -12,8 +12,8 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,8 +27,8 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         TestDatabase.recreateDatabase(getInstrumentation());
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
         assertNotNull(db);
-        MdIdableList<Review> testReviews = TestReviews.getReviews(getInstrumentation()).getReviews();
-        MdIdableList<Review> reviews = db.loadReviewsFromDb();
+        MdIdableCollection<Review> testReviews = TestReviews.getReviews(getInstrumentation()).getReviews();
+        MdIdableCollection<Review> reviews = db.loadReviewsFromDb();
         assertEquals(testReviews.size(), reviews.size());
         for (int i = 0; i < reviews.size(); ++i) {
             assertEquals(testReviews.getItem(i), reviews.getItem(i));

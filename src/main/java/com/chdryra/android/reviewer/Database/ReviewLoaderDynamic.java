@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.Model.ReviewStructure.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**
  * Created by: Rizwan Choudrey

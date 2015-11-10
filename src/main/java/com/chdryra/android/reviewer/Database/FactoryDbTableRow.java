@@ -10,15 +10,15 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

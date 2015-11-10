@@ -8,6 +8,13 @@
 
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
+import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 16/01/2015

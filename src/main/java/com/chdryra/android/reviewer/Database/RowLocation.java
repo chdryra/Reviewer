@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Database;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.google.android.gms.maps.model.LatLng;
 

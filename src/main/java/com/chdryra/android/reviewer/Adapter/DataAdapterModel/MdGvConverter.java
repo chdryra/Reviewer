@@ -10,20 +10,25 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCommentList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdCriterionList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdFactList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewData.MdUrlList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdSubject;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdUrlList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -173,7 +178,7 @@ public class MdGvConverter {
         return list;
     }
 
-    public <T extends Review> GvReviewOverviewList toGvDataList(MdIdableList<T> reviews,
+    public <T extends Review> GvReviewOverviewList toGvDataList(MdIdableCollection<T> reviews,
                                                                 MdReviewId holder,
                                                                 TagsManager tagsManager) {
         GvReviewOverviewList data = new GvReviewOverviewList(new GvReviewId(holder.toString()));
@@ -209,7 +214,7 @@ public class MdGvConverter {
                 review.getRating().getRating(), cover, headline, locationNames, tags);
     }
 
-    public GvSubjectList convertSubjects(MdIdableList<ReviewNode> nodes, MdReviewId holder) {
+    public GvSubjectList convertSubjects(MdIdableCollection<ReviewNode> nodes, MdReviewId holder) {
         MdDataList<MdSubject> mdsubjects = new MdDataList<>(holder);
         for (ReviewNode node : nodes) {
             mdsubjects.add(node.getSubject());
@@ -226,7 +231,7 @@ public class MdGvConverter {
         return subjects;
     }
 
-    public GvAuthorList convertAuthors(MdIdableList<ReviewNode> nodes, MdReviewId holder) {
+    public GvAuthorList convertAuthors(MdIdableCollection<ReviewNode> nodes, MdReviewId holder) {
         GvReviewId id = new GvReviewId(holder.toString());
         GvAuthorList authors = new GvAuthorList(id);
         for (ReviewNode node : nodes) {
@@ -240,7 +245,7 @@ public class MdGvConverter {
         return authors;
     }
 
-    public GvDateList convertPublishDates(MdIdableList<ReviewNode> nodes, MdReviewId holder) {
+    public GvDateList convertPublishDates(MdIdableCollection<ReviewNode> nodes, MdReviewId holder) {
         GvReviewId id = new GvReviewId(holder.toString());
         GvDateList list = new GvDateList(id);
         for (ReviewNode node : nodes) {

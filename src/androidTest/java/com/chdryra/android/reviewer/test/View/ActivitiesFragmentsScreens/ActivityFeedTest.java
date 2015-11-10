@@ -21,10 +21,10 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.UserData.Author;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
@@ -137,7 +137,7 @@ public class ActivityFeedTest extends
     private ReviewsRepository createFeed() {
         Author author = RandomAuthor.nextAuthor();
         TagsManager tagsManager = new TagsManager();
-        MdIdableList<Review> reviews = new MdIdableList<>();
+        MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {
             ReviewBuilder builder = new ReviewBuilder(getActivity(), author, tagsManager);
             ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(builder);

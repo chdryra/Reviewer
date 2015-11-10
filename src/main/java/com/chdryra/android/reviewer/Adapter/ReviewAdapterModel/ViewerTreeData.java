@@ -1,13 +1,13 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -46,7 +46,7 @@ class ViewerTreeData extends ViewerReviewData {
         GridDataViewer wrapper = mViewerFactory.newChildListViewer(node, converter,
                 getTagsManager(), adapterFactory);
         MdReviewId id = node.getMdReviewId();
-        MdIdableList<ReviewNode> nodes = node.getChildren();
+        MdIdableCollection<ReviewNode> nodes = node.getChildren();
         GvList data = new GvList(GvReviewId.getId(node.getMdReviewId().toString()));
         data.add(wrapper.getGridData());
         data.add(mAggregater.getAggregate(converter.convertAuthors(nodes, id)));

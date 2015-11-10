@@ -14,10 +14,10 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdImageList;
-import com.chdryra.android.reviewer.Model.ReviewData.MdLocationList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
@@ -39,7 +39,7 @@ public class ViewerChildListTest extends AndroidTestCase {
         ViewerChildList wrapper = new ViewerChildList(getContext(), node, repo);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
-        MdIdableList<ReviewNode> children = node.getChildren();
+        MdIdableCollection<ReviewNode> children = node.getChildren();
         assertEquals(children.size(), data.size());
         GvReviewOverviewList list = (GvReviewOverviewList) data;
         for (int i = 0; i < children.size(); ++i) {

@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -30,16 +30,16 @@ public class VisitorReviewsGetterTest extends TestCase {
         VisitorReviewsGetter visitor = new VisitorReviewsGetter();
         node.acceptVisitor(visitor);
 
-        MdIdableList<Review> nodes = visitor.getReviews();
-        MdIdableList<Review> flattened = flatten(node);
+        MdIdableCollection<Review> nodes = visitor.getReviews();
+        MdIdableCollection<Review> flattened = flatten(node);
         assertEquals(flattened.size(), nodes.size());
         for (Review item : flattened) {
             assertTrue(nodes.containsId(item.getMdReviewId()));
         }
     }
 
-    private MdIdableList<Review> flatten(ReviewNode node) {
-        MdIdableList<Review> reviews = new MdIdableList<>();
+    private MdIdableCollection<Review> flatten(ReviewNode node) {
+        MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         reviews.add(node.getReview());
 
         for (ReviewNode child : node.getChildren()) {

@@ -12,7 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataUrl;
+import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 
 import java.net.URL;

@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.ReviewData.MdIdableList;
-import com.chdryra.android.reviewer.Model.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.VisitorRatingAverageOfChildren;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -30,7 +30,7 @@ public class VisitorRatingAverageOfChildrenTest extends TestCase {
         node.acceptVisitor(visitor);
 
         float nodeAverage = 0;
-        MdIdableList<ReviewNode> children = node.getChildren();
+        MdIdableCollection<ReviewNode> children = node.getChildren();
         assertTrue(children.size() > 0);
         for (ReviewNode child : children) {
             nodeAverage += child.getRating().getRating();
