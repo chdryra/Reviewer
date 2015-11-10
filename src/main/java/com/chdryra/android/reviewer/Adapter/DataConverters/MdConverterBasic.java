@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdData;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
@@ -32,6 +33,16 @@ public abstract class MdConverterBasic<T1, T2 extends MdData, T3 extends MdDataL
     @Override
     public T3 convert(Iterable<? extends T1> data, String reviewId) {
         T3 list = newList(reviewId);
+        for(T1 datum : data) {
+            list.add(convert(datum));
+        }
+
+        return list;
+    }
+
+    @Override
+    public T3 convert(IdableList<? extends T1> data) {
+        T3 list = newList(data.getReviewId());
         for(T1 datum : data) {
             list.add(convert(datum));
         }

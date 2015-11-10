@@ -1,16 +1,20 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterComments;
+import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterCriteria;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterFacts;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterImages;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterLocations;
 import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterUrl;
 import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
 import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
@@ -27,15 +31,18 @@ public class ConverterMd {
     private MdConverterImages mConverterImages;
     private MdConverterLocations mConverterLocations;
     private MdConverterUrl mConverterUrl;
+    private MdConverterCriteria mMdConverterCriteria;
 
     public ConverterMd(MdConverterComments converterComments, MdConverterFacts converterFacts,
                        MdConverterImages converterImages, MdConverterLocations
-                               converterLocations, MdConverterUrl converterUrl) {
+                               converterLocations, MdConverterUrl converterUrl,
+                       MdConverterCriteria converterCriteria) {
         mConverterComments = converterComments;
         mConverterFacts = converterFacts;
         mConverterImages = converterImages;
         mConverterLocations = converterLocations;
         mConverterUrl = converterUrl;
+        mMdConverterCriteria = converterCriteria;
     }
 
     //Comments
@@ -67,4 +74,11 @@ public class ConverterMd {
     }
 
     //Criteria
+    public MdCriterionList toMdCriterionList(Iterable<? extends DataCriterion> criteria, String reviewId) {
+        return mMdConverterCriteria.convert(criteria, reviewId);
+    }
+
+    public MdCriterionList reviewsToMdCriterionList(Iterable<? extends Review> criteria, String reviewId) {
+        return mMdConverterCriteria.convert(criteria, reviewId);
+    }
 }

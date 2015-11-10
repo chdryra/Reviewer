@@ -5,8 +5,10 @@ package com.chdryra.android.reviewer.Interfaces.Data;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataConverter<T1, T2> {
+public interface DataConverter<T1, T2 extends DataReview> {
     T2 convert(T1 datum);
 
-    Iterable<T2> convert(Iterable<? extends T1> data, String reviewId);
+    IdableList<T2> convert(Iterable<? extends T1> data, String reviewId);
+
+    IdableList<T2> convert(IdableList<? extends T1> data);
 }

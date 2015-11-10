@@ -12,13 +12,14 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvDataCollection<T extends GvData> extends GvData {
+public interface GvDataCollection<T extends GvData> extends GvData, IdableList<T> {
     //abstract methods
     //abstract
     int size();

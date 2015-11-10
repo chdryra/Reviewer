@@ -14,19 +14,14 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
-import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Used for Review summaries in published feed
@@ -34,9 +29,24 @@ import java.util.Date;
  * @see Administrator
  */
 public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvReviewOverview> {
+    public static final Parcelable.Creator<GvReviewOverviewList> CREATOR = new Parcelable
+            .Creator<GvReviewOverviewList>() {
+        //Overridden
+        public GvReviewOverviewList createFromParcel(Parcel in) {
+            return new GvReviewOverviewList(in);
+        }
+
+        public GvReviewOverviewList[] newArray(int size) {
+            return new GvReviewOverviewList[size];
+        }
+    };
     //Constructors
     public GvReviewOverviewList() {
         super(GvReviewOverview.TYPE, null);
+    }
+
+    public GvReviewOverviewList(Parcel in) {
+        super(in);
     }
 
     public GvReviewOverviewList(GvReviewId parentId) {

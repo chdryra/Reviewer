@@ -1,0 +1,36 @@
+package com.chdryra.android.reviewer.Adapter.DataConverters;
+
+import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 10/11/2015
+ * Email: rizwan.choudrey@gmail.com
+ */
+public class MdConverterCriteria extends MdConverterBasic<DataCriterion,
+        MdCriterionList.MdCriterion, MdCriterionList> {
+
+    public MdConverterCriteria() {
+        super(MdCriterionList.class);
+    }
+
+    @Override
+    public MdCriterionList.MdCriterion convert(DataCriterion datum) {
+        MdReviewId id = new MdReviewId(datum.getReviewId());
+        return new MdCriterionList.MdCriterion(id, datum.getReview());
+    }
+
+    public MdCriterionList convert(Iterable<? extends Review> reviews, String parentId) {
+        MdReviewId id = new MdReviewId(parentId);
+        MdCriterionList list = new MdCriterionList(id);
+        for(Review review : reviews) {
+            list.add(new MdCriterionList.MdCriterion(id, review));
+        }
+        return list;
+    }
+
+
+}

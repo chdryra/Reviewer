@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 import java.util.Date;
 
@@ -22,14 +23,15 @@ public class CanonicalDate implements CanonicalDatumMaker<GvDateList.GvDate> {
     //Overridden
     @Override
     public GvDateList.GvDate getCanonical(GvDataList<GvDateList.GvDate> data) {
-        if (data.size() == 0) return new GvDateList.GvDate(data.getReviewId(), null);
+        GvReviewId id = new GvReviewId(data.getReviewId());
+        if (data.size() == 0) return new GvDateList.GvDate(id, 0);
 
         DatumCounter<GvDateList.GvDate, Date> counter = new DatumCounter<>(data,
                 new DataGetter<GvDateList.GvDate, Date>() {
                     //Overridden
                     @Override
                     public Date getData(GvDateList.GvDate datum) {
-                        return datum.getDate();
+                        return new Date(datum.getTime());
                     }
                 });
 
@@ -37,11 +39,11 @@ public class CanonicalDate implements CanonicalDatumMaker<GvDateList.GvDate> {
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) {
             for (GvDateList.GvDate date : data) {
-                Date candidate = date.getDate();
+                Date candidate = new Date(date.getTime());
                 if (candidate.after(canon)) canon = candidate;
             }
         }
 
-        return new GvDateList.GvDate(data.getReviewId(), canon);
+        return new GvDateList.GvDate(id, canon.getTime());
     }
 }

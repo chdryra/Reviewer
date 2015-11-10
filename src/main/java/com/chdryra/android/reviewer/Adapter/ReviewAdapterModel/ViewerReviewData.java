@@ -1,9 +1,10 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -20,13 +21,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 class ViewerReviewData implements GridDataViewer<GvData> {
     private ReviewNode mNode;
-    private MdGvConverter mConverter;
+    private ConverterGv mConverter;
     private TagsManager mTagsManager;
     private FactoryReviewViewAdapter mAdapterFactory;
     private GvList mCache;
 
     ViewerReviewData(ReviewNode node,
-                     MdGvConverter converter,
+                     ConverterGv converter,
                      TagsManager tagsManager,
                      FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
@@ -44,7 +45,7 @@ class ViewerReviewData implements GridDataViewer<GvData> {
         return mAdapterFactory;
     }
 
-    protected MdGvConverter getConverter() {
+    protected ConverterGv getConverter() {
         return mConverter;
     }
 
@@ -54,12 +55,12 @@ class ViewerReviewData implements GridDataViewer<GvData> {
 
     protected GvList makeGridData() {
         Review review = mNode.getReview();
-        GvReviewId id = GvReviewId.getId(review.getMdReviewId().toString());
+        GvReviewId id = new GvReviewId(review.getReviewId());
 
         GvList data = new GvList(id);
-        data.add(getTags(review.getMdReviewId().toString()));
-        data.add(mConverter.toGvDataList(review.getCriteria()));
-        data.add(mConverter.toGvDataList(review.getImages()));
+        data.add(getTags(review.getReviewId()));
+        data.add(mConverter.toGvCriterionList(review.getCriteria()));
+        data.add(mConverter.toGvImageList(review.getImages()));
         data.add(mConverter.toGvDataList(review.getComments()));
         data.add(mConverter.toGvDataList(review.getLocations()));
         data.add(mConverter.toGvDataList(review.getFacts()));

@@ -1,11 +1,13 @@
 package com.chdryra.android.reviewer.Models.TagsModel;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagsManagerImpl {
+public class TagsManagerImpl implements TagsManager{
     private final ItemTagList<ItemTagImpl> mTags;
 
     //Constructors
@@ -25,6 +27,11 @@ public class TagsManagerImpl {
         }
 
         return tags;
+    }
+
+    @Override
+    public ArrayList<String> getTagsArray(String id) {
+        return mTags.toStringArray();
     }
 
     public void tagItem(String id, String tag) {

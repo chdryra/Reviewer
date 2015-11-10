@@ -81,7 +81,7 @@ public class GvFactList extends GvDataList<GvFactList.GvFact> {
         }
 
         public GvFact(GvFact fact) {
-            this(fact.getReviewId(), fact.getLabel(), fact.getValue());
+            this(fact.getGvReviewId(), fact.getLabel(), fact.getValue());
         }
 
         protected GvFact(Parcel in) {

@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**
@@ -16,7 +15,7 @@ public class MdCriterionList extends MdDataList<MdCriterionList.MdCriterion> {
         super(parentId);
     }
 
-    public MdCriterionList(MdReviewId parentId, IdableList<Review> criteria) {
+    public MdCriterionList(MdReviewId parentId, Iterable<Review> criteria) {
         super(parentId);
         for (Review criterion : criteria) {
             add(new MdCriterion(getMdReviewId(), criterion));

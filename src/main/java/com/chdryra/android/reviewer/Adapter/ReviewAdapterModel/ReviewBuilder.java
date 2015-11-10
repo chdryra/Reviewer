@@ -139,7 +139,7 @@ public class ReviewBuilder {
 
         Review review = assembleReview(new ReviewPublisher(mAuthor, date));
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        mTagsManager.tagItem(review.getMdReviewId(), tags.toStringArray());
+        mTagsManager.tagItem(review.getReviewId(), tags.toStringArray());
 
         return review;
     }
