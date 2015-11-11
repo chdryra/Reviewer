@@ -1,8 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
@@ -20,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class FactoryGridDataViewer {
     public GridDataViewer<GvData> newNodeDataViewer(ReviewNode node,
-                                                    MdGvConverter converter,
+                                                    ConverterGv converter,
                                                     TagsManager tagsManager,
                                                     FactoryReviewViewAdapter adapterFactory,
                                                     GvDataAggregater aggregateFactory) {
@@ -71,9 +70,8 @@ public class FactoryGridDataViewer {
     }
 
     public GridDataViewer<GvReviewOverviewList.GvReviewOverview> newChildListViewer(ReviewNode node,
-                                                                                    MdGvConverter converter,
-                                                                                    TagsManager tagsManager,
+                                                                                    ConverterGv converter,
                                                                                     FactoryReviewViewAdapter adapterFactory) {
-        return new ViewerChildList(node, converter, tagsManager, adapterFactory);
+        return new ViewerChildList(node, converter, adapterFactory);
     }
 }

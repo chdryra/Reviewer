@@ -109,9 +109,8 @@ public class ConverterGv {
         return mConverterCriteria.convert(criteria, reviewId);
     }
 
-    public <T extends Review> GvReviewOverviewList toGvReviewOverviewList(IdableList<T> reviews,
-                                                                String reviewId) {
-        return mConverterReview.convert(reviews, reviewId);
+    public <T extends Review> GvReviewOverviewList toGvReviewOverviewList(IdableList<T> reviews) {
+        return mConverterReview.convert(reviews);
     }
 
     //Subjects

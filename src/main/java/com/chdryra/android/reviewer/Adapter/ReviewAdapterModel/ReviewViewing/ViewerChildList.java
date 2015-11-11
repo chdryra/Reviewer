@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -26,17 +25,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private ReviewNode mNode;
     private ConverterGv mConverter;
-    private TagsManager mTagsManager;
     private FactoryReviewViewAdapter mAdapterFactory;
 
     //Constructors
     public ViewerChildList(ReviewNode node,
                            ConverterGv converter,
-                           TagsManager tagsManager,
                            FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
         mConverter = converter;
-        mTagsManager = tagsManager;
         mAdapterFactory = adapterFactory;
     }
 
@@ -47,13 +43,12 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     //Overridden
     @Override
     public GvReviewOverviewList getGridData() {
-        return mConverter.toGvReviewOverviewList(mNode.getChildren(), mNode.getMdReviewId(),
-                mTagsManager);
+        return mConverter.toGvReviewOverviewList(mNode.getChildren());
     }
 
     @Override
     public boolean isExpandable(GvReviewOverviewList.GvReviewOverview datum) {
-        return mNode.getChildren().containsId(datum.getReviewId());
+        return mNode.getChildren().contains(datum.getReviewId());
     }
 
     @Override

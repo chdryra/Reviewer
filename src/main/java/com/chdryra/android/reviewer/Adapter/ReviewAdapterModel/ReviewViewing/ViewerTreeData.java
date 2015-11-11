@@ -1,7 +1,9 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
@@ -27,7 +29,7 @@ class ViewerTreeData extends ViewerReviewData {
     private FactoryGridDataViewer mViewerFactory;
 
     ViewerTreeData(ReviewNode node,
-                   MdGvConverter converter,
+                   ConverterGv converter,
                    TagsManager tagsManager,
                    FactoryGridDataViewer viewerFactory,
                    FactoryReviewViewAdapter adapterFactory,
@@ -43,12 +45,11 @@ class ViewerTreeData extends ViewerReviewData {
         ReviewNode node = getReviewNode();
         FactoryReviewViewAdapter adapterFactory = getAdapterFactory();
 
-        MdGvConverter converter = getConverter();
-        GridDataViewer wrapper = mViewerFactory.newChildListViewer(node, converter,
-                getTagsManager(), adapterFactory);
-        MdReviewId id = node.getMdReviewId();
-        MdIdableCollection<ReviewNode> nodes = node.getChildren();
-        GvList data = new GvList(GvReviewId.getId(node.getMdReviewId().toString()));
+        ConverterGv converter = getConverter();
+        GridDataViewer wrapper = mViewerFactory.newChildListViewer(node, converter, adapterFactory);
+        String id = node.getReviewId();
+        IdableCollection<ReviewNode> nodes = node.getChildren();
+        GvList data = new GvList(new GvReviewId(id));
         data.add(wrapper.getGridData());
         data.add(mAggregater.getAggregate(converter.convertAuthors(nodes, id)));
         data.add(mAggregater.getAggregate(converter.convertSubjects(nodes, id)));

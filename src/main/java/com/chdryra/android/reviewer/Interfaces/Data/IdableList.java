@@ -8,6 +8,4 @@ package com.chdryra.android.reviewer.Interfaces.Data;
 public interface IdableList<T extends DataReview> extends IdableCollection<T>, DataReview{
     @Override
     String getReviewId();
-
-    T getItem(int position);
 }

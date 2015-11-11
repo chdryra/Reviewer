@@ -16,6 +16,10 @@ public interface IdableCollection<T extends DataReview> extends Iterable<T> {
 
     void add(IdableCollection<T> data);
 
+    T get(String reviewId);
+
+    boolean contains(String reviewId);
+
     @Override
     Iterator<T> iterator();
 }

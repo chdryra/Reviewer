@@ -72,8 +72,8 @@ public class GvConverterReviews extends GvConverterBasic<Review,
         return convert(review, null);
     }
 
-    public GvReviewOverviewList convert(IdableList<? extends Review> data, String reviewId) {
-        GvReviewId id = new GvReviewId(reviewId);
+    public GvReviewOverviewList convert(IdableList<? extends Review> data) {
+        GvReviewId id = new GvReviewId(data.getReviewId());
         GvReviewOverviewList list = new GvReviewOverviewList(id);
         for(Review datum : data) {
             list.add(convert(datum, data.getReviewId()));
