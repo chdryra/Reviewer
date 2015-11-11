@@ -1,5 +1,6 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;

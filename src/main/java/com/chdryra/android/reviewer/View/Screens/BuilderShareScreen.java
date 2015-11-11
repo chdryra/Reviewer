@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.GridDataViewer;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;

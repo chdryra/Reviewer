@@ -12,8 +12,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
@@ -24,6 +25,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
+
+import java.util.Date;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -100,7 +103,8 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public void publishReviewBuilder() {
-        Review published = mReviewBuilderAdapter.publish();
+        PublishDate date = new PublishDate(new Date().getTime());
+        Review published = mReviewBuilderAdapter.publish(date);
         mDatabase.addReviewToDb(published);
         mReviewBuilderAdapter = null;
     }

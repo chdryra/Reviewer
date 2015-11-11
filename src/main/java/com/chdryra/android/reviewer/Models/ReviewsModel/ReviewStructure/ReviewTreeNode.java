@@ -200,6 +200,11 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     }
 
     @Override
+    public MdImageList getCovers() {
+        return getImages().getCovers();
+    }
+
+    @Override
     public MdLocationList getLocations() {
         return mGetter.getLocations();
     }

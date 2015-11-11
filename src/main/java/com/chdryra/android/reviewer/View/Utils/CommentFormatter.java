@@ -34,7 +34,7 @@ public class CommentFormatter {
             String sentence = getFirstSentence(remaining, false);
             remaining = remaining.substring(sentence.length(), remaining.length());
             sentence = trim(sentence, IGNORE_DELIMITER + " ");
-            if (sentence.length() > 0) comments.add(sentence);
+            if (sentence != null && sentence.length() > 0) comments.add(sentence);
         }
 
         return comments;

@@ -13,7 +13,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ViewerChildList;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.ViewerChildList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;

@@ -21,9 +21,9 @@ import android.util.Log;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.BitmapLoader;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.mygenerallibrary.FileIncrementorFactory;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -52,7 +52,7 @@ public class ImageChooser {
 
     //Constructors
     public ImageChooser(Context context,
-                        FileIncrementorFactory.ImageFileIncrementor fileIncrementor) {
+                        FileIncrementor fileIncrementor) {
         mContext = context;
         mFileIncrementor = fileIncrementor;
     }
@@ -120,7 +120,14 @@ public class ImageChooser {
                     ExifInterface exif = ImageHelper.getExif(mCaptureFile);
                     LatLng ll = ImageHelper.getLatLngFromExif(exif);
                     Date date = ImageHelper.getDateTimeFromEXIF(exif);
-                    listener.onChosenImage(new GvImageList.GvImage(bitmap, date, ll, null, false));
+                    GvDateList.GvDate gvDate;
+                    if(date == null) {
+                        gvDate = new GvDateList.GvDate();
+                    } else {
+                        gvDate = new GvDateList.GvDate(date.getTime());
+                    }
+                    GvImageList.GvImage image = new GvImageList.GvImage(bitmap, gvDate, ll, null, false);
+                    listener.onChosenImage(image);
                 }
             };
 

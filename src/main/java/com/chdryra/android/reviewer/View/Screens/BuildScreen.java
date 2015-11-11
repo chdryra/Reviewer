@@ -23,7 +23,8 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.DataCollectionGridCell;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityShareReview;
@@ -32,6 +33,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
@@ -151,9 +153,10 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         private LocationClientConnector mLocationClient;
 
         //private methods
-        private void executeIntent(ReviewBuilderAdapter.BuilderGridCell gridCell, boolean
+        private void executeIntent(DataCollectionGridCell gridCell, boolean
                 quickDialog) {
-            ConfigGvDataUi.Config config = gridCell.getConfig();
+            GvDataType type = gridCell.getGvDataType();
+            ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(type);
             if (quickDialog && gridCell.getDataSize() == 0) {
                 showQuickDialog(config);
             } else {
@@ -210,12 +213,12 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
         @Override
         public void onGridItemClick(GvData item, int position, View v) {
-            executeIntent((ReviewBuilderAdapter.BuilderGridCell) item, true);
+            executeIntent((DataCollectionGridCell) item, true);
         }
 
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
-            executeIntent((ReviewBuilderAdapter.BuilderGridCell) item, false);
+            executeIntent((DataCollectionGridCell) item, false);
         }
     }
 

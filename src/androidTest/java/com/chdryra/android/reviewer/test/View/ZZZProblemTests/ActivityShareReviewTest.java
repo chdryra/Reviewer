@@ -12,7 +12,7 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.TestDatabaseApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;

@@ -78,6 +78,9 @@ public interface ReviewNodeComponent extends ReviewNode {
     IdableList<? extends DataImage> getImages();
 
     @Override
+    IdableList<? extends DataImage> getCovers();
+
+    @Override
     IdableList<? extends DataLocation> getLocations();
 
     @Override

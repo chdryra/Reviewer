@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.widget.RatingBar;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;

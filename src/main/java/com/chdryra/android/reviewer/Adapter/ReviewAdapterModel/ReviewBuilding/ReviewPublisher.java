@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
 import com.chdryra.android.reviewer.Interfaces.Data.DataDate;

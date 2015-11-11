@@ -6,9 +6,10 @@
  * Date: 14 May, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
@@ -37,7 +38,7 @@ public class FactoryReviewViewAdapter {
     private BuilderChildListScreen mListScreenFactory;
     private FactoryGridDataViewer mViewerFactory;
     private GvDataAggregater mAggregater;
-    private MdGvConverter mConverter;
+    //private MdGvConverter mConverter;
     private ReviewsRepository mRepository;
 
     //Constructors

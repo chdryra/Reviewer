@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.UserModel.Author;

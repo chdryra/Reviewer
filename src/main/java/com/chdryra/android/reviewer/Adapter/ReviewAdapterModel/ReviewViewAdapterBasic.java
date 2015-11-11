@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;

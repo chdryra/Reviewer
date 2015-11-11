@@ -1,20 +1,16 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -41,17 +37,19 @@ public class ReviewBuilder {
     private float mRating;
     private ArrayList<ReviewBuilder> mChildren;
     private boolean mIsAverage = false;
-    private Author mAuthor;
 
-    private MdGvConverter mConverter;
+    private ConverterGv mConverter;
     private TagsManager mTagsManager;
     private FactoryReview mReviewFactory;
+    private FactoryDataBuilder mDataBuilderFactory;
     private DataValidator mDataValidator;
 
     //Constructors
-    public ReviewBuilder(Author author, MdGvConverter converter, TagsManager tagsManager,
-                         FactoryReview reviewFactory, DataValidator dataValidator) {
-        mAuthor = author;
+    public ReviewBuilder(ConverterGv converter,
+                         TagsManager tagsManager,
+                         FactoryReview reviewFactory,
+                         FactoryDataBuilder databuilderFactory,
+                         DataValidator dataValidator) {
         mConverter = converter;
         mTagsManager = tagsManager;
         mReviewFactory = reviewFactory;
@@ -60,10 +58,10 @@ public class ReviewBuilder {
         mChildren = new ArrayList<>();
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
-
+        mDataBuilderFactory = databuilderFactory;
         for (GvDataType dataType : TYPES) {
             mData.put(dataType, FactoryGvData.newDataList(dataType));
-            mDataBuilders.put(dataType, newDataBuilder(dataType));
+            mDataBuilders.put(dataType, mDataBuilderFactory.newDataBuilder(dataType, this));
         }
 
         mSubject = "";
@@ -71,10 +69,6 @@ public class ReviewBuilder {
     }
 
     //public methods
-    public Author getAuthor() {
-        return mAuthor;
-    }
-
     public String getSubject() {
         return mSubject;
     }
@@ -132,12 +126,12 @@ public class ReviewBuilder {
         }
     }
 
-    public Review buildReview(PublishDate date) {
+    public Review buildReview(ReviewPublisher publisher) {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        Review review = assembleReview(new ReviewPublisher(mAuthor, date));
+        Review review = assembleReview(publisher);
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
         mTagsManager.tagItem(review.getReviewId(), tags.toStringArray());
 
@@ -163,68 +157,15 @@ public class ReviewBuilder {
                 criteria, mIsAverage);
     }
 
-    //TODO make type safe
-    private <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType) {
-        return new DataBuilder<>(mConverter.copy(getData(dataType)));
-    }
-
     private void setCriteria(GvDataList children) {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
-            ReviewBuilder childBuilder = new ReviewBuilder(mAuthor, mConverter, mTagsManager,
-                    mReviewFactory, mDataValidator);
+            ReviewBuilder childBuilder = new ReviewBuilder(mConverter, mTagsManager,
+                    mReviewFactory, mDataBuilderFactory, mDataValidator);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
         mData.put(GvCriterionList.GvCriterion.TYPE, mConverter.copy(children));
-    }
-
-    public class DataBuilder<T extends GvData> {
-        private GvDataHandler<T> mHandler;
-
-        private DataBuilder(GvDataList<T> data) {
-            mHandler = FactoryGvDataHandler.newHandler(data);
-        }
-
-        //public methods
-        public ReviewBuilder getParentBuilder() {
-            return ReviewBuilder.this;
-        }
-
-        public GvDataList<T> getData() {
-            return mHandler.getData();
-        }
-
-        public void reset() {
-            getParentBuilder().resetDataBuilder(mHandler.getGvDataType());
-        }
-
-        public GvDataHandler.ConstraintResult add(T datum) {
-            return mHandler.add(datum);
-        }
-
-        public void delete(T datum) {
-            mHandler.delete(datum);
-        }
-
-        public void deleteAll() {
-            mHandler.deleteAll();
-        }
-
-        public GvDataHandler.ConstraintResult replace(T oldDatum, T newDatum) {
-            return mHandler.replace(oldDatum, newDatum);
-        }
-
-        public void setData() {
-            getParentBuilder().setData(getData(), true);
-        }
-
-        //TODO make type safe
-        public void resetData() {
-            GvDataType<T> type = mHandler.getGvDataType();
-            GvDataList<T> data = mConverter.copy(getParentBuilder().getData(type));
-            mHandler = FactoryGvDataHandler.newHandler(data);
-        }
     }
 }

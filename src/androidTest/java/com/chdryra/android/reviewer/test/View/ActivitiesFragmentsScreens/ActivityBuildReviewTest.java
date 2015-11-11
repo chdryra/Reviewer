@@ -18,8 +18,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.AdapterGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
@@ -54,7 +55,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private static final int AVERAGE = R.id.menu_item_average_rating;
 
-    private ReviewBuilderAdapter.BuilderGridData mList;
+    private AdapterGridUi mList;
     private String mOriginalSubject;
     private float mOriginalRating;
     private CallBackSignaler mSignaler;
@@ -70,7 +71,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testLabels() {
-        for (ReviewBuilderAdapter.BuilderGridData.GvBuildReview dataType : mList) {
+        for (AdapterGridUi.GvBuildReview dataType : mList) {
             assertTrue(mSolo.searchText(dataType.getGvDataType().getDataName()));
         }
     }
@@ -578,7 +579,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void checkBuilderChanges(GvDataType dataTypeToIgnore) {
-        for (ReviewBuilderAdapter.BuilderGridData.GvBuildReview type : mList) {
+        for (AdapterGridUi.GvBuildReview type : mList) {
             GvDataType dataType = type.getGvDataType();
             if (dataTypeToIgnore != null && dataType == dataTypeToIgnore) continue;
             assertEquals(0, getBuilder().getDataBuilder(dataType).getGridData().size());
@@ -636,7 +637,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     protected void setUp() {
         super.setUp();
 
-        mList = (ReviewBuilderAdapter.BuilderGridData) mAdapter.getGridData();
+        mList = (AdapterGridUi) mAdapter.getGridData();
         mOriginalSubject = mAdapter.getSubject();
         mOriginalRating = mAdapter.getRating();
 

@@ -1,6 +1,7 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -24,7 +25,7 @@ public class FactoryGridDataViewer {
                                                     FactoryReviewViewAdapter adapterFactory,
                                                     GvDataAggregater aggregateFactory) {
         GridDataViewer<GvData> viewer;
-        MdIdableCollection<ReviewNode> children = node.getChildren();
+        IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
             viewer = new ViewerTreeData(node, converter, tagsManager, this, adapterFactory,

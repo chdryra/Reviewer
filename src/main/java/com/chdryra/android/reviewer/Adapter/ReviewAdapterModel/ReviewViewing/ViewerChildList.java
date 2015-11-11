@@ -6,9 +6,10 @@
  * Date: 12 May, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -24,13 +25,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private ReviewNode mNode;
-    private MdGvConverter mConverter;
+    private ConverterGv mConverter;
     private TagsManager mTagsManager;
     private FactoryReviewViewAdapter mAdapterFactory;
 
     //Constructors
     public ViewerChildList(ReviewNode node,
-                           MdGvConverter converter,
+                           ConverterGv converter,
                            TagsManager tagsManager,
                            FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
@@ -46,7 +47,8 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     //Overridden
     @Override
     public GvReviewOverviewList getGridData() {
-        return mConverter.toGvDataList(mNode.getChildren(), mNode.getMdReviewId(), mTagsManager);
+        return mConverter.toGvReviewOverviewList(mNode.getChildren(), mNode.getMdReviewId(),
+                mTagsManager);
     }
 
     @Override

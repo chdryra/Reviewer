@@ -88,6 +88,10 @@ public class ConverterGv {
         return mConverterImages.convert(images, reviewId);
     }
 
+    public GvImageList toGvImageList(IdableList<? extends DataImage> images) {
+        return mConverterImages.convert(images);
+    }
+
     //Locations
     public GvLocationList toGvLocationList(Iterable<? extends DataLocation> locations,
                                            String reviewId) {

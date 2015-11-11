@@ -74,6 +74,8 @@ public interface Review extends DataReview {
 
     IdableList<? extends DataImage> getImages();
 
+    IdableList<? extends DataImage> getCovers();
+
     IdableList<? extends DataLocation> getLocations();
 
     //Overridden

@@ -3,14 +3,20 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryConfiguredGridUi;
+
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryDataBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryDataCollectionGridCell;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Screens.BuildScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Utils.FactoryImageChooser;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,15 +30,36 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
     @Override
     protected ReviewView createReviewView() {
         Administrator admin = Administrator.getInstance(this);
-        ApplicationContext appContext = admin.getApplicationContext();
-        DataValidator validator = appContext.getDataValidator();
-        ReviewBuilder builder = new ReviewBuilder(appContext.getAuthor(),
-                appContext.getMdGvConverter(), appContext.getTagsManager(),
-                appContext.getReviewFactory(), validator);
-        ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(this, builder, validator);
-        admin.setReviewBuilderAdapter(adapter);
-        mBuildScreen = new BuildScreen(this, adapter);
+
+        if(admin.getReviewBuilderAdapter() == null) {
+            ApplicationContext appContext = admin.getApplicationContext();
+            admin.setReviewBuilderAdapter(newAdapter(appContext));
+        }
+
+        mBuildScreen = new BuildScreen(this, admin.getReviewBuilderAdapter());
+
         return mBuildScreen.getEditor();
+    }
+
+    private ReviewBuilderAdapter newAdapter(ApplicationContext appContext) {
+        DataValidator validator = appContext.getDataValidator();
+
+        FactoryDataBuilder builderFactory = new FactoryDataBuilder(appContext.getMdGvConverter());
+        ReviewBuilder builder = new ReviewBuilder(appContext.getMdGvConverter(),
+                appContext.getTagsManager(),
+                appContext.getReviewFactory(),
+                builderFactory,
+                validator);
+
+        FactoryDataCollectionGridCell gridCellFactory = new FactoryDataCollectionGridCell();
+        FactoryConfiguredGridUi gridUiFactory  = new FactoryConfiguredGridUi(gridCellFactory);
+        FactoryReviewBuilderAdapter factory = new FactoryReviewBuilderAdapter(gridUiFactory);
+
+        return factory.newAdapter(this,
+                builder,
+                validator,
+                appContext.getFileIncrementorFactory(),
+                new FactoryImageChooser());
     }
 
     @Override

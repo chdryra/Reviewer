@@ -1,11 +1,12 @@
 package com.chdryra.android.reviewer.ApplicationContexts;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryGridDataViewer;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryGridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.BuilderReviewerDbContract;
 import com.chdryra.android.reviewer.Database.DbContractExecutor;
 import com.chdryra.android.reviewer.Database.DbHelper;
@@ -17,13 +18,17 @@ import com.chdryra.android.reviewer.Database.ReviewerDbContract;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.View.Utils.FactoryImageChooser;
+
+import java.io.File;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +36,8 @@ import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseApplicationContext extends ApplicationContextBasic {
+    private static final File FILE_DIR_EXT = Environment
+            .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
     private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
             .generateId());
     private static final String DATABASE_NAME = "Reviewer.db";
@@ -49,7 +56,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setFactoryReview(new FactoryReview(factory, getMdGvConverter()));
 
         //TagsManager
-        setTagsManager(new TagsManager());
+        setTagsManager(new TagsManagerImpl());
 
         //SocialPlatforms
         setSocialPlatforms(new SocialPlatformList(context));
@@ -75,11 +82,19 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                 = new DbHelper<>(context, spec, new DbContractExecutor());
         ReviewerDb.ReviewLoader loader = new ReviewLoaderStatic(getReviewFactory(), getDataValidator());
         FactoryDbTableRow rowFactory =new FactoryDbTableRow();
-        setReviewerDb(new ReviewerDb(dbHelper, loader, rowFactory, getTagsManager()));
+        setReviewerDb(new ReviewerDb(dbHelper, loader, rowFactory, getTagsManager(), getDataValidator()));
 
         //ReviewsRepository
         ReviewerDbProvider provider = new ReviewerDbProvider(getReviewerDb());
         getReviewerDb().registerObserver(provider);
         setReviewsRepository(new ReviewsRepository(provider, getReviewFactory(), AUTHOR));
+
+        //FileIncrementor
+        String dir = context.getString(context.getApplicationInfo().labelRes);
+        setFactoryFileIncrementor(new FactoryFileIncrementor(FILE_DIR_EXT, dir,
+                AUTHOR.getName(), getDataValidator()));
+
+        //ImageChooser
+        setFactoryImageChooser(new FactoryImageChooser());
     }
 }

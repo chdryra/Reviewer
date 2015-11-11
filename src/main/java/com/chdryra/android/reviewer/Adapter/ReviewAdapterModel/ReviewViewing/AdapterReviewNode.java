@@ -6,7 +6,7 @@
  * Date: 3 October, 2014
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,7 +14,11 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -25,17 +29,18 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
-    private MdGvConverter mConverter;
+    private DataConverter<DataImage, GvImageList.GvImage> mConverter;
 
     //Constructors
     public AdapterReviewNode(ReviewNode node,
-                             MdGvConverter converter,
+                             DataConverter<DataImage, GvImageList.GvImage> converter,
                              GridDataViewer<T> viewer) {
         this(node, converter);
         setViewer(viewer);
     }
 
-    public AdapterReviewNode(ReviewNode node, MdGvConverter converter) {
+    public AdapterReviewNode(ReviewNode node,
+                             DataConverter<DataImage, GvImageList.GvImage> converter) {
         mNode = node;
         mConverter = converter;
     }
@@ -52,7 +57,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     }
 
     @Override
-    public GvImageList getCovers() {
-        return mConverter.toGvDataList(mNode.getImages().getCovers());
+    public IdableList<? extends DataImage> getCovers() {
+        return mConverter.convert(mNode.getCovers());
     }
 }

@@ -12,8 +12,9 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.AdapterGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
@@ -193,7 +194,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGridData() {
-        ReviewBuilderAdapter.BuilderGridData list = (ReviewBuilderAdapter.BuilderGridData) mAdapter.getGridData();
+        AdapterGridUi list = (AdapterGridUi) mAdapter.getGridData();
         assertNotNull(list);
         assertEquals(6, list.size());
     }

@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.ApplicationContexts;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
@@ -10,6 +10,8 @@ import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.View.Utils.FactoryImageChooser;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,6 +29,8 @@ public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private MdGvConverter mMdGvConverter;
     private DataValidator mDataValidator;
+    private FactoryImageChooser mFactoryImageChooser;
+    private FactoryFileIncrementor mFactoryFileIncrementor;
 
     public ApplicationContextBasic() {
 
@@ -70,6 +74,14 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     public void setDataValidator(DataValidator dataValidator) {
         mDataValidator = dataValidator;
+    }
+
+    public void setFactoryImageChooser(FactoryImageChooser factoryImageChooser) {
+        mFactoryImageChooser = factoryImageChooser;
+    }
+
+    public void setFactoryFileIncrementor(FactoryFileIncrementor factoryFileIncrementor) {
+        mFactoryFileIncrementor = factoryFileIncrementor;
     }
 
     @Override
@@ -120,5 +132,15 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public DataValidator getDataValidator() {
         return mDataValidator;
+    }
+
+    @Override
+    public FactoryImageChooser getImageChooserFactory() {
+        return mFactoryImageChooser;
+    }
+
+    @Override
+    public FactoryFileIncrementor getFileIncrementorFactory() {
+        return mFactoryFileIncrementor;
     }
 }

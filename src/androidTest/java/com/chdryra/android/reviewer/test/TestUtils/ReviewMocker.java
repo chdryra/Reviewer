@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewPublisher;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;

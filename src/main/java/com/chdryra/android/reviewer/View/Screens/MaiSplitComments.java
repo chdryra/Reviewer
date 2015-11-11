@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.AdapterCommentsAggregate;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;

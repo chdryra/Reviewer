@@ -14,10 +14,12 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
@@ -36,7 +38,7 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, 
 
     float getRating();
 
-    GvImageList getCovers();
+    IdableList<? extends DataImage> getCovers();
 
     //Overridden
     @Override

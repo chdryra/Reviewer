@@ -67,6 +67,10 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+    public GvReviewId getGvReviewId() {
+        return mId;
+    }
+
     //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
@@ -79,8 +83,8 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     }
 
     @Override
-    public GvReviewId getReviewId() {
-        return mId;
+    public String getReviewId() {
+        return mId.toString();
     }
 
     @Override

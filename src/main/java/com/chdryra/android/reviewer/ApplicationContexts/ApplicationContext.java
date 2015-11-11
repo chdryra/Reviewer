@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.ApplicationContexts;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
@@ -10,6 +10,7 @@ import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,4 +28,5 @@ public interface ApplicationContext {
     BuilderChildListScreen getBuilderChildListScreen();
     FactoryReview getReviewFactory();
     DataValidator getDataValidator();
+    FactoryFileIncrementor getFileIncrementorFactory();
 }

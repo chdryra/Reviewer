@@ -54,7 +54,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
      * Ignores case when comparing tags.
      * </p>
      */
-    public static class GvTag extends GvText {
+    public static class GvTag extends GvText<GvTag> {
         public static final GvDataType<GvTag> TYPE = new GvDataType<>(GvTag.class, "tag");
         public static final Parcelable.Creator<GvTag> CREATOR = new Parcelable
                 .Creator<GvTag>() {
@@ -82,7 +82,7 @@ public class GvTagList extends GvTextList<GvTagList.GvTag> {
         }
 
         public GvTag(GvTag tag) {
-            this(tag.getReviewId(), tag.getString());
+            this(tag.getGvReviewId(), tag.getString());
         }
 
         GvTag(Parcel in) {

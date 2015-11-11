@@ -139,6 +139,11 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
+    public IdableList<? extends DataImage> getCovers() {
+        return mNode.getCovers();
+    }
+
+    @Override
     public IdableList<? extends DataLocation> getLocations() {
         return mNode.getLocations();
     }

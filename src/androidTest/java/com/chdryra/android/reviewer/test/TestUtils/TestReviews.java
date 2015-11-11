@@ -16,7 +16,8 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.DataBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
@@ -225,14 +226,14 @@ public class TestReviews {
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
         
-        ReviewBuilder.DataBuilder<GvCommentList.GvComment> commentBuilder 
+        DataBuilder<GvCommentList.GvComment> commentBuilder
                 = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
         for (String comment : review.mComments) {
             commentBuilder.add(new GvCommentList.GvComment(comment));
         }
         commentBuilder.setData();
         
-        ReviewBuilder.DataBuilder<GvFactList.GvFact> factBuilder
+        DataBuilder<GvFactList.GvFact> factBuilder
                 = builder.getDataBuilder(GvFactList.GvFact.TYPE);
         for (Fact fact : review.mFacts) {
             GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
@@ -247,14 +248,14 @@ public class TestReviews {
         }
         factBuilder.setData();
         
-        ReviewBuilder.DataBuilder<GvLocationList.GvLocation> locationBuilder
+        DataBuilder<GvLocationList.GvLocation> locationBuilder
                 = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
         for (Location Location : review.mLocations) {
             locationBuilder.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
         }
         locationBuilder.setData();
 
-        ReviewBuilder.DataBuilder<GvImageList.GvImage> imageBuilder
+        DataBuilder<GvImageList.GvImage> imageBuilder
                 = builder.getDataBuilder(GvImageList.GvImage.TYPE);
         for (Image image : review.mImages) {
             imageBuilder.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null,
@@ -262,14 +263,14 @@ public class TestReviews {
         }
         imageBuilder.setData();
 
-        ReviewBuilder.DataBuilder<GvCriterionList.GvCriterion> criterionBuilder
+        DataBuilder<GvCriterionList.GvCriterion> criterionBuilder
                 = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
         for (Criterion child : review.mCriteria) {
             criterionBuilder.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
         }
         criterionBuilder.setData();
 
-        ReviewBuilder.DataBuilder<GvTagList.GvTag> tagBuilder
+        DataBuilder<GvTagList.GvTag> tagBuilder
                 = builder.getDataBuilder(GvTagList.GvTag.TYPE);
         for (String tag : review.mTags) {
             tagBuilder.add(new GvTagList.GvTag(tag));

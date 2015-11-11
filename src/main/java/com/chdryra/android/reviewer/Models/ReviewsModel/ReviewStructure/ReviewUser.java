@@ -134,6 +134,11 @@ public class ReviewUser implements Review {
     }
 
     @Override
+    public MdImageList getCovers() {
+        return mImages.getCovers();
+    }
+
+    @Override
     public MdLocationList getLocations() {
         return mLocations;
     }

@@ -34,6 +34,7 @@ public class TagsManagerImpl implements TagsManager{
         return mTags.toStringArray();
     }
 
+    @Override
     public void tagItem(String id, String tag) {
         ItemTagImpl itemTag = mTags.get(tag);
         if (itemTag == null) {
@@ -43,6 +44,14 @@ public class TagsManagerImpl implements TagsManager{
         }
     }
 
+    @Override
+    public void tagItem(String id, ArrayList<String> tags) {
+        for(String tag : tags) {
+            tagItem(id, tag);
+        }
+    }
+
+    @Override
     public boolean untagItem(String id, ItemTag tag) {
         ItemTagImpl tagImpl = (ItemTagImpl) tag;
         if (tagImpl.tagsItem(id)) {

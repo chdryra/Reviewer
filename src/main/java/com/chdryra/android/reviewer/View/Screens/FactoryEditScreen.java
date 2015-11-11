@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
