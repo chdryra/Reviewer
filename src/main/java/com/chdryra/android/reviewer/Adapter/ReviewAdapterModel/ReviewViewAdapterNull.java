@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 
 /**
@@ -38,7 +39,7 @@ public class ReviewViewAdapterNull implements ReviewViewAdapter {
 
     @Override
     public GvDataList getGridData() {
-        return null;
+        return new GvList();
     }
 
     @Override

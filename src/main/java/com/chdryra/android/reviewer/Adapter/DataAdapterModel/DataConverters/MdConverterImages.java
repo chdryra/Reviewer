@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDate;

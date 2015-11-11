@@ -3,8 +3,9 @@ package com.chdryra.android.reviewer.ApplicationContexts;
 import android.content.Context;
 import android.os.Environment;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterMd;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.FactoryDataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.BuilderReviewerDbContract;
@@ -26,7 +27,6 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.View.Utils.FactoryImageChooser;
 
 import java.io.File;
 
@@ -48,15 +48,17 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     protected ReleaseApplicationContext(Context context, String databaseName, int databaseVersion) {
+        //TagsManager
+        setTagsManager(new TagsManagerImpl());
+
         //MdGvConverter
-        setMdGvConverter(new MdGvConverter());
+        FactoryDataConverters convertersFactory = new FactoryDataConverters(getTagsManager());
+        setDataConverters(convertersFactory.newDataConverters());
 
         //FactoryReview
         FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent();
-        setFactoryReview(new FactoryReview(factory, getMdGvConverter()));
-
-        //TagsManager
-        setTagsManager(new TagsManagerImpl());
+        ConverterMd convertersMd = getDataConverters().getMdConverter();
+        setFactoryReview(new FactoryReview(factory, convertersMd));
 
         //SocialPlatforms
         setSocialPlatforms(new SocialPlatformList(context));
@@ -68,7 +70,8 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         GvDataAggregater aggregater = new GvDataAggregater();
         FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(getBuilderChildListScreen(),
-                viewerFactory, aggregater, getReviewsRepository(), getMdGvConverter()));
+                viewerFactory, aggregater, getReviewsRepository(),
+                getDataConverters().getGvConverter()));
 
         //DataValidator
         setDataValidator(new DataValidator());
@@ -93,8 +96,5 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         String dir = context.getString(context.getApplicationInfo().labelRes);
         setFactoryFileIncrementor(new FactoryFileIncrementor(FILE_DIR_EXT, dir,
                 AUTHOR.getName(), getDataValidator()));
-
-        //ImageChooser
-        setFactoryImageChooser(new FactoryImageChooser());
     }
 }

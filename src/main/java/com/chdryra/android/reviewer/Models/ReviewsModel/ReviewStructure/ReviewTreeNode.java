@@ -126,6 +126,16 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     }
 
     @Override
+    public ReviewNode getChild(String reviewId) {
+        return mChildren.get(reviewId);
+    }
+
+    @Override
+    public boolean hasChild(String reviewId) {
+        return mChildren.containsId(reviewId);
+    }
+
+    @Override
     public IdableList<ReviewNode> getChildren() {
         return mChildren;
     }

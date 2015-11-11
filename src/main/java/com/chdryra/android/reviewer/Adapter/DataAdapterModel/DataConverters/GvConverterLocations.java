@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterLocations extends
-        GvConverterBasic<DataLocation, GvLocationList.GvLocation, GvLocationList> {
+        GvConverterDataReview<DataLocation, GvLocationList.GvLocation, GvLocationList> {
 
     public GvConverterLocations() {
         super(GvLocationList.class);
@@ -18,7 +18,7 @@ public class GvConverterLocations extends
 
     @Override
     public GvLocationList.GvLocation convert(DataLocation datum) {
-        GvReviewId id = new GvReviewId(datum.getReviewId());
+        GvReviewId id = newId(datum.getReviewId());
         return new GvLocationList.GvLocation(id, datum.getLatLng(), datum.getName());
     }
 }

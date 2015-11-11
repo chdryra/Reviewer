@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;

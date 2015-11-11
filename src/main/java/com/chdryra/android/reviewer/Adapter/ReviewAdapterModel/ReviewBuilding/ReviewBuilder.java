@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;

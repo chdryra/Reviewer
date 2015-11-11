@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -10,7 +10,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +26,7 @@ public class FactoryGridDataViewer {
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
-            viewer = new ViewerTreeData(node, converter, tagsManager, this, adapterFactory,
+            viewer = new ViewerTreeData(node, converter, tagsManager, adapterFactory,
                     aggregateFactory);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
@@ -67,11 +66,5 @@ public class FactoryGridDataViewer {
     public <T extends GvData> GridDataViewer<T> newDataToReviewsViewer(GvDataCollection<T> data,
                                                                        FactoryReviewViewAdapter adapterFactory) {
         return new ViewerDataToReviews<>(data, adapterFactory);
-    }
-
-    public GridDataViewer<GvReviewOverviewList.GvReviewOverview> newChildListViewer(ReviewNode node,
-                                                                                    ConverterGv converter,
-                                                                                    FactoryReviewViewAdapter adapterFactory) {
-        return new ViewerChildList(node, converter, adapterFactory);
     }
 }

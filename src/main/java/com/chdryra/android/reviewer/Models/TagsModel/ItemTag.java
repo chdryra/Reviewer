@@ -10,4 +10,5 @@ public interface ItemTag extends Comparable<ItemTag> {
     //public methods
     ArrayList<String> getItemIds();
     String getTag();
+    boolean tagsItem(String itemId);
 }

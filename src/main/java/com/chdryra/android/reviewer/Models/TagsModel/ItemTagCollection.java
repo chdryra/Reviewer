@@ -3,8 +3,7 @@ package com.chdryra.android.reviewer.Models.TagsModel;
 /**
  * Iterable collection of ReviewTags.
  */
-public interface ItemTagCollection<T extends ItemTag> extends Iterable<T> {
-
+public interface ItemTagCollection extends Iterable<ItemTag> {
     int size();
-    T getItemTag(int position);
+    ItemTag getItemTag(int position);
 }

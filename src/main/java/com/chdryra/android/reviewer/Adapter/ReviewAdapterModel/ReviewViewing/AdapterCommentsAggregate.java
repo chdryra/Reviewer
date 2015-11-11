@@ -1,11 +1,14 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +24,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
-                                    MdGvConverter converter,
+                                    DataConverter<DataImage, GvImageList.GvImage> converter,
                                     GvCanonicalCollection<GvCommentList.GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
                                     FactoryReviewViewAdapter adapterFactory,
@@ -48,7 +51,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     }
 
     private void splitComments() {
-        GvCommentList allComments = new GvCommentList(mComments.getReviewId());
+        GvCommentList allComments = new GvCommentList(new GvReviewId(mComments.getReviewId()));
         for (int i = 0; i < mComments.size(); ++i) {
             GvCanonical<GvCommentList.GvComment> canonical = mComments.getItem(i);
             allComments.addList(canonical.toList());

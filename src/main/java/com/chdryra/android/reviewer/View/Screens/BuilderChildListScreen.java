@@ -1,13 +1,15 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.ViewerChildList;
+import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -17,14 +19,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class BuilderChildListScreen {
     public ReviewView createView(ReviewNode node,
-                                 ConverterGv converter,
-                                 TagsManager tagsManager,
+                                 DataConverter<Review, GvReviewOverviewList.GvReviewOverview> reviewConverter,
+                                 DataConverter<DataImage, GvImageList.GvImage> imageConverter,
                                  FactoryReviewViewAdapter adapterFactory,
                                  ReviewViewAction.GridItemAction giAction,
                                  ReviewViewAction.MenuAction menuAction) {
         GridDataViewer<GvReviewOverviewList.GvReviewOverview> viewer;
-        viewer = new ViewerChildList(node, converter, tagsManager, adapterFactory);
-        ReviewViewAdapter adapter = new AdapterReviewNode<>(node, converter, viewer);
+        viewer = new ViewerChildList(node, reviewConverter, adapterFactory);
+        ReviewViewAdapter adapter = new AdapterReviewNode<>(node, imageConverter, viewer);
 
         ReviewViewActions actions = new ReviewViewActions();
         if (giAction != null) actions.setAction(giAction);

@@ -1,12 +1,8 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -19,6 +15,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 05/10/2015
@@ -26,40 +24,35 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  */
 class ViewerTreeData extends ViewerReviewData {
     private GvDataAggregater mAggregater;
-    private FactoryGridDataViewer mViewerFactory;
 
     ViewerTreeData(ReviewNode node,
                    ConverterGv converter,
                    TagsManager tagsManager,
-                   FactoryGridDataViewer viewerFactory,
                    FactoryReviewViewAdapter adapterFactory,
                    GvDataAggregater aggregater) {
         super(node, converter, tagsManager, adapterFactory);
         mAggregater = aggregater;
-        mViewerFactory = viewerFactory;
     }
 
     //Overridden
     @Override
     protected GvList makeGridData() {
         ReviewNode node = getReviewNode();
-        FactoryReviewViewAdapter adapterFactory = getAdapterFactory();
+        String id = node.getReviewId();
+        IdableList<ReviewNode> nodes = node.getChildren();
 
         ConverterGv converter = getConverter();
-        GridDataViewer wrapper = mViewerFactory.newChildListViewer(node, converter, adapterFactory);
-        String id = node.getReviewId();
-        IdableCollection<ReviewNode> nodes = node.getChildren();
         GvList data = new GvList(new GvReviewId(id));
-        data.add(wrapper.getGridData());
-        data.add(mAggregater.getAggregate(converter.convertAuthors(nodes, id)));
-        data.add(mAggregater.getAggregate(converter.convertSubjects(nodes, id)));
-        data.add(mAggregater.getAggregate(converter.convertPublishDates(nodes, id)));
+        data.add(converter.toGvReviewOverviewList(nodes));
+        data.add(mAggregater.getAggregate(converter.toGvAuthorList(nodes, id)));
+        data.add(mAggregater.getAggregate(converter.toGvSubjectList(nodes, id)));
+        data.add(mAggregater.getAggregate(converter.toGvDateList(nodes, id)));
         data.add(mAggregater.getAggregate(collectTags()));
-        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getCriteria()), false));
-        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getImages())));
-        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getComments())));
-        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getLocations())));
-        data.add(mAggregater.getAggregate(converter.toGvDataList(node.getFacts())));
+        data.add(mAggregater.getAggregate(converter.toGvCriterionList(node.getCriteria()), false));
+        data.add(mAggregater.getAggregate(converter.toGvImageList(node.getImages())));
+        data.add(mAggregater.getAggregate(converter.toGvCommentList(node.getComments())));
+        data.add(mAggregater.getAggregate(converter.toGvLocationList(node.getLocations())));
+        data.add(mAggregater.getAggregate(converter.toGvFactList(node.getFacts())));
 
         return data;
     }
@@ -83,18 +76,17 @@ class ViewerTreeData extends ViewerReviewData {
 
     private GvTagList collectTags() {
         ReviewNode node = getReviewNode();
-        MdDataList<MdReviewId> ids = new MdDataList<>(node.getMdReviewId());
+        String nodeId = node.getReviewId();
+        ArrayList<String> ids = new ArrayList<>();
         for (Review review : VisitorReviewsGetter.flatten(node)) {
-            ids.add(review.getMdReviewId());
+            ids.add(review.getReviewId());
         }
 
-        GvTagList tags = new GvTagList(GvReviewId.getId(node.getMdReviewId().toString()));
-        for (MdReviewId id : ids) {
-            for (GvTagList.GvTag tag : getTags(id.toString())) {
-                tags.add(tag);
-            }
+        GvTagList gvTags = new GvTagList(new GvReviewId(nodeId));
+        for (String id : ids) {
+            gvTags.addList(getConverter().toGvTagList(getTagsManager().getTags(id), nodeId));
         }
 
-        return tags;
+        return gvTags;
     }
 }

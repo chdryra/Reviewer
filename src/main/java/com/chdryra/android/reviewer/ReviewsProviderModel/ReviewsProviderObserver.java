@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**
@@ -13,5 +12,5 @@ public interface ReviewsProviderObserver {
     //abstract
     void onReviewAdded(Review review);
 
-    void onReviewRemoved(MdReviewId id);
+    void onReviewRemoved(String reviewId);
 }

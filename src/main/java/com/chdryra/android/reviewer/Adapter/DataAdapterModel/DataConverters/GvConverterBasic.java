@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
@@ -27,8 +27,17 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         mListClass = listClass;
     }
 
+    protected GvReviewId newId(String reviewId) {
+        return new GvReviewId(reviewId);
+    }
+
     @Override
-    public abstract T2 convert(T1 datum);
+    public abstract T2 convert(T1 datum, String reviewId);
+
+    @Override
+    public T2 convert(T1 datum) {
+        return convert(datum, null);
+    }
 
     @Override
     public T3 convert(Iterable<? extends T1> data, String reviewId) {

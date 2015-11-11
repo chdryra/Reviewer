@@ -1,7 +1,6 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 
 /**
@@ -9,14 +8,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterUrls extends GvConverterBasic<DataUrl, GvUrlList.GvUrl, GvUrlList> {
+public class GvConverterUrls extends GvConverterDataReview<DataUrl, GvUrlList.GvUrl, GvUrlList> {
     public GvConverterUrls() {
         super(GvUrlList.class);
     }
 
     @Override
     public GvUrlList.GvUrl convert(DataUrl datum) {
-        GvReviewId id = new GvReviewId(datum.getReviewId());
-        return new GvUrlList.GvUrl(id, datum.getLabel(), datum.getUrl());
+        return new GvUrlList.GvUrl(newId(datum.getReviewId()), datum.getLabel(), datum.getUrl());
     }
 }

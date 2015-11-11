@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ItemTagList<T extends ItemTag> implements ItemTagCollection<T>{
+public class ItemTagList<T extends ItemTag> implements ItemTagCollection{
     private final ArrayList<T> mTags;
 
     ItemTagList() {
@@ -60,7 +60,7 @@ public class ItemTagList<T extends ItemTag> implements ItemTagCollection<T>{
 
     //Overridden
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<ItemTag> iterator() {
         return new ReviewTagIterator();
     }
 
@@ -80,7 +80,7 @@ public class ItemTagList<T extends ItemTag> implements ItemTagCollection<T>{
         return mTags.hashCode();
     }
 
-    public class ReviewTagIterator implements Iterator<T> {
+    public class ReviewTagIterator implements Iterator<ItemTag> {
         int position = 0;
 
         //Overridden

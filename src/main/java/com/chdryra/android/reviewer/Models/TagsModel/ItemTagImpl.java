@@ -21,15 +21,18 @@ public class ItemTagImpl implements ItemTag{
     }
 
     //public methods
+    @Override
     public ArrayList<String> getItemIds() {
         return new ArrayList<>(mItemIds);
     }
 
+    @Override
     public String getTag() {
         return mTag;
     }
 
-    boolean tagsItem(String id) {
+    @Override
+    public boolean tagsItem(String id) {
         return mItemIds.contains(id);
     }
 

@@ -2,10 +2,10 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterComments;
-import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterFacts;
-import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterImages;
-import com.chdryra.android.reviewer.Adapter.DataConverters.MdConverterLocations;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterComments;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterFacts;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterImages;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterLocations;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdAuthor;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;

@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import android.webkit.URLUtil;
 
@@ -16,7 +16,7 @@ import java.net.URL;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterFacts extends GvConverterBasic<DataFact, GvFactList.GvFact, GvFactList> {
+public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFactList.GvFact, GvFactList> {
     private GvConverterUrls mUrlConverter;
 
     public GvConverterFacts(GvConverterUrls urlConverter) {
@@ -26,7 +26,7 @@ public class GvConverterFacts extends GvConverterBasic<DataFact, GvFactList.GvFa
 
     @Override
     public GvFactList.GvFact convert(DataFact datum) {
-        GvReviewId id = new GvReviewId(datum.getReviewId());
+        GvReviewId id = newId(datum.getReviewId());
         GvFactList.GvFact fact = null;
         if (datum.isUrl()) fact = getGvUrl(datum);
 
@@ -36,7 +36,7 @@ public class GvConverterFacts extends GvConverterBasic<DataFact, GvFactList.GvFa
     }
 
     private GvUrlList.GvUrl getGvUrl(DataFact datum) {
-        GvReviewId id = new GvReviewId(datum.getReviewId());
+        GvReviewId id = newId(datum.getReviewId());
         try {
             DataUrl urlDatum = (DataUrl) datum;
             return mUrlConverter.convert(urlDatum);

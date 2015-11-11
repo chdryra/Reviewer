@@ -1,15 +1,14 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterCriteria extends GvConverterBasic<DataCriterion,
+public class GvConverterCriteria extends GvConverterDataReview<DataCriterion,
         GvCriterionList.GvCriterion, GvCriterionList> {
 
     public GvConverterCriteria() {
@@ -18,7 +17,7 @@ public class GvConverterCriteria extends GvConverterBasic<DataCriterion,
 
     @Override
     public GvCriterionList.GvCriterion convert(DataCriterion datum) {
-        GvReviewId id = new GvReviewId(datum.getReviewId());
-        return new GvCriterionList.GvCriterion(id, datum.getSubject(), datum.getRating());
+        return new GvCriterionList.GvCriterion(newId(datum.getReviewId()),
+                datum.getSubject(), datum.getRating());
     }
 }

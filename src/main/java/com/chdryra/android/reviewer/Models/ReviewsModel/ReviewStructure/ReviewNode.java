@@ -41,6 +41,10 @@ public interface ReviewNode extends Review {
 
     IdableList<ReviewNode> getChildren();
 
+    ReviewNode getChild(String reviewId);
+
+    boolean hasChild(String reviewId);
+
     void acceptVisitor(VisitorReviewNode visitor);
 
     boolean isRatingAverageOfChildren();

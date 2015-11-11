@@ -13,13 +13,14 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -103,8 +104,7 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public void publishReviewBuilder() {
-        PublishDate date = new PublishDate(new Date().getTime());
-        Review published = mReviewBuilderAdapter.publish(date);
+        Review published = mReviewBuilderAdapter.publish(newPublisher());
         mDatabase.addReviewToDb(published);
         mReviewBuilderAdapter = null;
     }
@@ -116,11 +116,17 @@ public class Administrator extends ApplicationSingleton {
     public void launchReview(Activity activity, GvReviewId id) {
         ReviewsRepository repo = getReviewsRepository();
         Review review = repo.getReview(id);
-        ReviewNode reviewNode = mApplicationContext.getReviewFactory().createMetaReview(review);
+        Review reviewNode = mApplicationContext.getReviewFactory().createMetaReview(newPublisher(), review);
         FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
-        LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode).getReviewView();
+        LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode.getTreeRepresentation()).getReviewView();
         String tag = review.getSubject().getSubject();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, activity, requestCode, tag, new Bundle());
+    }
+
+    private ReviewPublisher newPublisher() {
+        Author author = mApplicationContext.getAuthor();
+        PublishDate date = new PublishDate(new Date().getTime());
+        return new ReviewPublisher(author, date);
     }
 }

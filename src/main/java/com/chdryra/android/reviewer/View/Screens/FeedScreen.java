@@ -3,9 +3,10 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
@@ -25,7 +26,7 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
     public ReviewView createView(ReviewsRepository feed,
                                  PublishDate publishDate,
                                  FactoryReview reviewFactory,
-                                 MdGvConverter converter,
+                                 ConverterGv converter,
                                  BuilderChildListScreen childListFactory,
                                  FactoryReviewViewAdapter adapterFactory,
                                  FeedScreenMenu menuAction) {

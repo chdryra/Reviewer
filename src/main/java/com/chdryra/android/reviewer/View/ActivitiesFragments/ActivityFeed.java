@@ -11,12 +11,13 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationLaunch;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
@@ -24,6 +25,8 @@ import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
+
+import java.util.Date;
 
 /**
  * UI Activity holding published reviews feed.
@@ -35,18 +38,19 @@ public class ActivityFeed extends ActivityReviewView
     //Overridden
     @Override
     protected ReviewView createReviewView() {
-        ApplicationContext appContext = ApplicationLaunch.initialiseLaunchState(this);
-
+        ApplicationContext appContext = ApplicationLaunch.createContextAndAdministrator(this);
         Administrator admin = Administrator.getInstance(this);
+
         ReviewsRepository feed = admin.getReviewsRepository();
         FactoryReview reviewFactory = appContext.getReviewFactory();
-        MdGvConverter converter = appContext.getMdGvConverter();
+        DataConverters converters = appContext.getDataConverters();
         BuilderChildListScreen childListFactory = appContext.getBuilderChildListScreen();
         FactoryReviewViewAdapter adapterFactory = appContext.getReviewViewAdapterFactory();
         FeedScreenMenu menuAction = new FeedScreenMenu();
 
         mScreen = new FeedScreen(new FeedScreenGridItem());
-        return mScreen.createView(feed, PublishDate.now(), reviewFactory, converter,
+        PublishDate date = new PublishDate(new Date().getTime());
+        return mScreen.createView(feed, date, reviewFactory, converters.getGvConverter(),
                 childListFactory, adapterFactory, menuAction);
     }
 

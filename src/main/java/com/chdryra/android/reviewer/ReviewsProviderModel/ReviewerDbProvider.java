@@ -60,7 +60,7 @@ public class ReviewerDbProvider implements ReviewsProvider, ReviewerDbObserver {
     @Override
     public void onReviewDeleted(String reviewId) {
         for (ReviewsProviderObserver observer : mObservers) {
-            observer.onReviewRemoved(MdReviewId.fromString(reviewId));
+            observer.onReviewRemoved(reviewId);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.DataConverters;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import android.graphics.Bitmap;
 
@@ -26,14 +26,14 @@ public class GvConverterReviews extends GvConverterBasic<Review,
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
-    private GvConverterDates mConverterDate;
+    private GvConverterDateReviews mConverterDate;
     private GvConverterAuthors mGvConverterAuthor;
 
-    public GvConverterReviews(Class<GvReviewOverviewList> listClass, TagsManager tagsManager,
+    public GvConverterReviews(TagsManager tagsManager,
                               GvConverterImages converterImages, GvConverterComments
                                       converterComments, GvConverterLocations converterLocations,
-                              GvConverterDates converterDate, GvConverterAuthors gvConverterAuthor) {
-        super(listClass);
+                              GvConverterDateReviews converterDate, GvConverterAuthors gvConverterAuthor) {
+        super(GvReviewOverviewList.class);
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
@@ -44,7 +44,7 @@ public class GvConverterReviews extends GvConverterBasic<Review,
 
     public GvReviewOverviewList.GvReviewOverview convert(Review review, String parentId) {
         String reviewId = review.getReviewId();
-        GvReviewId id = new GvReviewId(parentId);
+        GvReviewId id = newId(parentId);
         GvImageList images = mConverterImages.convert(review.getImages(), reviewId);
         GvCommentList headlines = mConverterComments.convert(review.getComments(), reviewId).getHeadlines();
         GvLocationList locations = mConverterLocations.convert(review.getLocations(), reviewId);
@@ -73,8 +73,7 @@ public class GvConverterReviews extends GvConverterBasic<Review,
     }
 
     public GvReviewOverviewList convert(IdableList<? extends Review> data) {
-        GvReviewId id = new GvReviewId(data.getReviewId());
-        GvReviewOverviewList list = new GvReviewOverviewList(id);
+        GvReviewOverviewList list = new GvReviewOverviewList(newId(data.getReviewId()));
         for(Review datum : data) {
             list.add(convert(datum, data.getReviewId()));
         }

@@ -74,6 +74,16 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
+    public ReviewNode getChild(String reviewId) {
+        return mNode.getChild(reviewId);
+    }
+
+    @Override
+    public boolean hasChild(String reviewId) {
+        return hasChild(reviewId);
+    }
+
+    @Override
     public IdableList<ReviewNode> getChildren() {
         return mNode.getChildren();
     }

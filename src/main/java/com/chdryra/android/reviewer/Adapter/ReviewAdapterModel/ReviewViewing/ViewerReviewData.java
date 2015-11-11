@@ -1,18 +1,14 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
-import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
-import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -55,15 +51,16 @@ class ViewerReviewData implements GridDataViewer<GvData> {
 
     protected GvList makeGridData() {
         Review review = mNode.getReview();
-        GvReviewId id = new GvReviewId(review.getReviewId());
+        String reviewId = review.getReviewId();
+        GvReviewId id = new GvReviewId(reviewId);
 
         GvList data = new GvList(id);
-        data.add(getTags(review.getReviewId()));
+        data.add(mConverter.toGvTagList(mTagsManager.getTags(reviewId), reviewId));
         data.add(mConverter.toGvCriterionList(review.getCriteria()));
         data.add(mConverter.toGvImageList(review.getImages()));
-        data.add(mConverter.toGvDataList(review.getComments()));
-        data.add(mConverter.toGvDataList(review.getLocations()));
-        data.add(mConverter.toGvDataList(review.getFacts()));
+        data.add(mConverter.toGvCommentList(review.getComments()));
+        data.add(mConverter.toGvLocationList(review.getLocations()));
+        data.add(mConverter.toGvFactList(review.getFacts()));
 
         return data;
     }
@@ -102,17 +99,5 @@ class ViewerReviewData implements GridDataViewer<GvData> {
     @Override
     public ReviewViewAdapter expandGridData() {
         return null;
-    }
-
-    protected GvTagList getTags(String reviewId) {
-        MdReviewId id = MdReviewId.fromString(reviewId);
-        ItemTagCollection tags = mTagsManager.getTags(id);
-        GvReviewId gvid = GvReviewId.getId(reviewId);
-        GvTagList tagList = new GvTagList(gvid);
-        for (ItemTag tag : tags) {
-            tagList.add(new GvTagList.GvTag(gvid, tag.getTag()));
-        }
-
-        return tagList;
     }
 }

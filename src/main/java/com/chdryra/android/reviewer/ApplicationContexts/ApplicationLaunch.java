@@ -20,7 +20,7 @@ public class ApplicationLaunch {
         sTestState = true;
     }
 
-    public static ApplicationContext initialiseLaunchState(Context context) {
+    public static ApplicationContext createContextAndAdministrator(Context context) {
         ApplicationContext applicationContext;
         if(sTestState) {
             applicationContext = new TestDatabaseApplicationContext(context);

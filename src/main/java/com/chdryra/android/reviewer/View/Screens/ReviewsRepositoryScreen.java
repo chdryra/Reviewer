@@ -8,17 +8,20 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewPublisher;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,44 +30,51 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
  */
 public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
     private ReviewsRepository mRepository;
-    private ReviewTreeNode mNode;
+    private ReviewNodeComponent mNode;
     private FactoryReview mReviewFactory;
+    private FactoryReviewNodeComponent mNodeFactory;
     private ReviewView mReviewView;
 
 //Constructors
     public ReviewsRepositoryScreen(ReviewsRepository repository,
                                    FactoryReview reviewFactory,
+                                   FactoryReviewNodeComponent nodeFactory,
                                    String title,
                                    PublishDate publishDate) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
+
         Author author = repository.getAuthor();
         ReviewPublisher publisher = new ReviewPublisher(author, publishDate);
         Review root = mReviewFactory.createUserReview(publisher, title, 0f);
-        mNode = reviewFactory.createReviewNodeComponent(root, true);
+
+        mNodeFactory = nodeFactory;
+        mNode = mNodeFactory.createReviewNodeComponent(root, true);
         for (Review review : repository.getReviews()) {
             addReview(review);
         }
+
         repository.registerObserver(this);
     }
 
-    public ReviewView createView(MdGvConverter converter,
+    public ReviewView createView(DataConverter<Review, GvReviewOverviewList.GvReviewOverview> reviewConverter,
+                                 DataConverter<DataImage, GvImageList.GvImage> imageConverter,
                            BuilderChildListScreen childListFactory,
                            FactoryReviewViewAdapter adapterFactory,
                            ReviewViewAction.GridItemAction giAction,
                            ReviewViewAction.MenuAction menuAction) {
-        mReviewView = childListFactory.createView(mNode, converter, mRepository.getTagsManager(),
+        mReviewView = childListFactory.createView(mNode, reviewConverter, imageConverter,
                 adapterFactory, giAction, menuAction);
         return mReviewView;
     }
 
     //private methods
     private void addReview(Review review) {
-        mNode.addChild(mReviewFactory.createReviewNodeComponent(review, false));
+        mNode.addChild(mNodeFactory.createReviewNodeComponent(review, false));
     }
 
-    private void removeReview(MdReviewId id) {
-        mNode.removeChild(id);
+    private void removeReview(String reviewId) {
+        mNode.removeChild(reviewId);
     }
 
     //Overridden
@@ -75,8 +85,8 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
     }
 
     @Override
-    public void onReviewRemoved(MdReviewId id) {
-        removeReview(id);
+    public void onReviewRemoved(String reviewId) {
+        removeReview(reviewId);
         if(mReviewView != null) mReviewView.onGridDataChanged();
     }
 }

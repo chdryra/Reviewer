@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryConfiguredGridUi;
 
@@ -44,8 +45,9 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
     private ReviewBuilderAdapter newAdapter(ApplicationContext appContext) {
         DataValidator validator = appContext.getDataValidator();
 
-        FactoryDataBuilder builderFactory = new FactoryDataBuilder(appContext.getMdGvConverter());
-        ReviewBuilder builder = new ReviewBuilder(appContext.getMdGvConverter(),
+        ConverterGv converter = appContext.getDataConverters().getGvConverter();
+        FactoryDataBuilder builderFactory = new FactoryDataBuilder(converter);
+        ReviewBuilder builder = new ReviewBuilder(converter,
                 appContext.getTagsManager(),
                 appContext.getReviewFactory(),
                 builderFactory,
