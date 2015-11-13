@@ -20,11 +20,11 @@ public interface ReviewsProvider extends ReviewsRepository{
 
     Review getReview(VerboseDataReview datum);
 
-    <T extends VerboseDataReview> Review createMetaReview(VerboseIdableCollection<T> data, String subject);
+    Review createMetaReview(VerboseIdableCollection data, String subject);
 
-    Review createMetaReview(VerboseDataReview datum, String subject);
+    Review asMetaReview(VerboseDataReview datum, String subject);
 
-    <T extends VerboseDataReview> Review createFlattenedMetaReview(VerboseIdableCollection<T> data, String subject);
+    Review createFlattenedMetaReview(VerboseIdableCollection data, String subject);
 
     @Override
     Review getReview(String reviewId);

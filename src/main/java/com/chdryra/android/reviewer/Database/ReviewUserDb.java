@@ -2,10 +2,15 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterComments;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterFacts;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterImages;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterLocations;
+import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
@@ -30,35 +35,22 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUserDb implements Review {
-    private MdReviewId mReviewId;
+    private String mReviewId;
+    private RowReview mRow;
     private ReviewerDb mDatabase;
-    private UserId mUserId;
-    private MdDate mPublishDate;
-    private MdSubject mSubject;
-    private MdRating mRating;
-    private boolean mRatingIsAverage;
     private ReviewNode mNode;
 
     //Constructors
     public ReviewUserDb(RowReview row,
                         ReviewerDb database,
-                        FactoryReviewNodeComponent reviewFactory,
-                        MdConverterComments commentsConverter,
-                        MdConverterImages imagesConverter,
-                        MdConverterLocations locationsConverter,
-                        MdConverterFacts factsConverter) {
+                        FactoryReviewNodeComponent reviewFactory) {
         mDatabase = database;
         init(row, reviewFactory);
     }
 
     private void init(RowReview row, FactoryReviewNodeComponent reviewFactory) {
-        String subject = row.getSubject();
-        mReviewId = new MdReviewId(row.getReviewId());
-        mSubject = new MdSubject(mReviewId, subject);
-        mPublishDate = new MdDate(mReviewId, row.getPublishDate());
-        mUserId = UserId.fromString(row.getAuthorId());
-        mRating = new MdRating(mReviewId, row.getRating(), row.getRatingWeight());
-        mRatingIsAverage = row.isRatingIsAverage();
+        mReviewId = row.getReviewId();
+        mRow = row;
         mNode = reviewFactory.createReviewNodeComponent(this, false).makeTree();
     }
 
@@ -89,8 +81,8 @@ public class ReviewUserDb implements Review {
 
     //Overridden
     @Override
-    public MdSubject getSubject() {
-        return mSubject;
+    public DataSubject getSubject() {
+        return new Subject();
     }
 
     @Override
@@ -129,8 +121,9 @@ public class ReviewUserDb implements Review {
     }
 
     @Override
-    public MdCommentList getComments() {
-        return loadFromDataTable(mDatabase.getCommentsTable(), MdCommentList.class);
+    public IdableList<? extends DataComment> getComments() {
+        ArrayList<RowComment> comments = loadFromDataTable(mDatabase.getCommentsTable());
+        return new IdableRowList<>(mReviewId)
     }
 
     @Override
@@ -151,5 +144,17 @@ public class ReviewUserDb implements Review {
     @Override
     public MdReviewId getMdReviewId() {
         return mReviewId;
+    }
+
+    private class Subject implements DataSubject {
+        @Override
+        public String getSubject() {
+            return mSubject;
+        }
+
+        @Override
+        public String getReviewId() {
+            return mReviewId;
+        }
     }
 }

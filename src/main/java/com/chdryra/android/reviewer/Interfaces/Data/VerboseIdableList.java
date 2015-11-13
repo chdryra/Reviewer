@@ -8,7 +8,7 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VerboseIdableList<T extends VerboseDataReview>
-        extends VerboseIdableCollection<T>, DataReview{
+        extends VerboseIdableCollection<T>, IdableList<T>{
     @Override
     String getReviewId();
 

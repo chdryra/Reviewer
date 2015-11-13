@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;

@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 import java.lang.reflect.Constructor;
@@ -15,16 +15,22 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataList<T2>>
-        implements DataConverter<T1, T2>{
+        implements DataConverter<T1, T2, T3>{
     private static final String NO_CTOR_ERR = "Constructor not found: ";
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
+    private GvDataType<T2> mDataType;
     private Class<T3> mListClass;
 
     public GvConverterBasic(Class<T3> listClass) {
         mListClass = listClass;
+        mDataType = newList(null).getGvDataType();
+    }
+
+    protected GvDataType<T2> getDataType() {
+        return mDataType;
     }
 
     protected GvReviewId newId(String reviewId) {

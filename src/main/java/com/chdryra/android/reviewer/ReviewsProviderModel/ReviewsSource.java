@@ -55,8 +55,7 @@ public class ReviewsSource implements ReviewsProvider {
     }
 
     @Override
-    public <T extends VerboseDataReview> Review createMetaReview(VerboseIdableCollection<T> data,
-                                                          String subject) {
+    public Review createMetaReview(VerboseIdableCollection data, String subject) {
         IdableCollection<Review> reviews = new MdIdableCollection<>();
         for (int i = 0; i < data.size(); ++i) {
             reviews.add(getReview(data.getItem(i)));
@@ -66,17 +65,17 @@ public class ReviewsSource implements ReviewsProvider {
     }
 
     @Override
-    public Review createMetaReview(VerboseDataReview datum, String subject) {
+    public Review asMetaReview(VerboseDataReview datum, String subject) {
         if (datum.isVerboseCollection()) {
-            return createMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum, subject);
+            return createMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
+                    subject);
         }
 
         return mReviewFactory.createMetaReview(mPublisherFactory.newPublisher(), getReview(datum));
     }
 
     @Override
-    public <T extends VerboseDataReview> Review createFlattenedMetaReview(VerboseIdableCollection<T> data,
-                                                                   String subject) {
+    public Review createFlattenedMetaReview(VerboseIdableCollection data, String subject) {
         Review meta = createMetaReview(data, subject);
         IdableCollection<Review> flattened = VisitorReviewsGetter.flatten(meta.getTreeRepresentation());
 

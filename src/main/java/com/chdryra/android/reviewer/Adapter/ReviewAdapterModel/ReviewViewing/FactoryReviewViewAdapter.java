@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
@@ -38,41 +39,41 @@ public class FactoryReviewViewAdapter {
     private FactoryGridDataViewer mViewerFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
-    private ReviewsProvider mRepository;
+    private ReviewsProvider mProvider;
 
     //Constructors
     public FactoryReviewViewAdapter(BuilderChildListScreen listScreenFactory,
                                     FactoryGridDataViewer viewerFactory,
                                     GvDataAggregater aggregater,
-                                    ReviewsProvider repository,
+                                    ReviewsProvider provider,
                                     ConverterGv converter) {
         mListScreenFactory = listScreenFactory;
         mViewerFactory = viewerFactory;
         mAggregater = aggregater;
-        mRepository = repository;
+        mProvider = provider;
         mConverter = converter;
     }
 
     //public methods
     private TagsManager getTagsManager() {
-        return mRepository.getTagsManager();
+        return mProvider.getTagsManager();
     }
 
     public ReviewViewAdapter newReviewsListAdapter(ReviewNode node) {
         ReviewViewAction.GridItemAction gi = new GiLaunchReviewDataScreen();
-        ReviewView view = mListScreenFactory.createView(node, mConverter.getConverterReview(),
+        ReviewView view = mListScreenFactory.createView(node, mConverter.getConverterReviews(),
                 mConverter.getConverterImages(), this, gi, null);
         return view.getAdapter();
     }
 
     public <T extends GvData> ReviewViewAdapter newReviewsListAdapter(T datum) {
-        ReviewNode meta = mRepository.createMetaReview(datum, datum.getStringSummary());
-        return newReviewsListAdapter(meta);
+        Review meta = mProvider.asMetaReview(datum, datum.getStringSummary());
+        return newReviewsListAdapter(meta.getTreeRepresentation());
     }
 
     public <T extends GvData> ReviewViewAdapter newFlattenedReviewsListAdapter(GvDataCollection<T> data) {
-        ReviewNode meta = mRepository.createFlattenedMetaReview(data, data.getStringSummary());
-        return newReviewsListAdapter(meta);
+        Review meta = mProvider.createFlattenedMetaReview(data, data.getStringSummary());
+        return newReviewsListAdapter(meta.getTreeRepresentation());
     }
 
     public ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
@@ -82,8 +83,8 @@ public class FactoryReviewViewAdapter {
     }
 
     public <T extends GvData> ReviewViewAdapter newNodeDataAdapter(GvDataCollection<T> data) {
-        ReviewNode meta = mRepository.createMetaReview(data, data.getStringSummary());
-        return newNodeDataAdapter(meta);
+        Review meta = mProvider.createMetaReview(data, data.getStringSummary());
+        return newNodeDataAdapter(meta.getTreeRepresentation());
     }
 
     public <T extends GvData> ReviewViewAdapter newDataToDataAdapter(ReviewNode parent,
@@ -97,7 +98,7 @@ public class FactoryReviewViewAdapter {
         GvDataType<T> type = data.getGvDataType();
 
         if (type.equals(GvCommentList.GvComment.TYPE)) {
-            ReviewNode node = mRepository.createMetaReview(data, subject);
+            ReviewNode node = mProvider.createMetaReview(data, subject).getTreeRepresentation();
             return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
                     (GvCanonicalCollection<GvCommentList.GvComment>) data, mViewerFactory, this,
                     mAggregater);
@@ -129,6 +130,7 @@ public class FactoryReviewViewAdapter {
     private <T extends GvData> ReviewViewAdapter newMetaReviewAdapter(GvDataCollection<T> data,
                                                                       String subject,
                                                                       GridDataViewer<T> viewer) {
-        return newAdapterReviewNode(mRepository.createMetaReview(data, subject), viewer);
+        ReviewNode node = mProvider.createMetaReview(data, subject).getTreeRepresentation();
+        return newAdapterReviewNode(node, viewer);
     }
 }

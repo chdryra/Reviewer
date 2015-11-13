@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/06/2015
@@ -47,7 +49,7 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
     }
 
     //Classes
-    public static class GvSubject extends GvText<GvSubject> {
+    public static class GvSubject extends GvText<GvSubject> implements DataSubject {
         public static final GvDataType<GvSubject> TYPE =
                 new GvDataType<>(GvSubject.class, "subject");
         public static final Parcelable.Creator<GvSubject> CREATOR = new Parcelable
@@ -76,11 +78,16 @@ public class GvSubjectList extends GvTextList<GvSubjectList.GvSubject> {
         }
 
         public GvSubject(GvSubject subject) {
-            this(subject.getReviewId(), subject.getString());
+            this(new GvReviewId(subject.getReviewId()), subject.getString());
         }
 
         GvSubject(Parcel in) {
             super(in);
+        }
+
+        @Override
+        public String getSubject() {
+            return getString();
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdData;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDataList;

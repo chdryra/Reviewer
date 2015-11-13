@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvDataHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
@@ -16,12 +16,14 @@ public class DataBuilder<T extends GvData> {
     private GvDataType<T> mDataType;
     private ReviewBuilder mParentBuilder;
     private GvDataHandler<T> mHandler;
-    private ConverterGv mConverter;
+    private DataConverter<? super T, T, ? extends GvDataList<T>> mCopier;
 
-    DataBuilder(GvDataType<T> dataType, ReviewBuilder parentBuilder, ConverterGv converter) {
+    DataBuilder(GvDataType<T> dataType,
+                ReviewBuilder parentBuilder,
+                DataConverter<? super T, T, ? extends GvDataList<T>> copier) {
         mDataType = dataType;
         mParentBuilder = parentBuilder;
-        mConverter = converter;
+        mCopier = copier;
         resetData();
     }
 
@@ -58,9 +60,8 @@ public class DataBuilder<T extends GvData> {
         getParentBuilder().setData(getData(), true);
     }
 
-    //TODO make type safe
     public void resetData() {
-        GvDataList<T> data = mConverter.copy(getParentBuilder().getData(mDataType));
+        GvDataList<T> data = mCopier.convert(getParentBuilder().getData(mDataType));
         mHandler = FactoryGvDataHandler.newHandler(data);
     }
 }

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 12/12/2014
@@ -61,7 +59,7 @@ public class FactoryGvDataHandler {
         GvDataHandler.ConstraintResult res;
         if(images == null) {
             res = GvDataHandler.ConstraintResult.NULL_LIST;
-        } else if (!DataValidator.validate(image)) {
+        } else if (!image.isValidForDisplay()) {
             res = GvDataHandler.ConstraintResult.INVALID_DATUM;
         } else {
             res = !images.contains(image.getBitmap()) ? GvDataHandler.ConstraintResult.PASSED :

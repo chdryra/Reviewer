@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
 import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
@@ -13,9 +12,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterImages extends GvConverterDataReview<DataImage, GvImageList.GvImage, GvImageList> {
-    private DataConverter<DataDate, GvDateList.GvDate> mConverter;
+    private DataConverter<DataDate, GvDateList.GvDate, ?> mConverter;
 
-    public GvConverterImages(DataConverter<DataDate, GvDateList.GvDate> converter) {
+    public GvConverterImages(DataConverter<DataDate, GvDateList.GvDate, ?> converter) {
         super(GvImageList.class);
         mConverter = converter;
     }

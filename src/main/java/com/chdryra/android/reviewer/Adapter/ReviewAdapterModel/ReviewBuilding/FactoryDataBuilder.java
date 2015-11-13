@@ -18,6 +18,6 @@ public class FactoryDataBuilder {
 
     public <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType,
                                                             ReviewBuilder parentBuilder) {
-        return new DataBuilder<>(dataType, parentBuilder, mConverter);
+        return new DataBuilder<>(dataType, parentBuilder, mConverter.getCopier(dataType));
     }
 }

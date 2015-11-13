@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.Interfaces.Data.DataConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
@@ -29,18 +29,18 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
-    private DataConverter<DataImage, GvImageList.GvImage> mConverter;
+    private DataConverter<DataImage, GvImageList.GvImage, ?> mConverter;
 
     //Constructors
     public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImageList.GvImage> converter,
+                             DataConverter<DataImage, GvImageList.GvImage, ?> converter,
                              GridDataViewer<T> viewer) {
         this(node, converter);
         setViewer(viewer);
     }
 
     public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImageList.GvImage> converter) {
+                             DataConverter<DataImage, GvImageList.GvImage, ?> converter) {
         mNode = node;
         mConverter = converter;
     }
