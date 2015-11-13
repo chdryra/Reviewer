@@ -3,10 +3,9 @@ package com.chdryra.android.reviewer.Database;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
 
@@ -31,8 +30,7 @@ public class ReviewLoaderStatic implements ReviewerDb.ReviewLoader{
         if (!reviewRow.hasData(mValidator)) return null;
         
         String reviewId = reviewRow.getReviewId();
-        MdReviewId id = MdReviewId.fromString(reviewId);
-        
+
         String userId = reviewRow.getAuthorId();
         String column = RowAuthor.COLUMN_USER_ID;
         RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
@@ -60,7 +58,7 @@ public class ReviewLoaderStatic implements ReviewerDb.ReviewLoader{
         MdIdableCollection<Review> critList = database.loadReviewsFromDbWhere(db,
                 RowReview.COLUMN_PARENT_ID, reviewId);
 
-        ReviewDataHolder reviewDb = new ReviewDataHolder(id, author, publishDate, subject, rating,
+        ReviewDataHolder reviewDb = new ReviewDataHolder(reviewId, author, publishDate, subject, rating,
                 ratingWeight, comments, images, facts, locations, critList, isAverage);
 
         return mBuilder.createUserReview(reviewDb);

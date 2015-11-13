@@ -22,7 +22,6 @@ import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -147,11 +146,11 @@ public class ReviewerDb implements ReviewerDbTables {
         return review;
     }
 
-    public MdIdableCollection<Review> loadReviewsFromDb() {
+    public ArrayList<Review> loadReviewsFromDb() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         db.beginTransaction();
-        MdIdableCollection<Review> reviews = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, null);
+        ArrayList<Review> reviews = loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, null);
         loadTags(db);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -173,10 +172,10 @@ public class ReviewerDb implements ReviewerDbTables {
         if (success) notifyOnDeleteReview(reviewId);
     }
 
-    public MdIdableCollection<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
+    public ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
 
-        MdIdableCollection<Review> reviews = new MdIdableCollection<>();
+        ArrayList<Review> reviews = new ArrayList<>();
         for (RowReview reviewRow : reviewsList) {
             reviews.add(loadReview(reviewRow, db));
         }
@@ -197,17 +196,19 @@ public class ReviewerDb implements ReviewerDbTables {
 
         return row;
     }
-//
-//    public <T1 extends MdData, T2 extends MdDataList<T1>, T3 extends ReviewDataRow<T1>> T2
-//    loadFromDataTable(SQLiteDatabase db, DbTable<T3> table, String reviewId, Class<T2> listClass) {
-//        TableRowList<T3> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
-//        T2 dataList = newMdList(listClass, reviewId);
-//        for (T3 row : rows) {
-//            dataList.add(row.toMdData());
-//        }
-//
-//        return dataList;
-//    }
+
+    public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col,
+                                                String val) {
+        SQLiteDatabase db = getHelper().getReadableDatabase();
+
+        db.beginTransaction();
+        TableRowList<T> rowList = getRowsWhere(db, table, col, val);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+
+        return rowList;
+    }
 
     public <T1 extends DbTableRow> ArrayList<T1>
     loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {

@@ -58,6 +58,14 @@ public class DataValidator {
         return NotNull(string) && string.length() > 0;
     }
 
+    public boolean validateReviewId(String reviewId) {
+        return validateString(reviewId);
+    }
+
+    public boolean validateUserId(String userId) {
+        return validateString(userId);
+    }
+
     public boolean NotNull(Object obj) {
         return obj != null;
     }

@@ -50,7 +50,7 @@ public class MdReviewId implements MdData {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validateString(mString);
+        return validator.validateReviewId(mString);
     }
 
     @Override

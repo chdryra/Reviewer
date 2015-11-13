@@ -8,7 +8,6 @@ import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +15,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDataHolder {
-    private final MdReviewId mId;
+    private final String mId;
     private final DataAuthor mAuthor;
     private final DataDate mPublishDate;
     private final String mSubject;
@@ -29,7 +28,7 @@ public class ReviewDataHolder {
     private final IdableCollection<Review> mCritList;
     private final boolean mIsAverage;
 
-    public ReviewDataHolder(MdReviewId id, DataAuthor author, DataDate publishDate,
+    public ReviewDataHolder(String id, DataAuthor author, DataDate publishDate,
                             String subject, float rating, int ratingWeight,
                             Iterable<? extends DataComment> comments,
                             Iterable<? extends DataImage> images,
@@ -50,7 +49,7 @@ public class ReviewDataHolder {
         mIsAverage = isAverage;
     }
 
-    public MdReviewId getId() {
+    public String getId() {
         return mId;
     }
 

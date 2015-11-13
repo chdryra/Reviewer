@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.Interfaces.Data;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataSubject extends DataReview{
+public interface DataSubject extends DataReview, Validatable{
     String getSubject();
 
     @Override

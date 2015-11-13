@@ -41,6 +41,12 @@ public class PublishDate implements DataDate {
     }
 
     //Overridden
+
+    @Override
+    public boolean hasData(DataValidator validator) {
+        return mTime > 0;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

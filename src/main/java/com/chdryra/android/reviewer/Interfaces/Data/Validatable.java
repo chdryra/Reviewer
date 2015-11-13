@@ -8,5 +8,5 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface Validatable {
-    boolean hasData(DataValidator dataValidator);
+    boolean hasData(DataValidator validator);
 }

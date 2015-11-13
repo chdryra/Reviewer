@@ -5,6 +5,9 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDateReview;
+import com.chdryra.android.reviewer.Interfaces.Data.DataRating;
+import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**
@@ -12,7 +15,8 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReview implements ReviewDataRow {
+public class RowReview implements ReviewDataRow, DataDateReview,
+        DataSubject, DataRating {
     public static final String COLUMN_REVIEW_ID = "review_id";
     public static final String COLUMN_PARENT_ID = "parent_id";
     public static final String COLUMN_AUTHOR_ID = "author_id";
@@ -65,6 +69,16 @@ public class RowReview implements ReviewDataRow {
     @Override
     public String getReviewId() {
         return mReviewId;
+    }
+
+    @Override
+    public long getTime() {
+        return getPublishDate();
+    }
+
+    @Override
+    public int getWeight() {
+        return getRatingWeight();
     }
 
     public String getAuthorId() {

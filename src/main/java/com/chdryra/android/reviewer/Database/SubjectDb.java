@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.Database;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
 
 /**
@@ -8,13 +9,26 @@ import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectDb implements DataSubject {
+    private String mReviewId;
+    private String mSubject;
+
+    public SubjectDb(String reviewId, String subject) {
+        mReviewId = reviewId;
+        mSubject = subject;
+    }
+
     @Override
     public String getSubject() {
-        return null;
+        return mSubject;
     }
 
     @Override
     public String getReviewId() {
-        return null;
+        return mReviewId;
+    }
+
+    @Override
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validateString(mSubject);
     }
 }

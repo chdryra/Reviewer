@@ -2,30 +2,19 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterFacts;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterLocations;
+import com.chdryra.android.reviewer.Interfaces.Data.DataAuthorReview;
 import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
-import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
+import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDateReview;
+import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.DataRating;
 import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdAuthor;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDate;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdRating;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdSubject;
-import com.chdryra.android.reviewer.Models.UserModel.UserId;
 
 import java.util.ArrayList;
 
@@ -71,7 +60,7 @@ public class ReviewUserDb implements Review {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
 
         db.beginTransaction();
-        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId.toString());
+        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
@@ -80,26 +69,32 @@ public class ReviewUserDb implements Review {
     }
 
     //Overridden
+
+    @Override
+    public String getReviewId() {
+        return mReviewId;
+    }
+
     @Override
     public DataSubject getSubject() {
-        return new Subject();
+        return mRow;
     }
 
     @Override
-    public MdRating getRating() {
-        return mRating;
+    public DataRating getRating() {
+        return mRow;
     }
 
     @Override
-    public MdAuthor getAuthor() {
+    public DataAuthorReview getAuthor() {
         RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.COLUMN_USER_ID,
-                mUserId.toString());
-        return new MdAuthor(mReviewId, row.getName(), row.getUserId());
+                mRow.getAuthorId());
+        return new AuthorDb(mReviewId, row.getName(), row.getUserId());
     }
 
     @Override
-    public MdDate getPublishDate() {
-        return mPublishDate;
+    public DataDateReview getPublishDate() {
+        return mRow;
     }
 
     @Override
@@ -109,52 +104,51 @@ public class ReviewUserDb implements Review {
 
     @Override
     public boolean isRatingAverageOfCriteria() {
-        return mRatingIsAverage;
+        return mRow.isRatingIsAverage();
     }
 
     @Override
-    public MdCriterionList getCriteria() {
+    public IdableList<? extends DataCriterion> getCriteria() {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-        MdIdableCollection<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
-                .COLUMN_PARENT_ID, mReviewId.toString());
-        return new MdCriterionList(mReviewId, criteria);
+        ArrayList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
+                .COLUMN_PARENT_ID, mReviewId);
+        CriteriaDb criteriaDb = new CriteriaDb(mReviewId);
+        for(Review criterion : criteria) {
+            criteriaDb.add(new CriterionDb(mReviewId, criterion));
+        }
+
+        return criteriaDb;
     }
 
     @Override
     public IdableList<? extends DataComment> getComments() {
-        ArrayList<RowComment> comments = loadFromDataTable(mDatabase.getCommentsTable());
-        return new IdableRowList<>(mReviewId)
+        return new IdableRowList<>(mReviewId, loadFromDataTable(mDatabase.getCommentsTable()));
     }
 
     @Override
-    public MdFactList getFacts() {
-        return loadFromDataTable(mDatabase.getFactsTable(), MdFactList.class);
+    public IdableList<? extends DataFact> getFacts() {
+        return new IdableRowList<>(mReviewId, loadFromDataTable(mDatabase.getFactsTable()));
     }
 
     @Override
-    public MdImageList getImages() {
-        return loadFromDataTable(mDatabase.getImagesTable(), MdImageList.class);
+    public IdableList<? extends DataImage> getImages() {
+        return new IdableRowList<>(mReviewId, loadFromDataTable(mDatabase.getImagesTable()));
     }
 
     @Override
-    public MdLocationList getLocations() {
-        return loadFromDataTable(mDatabase.getLocationsTable(), MdLocationList.class);
+    public IdableList<? extends DataLocation> getLocations() {
+        return new IdableRowList<>(mReviewId, loadFromDataTable(mDatabase.getLocationsTable()));
     }
 
     @Override
-    public MdReviewId getMdReviewId() {
-        return mReviewId;
-    }
-
-    private class Subject implements DataSubject {
-        @Override
-        public String getSubject() {
-            return mSubject;
+    public IdableList<? extends DataImage> getCovers() {
+        TableRowList<RowImage> covers =
+                mDatabase.getRowsWhere(mDatabase.getImagesTable(), RowImage.COLUMN_IS_COVER, "1");
+        ArrayList<RowImage> coversArray = new ArrayList<>();
+        for(RowImage cover : covers) {
+            coversArray.add(cover);
         }
 
-        @Override
-        public String getReviewId() {
-            return mReviewId;
-        }
+        return new IdableRowList<>(mReviewId, coversArray);
     }
 }

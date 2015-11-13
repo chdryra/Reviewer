@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataCriterion extends DataReview {
+public interface DataCriterion extends DataReview, Validatable {
     String getSubject();
 
     float getRating();
