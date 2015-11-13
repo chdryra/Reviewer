@@ -22,8 +22,8 @@ import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbProvider;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
@@ -70,7 +70,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         GvDataAggregater aggregater = new GvDataAggregater();
         FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(getBuilderChildListScreen(),
-                viewerFactory, aggregater, getReviewsRepository(),
+                viewerFactory, aggregater, getReviewsProvider(),
                 getDataConverters().getGvConverter()));
 
         //DataValidator
@@ -85,12 +85,13 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                 = new DbHelper<>(context, spec, new DbContractExecutor());
         ReviewerDb.ReviewLoader loader = new ReviewLoaderStatic(getReviewFactory(), getDataValidator());
         FactoryDbTableRow rowFactory =new FactoryDbTableRow();
-        setReviewerDb(new ReviewerDb(dbHelper, loader, rowFactory, getTagsManager(), getDataValidator()));
+        setReviewerDb(new ReviewerDb(dbHelper, loader, rowFactory, getTagsManager(),
+                getDataValidator()));
 
         //ReviewsRepository
-        ReviewerDbProvider provider = new ReviewerDbProvider(getReviewerDb());
+        ReviewerDbRepository provider = new ReviewerDbRepository(getReviewerDb());
         getReviewerDb().registerObserver(provider);
-        setReviewsRepository(new ReviewsRepository(provider, getReviewFactory(), AUTHOR));
+        setReviewsProvider(new ReviewsProvider(provider, getReviewFactory(), AUTHOR));
 
         //FileIncrementor
         String dir = context.getString(context.getApplicationInfo().labelRes);

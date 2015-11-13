@@ -121,7 +121,7 @@ public class GvCanonicalTest extends TestCase {
 
     @SmallTest
     public void testtestIsCollection() {
-        assertTrue(mGvCanonical.isCollection());
+        assertTrue(mGvCanonical.isVerboseCollection());
     }
 
     @SmallTest

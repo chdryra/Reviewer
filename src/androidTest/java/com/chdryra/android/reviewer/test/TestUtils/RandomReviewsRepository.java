@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeProvider;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewNodeRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,8 +20,8 @@ public class RandomReviewsRepository {
         mReviewsFactory = reviewFactory;
     }
 
-    public ReviewsRepository nextRepository(ReviewNode node) {
-        ReviewNodeProvider provider = new ReviewNodeProvider(node, mTagsManager);
-        return new ReviewsRepository(provider, mReviewsFactory, node.getAuthor());
+    public ReviewsProvider nextRepository(ReviewNode node) {
+        ReviewNodeRepository provider = new ReviewNodeRepository(node, mTagsManager);
+        return new ReviewsProvider(provider, mReviewsFactory, node.getAuthor());
     }
 }

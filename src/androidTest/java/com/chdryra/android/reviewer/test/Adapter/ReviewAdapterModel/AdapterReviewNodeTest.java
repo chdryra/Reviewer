@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNo
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewsRepository;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -104,7 +104,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
         mNode = collection;
         RandomReviewsRepository rando = new RandomReviewsRepository();
-        ReviewsRepository repo = RandomReviewsRepository.nextRepository(mNode);
+        ReviewsProvider repo = RandomReviewsRepository.nextRepository(mNode);
         ViewerChildList wrapper = new ViewerChildList(getContext(), mNode, repo);
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);
     }

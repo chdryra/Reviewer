@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
         .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +23,7 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
         mGridItem = gridItemAction;
     }
 
-    public ReviewView createView(ReviewsRepository feed,
+    public ReviewView createView(ReviewsProvider feed,
                                  PublishDate publishDate,
                                  FactoryReview reviewFactory,
                                  ConverterGv converter,

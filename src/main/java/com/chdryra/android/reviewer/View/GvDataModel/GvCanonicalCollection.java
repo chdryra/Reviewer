@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import java.util.Comparator;
@@ -48,8 +49,22 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
         setComparator();
     }
 
-    public void add(GvCanonical<T> canonical) {
+    public void addCanonnical(GvCanonical<T> canonical) {
         mData.add(canonical);
+    }
+
+    @Override
+    public void add(GvCanonical datum) {
+        //TODO make type safe
+        if(datum.getGvDataType().equals(mType)) addCanonnical(datum);
+    }
+
+    @Override
+    public void add(IdableCollection<GvCanonical> data) {
+        //TODO make type safe
+        for(GvCanonical datum : data) {
+            if(datum.getGvDataType().equals(mType)) addCanonnical(datum);
+        }
     }
 
     private void setComparator() {
@@ -116,7 +131,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     @Override
-    public boolean isCollection() {
+    public boolean isVerboseCollection() {
         return true;
     }
 

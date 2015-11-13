@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryR
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
 
@@ -22,7 +22,7 @@ public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReview mFactoryReview;
     private TagsManager mTagsManager;
     private ReviewerDb mReviewerDb;
-    private ReviewsRepository mReviewsRepository;
+    private ReviewsProvider mReviewsProvider;
     private SocialPlatformList mSocialPlatforms;
     private BuilderChildListScreen mBuilderChildListScreen;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
@@ -50,8 +50,8 @@ public class ApplicationContextBasic implements ApplicationContext {
         mReviewerDb = reviewerDb;
     }
 
-    public void setReviewsRepository(ReviewsRepository reviewsRepository) {
-        mReviewsRepository = reviewsRepository;
+    public void setReviewsProvider(ReviewsProvider reviewsProvider) {
+        mReviewsProvider = reviewsProvider;
     }
 
     public void setDataConverters(DataConverters converters) {
@@ -99,8 +99,8 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     @Override
-    public ReviewsRepository getReviewsRepository() {
-        return mReviewsRepository;
+    public ReviewsProvider getReviewsProvider() {
+        return mReviewsProvider;
     }
 
     @Override

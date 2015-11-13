@@ -14,15 +14,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
 import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
 import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -348,7 +348,7 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private void addToTagsTable(Review review, SQLiteDatabase db) {
-        ItemTagCollection tags = mTagsManager.getTags(review.getMdReviewId().toString());
+        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId());
         for (ItemTag tag : tags) {
             insertOrReplaceRow(mRowFactory.newRow(tag), getTagsTable(), db);
         }
@@ -363,7 +363,7 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private void addCriteriaToReviewsTable(Review review, SQLiteDatabase db) {
-        for (MdCriterionList.MdCriterion criterion : review.getCriteria()) {
+        for (DataCriterion criterion : review.getCriteria()) {
             insertRow(mRowFactory.newRow(criterion), getReviewsTable(), db);
         }
     }
@@ -475,7 +475,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
     private boolean isReviewInDb(Review review, SQLiteDatabase db) {
         DbTable.DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
-        return isIdInTable(review.getMdReviewId().toString(), reviewIdCol, getReviewsTable(), db);
+        return isIdInTable(review.getReviewId(), reviewIdCol, getReviewsTable(), db);
     }
 
     private boolean isIdInTable(String id, DbTable.DbColumnDef idCol, DbTable table,

@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
-import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -63,7 +63,7 @@ public class TestReviews {
     }
 
     //Static methods
-    public static ReviewsProvider getReviews(Instrumentation instr) {
+    public static ReviewsRepository getReviews(Instrumentation instr) {
         TestReviews testReviews = get(instr);
         MdIdableCollection<Review> reviews = testReviews.mReviews;
         TagsManager tagsManager = new TagsManager();
@@ -75,7 +75,7 @@ public class TestReviews {
             testReviews.mReviews = reviews;
         }
 
-        return new StaticReviewsProvider(reviews, tagsManager);
+        return new StaticReviewsRepository(reviews, tagsManager);
     }
 
     private static TestReviews get(Instrumentation instr) {

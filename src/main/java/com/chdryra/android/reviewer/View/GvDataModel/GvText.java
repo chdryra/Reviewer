@@ -93,7 +93,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     }
 
     @Override
-    public boolean isCollection() {
+    public boolean isVerboseCollection() {
         return false;
     }
 

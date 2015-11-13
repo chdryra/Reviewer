@@ -6,20 +6,20 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdCo
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterFacts;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterImages;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.MdConverterLocations;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdAuthor;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdRating;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdSubject;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
 
 import java.util.ArrayList;

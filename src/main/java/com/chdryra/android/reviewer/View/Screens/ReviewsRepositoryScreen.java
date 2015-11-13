@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
@@ -29,14 +29,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
-    private ReviewsRepository mRepository;
+    private ReviewsProvider mRepository;
     private ReviewNodeComponent mNode;
     private FactoryReview mReviewFactory;
     private FactoryReviewNodeComponent mNodeFactory;
     private ReviewView mReviewView;
 
 //Constructors
-    public ReviewsRepositoryScreen(ReviewsRepository repository,
+    public ReviewsRepositoryScreen(ReviewsProvider repository,
                                    FactoryReview reviewFactory,
                                    FactoryReviewNodeComponent nodeFactory,
                                    String title,

@@ -26,9 +26,9 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -134,7 +134,7 @@ public class ActivityFeedTest extends
         SoloUtils.pretouchScreen(mActivity, mSolo);
     }
 
-    private ReviewsRepository createFeed() {
+    private ReviewsProvider createFeed() {
         Author author = RandomAuthor.nextAuthor();
         TagsManager tagsManager = new TagsManager();
         MdIdableCollection<Review> reviews = new MdIdableCollection<>();
@@ -156,7 +156,7 @@ public class ActivityFeedTest extends
             reviews.add(adapter.publish());
         }
 
-        ReviewsProvider provider = new StaticReviewsProvider(reviews, tagsManager);
-        return new ReviewsRepository(provider, author);
+        ReviewsRepository provider = new StaticReviewsRepository(reviews, tagsManager);
+        return new ReviewsProvider(provider, author);
     }
 }

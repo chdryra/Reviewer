@@ -12,15 +12,14 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Interfaces.Data.VerboseIdableList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvDataCollection<T extends GvData> extends GvData, IdableList<T> {
-    //abstract methods
+public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdableList<T> {
     //abstract
     int size();
 
@@ -45,7 +44,7 @@ public interface GvDataCollection<T extends GvData> extends GvData, IdableList<T
     boolean hasElements();
 
     @Override
-    boolean isCollection();
+    boolean isVerboseCollection();
 
     @Override
     int describeContents();

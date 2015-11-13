@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentLis
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
@@ -25,9 +25,9 @@ import java.util.Random;
  * On: 23/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsRepositoryTest extends InstrumentationTestCase {
+public class ReviewsProviderTest extends InstrumentationTestCase {
     private static final int NUM = 3;
-    ReviewsRepository mRepo;
+    ReviewsProvider mRepo;
     Context mContext;
 
     @SmallTest

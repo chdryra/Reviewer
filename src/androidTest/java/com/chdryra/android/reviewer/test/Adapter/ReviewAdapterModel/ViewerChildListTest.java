@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableColl
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -35,7 +35,7 @@ public class ViewerChildListTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        ReviewsRepository repo = RandomReviewsRepository.nextRepository(node);
+        ReviewsProvider repo = RandomReviewsRepository.nextRepository(node);
         ViewerChildList wrapper = new ViewerChildList(getContext(), node, repo);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);

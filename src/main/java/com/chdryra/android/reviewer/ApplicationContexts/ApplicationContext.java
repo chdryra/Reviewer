@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryR
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
 
@@ -22,7 +22,7 @@ public interface ApplicationContext {
     ReviewerDb getReviewerDb();
     TagsManager getTagsManager();
     SocialPlatformList getSocialPlatformList();
-    ReviewsRepository getReviewsRepository();
+    ReviewsProvider getReviewsProvider();
     DataConverters getDataConverters();
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
     BuilderChildListScreen getBuilderChildListScreen();

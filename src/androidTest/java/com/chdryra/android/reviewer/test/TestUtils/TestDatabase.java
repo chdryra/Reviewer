@@ -14,7 +14,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 
 import java.io.File;
 
@@ -27,7 +27,7 @@ public class TestDatabase {
     private static TestDatabase sDatabase;
     private ReviewerDb mDatabase;
     private Instrumentation mInstr;
-    private ReviewsProvider mTestReviews;
+    private ReviewsRepository mTestReviews;
 
     private TestDatabase(Instrumentation instr) {
         mInstr = instr;
@@ -60,7 +60,7 @@ public class TestDatabase {
     }
 
     //private methods
-    private ReviewsProvider getTestReviews() {
+    private ReviewsRepository getTestReviews() {
         return mTestReviews;
     }
 

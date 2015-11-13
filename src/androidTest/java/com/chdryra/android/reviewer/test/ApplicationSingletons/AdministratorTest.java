@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -63,7 +63,7 @@ public class AdministratorTest extends InstrumentationTestCase {
     @SmallTest
     @UiThreadTest
     public void testPublishReviewBuilder() {
-        ReviewsRepository repo = mAdmin.getReviewsRepository();
+        ReviewsProvider repo = mAdmin.getReviewsRepository();
         assertNotNull(repo);
         int numReviews = repo.getReviews().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());

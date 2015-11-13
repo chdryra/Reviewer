@@ -63,9 +63,9 @@ public class GvCanonicalCollectionTest extends TestCase {
         GvDataList<GvCommentList.GvComment> similar2 = mList.getItem(1).toList();
         GvCommentList similar3 = GvDataMocker.newCommentList(NUM, true);
 
-        listNotEquals.add(new GvCanonical<>(comment1, similar1));
-        listNotEquals.add(new GvCanonical<>(comment2, similar2));
-        listNotEquals.add(new GvCanonical<>(comment3, similar3));
+        listNotEquals.addCanonnical(new GvCanonical<>(comment1, similar1));
+        listNotEquals.addCanonnical(new GvCanonical<>(comment2, similar2));
+        listNotEquals.addCanonnical(new GvCanonical<>(comment3, similar3));
 
         GvCanonicalCollection<GvCommentList.GvComment> listEquals = FactoryGvData.copy(mList);
         GvCanonicalCollection<GvCommentList.GvComment> listEquals2 = FactoryGvData.copy
@@ -94,7 +94,7 @@ public class GvCanonicalCollectionTest extends TestCase {
         for (int i = 0; i < NUM; ++i) {
             T canonical = (T) GvDataMocker.getDatum(type);
             GvDataList<T> data = GvDataMocker.getData(type, NUM);
-            list.add(new GvCanonical<>(canonical, data));
+            list.addCanonnical(new GvCanonical<>(canonical, data));
         }
         return list;
     }

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Conv
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -38,13 +38,13 @@ public class FactoryReviewViewAdapter {
     private FactoryGridDataViewer mViewerFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
-    private ReviewsRepository mRepository;
+    private ReviewsProvider mRepository;
 
     //Constructors
     public FactoryReviewViewAdapter(BuilderChildListScreen listScreenFactory,
                                     FactoryGridDataViewer viewerFactory,
                                     GvDataAggregater aggregater,
-                                    ReviewsRepository repository,
+                                    ReviewsProvider repository,
                                     ConverterGv converter) {
         mListScreenFactory = listScreenFactory;
         mViewerFactory = viewerFactory;

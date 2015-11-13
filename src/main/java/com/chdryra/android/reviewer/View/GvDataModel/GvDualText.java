@@ -84,7 +84,7 @@ public class GvDualText extends VHDDualString implements GvData {
     }
 
     @Override
-    public boolean isCollection() {
+    public boolean isVerboseCollection() {
         return false;
     }
 

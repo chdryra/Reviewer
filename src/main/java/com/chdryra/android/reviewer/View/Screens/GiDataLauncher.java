@@ -43,7 +43,7 @@ public class GiDataLauncher extends GridItemExpander {
 
     @Override
     public void onClickNotExpandable(GvData item, int position, View v) {
-        if (item.isCollection()) return;
+        if (item.isVerboseCollection()) return;
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
         ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());

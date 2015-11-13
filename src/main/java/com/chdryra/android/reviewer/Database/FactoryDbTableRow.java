@@ -10,13 +10,13 @@ package com.chdryra.android.reviewer.Database;
 
 import android.database.Cursor;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
 import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
 import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
 
@@ -60,7 +60,7 @@ public class FactoryDbTableRow {
         return new RowReview(review);
     }
 
-    public DbTableRow newRow(MdCriterionList.MdCriterion criterion) {
+    public DbTableRow newRow(DataCriterion criterion) {
         return new RowReview(criterion);
     }
 

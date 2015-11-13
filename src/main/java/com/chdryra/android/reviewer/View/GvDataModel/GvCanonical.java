@@ -100,7 +100,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     @Override
-    public boolean isCollection() {
+    public boolean isVerboseCollection() {
         return true;
     }
 

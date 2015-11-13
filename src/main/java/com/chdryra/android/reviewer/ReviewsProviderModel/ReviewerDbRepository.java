@@ -14,12 +14,12 @@ import java.util.ArrayList;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbProvider implements ReviewsProvider, ReviewerDbObserver {
+public class ReviewerDbRepository implements ReviewsRepository, ReviewerDbObserver {
     private ReviewerDb mDatabase;
     private ArrayList<ReviewsProviderObserver> mObservers;
 
     //Constructors
-    public ReviewerDbProvider(ReviewerDb database) {
+    public ReviewerDbRepository(ReviewerDb database) {
         mDatabase = database;
         mObservers = new ArrayList<>();
     }

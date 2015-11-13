@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdAuthor;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
@@ -55,7 +56,7 @@ public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
                                    Iterable<? extends DataImage> images,
                                    Iterable<? extends DataFact> facts,
                                    Iterable<? extends DataLocation> locations,
-                                   MdIdableCollection<Review> criteria, boolean ratingIsAverage) {
+                                   IdableCollection<Review> criteria, boolean ratingIsAverage) {
         return newReviewUser(publisher, subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
     }

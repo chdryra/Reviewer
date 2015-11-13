@@ -55,7 +55,7 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
     }
 
     @Override
-    public boolean isCollection() {
+    public boolean isVerboseCollection() {
         return false;
     }
 

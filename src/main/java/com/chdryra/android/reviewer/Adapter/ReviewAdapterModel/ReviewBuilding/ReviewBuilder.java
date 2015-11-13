@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
@@ -144,7 +145,7 @@ public class ReviewBuilder {
     }
 
     private Review assembleReview(ReviewPublisher publisher) {
-        MdIdableCollection<Review> criteria = new MdIdableCollection<>();
+        IdableCollection<Review> criteria = new MdIdableCollection<>();
         for (ReviewBuilder child : mChildren) {
             criteria.add(child.assembleReview(publisher));
         }

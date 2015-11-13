@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationLaunch;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
@@ -41,7 +41,7 @@ public class ActivityFeed extends ActivityReviewView
         ApplicationContext appContext = ApplicationLaunch.createContextAndAdministrator(this);
         Administrator admin = Administrator.getInstance(this);
 
-        ReviewsRepository feed = admin.getReviewsRepository();
+        ReviewsProvider feed = admin.getReviewsRepository();
         FactoryReview reviewFactory = appContext.getReviewFactory();
         DataConverters converters = appContext.getDataConverters();
         BuilderChildListScreen childListFactory = appContext.getBuilderChildListScreen();

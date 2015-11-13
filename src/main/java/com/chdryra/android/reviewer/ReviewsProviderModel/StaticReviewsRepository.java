@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 
@@ -10,22 +9,30 @@ import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
  * On: 17/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class StaticReviewsProvider implements ReviewsProvider {
-    private MdIdableCollection<Review> mReviews;
+public class StaticReviewsRepository implements ReviewsRepository {
+    private IdableCollection<Review> mReviews;
     private TagsManager mTagsManager;
 
-    public StaticReviewsProvider(MdIdableCollection<Review> reviews, TagsManager tagsManager) {
+    public StaticReviewsRepository(IdableCollection<Review> reviews, TagsManager tagsManager) {
         mReviews = reviews;
         mTagsManager = tagsManager;
     }
 
     @Override
-    public Review getReview(MdReviewId id) {
-        return mReviews.get(id);
+    public Review getReview(String reviewId) {
+        Review result = null;
+        for(Review review : mReviews) {
+            if(review.getReviewId().equals(reviewId)) {
+                result = review;
+                break;
+            }
+        }
+
+        return result;
     }
 
     @Override
-    public MdIdableCollection<Review> getReviews() {
+    public IdableCollection<Review> getReviews() {
         return mReviews;
     }
 

@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
+import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**
@@ -33,7 +33,7 @@ public class RowReview implements ReviewDataRow {
 
     //Constructors
     public RowReview(Review review) {
-        mReviewId = review.getMdReviewId().toString();
+        mReviewId = review.getReviewId();
         mAuthorId = review.getAuthor().getUserId();
         mPublishDate = review.getPublishDate().getTime();
         mSubject = review.getSubject().getSubject();
@@ -42,7 +42,7 @@ public class RowReview implements ReviewDataRow {
         mRatingIsAverage = review.isRatingAverageOfCriteria();
     }
 
-    public RowReview(MdCriterionList.MdCriterion criterion) {
+    public RowReview(DataCriterion criterion) {
         this(criterion.getReview());
         mParentId = criterion.getReviewId();
     }
@@ -65,10 +65,6 @@ public class RowReview implements ReviewDataRow {
     @Override
     public String getReviewId() {
         return mReviewId;
-    }
-
-    public String getParentId() {
-        return mParentId;
     }
 
     public String getAuthorId() {

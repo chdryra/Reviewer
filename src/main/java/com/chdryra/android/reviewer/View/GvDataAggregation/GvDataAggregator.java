@@ -45,7 +45,7 @@ public class GvDataAggregator<T extends GvData, D1, D2 extends DifferenceLevel<D
                 }
             }
 
-            results.add(new GvCanonical<>(mCanonical.getCanonical(similar), similar));
+            results.addCanonnical(new GvCanonical<>(mCanonical.getCanonical(similar), similar));
         }
 
         return results;

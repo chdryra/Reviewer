@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
 
     @SmallTest
     public void testGetReviews() {
-        ReviewsProvider provider = TestReviews.getReviews(getInstrumentation());
+        ReviewsRepository provider = TestReviews.getReviews(getInstrumentation());
         MdIdableCollection<Review> reviews = provider.getReviews();
         assertEquals(2, reviews.size());
         testReview1(reviews.getItem(0), provider.getTagsManager());

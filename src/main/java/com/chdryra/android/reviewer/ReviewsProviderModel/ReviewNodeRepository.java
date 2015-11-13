@@ -11,8 +11,8 @@ import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
  *
  * Currently just really a wrapper for a {@link ReviewNode}.
  */
-public class ReviewNodeProvider extends StaticReviewsProvider{
-    public ReviewNodeProvider(ReviewNode node, TagsManager tagsManager) {
+public class ReviewNodeRepository extends StaticReviewsRepository {
+    public ReviewNodeRepository(ReviewNode node, TagsManager tagsManager) {
         super(VisitorReviewsGetter.flatten(node), tagsManager);
     }
 }

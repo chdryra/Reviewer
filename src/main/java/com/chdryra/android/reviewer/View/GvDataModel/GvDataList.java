@@ -121,7 +121,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public boolean isCollection() {
+    public boolean isVerboseCollection() {
         return true;
     }
 

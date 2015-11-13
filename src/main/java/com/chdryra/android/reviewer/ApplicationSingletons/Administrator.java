@@ -21,8 +21,7 @@ import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
@@ -87,8 +86,8 @@ public class Administrator extends ApplicationSingleton {
         return mApplicationContext;
     }
 
-    public ReviewsRepository getReviewsRepository() {
-        return mApplicationContext.getReviewsRepository();
+    public ReviewsProvider getReviewsRepository() {
+        return mApplicationContext.getReviewsProvider();
     }
 
     public ReviewBuilderAdapter getReviewBuilderAdapter() {
@@ -113,10 +112,11 @@ public class Administrator extends ApplicationSingleton {
         mDatabase.deleteReviewFromDb(reviewId);
     }
 
-    public void launchReview(Activity activity, GvReviewId id) {
-        ReviewsRepository repo = getReviewsRepository();
-        Review review = repo.getReview(id);
-        Review reviewNode = mApplicationContext.getReviewFactory().createMetaReview(newPublisher(), review);
+    public void launchReview(Activity activity, String reviewId) {
+        ReviewsProvider repo = getReviewsRepository();
+        Review review = repo.getReview(reviewId);
+        Review reviewNode = mApplicationContext.getReviewFactory().createMetaReview(newPublisher
+                (), review);
         FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
         LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode.getTreeRepresentation()).getReviewView();
         String tag = review.getSubject().getSubject();
