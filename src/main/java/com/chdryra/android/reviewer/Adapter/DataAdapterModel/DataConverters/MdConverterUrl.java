@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterUrl extends MdConverterBasic<DataUrl, MdUrlList.MdUrl, MdUrlList> {
+public class MdConverterUrl extends MdConverterDataReview<DataUrl, MdUrlList.MdUrl, MdUrlList> {
     public MdConverterUrl() {
         super(MdUrlList.class);
     }

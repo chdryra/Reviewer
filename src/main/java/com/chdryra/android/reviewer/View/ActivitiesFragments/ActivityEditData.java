@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
@@ -57,9 +58,11 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @Override
     protected ReviewView createReviewView() {
-        ReviewBuilderAdapter builder = Administrator.getInstance(this).getReviewBuilderAdapter();
+        Administrator admin = Administrator.getInstance(this);
+        ReviewBuilderAdapter builder = admin.getReviewBuilderAdapter();
+        DataValidator validator = admin.getApplicationContext().getDataValidator();
         FactoryEditScreen factory = new FactoryEditScreen(this, builder);
-        mScreen = factory.newScreen(mDataType);
+        mScreen = factory.newScreen(mDataType, validator);
         return mScreen.getEditor();
     }
 

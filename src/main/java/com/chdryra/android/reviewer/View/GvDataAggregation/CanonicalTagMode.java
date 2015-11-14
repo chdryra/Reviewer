@@ -20,7 +20,7 @@ public class CanonicalTagMode implements CanonicalDatumMaker<GvTagList.GvTag> {
     //Overridden
     @Override
     public GvTagList.GvTag getCanonical(GvDataList<GvTagList.GvTag> data) {
-        if (data.size() == 0) return new GvTagList.GvTag(data.getReviewId(), "");
+        if (data.size() == 0) return new GvTagList.GvTag(data.getGvReviewId(), "");
 
         DatumCounter<GvTagList.GvTag, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvTagList.GvTag, String>() {
@@ -34,6 +34,6 @@ public class CanonicalTagMode implements CanonicalDatumMaker<GvTagList.GvTag> {
         String maxTag = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxTag += " + " + String.valueOf(nonMax);
-        return new GvTagList.GvTag(data.getReviewId(), maxTag);
+        return new GvTagList.GvTag(data.getGvReviewId(), maxTag);
     }
 }

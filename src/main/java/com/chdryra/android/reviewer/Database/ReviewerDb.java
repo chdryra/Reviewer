@@ -115,6 +115,16 @@ public class ReviewerDb implements ReviewerDbTables {
         return mTables.getTagsTable();
     }
 
+    @Override
+    public ArrayList<DbTable<? extends DbTableRow>> getTables() {
+        return mTables.getTables();
+    }
+
+    @Override
+    public ArrayList<String> getTableNames() {
+        return mTables.getTableNames();
+    }
+
     //API
     public void registerObserver(ReviewerDbObserver observer) {
         mObservers.add(observer);
@@ -426,7 +436,7 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private void insertRow(DbTableRow row, DbTable table, SQLiteDatabase db) {
-        DbTable.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table, db)) {
@@ -458,7 +468,7 @@ public class ReviewerDb implements ReviewerDbTables {
 
     private void insertOrReplaceRow(DbTableRow row, DbTable
             table, SQLiteDatabase db) {
-        DbTable.DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table, db)) {
@@ -475,11 +485,11 @@ public class ReviewerDb implements ReviewerDbTables {
     }
 
     private boolean isReviewInDb(Review review, SQLiteDatabase db) {
-        DbTable.DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
+        DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
         return isIdInTable(review.getReviewId(), reviewIdCol, getReviewsTable(), db);
     }
 
-    private boolean isIdInTable(String id, DbTable.DbColumnDef idCol, DbTable table,
+    private boolean isIdInTable(String id, DbColumnDef idCol, DbTable table,
                                 SQLiteDatabase db) {
         String pkCol = idCol.getName();
         Cursor cursor = getCursorWhere(db, table.getName(), pkCol, id);

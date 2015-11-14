@@ -89,7 +89,7 @@ public class ReviewsSource implements ReviewsProvider {
     }
 
     @Override
-    public IdableCollection<Review> getReviews() {
+    public Iterable<Review> getReviews() {
         return mRepository.getReviews();
     }
 

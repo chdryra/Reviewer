@@ -29,7 +29,7 @@ public class MdDate implements MdData, DataDateReview {
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return true;
+        return dataValidator.validate(this);
     }
 
     @Override

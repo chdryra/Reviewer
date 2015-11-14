@@ -17,9 +17,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
     private static final GvDataType<GvTagList.GvTag> TYPE = GvTagList.GvTag.TYPE;
     private GvTagList.GvTag mCurrentSubjectTag;
+    private DataValidator mValidator;
 
-    public EditScreenTags(Context context, ReviewBuilderAdapter builder) {
+    public EditScreenTags(Context context, ReviewBuilderAdapter builder, DataValidator validator) {
         super(context, builder, TYPE);
+        mValidator = validator;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
         public void onAttachReviewView() {
             super.onAttachReviewView();
             String subject = getEditor().getSubject();
-            if(DataValidator.validateString(subject)) {
+            if(mValidator.validateString(subject)) {
                 mCurrentSubjectTag = new GvTagList.GvTag(subject);
             }
         }
@@ -93,7 +95,7 @@ public class EditScreenTags extends EditScreenReviewData<GvTagList.GvTag> {
         if(toAdd.equals(toRemove)) return;
 
         GvTagList tags = (GvTagList) editor.getGridData();
-        if(DataValidator.validateString(camel)) {
+        if(mValidator.validateString(camel)) {
             if(!tags.contains(toAdd)) {
                 if(toRemove != null ) {
                     editor.replace(toRemove, toAdd);

@@ -22,7 +22,7 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
     private Class<T> mRowClass;
     private ArrayList<DbColumnDef> mPrimaryKeys;
     private ArrayList<DbColumnDef> mOtherColumns;
-    private ArrayList<ForeignKeyConstraint> mFkConstraints;
+    private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
 
     //Constructors
     public DbTable(String tableName, Class<T> rowClass) {
@@ -46,7 +46,7 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
         return mPrimaryKeys;
     }
 
-    public ArrayList<ForeignKeyConstraint> getForeignKeyConstraints() {
+    public ArrayList<ForeignKeyConstraint<? extends DbTableRow>> getForeignKeyConstraints() {
         return mFkConstraints;
     }
 
@@ -91,7 +91,7 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
             }
         }
 
-        mFkConstraints.add(new ForeignKeyConstraint(fkColumns, pkTable));
+        mFkConstraints.add(new ForeignKeyConstraint<>(fkColumns, pkTable));
     }
 
     public DbColumnDef getColumn(String name) {
@@ -102,48 +102,4 @@ public class DbTable<T extends DbTableRow> implements BaseColumns {
         return null;
     }
 
-    public class ForeignKeyConstraint {
-        private ArrayList<DbColumnDef> mFkColumns;
-        private DbTable<? extends DbTableRow> mPkTable;
-
-        private ForeignKeyConstraint(ArrayList<DbColumnDef> fkColumns,
-                                     DbTable<? extends DbTableRow> pkTable) {
-            mFkColumns = fkColumns;
-            mPkTable = pkTable;
-        }
-
-        //public methods
-        public ArrayList<DbColumnDef> getFkColumns() {
-            return mFkColumns;
-        }
-
-        public DbTable<? extends DbTableRow> getForeignTable() {
-            return mPkTable;
-        }
-    }
-
-    public static class DbColumnDef {
-        private String mColumnName;
-        private SQL.StorageType mType;
-        private boolean mIsNullable;
-
-        private DbColumnDef(String columnName, SQL.StorageType type, SQL.Nullable nullable) {
-            mColumnName = columnName;
-            mType = type;
-            mIsNullable = nullable == SQL.Nullable.TRUE;
-        }
-
-        //public methods
-        public String getName() {
-            return mColumnName;
-        }
-
-        public SQL.StorageType getType() {
-            return mType;
-        }
-
-        public boolean isNullable() {
-            return mIsNullable;
-        }
-    }
 }

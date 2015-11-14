@@ -30,12 +30,14 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
         }
     };
 
+    private GvReviewId mReviewId;
     private GvDataList<GvCanonical> mData;
     private GvDataType<T> mType;
     private Comparator<GvCanonical> mComparator;
 
     //Constructors
-    public GvCanonicalCollection(GvDataType<T> type) {
+    public GvCanonicalCollection(GvReviewId reviewId, GvDataType<T> type) {
+        mReviewId = reviewId;
         mType = type;
         GvDataType<GvCanonical> listType =
                 new GvDataType<>(GvCanonical.class, type.getDatumName(), type.getDataName());
@@ -51,6 +53,11 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
 
     public void addCanonnical(GvCanonical<T> canonical) {
         mData.add(canonical);
+    }
+
+    @Override
+    public GvReviewId getGvReviewId() {
+        return mReviewId;
     }
 
     @Override
@@ -122,7 +129,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
 
     @Override
     public String getReviewId() {
-        return null;
+        return mReviewId.toString();
     }
 
     @Override

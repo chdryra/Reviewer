@@ -88,7 +88,7 @@ public class GvUrlList extends GvDataList<GvUrlList.GvUrl> {
         }
 
         public GvUrl(GvUrl url) {
-            this(url.getReviewId(), url.getLabel(), url.getUrl());
+            this(url.getGvReviewId(), url.getLabel(), url.getUrl());
         }
 
         private GvUrl(Parcel in) {

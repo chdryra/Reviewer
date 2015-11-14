@@ -8,6 +8,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Conv
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
         .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
@@ -34,7 +35,8 @@ public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
         String title = author.getName() + "'s feed";
         ReviewsRepositoryScreen screen =
                 new ReviewsRepositoryScreen(feed, reviewFactory, title, publishDate);
-        return screen.createView(converter, childListFactory, adapterFactory, mGridItem, menuAction);
+        return screen.createView(converter.getConverterReviews(), converter.getConverterImages(),
+                childListFactory, adapterFactory, mGridItem, menuAction);
     }
 
     @Override

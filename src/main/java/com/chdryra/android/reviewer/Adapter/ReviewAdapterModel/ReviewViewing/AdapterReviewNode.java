@@ -14,11 +14,9 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -29,20 +27,20 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
-    private DataConverter<DataImage, GvImageList.GvImage, ?> mConverter;
+    private GvImageConverter mCoversConverter;
 
     //Constructors
     public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImageList.GvImage, ?> converter,
+                             GvImageConverter coversConverter,
                              GridDataViewer<T> viewer) {
-        this(node, converter);
+        this(node, coversConverter);
         setViewer(viewer);
     }
 
     public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImageList.GvImage, ?> converter) {
+                             GvImageConverter coversConverter) {
         mNode = node;
-        mConverter = converter;
+        mCoversConverter = coversConverter;
     }
 
     //Overridden
@@ -57,7 +55,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     }
 
     @Override
-    public IdableList<? extends DataImage> getCovers() {
-        return mConverter.convert(mNode.getCovers());
+    public GvImageList getCovers() {
+        return mCoversConverter.convert(mNode.getCovers());
     }
 }

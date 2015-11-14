@@ -73,6 +73,6 @@ public class ConverterMd {
     }
 
     public MdCriterionList reviewsToMdCriterionList(Iterable<? extends Review> criteria, String reviewId) {
-        return mConverterCriteria.convert(criteria, reviewId);
+        return mConverterCriteria.convertReviews(criteria, reviewId);
     }
 }

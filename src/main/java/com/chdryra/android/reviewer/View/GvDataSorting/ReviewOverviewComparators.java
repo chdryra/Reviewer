@@ -29,7 +29,8 @@ public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOver
         @Override
         public int compare(GvReviewOverviewList.GvReviewOverview lhs, GvReviewOverviewList
                 .GvReviewOverview rhs) {
-            return rhs.getPublishDate().compareTo(lhs.getPublishDate());
+            return DateComparators.getComparators().getDefault().compare(lhs.getPublishDate(), rhs
+                    .getPublishDate());
         }
     }
 }

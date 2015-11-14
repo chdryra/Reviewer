@@ -22,7 +22,7 @@ public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvL
     //Overridden
     @Override
     public GvLocationList.GvLocation getCanonical(GvDataList<GvLocationList.GvLocation> data) {
-        if (data.size() == 0) return new GvLocationList.GvLocation(data.getReviewId(), null, "");
+        if (data.size() == 0) return new GvLocationList.GvLocation(data.getGvReviewId(), null, "");
 
         LatLng[] latLngs = new LatLng[data.size()];
         for (int i = 0; i < data.size(); ++i) {
@@ -45,6 +45,6 @@ public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvL
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
 
-        return new GvLocationList.GvLocation(data.getReviewId(), mid, maxLocation);
+        return new GvLocationList.GvLocation(data.getGvReviewId(), mid, maxLocation);
     }
 }

@@ -50,6 +50,10 @@ public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
         mConverter = converter;
     }
 
+    public FactoryReviewNodeComponent getComponentFactory() {
+        return mComponentFactory;
+    }
+
     public Review createUserReview(ReviewPublisher publisher, String subject,
                                    float rating,
                                    Iterable<? extends DataComment> comments,
@@ -147,7 +151,7 @@ public class FactoryReview implements ReviewDataHolder.BuilderReviewUser {
     //Overridden
     @Override
     public Review createUserReview(ReviewDataHolder review) {
-        return newReviewUser(review.getId(), review.getAuthor(), review.getPublishDate(),
+        return newReviewUser(new MdReviewId(review.getId()), review.getAuthor(), review.getPublishDate(),
                 review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
                 review.getFacts(), review.getLocations(), review.getCritList(), review.isAverage());
     }

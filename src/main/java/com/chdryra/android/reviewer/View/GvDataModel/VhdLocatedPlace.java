@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.View.Utils.LocatedPlace;
 
 /**
@@ -39,7 +38,8 @@ public class VhdLocatedPlace implements ViewHolderData {
 
     @Override
     public boolean isValidForDisplay() {
-        return mPlace.getLatLng() != null && DataValidator.validateString(mPlace.getDescription());
+        return mPlace.getLatLng() != null && mPlace.getDescription() != null
+                && mPlace.getDescription().length() > 0;
     }
 
     @Override

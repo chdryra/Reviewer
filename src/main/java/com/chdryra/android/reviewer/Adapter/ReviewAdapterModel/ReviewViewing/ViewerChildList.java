@@ -8,11 +8,10 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -26,12 +25,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
     private ReviewNode mNode;
-    private DataConverter<Review, GvReviewOverviewList.GvReviewOverview> mConverter;
+    private DataConverter<Review, GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> mConverter;
     private FactoryReviewViewAdapter mAdapterFactory;
 
     //Constructors
     public ViewerChildList(ReviewNode node,
-                           DataConverter<Review, GvReviewOverviewList.GvReviewOverview> converter,
+                           DataConverter<Review, GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> converter,
                            FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
         mConverter = converter;
@@ -45,11 +44,7 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     //Overridden
     @Override
     public GvReviewOverviewList getGridData() {
-        GvReviewId id = new GvReviewId(mNode.getReviewId());
-        GvReviewOverviewList list = new GvReviewOverviewList(id);
-        list.addList(mConverter.convert(mNode.getChildren()));
-
-        return list;
+        return mConverter.convert(mNode.getChildren());
     }
 
     @Override

@@ -8,10 +8,11 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-
-import java.util.Date;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,18 +23,18 @@ public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> 
     //Overridden
     @Override
     public GvImageList.GvImage getCanonical(GvDataList<GvImageList.GvImage> data) {
-        GvImageList.GvImage nullImage = new GvImageList.GvImage(data.getReviewId(), null, null,
+        GvImageList.GvImage nullImage = new GvImageList.GvImage(data.getGvReviewId(), null, null,
                 "", false);
         if (data.size() == 0) return nullImage;
 
         GvImageList.GvImage reference = data.getItem(0);
         ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);
-        Date finalDate = reference.getDate();
+        DataDate finalDate = reference.getDate();
         for (GvImageList.GvImage image : data) {
             if (!comparitor.compare(reference, image).lessThanOrEqualTo(none)) return nullImage;
-            Date imageDate = image.getDate();
-            if (imageDate.after(finalDate)) finalDate = imageDate;
+            DataDate imageDate = image.getDate();
+            if (imageDate.getTime() > finalDate.getTime()) finalDate = imageDate;
         }
 
         DatumCounter<GvImageList.GvImage, String> captionCounter =
@@ -53,7 +54,8 @@ public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> 
             caption = captionCounter.getMaxItem();
         }
 
-        return new GvImageList.GvImage(data.getReviewId(), reference.getBitmap(), finalDate,
-                caption, true);
+        GvReviewId id = data.getGvReviewId();
+        GvDateList.GvDate finalGvDate = new GvDateList.GvDate(id, finalDate.getTime());
+        return new GvImageList.GvImage(id, reference.getBitmap(), finalGvDate, caption, true);
     }
 }

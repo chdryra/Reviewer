@@ -1,13 +1,11 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
 /**
@@ -24,7 +22,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
-                                    DataConverter<DataImage, GvImageList.GvImage> converter,
+                                    GvImageConverter converter,
                                     GvCanonicalCollection<GvCommentList.GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
                                     FactoryReviewViewAdapter adapterFactory,

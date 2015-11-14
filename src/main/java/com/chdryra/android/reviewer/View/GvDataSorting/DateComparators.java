@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.View.GvDataSorting;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 
 import java.util.Comparator;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +26,9 @@ public class DateComparators extends ComparatorCollection<GvDateList.GvDate> {
         //Overridden
         @Override
         public int compare(GvDateList.GvDate lhs, GvDateList.GvDate rhs) {
-            return rhs.getDate().compareTo(lhs.getDate());
+            Date lhsDate = new Date(lhs.getTime());
+            Date rhsDate = new Date(rhs.getTime());
+            return rhsDate.compareTo(lhsDate);
         }
     }
 }

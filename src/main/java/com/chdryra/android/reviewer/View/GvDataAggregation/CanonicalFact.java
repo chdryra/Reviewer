@@ -20,7 +20,7 @@ public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
     //Overridden
     @Override
     public GvFactList.GvFact getCanonical(GvDataList<GvFactList.GvFact> data) {
-        if (data.size() == 0) return new GvFactList.GvFact(data.getReviewId(), "", "");
+        if (data.size() == 0) return new GvFactList.GvFact(data.getGvReviewId(), "", "");
 
         DatumCounter<GvFactList.GvFact, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvFactList.GvFact, String>() {
@@ -48,6 +48,6 @@ public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
         nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxValue = String.valueOf(nonMax + 1) + " values";
 
-        return new GvFactList.GvFact(data.getReviewId(), maxLabel, maxValue);
+        return new GvFactList.GvFact(data.getGvReviewId(), maxLabel, maxValue);
     }
 }

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,8 +25,8 @@ public class ComparitorGvDate implements DifferenceComparitor<GvDateList.GvDate,
     public DifferenceDate compare(GvDateList.GvDate lhs, GvDateList.GvDate rhs) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
-        cal1.setTime(lhs.getDate());
-        cal2.setTime(rhs.getDate());
+        cal1.setTime(new Date(lhs.getTime()));
+        cal2.setTime(new Date(rhs.getTime()));
 
         DifferenceDate.DateBucket difference = DifferenceDate.DateBucket.MORE_THAN_YEAR;
         if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {

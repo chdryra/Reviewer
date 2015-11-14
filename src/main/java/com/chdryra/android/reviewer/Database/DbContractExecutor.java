@@ -62,7 +62,7 @@ public class DbContractExecutor {
     }
 
     private String getColumnDefinitions(DbTable<? extends DbTableRow> table) {
-        ArrayList<DbTable.DbColumnDef> columns = table.getAllColumns();
+        ArrayList<DbColumnDef> columns = table.getAllColumns();
         String definition = "";
         if (columns.size() == 0) return definition;
 
@@ -74,7 +74,7 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getColumnDefinition(DbTable.DbColumnDef column) {
+    private String getColumnDefinition(DbColumnDef column) {
         String definition = column.getName() + SQL.SPACE + column.getType().name();
         definition += column.isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
@@ -82,7 +82,7 @@ public class DbContractExecutor {
     }
 
     private String getPrimaryKeyDefinition(DbTable<? extends DbTableRow> table) {
-        ArrayList<DbTable.DbColumnDef> pks = table.getPrimaryKeys();
+        ArrayList<DbColumnDef> pks = table.getPrimaryKeys();
         String definition = "";
         if (pks.size() == 0) return definition;
 
@@ -93,7 +93,8 @@ public class DbContractExecutor {
     }
 
     private String getFkConstraintsDefinition(DbTable<? extends DbTableRow> table) {
-        ArrayList<DbTable.ForeignKeyConstraint> constraints = table.getForeignKeyConstraints();
+        ArrayList<ForeignKeyConstraint<? extends DbTableRow>> constraints;
+        constraints = table.getForeignKeyConstraints();
         String definition = "";
         if (constraints.size() == 0) return definition;
 
@@ -105,9 +106,9 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getFkConstraintDefinition(DbTable.ForeignKeyConstraint
+    private String getFkConstraintDefinition(ForeignKeyConstraint<? extends DbTableRow>
                                                      constraint) {
-        DbTable fkTable = constraint.getForeignTable();
+        DbTable<?> fkTable = constraint.getForeignTable();
 
         String definition = SQL.FOREIGN_KEY + SQL.OPEN_BRACKET;
         definition += getCommaSeparatedNames(constraint.getFkColumns()) + SQL.CLOSE_BRACKET;
@@ -129,9 +130,9 @@ public class DbContractExecutor {
         return definition;
     }
 
-    private String getCommaSeparatedNames(ArrayList<DbTable.DbColumnDef> cols) {
+    private String getCommaSeparatedNames(ArrayList<DbColumnDef> cols) {
         String cs = "";
-        for (DbTable.DbColumnDef column : cols) {
+        for (DbColumnDef column : cols) {
             cs += column.getName() + SQL.COMMA;
         }
 

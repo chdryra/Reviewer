@@ -30,10 +30,10 @@ public class GvDataAggregator<T extends GvData, D1, D2 extends DifferenceLevel<D
         GvDataType<T> elementType = data.getGvDataType();
 
         GvList allocated = new GvList();
-        GvCanonicalCollection<T> results = new GvCanonicalCollection<>(elementType);
+        GvCanonicalCollection<T> results = new GvCanonicalCollection<>(data.getGvReviewId(), elementType);
         for (T reference : data) {
             if (allocated.contains(reference)) continue;
-            GvDataList<T> similar = FactoryGvData.newDataList(elementType, data.getReviewId());
+            GvDataList<T> similar = FactoryGvData.newDataList(elementType, data.getGvReviewId());
             similar.add(reference);
             allocated.add(reference);
             for (T candidate : data) {

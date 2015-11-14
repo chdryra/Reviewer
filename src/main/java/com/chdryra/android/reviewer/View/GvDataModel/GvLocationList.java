@@ -12,9 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
+import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;
@@ -57,6 +56,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
      * {@link ViewHolder}: {@link VhLocation}
      */
     public static class GvLocation extends GvDataBasic<GvLocation> implements DataLocation {
+        private static final String DELIMITERS = ",|";
         public static final GvDataType<GvLocation> TYPE = new GvDataType<>(GvLocation.class,
                 "location");
         public static final Parcelable.Creator<GvLocation> CREATOR = new Parcelable
@@ -89,7 +89,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         }
 
         public GvLocation(GvLocation location) {
-            this(location.getReviewId(), location.getLatLng(), location.getName());
+            this(location.getGvReviewId(), location.getLatLng(), location.getName());
         }
 
         GvLocation(Parcel in) {
@@ -102,8 +102,7 @@ public class GvLocationList extends GvDataList<GvLocationList.GvLocation> {
         public String getShortenedName() {
             String shortened = mName;
             if (mName != null) {
-                StringTokenizer tokens = new StringTokenizer(mName,
-                        MdLocationList.MdLocation.LOCATION_DELIMITER);
+                StringTokenizer tokens = new StringTokenizer(mName, DELIMITERS);
                 shortened = tokens.nextToken();
             }
 

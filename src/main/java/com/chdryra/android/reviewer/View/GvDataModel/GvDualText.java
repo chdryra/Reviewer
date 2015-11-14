@@ -58,11 +58,12 @@ public class GvDualText extends VHDDualString implements GvData {
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
-    protected GvReviewId getGvReviewId() {
+    //Overridden
+    @Override
+    public GvReviewId getGvReviewId() {
         return mId;
     }
 
-    //Overridden
     @Override
     public GvDataType<? extends GvDualText> getGvDataType() {
         return TYPE;

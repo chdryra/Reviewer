@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdConverterLocations extends
-        MdConverterBasic<DataLocation, MdLocationList.MdLocation, MdLocationList> {
+        MdConverterDataReview<DataLocation, MdLocationList.MdLocation, MdLocationList> {
 
     public MdConverterLocations() {
         super(MdLocationList.class);

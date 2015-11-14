@@ -31,7 +31,7 @@ public class ImageComparators extends ComparatorCollection<GvImageList.GvImage> 
             } else if (!lhs.isCover() && rhs.isCover()) {
                 comp = 1;
             } else {
-                return rhs.getDate().compareTo(lhs.getDate());
+                return DateComparators.getComparators().getDefault().compare(lhs.getDate(), rhs.getDate());
             }
 
             return comp;

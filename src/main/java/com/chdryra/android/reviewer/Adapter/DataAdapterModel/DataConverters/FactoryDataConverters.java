@@ -42,10 +42,10 @@ public class FactoryDataConverters {
         GvConverterDateReviews converterDates = new GvConverterDateReviews();
         GvConverterReviews converterReview = new GvConverterReviews(mTagsManager, converterImages,
                 converterComments, converterLocations, converterDates, converterAuthors);
-
+        GvConverterItemTags converterTags = new GvConverterItemTags();
 
         return new ConverterGv(converterComments, converterFacts, converterImages,
                 converterLocations, converterUrl, converterCriteria, converterReview,
-                converterSubjects, converterAuthors, converterDates);
+                converterSubjects, converterAuthors, converterDates, converterTags);
     }
 }

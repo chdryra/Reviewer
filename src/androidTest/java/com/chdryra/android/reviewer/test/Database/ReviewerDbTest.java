@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Database.DbColumnDef;
 import com.chdryra.android.reviewer.Database.DbTable;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Database.ReviewerDbContract;
@@ -463,7 +464,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         ConfigDb.Config config = ConfigDb.getConfig(dataType);
         String pkColumn = config.getPkColumn();
         DbTable table = config.getTable();
-        DbTable.DbColumnDef idCol = table.getColumn(pkColumn);
+        DbColumnDef idCol = table.getColumn(pkColumn);
         SQLiteOpenHelper helper = mDatabase.getHelper();
 
         String columnName = idCol.getName();

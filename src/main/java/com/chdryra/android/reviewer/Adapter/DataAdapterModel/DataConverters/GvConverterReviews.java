@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterReviews extends GvConverterBasic<Review,
-        GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList>{
+        GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> implements GvReviewConverter<GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList>{
     private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;

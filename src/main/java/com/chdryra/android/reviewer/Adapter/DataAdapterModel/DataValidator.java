@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel;
 
 import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
 import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
@@ -48,6 +49,10 @@ public class DataValidator {
     public boolean validate(DataLocation location) {
         return NotNull(location) && NotNull(location.getLatLng()) && validateString(location
                 .getName());
+    }
+
+    public boolean validate(DataDate date) {
+        return date.getTime() > 0;
     }
 
     public boolean validateUrl(DataUrl url) {

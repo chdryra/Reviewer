@@ -36,8 +36,6 @@ public class EditScreenReviewData<T extends GvData> implements
     private ReviewDataEditor<T> mEditor;
     private GvDataType<T> mDataType;
     private MenuDataEdit<T> mMenu;
-    private SubjectEdit<T> mSubject;
-    private RatingBarEdit mRatingBar;
     private BannerButtonEdit<T> mBannerButton;
     private GridItemEdit<T> mGriditem;
 
@@ -54,14 +52,12 @@ public class EditScreenReviewData<T extends GvData> implements
 
         //Actions
         mMenu = newMenuAction();
-        mSubject = newSubjectAction();
-        mRatingBar = newRatingBarAction();
         mBannerButton = newBannerButtonAction();
         mGriditem = newGridItemAction();
         ReviewViewActions actions = new ReviewViewActions();
         actions.setAction(mMenu);
-        actions.setAction(mSubject);
-        actions.setAction(mRatingBar);
+        actions.setAction(newSubjectAction());
+        actions.setAction(newRatingBarAction());
         actions.setAction(mBannerButton);
         actions.setAction(mGriditem);
 

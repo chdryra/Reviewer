@@ -60,6 +60,12 @@ public class GvReviewId implements GvData {
     }
 
     //Overridden
+
+    @Override
+    public GvReviewId getGvReviewId() {
+        return this;
+    }
+
     @Override
     public GvDataType<GvReviewId> getGvDataType() {
         return TYPE;

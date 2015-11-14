@@ -21,7 +21,7 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterio
     @Override
     public GvCriterionList.GvCriterion getCanonical(GvDataList<GvCriterionList.GvCriterion> data) {
         if (data.size() == 0)
-            return new GvCriterionList.GvCriterion(data.getReviewId(), "", 0f);
+            return new GvCriterionList.GvCriterion(data.getGvReviewId(), "", 0f);
 
         DatumCounter<GvCriterionList.GvCriterion, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvCriterionList.GvCriterion, String>() {
@@ -39,6 +39,6 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterio
         for (GvCriterionList.GvCriterion child : data) {
             average += child.getRating() / (float) data.size();
         }
-        return new GvCriterionList.GvCriterion(data.getReviewId(), maxSubject, average);
+        return new GvCriterionList.GvCriterion(data.getGvReviewId(), maxSubject, average);
     }
 }

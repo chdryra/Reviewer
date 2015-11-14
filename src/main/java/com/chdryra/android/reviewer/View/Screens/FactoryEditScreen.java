@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -26,7 +27,7 @@ public class FactoryEditScreen {
         mBuilder = builder;
     }
     
-    public <T extends GvData> EditScreenReviewData<T> newScreen(GvDataType<T> dataType) {
+    public <T extends GvData> EditScreenReviewData<T> newScreen(GvDataType<T> dataType, DataValidator validator) {
         EditScreenReviewData screen;
         if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             screen = new EditScreenComments(mContext, mBuilder);
@@ -39,7 +40,7 @@ public class FactoryEditScreen {
         } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
             screen = new EditScreenLocations(mContext, mBuilder);
         } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
-            screen = new EditScreenTags(mContext, mBuilder);
+            screen = new EditScreenTags(mContext, mBuilder, validator);
         } else {
             screen = new EditScreenReviewData<>(mContext, mBuilder, dataType);
         }

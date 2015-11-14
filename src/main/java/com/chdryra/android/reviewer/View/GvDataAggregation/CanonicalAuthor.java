@@ -20,7 +20,7 @@ public class CanonicalAuthor implements CanonicalDatumMaker<GvAuthorList.GvAutho
     //Overridden
     @Override
     public GvAuthorList.GvAuthor getCanonical(GvDataList<GvAuthorList.GvAuthor> data) {
-        GvAuthorList.GvAuthor nullAuthor = new GvAuthorList.GvAuthor(data.getReviewId(), "", "");
+        GvAuthorList.GvAuthor nullAuthor = new GvAuthorList.GvAuthor(data.getGvReviewId(), "", "");
         if (data.size() == 0) return nullAuthor;
 
         GvAuthorList.GvAuthor reference = data.getItem(0);
@@ -30,7 +30,7 @@ public class CanonicalAuthor implements CanonicalDatumMaker<GvAuthorList.GvAutho
             if (!comparitor.compare(reference, author).lessThanOrEqualTo(none)) return nullAuthor;
         }
 
-        return new GvAuthorList.GvAuthor(data.getReviewId(), reference.getName(), reference
+        return new GvAuthorList.GvAuthor(data.getGvReviewId(), reference.getName(), reference
                 .getUserId());
     }
 }

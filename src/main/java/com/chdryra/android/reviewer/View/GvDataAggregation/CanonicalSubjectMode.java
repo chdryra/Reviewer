@@ -20,7 +20,7 @@ public class CanonicalSubjectMode implements CanonicalDatumMaker<GvSubjectList.G
     //Overridden
     @Override
     public GvSubjectList.GvSubject getCanonical(GvDataList<GvSubjectList.GvSubject> data) {
-        if (data.size() == 0) return new GvSubjectList.GvSubject(data.getReviewId(), "");
+        if (data.size() == 0) return new GvSubjectList.GvSubject(data.getGvReviewId(), "");
 
         DatumCounter<GvSubjectList.GvSubject, String> counter = new DatumCounter<>(data,
                 new DataGetter<GvSubjectList.GvSubject, String>() {
@@ -34,6 +34,6 @@ public class CanonicalSubjectMode implements CanonicalDatumMaker<GvSubjectList.G
         String maxSubject = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
-        return new GvSubjectList.GvSubject(data.getReviewId(), maxSubject);
+        return new GvSubjectList.GvSubject(data.getGvReviewId(), maxSubject);
     }
 }

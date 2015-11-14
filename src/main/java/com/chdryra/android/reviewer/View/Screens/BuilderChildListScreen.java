@@ -1,15 +1,13 @@
 package com.chdryra.android.reviewer.View.Screens;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvReviewConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.ViewerChildList;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -19,8 +17,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  */
 public class BuilderChildListScreen {
     public ReviewView createView(ReviewNode node,
-                                 DataConverter<Review, GvReviewOverviewList.GvReviewOverview> reviewConverter,
-                                 DataConverter<DataImage, GvImageList.GvImage> imageConverter,
+                                 GvReviewConverter<GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> reviewConverter,
+                                 GvImageConverter imageConverter,
                                  FactoryReviewViewAdapter adapterFactory,
                                  ReviewViewAction.GridItemAction giAction,
                                  ReviewViewAction.MenuAction menuAction) {

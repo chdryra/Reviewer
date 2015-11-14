@@ -6,8 +6,9 @@ import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +26,7 @@ public class ReviewDataHolder {
     private final Iterable<? extends DataImage> mImages;
     private final Iterable<? extends DataFact> mFacts;
     private final Iterable<? extends DataLocation> mLocations;
-    private final IdableCollection<Review> mCritList;
+    private final ArrayList<Review> mCritList;
     private final boolean mIsAverage;
 
     public ReviewDataHolder(String id, DataAuthor author, DataDate publishDate,
@@ -34,7 +35,7 @@ public class ReviewDataHolder {
                             Iterable<? extends DataImage> images,
                             Iterable<? extends DataFact> facts,
                             Iterable<? extends DataLocation> locations,
-                            IdableCollection<Review> critList, boolean isAverage) {
+                            ArrayList<Review> critList, boolean isAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -89,7 +90,7 @@ public class ReviewDataHolder {
         return mLocations;
     }
 
-    public IdableCollection<Review> getCritList() {
+    public ArrayList<Review> getCritList() {
         return mCritList;
     }
 

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -54,6 +55,22 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     //Overridden
+
+    @Override
+    public GvReviewId getGvReviewId() {
+        return getCanonical().getGvReviewId();
+    }
+
+    @Override
+    public void add(T datum) {
+        throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
+    }
+
+    @Override
+    public void add(IdableCollection<T> data) {
+        throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
+    }
+
     @Override
     public int size() {
         return mData.size();

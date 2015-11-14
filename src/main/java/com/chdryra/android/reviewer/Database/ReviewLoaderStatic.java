@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
 
@@ -55,7 +54,7 @@ public class ReviewLoaderStatic implements ReviewerDb.ReviewLoader{
         DbTable<RowImage> imagesTable = database.getImagesTable();
         ArrayList<RowImage> images = database.loadFromDataTable(db, imagesTable, reviewId);
 
-        MdIdableCollection<Review> critList = database.loadReviewsFromDbWhere(db,
+        ArrayList<Review> critList = database.loadReviewsFromDbWhere(db,
                 RowReview.COLUMN_PARENT_ID, reviewId);
 
         ReviewDataHolder reviewDb = new ReviewDataHolder(reviewId, author, publishDate, subject, rating,

@@ -16,7 +16,7 @@ import java.net.URL;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterFacts extends MdConverterBasic<DataFact, MdFactList.MdFact, MdFactList> {
+public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFactList.MdFact, MdFactList> {
     private MdConverterUrl mUrlConverter;
 
     public MdConverterFacts(MdConverterUrl urlConverter) {

@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class MdConverterBasic<T1, T2 extends MdData, T3 extends MdDataList<T2>>
-        implements DataConverter<T1, T2>{
+        implements DataConverter<T1, T2, T3>{
     private static final String NO_CTOR_ERR = "Constructor not found: ";
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";

@@ -8,19 +8,18 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvReviewConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverter;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 
 /**
@@ -29,26 +28,20 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
-    private ReviewsProvider mRepository;
     private ReviewNodeComponent mNode;
-    private FactoryReview mReviewFactory;
     private FactoryReviewNodeComponent mNodeFactory;
     private ReviewView mReviewView;
 
 //Constructors
     public ReviewsRepositoryScreen(ReviewsProvider repository,
                                    FactoryReview reviewFactory,
-                                   FactoryReviewNodeComponent nodeFactory,
                                    String title,
                                    PublishDate publishDate) {
-        mRepository = repository;
-        mReviewFactory = reviewFactory;
-
         Author author = repository.getAuthor();
         ReviewPublisher publisher = new ReviewPublisher(author, publishDate);
-        Review root = mReviewFactory.createUserReview(publisher, title, 0f);
+        Review root = reviewFactory.createUserReview(publisher, title, 0f);
 
-        mNodeFactory = nodeFactory;
+        mNodeFactory = reviewFactory.getComponentFactory();
         mNode = mNodeFactory.createReviewNodeComponent(root, true);
         for (Review review : repository.getReviews()) {
             addReview(review);
@@ -57,8 +50,8 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
         repository.registerObserver(this);
     }
 
-    public ReviewView createView(DataConverter<Review, GvReviewOverviewList.GvReviewOverview> reviewConverter,
-                                 DataConverter<DataImage, GvImageList.GvImage> imageConverter,
+    public ReviewView createView(GvReviewConverter<GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> reviewConverter,
+                                 GvImageConverter imageConverter,
                            BuilderChildListScreen childListFactory,
                            FactoryReviewViewAdapter adapterFactory,
                            ReviewViewAction.GridItemAction giAction,

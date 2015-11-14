@@ -22,8 +22,8 @@ public class TagsManagerImpl implements TagsManager{
 
     public ItemTagCollection getTags(String id) {
         ItemTagList<ItemTagImpl> tags = new ItemTagList<>();
-        for (ItemTagImpl tag : mTags) {
-            if (tag.tagsItem(id)) tags.add(tag);
+        for (ItemTag tag : mTags) {
+            if (tag.tagsItem(id)) tags.add((ItemTagImpl) tag);
         }
 
         return tags;

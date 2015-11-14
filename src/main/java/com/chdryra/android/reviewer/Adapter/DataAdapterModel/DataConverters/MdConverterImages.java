@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterImages extends MdConverterBasic<DataImage, MdImageList.MdImage, MdImageList> {
+public class MdConverterImages extends MdConverterDataReview<DataImage, MdImageList.MdImage, MdImageList> {
 
     public MdConverterImages() {
         super(MdImageList.class);

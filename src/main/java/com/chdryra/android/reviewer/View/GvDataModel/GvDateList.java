@@ -158,7 +158,7 @@ public class GvDateList extends GvDataList<GvDateList.GvDate> {
 
         @Override
         public boolean hasData(DataValidator dataValidator) {
-            return isValidForDisplay();
+            return dataValidator.validate(this);
         }
     }
 }

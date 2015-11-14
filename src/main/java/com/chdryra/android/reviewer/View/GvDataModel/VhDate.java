@@ -12,6 +12,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderData;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +28,7 @@ public class VhDate extends VhText {
             public String getString(ViewHolderData data) {
                 GvDateList.GvDate date = (GvDateList.GvDate) data;
                 DateFormat format = SimpleDateFormat.getDateInstance();
-                return format.format(date.getDate());
+                return format.format(new Date(date.getTime()));
             }
         });
     }

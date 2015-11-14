@@ -16,32 +16,49 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 
-public final class ReviewerDbContract implements DbContract, ReviewerDbTables {
-    private ReviewerDbTables mTables;
-    private ArrayList<DbTable> mTablesList;
-    private ArrayList<String> mTableNames;
+public final class ReviewerDbContract implements ReviewerDbTables {
+    private String mColumnNameReviewId;
+    private TableAuthors mAuthorsTable;
+    private TableTags mTagsTable;
+    private TableReviews mReviewsTable;
+    private TableComments mCommentsTable;
+    private TableFacts mFactsTable;
+    private TableImages mImagesTable;
+    private TableLocations mLocationsTable;
 
-    public ReviewerDbContract(ReviewerDbTables tables) {
-        mTables = tables;
+    ArrayList<DbTable<? extends DbTableRow>> mTablesList;
+    ArrayList<String> mTableNames;
+
+    public ReviewerDbContract(String columnNameReviewId, TableAuthors authorsTable, TableTags
+            tagsTable, TableReviews reviewsTable, TableComments commentsTable, TableFacts
+            factsTable, TableImages imagesTable, TableLocations locationsTable) {
+        mColumnNameReviewId = columnNameReviewId;
+        mAuthorsTable = authorsTable;
+        mTagsTable = tagsTable;
+        mReviewsTable = reviewsTable;
+        mCommentsTable = commentsTable;
+        mFactsTable = factsTable;
+        mImagesTable = imagesTable;
+        mLocationsTable = locationsTable;
 
         mTablesList = new ArrayList<>();
-        mTablesList.add(tables.getAuthorsTable());
-        mTablesList.add(tables.getReviewsTable());
-        mTablesList.add(tables.getCommentsTable());
-        mTablesList.add(tables.getFactsTable());
-        mTablesList.add(tables.getLocationsTable());
-        mTablesList.add(tables.getImagesTable());
-        mTablesList.add(tables.getTagsTable());
+        mTablesList.add(getAuthorsTable());
+        mTablesList.add(getReviewsTable());
+        mTablesList.add(getCommentsTable());
+        mTablesList.add(getFactsTable());
+        mTablesList.add(getLocationsTable());
+        mTablesList.add(getImagesTable());
+        mTablesList.add(getTagsTable());
 
         mTableNames = new ArrayList<>();
-        for (DbTable table : mTablesList) {
+        for (DbTable table : getTables()) {
             mTableNames.add(table.getName());
         }
     }
 
     //Overridden
     @Override
-    public ArrayList<DbTable> getTables() {
+    public ArrayList<DbTable<? extends DbTableRow>> getTables() {
         return mTablesList;
     }
 
@@ -52,41 +69,41 @@ public final class ReviewerDbContract implements DbContract, ReviewerDbTables {
 
     @Override
     public String getColumnNameReviewId() {
-        return mTables.getColumnNameReviewId();
+        return mColumnNameReviewId;
     }
 
     @Override
     public DbTable<RowReview> getReviewsTable() {
-        return mTables.getReviewsTable();
+        return mReviewsTable;
     }
 
     @Override
     public DbTable<RowComment> getCommentsTable() {
-        return mTables.getCommentsTable();
+        return mCommentsTable;
     }
 
     @Override
     public DbTable<RowFact> getFactsTable() {
-        return mTables.getFactsTable();
+        return mFactsTable;
     }
 
     @Override
     public DbTable<RowLocation> getLocationsTable() {
-        return mTables.getLocationsTable();
+        return mLocationsTable;
     }
 
     @Override
     public DbTable<RowImage> getImagesTable() {
-        return mTables.getImagesTable();
+        return mImagesTable;
     }
 
     @Override
     public DbTable<RowAuthor> getAuthorsTable() {
-        return mTables.getAuthorsTable();
+        return mAuthorsTable;
     }
 
     @Override
     public DbTable<RowTag> getTagsTable() {
-        return mTables.getTagsTable();
+        return mTagsTable;
     }
 }

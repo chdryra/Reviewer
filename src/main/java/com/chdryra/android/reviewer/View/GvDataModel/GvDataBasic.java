@@ -34,11 +34,12 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         mReviewId = reviewId;
     }
 
-    protected GvReviewId getGvReviewId() {
+    //Overridden
+    @Override
+    public GvReviewId getGvReviewId() {
         return mReviewId;
     }
 
-    //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;

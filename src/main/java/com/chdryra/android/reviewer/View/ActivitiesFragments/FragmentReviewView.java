@@ -33,9 +33,9 @@ import android.widget.TextView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.FactoryGridCellAdapter;
 import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
@@ -101,8 +101,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setCover(GvImageList.GvImage cover) {
-        if (cover != null && cover.isValidForDisplay()) {
+    public void setCover(DataImage cover) {
+        if (cover != null && cover.getBitmap() != null) {
             BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mLinearLayout.setBackground(bitmap);

@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterImages extends GvConverterDataReview<DataImage, GvImageList.GvImage, GvImageList> {
+public class GvConverterImages extends GvConverterDataReview<DataImage, GvImageList.GvImage, GvImageList> implements GvImageConverter{
     private DataConverter<DataDate, GvDateList.GvDate, ?> mConverter;
 
     public GvConverterImages(DataConverter<DataDate, GvDateList.GvDate, ?> converter) {

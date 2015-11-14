@@ -113,17 +113,10 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
 
     public void updateCover() {
         if (getParams().manageCover()) {
-            GvImageList images = getAdapter().getCovers();
-            GvImageList covers = images.getCovers();
-            GvImageList.GvImage cover = null;
+            GvImageList covers = getAdapter().getCovers();
             if (covers.size() > 0) {
-                cover = covers.getRandomCover();
-            } else if (images.size() > 0) {
-                cover = images.getItem(0);
-                cover.setIsCover(true);
+                mFragment.setCover(covers.getRandomCover());
             }
-
-            mFragment.setCover(cover);
         }
     }
 

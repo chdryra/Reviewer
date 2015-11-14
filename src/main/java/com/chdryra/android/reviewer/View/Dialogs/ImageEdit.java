@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.View.Dialogs;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
@@ -53,7 +52,7 @@ public class ImageEdit extends AddEditLayout<GvImageList.GvImage> {
         imageCaption.setText(caption);
 
         //For some reason setSelection(0) doesn't work unless I force set the span of the selection
-        if (DataValidator.validateString(caption)) {
+        if (caption != null && caption.length() > 0) {
             imageCaption.setSelection(0, caption.length());
             imageCaption.setSelection(0);
         }

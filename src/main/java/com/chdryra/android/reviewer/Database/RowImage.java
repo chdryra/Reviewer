@@ -5,11 +5,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
+import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -72,8 +72,8 @@ public class RowImage implements ReviewDataRow, DataImage {
     }
 
     @Override
-    public Date getDate() {
-        return new Date(mDate);
+    public DataDate getDate() {
+        return new DateDb(mDate);
     }
 
     @Override

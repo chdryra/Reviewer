@@ -83,7 +83,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
 //protected methods
-    protected GvReviewId getGvReviewId() {
+    public GvReviewId getGvReviewId() {
         return mReviewId;
     }
 

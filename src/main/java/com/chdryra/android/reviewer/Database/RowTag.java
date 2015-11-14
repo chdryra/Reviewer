@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
 
 import java.util.ArrayList;
@@ -28,8 +27,8 @@ public class RowTag implements DbTableRow {
     public RowTag(ItemTag tag) {
         mTag = tag.getTag();
         mReviews = "";
-        for (MdReviewId id : tag.getItemIds()) {
-            mReviews += id.toString() + SEPARATOR;
+        for (String id : tag.getItemIds()) {
+            mReviews += id + SEPARATOR;
         }
         mReviews = mReviews.substring(0, mReviews.length() - 1);
     }

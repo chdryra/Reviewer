@@ -25,6 +25,8 @@ public interface GvData extends VerboseDataReview, ViewHolderData, Parcelable {
     //abstract
     GvDataType<? extends GvData> getGvDataType();
 
+    GvReviewId getGvReviewId();
+
     @Override
     String getStringSummary();
 

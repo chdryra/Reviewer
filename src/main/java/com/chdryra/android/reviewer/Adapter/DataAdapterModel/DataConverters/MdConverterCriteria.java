@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterCriteria extends MdConverterBasic<DataCriterion,
+public class MdConverterCriteria extends MdConverterDataReview<DataCriterion,
         MdCriterionList.MdCriterion, MdCriterionList> {
 
     public MdConverterCriteria() {
@@ -23,7 +23,7 @@ public class MdConverterCriteria extends MdConverterBasic<DataCriterion,
         return new MdCriterionList.MdCriterion(id, datum.getReview());
     }
 
-    public MdCriterionList convert(Iterable<? extends Review> reviews, String parentId) {
+    public MdCriterionList convertReviews(Iterable<? extends Review> reviews, String parentId) {
         MdReviewId id = new MdReviewId(parentId);
         MdCriterionList list = new MdCriterionList(id);
         for(Review review : reviews) {
