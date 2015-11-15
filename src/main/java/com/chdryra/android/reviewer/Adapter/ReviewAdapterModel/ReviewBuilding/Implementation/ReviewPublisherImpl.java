@@ -1,5 +1,7 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ReviewPublisher;
 import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
 import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
 
@@ -8,13 +10,13 @@ import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
  * On: 18/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewPublisher {
-    private DataAuthor mAuthor;
-    private DataDate mDate;
+public class ReviewPublisherImpl implements ReviewPublisher {
+    private final DataAuthor mAuthor;
+    private final DataDate mDate;
     private int mIndex;
 
     //Constructors
-    public ReviewPublisher(DataAuthor author, DataDate date) {
+    public ReviewPublisherImpl(DataAuthor author, DataDate date) {
         mAuthor = author;
         mDate = date;
     }

@@ -6,7 +6,7 @@
  * Date: 12 November, 2014
  */
 
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +22,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.BitmapLoader;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ImageChooser;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -36,7 +38,7 @@ import java.util.Date;
  * On: 12/11/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageChooser {
+public class ImageChooserImpl implements ImageChooser {
     private static final String TAG = "ImageChooser";
     private static final String ERROR_CREATE = "Couldn't create file";
     private static final String ERROR_NO_STORAGE = "No storage available";
@@ -45,14 +47,9 @@ public class ImageChooser {
     private final FileIncrementor mFileIncrementor;
     private String mCaptureFile;
 
-    public interface ImageChooserListener {
-        //abstract
-        void onChosenImage(GvImageList.GvImage image);
-    }
-
     //Constructors
-    public ImageChooser(Context context,
-                        FileIncrementor fileIncrementor) {
+    public ImageChooserImpl(Context context,
+                            FileIncrementor fileIncrementor) {
         mContext = context;
         mFileIncrementor = fileIncrementor;
     }

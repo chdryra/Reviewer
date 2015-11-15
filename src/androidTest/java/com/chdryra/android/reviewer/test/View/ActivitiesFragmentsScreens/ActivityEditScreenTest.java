@@ -16,8 +16,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -55,7 +56,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     protected final GvDataType<T> mDataType;
     private final Map<Button, Runnable> mClickRunnables = new HashMap<>();
-    protected ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
+    protected DataBuilderAdapter<T> mBuilder;
     protected ReviewBuilder mReviewBuilder;
     protected String mOriginalSubject;
     protected float mOriginalRating;
@@ -151,7 +152,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         return mActivity;
     }
 
-    protected ReviewBuilderAdapter.DataBuilderAdapter<T> getBuilder() {
+    protected DataBuilderAdapter<T> getBuilder() {
         return mBuilder;
     }
 
@@ -740,7 +741,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     protected void setAdapter() {
         mReviewBuilder = new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
         ReviewBuilderAdapter builder = new ReviewBuilderAdapter(mReviewBuilder);
-        mBuilder = builder.getDataBuilder(mDataType);
+        mBuilder = builder.getDataBuilderAdapter(mDataType);
 
         if (mWithData) {
             mData = newData();

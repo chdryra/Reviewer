@@ -67,7 +67,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     @Override
-    public void add(IdableCollection<GvCanonical> data) {
+    public void addCollection(IdableCollection<GvCanonical> data) {
         //TODO make type safe
         for(GvCanonical datum : data) {
             if(datum.getGvDataType().equals(mType)) addCanonnical(datum);

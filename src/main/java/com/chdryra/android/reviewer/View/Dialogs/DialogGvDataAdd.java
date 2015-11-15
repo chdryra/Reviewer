@@ -14,11 +14,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataHandler;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
  * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link GvDataAddListener}: commissioning fragment.
- * <li>{@link GvDataHandler}: input validation when QUICK_SET = true.
+ * <li>{@link InputHandler}: input validation when QUICK_SET = true.
  * </ul>
  * </p>
  * <p>
@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * a callback to the commissioning fragment.
  * It is then up to that fragment/activity to decide what to do
  * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
- * true, the dialog will validate using a {@link GvDataHandler} and forward the data directly to the
+ * true, the dialog will validate using a {@link InputHandler} and forward the data directly to the
  * ControllerReviewEditable packed in the arguments by the Administrator.
  * </p>
  */
@@ -52,7 +52,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
-    private ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
+    private DataBuilderAdapter<T> mBuilder;
     private GvDataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
@@ -137,7 +137,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
-        mBuilder = Administrator.getInstance(getActivity()).getReviewBuilderAdapter().getDataBuilder(mDataType);
+        mBuilder = Administrator.getInstance(getActivity()).getReviewBuilderAdapter().getDataBuilderAdapter(mDataType);
 
         //TODO make type safe
         if (!isQuickSet()) {

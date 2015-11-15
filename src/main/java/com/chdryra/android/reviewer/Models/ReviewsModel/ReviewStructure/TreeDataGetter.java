@@ -33,10 +33,10 @@ public class TreeDataGetter {
     public MdCriterionList getCriteria() {
         MdCriterionList criteria = new MdCriterionList(mId);
         if(mRoot == null) return criteria;
-        criteria.add((MdCriterionList) mRoot.getReview().getCriteria());
+        criteria.addCollection((MdCriterionList) mRoot.getReview().getCriteria());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
-            criteria.add(getter.getCriteria());
+            criteria.addCollection(getter.getCriteria());
         }
 
         return criteria;
@@ -45,10 +45,10 @@ public class TreeDataGetter {
     public MdCommentList getComments() {
         MdCommentList comments = new MdCommentList(mId);
         if(mRoot == null) return comments;
-        comments.add((MdCommentList)  mRoot.getReview().getComments());
+        comments.addCollection((MdCommentList) mRoot.getReview().getComments());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
-            comments.add(getter.getComments());
+            comments.addCollection(getter.getComments());
         }
 
         return comments;
@@ -57,10 +57,10 @@ public class TreeDataGetter {
     public MdImageList getImages() {
         MdImageList images = new MdImageList(mId);
         if(mRoot == null) return images;
-        images.add((MdImageList)  mRoot.getReview().getImages());
+        images.addCollection((MdImageList) mRoot.getReview().getImages());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
-            images.add(getter.getImages());
+            images.addCollection(getter.getImages());
         }
 
         return images;
@@ -69,10 +69,10 @@ public class TreeDataGetter {
     public MdFactList getFacts() {
         MdFactList facts = new MdFactList(mId);
         if(mRoot == null) return facts;
-        facts.add((MdFactList)  mRoot.getReview().getFacts());
+        facts.addCollection((MdFactList) mRoot.getReview().getFacts());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
-            facts.add(getter.getFacts());
+            facts.addCollection(getter.getFacts());
         }
 
         return facts;
@@ -81,10 +81,10 @@ public class TreeDataGetter {
     public MdLocationList getLocations() {
         MdLocationList locations = new MdLocationList(mId);
         if(mRoot == null) return locations;
-        locations.add((MdLocationList)  mRoot.getReview().getLocations());
+        locations.addCollection((MdLocationList) mRoot.getReview().getLocations());
         for (ReviewNode node : mRoot.getChildren()) {
             TreeDataGetter getter = new TreeDataGetter(node);
-            locations.add(getter.getLocations());
+            locations.addCollection(getter.getLocations());
         }
 
         return locations;

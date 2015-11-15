@@ -12,9 +12,10 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.AdapterGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
@@ -66,13 +67,13 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetDataBuilder() {
-        assertNotNull(mAdapter.getDataBuilder(GvCommentList.GvComment.TYPE));
-        assertNotNull(mAdapter.getDataBuilder(GvFactList.GvFact.TYPE));
-        assertNotNull(mAdapter.getDataBuilder(GvImageList.GvImage.TYPE));
-        assertNotNull(mAdapter.getDataBuilder(GvLocationList.GvLocation.TYPE));
-        assertNotNull(mAdapter.getDataBuilder(GvUrlList.GvUrl.TYPE));
-        assertNotNull(mAdapter.getDataBuilder(GvCriterionList.GvCriterion.TYPE));
-        assertNotNull(mAdapter.getDataBuilder(GvTagList.GvTag.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvCommentList.GvComment.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvFactList.GvFact.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvImageList.GvImage.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvLocationList.GvLocation.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvUrlList.GvUrl.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvCriterionList.GvCriterion.TYPE));
+        assertNotNull(mAdapter.getDataBuilderAdapter(GvTagList.GvTag.TYPE));
     }
 
     @SmallTest
@@ -105,7 +106,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         setBuilderData(children);
         setBuilderData(tags);
 
-        Review published = mAdapter.publish();
+        Review published = mAdapter.publishReview();
         assertEquals(mAuthor, published.getAuthor());
         assertEquals(subject, published.getSubject().getSubject());
         assertEquals(rating, published.getRating().getRating());
@@ -149,8 +150,8 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         assertFalse(mAdapter.hasTags());
 
         //Set up observation of tags
-        ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> tagBuilder
-                = mAdapter.getDataBuilder(GvTagList.GvTag.TYPE);
+        DataBuilderAdapter<GvTagList.GvTag> tagBuilder
+                = mAdapter.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
         CallBackSignaler tagSignaler = new CallBackSignaler(5000);
         tagBuilder.registerGridDataObserver(new GridObserver(tagSignaler));
 
@@ -167,7 +168,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         assertEquals(subject, mAdapter.getSubject());
         assertEquals(subject, mBuilder.getSubject());
         assertTrue(mAdapter.hasTags());
-        GvTagList tags = (GvTagList) mAdapter.getDataBuilder(GvTagList.GvTag.TYPE).getGridData();
+        GvTagList tags = (GvTagList) mAdapter.getDataBuilderAdapter(GvTagList.GvTag.TYPE).getGridData();
         assertEquals(1, tags.size());
         assertEquals(subject, tags.getItem(0).getString());
 
@@ -177,7 +178,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         mAdapter.setSubject(subject);
         tagSignaler.waitForSignal();
         assertFalse(tagSignaler.timedOut());
-        tags = (GvTagList) mAdapter.getDataBuilder(GvTagList.GvTag.TYPE).getGridData();
+        tags = (GvTagList) mAdapter.getDataBuilderAdapter(GvTagList.GvTag.TYPE).getGridData();
         assertEquals(1, tags.size());
         assertEquals(TextUtils.toCamelCase(subject2), tags.getItem(0).getString());
     }
@@ -194,7 +195,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGridData() {
-        AdapterGridUi list = (AdapterGridUi) mAdapter.getGridData();
+        WrapperGridData list = (WrapperGridData) mAdapter.getGridData();
         assertNotNull(list);
         assertEquals(6, list.size());
     }
@@ -209,8 +210,8 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
     }
 
     private <T extends GvData> void setBuilderData(GvDataList<T> data) {
-        ReviewBuilderAdapter.DataBuilderAdapter<T> builder =
-                mAdapter.getDataBuilder(data.getGvDataType());
+        DataBuilderAdapter<T> builder =
+                mAdapter.getDataBuilderAdapter(data.getGvDataType());
         for (int i = 0; i < data.size(); ++i) {
             T datum = data.getItem(i);
             assertTrue(builder.add(datum));

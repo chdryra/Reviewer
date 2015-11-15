@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -17,10 +17,10 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
     private boolean mRatingIsAverage;
 
     private FragmentReviewView mParent;
-    private ReviewBuilderAdapter.DataBuilderAdapter<T> mBuilder;
+    private DataBuilderAdapter<T> mBuilder;
 
     //Constructors
-    public ReviewDataEditor(ReviewBuilderAdapter.DataBuilderAdapter<T> builder,
+    public ReviewDataEditor(DataBuilderAdapter<T> builder,
                             ReviewViewParams params,
                             ReviewViewActions actions) {
         super(new ReviewViewPerspective(builder, params, actions));

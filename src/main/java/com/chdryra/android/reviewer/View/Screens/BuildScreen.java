@@ -23,8 +23,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.DataCollectionGridCell;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityShareReview;
@@ -33,11 +32,12 @@ import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Utils.ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -153,11 +153,10 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         private LocationClientConnector mLocationClient;
 
         //private methods
-        private void executeIntent(DataCollectionGridCell gridCell, boolean
-                quickDialog) {
+        private void executeIntent(GvDataList gridCell, boolean quickDialog) {
             GvDataType type = gridCell.getGvDataType();
             ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(type);
-            if (quickDialog && gridCell.getDataSize() == 0) {
+            if (quickDialog && !gridCell.hasData()) {
                 showQuickDialog(config);
             } else {
                 ActivityEditData.start(getActivity(), config.getGvDataType());
@@ -213,12 +212,12 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
         @Override
         public void onGridItemClick(GvData item, int position, View v) {
-            executeIntent((DataCollectionGridCell) item, true);
+            executeIntent((GvDataList) item, true);
         }
 
         @Override
         public void onGridItemLongClick(GvData item, int position, View v) {
-            executeIntent((DataCollectionGridCell) item, false);
+            executeIntent((GvDataList) item, false);
         }
     }
 

@@ -28,7 +28,7 @@ public interface VerboseIdableCollection<T extends VerboseDataReview> extends
     void add(T datum);
 
     @Override
-    void add(IdableCollection<T> data);
+    void addCollection(IdableCollection<T> data);
 
     @Override
     Iterator<T> iterator();

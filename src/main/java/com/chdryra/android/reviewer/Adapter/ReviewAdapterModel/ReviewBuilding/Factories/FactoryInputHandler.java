@@ -6,104 +6,113 @@
  * Date: 12 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
+
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.InputHandlerImpl;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryGvDataHandler {
+public class FactoryInputHandler {
     //Static methods
-    public static <T extends GvData> GvDataHandler<T> newHandler
+    public static <T extends GvData> InputHandler<T> newHandler
     (GvDataList<T> data) {
         GvDataType<T> dataType = data.getGvDataType();
         if (dataType.equals(GvImageList.GvImage.TYPE)) {
-            return new GvDataHandler<>(data, new GvDataHandler.AddConstraint<T>() {
+            return new InputHandlerImpl<>(data, new InputHandlerImpl.AddConstraintImpl<T>() {
                 //Overridden
                 @Override
-                public GvDataHandler.ConstraintResult passes(GvDataList<T> data, T datum) {
+                public InputHandler.ConstraintResult passes(GvDataList<T> data, T datum) {
                     return imageAdd(data, (GvImageList.GvImage) datum);
                 }
             });
         } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
-            GvDataHandler.AddConstraint<T> add = new GvDataHandler.AddConstraint<T>() {
+            InputHandler.AddConstraint<T> add = new InputHandler.AddConstraint<T>() {
                 //Overridden
                 @Override
-                public GvDataHandler.ConstraintResult passes(GvDataList<T> data, T datum) {
+                public InputHandler.ConstraintResult passes(GvDataList<T> data, T datum) {
                     return childAdd(data, (GvCriterionList.GvCriterion) datum);
                 }
             };
 
-            GvDataHandler.ReplaceConstraint<T> replace = new GvDataHandler.ReplaceConstraint<T>() {
+            InputHandler.ReplaceConstraint<T> replace = new InputHandler.ReplaceConstraint<T>() {
                 //Overridden
                 @Override
-                public GvDataHandler.ConstraintResult passes(GvDataList<T> data, T oldDatum, T newDatum) {
+                public InputHandler.ConstraintResult passes(GvDataList<T> data, T oldDatum, T newDatum) {
                     return childReplace(data,
                             (GvCriterionList.GvCriterion) oldDatum,
                             (GvCriterionList.GvCriterion) newDatum);
                 }
             };
 
-            return new GvDataHandler<>(data, add, replace);
+            return new InputHandlerImpl<>(data, add, replace);
         } else if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             //TODO make type safe
-            return (GvDataHandler) new GvCommentHandler(data);
+            return (InputHandler) new GvCommentHandler(data);
         } else {
-            return new GvDataHandler<>(data);
+            return new InputHandlerImpl<>(data);
         }
     }
 
-    private static GvDataHandler.ConstraintResult imageAdd(GvDataList list, GvImageList.GvImage image) {
+    private static InputHandler.ConstraintResult imageAdd(GvDataList list, GvImageList.GvImage image) {
         GvImageList images = (GvImageList) list;
-        GvDataHandler.ConstraintResult res;
+        InputHandler.ConstraintResult res;
         if(images == null) {
-            res = GvDataHandler.ConstraintResult.NULL_LIST;
+            res = InputHandler.ConstraintResult.NULL_LIST;
         } else if (!image.isValidForDisplay()) {
-            res = GvDataHandler.ConstraintResult.INVALID_DATUM;
+            res = InputHandler.ConstraintResult.INVALID_DATUM;
         } else {
-            res = !images.contains(image.getBitmap()) ? GvDataHandler.ConstraintResult.PASSED :
-                    GvDataHandler.ConstraintResult.HAS_DATUM;
+            res = !images.contains(image.getBitmap()) ? InputHandler.ConstraintResult.PASSED :
+                    InputHandler.ConstraintResult.HAS_DATUM;
         }
 
         return res;
     }
 
-    private static GvDataHandler.ConstraintResult childAdd(GvDataList list,
+    private static InputHandler.ConstraintResult childAdd(GvDataList list,
                                                            GvCriterionList.GvCriterion child) {
         GvCriterionList children = (GvCriterionList) list;
-        GvDataHandler.ConstraintResult res;
+        InputHandler.ConstraintResult res;
         if(children == null) {
-            res = GvDataHandler.ConstraintResult.NULL_LIST;
+            res = InputHandler.ConstraintResult.NULL_LIST;
         } else if (child == null || !child.isValidForDisplay()) {
-            res = GvDataHandler.ConstraintResult.INVALID_DATUM;
+            res = InputHandler.ConstraintResult.INVALID_DATUM;
         } else {
-            res = !children.contains(child.getSubject()) ? GvDataHandler.ConstraintResult.PASSED :
-                    GvDataHandler.ConstraintResult.HAS_DATUM;
+            res = !children.contains(child.getSubject()) ? InputHandler.ConstraintResult.PASSED :
+                    InputHandler.ConstraintResult.HAS_DATUM;
         }
         return res;
     }
 
-    private static GvDataHandler.ConstraintResult childReplace(GvDataList list,
+    private static InputHandler.ConstraintResult childReplace(GvDataList list,
                                         GvCriterionList.GvCriterion oldChild,
                                         GvCriterionList.GvCriterion newChild) {
         GvCriterionList children = (GvCriterionList) list;
-        GvDataHandler.ConstraintResult res;
+        InputHandler.ConstraintResult res;
         if(children == null) {
-            res = GvDataHandler.ConstraintResult.NULL_LIST;
+            res = InputHandler.ConstraintResult.NULL_LIST;
         } else if (oldChild == null || !oldChild.isValidForDisplay() ||
                 newChild == null || !newChild.isValidForDisplay()) {
-            res = GvDataHandler.ConstraintResult.INVALID_DATUM;
+            res = InputHandler.ConstraintResult.INVALID_DATUM;
         } else {
             boolean passed = (oldChild.getSubject().equals(newChild.getSubject())
                     || !children.contains(newChild.getSubject()));
-            res = passed ? GvDataHandler.ConstraintResult.PASSED :
-                    GvDataHandler.ConstraintResult.HAS_DATUM;
+            res = passed ? InputHandler.ConstraintResult.PASSED :
+                    InputHandler.ConstraintResult.HAS_DATUM;
         }
         return res;
     }
 
-    private static class GvCommentHandler extends GvDataHandler<GvCommentList.GvComment> {
+    private static class GvCommentHandler extends InputHandlerImpl<GvCommentList.GvComment> {
         //Constructors
         public GvCommentHandler(GvDataList data) {
             super((GvCommentList) data);

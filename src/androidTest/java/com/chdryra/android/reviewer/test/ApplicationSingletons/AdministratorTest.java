@@ -13,7 +13,8 @@ import android.test.InstrumentationTestCase;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
@@ -73,8 +74,8 @@ public class AdministratorTest extends InstrumentationTestCase {
         assertNotNull(builder);
         builder.setSubject(RandomString.nextWord());
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> tagBuilder
-                = builder.getDataBuilder(GvTagList.GvTag.TYPE);
+        DataBuilderAdapter<GvTagList.GvTag> tagBuilder
+                = builder.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
         for (GvTagList.GvTag tag : tags) {
             tagBuilder.add(tag);
         }

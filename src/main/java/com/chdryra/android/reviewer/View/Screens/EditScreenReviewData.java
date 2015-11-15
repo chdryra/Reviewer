@@ -14,7 +14,8 @@ import android.os.Bundle;
 import android.widget.RatingBar;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
@@ -45,7 +46,7 @@ public class EditScreenReviewData<T extends GvData> implements
         mDataType = dataType;
 
         //Adapter
-        ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = builder.getDataBuilder(mDataType);
+        DataBuilderAdapter<T> adapter = builder.getDataBuilderAdapter(mDataType);
 
         //Parameters
         ReviewViewParams params = DefaultParameters.getParams(mDataType);

@@ -14,7 +14,7 @@ public interface IdableCollection<T extends DataReview> extends Iterable<T> {
 
     void add(T datum);
 
-    void add(IdableCollection<T> data);
+    void addCollection(IdableCollection<T> data);
 
     @Override
     Iterator<T> iterator();

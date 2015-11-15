@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding
-        .FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Interfaces.Data.VerboseDataReview;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
 import com.chdryra.android.reviewer.Interfaces.Data.VerboseIdableCollection;

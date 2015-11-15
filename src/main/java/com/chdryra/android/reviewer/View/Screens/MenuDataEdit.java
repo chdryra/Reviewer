@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -105,8 +105,8 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
         return mDoneAction;
     }
 
-    protected ReviewBuilderAdapter.DataBuilderAdapter getBuilder() {
-        return (ReviewBuilderAdapter.DataBuilderAdapter) getAdapter();
+    protected DataBuilderAdapter getBuilder() {
+        return (DataBuilderAdapter) getAdapter();
     }
 
     protected ReviewDataEditor<T> getEditor() {

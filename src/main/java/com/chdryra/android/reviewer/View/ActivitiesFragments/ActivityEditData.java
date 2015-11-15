@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.Screens.EditScreenImages;
 import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
 import com.chdryra.android.reviewer.View.Screens.FactoryEditScreen;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
-import com.chdryra.android.reviewer.View.Utils.ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 
 /**
  * Created by: Rizwan Choudrey

@@ -18,9 +18,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.AdapterGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
@@ -55,7 +55,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private static final int AVERAGE = R.id.menu_item_average_rating;
 
-    private AdapterGridUi mList;
+    private WrapperGridData mList;
     private String mOriginalSubject;
     private float mOriginalRating;
     private CallBackSignaler mSignaler;
@@ -71,7 +71,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testLabels() {
-        for (AdapterGridUi.GvBuildReview dataType : mList) {
+        for (WrapperGridData.GvBuildReview dataType : mList) {
             assertTrue(mSolo.searchText(dataType.getGvDataType().getDataName()));
         }
     }
@@ -283,7 +283,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private float getAverageRating(boolean nearestHalf) {
-        GvCriterionList children = (GvCriterionList) getBuilder().getDataBuilder
+        GvCriterionList children = (GvCriterionList) getBuilder().getDataBuilderAdapter
                 (GvCriterionList.GvCriterion.TYPE)
                 .getGridData();
 
@@ -292,7 +292,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void testInBuilder(GvDataList data, boolean result) {
-        GvDataList fromBuilder = getBuilder().getDataBuilder(data.getGvDataType()).getGridData();
+        GvDataList fromBuilder = getBuilder().getDataBuilderAdapter(data.getGvDataType()).getGridData();
         fromBuilder.sort();
         data.sort();
         if (data.getGvDataType() == GvLocationList.GvLocation.TYPE) {
@@ -579,10 +579,10 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     }
 
     private void checkBuilderChanges(GvDataType dataTypeToIgnore) {
-        for (AdapterGridUi.GvBuildReview type : mList) {
+        for (WrapperGridData.GvBuildReview type : mList) {
             GvDataType dataType = type.getGvDataType();
             if (dataTypeToIgnore != null && dataType == dataTypeToIgnore) continue;
-            assertEquals(0, getBuilder().getDataBuilder(dataType).getGridData().size());
+            assertEquals(0, getBuilder().getDataBuilderAdapter(dataType).getGridData().size());
         }
     }
 
@@ -637,7 +637,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     protected void setUp() {
         super.setUp();
 
-        mList = (AdapterGridUi) mAdapter.getGridData();
+        mList = (WrapperGridData) mAdapter.getGridData();
         mOriginalSubject = mAdapter.getSubject();
         mOriginalRating = mAdapter.getRating();
 

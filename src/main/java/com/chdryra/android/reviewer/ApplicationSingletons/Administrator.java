@@ -13,8 +13,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
@@ -66,14 +66,9 @@ public class Administrator extends ApplicationSingleton {
     }
 
     //Static methods
-    public static Administrator createWithApplicationContext(Context context,
-                                                             ApplicationContext
+    public static void createWithApplicationContext(Context context, ApplicationContext
                                                                      applicationContext) {
-        return new Administrator(context, applicationContext);
-    }
-
-    public static void setAsAdministrator(Administrator administrator) {
-        sSingleton = administrator;
+        sSingleton = new Administrator(context, applicationContext);
     }
 
     public static Administrator getInstance(Context c) {
@@ -103,7 +98,7 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public void publishReviewBuilder() {
-        Review published = mReviewBuilderAdapter.publish(newPublisher());
+        Review published = mReviewBuilderAdapter.publishReview(newPublisher());
         mDatabase.addReviewToDb(published);
         mReviewBuilderAdapter = null;
     }

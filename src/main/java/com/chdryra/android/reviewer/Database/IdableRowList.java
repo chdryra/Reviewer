@@ -41,7 +41,7 @@ public class IdableRowList<T extends ReviewDataRow> implements IdableList<T> {
     }
 
     @Override
-    public void add(IdableCollection<T> data) {
+    public void addCollection(IdableCollection<T> data) {
         for(T datum : data) {
             add(datum);
         }

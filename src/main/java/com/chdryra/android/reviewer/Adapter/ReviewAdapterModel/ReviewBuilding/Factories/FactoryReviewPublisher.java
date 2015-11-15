@@ -1,6 +1,9 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation
+        .ReviewPublisherImpl;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 
 import java.util.Date;
@@ -11,7 +14,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewPublisher {
-    private Author mAuthor;
+    private final Author mAuthor;
 
     public Author getAuthor() {
         return mAuthor;
@@ -24,6 +27,6 @@ public class FactoryReviewPublisher {
     public ReviewPublisher newPublisher() {
         Date date = new Date();
         PublishDate publishDate = new PublishDate(date.getTime());
-        return new ReviewPublisher(mAuthor, publishDate);
+        return new ReviewPublisherImpl(mAuthor, publishDate);
     }
 }

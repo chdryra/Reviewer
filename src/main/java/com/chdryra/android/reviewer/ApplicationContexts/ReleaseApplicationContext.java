@@ -6,7 +6,7 @@ import android.os.Environment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.FactoryDataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.FactoryReviewerDbContract;

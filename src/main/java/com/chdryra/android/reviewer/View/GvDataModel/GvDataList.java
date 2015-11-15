@@ -111,7 +111,7 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
     }
 
     @Override
-    public void add(IdableCollection<T> data) {
+    public void addCollection(IdableCollection<T> data) {
         super.addList(data);
     }
 
@@ -158,9 +158,13 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         return true;
     }
 
+    public boolean hasData() {
+        return mData.size() > 0;
+    }
+
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return mData.size() > 0;
+        return hasData();
     }
 
     @Override

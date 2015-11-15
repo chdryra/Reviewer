@@ -43,7 +43,7 @@ public class VisitorReviewsGetterTest extends TestCase {
         reviews.add(node.getReview());
 
         for (ReviewNode child : node.getChildren()) {
-            reviews.add(flatten(child));
+            reviews.addCollection(flatten(child));
         }
 
         return reviews;

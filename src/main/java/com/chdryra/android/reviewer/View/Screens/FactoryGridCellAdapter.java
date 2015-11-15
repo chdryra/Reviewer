@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.app.Activity;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.DataCollectionGridCell;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.RvaGridCell;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 
@@ -28,7 +28,7 @@ public class FactoryGridCellAdapter {
     public static ViewHolderAdapter newAdapter(Activity activity, GvDataList data, int cellWidth,
                                                int cellHeight) {
         boolean uniqueViews = data.getGvDataType().equals(GvList.TYPE) ||
-                data.getGvDataType().equals(DataCollectionGridCell.TYPE);
+                data.getGvDataType().equals(RvaGridCell.TYPE);
         return new ViewHolderAdapter(activity, data, cellWidth, cellHeight, uniqueViews);
     }
 }

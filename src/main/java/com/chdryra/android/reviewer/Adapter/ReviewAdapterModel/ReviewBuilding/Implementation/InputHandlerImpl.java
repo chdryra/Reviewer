@@ -6,7 +6,7 @@
  * Date: 14 October, 2014
  */
 
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,37 +14,45 @@ package com.chdryra.android.reviewer.View.GvDataModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .InputHandler;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
  *
  * @param <T>: {@link GvData} type.
  */
-public class GvDataHandler<T extends GvData> {
+public class InputHandlerImpl<T extends GvData> implements InputHandler<T> {
     private final GvDataList<T> mData;
     private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
 
     //Constructors
-    public GvDataHandler(GvDataList<T> data) {
-        this(data, new AddConstraint<T>());
+    public InputHandlerImpl(GvDataList<T> data) {
+        this(data, new AddConstraintImpl<T>());
     }
 
-    public GvDataHandler(GvDataList<T> data, AddConstraint<T> addConstraint) {
-        this(data, addConstraint, new ReplaceConstraint<T>());
+    public InputHandlerImpl(GvDataList<T> data, AddConstraint<T> addConstraint) {
+        this(data, addConstraint, new ReplaceConstraintImpl<T>());
     }
 
-    public GvDataHandler(GvDataList<T> data, AddConstraint<T> addConstraint,
-                         ReplaceConstraint<T> replaceConstraint) {
+    public InputHandlerImpl(GvDataList<T> data, AddConstraint<T> addConstraint,
+                            ReplaceConstraint<T> replaceConstraint) {
         mData = data;
         mAddConstraint = addConstraint;
         mReplaceConstraint = replaceConstraint;
     }
 
     //public methods
+    @Override
     public GvDataType<T> getGvDataType() {
         return mData.getGvDataType();
     }
 
+    @Override
     public GvDataList<T> getData() {
         return mData;
     }
@@ -91,7 +99,7 @@ public class GvDataHandler<T extends GvData> {
     }
 
     //Classes
-    public static class AddConstraint<G extends GvData> {
+    public static class AddConstraintImpl<G extends GvData> implements AddConstraint<G>{
         public ConstraintResult passes(GvDataList<G> data, G datum) {
             if(data == null) {
                 return ConstraintResult.NULL_LIST;
@@ -101,7 +109,7 @@ public class GvDataHandler<T extends GvData> {
         }
     }
 
-    public static class ReplaceConstraint<G extends GvData> {
+    public static class ReplaceConstraintImpl<G extends GvData> implements ReplaceConstraint<G>{
         public ConstraintResult passes(GvDataList<G> data, G oldDatum, G newDatum) {
             if(data == null) {
                 return ConstraintResult.NULL_LIST;
@@ -110,13 +118,5 @@ public class GvDataHandler<T extends GvData> {
 
             }
         }
-    }
-
-    public enum ConstraintResult {
-        PASSED,
-        NULL_LIST,
-        HAS_DATUM,
-        INVALID_DATUM,
-        OLD_EQUALS_NEW
     }
 }

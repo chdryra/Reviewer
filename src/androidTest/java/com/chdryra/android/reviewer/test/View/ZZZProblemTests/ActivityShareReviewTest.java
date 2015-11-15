@@ -12,7 +12,8 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.TestDatabaseApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
@@ -97,8 +98,8 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
-        ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> tagBulder =
-                builder.getDataBuilder(GvTagList.GvTag.TYPE);
+        DataBuilderAdapter<GvTagList.GvTag> tagBulder =
+                builder.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
         for (GvTagList.GvTag tag : GvDataMocker.newTagList(3, false)) {
             tagBulder.add(tag);
         }

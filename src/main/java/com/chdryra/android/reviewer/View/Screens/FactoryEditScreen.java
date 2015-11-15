@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -36,7 +36,7 @@ public class FactoryEditScreen {
         } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
             screen = new EditScreenFacts(mContext, mBuilder);
         } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
-            screen = new EditScreenImages(mContext, mBuilder, mBuilder.getImageChooser(mContext));
+            screen = new EditScreenImages(mContext, mBuilder, mBuilder.getImageChooser());
         } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
             screen = new EditScreenLocations(mContext, mBuilder);
         } else if (dataType.equals(GvTagList.GvTag.TYPE)) {

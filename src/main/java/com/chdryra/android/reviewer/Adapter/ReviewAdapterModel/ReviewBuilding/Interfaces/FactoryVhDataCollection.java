@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.View.GvDataModel.VhDataCollection;
 
@@ -8,5 +8,5 @@ import com.chdryra.android.reviewer.View.GvDataModel.VhDataCollection;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryVhDataCollection {
-    public VhDataCollection newViewHolder();
+    VhDataCollection newViewHolder();
 }

@@ -10,29 +10,41 @@ import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationLaunch {
-    public static boolean sTestState = false;
+    private Context mContext;
+    private LaunchState mLaunchState;
+    private ApplicationContext mApplicationContext;
+    private static ApplicationLaunch sApplicationLaunch;
 
-    public static void setReleaseLaunchState() {
-        sTestState = false;
+    public enum LaunchState {RELEASE, TEST};
+
+    private ApplicationLaunch(Context context, LaunchState launchState) {
+        mContext = context;
+        mLaunchState = launchState;
+        createApplicationContext();
+        intialiseSingeltons();
     }
 
-    public static void setTestLaunchState() {
-        sTestState = true;
-    }
-
-    public static ApplicationContext createContextAndAdministrator(Context context) {
-        ApplicationContext applicationContext;
-        if(sTestState) {
-            applicationContext = new TestDatabaseApplicationContext(context);
-        } else {
-            applicationContext = new ReleaseApplicationContext(context);
+    public static void intitialiseSingletons(Context context, LaunchState launchState) {
+        if(sApplicationLaunch != null) {
+            throw new RuntimeException("Can only have 1 newInstance!");
         }
-        createLaunchState(context, applicationContext);
-        return applicationContext;
+
+        sApplicationLaunch = new ApplicationLaunch(context, launchState);
     }
 
-    private static void createLaunchState(Context context, ApplicationContext applicationContext) {
-        Administrator admin = Administrator.createWithApplicationContext(context, applicationContext);
-        Administrator.setAsAdministrator(admin);
+    private ApplicationLaunch createApplicationContext() {
+        if(mLaunchState == LaunchState.TEST) {
+            mApplicationContext = new TestDatabaseApplicationContext(mContext);
+        } else if(mLaunchState == LaunchState.RELEASE){
+            mApplicationContext = new ReleaseApplicationContext(mContext);
+        } else {
+            throw new RuntimeException("LaunchState not recognised!");
+        }
+
+        return this;
+    }
+
+    private void intialiseSingeltons() {
+        Administrator.createWithApplicationContext(mContext, mApplicationContext);
     }
 }

@@ -38,9 +38,10 @@ public class ActivityFeed extends ActivityReviewView
     //Overridden
     @Override
     protected ReviewView createReviewView() {
-        ApplicationContext appContext = ApplicationLaunch.createContextAndAdministrator(this);
-        Administrator admin = Administrator.getInstance(this);
+        ApplicationLaunch.intitialiseSingletons(this, ApplicationLaunch.LaunchState.TEST);
 
+        Administrator admin = Administrator.getInstance(this);
+        ApplicationContext appContext = admin.getApplicationContext();
         ReviewsProvider feed = admin.getReviewsRepository();
         FactoryReview reviewFactory = appContext.getReviewFactory();
         DataConverters converters = appContext.getDataConverters();
@@ -48,8 +49,9 @@ public class ActivityFeed extends ActivityReviewView
         FactoryReviewViewAdapter adapterFactory = appContext.getReviewViewAdapterFactory();
         FeedScreenMenu menuAction = new FeedScreenMenu();
 
-        mScreen = new FeedScreen(new FeedScreenGridItem());
         PublishDate date = new PublishDate(new Date().getTime());
+        mScreen = new FeedScreen(new FeedScreenGridItem());
+
         return mScreen.createView(feed, date, reviewFactory, converters.getGvConverter(),
                 childListFactory, adapterFactory, menuAction);
     }

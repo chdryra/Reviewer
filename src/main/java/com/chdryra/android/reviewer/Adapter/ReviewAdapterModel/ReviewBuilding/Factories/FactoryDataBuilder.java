@@ -1,6 +1,10 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.DataBuilderImpl;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .DataBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
@@ -10,7 +14,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDataBuilder {
-    private ConverterGv mConverter;
+    private final ConverterGv mConverter;
 
     public FactoryDataBuilder(ConverterGv converter) {
         mConverter = converter;
@@ -18,6 +22,6 @@ public class FactoryDataBuilder {
 
     public <T extends GvData> DataBuilder<T> newDataBuilder(GvDataType<T> dataType,
                                                             ReviewBuilder parentBuilder) {
-        return new DataBuilder<>(dataType, parentBuilder, mConverter.getCopier(dataType));
+        return new DataBuilderImpl<>(dataType, parentBuilder, mConverter.getCopier(dataType));
     }
 }

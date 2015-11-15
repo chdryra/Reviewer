@@ -24,15 +24,13 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Data
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.FactoryDataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding
-        .FactoryConfiguredGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.FactoryDataBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding
-        .FactoryDataCollectionGridCell;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding
-        .FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryConfiguredGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryRvaGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
@@ -62,7 +60,7 @@ import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.View.Utils.FactoryImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -186,7 +184,7 @@ public class ActivityFeedTest extends
         MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(converterGv);
         DataValidator validator = new DataValidator();
-        FactoryDataCollectionGridCell gridCellFactory = new FactoryDataCollectionGridCell();
+        FactoryRvaGridUi gridCellFactory = new FactoryRvaGridUi();
         FactoryConfiguredGridUi gridUiFactory = new FactoryConfiguredGridUi(gridCellFactory);
         FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(FILE_DIR_EXT, "ActivityFeedTest", "test", validator);
         FactoryImageChooser chooserFactory = new FactoryImageChooser();
@@ -199,15 +197,15 @@ public class ActivityFeedTest extends
             adapter.setSubject(RandomString.nextWord());
             adapter.setRating(RandomRating.nextRating());
 
-            ReviewBuilderAdapter.DataBuilderAdapter<GvTagList.GvTag> dataBuilderAdapter =
-                    adapter.getDataBuilder(GvTagList.GvTag.TYPE);
+            DataBuilderAdapter<GvTagList.GvTag> dataBuilderAdapter =
+                    adapter.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
             GvTagList tags = GvDataMocker.newTagList(NUM, false);
             for (int j = 0; j < tags.size(); ++j) {
                 dataBuilderAdapter.add(tags.getItem(j));
             }
             dataBuilderAdapter.setData();
 
-            reviews.add(adapter.publish(publisherFactory.newPublisher()));
+            reviews.add(adapter.publishReview(publisherFactory.newPublisher()));
         }
 
         ReviewsRepository provider = new StaticReviewsRepository(reviews, tagsManager);

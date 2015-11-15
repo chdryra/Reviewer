@@ -41,7 +41,7 @@ public class CriteriaDb implements IdableList<CriterionDb> {
     }
 
     @Override
-    public void add(IdableCollection<CriterionDb> data) {
+    public void addCollection(IdableCollection<CriterionDb> data) {
         for(CriterionDb datum : data) {
             add(datum);
         }

@@ -3,8 +3,9 @@ package com.chdryra.android.reviewer.test.Adapter.ReviewAdapterModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -53,7 +54,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         assertEquals("", mAdapter.getSubject());
         for (GvDataType dataType : TYPES) {
             String subject = RandomString.nextWord();
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             assertEquals("", adapter.getSubject());
             mAdapter.setSubject(subject);
             assertEquals(subject, adapter.getSubject());
@@ -71,7 +72,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         assertEquals(0f, mAdapter.getRating());
         for (GvDataType dataType : TYPES) {
             float rating = RandomRating.nextRating();
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             assertEquals(0f, adapter.getRating());
             mAdapter.setRating(rating);
             assertEquals(rating, adapter.getRating());
@@ -88,7 +89,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
     public void testIsRatingAverage() {
 
         for (GvDataType dataType : TYPES) {
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             mAdapter.setRatingIsAverage(false);
             assertFalse(adapter.isRatingAverage());
             mAdapter.setRatingIsAverage(true);
@@ -110,13 +111,13 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         setBuilderData(criteria);
 
         for (GvDataType dataType : TYPES) {
-            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
             assertEquals(criteria.getAverageRating(), builder.getAverageRating());
         }
 
         //Change criteria data
-        ReviewBuilderAdapter.DataBuilderAdapter<GvCriterionList.GvCriterion> criteriaBuilder =
-                mAdapter.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
+        DataBuilderAdapter<GvCriterionList.GvCriterion> criteriaBuilder =
+                mAdapter.getDataBuilderAdapter(GvCriterionList.GvCriterion.TYPE);
         GvCriterionList criteria2;
         do {
             criteria2 = GvDataMocker.newChildList(NUM, false);
@@ -127,7 +128,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         }
 
         for (GvDataType dataType : TYPES) {
-            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
             if(dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
                 assertEquals(criteria2.getAverageRating(), builder.getAverageRating());
             } else {
@@ -137,7 +138,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
         criteriaBuilder.setData();
         for (GvDataType dataType : TYPES) {
-            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
             assertEquals(criteria2.getAverageRating(), builder.getAverageRating());
         }
     }
@@ -148,8 +149,8 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         GvImageList newImages = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
 
-        ReviewBuilderAdapter.DataBuilderAdapter<GvImageList.GvImage> imageBuilder =
-                mAdapter.getDataBuilder(GvImageList.GvImage.TYPE);
+        DataBuilderAdapter<GvImageList.GvImage> imageBuilder =
+                mAdapter.getDataBuilderAdapter(GvImageList.GvImage.TYPE);
         imageBuilder.deleteAll();
         for (GvImageList.GvImage image : newImages) {
             imageBuilder.add(image);
@@ -158,7 +159,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         assertEquals(1, mAdapter.getCovers().size());
         assertEquals(images.getItem(0), mAdapter.getCovers().getItem(0));
         for (GvDataType dataType : TYPES) {
-            ReviewBuilderAdapter.DataBuilderAdapter builder = mAdapter.getDataBuilder(dataType);
+            DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
             assertEquals(1, builder.getCovers().size());
             if (dataType.equals(GvImageList.GvImage.TYPE)) {
                 assertEquals(newImages.getItem(0), builder.getCovers().getItem(0));
@@ -193,7 +194,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         for(GvDataType dataType : TYPES) {
             GridObserver observer = new GridObserver(mSignaler);
             GvData datum = addAndTestDatum(dataType, 0, observer);
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             observer.reset();
             adapter.delete(datum); //TODO make type safe
             observer.waitAndTestForNotification();
@@ -210,7 +211,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
             addAndTestDatum(dataType, 1, null);
             addAndTestDatum(dataType, 2, null);
 
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             observer.reset();
             adapter.deleteAll();
             observer.waitAndTestForNotification();
@@ -226,7 +227,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
             GridObserver observer = new GridObserver(mSignaler);
             GvData oldDatum = addAndTestDatum(dataType, 0, observer);
             GvData newDatum = GvDataMocker.getDatum(dataType);
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             observer.reset();
             adapter.replace(oldDatum, newDatum); //TODO make type safe
             observer.waitAndTestForNotification();
@@ -243,7 +244,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
             GvDataList<?> origData = GvDataMocker.getData(dataType, NUM);
             setBuilderData(origData);
 
-            ReviewBuilderAdapter.DataBuilderAdapter adapter = getBuilder(dataType);
+            DataBuilderAdapter adapter = getBuilder(dataType);
             assertEquals(origData, adapter.getGridData());
 
             GridObserver observer = new GridObserver(mSignaler);
@@ -260,7 +261,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
     private <T extends GvData> T addAndTestDatum(GvDataType<T> dataType, int index, GridObserver observer) {
         T datum = (T)GvDataMocker.getDatum(dataType); //TODO make type safe
-        ReviewBuilderAdapter.DataBuilderAdapter<T> adapter = getBuilder(dataType);
+        DataBuilderAdapter<T> adapter = getBuilder(dataType);
         GvDataList data = adapter.getGridData();
         assertEquals(index, data.size());
 
@@ -285,7 +286,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
     }
 
     private <T extends GvData> void setBuilderData(GvDataList<T> data) {
-        ReviewBuilderAdapter.DataBuilderAdapter<T> builder = getBuilder(data.getGvDataType());
+        DataBuilderAdapter<T> builder = getBuilder(data.getGvDataType());
         for (int i = 0; i < data.size(); ++i) {
             T datum = data.getItem(i);
             assertTrue(builder.add(datum));
@@ -293,8 +294,8 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         builder.setData();
     }
 
-    private <T extends GvData> ReviewBuilderAdapter.DataBuilderAdapter<T> getBuilder(GvDataType<T> dataType) {
-        return mAdapter.getDataBuilder(dataType);
+    private <T extends GvData> DataBuilderAdapter<T> getBuilder(GvDataType<T> dataType) {
+        return mAdapter.getDataBuilderAdapter(dataType);
     }
 
     //Overridden

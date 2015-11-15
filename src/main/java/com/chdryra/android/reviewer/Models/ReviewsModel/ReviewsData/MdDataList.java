@@ -33,7 +33,7 @@ public class MdDataList<T extends MdData> extends SortableList<T> implements MdD
     //Overridden
 
     @Override
-    public void add(IdableCollection<T> data) {
+    public void addCollection(IdableCollection<T> data) {
         super.addList(data);
     }
 

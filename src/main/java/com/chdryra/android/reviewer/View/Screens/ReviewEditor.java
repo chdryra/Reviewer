@@ -1,11 +1,10 @@
 package com.chdryra.android.reviewer.View.Screens;
 
-import android.content.Context;
-
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Utils.ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 
 /**
  * Created by: Rizwan Choudrey
@@ -52,8 +51,8 @@ public class ReviewEditor extends ReviewView {
             cover.setIsCover(false);
         }
         image.setIsCover(true);
-        ReviewBuilderAdapter.DataBuilderAdapter<GvImageList.GvImage> builder;
-        builder = mBuilder.getDataBuilder(GvImageList.GvImage.TYPE);
+        DataBuilderAdapter<GvImageList.GvImage> builder;
+        builder = mBuilder.getDataBuilderAdapter(GvImageList.GvImage.TYPE);
         builder.add(image);
         builder.setData();
     }
@@ -66,8 +65,8 @@ public class ReviewEditor extends ReviewView {
         return mBuilder.hasTags();
     }
 
-    public ImageChooser getImageChooser(Context context) {
-        return mBuilder.getImageChooser(context);
+    public ImageChooser getImageChooser() {
+        return mBuilder.getImageChooser();
     }
 
     //Overridden

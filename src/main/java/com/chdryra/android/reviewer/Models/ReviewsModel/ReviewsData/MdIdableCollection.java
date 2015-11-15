@@ -44,7 +44,7 @@ public class MdIdableCollection<T extends DataReview> implements IdableCollectio
         return mData.containsKey(id);
     }
 
-    public void add(IdableCollection<T> items) {
+    public void addCollection(IdableCollection<T> items) {
         for(T item : items) {
             mData.put(item.getReviewId(), item);
         }
