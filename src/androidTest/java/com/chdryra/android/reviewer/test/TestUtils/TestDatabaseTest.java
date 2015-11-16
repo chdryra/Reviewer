@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 

@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 
 /**

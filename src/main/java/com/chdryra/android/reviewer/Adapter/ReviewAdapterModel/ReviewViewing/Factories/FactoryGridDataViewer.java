@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Imp
         .ViewerTreeData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
         .GridDataViewer;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;

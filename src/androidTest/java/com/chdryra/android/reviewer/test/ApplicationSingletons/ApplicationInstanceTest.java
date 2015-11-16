@@ -16,7 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;

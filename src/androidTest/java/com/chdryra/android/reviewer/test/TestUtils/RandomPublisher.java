@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 

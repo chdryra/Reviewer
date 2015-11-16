@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Database.ReviewerDbObserver;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbObserver;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 

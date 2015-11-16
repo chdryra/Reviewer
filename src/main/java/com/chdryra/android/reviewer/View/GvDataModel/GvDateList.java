@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

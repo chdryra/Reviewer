@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.VerboseIdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableList;
 
 /**
  * Created by: Rizwan Choudrey

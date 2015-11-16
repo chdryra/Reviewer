@@ -1,11 +1,11 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
-import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
-import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
-import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
-import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;

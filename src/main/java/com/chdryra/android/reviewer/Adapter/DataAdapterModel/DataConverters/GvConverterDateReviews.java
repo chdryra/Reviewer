@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 
 /**

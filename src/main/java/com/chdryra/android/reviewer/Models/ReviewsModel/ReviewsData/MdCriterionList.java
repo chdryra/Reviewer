@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 /**

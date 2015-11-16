@@ -14,10 +14,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.DbTable;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Database.ReviewerDbContract;
-import com.chdryra.android.reviewer.Database.SQL;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbContractImpl;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class ReviewDbHelperTest extends AndroidTestCase {
         mDatabase = ReviewerDb.getTestDatabase(getContext(), new TagsManager());
         mHelper = mDatabase.getHelper();
         mTables = new ArrayList<>();
-        mTables = ReviewerDbContract.getContract().getTableDefinitions();
+        mTables = ReviewerDbContractImpl.getContract().getTableDefinitions();
     }
 
     @Override

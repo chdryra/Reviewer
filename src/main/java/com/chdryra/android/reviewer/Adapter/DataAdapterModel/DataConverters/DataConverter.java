@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataReview;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
 /**
  * Created by: Rizwan Choudrey

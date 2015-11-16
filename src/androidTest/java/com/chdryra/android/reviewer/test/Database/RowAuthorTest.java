@@ -12,7 +12,7 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.RowAuthor;
+import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 

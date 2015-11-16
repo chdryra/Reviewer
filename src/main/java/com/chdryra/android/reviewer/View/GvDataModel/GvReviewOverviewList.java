@@ -14,7 +14,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.View.Utils.RatingFormatter;

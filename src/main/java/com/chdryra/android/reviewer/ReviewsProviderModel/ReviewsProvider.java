@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Interfaces.Data.VerboseDataReview;
-import com.chdryra.android.reviewer.Interfaces.Data.VerboseIdableCollection;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataReview;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 
 import java.util.Iterator;

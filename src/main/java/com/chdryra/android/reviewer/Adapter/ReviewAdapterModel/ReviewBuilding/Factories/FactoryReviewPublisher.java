@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation
         .ReviewPublisherImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;

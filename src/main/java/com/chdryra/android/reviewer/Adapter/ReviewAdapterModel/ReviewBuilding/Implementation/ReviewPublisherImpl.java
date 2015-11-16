@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ReviewPublisher;
-import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
-import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
 
 /**
  * Created by: Rizwan Choudrey

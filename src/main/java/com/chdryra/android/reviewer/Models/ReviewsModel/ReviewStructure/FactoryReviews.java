@@ -13,14 +13,15 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
         .FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ReviewPublisher;
-import com.chdryra.android.reviewer.Database.ReviewDataHolder;
-import com.chdryra.android.reviewer.Interfaces.Data.DataAuthor;
-import com.chdryra.android.reviewer.Interfaces.Data.DataComment;
-import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
-import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
-import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
+import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdAuthor;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
  * put constructors so as to minimise the use of constructors in multiple places.
  * </p>
  */
-public class FactoryReviews implements ReviewDataHolder.BuilderReviewUser {
+public class FactoryReviews implements BuilderReview {
     private FactoryReviewPublisher mPublisherFactory;
     private FactoryReviewNodeComponent mComponentFactory;
     private ConverterMd mConverter;
@@ -164,9 +165,9 @@ public class FactoryReviews implements ReviewDataHolder.BuilderReviewUser {
 
     //Overridden
     @Override
-    public Review createUserReview(ReviewDataHolder review) {
+    public Review createReview(ReviewDataHolder review) {
         return newReviewUser(new MdReviewId(review.getId()), review.getAuthor(), review.getPublishDate(),
                 review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
-                review.getFacts(), review.getLocations(), review.getCritList(), review.isAverage());
+                review.getFacts(), review.getLocations(), review.getCriteria(), review.isAverage());
     }
 }

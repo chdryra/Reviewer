@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Adapter.DataAdapterModel;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;

@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataReview;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.Validatable;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.Validatable;
 
 /**
  * Defines interface for Review Data, data that reviews hold and can return.

@@ -22,8 +22,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Conv
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.FactoryDataConverters;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryConfiguredGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilder;

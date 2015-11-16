@@ -13,8 +13,8 @@ import android.database.MatrixCursor;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
-import com.chdryra.android.reviewer.Database.RowImage;
+import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 

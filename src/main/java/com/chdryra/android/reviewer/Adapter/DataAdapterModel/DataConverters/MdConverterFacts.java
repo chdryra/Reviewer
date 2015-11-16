@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
-import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdUrlList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;

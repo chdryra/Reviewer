@@ -13,12 +13,12 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationInitialisation.ApplicationContext;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;

@@ -8,11 +8,11 @@
 
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataAuthorReview;
-import com.chdryra.android.reviewer.Interfaces.Data.DataDateReview;
-import com.chdryra.android.reviewer.Interfaces.Data.DataRating;
-import com.chdryra.android.reviewer.Interfaces.Data.DataSubject;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;

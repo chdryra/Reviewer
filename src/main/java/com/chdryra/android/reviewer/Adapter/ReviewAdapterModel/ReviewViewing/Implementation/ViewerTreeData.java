@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Conv
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;

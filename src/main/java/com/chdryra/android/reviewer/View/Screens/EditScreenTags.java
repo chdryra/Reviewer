@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;

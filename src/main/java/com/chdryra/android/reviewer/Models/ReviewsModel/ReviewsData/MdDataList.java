@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
 import com.chdryra.android.mygenerallibrary.SortableList;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
 /**
  * Review Data: Sortable collection of {@link MdData} objects that itself is considered Review Data

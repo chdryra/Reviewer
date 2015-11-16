@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataDate;
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 
 import junit.framework.Assert;
 

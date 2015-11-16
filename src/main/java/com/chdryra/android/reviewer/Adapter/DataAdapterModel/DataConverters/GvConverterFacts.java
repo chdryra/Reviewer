@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
-import com.chdryra.android.reviewer.Interfaces.Data.DataUrl;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;

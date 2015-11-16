@@ -13,8 +13,8 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.VerboseDataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
 
 /**
  * Created by: Rizwan Choudrey

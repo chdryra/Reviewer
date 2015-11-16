@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
 
 import junit.framework.TestCase;
 

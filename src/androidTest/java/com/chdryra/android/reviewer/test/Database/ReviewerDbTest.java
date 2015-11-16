@@ -18,19 +18,19 @@ import android.graphics.Bitmap;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Database.DbColumnDef;
-import com.chdryra.android.reviewer.Database.DbTable;
-import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Database.ReviewerDbContract;
-import com.chdryra.android.reviewer.Database.FactoryDbTableRow;
-import com.chdryra.android.reviewer.Database.RowAuthor;
-import com.chdryra.android.reviewer.Database.RowComment;
-import com.chdryra.android.reviewer.Database.RowFact;
-import com.chdryra.android.reviewer.Database.RowImage;
-import com.chdryra.android.reviewer.Database.RowLocation;
-import com.chdryra.android.reviewer.Database.RowReview;
-import com.chdryra.android.reviewer.Database.RowTag;
-import com.chdryra.android.reviewer.Database.DbTableRow;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbContractImpl;
+import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
+import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
+import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
+import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
+import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
@@ -95,7 +95,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testReviewsTable() {
-        DbTable table = ReviewerDbContract.REVIEWS_TABLE;
+        DbTable table = ReviewerDbContractImpl.REVIEWS_TABLE;
 
         //Add
         assertEquals(0, getNumberRows(table));
@@ -119,7 +119,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testAuthorsTable() {
-        DbTable table = ReviewerDbContract.AUTHORS_TABLE;
+        DbTable table = ReviewerDbContractImpl.AUTHORS_TABLE;
 
         //Add
         assertEquals(0, getNumberRows(table));
@@ -147,7 +147,7 @@ public class ReviewerDbTest extends AndroidTestCase {
 
     @SmallTest
     public void testTagsTable() {
-        DbTable table = ReviewerDbContract.TAGS_TABLE;
+        DbTable table = ReviewerDbContractImpl.TAGS_TABLE;
 
         //Add
         assertEquals(0, getNumberRows(table));

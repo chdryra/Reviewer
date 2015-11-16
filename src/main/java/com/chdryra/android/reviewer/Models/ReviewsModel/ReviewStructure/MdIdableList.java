@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataReview;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
 

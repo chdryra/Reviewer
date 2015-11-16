@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataRating;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 
 /**
  * Review Data: rating
@@ -33,7 +33,7 @@ public class MdRating implements MdData, DataRating {
     }
 
     @Override
-    public int getWeight() {
+    public int getRatingWeight() {
         return mWeight;
     }
 

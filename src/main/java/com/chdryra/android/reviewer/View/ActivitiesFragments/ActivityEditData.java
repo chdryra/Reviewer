@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;

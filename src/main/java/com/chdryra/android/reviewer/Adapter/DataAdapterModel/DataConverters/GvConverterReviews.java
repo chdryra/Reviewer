@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;

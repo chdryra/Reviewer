@@ -35,7 +35,7 @@ public class MdRatingTest extends TestCase {
         int weight = randomWeight();
         MdRating rating = new MdRating(ID, score, weight);
         assertEquals(score, rating.getRating());
-        assertEquals(weight, rating.getWeight());
+        assertEquals(weight, rating.getRatingWeight());
         assertEquals(ID, rating.getReviewId());
     }
 

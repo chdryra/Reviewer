@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
         .FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;

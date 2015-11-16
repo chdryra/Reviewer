@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;

@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Interfaces.Data.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.StringTokenizer;

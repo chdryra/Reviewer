@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.Interfaces.Data.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 
 public class GvFactList extends GvDataList<GvFactList.GvFact> {
     public static final Parcelable.Creator<GvFactList> CREATOR = new Parcelable

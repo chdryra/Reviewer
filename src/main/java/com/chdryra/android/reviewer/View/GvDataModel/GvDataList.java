@@ -13,9 +13,9 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import org.jetbrains.annotations.NotNull;
