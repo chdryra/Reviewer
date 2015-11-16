@@ -27,15 +27,16 @@ import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignK
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbHelper;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
-import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.TagsModel.TagsManagerImpl;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Models.Social.Factories.FactorySocialPlatformList;
+import com.chdryra.android.reviewer.Models.TagsModel.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewerDbRepository;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsSource;
+import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsProvider;
+import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
@@ -94,10 +95,11 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     private void setReviewsProvider(FactoryReviewPublisher publisherFactory) {
-        ReviewerDbRepository provider = new ReviewerDbRepository(getReviewerDb());
-        getReviewerDb().registerObserver(provider);
+        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
+        ReviewsRepository repo = repoFactory.newDatabaseRepository(getReviewerDb());
 
-        setReviewsProvider(new ReviewsSource(provider, publisherFactory, getReviewsFactory()));
+        FactoryReviewsProvider providerFactory = new FactoryReviewsProvider();
+        setReviewsProvider(providerFactory.newProvider(repo, publisherFactory, getReviewsFactory()));
     }
 
     private void setReviewBuilderAdapterFactory(Context context) {
@@ -134,9 +136,8 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         ReviewLoader loader = loaderFactory.newStaticLoader(getReviewsFactory(), getDataValidator());
         FactoryDbTableRow rowFactory = new FactoryDbTableRow();
 
-        FactoryReviewerDb dbFactory = new FactoryReviewerDb();
-        ReviewerDb db = dbFactory.newDatabase(dbHelper, loader, rowFactory, getTagsManager(),
-                getDataValidator());
+        FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
+        ReviewerDb db = dbFactory.newDatabase(dbHelper, loader, getTagsManager(), getDataValidator());
         setReviewerDb(db);
     }
 
@@ -158,7 +159,9 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     private void setSocialPlatforms(Context context) {
-        setSocialPlatforms(new SocialPlatformList(context));
+        FactorySocialPlatformList factory = new FactorySocialPlatformList();
+
+        setSocialPlatforms(factory.newList(context));
     }
 
     private void setFactoryReviews(FactoryReviewPublisher publisherFactory) {
@@ -175,6 +178,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     private void setTagsManager() {
-        setTagsManager(new TagsManagerImpl());
+        FactoryTagsManager manager = new FactoryTagsManager();
+        setTagsManager(manager.newTagsManager());
     }
 }

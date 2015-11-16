@@ -14,8 +14,8 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.Social.SocialPlatformList.SocialPlatform;
+import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatform;
 
 /**
  * Used for social sharing screen showing social platforms and number of followers.

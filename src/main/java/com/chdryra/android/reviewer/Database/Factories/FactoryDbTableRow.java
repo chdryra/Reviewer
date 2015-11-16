@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Database.Implementation.RowImageImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowLocationImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowTagImpl;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTag;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

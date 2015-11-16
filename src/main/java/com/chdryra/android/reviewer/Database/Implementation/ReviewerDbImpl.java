@@ -38,10 +38,10 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
-import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 

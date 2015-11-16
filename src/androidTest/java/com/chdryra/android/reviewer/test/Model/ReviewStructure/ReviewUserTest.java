@@ -10,17 +10,18 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdRating;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdSubject;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdRating;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewUser;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewUser;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewStructure.ReviewUser;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;

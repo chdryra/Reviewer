@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewLoaderDynamic;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewLoaderStatic;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
 
 /**
  * Created by: Rizwan Choudrey

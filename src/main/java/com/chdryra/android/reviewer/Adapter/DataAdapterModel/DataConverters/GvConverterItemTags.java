@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
-import com.chdryra.android.reviewer.Models.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**

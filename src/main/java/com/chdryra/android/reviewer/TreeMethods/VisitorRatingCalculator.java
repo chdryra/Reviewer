@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.TreeMethods;
 
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 
 /**
  * Visitor pattern for {@link ReviewNode}s specifically

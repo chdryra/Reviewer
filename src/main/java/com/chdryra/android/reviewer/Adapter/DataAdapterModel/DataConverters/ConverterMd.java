@@ -6,13 +6,13 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdFactList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdImageList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdUrlList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
 
 /**
  * Created by: Rizwan Choudrey

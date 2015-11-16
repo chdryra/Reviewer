@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdLocationList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
 
 /**
  * Created by: Rizwan Choudrey

@@ -17,7 +17,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.TestDatabaseApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
@@ -44,7 +45,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     public void testPlatformNamesFollowers() {
         assertEquals(mList.size(), getGridSize());
         int i = 0;
-        for (SocialPlatformList.SocialPlatform platform : mList) {
+        for (SocialPlatform platform : mList) {
             GvSocialPlatformList.GvSocialPlatform gv = getPlatform(i++);
             assertEquals(platform.getName(), gv.getName());
             assertEquals(platform.getFollowers(), gv.getFollowers());

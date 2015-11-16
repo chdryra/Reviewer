@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer.test.Model.Social;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +27,7 @@ public class SocialPlatformListTest extends AndroidTestCase {
         assertNotNull(list);
 
         int i = 0;
-        for (SocialPlatformList.SocialPlatform platform : list) {
+        for (SocialPlatform platform : list) {
             i++;
             assertNotNull(platform.getName());
             assertNotNull(platform.getFollowers());
