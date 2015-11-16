@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Database.Factories;
 
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
@@ -50,7 +49,7 @@ public class FactoryDbTableRow {
 
     public <T extends DbTableRow> T newRow(Cursor cursor, Class<T> rowClass) {
         try {
-            Constructor c = rowClass.getConstructor(Cursor.class, DataValidator.class);
+            Constructor c = rowClass.getConstructor(Cursor.class);
             return rowClass.cast(c.newInstance(cursor));
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Couldn't find Cursor constructor for " + rowClass

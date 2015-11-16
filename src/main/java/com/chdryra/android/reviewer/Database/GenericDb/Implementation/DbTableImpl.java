@@ -22,13 +22,13 @@ import java.util.ArrayList;
  */
 public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     private String mTableName;
-    private Class<T> mRowClass;
+    private Class<? extends T> mRowClass;
     private ArrayList<DbColumnDef> mPrimaryKeys;
     private ArrayList<DbColumnDef> mOtherColumns;
     private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
 
     //Constructors
-    public DbTableImpl(String tableName, Class<T> rowClass) {
+    public DbTableImpl(String tableName, Class<? extends T> rowClass) {
         mTableName = tableName;
         mRowClass = rowClass;
         mPrimaryKeys = new ArrayList<>();
@@ -43,7 +43,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
-    public Class<T> getRowClass() {
+    public Class<? extends T> getRowClass() {
         return mRowClass;
     }
 

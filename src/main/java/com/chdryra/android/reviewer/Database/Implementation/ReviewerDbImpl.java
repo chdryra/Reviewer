@@ -76,14 +76,17 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     //public methods
+    @Override
     public String getDatabaseName() {
         return mHelper.getDatabaseName();
     }
 
+    @Override
     public SQLiteOpenHelper getHelper() {
         return mHelper;
     }
 
+    @Override
     public TagsManager getTagsManager() {
         return mTagsManager;
     }
@@ -139,10 +142,12 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     //API
+    @Override
     public void registerObserver(ReviewerDbObserver observer) {
         mObservers.add(observer);
     }
 
+    @Override
     public void addReviewToDb(Review review) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
@@ -155,6 +160,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         if (success) notifyOnAddReview(review);
     }
 
+    @Override
     public Review loadReviewFromDb(String reviewId) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
@@ -169,6 +175,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return review;
     }
 
+    @Override
     public ArrayList<Review> loadReviewsFromDb() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
@@ -183,6 +190,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return reviews;
     }
 
+    @Override
     public void deleteReviewFromDb(String reviewId) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
@@ -195,6 +203,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         if (success) notifyOnDeleteReview(reviewId);
     }
 
+    @Override
     public ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
 
@@ -206,6 +215,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return reviews;
     }
 
+    @Override
     public <T extends DbTableRow> T getRowWhere(SQLiteDatabase db,
                                                             DbTable<T> table, String col,
                                                             String val) {
@@ -220,6 +230,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return row;
     }
 
+    @Override
     public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col,
                                                 String val) {
         SQLiteDatabase db = getHelper().getReadableDatabase();
@@ -233,6 +244,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return rowList;
     }
 
+    @Override
     public <T1 extends DbTableRow> ArrayList<T1>
     loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
         TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);

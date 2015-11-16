@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public interface DbTable<T extends DbTableRow> extends BaseColumns {
     String getName();
 
-    Class<T> getRowClass();
+    Class<? extends T> getRowClass();
 
     ArrayList<DbColumnDef> getPrimaryKeys();
 
