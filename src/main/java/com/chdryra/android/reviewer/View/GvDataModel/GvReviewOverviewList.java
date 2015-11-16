@@ -15,7 +15,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Used for Review summaries in published feed
  *
- * @see Administrator
+ * @see ApplicationInstance
  */
 public class GvReviewOverviewList extends GvDataList<GvReviewOverviewList.GvReviewOverview> {
     public static final Parcelable.Creator<GvReviewOverviewList> CREATOR = new Parcelable

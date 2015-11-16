@@ -41,7 +41,7 @@ public interface ReviewBuilderAdapter<D extends GvDataList> extends ReviewViewAd
 
     boolean hasTags();
 
-    Review publishReview(ReviewPublisher publisher);
+    Review publishReview();
 
     @Override
     void attachReviewView(ReviewView view);

@@ -8,10 +8,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
         .DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewPublisher;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -49,14 +47,14 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     private final ConverterGv mConverter;
     private final TagsManager mTagsManager;
-    private final FactoryReview mReviewFactory;
+    private final FactoryReviews mReviewFactory;
     private final FactoryDataBuilder mDataBuilderFactory;
     private final DataValidator mDataValidator;
 
     //Constructors
     public ReviewBuilderImpl(ConverterGv converter,
                              TagsManager tagsManager,
-                             FactoryReview reviewFactory,
+                             FactoryReviews reviewFactory,
                              FactoryDataBuilder databuilderFactory,
                              DataValidator dataValidator) {
         mConverter = converter;
@@ -118,7 +116,8 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         return mData.get(dataType);
     }
 
-    public <T extends GvData> void setData(GvDataList<T> data) {
+    public <T extends GvData> void setData(DataBuilder<T> dataBuilder) {
+        GvDataList<T> data = dataBuilder.getData();
         GvDataType<T> dataType = data.getGvDataType();
         if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
             setCriteria(data);
@@ -127,12 +126,12 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         }
     }
 
-    public Review buildReview(ReviewPublisher publisher) {
+    public Review buildReview() {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
         }
 
-        Review review = assembleReview(publisher);
+        Review review = assembleReview();
         GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
         mTagsManager.tagItem(review.getReviewId(), tags.toStringArray());
 
@@ -144,13 +143,13 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         return mDataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
     }
 
-    private Review assembleReview(ReviewPublisher publisher) {
+    private Review assembleReview() {
         IdableCollection<Review> criteria = new MdIdableCollection<>();
         for (ReviewBuilderImpl child : mChildren) {
-            criteria.add(child.assembleReview(publisher));
+            criteria.add(child.assembleReview());
         }
 
-        return mReviewFactory.createUserReview(publisher, getSubject(), getRating(),
+        return mReviewFactory.createUserReview(getSubject(), getRating(),
                 getData(GvCommentList.GvComment.TYPE),
                 getData(GvImageList.GvImage.TYPE),
                 getData(GvFactList.GvFact.TYPE),

@@ -10,14 +10,11 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvReviewConverter;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
@@ -34,12 +31,9 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
 
 //Constructors
     public ReviewsRepositoryScreen(ReviewsProvider repository,
-                                   FactoryReview reviewFactory,
-                                   String title,
-                                   PublishDate publishDate) {
-        Author author = repository.getAuthor();
-        ReviewPublisher publisher = new ReviewPublisher(author, publishDate);
-        Review root = reviewFactory.createUserReview(publisher, title, 0f);
+                                   FactoryReviews reviewFactory,
+                                   String title) {
+        Review root = reviewFactory.createUserReview(title, 0f);
 
         mNodeFactory = reviewFactory.getComponentFactory();
         mNode = mNodeFactory.createReviewNodeComponent(root, true);

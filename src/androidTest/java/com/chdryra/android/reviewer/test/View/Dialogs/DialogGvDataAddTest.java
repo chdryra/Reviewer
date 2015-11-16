@@ -18,7 +18,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
@@ -235,7 +235,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
         mDialog = mDialogClass.newInstance();
         mListener = new DialogAddListener<>();
 
-        mAdapter = Administrator.getInstance(getInstrumentation().getTargetContext())
+        mAdapter = ApplicationInstance.getInstance(getInstrumentation().getTargetContext())
                 .newReviewBuilder().getDataBuilder(mDialog.getGvDataType());
 
         Intent i = new Intent();

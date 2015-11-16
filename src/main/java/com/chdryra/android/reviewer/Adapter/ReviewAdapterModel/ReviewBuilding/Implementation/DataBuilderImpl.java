@@ -59,7 +59,7 @@ public class DataBuilderImpl <T extends GvData> implements DataBuilder<T> {
     }
 
     public void setData() {
-        getParentBuilder().setData(getData());
+        getParentBuilder().setData(this);
     }
 
     public void resetData() {

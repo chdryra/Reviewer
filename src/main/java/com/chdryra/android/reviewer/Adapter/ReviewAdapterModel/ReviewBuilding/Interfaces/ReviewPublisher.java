@@ -13,5 +13,5 @@ public interface ReviewPublisher {
 
     DataDate getDate();
 
-    int getIncrement();
+    int getPublishedIndex();
 }

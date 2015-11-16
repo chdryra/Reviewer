@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
@@ -178,7 +178,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     }
 
     protected void setUp(boolean withData) {
-        Administrator.getInstance(getInstrumentation().getTargetContext()).newReviewBuilder();
+        ApplicationInstance.getInstance(getInstrumentation().getTargetContext()).newReviewBuilder();
         mWithData = withData;
         super.setUp();
 

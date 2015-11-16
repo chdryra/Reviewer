@@ -1,13 +1,15 @@
-package com.chdryra.android.reviewer.ApplicationContexts;
+package com.chdryra.android.reviewer.ApplicationInitialisation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
@@ -18,15 +20,15 @@ import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationContext {
-    Author getAuthor();
     ReviewerDb getReviewerDb();
     TagsManager getTagsManager();
     SocialPlatformList getSocialPlatformList();
     ReviewsProvider getReviewsProvider();
     DataConverters getDataConverters();
-    FactoryReviewViewAdapter getReviewViewAdapterFactory();
-    BuilderChildListScreen getBuilderChildListScreen();
-    FactoryReview getReviewFactory();
     DataValidator getDataValidator();
+    FactoryReviewViewAdapter getReviewViewAdapterFactory();
+    FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();
+    BuilderChildListScreen getBuilderChildListScreen();
+    FactoryReviews getReviewsFactory();
     FactoryFileIncrementor getFileIncrementorFactory();
 }

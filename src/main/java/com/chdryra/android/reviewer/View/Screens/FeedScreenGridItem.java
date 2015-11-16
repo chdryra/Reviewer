@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -46,7 +46,7 @@ public class FeedScreenGridItem extends GiLaunchReviewDataScreen
             GvData datum = GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
             GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
                     .GvReviewOverview) datum;
-            Administrator.getInstance(getActivity()).deleteFromAuthorsFeed(review.getId());
+            ApplicationInstance.getInstance(getActivity()).deleteFromAuthorsFeed(review.getId());
         }
     }
 }

@@ -29,7 +29,7 @@ public interface ReviewBuilder {
 
     <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType);
 
-    <T extends GvData> void setData(GvDataList<T> data);
+    <T extends GvData> void setData(DataBuilder<T> dataBuilder);
 
-    Review buildReview(ReviewPublisher publisher);
+    Review buildReview();
 }

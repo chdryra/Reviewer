@@ -11,22 +11,11 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
-        .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.ApplicationLaunch;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
-import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
+import com.chdryra.android.reviewer.ApplicationInitialisation.ApplicationLaunch;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.View.Screens.BuilderAuthorFeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
-import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
-import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Screens.ReviewView;
-
-import java.util.Date;
 
 /**
  * UI Activity holding published reviews feed.
@@ -40,20 +29,11 @@ public class ActivityFeed extends ActivityReviewView
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseSingletons(this, ApplicationLaunch.LaunchState.TEST);
 
-        Administrator admin = Administrator.getInstance(this);
-        ApplicationContext appContext = admin.getApplicationContext();
-        ReviewsProvider feed = admin.getReviewsRepository();
-        FactoryReview reviewFactory = appContext.getReviewFactory();
-        DataConverters converters = appContext.getDataConverters();
-        BuilderChildListScreen childListFactory = appContext.getBuilderChildListScreen();
-        FactoryReviewViewAdapter adapterFactory = appContext.getReviewViewAdapterFactory();
-        FeedScreenMenu menuAction = new FeedScreenMenu();
-
-        PublishDate date = new PublishDate(new Date().getTime());
-        mScreen = new FeedScreen(new FeedScreenGridItem());
-
-        return mScreen.createView(feed, date, reviewFactory, converters.getGvConverter(),
-                childListFactory, adapterFactory, menuAction);
+        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        BuilderAuthorFeedScreen feedScreenBuilder = new BuilderAuthorFeedScreen();
+        feedScreenBuilder.newScreen(app);
+        mScreen = feedScreenBuilder.getFeedScreen();
+        return feedScreenBuilder.getView();
     }
 
     //Overridden

@@ -15,7 +15,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
@@ -31,17 +31,17 @@ import com.chdryra.android.testutils.RandomString;
  * On: 02/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdministratorTest extends InstrumentationTestCase {
-    private Administrator mAdmin;
+public class ApplicationInstanceTest extends InstrumentationTestCase {
+    private ApplicationInstance mAdmin;
 
     @SmallTest
     public void testGetImageChooser() {
         Context context = getInstrumentation().getTargetContext();
         if (mAdmin.getReviewBuilderAdapter() == null) {
-            assertNull(Administrator.getImageChooser(context));
+            assertNull(ApplicationInstance.getImageChooser(context));
         }
         mAdmin.newReviewBuilder();
-        assertNotNull(Administrator.getImageChooser(context));
+        assertNotNull(ApplicationInstance.getImageChooser(context));
     }
 
     @SmallTest
@@ -105,6 +105,6 @@ public class AdministratorTest extends InstrumentationTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mAdmin = Administrator.getInstance(getInstrumentation().getTargetContext());
+        mAdmin = ApplicationInstance.getInstance(getInstrumentation().getTargetContext());
     }
 }

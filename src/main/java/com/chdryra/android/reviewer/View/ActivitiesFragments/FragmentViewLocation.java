@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
@@ -70,7 +70,7 @@ public class FragmentViewLocation extends Fragment implements
     }
 
     private void onGotoReviewSelected() {
-        Administrator admin = Administrator.getInstance(getActivity());
+        ApplicationInstance admin = ApplicationInstance.getInstance(getActivity());
         admin.launchReview(getActivity(), mCurrent.getReviewId());
     }
 

@@ -14,9 +14,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.TestDatabaseApplicationContext;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationInitialisation.ApplicationContext;
+import com.chdryra.android.reviewer.ApplicationInitialisation.TestDatabaseApplicationContext;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
@@ -38,7 +38,7 @@ import com.chdryra.android.testutils.RandomString;
 public class ActivityShareReviewTest extends ActivityReviewViewTest {
     private static final int TIMEOUT = 10000;
     private SocialPlatformList mList;
-    private Administrator mAdmin;
+    private ApplicationInstance mAdmin;
 
     @SmallTest
     public void testPlatformNamesFollowers() {
@@ -119,7 +119,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
         Context context = getInstrumentation().getTargetContext();
         mList = new SocialPlatformList(context);
         ApplicationContext testContext = new TestDatabaseApplicationContext(context);
-        mAdmin = Administrator.createWithApplicationContext(context, testContext);
+        mAdmin = ApplicationInstance.createWithApplicationContext(context, testContext);
         super.setUp();
     }
 }

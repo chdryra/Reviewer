@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableColl
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCriterionList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
@@ -39,7 +39,7 @@ import junit.framework.TestCase;
  * On: 18/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewTest extends TestCase {
+public class FactoryReviewsTest extends TestCase {
     private static final int NUM = 3;
     private Review mReview;
     private Author mAuthor;
@@ -73,10 +73,10 @@ public class FactoryReviewTest extends TestCase {
 
     @SmallTest
     public void testCreateReviewTreeNode() {
-        ReviewTreeNode node = FactoryReview.createReviewNodeComponent(mReview, true);
+        ReviewTreeNode node = FactoryReviews.createReviewNodeComponent(mReview, true);
         checkNode(node);
         assertTrue(node.isRatingAverageOfChildren());
-        node = FactoryReview.createReviewNodeComponent(mReview, false);
+        node = FactoryReviews.createReviewNodeComponent(mReview, false);
         checkNode(node);
         assertFalse(node.isRatingAverageOfChildren());
     }
@@ -93,7 +93,7 @@ public class FactoryReviewTest extends TestCase {
         String subject = RandomString.nextWord();
 
         ReviewPublisher publisher = RandomPublisher.nextPublisher();
-        ReviewNode meta = FactoryReview.createMetaReview(reviews, publisher, subject);
+        ReviewNode meta = FactoryReviews.createMetaReview(reviews, subject);
 
         assertEquals(publisher.getAuthor(), meta.getAuthor());
         assertEquals(publisher.getDate(), meta.getPublishDate());
@@ -117,7 +117,7 @@ public class FactoryReviewTest extends TestCase {
         GvLocationList locations = GvDataMocker.newLocationList(NUM, false);
 
         ReviewPublisher publisher = new ReviewPublisher(author, date);
-        return FactoryReview.createUserReview(publisher, subject, rating,
+        return FactoryReviews.createUserReview(subject, rating,
                 comments, images, facts, locations, new MdIdableCollection<Review>(), false);
     }
 
@@ -153,7 +153,7 @@ public class FactoryReviewTest extends TestCase {
             mCriteria.add(nextReview());
         }
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, mDate);
-        mReview = FactoryReview.createUserReview(publisher, mSubject, mRating,
+        mReview = FactoryReviews.createUserReview(mSubject, mRating,
                 mComments, mImages, mFacts, mLocations, mCriteria, false);
     }
 }

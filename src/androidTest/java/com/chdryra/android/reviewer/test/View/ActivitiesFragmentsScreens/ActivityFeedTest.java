@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
         .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
@@ -160,7 +160,7 @@ public class ActivityFeedTest extends
         DataConverters converters = new FactoryDataConverters(tagsManager).newDataConverters();
         ConverterGv converterGv = converters.getGvConverter();
         ConverterMd converterMd = converters.getMdConverter();
-        FactoryReview reviewFactory = new FactoryReview(nodeFactory, converterMd);
+        FactoryReviews reviewFactory = new FactoryReviews(nodeFactory, converterMd);
         BuilderChildListScreen builder = new BuilderChildListScreen();
         FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         GvDataAggregater aggregator = new GvDataAggregater();
@@ -179,7 +179,7 @@ public class ActivityFeedTest extends
         SoloUtils.pretouchScreen(mActivity, mSolo);
     }
 
-    private ReviewsProvider createFeed(ConverterGv converterGv, TagsManager tagsManager, FactoryReview reviewFactory) {
+    private ReviewsProvider createFeed(ConverterGv converterGv, TagsManager tagsManager, FactoryReviews reviewFactory) {
         Author author = RandomAuthor.nextAuthor();
         MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(converterGv);
@@ -205,7 +205,7 @@ public class ActivityFeedTest extends
             }
             dataBuilderAdapter.setData();
 
-            reviews.add(adapter.publishReview(publisherFactory.newPublisher()));
+            reviews.add(adapter.publishReview());
         }
 
         ReviewsRepository provider = new StaticReviewsRepository(reviews, tagsManager);

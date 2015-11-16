@@ -1,16 +1,11 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .FactoryGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .FactoryVhDataCollection;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.ReviewBuilderAdapterImpl;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryVhDataCollection;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
 
@@ -20,27 +15,35 @@ import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewBuilderAdapter {
-    private final FactoryGridUi<? extends GvDataList, ReviewBuilderAdapter> gridUiFactory;
+    private final FactoryReviewBuilder mBuilderFactory;
+    private final FactoryGridUi<? extends GvDataList, ReviewBuilderAdapter> mGridUiFactory;
     private final FactoryVhDataCollection mVhFactory;
-    private FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
-    private FactoryFileIncrementor mFactoryFileIncrementor;
-    private FactoryImageChooser mFactoryImageChooser;
-    private DataValidator mDataValidator;
+    private final DataValidator mDataValidator;
+    private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
+    private final FactoryFileIncrementor mFactoryFileIncrementor;
+    private final FactoryImageChooser mFactoryImageChooser;
 
-    public FactoryReviewBuilderAdapter(Context context, DataValidator validator,
-                                       FactoryFileIncrementor incrementorFactory) {
-        gridUiFactory = new FactoryRvaGridUi();
-        mVhFactory = new FactoryVhBuildReviewData();
-        mDataBuilderAdapterFactory = new FactoryDataBuilderAdapter(context);
-        mFactoryImageChooser = new FactoryImageChooser(context);
-        mDataValidator = validator;
-        mFactoryFileIncrementor = incrementorFactory;
+    public FactoryReviewBuilderAdapter(FactoryReviewBuilder builderFactory,
+                                       FactoryGridUi<? extends GvDataList, ReviewBuilderAdapter>
+                                               gridUiFactory,
+                                       FactoryVhDataCollection vhFactory,
+                                       DataValidator dataValidator,
+                                       FactoryDataBuilderAdapter dataBuilderAdapterFactory,
+                                       FactoryFileIncrementor factoryFileIncrementor,
+                                       FactoryImageChooser factoryImageChooser) {
+        mBuilderFactory = builderFactory;
+        mGridUiFactory = gridUiFactory;
+        mVhFactory = vhFactory;
+        mDataValidator = dataValidator;
+        mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
+        mFactoryFileIncrementor = factoryFileIncrementor;
+        mFactoryImageChooser = factoryImageChooser;
     }
 
-    public ReviewBuilderAdapter newAdapter(ReviewBuilder builder) {
+    public ReviewBuilderAdapter newAdapter() {
 
-        return new ReviewBuilderAdapterImpl<>(builder,
-                gridUiFactory.newGridUiWrapper(mVhFactory),
+        return new ReviewBuilderAdapterImpl<>(mBuilderFactory.newBuilder(),
+                mGridUiFactory.newGridUiWrapper(mVhFactory),
                 mDataValidator,
                 mDataBuilderAdapterFactory,
                 mFactoryFileIncrementor,

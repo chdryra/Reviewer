@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Vie
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewTreeNode;
@@ -91,8 +91,8 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
     private void setAdapter() {
         ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
-        FactoryReview reviewFactory = new FactoryReview(new MdGvConverter());
-        Review review = reviewFactory.createUserReview(publisher, RandomString.nextWord(), 0f);
+        FactoryReviews reviewFactory = new FactoryReviews(new MdGvConverter());
+        Review review = reviewFactory.createUserReview(RandomString.nextWord(), 0f);
         ReviewTreeNode collection = reviewFactory.createReviewNodeComponent(review, true);
         mReviews = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {

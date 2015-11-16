@@ -30,7 +30,7 @@ public class ReviewPublisherImpl implements ReviewPublisher {
         return mDate;
     }
 
-    public int getIncrement() {
+    public int getPublishedIndex() {
         return mIndex++;
     }
 }

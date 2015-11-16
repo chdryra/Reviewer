@@ -1,13 +1,13 @@
-package com.chdryra.android.reviewer.ApplicationContexts;
+package com.chdryra.android.reviewer.ApplicationInitialisation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
@@ -18,28 +18,32 @@ import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationContextBasic implements ApplicationContext {
-    private Author mAuthor;
-    private FactoryReview mFactoryReview;
+    private FactoryReviews mFactoryReviews;
     private TagsManager mTagsManager;
     private ReviewerDb mReviewerDb;
     private ReviewsProvider mReviewsProvider;
     private SocialPlatformList mSocialPlatforms;
     private BuilderChildListScreen mBuilderChildListScreen;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
-    private DataConverters mConverters;
+    private DataConverters mDataConverters;
     private DataValidator mDataValidator;
     private FactoryFileIncrementor mFactoryFileIncrementor;
+    private FactoryReviewBuilderAdapter mBuilderAdapterFactory;
 
-    public ApplicationContextBasic() {
+    protected ApplicationContextBasic() {
 
     }
 
-    public void setAuthor(Author author) {
-        mAuthor = author;
+    public void setFactoryReviews(FactoryReviews factoryReviews) {
+        mFactoryReviews = factoryReviews;
     }
 
-    public void setFactoryReview(FactoryReview factoryReview) {
-        mFactoryReview = factoryReview;
+    public void setDataConverters(DataConverters converters) {
+        mDataConverters = converters;
+    }
+
+    public void setBuilderAdapterFactory(FactoryReviewBuilderAdapter builderAdapterFactory) {
+        mBuilderAdapterFactory = builderAdapterFactory;
     }
 
     public void setTagsManager(TagsManager tagsManager) {
@@ -52,10 +56,6 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     public void setReviewsProvider(ReviewsProvider reviewsProvider) {
         mReviewsProvider = reviewsProvider;
-    }
-
-    public void setDataConverters(DataConverters converters) {
-        mConverters = converters;
     }
 
     public void setSocialPlatforms(SocialPlatformList socialPlatforms) {
@@ -76,11 +76,6 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     public void setFactoryFileIncrementor(FactoryFileIncrementor factoryFileIncrementor) {
         mFactoryFileIncrementor = factoryFileIncrementor;
-    }
-
-    @Override
-    public Author getAuthor() {
-        return mAuthor;
     }
 
     @Override
@@ -105,7 +100,7 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     @Override
     public DataConverters getDataConverters() {
-        return mConverters;
+        return mDataConverters;
     }
 
     @Override
@@ -119,8 +114,8 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     @Override
-    public FactoryReview getReviewFactory() {
-        return mFactoryReview;
+    public FactoryReviews getReviewsFactory() {
+        return mFactoryReviews;
     }
 
     @Override
@@ -131,5 +126,10 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public FactoryFileIncrementor getFileIncrementorFactory() {
         return mFactoryFileIncrementor;
+    }
+
+    @Override
+    public FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory() {
+        return mBuilderAdapterFactory;
     }
 }

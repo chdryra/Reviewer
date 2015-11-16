@@ -205,7 +205,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
         @Override
         public void onAttachReviewView() {
-            mImageChooser = mEditor.getImageChooser(getActivity());
+            mImageChooser = mEditor.getImageChooser();
             mLocationClient = new LocationClientConnector(getActivity(), BuildScreen.this);
             mLocationClient.connect();
         }

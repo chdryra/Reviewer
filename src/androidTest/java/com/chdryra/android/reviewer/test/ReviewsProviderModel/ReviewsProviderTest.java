@@ -5,7 +5,7 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdCommentList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdReviewId;
@@ -123,7 +123,7 @@ public class ReviewsProviderTest extends InstrumentationTestCase {
     protected void setUp() throws Exception {
         TestDatabase.recreateDatabase(getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
-        mRepo = Administrator.getInstance(mContext).getReviewsRepository();
+        mRepo = ApplicationInstance.getInstance(mContext).getReviewsRepository();
         assertTrue(mRepo.getReviews().size() > 0);
     }
 

@@ -12,21 +12,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
+import com.chdryra.android.reviewer.ApplicationInitialisation.ApplicationContext;
 import com.chdryra.android.reviewer.Database.ReviewerDb;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Screens.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
-
-import java.util.Date;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -45,21 +45,21 @@ import java.util.Date;
  * </ul>
  *
  */
-public class Administrator extends ApplicationSingleton {
-    private static final String NAME = "Administrator";
+public class ApplicationInstance extends ApplicationSingleton {
+    private static final String NAME = "ApplicationInstance";
 
-    private static Administrator sSingleton;
+    private static ApplicationInstance sSingleton;
 
     private final ApplicationContext mApplicationContext;
     private final ReviewerDb mDatabase;
     private ReviewBuilderAdapter mReviewBuilderAdapter;
 
-    private Administrator(Context context) {
+    private ApplicationInstance(Context context) {
         super(context, NAME);
         throw new IllegalStateException("Need to call createWithApplicationContext first!");
     }
 
-    private Administrator(Context context, ApplicationContext applicationContext) {
+    private ApplicationInstance(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
         mApplicationContext = applicationContext;
         mDatabase = applicationContext.getReviewerDb();
@@ -68,37 +68,56 @@ public class Administrator extends ApplicationSingleton {
     //Static methods
     public static void createWithApplicationContext(Context context, ApplicationContext
                                                                      applicationContext) {
-        sSingleton = new Administrator(context, applicationContext);
+        sSingleton = new ApplicationInstance(context, applicationContext);
     }
 
-    public static Administrator getInstance(Context c) {
-        sSingleton = getSingleton(sSingleton, Administrator.class, c);
+    public static ApplicationInstance getInstance(Context c) {
+        sSingleton = getSingleton(sSingleton, ApplicationInstance.class, c);
         return sSingleton;
     }
 
     //public methods
-    public ApplicationContext getApplicationContext() {
-        return mApplicationContext;
-    }
-
-    public ReviewsProvider getReviewsRepository() {
-        return mApplicationContext.getReviewsProvider();
+    public DataValidator getDataValidator() {
+        return mApplicationContext.getDataValidator();
     }
 
     public ReviewBuilderAdapter getReviewBuilderAdapter() {
         return mReviewBuilderAdapter;
     }
 
+    public ReviewsProvider getReviewsProvider() {
+        return mApplicationContext.getReviewsProvider();
+    }
+
+    public FactoryReviews getReviewsFactory() {
+        return mApplicationContext.getReviewsFactory();
+    }
+
+    public DataConverters getDataConverters() {
+        return mApplicationContext.getDataConverters();
+    }
+
+    public BuilderChildListScreen getBuilderChildListScreen() {
+        return mApplicationContext.getBuilderChildListScreen();
+    }
+
+    public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
+        return mApplicationContext.getReviewViewAdapterFactory();
+    }
+
     public SocialPlatformList getSocialPlatformList() {
         return mApplicationContext.getSocialPlatformList();
     }
 
-    public void setReviewBuilderAdapter(ReviewBuilderAdapter reviewBuilderAdapter) {
-        mReviewBuilderAdapter = reviewBuilderAdapter;
+    public ReviewBuilderAdapter newReviewBuilderAdapter() {
+        FactoryReviewBuilderAdapter adapterfactory =
+                mApplicationContext.getReviewBuilderAdapterFactory();
+        mReviewBuilderAdapter = adapterfactory.newAdapter();
+        return mReviewBuilderAdapter;
     }
 
     public void publishReviewBuilder() {
-        Review published = mReviewBuilderAdapter.publishReview(newPublisher());
+        Review published = mReviewBuilderAdapter.publishReview();
         mDatabase.addReviewToDb(published);
         mReviewBuilderAdapter = null;
     }
@@ -108,20 +127,13 @@ public class Administrator extends ApplicationSingleton {
     }
 
     public void launchReview(Activity activity, String reviewId) {
-        ReviewsProvider repo = getReviewsRepository();
+        ReviewsProvider repo = mApplicationContext.getReviewsProvider();
         Review review = repo.getReview(reviewId);
-        Review reviewNode = mApplicationContext.getReviewFactory().createMetaReview(newPublisher
-                (), review);
+        Review reviewNode = mApplicationContext.getReviewsFactory().createMetaReview(review);
         FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
         LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode.getTreeRepresentation()).getReviewView();
         String tag = review.getSubject().getSubject();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, activity, requestCode, tag, new Bundle());
-    }
-
-    private ReviewPublisher newPublisher() {
-        Author author = mApplicationContext.getAuthor();
-        PublishDate date = new PublishDate(new Date().getTime());
-        return new ReviewPublisher(author, date);
     }
 }

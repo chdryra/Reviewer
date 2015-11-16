@@ -1,10 +1,11 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Interfaces.Data.VerboseDataReview;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableCollection;
+import com.chdryra.android.reviewer.Interfaces.Data.VerboseDataReview;
 import com.chdryra.android.reviewer.Interfaces.Data.VerboseIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.ItemTagCollection;
@@ -19,13 +20,13 @@ import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
  */
 public class ReviewsSource implements ReviewsProvider {
     private ReviewsRepository mRepository;
-    private FactoryReview mReviewFactory;
+    private FactoryReviews mReviewFactory;
     private FactoryReviewPublisher mPublisherFactory;
 
     //Constructors
     public ReviewsSource(ReviewsRepository repository,
                          FactoryReviewPublisher publisherFactory,
-                         FactoryReview reviewFactory) {
+                         FactoryReviews reviewFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
         mPublisherFactory = publisherFactory;
@@ -60,7 +61,7 @@ public class ReviewsSource implements ReviewsProvider {
             reviews.add(getReview(data.getItem(i)));
         }
 
-        return mReviewFactory.createMetaReview(reviews, mPublisherFactory.newPublisher(), subject);
+        return mReviewFactory.createMetaReview(reviews, subject);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ReviewsSource implements ReviewsProvider {
                     subject);
         }
 
-        return mReviewFactory.createMetaReview(mPublisherFactory.newPublisher(), getReview(datum));
+        return mReviewFactory.createMetaReview(getReview(datum));
     }
 
     @Override
@@ -78,7 +79,7 @@ public class ReviewsSource implements ReviewsProvider {
         Review meta = createMetaReview(data, subject);
         IdableCollection<Review> flattened = VisitorReviewsGetter.flatten(meta.getTreeRepresentation());
 
-        return mReviewFactory.createMetaReview(flattened, mPublisherFactory.newPublisher(), subject);
+        return mReviewFactory.createMetaReview(flattened, subject);
     }
 
     //Overridden

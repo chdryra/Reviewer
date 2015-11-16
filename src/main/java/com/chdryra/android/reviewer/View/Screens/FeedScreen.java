@@ -3,12 +3,9 @@ package com.chdryra.android.reviewer.View.Screens;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing
-        .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 
@@ -19,24 +16,24 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
  */
 public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
     private FeedScreenGridItem mGridItem;
+    private FeedScreenMenu mMenu;
 
-    public FeedScreen(FeedScreenGridItem gridItemAction) {
+    public FeedScreen(FeedScreenGridItem gridItemAction, FeedScreenMenu menuAction) {
         mGridItem = gridItemAction;
+        mMenu = menuAction;
     }
 
     public ReviewView createView(ReviewsProvider feed,
-                                 PublishDate publishDate,
-                                 FactoryReview reviewFactory,
+                                 FactoryReviews reviewFactory,
                                  ConverterGv converter,
                                  BuilderChildListScreen childListFactory,
-                                 FactoryReviewViewAdapter adapterFactory,
-                                 FeedScreenMenu menuAction) {
+                                 FactoryReviewViewAdapter adapterFactory) {
         Author author = feed.getAuthor();
         String title = author.getName() + "'s feed";
         ReviewsRepositoryScreen screen =
-                new ReviewsRepositoryScreen(feed, reviewFactory, title, publishDate);
+                new ReviewsRepositoryScreen(feed, reviewFactory, title);
         return screen.createView(converter.getConverterReviews(), converter.getConverterImages(),
-                childListFactory, adapterFactory, mGridItem, menuAction);
+                childListFactory, adapterFactory, mGridItem, mMenu);
     }
 
     @Override

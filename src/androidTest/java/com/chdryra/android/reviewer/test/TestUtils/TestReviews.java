@@ -19,7 +19,6 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewsData.MdIdableCollection;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.PublishDate;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
@@ -278,7 +277,7 @@ public class TestReviews {
         tagBuilder.setData();
 
 
-        return builder.buildReview(PublishDate.then(review.mPublishDate.getTime()));
+        return builder.buildReview();
     }
 
     private Bitmap loadBitmap(String fileName) {

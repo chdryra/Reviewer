@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation
         .ReviewBuilderImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReview;
+import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 
 /**
@@ -18,22 +18,26 @@ import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
 public class FactoryReviewBuilder {
     private ConverterGv mConverterGv;
     private TagsManager mTagsManager;
-    private FactoryReview mFactoryReview;
+    private FactoryReviews mFactoryReviews;
     private DataValidator mDataValidator;
+    private FactoryDataBuilder mDataBuilderFactory;
 
-    public FactoryReviewBuilder(ConverterGv converterGv, TagsManager tagsManager, FactoryReview
-            factoryReview, DataValidator dataValidator) {
+    public FactoryReviewBuilder(ConverterGv converterGv,
+                                TagsManager tagsManager,
+                                FactoryReviews factoryReviews,
+                                DataValidator dataValidator) {
         mConverterGv = converterGv;
         mTagsManager = tagsManager;
-        mFactoryReview = factoryReview;
+        mFactoryReviews = factoryReviews;
         mDataValidator = dataValidator;
+        mDataBuilderFactory = new FactoryDataBuilder(mConverterGv);
     }
 
     public ReviewBuilder newBuilder() {
         return new ReviewBuilderImpl(mConverterGv,
                 mTagsManager,
-                mFactoryReview,
-                new FactoryDataBuilder(mConverterGv),
+                mFactoryReviews,
+                mDataBuilderFactory,
                 mDataValidator);
     }
 }

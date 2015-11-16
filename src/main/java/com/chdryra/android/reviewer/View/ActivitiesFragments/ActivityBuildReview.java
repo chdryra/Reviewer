@@ -2,13 +2,7 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.FactoryReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationContexts.ApplicationContext;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Screens.BuildScreen;
@@ -25,32 +19,11 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
 
     @Override
     protected ReviewView createReviewView() {
-        Administrator admin = Administrator.getInstance(this);
-
-        if(admin.getReviewBuilderAdapter() == null) {
-            ApplicationContext appContext = admin.getApplicationContext();
-            admin.setReviewBuilderAdapter(newAdapter(appContext));
-        }
-
+        ApplicationInstance admin = ApplicationInstance.getInstance(this);
+        if(admin.getReviewBuilderAdapter() == null) admin.newReviewBuilderAdapter();
         mBuildScreen = new BuildScreen(this, admin.getReviewBuilderAdapter());
 
         return mBuildScreen.getEditor();
-    }
-
-    private ReviewBuilderAdapter newAdapter(ApplicationContext appContext) {
-        DataValidator validator = appContext.getDataValidator();
-        ConverterGv converter = appContext.getDataConverters().getGvConverter();
-
-        FactoryReviewBuilder builderFactory = new FactoryReviewBuilder(converter,
-                appContext.getTagsManager(),
-                appContext.getReviewFactory(),
-                validator);
-
-        FactoryReviewBuilderAdapter factory = new FactoryReviewBuilderAdapter(this,
-                validator,
-                appContext.getFileIncrementorFactory());
-
-        return factory.newAdapter(builderFactory.newBuilder());
     }
 
     @Override

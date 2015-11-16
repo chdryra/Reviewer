@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
@@ -137,7 +137,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
 
-        mBuilder = Administrator.getInstance(getActivity()).getReviewBuilderAdapter().getDataBuilderAdapter(mDataType);
+        mBuilder = ApplicationInstance.getInstance(getActivity()).getReviewBuilderAdapter().getDataBuilderAdapter(mDataType);
 
         //TODO make type safe
         if (!isQuickSet()) {

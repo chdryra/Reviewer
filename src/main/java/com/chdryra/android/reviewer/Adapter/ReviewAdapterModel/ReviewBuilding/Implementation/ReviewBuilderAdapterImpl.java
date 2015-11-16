@@ -14,8 +14,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
         .ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewPublisher;
+
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
@@ -91,8 +90,8 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList>
     }
 
     @Override
-    public Review publishReview(ReviewPublisher publisher) {
-        return mBuilder.buildReview(publisher);
+    public Review publishReview() {
+        return mBuilder.buildReview();
     }
 
     @Override

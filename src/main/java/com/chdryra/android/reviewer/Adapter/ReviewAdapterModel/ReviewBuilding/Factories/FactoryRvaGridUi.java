@@ -23,12 +23,12 @@ public class FactoryRvaGridUi implements FactoryGridUi<RvaGridCell, ReviewBuilde
     @Override
     public WrapperGridData<RvaGridCell, ReviewBuilderAdapter> newGridUiWrapper(FactoryVhDataCollection vhFactory) {
         BuildScreenGridUi ui = new BuildScreenGridUi(vhFactory);
-        ui.wrapGridCell(GvTagList.GvTag.TYPE);
-        ui.wrapGridCell(GvCriterionList.GvCriterion.TYPE);
-        ui.wrapGridCell(GvImageList.GvImage.TYPE);
-        ui.wrapGridCell(GvCommentList.GvComment.TYPE);
-        ui.wrapGridCell(GvLocationList.GvLocation.TYPE);
-        ui.wrapGridCell(GvFactList.GvFact.TYPE);
+        ui.addGridCell(GvTagList.GvTag.TYPE);
+        ui.addGridCell(GvCriterionList.GvCriterion.TYPE);
+        ui.addGridCell(GvImageList.GvImage.TYPE);
+        ui.addGridCell(GvCommentList.GvComment.TYPE);
+        ui.addGridCell(GvLocationList.GvLocation.TYPE);
+        ui.addGridCell(GvFactList.GvFact.TYPE);
 
         return ui;
     }

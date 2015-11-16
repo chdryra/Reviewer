@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Gri
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.ApplicationSingletons.Administrator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
@@ -86,7 +86,7 @@ public class BuilderShareScreen {
                 //Overridden
                 @Override
                 public void onClick(View v) {
-                    Administrator.getInstance(activity).publishReviewBuilder();
+                    ApplicationInstance.getInstance(activity).publishReviewBuilder();
                     Intent intent = new Intent(activity, ActivityFeed.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     parent.startActivity(intent);
