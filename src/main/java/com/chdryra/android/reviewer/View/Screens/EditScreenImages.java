@@ -21,6 +21,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
+
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
@@ -134,10 +136,8 @@ public class EditScreenImages extends EditScreenReviewData<GvImageList.GvImage> 
         private void proposeCover(GvImageList.GvImage image) {
             ReviewDataEditor<GvImageList.GvImage> editor = getEditor();
             if (editor.getParams().manageCover()) {
-                GvImageList covers = editor.getCovers();
-                for(GvImageList.GvImage cover : covers) {
-                    cover.setIsCover(false);
-                }
+                GvImageList.GvImage cover = editor.getCover();
+                cover.setIsCover(false);
                 image.setIsCover(true);
             }
             editor.notifyObservers();

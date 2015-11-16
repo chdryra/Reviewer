@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvReviewConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNo
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey

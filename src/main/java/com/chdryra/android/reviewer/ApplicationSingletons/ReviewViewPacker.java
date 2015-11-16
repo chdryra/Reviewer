@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ObjectHolder;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 import java.util.UUID;
 

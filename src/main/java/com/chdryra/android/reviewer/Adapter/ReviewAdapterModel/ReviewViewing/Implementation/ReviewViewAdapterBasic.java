@@ -6,13 +6,14 @@
  * Date: 23 February, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 import java.util.ArrayList;
 

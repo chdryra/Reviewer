@@ -8,6 +8,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey

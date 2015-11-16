@@ -36,9 +36,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Interfaces.Data.DataImage;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.Screens.FactoryGridCellAdapter;
-import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Factories.FactoryGridCellAdapter;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 

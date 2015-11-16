@@ -13,9 +13,9 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationInitialisation.ApplicationLaunch;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.View.Screens.BuilderAuthorFeedScreen;
+import com.chdryra.android.reviewer.View.Screens.Builders.BuilderAuthorFeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**
  * UI Activity holding published reviews feed.

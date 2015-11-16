@@ -4,8 +4,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.BuilderShareScreen;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Builders.BuilderShareScreen;
 
 /**
  * Created by: Rizwan Choudrey

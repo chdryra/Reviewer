@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +27,7 @@ public class BannerButtonEdit<T extends GvData>
         extends ReviewViewAction.BannerButtonAction implements
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataAdd.GvDataAddListener<T>,
-        ActivityResultListener{
+        ActivityResultListener {
     private GvDataType<T> mDataType;
     private final ConfigGvDataUi.LaunchableConfig mConfig;
     private GvDataList<T> mAdded;
@@ -65,7 +67,11 @@ public class BannerButtonEdit<T extends GvData>
 
     @Override
     public void onAttachReviewView() {
-        mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
+        try {
+            mEditor = (ReviewDataEditor<T>)getReviewView();
+        } catch (ClassCastException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

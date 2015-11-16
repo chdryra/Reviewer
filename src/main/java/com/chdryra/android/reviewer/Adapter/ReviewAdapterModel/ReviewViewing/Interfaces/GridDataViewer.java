@@ -6,9 +6,9 @@
  * Date: 12 May, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 

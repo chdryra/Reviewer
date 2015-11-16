@@ -11,6 +11,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**
@@ -160,6 +161,6 @@ public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
+        mEditor = (ReviewDataEditor<T>) getReviewView();
     }
 }

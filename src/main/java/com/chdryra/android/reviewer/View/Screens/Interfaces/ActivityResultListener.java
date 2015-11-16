@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Interfaces;
 
 import android.content.Intent;
 

@@ -3,15 +3,15 @@ package com.chdryra.android.reviewer.View.Screens;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataEditor<T extends GvData> extends ReviewView {
+public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewImpl implements ReviewDataEditor<T> {
     private String mSubject;
     private float mRating;
     private boolean mRatingIsAverage;
@@ -20,9 +20,9 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
     private DataBuilderAdapter<T> mBuilder;
 
     //Constructors
-    public ReviewDataEditor(DataBuilderAdapter<T> builder,
-                            ReviewViewParams params,
-                            ReviewViewActions actions) {
+    public ReviewDataEditorImpl(DataBuilderAdapter<T> builder,
+                                ReviewViewParams params,
+                                ReviewViewActions actions) {
         super(new ReviewViewPerspective(builder, params, actions));
         mBuilder = builder;
         mSubject = builder.getSubject();
@@ -30,33 +30,27 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
         mRatingIsAverage = builder.isRatingAverage();
     }
 
-    //Static methods
-    public static <T extends GvData> ReviewDataEditor<T> cast(ReviewView view, GvDataType<T> type) {
-        try {
-            //TODO make type safe
-            return (ReviewDataEditor<T>) view;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("ReviewView must be an Editor of type " + type.getDatumName());
-        }
-    }
-
     //public methods
+    @Override
     public void setSubject() {
         mSubject = getFragmentSubject();
     }
 
+    @Override
     public boolean isRatingAverage() {
         return mRatingIsAverage;
     }
 
-    public void setRatingAverage(boolean isAverage) {
+    @Override
+    public void setRatingIsAverage(boolean isAverage) {
         mRatingIsAverage = isAverage;
         if(isAverage) setRating(mBuilder.getAverageRating(), false);
     }
 
+    @Override
     public void setRating(float rating, boolean fromUser) {
         if(fromUser) {
-            setRatingAverage(false);
+            setRatingIsAverage(false);
             mRating = rating;
         } else {
             mRating = rating;
@@ -64,22 +58,27 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
         }
     }
 
+    @Override
     public boolean add(T datum) {
         return mBuilder.add(datum);
     }
 
+    @Override
     public void replace(T oldDatum, T newDatum) {
         mBuilder.replace(oldDatum, newDatum);
     }
 
+    @Override
     public void delete(T datum) {
         mBuilder.delete(datum);
     }
 
-    public GvImageList getCovers() {
-        return mBuilder.getCovers();
+    @Override
+    public GvImageList.GvImage getCover() {
+        return mBuilder.getCovers().getItem(0);
     }
 
+    @Override
     public void commitEdits() {
         mBuilder.setSubject(getFragmentSubject());
         mBuilder.setRatingIsAverage(mRatingIsAverage);
@@ -87,6 +86,7 @@ public class ReviewDataEditor<T extends GvData> extends ReviewView {
         mBuilder.setData();
     }
 
+    @Override
     public void discardEdits() {
         mBuilder.reset();
     }

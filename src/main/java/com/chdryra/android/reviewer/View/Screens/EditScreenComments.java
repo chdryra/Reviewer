@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
 
 /**

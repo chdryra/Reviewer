@@ -1,6 +1,10 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryGridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;

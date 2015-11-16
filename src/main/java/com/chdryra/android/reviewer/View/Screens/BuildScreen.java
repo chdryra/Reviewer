@@ -38,6 +38,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
+
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewEditor;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -69,7 +71,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        mEditor = new ReviewEditor(builder, params, actions, new BuildScreenModifier());
+        mEditor = new ReviewEditorImpl(builder, params, actions, new BuildScreenModifier());
     }
 
     //public methods
@@ -183,13 +185,11 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
             LatLng latLng = mLatLng;
             boolean fromImage = false;
 
-            GvImageList covers = mEditor.getCovers();
-            if (covers.size() > 0) {
-                LatLng coverLatLng = covers.getItem(0).getLatLng();
-                if (coverLatLng != null) {
+            GvImageList.GvImage cover = mEditor.getCover();
+            LatLng coverLatLng = cover.getLatLng();
+            if (coverLatLng != null ) {
                     latLng = coverLatLng;
                     fromImage = true;
-                }
             }
 
             args.putParcelable(AddLocation.LATLNG, latLng);

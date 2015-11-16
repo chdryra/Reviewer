@@ -6,7 +6,7 @@
  * Date: 29 April, 2015
  */
 
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey

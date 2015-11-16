@@ -6,7 +6,7 @@
  * Date: 13 February, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,13 +14,13 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Screens.GridDataObservable;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**
  * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using

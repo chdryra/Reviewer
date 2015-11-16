@@ -13,6 +13,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +25,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAction implements
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataEdit.GvDataEditListener<T>,
-        ActivityResultListener{
+        ActivityResultListener {
     private GvDataType<T> mDataType;
     private final ConfigGvDataUi.LaunchableConfig mConfig;
     private ReviewDataEditor<T> mEditor;
@@ -76,7 +78,7 @@ public class GridItemEdit<T extends GvData> extends ReviewViewAction.GridItemAct
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
+        mEditor = (ReviewDataEditor<T>) getReviewView();
     }
 
     @Override

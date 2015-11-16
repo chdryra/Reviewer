@@ -1,6 +1,20 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerAggregateCriteria;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerAggregateToData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerDataToData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerDataToReviews;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerReviewData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerTreeData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
+        .GridDataViewer;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;

@@ -6,7 +6,7 @@
  * Date: 3 October, 2014
  */
 
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
 /**
  * Created by: Rizwan Choudrey
@@ -15,8 +15,9 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
  */
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
+        .GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;

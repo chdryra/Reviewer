@@ -1,7 +1,11 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
+        .GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.TagsManager;
@@ -15,14 +19,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * On: 05/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-class ViewerReviewData implements GridDataViewer<GvData> {
+public class ViewerReviewData implements GridDataViewer<GvData> {
     private ReviewNode mNode;
     private ConverterGv mConverter;
     private TagsManager mTagsManager;
     private FactoryReviewViewAdapter mAdapterFactory;
     private GvList mCache;
 
-    ViewerReviewData(ReviewNode node,
+    public ViewerReviewData(ReviewNode node,
                      ConverterGv converter,
                      TagsManager tagsManager,
                      FactoryReviewViewAdapter adapterFactory) {

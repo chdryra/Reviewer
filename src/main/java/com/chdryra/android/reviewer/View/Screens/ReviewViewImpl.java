@@ -14,12 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 import java.util.ArrayList;
 
@@ -28,14 +29,14 @@ import java.util.ArrayList;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewView implements GridDataObservable.GridDataObserver, LaunchableUi {
+public class ReviewViewImpl implements ReviewView {
     private ReviewViewPerspective mPerspective;
     private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
     private FragmentReviewView mFragment;
     private GvDataList mGridViewData;
 
     //Constructors
-    public ReviewView(ReviewViewPerspective perspective) {
+    public ReviewViewImpl(ReviewViewPerspective perspective) {
         mPerspective = perspective;
         mGridObservers = new ArrayList<>();
 
@@ -46,59 +47,73 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
     }
 
     //public methods
+    @Override
     public ReviewViewAdapter getAdapter() {
         return mPerspective.getAdapter();
     }
 
+    @Override
     public ReviewViewParams getParams() {
         return mPerspective.getParams();
     }
 
-    public FragmentReviewView getFragment() {
+    @Override
+    public FragmentReviewView getParentFragment() {
         return mFragment;
     }
 
+    @Override
     public Activity getActivity() {
         return mFragment.getActivity();
     }
 
+    @Override
     public String getSubject() {
         return getAdapter().getSubject();
     }
 
+    @Override
     public float getRating() {
         return getAdapter().getRating();
     }
 
+    @Override
     public GvDataList getGridData() {
         return getAdapter().getGridData();
     }
 
+    @Override
     public GvDataList getGridViewData() {
         return mGridViewData != null ? mGridViewData : getGridData();
     }
 
+    @Override
     public void setGridViewData(GvDataList dataToShow) {
         mGridViewData = dataToShow;
         if(mFragment != null) mFragment.onGridDataChanged();
     }
 
+    @Override
     public ReviewViewActions getActions() {
         return mPerspective.getActions();
     }
 
+    @Override
     public boolean isEditable() {
         return false;
     }
 
+    @Override
     public String getFragmentSubject() {
         return mFragment.getSubject();
     }
 
+    @Override
     public float getFragmentRating() {
         return mFragment.getRating();
     }
 
+    @Override
     public void attachFragment(FragmentReviewView parent) {
         if (mFragment != null) throw new RuntimeException("There is a Fragment already attached");
         mFragment = parent;
@@ -106,11 +121,13 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         registerGridDataObserver(mFragment);
     }
 
+    @Override
     public void resetGridViewData() {
         mGridViewData = null;
         notifyObservers();
     }
 
+    @Override
     public void updateCover() {
         if (getParams().manageCover()) {
             GvImageList covers = getAdapter().getCovers();
@@ -120,20 +137,24 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         }
     }
 
+    @Override
     public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
         if (!mGridObservers.contains(observer)) mGridObservers.add(observer);
     }
 
+    @Override
     public void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer) {
         if (mGridObservers.contains(observer)) mGridObservers.remove(observer);
     }
 
+    @Override
     public void notifyObservers() {
         for (GridDataObservable.GridDataObserver observer : mGridObservers) {
             observer.onGridDataChanged();
         }
     }
 
+    @Override
     public View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
                                   Bundle savedInstanceState) {
         ReviewViewPerspective.ReviewViewModifier modifier = mPerspective.getModifier();
@@ -144,7 +165,6 @@ public class ReviewView implements GridDataObservable.GridDataObserver, Launchab
         }
     }
 
-    //Overridden
     @Override
     public void onGridDataChanged() {
         resetGridViewData();

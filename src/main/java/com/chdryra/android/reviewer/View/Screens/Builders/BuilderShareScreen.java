@@ -6,7 +6,7 @@
  * Date: 19 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Builders;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -17,10 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
@@ -30,6 +30,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewImpl;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,7 +60,7 @@ public class BuilderShareScreen {
         ReviewViewPerspective perspective =
                 new ReviewViewPerspective(adapter, params, actions, new ShareScreenModifier());
 
-        return new ReviewView(perspective);
+        return new ReviewViewImpl(perspective);
     }
 
     private static class ShareScreenGridItem extends ReviewViewAction.GridItemAction {

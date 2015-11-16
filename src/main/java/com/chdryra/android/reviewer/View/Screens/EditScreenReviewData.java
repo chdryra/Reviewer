@@ -21,6 +21,8 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -62,7 +64,7 @@ public class EditScreenReviewData<T extends GvData> implements
         actions.setAction(mBannerButton);
         actions.setAction(mGriditem);
 
-        mEditor = new ReviewDataEditor<>(adapter, params, actions);
+        mEditor = new ReviewDataEditorImpl<>(adapter, params, actions);
     }
 
     protected Context getContext() {

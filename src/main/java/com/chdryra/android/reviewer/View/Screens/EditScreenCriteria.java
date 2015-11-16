@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -89,7 +90,7 @@ public class EditScreenCriteria extends EditScreenReviewData<GvCriterionList.GvC
             //Overridden
             @Override
             public void doAction(Context context, MenuItem item) {
-                getEditor().setRatingAverage(true);
+                getEditor().setRatingIsAverage(true);
             }
         }
     }

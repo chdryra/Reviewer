@@ -1,14 +1,21 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Builders;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvReviewConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.AdapterReviewNode;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.GridDataViewer;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.ViewerChildList;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.AdapterReviewNode;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerChildList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.Screens.RbExpandGrid;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewImpl;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,6 +45,6 @@ public class BuilderChildListScreen {
                 .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
 
         ReviewViewPerspective perspective = new ReviewViewPerspective(adapter, params, actions);
-        return new ReviewView(perspective);
+        return new ReviewViewImpl(perspective);
     }
 }

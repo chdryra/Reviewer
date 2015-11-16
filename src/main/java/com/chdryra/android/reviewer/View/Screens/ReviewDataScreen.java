@@ -8,8 +8,9 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +30,7 @@ public class ReviewDataScreen {
         actions.setAction(new GiDataLauncher());
 
         ReviewViewPerspective perspective = new ReviewViewPerspective(adapter, params, actions);
-        return new ReviewView(perspective);
+        return new ReviewViewImpl(perspective);
     }
 
     public static ReviewView newScreen(ReviewViewAdapter adapter,
@@ -42,6 +43,6 @@ public class ReviewDataScreen {
         actions.setAction(DefaultGridActions.getGridAction(forDefaults));
 
         ReviewViewPerspective perspective = new ReviewViewPerspective(adapter, params, actions);
-        return new ReviewView(perspective);
+        return new ReviewViewImpl(perspective);
     }
 }

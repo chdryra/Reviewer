@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Factories;
 
 import android.content.Context;
 
@@ -12,6 +12,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.Screens.EditScreenComments;
+import com.chdryra.android.reviewer.View.Screens.EditScreenCriteria;
+import com.chdryra.android.reviewer.View.Screens.EditScreenFacts;
+import com.chdryra.android.reviewer.View.Screens.EditScreenImages;
+import com.chdryra.android.reviewer.View.Screens.EditScreenLocations;
+import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
+import com.chdryra.android.reviewer.View.Screens.EditScreenTags;
 
 /**
  * Created by: Rizwan Choudrey

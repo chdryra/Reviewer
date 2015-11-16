@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.View.Screens;
 
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2015

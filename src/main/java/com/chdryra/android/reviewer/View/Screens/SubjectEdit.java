@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.View.Screens;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +29,6 @@ public class SubjectEdit<T extends GvData> extends ReviewViewAction.SubjectActio
 
     @Override
     public void onAttachReviewView() {
-        mEditor = ReviewDataEditor.cast(getReviewView(), mDataType);
+        mEditor = (ReviewDataEditor<T>) getReviewView();
     }
 }

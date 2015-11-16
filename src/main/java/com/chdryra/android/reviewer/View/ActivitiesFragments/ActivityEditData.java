@@ -15,8 +15,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.EditScreenImages;
 import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
-import com.chdryra.android.reviewer.View.Screens.FactoryEditScreen;
-import com.chdryra.android.reviewer.View.Screens.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Factories.FactoryEditScreen;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 
 /**

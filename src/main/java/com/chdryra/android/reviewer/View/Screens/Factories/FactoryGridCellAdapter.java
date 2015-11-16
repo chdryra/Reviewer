@@ -6,7 +6,7 @@
  * Date: 28 January, 2015
  */
 
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Factories;
 
 import android.app.Activity;
 

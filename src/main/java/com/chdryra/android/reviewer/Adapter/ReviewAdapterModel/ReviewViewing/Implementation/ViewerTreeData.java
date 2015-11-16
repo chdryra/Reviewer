@@ -1,7 +1,9 @@
-package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing;
+package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Interfaces.Data.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.ReviewStructure.ReviewNode;
@@ -22,10 +24,10 @@ import java.util.ArrayList;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-class ViewerTreeData extends ViewerReviewData {
+public class ViewerTreeData extends ViewerReviewData {
     private GvDataAggregater mAggregater;
 
-    ViewerTreeData(ReviewNode node,
+    public ViewerTreeData(ReviewNode node,
                    ConverterGv converter,
                    TagsManager tagsManager,
                    FactoryReviewViewAdapter adapterFactory,
