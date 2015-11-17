@@ -6,7 +6,7 @@
  * Date: 19 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.mygenerallibrary.NumberFormatter;
 

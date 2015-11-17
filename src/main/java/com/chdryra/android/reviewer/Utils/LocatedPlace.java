@@ -6,7 +6,7 @@
  * Date: 12 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 import com.google.android.gms.maps.model.LatLng;
 

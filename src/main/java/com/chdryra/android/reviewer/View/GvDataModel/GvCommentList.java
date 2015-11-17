@@ -14,7 +14,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.View.Utils.CommentFormatter;
+import com.chdryra.android.reviewer.Utils.CommentFormatter;
 
 /**
  * Includes method for generating split comments {@link GvCommentList} from current list.

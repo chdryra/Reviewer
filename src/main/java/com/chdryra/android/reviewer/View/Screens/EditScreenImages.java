@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey

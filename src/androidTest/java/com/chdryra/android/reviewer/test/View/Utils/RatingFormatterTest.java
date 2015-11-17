@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.Utils;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
 import junit.framework.TestCase;
 

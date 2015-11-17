@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvi
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
-import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -81,7 +81,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mApplicationContext.getDataValidator();
     }
 
-    public ReviewBuilderAdapter getReviewBuilderAdapter() {
+    public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
         return mReviewBuilderAdapter;
     }
 
@@ -109,7 +109,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mApplicationContext.getSocialPlatformList();
     }
 
-    public ReviewBuilderAdapter newReviewBuilderAdapter() {
+    public ReviewBuilderAdapter<?> newReviewBuilderAdapter() {
         FactoryReviewBuilderAdapter adapterfactory =
                 mApplicationContext.getReviewBuilderAdapterFactory();
         mReviewBuilderAdapter = adapterfactory.newAdapter();

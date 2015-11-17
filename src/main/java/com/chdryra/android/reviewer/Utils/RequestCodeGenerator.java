@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 /**
  * Created by: Rizwan Choudrey

@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 
 /**
  * Created by: Rizwan Choudrey

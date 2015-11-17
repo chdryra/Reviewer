@@ -30,9 +30,9 @@ import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.VhdLocatedPlace;
-import com.chdryra.android.reviewer.View.Utils.GpAutoCompleter;
-import com.chdryra.android.reviewer.View.Utils.GpLocatedPlaceConverter;
-import com.chdryra.android.reviewer.View.Utils.LocatedPlace;
+import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
+import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
+import com.chdryra.android.reviewer.Utils.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

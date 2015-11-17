@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;

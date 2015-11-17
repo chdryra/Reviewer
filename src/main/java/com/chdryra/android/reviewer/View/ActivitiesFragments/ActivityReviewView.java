@@ -38,6 +38,7 @@ public class ActivityReviewView extends ActivitySingleFragment {
     @Override
     protected Fragment createFragment() {
         mView = createReviewView();
+        if(mView == null) throw new RuntimeException("View is null!");
         mFragment = new FragmentReviewView();
         return mFragment;
     }

@@ -13,7 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.View.Utils.RatingFormatter;
+import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
 /**
  * Used for review children (sub-reviews).

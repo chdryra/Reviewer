@@ -6,7 +6,7 @@
  * Date: 27 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;

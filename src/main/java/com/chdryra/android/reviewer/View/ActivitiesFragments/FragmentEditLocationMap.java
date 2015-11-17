@@ -43,8 +43,8 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Utils.GpLocatedPlaceConverter;
-import com.chdryra.android.reviewer.View.Utils.LocatedPlace;
+import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
+import com.chdryra.android.reviewer.Utils.LocatedPlace;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -385,10 +385,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mLocationClient = new LocationClientConnector(activity, this);
-        mLocationClient.connect();
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof Activity) {
+            mLocationClient = new LocationClientConnector((Activity)context, this);
+            mLocationClient.connect();
+        }
     }
 
     @Override
@@ -521,11 +523,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 //    }
 
     private class LocationSuggestionsObserver extends DataSetObserver {
-        //Overridden
+        @Override
         public void onChanged() {
             mSearchView.setSuggestionsAdapter(getSuggestionsCursorAdapter());
         }
 
+        @Override
         public void onInvalidated() {
             invalidateSuggestions();
         }

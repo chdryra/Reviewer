@@ -95,6 +95,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
     }
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = LauncherUi.getArgsForActivity(getActivity());

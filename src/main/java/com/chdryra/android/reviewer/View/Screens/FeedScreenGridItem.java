@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey

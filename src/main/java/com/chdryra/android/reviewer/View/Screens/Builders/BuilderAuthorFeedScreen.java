@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.View.Screens.Builders;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
@@ -19,13 +18,9 @@ public class BuilderAuthorFeedScreen {
     private FeedScreen mFeedScreen;
     private ReviewView mView;
 
-    public void newScreen(ApplicationInstance app) {
-        ReviewsProvider feed = app.getReviewsProvider();
-        FactoryReviews reviewFactory = app.getReviewsFactory();
-        DataConverters converters = app.getDataConverters();
-        BuilderChildListScreen childListFactory = app.getBuilderChildListScreen();
-        FactoryReviewViewAdapter adapterFactory = app.getReviewViewAdapterFactory();
-
+    public void newScreen(ReviewsProvider feed, FactoryReviews reviewFactory,
+                          DataConverters converters, BuilderChildListScreen childListFactory,
+                          FactoryReviewViewAdapter adapterFactory) {
         mFeedScreen = new FeedScreen(new FeedScreenGridItem(), new FeedScreenMenu());
         mView = mFeedScreen.createView(feed, reviewFactory, converters.getGvConverter(),
                 childListFactory, adapterFactory);

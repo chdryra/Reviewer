@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;

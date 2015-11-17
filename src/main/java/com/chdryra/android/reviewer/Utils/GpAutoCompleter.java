@@ -6,7 +6,7 @@
  * Date: 12 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Utils;
+package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;

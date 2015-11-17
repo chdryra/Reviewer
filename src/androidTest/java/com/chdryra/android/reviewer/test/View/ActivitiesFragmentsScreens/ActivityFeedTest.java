@@ -58,7 +58,7 @@ import com.chdryra.android.reviewer.View.Screens.FeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;

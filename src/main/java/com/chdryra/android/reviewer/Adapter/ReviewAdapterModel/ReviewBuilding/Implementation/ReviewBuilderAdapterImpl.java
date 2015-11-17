@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

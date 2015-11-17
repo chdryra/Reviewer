@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey

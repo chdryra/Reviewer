@@ -19,6 +19,7 @@ public class ActivityShareReview extends ActivityReviewView {
         String title = getResources().getString(R.string.button_social);
         SocialPlatformList socialPlatforms = app.getSocialPlatformList();
         ReviewBuilderAdapter builder = app.getReviewBuilderAdapter();
+        if(builder == null) throw new RuntimeException("Builder is null!");
         BuilderShareScreen shareScreen = new BuilderShareScreen();
         return shareScreen.createView(title, socialPlatforms, builder);
     }

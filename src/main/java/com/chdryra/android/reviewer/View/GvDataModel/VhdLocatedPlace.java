@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.View.Utils.LocatedPlace;
+import com.chdryra.android.reviewer.Utils.LocatedPlace;
 
 /**
  * Created by: Rizwan Choudrey
