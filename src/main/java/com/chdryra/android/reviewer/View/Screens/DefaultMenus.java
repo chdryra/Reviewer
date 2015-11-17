@@ -14,11 +14,11 @@ public class DefaultMenus {
     }
 
     //Static methods
-    public static ReviewViewAction.MenuAction getMenu(GvDataType dataType) {
+    public static MenuAction getMenu(GvDataType dataType) {
         if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             return new ViewScreenComments.CommentsMenu();
         } else {
-            return new ReviewViewAction.MenuAction(dataType.getDataName());
+            return new MenuAction(dataType.getDataName());
         }
     }
 }

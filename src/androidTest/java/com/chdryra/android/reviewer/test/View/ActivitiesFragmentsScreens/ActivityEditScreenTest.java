@@ -23,15 +23,16 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Screens.EditScreenReviewData;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation
+        .EditScreenReviewDataImpl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -62,8 +63,8 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     protected float mOriginalRating;
     protected GvDataList<T> mData;
     protected CallBackSignaler mSignaler;
-    private ConfigGvDataUi.LaunchableConfig mAddConfig;
-    private ConfigGvDataUi.LaunchableConfig mEditConfig;
+    private LaunchableConfig mAddConfig;
+    private LaunchableConfig mEditConfig;
     private boolean mWithData = false;
 
     protected enum Button {
@@ -162,7 +163,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     @Override
     protected ReviewView getView() {
-        return EditScreenReviewData.newScreen(getInstrumentation().getTargetContext(), mDataType).getEditor();
+        return EditScreenReviewDataImpl.newScreen(getInstrumentation().getTargetContext(), mDataType).getEditor();
     }
 
     protected void clickMenuDelete() {
@@ -182,8 +183,8 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         mWithData = withData;
         super.setUp();
 
-        mAddConfig = ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
-        mEditConfig = ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
+        mAddConfig = ApplicationInstance.ConfigGvDataUi.getConfig(mDataType).getAdderConfig();
+        mEditConfig = ApplicationInstance.ConfigGvDataUi.getConfig(mDataType).getEditorConfig();
 
         SoloUtils.pretouchScreen(mActivity, mSolo);
 

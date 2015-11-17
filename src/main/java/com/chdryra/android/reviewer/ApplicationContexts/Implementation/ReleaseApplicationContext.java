@@ -42,10 +42,12 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReview
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.View.Configs.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
-import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 
 import java.io.File;
 
@@ -58,6 +60,13 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     public ReleaseApplicationContext(Context context, Author author,
                                      File extDir, String imageDir,
                                      String databaseName, int databaseVersion) {
+        //UI config
+        FactoryConfigDataUi configBuilder = new FactoryConfigDataUi();
+        setConfigDataUi(configBuilder.getDefaultConfig());
+
+        //FactoryLaunchable
+        setFactoryLaunchable(new FactoryLaunchable());
+
         //DataValidator
         DataValidator dataValidator = new DataValidator();
         setDataValidator(dataValidator);
@@ -92,7 +101,6 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         //ReviewBuilderAdapter
         setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
                 reviewsFactory, dataValidator, extDir, imageDir, author.getName());
-
     }
 
     private ReviewsProvider setReviewsProvider(FactoryReviewPublisher publisherFactory,
@@ -132,7 +140,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                 validator,
                 factoryDataBuilderAdapter, incrementorFactory, factoryImageChooser);
 
-        setBuilderAdapterFactory(builderAdapterFactory);
+        setFactoryBuilderAdapter(builderAdapterFactory);
     }
 
     private ReviewerDb setReviewerDb(Context context, String databaseName, int version,

@@ -36,11 +36,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.Screens.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Screens.Factories.FactoryGridCellAdapter;
+import com.chdryra.android.reviewer.View.Screens.GridItemAction;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
+import com.chdryra.android.reviewer.View.Screens.RatingBarAction;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
+import com.chdryra.android.reviewer.View.Screens.SubjectAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -168,7 +171,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             mSubjectView.setFocusable(true);
             ((ClearableEditText) mSubjectView).makeClearable(true);
             mSubjectView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                final ReviewViewAction.SubjectAction action
+                final SubjectAction action
                         = mReviewView.getActions().getSubjectAction();
 
                 //Overridden
@@ -178,7 +181,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
                             event.getAction() == KeyEvent.ACTION_DOWN &&
                                     event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 
-                        action.onEditorDone(v.getText());
+                        action.onKeyboardDone(v.getText());
                         return true;
                     }
                     return false;
@@ -199,7 +202,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             return;
         }
 
-        final ReviewViewAction.RatingBarAction ratingBarAction
+        final RatingBarAction ratingBarAction
                 = mReviewView.getActions().getRatingBarAction();
         if (isEditable()) {
             mRatingBar.setIsIndicator(false);
@@ -233,7 +236,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             return;
         }
 
-        final ReviewViewAction.BannerButtonAction action
+        final BannerButtonAction action
                 = mReviewView.getActions().getBannerButtonAction();
         mBannerButton.setText(action.getButtonTitle());
         mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
@@ -262,7 +265,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mGridView.setColumnWidth(getGridCellWidth());
         mGridView.setNumColumns(getNumberColumns());
 
-        final ReviewViewAction.GridItemAction action = mReviewView.getActions().getGridItemAction();
+        final GridItemAction action = mReviewView.getActions().getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             //Overridden
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {

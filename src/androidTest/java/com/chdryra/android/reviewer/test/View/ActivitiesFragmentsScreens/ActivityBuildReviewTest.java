@@ -21,11 +21,12 @@ import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -35,7 +36,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Screens.BuildScreen;
+import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation.BuildScreen;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Utils.CommentFormatter;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -97,7 +98,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
         testDialogShowing(true);
         final GvDataList data = GvDataMocker.getData(GvTagList.GvTag.TYPE, 1);
-        String tag = ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE).getAdderConfig().getTag();
+        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE).getAdderConfig().getTag();
         enterData(data, tag, false);
         mSolo.waitForDialogToClose(TIMEOUT);
         mSolo.sleep(1000);
@@ -484,7 +485,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
         testDialogShowing(true);
 
-        String tag = ConfigGvDataUi.getConfig(dataType).getAdderConfig().getTag();
+        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(dataType).getAdderConfig().getTag();
         enterData(data, tag, entryWithPause);
 
         mSolo.waitForDialogToClose(TIMEOUT);

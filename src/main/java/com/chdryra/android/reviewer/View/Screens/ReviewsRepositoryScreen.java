@@ -50,8 +50,8 @@ public class ReviewsRepositoryScreen implements ReviewsProviderObserver {
                                  GvImageConverter imageConverter,
                            BuilderChildListScreen childListFactory,
                            FactoryReviewViewAdapter adapterFactory,
-                           ReviewViewAction.GridItemAction giAction,
-                           ReviewViewAction.MenuAction menuAction) {
+                           GridItemAction giAction,
+                           MenuAction menuAction) {
         mReviewView = childListFactory.createView(mNode, reviewConverter, imageConverter,
                 adapterFactory, giAction, menuAction);
         return mReviewView;

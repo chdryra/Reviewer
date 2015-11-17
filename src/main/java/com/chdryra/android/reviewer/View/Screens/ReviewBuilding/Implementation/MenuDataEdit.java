@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,7 +11,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewDataEditor;
+import com.chdryra.android.reviewer.View.Screens.MenuAction;
+import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 
 /**
@@ -19,7 +20,7 @@ import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuDataEdit<T extends GvData> extends ReviewViewAction.MenuAction
+public class MenuDataEdit<T extends GvData> extends MenuAction
         implements DialogAlertFragment.DialogAlertListener{
     private static final int MENU = R.menu.menu_delete_done;
     public static final int MENU_DELETE_ID = R.id.menu_item_delete;

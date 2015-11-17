@@ -55,7 +55,8 @@ public class ApplicationLaunch {
             db = TEST_DATABASE_NAME;
         }
 
-        mApplicationContext = new ReleaseApplicationContext(mContext, AUTHOR, FILE_DIR_EXT, db, DATABASE_VER);
+        mApplicationContext = new ReleaseApplicationContext(mContext, AUTHOR,
+                FILE_DIR_EXT, IMAGE_DIR, db, DATABASE_VER);
     }
 
     private void intialiseSingeltons() {

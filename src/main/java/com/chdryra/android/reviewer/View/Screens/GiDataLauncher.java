@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
@@ -47,9 +49,10 @@ public class GiDataLauncher extends GridItemExpander {
         if (item.isVerboseCollection()) return;
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        ConfigGvDataUi.Config config = ConfigGvDataUi.getConfig(item.getGvDataType());
-        if (config != null) {
-            ConfigGvDataUi.LaunchableConfig view = config.getViewConfig();
+        LaunchableConfigsHolder launchableConfigsHolder = ApplicationInstance.ConfigGvDataUi.getConfig(item
+                .getGvDataType());
+        if (launchableConfigsHolder != null) {
+            LaunchableConfig view = launchableConfigsHolder.getViewerConfig();
             LauncherUi.launch(view.getLaunchable(), getActivity(), view.getRequestCode(),
                     view.getTag(), args);
         }

@@ -28,7 +28,7 @@ public class ViewScreenComments {
         }
     }
 
-    public static class CommentsMenu extends ReviewViewAction.MenuAction {
+    public static class CommentsMenu extends MenuAction {
         public static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
         private static final int MENU = R.menu.menu_view_comments;
 

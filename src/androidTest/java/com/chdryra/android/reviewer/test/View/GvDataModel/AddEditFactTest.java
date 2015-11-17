@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditFact;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
@@ -33,7 +33,7 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
 
     //Constructors
     public AddEditFactTest() {
-        super(GvFactList.GvFact.TYPE, new AddEditFact(new ConfigGvDataAddEditView.AddFact()));
+        super(GvFactList.GvFact.TYPE, new AddEditFact(new ClassesAddEditViewDefault.AddFact()));
     }
 
     @SmallTest

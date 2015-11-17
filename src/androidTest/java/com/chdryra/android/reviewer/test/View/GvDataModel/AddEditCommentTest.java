@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditComment;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 
@@ -23,7 +23,7 @@ public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvCommen
     //Constructors
     public AddEditCommentTest() {
         super(GvCommentList.GvComment.TYPE,
-                new AddEditComment(new ConfigGvDataAddEditView.AddComment()));
+                new AddEditComment(new ClassesAddEditViewDefault.AddComment()));
     }
 
     //Overridden

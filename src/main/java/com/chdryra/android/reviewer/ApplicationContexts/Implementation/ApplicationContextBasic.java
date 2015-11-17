@@ -9,6 +9,8 @@ import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
 
 /**
@@ -25,7 +27,9 @@ public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private DataConverters mDataConverters;
     private DataValidator mDataValidator;
-    private FactoryReviewBuilderAdapter mBuilderAdapterFactory;
+    private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
+    private ConfigDataUi mConfigDataUi;
+    private FactoryLaunchable mFactoryLaunchable;
 
     protected ApplicationContextBasic() {
 
@@ -35,12 +39,16 @@ public class ApplicationContextBasic implements ApplicationContext {
         mFactoryReviews = factoryReviews;
     }
 
+    public void setFactoryLaunchable(FactoryLaunchable factoryLaunchable) {
+        mFactoryLaunchable = factoryLaunchable;
+    }
+
     public void setDataConverters(DataConverters converters) {
         mDataConverters = converters;
     }
 
-    public void setBuilderAdapterFactory(FactoryReviewBuilderAdapter builderAdapterFactory) {
-        mBuilderAdapterFactory = builderAdapterFactory;
+    public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter factoryBuilderAdapter) {
+        mFactoryBuilderAdapter = factoryBuilderAdapter;
     }
 
     public void setReviewerDb(ReviewerDb reviewerDb) {
@@ -67,6 +75,9 @@ public class ApplicationContextBasic implements ApplicationContext {
         mDataValidator = dataValidator;
     }
 
+    public void setConfigDataUi(ConfigDataUi configDataUi) {
+        mConfigDataUi = configDataUi;
+    }
 
     @Override
     public ReviewerDb getReviewerDb() {
@@ -110,6 +121,16 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     @Override
     public FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory() {
-        return mBuilderAdapterFactory;
+        return mFactoryBuilderAdapter;
+    }
+
+    @Override
+    public ConfigDataUi getUiConfig() {
+        return mConfigDataUi;
+    }
+
+    @Override
+    public FactoryLaunchable getLaunchableFactory() {
+        return mFactoryLaunchable;
     }
 }

@@ -9,9 +9,10 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerChildList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.Screens.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.MenuAction;
 import com.chdryra.android.reviewer.View.Screens.RbExpandGrid;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewImpl;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
@@ -27,8 +28,8 @@ public class BuilderChildListScreen {
                                  GvReviewConverter<GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> reviewConverter,
                                  GvImageConverter imageConverter,
                                  FactoryReviewViewAdapter adapterFactory,
-                                 ReviewViewAction.GridItemAction giAction,
-                                 ReviewViewAction.MenuAction menuAction) {
+                                 GridItemAction giAction,
+                                 MenuAction menuAction) {
         GridDataViewer<GvReviewOverviewList.GvReviewOverview> viewer;
         viewer = new ViewerChildList(node, reviewConverter, adapterFactory);
         ReviewViewAdapter adapter = new AdapterReviewNode<>(node, imageConverter, viewer);

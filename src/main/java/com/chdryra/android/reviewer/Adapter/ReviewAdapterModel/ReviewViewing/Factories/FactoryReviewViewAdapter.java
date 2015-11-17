@@ -32,8 +32,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Screens.GiLaunchReviewDataScreen;
+import com.chdryra.android.reviewer.View.Screens.GridItemAction;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -62,13 +62,12 @@ public class FactoryReviewViewAdapter {
         mVisitorFactory = visitorFactory;
     }
 
-    //public methods
     private TagsManager getTagsManager() {
         return mProvider.getTagsManager();
     }
 
     public ReviewViewAdapter newReviewsListAdapter(ReviewNode node) {
-        ReviewViewAction.GridItemAction gi = new GiLaunchReviewDataScreen();
+        GridItemAction gi = new GiLaunchReviewDataScreen();
         ReviewView view = mListScreenFactory.createView(node, mConverter.getConverterReviews(),
                 mConverter.getConverterImages(), this, gi, null);
         return view.getAdapter();
@@ -108,7 +107,7 @@ public class FactoryReviewViewAdapter {
             ReviewNode node = mProvider.createMetaReview(data, subject).getTreeRepresentation();
             //TODO make type safe
             return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
-                    (GvCanonicalCollection<GvCommentList.GvComment>) data, mViewerFactory, this,
+                    (GvCanonicalCollection<GvCommentList.GvComment>) data, mViewerFactory,
                     mAggregater);
         }
 

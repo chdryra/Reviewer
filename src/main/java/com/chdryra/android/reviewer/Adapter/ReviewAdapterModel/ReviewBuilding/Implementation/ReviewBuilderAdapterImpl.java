@@ -3,28 +3,22 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
-        .FactoryDataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ImageChooser;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-
-
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
+import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataTypesList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +32,7 @@ import java.util.Map;
 public class ReviewBuilderAdapterImpl<GC extends GvDataList>
         extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
-    private static final ArrayList<GvDataType> TYPES = ConfigGvDataUi.BUILD_TYPES;
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;
 
     private final DataBuildersMap mDataBuilders;
     private final WrapperGridData<GC, ReviewBuilderAdapter> mGridUi;
@@ -156,20 +150,15 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList>
         return ((GvImageList) mBuilder.getData(GvImageList.GvImage.TYPE)).getCovers();
     }
 
-    //To ensure type safety
     private class DataBuildersMap {
         private final Map<GvDataType<? extends GvData>, DataBuilderAdapter<? extends GvData>>
                 mDataBuilders;
 
         private DataBuildersMap() {
             mDataBuilders = new HashMap<>();
-            for (GvDataType dataType : TYPES) {
-                add(dataType);
+            for (GvDataType<? extends GvData> type : TYPES) {
+                mDataBuilders.put(type, newDataBuilderAdapter(type));
             }
-        }
-
-        private <T extends GvData> void add(GvDataType<T> type) {
-            mDataBuilders.put(type, newDataBuilderAdapter(type));
         }
 
         //TODO make type safe although it is really....

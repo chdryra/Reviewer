@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GridItemExpander extends ReviewViewAction.GridItemAction {
+public abstract class GridItemExpander extends GridItemAction {
     public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter expanded) {
     }
 

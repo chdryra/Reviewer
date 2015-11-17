@@ -1,10 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.GvImageConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryGridDataViewer;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
@@ -21,7 +18,6 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private GvCanonicalCollection<GvCommentList.GvComment> mComments;
     private GvCanonicalCollection<GvCommentList.GvComment> mCommentsSplit;
     private FactoryGridDataViewer mViewerFactory;
-    private FactoryReviewViewAdapter mAdapterFactory;
     private GvDataAggregater mAggregater;
 
     //Constructors
@@ -29,12 +25,10 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
                                     GvImageConverter converter,
                                     GvCanonicalCollection<GvCommentList.GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
-                                    FactoryReviewViewAdapter adapterFactory,
                                     GvDataAggregater aggregater) {
         super(node, converter);
         mComments = comments;
         mViewerFactory = viewerFactory;
-        mAdapterFactory = adapterFactory;
         mAggregater = aggregater;
         setSplit(false);
     }
@@ -49,7 +43,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
             current = mComments;
         }
 
-        setViewer(mViewerFactory.newDataToReviewsViewer(current, mAdapterFactory));
+        setViewer(mViewerFactory.newDataToReviewsViewer(current));
     }
 
     private void splitComments() {

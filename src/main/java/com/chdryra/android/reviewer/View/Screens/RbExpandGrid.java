@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RbExpandGrid extends ReviewViewAction.RatingBarAction {
+public class RbExpandGrid extends RatingBarAction {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("RbTreePerspective");
 
     //Overridden

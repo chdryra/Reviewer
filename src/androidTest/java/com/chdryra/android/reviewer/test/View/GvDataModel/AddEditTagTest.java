@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditTag;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 public class AddEditTagTest extends AddEditLayoutTest<GvTagList.GvTag> {
     //Constructors
     public AddEditTagTest() {
-        super(GvTagList.GvTag.TYPE, new AddEditTag(new ConfigGvDataAddEditView.AddTag()));
+        super(GvTagList.GvTag.TYPE, new AddEditTag(new ClassesAddEditViewDefault.AddTag()));
     }
 
     //Overridden

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.graphics.Bitmap;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
@@ -46,7 +46,7 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataMocker {
-    public static final ArrayList<GvDataType> TYPES = ConfigGvDataUi.BUILD_TYPES;
+    public static final ArrayList<GvDataType> TYPES = ApplicationInstance.ConfigGvDataUi.BUILD_TYPES;
     private static final RandomString STRING_GENERATOR = new RandomString();
     private static final Random RAND = new Random();
 

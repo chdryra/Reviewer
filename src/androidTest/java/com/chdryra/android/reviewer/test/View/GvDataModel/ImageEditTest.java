@@ -12,7 +12,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.ImageEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
@@ -26,7 +26,7 @@ public class ImageEditTest extends AddEditLayoutTest<GvImageList.GvImage> {
 
     //Constructors
     public ImageEditTest() {
-        super(GvImageList.GvImage.TYPE, new ImageEdit(new ConfigGvDataAddEditView.EditImage()));
+        super(GvImageList.GvImage.TYPE, new ImageEdit(new ClassesAddEditViewDefault.EditImage()));
     }
 
     //Overridden

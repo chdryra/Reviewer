@@ -14,7 +14,7 @@ public class DefaultGridActions {
     }
 
     //Static methods
-    public static ReviewViewAction.GridItemAction getGridAction(GvDataType dataType) {
+    public static GridItemAction getGridAction(GvDataType dataType) {
         if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             return new ViewScreenComments.CommentsGridItem();
         } else {

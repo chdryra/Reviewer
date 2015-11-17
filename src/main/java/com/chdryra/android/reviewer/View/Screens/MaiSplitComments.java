@@ -16,17 +16,17 @@ import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
  * On: 27/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MaiSplitComments implements ReviewViewAction.MenuAction.MenuActionItem {
+public class MaiSplitComments implements MenuAction.MenuActionItem {
     private static final int UNSPLIT_ICON = R.drawable.ic_action_return_from_full_screen;
     private static final int SPLIT_ICON = R.drawable.ic_action_full_screen;
     private static final int TOAST_SPLIT = R.string.toast_split_comment;
     private static final int TOAST_UNSPLIT = R.string.toast_unsplit_comment;
 
     private boolean mCommentsAreSplit = false;
-    private ReviewViewAction.MenuAction mParent;
+    private MenuAction mParent;
 
     //Constructors
-    public MaiSplitComments(ReviewViewAction.MenuAction parent) {
+    public MaiSplitComments(MenuAction parent) {
         mParent = parent;
     }
 

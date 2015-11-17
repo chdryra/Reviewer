@@ -8,59 +8,59 @@ import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewActions {
-    private ReviewViewAction.SubjectAction mSubjectAction;
-    private ReviewViewAction.RatingBarAction mRatingBarAction;
-    private ReviewViewAction.BannerButtonAction mBannerButtonAction;
-    private ReviewViewAction.GridItemAction mGridItemAction;
-    private ReviewViewAction.MenuAction mMenuAction;
+    private SubjectAction mSubjectAction;
+    private RatingBarAction mRatingBarAction;
+    private BannerButtonAction mBannerButtonAction;
+    private GridItemAction mGridItemAction;
+    private MenuAction mMenuAction;
 
     //Constructors
     public ReviewViewActions() {
-        mSubjectAction = new ReviewViewAction.SubjectAction();
-        mRatingBarAction = new ReviewViewAction.RatingBarAction();
-        mBannerButtonAction = new ReviewViewAction.BannerButtonAction();
-        mGridItemAction = new ReviewViewAction.GridItemAction();
-        mMenuAction = new ReviewViewAction.MenuAction();
+        mSubjectAction = new SubjectAction();
+        mRatingBarAction = new RatingBarAction();
+        mBannerButtonAction = new BannerButtonAction();
+        mGridItemAction = new GridItemAction();
+        mMenuAction = new MenuAction();
     }
 
     //public methods
-    public ReviewViewAction.SubjectAction getSubjectAction() {
+    public SubjectAction getSubjectAction() {
         return mSubjectAction;
     }
 
-    public ReviewViewAction.RatingBarAction getRatingBarAction() {
+    public RatingBarAction getRatingBarAction() {
         return mRatingBarAction;
     }
 
-    public ReviewViewAction.BannerButtonAction getBannerButtonAction() {
+    public BannerButtonAction getBannerButtonAction() {
         return mBannerButtonAction;
     }
 
-    public ReviewViewAction.GridItemAction getGridItemAction() {
+    public GridItemAction getGridItemAction() {
         return mGridItemAction;
     }
 
-    public ReviewViewAction.MenuAction getMenuAction() {
+    public MenuAction getMenuAction() {
         return mMenuAction;
     }
 
-    public void setAction(ReviewViewAction.MenuAction action) {
+    public void setAction(MenuAction action) {
         mMenuAction = action;
     }
 
-    public void setAction(ReviewViewAction.SubjectAction action) {
+    public void setAction(SubjectAction action) {
         mSubjectAction = action;
     }
 
-    public void setAction(ReviewViewAction.RatingBarAction action) {
+    public void setAction(RatingBarAction action) {
         mRatingBarAction = action;
     }
 
-    public void setAction(ReviewViewAction.BannerButtonAction action) {
+    public void setAction(BannerButtonAction action) {
         mBannerButtonAction = action;
     }
 
-    public void setAction(ReviewViewAction.GridItemAction action) {
+    public void setAction(GridItemAction action) {
         mGridItemAction = action;
     }
 

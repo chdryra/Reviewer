@@ -6,15 +6,17 @@
  * Date: 21 October, 2014
  */
 
-package com.chdryra.android.reviewer.View.Configs;
+package com.chdryra.android.reviewer.View.Configs.Implementation;
 
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityViewLocation;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -23,7 +25,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 
 import java.util.HashMap;
 
@@ -36,50 +37,35 @@ import java.util.HashMap;
 /**
  * Defines the adder, editor and display UIs to use with each data type.
  */
-public final class ConfigGvDataAddEditView {
-    private static ConfigGvDataAddEditView sConfig;
-    private final HashMap<GvDataType, AddEditViewUis> mMap = new HashMap<>();
+public final class ClassesAddEditViewDefault implements ClassesAddEditView {
+    private final HashMap<GvDataType, ClassesHolder> mMap = new HashMap<>();
 
-    private ConfigGvDataAddEditView() {
+    public ClassesAddEditViewDefault() {
         mMap.put(GvTagList.GvTag.TYPE,
-                new AddEditViewUis(AddTag.class, EditTag.class, ViewTag.class));
+                new ClassesHolder(AddTag.class, EditTag.class, ViewTag.class));
         mMap.put(GvCriterionList.GvCriterion.TYPE,
-                new AddEditViewUis(AddChild.class, EditChild.class, ViewChild.class));
+                new ClassesHolder(AddChild.class, EditChild.class, ViewChild.class));
         mMap.put(GvCommentList.GvComment.TYPE,
-                new AddEditViewUis(AddComment.class, EditComment.class, ViewComment.class));
+                new ClassesHolder(AddComment.class, EditComment.class, ViewComment.class));
         mMap.put(GvImageList.GvImage.TYPE,
-                new AddEditViewUis(null, EditImage.class, ViewImage.class));
+                new ClassesHolder(null, EditImage.class, ViewImage.class));
         mMap.put(GvFactList.GvFact.TYPE,
-                new AddEditViewUis(AddFact.class, EditFact.class, ViewFact.class));
+                new ClassesHolder(AddFact.class, EditFact.class, ViewFact.class));
         mMap.put(GvLocationList.GvLocation.TYPE,
-                new AddEditViewUis(AddLocation.class, EditLocation.class,
+                new ClassesHolder(AddLocation.class, EditLocation.class,
                         ActivityViewLocation.class));
         mMap.put(GvUrlList.GvUrl.TYPE,
-                new AddEditViewUis(ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
+                new ClassesHolder(ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
                         ActivityEditUrlBrowser.class));
         mMap.put(GvSubjectList.GvSubject.TYPE,
-                new AddEditViewUis(null, null, ViewSubject.class));
+                new ClassesHolder(null, null, ViewSubject.class));
         mMap.put(GvDateList.GvDate.TYPE,
-                new AddEditViewUis(null, null, ViewDate.class));
+                new ClassesHolder(null, null, ViewDate.class));
     }
 
-    //Static methods
-    public static Class<? extends LaunchableUi> getAddClass(GvDataType dataType) {
-        return get().mMap.get(dataType).getAddClass();
-    }
-
-    public static Class<? extends LaunchableUi> getEditClass(GvDataType dataType) {
-        return get().mMap.get(dataType).getEditClass();
-    }
-
-    public static Class<? extends LaunchableUi> getViewClass(GvDataType dataType) {
-        return get().mMap.get(dataType).getViewClass();
-    }
-
-    private static ConfigGvDataAddEditView get() {
-        if (sConfig == null) sConfig = new ConfigGvDataAddEditView();
-
-        return sConfig;
+    @Override
+    public ClassesHolder getUiClasses(GvDataType<? extends GvData> dataType) {
+        return mMap.get(dataType);
     }
 
     //Adders
@@ -233,33 +219,4 @@ public final class ConfigGvDataAddEditView {
         }
     }
 
-    /**
-     * Packages together add, edit and view UIs.
-     */
-    class AddEditViewUis {
-        private final Class<? extends LaunchableUi> mAdd;
-        private final Class<? extends LaunchableUi> mEdit;
-        private final Class<? extends LaunchableUi> mView;
-
-        private AddEditViewUis(Class<? extends LaunchableUi> add,
-                               Class<? extends LaunchableUi> edit,
-                               Class<? extends LaunchableUi> view) {
-            mAdd = add;
-            mEdit = edit;
-            mView = view;
-        }
-
-        //package private methods
-        Class<? extends LaunchableUi> getAddClass() {
-            return mAdd;
-        }
-
-        Class<? extends LaunchableUi> getEditClass() {
-            return mEdit;
-        }
-
-        Class<? extends LaunchableUi> getViewClass() {
-            return mView;
-        }
-    }
 }

@@ -8,6 +8,8 @@ import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
 
 /**
@@ -25,4 +27,6 @@ public interface ApplicationContext {
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();
     BuilderChildListScreen getBuilderChildListScreen();
     FactoryReviews getReviewsFactory();
+    FactoryLaunchable getLaunchableFactory();
+    ConfigDataUi getUiConfig();
 }

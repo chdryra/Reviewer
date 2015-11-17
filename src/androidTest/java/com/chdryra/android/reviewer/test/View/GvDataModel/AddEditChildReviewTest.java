@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditChildReview;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 
@@ -26,7 +26,7 @@ public class AddEditChildReviewTest extends AddEditLayoutTest<GvCriterionList.Gv
     //Constructors
     public AddEditChildReviewTest() {
         super(GvCriterionList.GvCriterion.TYPE,
-                new AddEditChildReview(new ConfigGvDataAddEditView.AddChild()));
+                new AddEditChildReview(new ClassesAddEditViewDefault.AddChild()));
     }
 
     //Overridden

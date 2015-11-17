@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.Configs;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
@@ -26,14 +26,14 @@ import java.util.Arrays;
  * On: 03/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConfigGvDataAddEditViewTest extends TestCase {
+public class ClassesAddEditViewTest extends TestCase {
     private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
     private static final GvDataType[] NULLADDS = {GvImageList.GvImage.TYPE};
 
     @SmallTest
     public void testGetAddClass() {
         for (GvDataType dataType : TYPES) {
-            Class<? extends LaunchableUi> addClass = ConfigGvDataAddEditView.getAddClass
+            Class<? extends LaunchableUi> addClass = ClassesAddEditView.getAddClass
                     (dataType);
             if (Arrays.asList(NULLADDS).contains(dataType)) {
                 assertNull(addClass);
@@ -46,7 +46,7 @@ public class ConfigGvDataAddEditViewTest extends TestCase {
     @SmallTest
     public void testGetEditClass() {
         for (GvDataType dataType : TYPES) {
-            Class<? extends LaunchableUi> editClass = ConfigGvDataAddEditView.getEditClass
+            Class<? extends LaunchableUi> editClass = ClassesAddEditView.getEditClass
                     (dataType);
             assertNotNull(editClass);
         }

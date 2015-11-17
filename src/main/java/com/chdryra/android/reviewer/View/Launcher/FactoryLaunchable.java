@@ -10,6 +10,10 @@ package com.chdryra.android.reviewer.View.Launcher;
 
 import android.util.Log;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 14/05/2015
@@ -18,11 +22,7 @@ import android.util.Log;
 public class FactoryLaunchable {
     private static final String TAG = "FactoryLaunchable";
 
-    private FactoryLaunchable() {
-    }
-
-    //Static methods
-    public static LaunchableUi newLaunchable(Class<? extends LaunchableUi> uiClass) throws
+    public LaunchableUi newLaunchable(Class<? extends LaunchableUi> uiClass) throws
             RuntimeException {
         if (uiClass == null) return null;
 
@@ -37,5 +37,10 @@ public class FactoryLaunchable {
             Log.e(TAG, "IllegalAccessException: trying to create " + uiClass.getName(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    public LaunchableUi newReviewsListScreen(ReviewNode node,
+                                             FactoryReviewViewAdapter adapterFactory) {
+        return adapterFactory.newReviewsListAdapter(node).getReviewView();
     }
 }

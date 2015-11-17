@@ -12,21 +12,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
+        .DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -127,13 +134,20 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public void launchReview(Activity activity, String reviewId) {
-        ReviewsProvider repo = mApplicationContext.getReviewsProvider();
-        Review review = repo.getReview(reviewId);
-        Review reviewNode = mApplicationContext.getReviewsFactory().createMetaReview(review);
+        Review review = getReviewsProvider().getReview(reviewId);
+        ReviewNode reviewNode = getReviewsFactory().createMetaReview(review).getTreeRepresentation();
         FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
-        LaunchableUi ui = adapterFactory.newReviewsListAdapter(reviewNode.getTreeRepresentation()).getReviewView();
+        LaunchableUi ui = getLaunchableFactory().newReviewsListScreen(reviewNode, adapterFactory);
         String tag = review.getSubject().getSubject();
         int requestCode = RequestCodeGenerator.getCode(tag);
         LauncherUi.launch(ui, activity, requestCode, tag, new Bundle());
+    }
+
+    public ConfigDataUi getConfigDataUi() {
+        return mApplicationContext.getUiConfig();
+    }
+
+    public FactoryLaunchable getLaunchableFactory() {
+        return mApplicationContext.getLaunchableFactory();
     }
 }

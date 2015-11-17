@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityBuildReview
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedScreenMenu extends ReviewViewAction.MenuAction {
+public class FeedScreenMenu extends MenuAction {
     public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 

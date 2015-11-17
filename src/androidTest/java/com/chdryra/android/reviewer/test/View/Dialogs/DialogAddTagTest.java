@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.ConfigGvDataAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 
 /**
@@ -24,6 +24,6 @@ public class DialogAddTagTest extends DialogGvDataAddTest<GvTagList.GvTag> {
 
     //Constructors
     public DialogAddTagTest() {
-        super(ConfigGvDataAddEditView.AddTag.class);
+        super(ClassesAddEditViewDefault.AddTag.class);
     }
 }
