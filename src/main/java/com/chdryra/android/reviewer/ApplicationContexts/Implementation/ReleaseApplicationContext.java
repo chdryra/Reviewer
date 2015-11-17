@@ -2,8 +2,10 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories.FactoryDataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
@@ -14,7 +16,6 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryVhBuildReviewData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
@@ -34,9 +35,11 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryTreeDataGetter;
 import com.chdryra.android.reviewer.Models.Social.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.Factories.FactoryTagsManager;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
@@ -52,77 +55,90 @@ import java.io.File;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseApplicationContext extends ApplicationContextBasic {
-    public ReleaseApplicationContext(Context context, Author author, File extDir,
+    public ReleaseApplicationContext(Context context, Author author,
+                                     File extDir, String imageDir,
                                      String databaseName, int databaseVersion) {
-        //TagsManager
-        setTagsManager();
+        //DataValidator
+        DataValidator dataValidator = new DataValidator();
+        setDataValidator(dataValidator);
 
         //MdGvConverter
-        setDataConverters();
+        FactoryTagsManager factory = new FactoryTagsManager();
+        TagsManager tagsManager = factory.newTagsManager();
+        DataConverters converters = setDataConverters(tagsManager);
 
         //FactoryReview
         FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(author);
-        setFactoryReviews(publisherFactory);
+        FactoryReviews reviewsFactory = setFactoryReviews(publisherFactory, converters.getMdConverter());
 
         //SocialPlatforms
         setSocialPlatforms(context);
 
         //BuilderChildListScreen
-        setBuilderChildListScreen();
-
-        //FactoryReviewViewAdapter
-        setFactoryReviewViewAdapter();
-
-        //DataValidator
-        setDataValidator();
+        BuilderChildListScreen builder = setBuilderChildListScreen();
 
         //ReviewerDb
-        setReviewerDb(context, databaseName, databaseVersion);
-
-        //ReviewBuilderAdapter
-        setReviewBuilderAdapterFactory(context);
+        ReviewerDb db = setReviewerDb(context, databaseName, databaseVersion, reviewsFactory,
+                dataValidator, tagsManager);
 
         //ReviewsRepository
-        setReviewsProvider(publisherFactory);
+        FactoryVisitorReviewNode factoryVisitorReviewNode = new FactoryVisitorReviewNode();
+        ReviewsProvider provider = setReviewsProvider(publisherFactory, factoryVisitorReviewNode, reviewsFactory, db);
 
-        //FileIncrementor
-        setFileIncrementor(context, author, extDir);
+        //FactoryReviewViewAdapter
+        setFactoryReviewViewAdapter(builder, provider, converters.getGvConverter(),
+                factoryVisitorReviewNode);
+
+        //ReviewBuilderAdapter
+        setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
+                reviewsFactory, dataValidator, extDir, imageDir, author.getName());
+
     }
 
-    private void setFileIncrementor(Context context, Author author, File extDir) {
-        String dir = context.getString(context.getApplicationInfo().labelRes);
-
-        setFactoryFileIncrementor(new FactoryFileIncrementor(extDir, dir,
-                author.getName(), getDataValidator()));
-    }
-
-    private void setReviewsProvider(FactoryReviewPublisher publisherFactory) {
-        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
-        ReviewsRepository repo = repoFactory.newDatabaseRepository(getReviewerDb());
+    private ReviewsProvider setReviewsProvider(FactoryReviewPublisher publisherFactory,
+                                    FactoryVisitorReviewNode visitorFactory,
+                                    FactoryReviews reviewsFactory,
+                                    ReviewerDb db) {
+        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository(visitorFactory);
+        ReviewsRepository repo = repoFactory.newDatabaseRepository(db);
 
         FactoryReviewsProvider providerFactory = new FactoryReviewsProvider();
-        setReviewsProvider(providerFactory.newProvider(repo, publisherFactory, getReviewsFactory()));
+        ReviewsProvider reviewsProvider = providerFactory.newProvider(repo, publisherFactory,
+                reviewsFactory, visitorFactory);
+        setReviewsProvider(reviewsProvider);
+
+        return reviewsProvider;
     }
 
-    private void setReviewBuilderAdapterFactory(Context context) {
+    private void setReviewBuilderAdapterFactory(Context context,
+                                                ConverterGv converter,
+                                                TagsManager tagsManager,
+                                                FactoryReviews reviewsFactory,
+                                                DataValidator validator,
+                                                File extDir, String dir, String authorName) {
         FactoryGridUi<? extends GvDataList, ReviewBuilderAdapter> gridUi = new FactoryRvaGridUi();
         FactoryVhBuildReviewData factoryVhBuildReviewData = new FactoryVhBuildReviewData();
         FactoryDataBuilderAdapter factoryDataBuilderAdapter = new FactoryDataBuilderAdapter
                 (context);
         FactoryImageChooser factoryImageChooser = new FactoryImageChooser(context);
-        FactoryReviewBuilder factoryReviewBuilder = new FactoryReviewBuilder(getDataConverters()
-                .getGvConverter(), getTagsManager(), getReviewsFactory(), getDataValidator());
+        FactoryReviewBuilder factoryReviewBuilder = new FactoryReviewBuilder(converter,
+                tagsManager, reviewsFactory, validator);
+        FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(extDir, dir,
+                authorName, validator);
         FactoryReviewBuilderAdapter builderAdapterFactory
                 = new FactoryReviewBuilderAdapter(factoryReviewBuilder,
                 gridUi,
                 factoryVhBuildReviewData,
-                getDataValidator(),
-                factoryDataBuilderAdapter, getFileIncrementorFactory(), factoryImageChooser);
+                validator,
+                factoryDataBuilderAdapter, incrementorFactory, factoryImageChooser);
 
         setBuilderAdapterFactory(builderAdapterFactory);
     }
 
-    private void setReviewerDb(Context context, String databaseName, int version) {
+    private ReviewerDb setReviewerDb(Context context, String databaseName, int version,
+                                     FactoryReviews reviewsFactory,
+                                     DataValidator validator,
+                                     TagsManager tagsManager) {
         FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
         FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
         FactoryReviewerDbContract factoryReviewerDbContract = new FactoryReviewerDbContract
@@ -135,29 +151,30 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                 = new DbHelper<>(context, spec, executorFactory.newExecutor());
 
         FactoryReviewLoader loaderFactory = new FactoryReviewLoader();
-        ReviewLoader loader = loaderFactory.newStaticLoader(getReviewsFactory(), getDataValidator());
+        ReviewLoader loader = loaderFactory.newStaticLoader(reviewsFactory, validator);
         FactoryDbTableRow rowFactory = new FactoryDbTableRow();
 
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
-        ReviewerDb db = dbFactory.newDatabase(dbHelper, loader, getTagsManager(), getDataValidator());
+        ReviewerDb db = dbFactory.newDatabase(dbHelper, loader, tagsManager, validator);
         setReviewerDb(db);
+
+        return db;
     }
 
-    private void setDataValidator() {
-        setDataValidator(new DataValidator());
-    }
-
-    private void setFactoryReviewViewAdapter() {
+    private void setFactoryReviewViewAdapter(BuilderChildListScreen builder,
+                                             ReviewsProvider provider,
+                                             ConverterGv converter,
+                                             FactoryVisitorReviewNode visitorFactory) {
         GvDataAggregater aggregater = new GvDataAggregater();
-        FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
 
-        setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(getBuilderChildListScreen(),
-                viewerFactory, aggregater, getReviewsProvider(),
-                getDataConverters().getGvConverter()));
+        setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(builder,
+                visitorFactory, aggregater, provider, converter));
     }
 
-    private void setBuilderChildListScreen() {
-        setBuilderChildListScreen(new BuilderChildListScreen());
+    private BuilderChildListScreen setBuilderChildListScreen() {
+        BuilderChildListScreen builderChildListScreen = new BuilderChildListScreen();
+        setBuilderChildListScreen(builderChildListScreen);
+        return builderChildListScreen;
     }
 
     private void setSocialPlatforms(Context context) {
@@ -166,23 +183,22 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setSocialPlatforms(factory.newList(context));
     }
 
-    private void setFactoryReviews(FactoryReviewPublisher publisherFactory) {
+    private FactoryReviews setFactoryReviews(FactoryReviewPublisher publisherFactory,
+                                             ConverterMd converter) {
         FactoryVisitorReviewNode visitorFactory = new FactoryVisitorReviewNode();
         FactoryTreeDataGetter getterFactory = new FactoryTreeDataGetter();
-        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent(visitorFactory, getterFactory);
-        ConverterMd convertersMd = getDataConverters().getMdConverter();
+        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent(visitorFactory,
+                getterFactory);
 
-        setFactoryReviews(new FactoryReviews(publisherFactory, factory, convertersMd));
+        FactoryReviews reviewsFactory = new FactoryReviews(publisherFactory, factory, converter);
+        setFactoryReviews(reviewsFactory);
+        return reviewsFactory;
     }
 
-    private void setDataConverters() {
-        FactoryDataConverters convertersFactory = new FactoryDataConverters(getTagsManager());
-
-        setDataConverters(convertersFactory.newDataConverters());
-    }
-
-    private void setTagsManager() {
-        FactoryTagsManager manager = new FactoryTagsManager();
-        setTagsManager(manager.newTagsManager());
+    private DataConverters setDataConverters(TagsManager tagsManager) {
+        FactoryDataConverters convertersFactory = new FactoryDataConverters(tagsManager);
+        DataConverters converters = convertersFactory.newDataConverters();
+        setDataConverters(converters);
+        return converters;
     }
 }

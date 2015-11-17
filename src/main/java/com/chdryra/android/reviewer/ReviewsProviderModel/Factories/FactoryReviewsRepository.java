@@ -10,7 +10,6 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.Implementation.StaticRe
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
-import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,8 +24,9 @@ public class FactoryReviewsRepository {
     }
 
     public ReviewsRepository newNodeRepository(ReviewNode node, TagsManager tagsManager) {
-        VisitorReviewNode mVisitorFactory
-        return newStaticRepository(VisitorReviewsGetter.flatten(node), tagsManager);
+        VisitorReviewsGetter getter = mVisitorFactory.newReviewsGetter();
+        getter.visit(node);
+        return newStaticRepository(getter.getReviews(), tagsManager);
     }
 
     public ReviewsRepository newStaticRepository(IdableCollection<Review> reviews,

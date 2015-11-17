@@ -1,19 +1,19 @@
 package com.chdryra.android.reviewer.ReviewsProviderModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
-        .FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
 
 /**
@@ -25,14 +25,17 @@ public class ReviewsSource implements ReviewsProvider {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
     private FactoryReviewPublisher mPublisherFactory;
+    private FactoryVisitorReviewNode mVisitorFactory;
 
     //Constructors
     public ReviewsSource(ReviewsRepository repository,
                          FactoryReviewPublisher publisherFactory,
-                         FactoryReviews reviewFactory) {
+                         FactoryReviews reviewFactory,
+                         FactoryVisitorReviewNode visitorFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
         mPublisherFactory = publisherFactory;
+        mVisitorFactory = visitorFactory;
     }
 
     @Override
@@ -80,7 +83,9 @@ public class ReviewsSource implements ReviewsProvider {
     @Override
     public Review createFlattenedMetaReview(VerboseIdableCollection data, String subject) {
         Review meta = createMetaReview(data, subject);
-        IdableCollection<Review> flattened = VisitorReviewsGetter.flatten(meta.getTreeRepresentation());
+        VisitorReviewsGetter flattener = mVisitorFactory.newReviewsGetter();
+        flattener.visit(meta.getTreeRepresentation());
+        IdableCollection<Review> flattened = flattener.getReviews();
 
         return mReviewFactory.createMetaReview(flattened, subject);
     }
@@ -96,6 +101,7 @@ public class ReviewsSource implements ReviewsProvider {
         return mRepository.getReviews();
     }
 
+    @Override
     public TagsManager getTagsManager() {
         return mRepository.getTagsManager();
     }

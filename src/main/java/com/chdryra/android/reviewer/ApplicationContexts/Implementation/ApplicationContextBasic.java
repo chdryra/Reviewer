@@ -4,15 +4,12 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Inte
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
-import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +18,6 @@ import com.chdryra.android.reviewer.View.Utils.FactoryFileIncrementor;
  */
 public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviews mFactoryReviews;
-    private TagsManager mTagsManager;
     private ReviewerDb mReviewerDb;
     private ReviewsProvider mReviewsProvider;
     private SocialPlatformList mSocialPlatforms;
@@ -29,7 +25,6 @@ public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private DataConverters mDataConverters;
     private DataValidator mDataValidator;
-    private FactoryFileIncrementor mFactoryFileIncrementor;
     private FactoryReviewBuilderAdapter mBuilderAdapterFactory;
 
     protected ApplicationContextBasic() {
@@ -46,10 +41,6 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     public void setBuilderAdapterFactory(FactoryReviewBuilderAdapter builderAdapterFactory) {
         mBuilderAdapterFactory = builderAdapterFactory;
-    }
-
-    public void setTagsManager(TagsManager tagsManager) {
-        mTagsManager = tagsManager;
     }
 
     public void setReviewerDb(ReviewerDb reviewerDb) {
@@ -76,18 +67,10 @@ public class ApplicationContextBasic implements ApplicationContext {
         mDataValidator = dataValidator;
     }
 
-    public void setFactoryFileIncrementor(FactoryFileIncrementor factoryFileIncrementor) {
-        mFactoryFileIncrementor = factoryFileIncrementor;
-    }
 
     @Override
     public ReviewerDb getReviewerDb() {
         return mReviewerDb;
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mTagsManager;
     }
 
     @Override
@@ -123,11 +106,6 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public DataValidator getDataValidator() {
         return mDataValidator;
-    }
-
-    @Override
-    public FactoryFileIncrementor getFileIncrementorFactory() {
-        return mFactoryFileIncrementor;
     }
 
     @Override

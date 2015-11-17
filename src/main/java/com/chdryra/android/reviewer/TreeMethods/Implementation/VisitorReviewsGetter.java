@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.TreeMethods.Implementation;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,10 +21,10 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VisitorReviewsGetter implements VisitorReviewNode {
-    ArrayList<Review> mReviews = new ArrayList<>();
+    IdableCollection<Review> mReviews = new MdIdableCollection<>();
 
     //public methods
-    public Iterable<Review> getReviews() {
+    public IdableCollection<Review> getReviews() {
         return mReviews;
     }
 

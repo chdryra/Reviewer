@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -31,26 +32,34 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGridDataViewer {
+    private FactoryReviewViewAdapter mAdapterFactory;
+
+    public FactoryGridDataViewer(FactoryReviewViewAdapter adapterFactory) {
+        mAdapterFactory = adapterFactory;
+    }
+
     public GridDataViewer<GvData> newNodeDataViewer(ReviewNode node,
                                                     ConverterGv converter,
                                                     TagsManager tagsManager,
-                                                    FactoryReviewViewAdapter adapterFactory,
+                                                    FactoryVisitorReviewNode visitorFactory,
                                                     GvDataAggregater aggregateFactory) {
         GridDataViewer<GvData> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
-            viewer = new ViewerTreeData(node, converter, tagsManager, adapterFactory,
+            viewer = new ViewerTreeData(node, converter, tagsManager, mAdapterFactory,
+                    visitorFactory,
                     aggregateFactory);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
             if (expanded.equals(toExpand)) {
                 //must be a leaf node so view review
-                viewer = new ViewerReviewData(expanded, converter, tagsManager, adapterFactory);
+                viewer = new ViewerReviewData(expanded, converter, tagsManager, mAdapterFactory);
             } else {
                 //expand next layer of tree
-                viewer = newNodeDataViewer(expanded, converter, tagsManager, adapterFactory, aggregateFactory);
+                viewer = newNodeDataViewer(expanded, converter, tagsManager,
+                        visitorFactory, aggregateFactory);
             }
         }
 
@@ -58,27 +67,24 @@ public class FactoryGridDataViewer {
     }
 
     public <T extends GvData> GridDataViewer<T> newDataToDataViewer(ReviewNode parent,
-                                                                    GvDataCollection<T> data,
-                                                                    FactoryReviewViewAdapter adapterFactory) {
-        return new ViewerDataToData<>(parent, data, adapterFactory);
+                                                                    GvDataCollection<T> data) {
+        return new ViewerDataToData<>(parent, data, mAdapterFactory);
     }
 
     public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
-                                                                         FactoryReviewViewAdapter adapterFactory,
                                                                                    GvDataAggregater aggregateFactory) {
         GridDataViewer<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
             viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterionList.GvCriterion>) data,
-                    this, adapterFactory, aggregateFactory);
+                    this, mAdapterFactory, aggregateFactory);
         } else {
-            viewer = new ViewerAggregateToData<>(data, this, adapterFactory);
+            viewer = new ViewerAggregateToData<>(data, this, mAdapterFactory);
         }
 
         return viewer;
     }
 
-    public <T extends GvData> GridDataViewer<T> newDataToReviewsViewer(GvDataCollection<T> data,
-                                                                       FactoryReviewViewAdapter adapterFactory) {
-        return new ViewerDataToReviews<>(data, adapterFactory);
+    public <T extends GvData> GridDataViewer<T> newDataToReviewsViewer(GvDataCollection<T> data) {
+        return new ViewerDataToReviews<>(data, mAdapterFactory);
     }
 }

@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -45,18 +46,20 @@ public class FactoryReviewViewAdapter {
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
     private ReviewsProvider mProvider;
+    private FactoryVisitorReviewNode mVisitorFactory;
 
     //Constructors
     public FactoryReviewViewAdapter(BuilderChildListScreen listScreenFactory,
-                                    FactoryGridDataViewer viewerFactory,
+                                    FactoryVisitorReviewNode visitorFactory,
                                     GvDataAggregater aggregater,
                                     ReviewsProvider provider,
                                     ConverterGv converter) {
         mListScreenFactory = listScreenFactory;
-        mViewerFactory = viewerFactory;
+        mViewerFactory = new FactoryGridDataViewer(this);
         mAggregater = aggregater;
         mProvider = provider;
         mConverter = converter;
+        mVisitorFactory = visitorFactory;
     }
 
     //public methods
@@ -83,7 +86,7 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
         GridDataViewer<GvData> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
-                getTagsManager(), this, mAggregater);
+                getTagsManager(), mVisitorFactory, mAggregater);
         return newAdapterReviewNode(node, viewer);
     }
 
@@ -94,7 +97,7 @@ public class FactoryReviewViewAdapter {
 
     public <T extends GvData> ReviewViewAdapter newDataToDataAdapter(ReviewNode parent,
                                                                      GvDataCollection<T> data) {
-        return newAdapterReviewNode(parent, mViewerFactory.newDataToDataViewer(parent, data, this));
+        return newAdapterReviewNode(parent, mViewerFactory.newDataToDataViewer(parent, data));
     }
 
     public <T extends GvData> ReviewViewAdapter newAggregateToReviewsAdapter
@@ -113,9 +116,9 @@ public class FactoryReviewViewAdapter {
         boolean aggregateToData = type.equals(GvCriterionList.GvCriterion.TYPE) ||
                 type.equals(GvFactList.GvFact.TYPE) || type.equals(GvImageList.GvImage.TYPE);
         if (aggregateToData) {
-            viewer = mViewerFactory.newAggregateToDataViewer(data, this, mAggregater);
+            viewer = mViewerFactory.newAggregateToDataViewer(data, mAggregater);
         } else {
-            viewer = mViewerFactory.newDataToReviewsViewer(data, this);
+            viewer = mViewerFactory.newDataToReviewsViewer(data);
         }
 
         return newMetaReviewAdapter(data, subject, viewer);

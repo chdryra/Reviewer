@@ -8,6 +8,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
@@ -25,15 +26,17 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerTreeData extends ViewerReviewData {
+    private FactoryVisitorReviewNode mVisitorFactory;
     private GvDataAggregater mAggregater;
 
     public ViewerTreeData(ReviewNode node,
                    ConverterGv converter,
                    TagsManager tagsManager,
-                   FactoryReviewViewAdapter adapterFactory,
+                   FactoryReviewViewAdapter adapterFactory, FactoryVisitorReviewNode visitorFactory,
                    GvDataAggregater aggregater) {
         super(node, converter, tagsManager, adapterFactory);
         mAggregater = aggregater;
+        mVisitorFactory = visitorFactory;
     }
 
     //Overridden
@@ -79,8 +82,10 @@ public class ViewerTreeData extends ViewerReviewData {
     private GvTagList collectTags() {
         ReviewNode node = getReviewNode();
         String nodeId = node.getReviewId();
+        VisitorReviewsGetter visitor = mVisitorFactory.newReviewsGetter();
+        visitor.visit(node);
         ArrayList<String> ids = new ArrayList<>();
-        for (Review review : VisitorReviewsGetter.flatten(node)) {
+        for (Review review : visitor.getReviews()) {
             ids.add(review.getReviewId());
         }
 

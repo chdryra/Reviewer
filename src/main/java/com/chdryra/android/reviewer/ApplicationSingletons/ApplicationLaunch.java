@@ -22,6 +22,7 @@ public class ApplicationLaunch {
 
     private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
             .generateId());
+    private static final String IMAGE_DIR = "Reviewer";
     private static final String DATABASE_NAME = "Reviewer.db";
     private static final String TEST_DATABASE_NAME = "TestReviewer.db";
     private static final int DATABASE_VER = 1;

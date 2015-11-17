@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer.TreeMethods.Factories;
 import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorRatingCalculator;
-import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,7 +10,7 @@ import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryVisitorReviewNode {
-    public VisitorReviewNode newReviewsGetter() {
+    public VisitorReviewsGetter newReviewsGetter() {
         return new VisitorReviewsGetter();
     }
 
