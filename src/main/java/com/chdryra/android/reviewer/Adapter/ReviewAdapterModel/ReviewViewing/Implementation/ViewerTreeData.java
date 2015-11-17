@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
@@ -68,7 +68,7 @@ public class ViewerTreeData extends ViewerReviewData {
                 adapter = adapterFactory.newReviewsListAdapter(getReviewNode());
             } else {
                 String subject = datum.getStringSummary();
-                GvCanonicalCollection data = (GvCanonicalCollection) datum;
+                GvCanonicalCollection<?> data = (GvCanonicalCollection<?>) datum;
                 adapter = adapterFactory.newAggregateToReviewsAdapter(data, subject);
             }
         }

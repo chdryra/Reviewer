@@ -8,7 +8,9 @@ import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Implementation.StaticReviewsRepository;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +18,14 @@ import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewsRepository {
+    FactoryVisitorReviewNode mVisitorFactory;
+
+    public FactoryReviewsRepository(FactoryVisitorReviewNode visitorFactory) {
+        mVisitorFactory = visitorFactory;
+    }
+
     public ReviewsRepository newNodeRepository(ReviewNode node, TagsManager tagsManager) {
+        VisitorReviewNode mVisitorFactory
         return newStaticRepository(VisitorReviewsGetter.flatten(node), tagsManager);
     }
 

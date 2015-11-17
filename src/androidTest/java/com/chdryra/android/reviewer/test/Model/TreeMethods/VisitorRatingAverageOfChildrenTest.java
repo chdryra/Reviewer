@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.TreeMethods.VisitorRatingAverageOfChildren;
+import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorRatingAverageOfChildren;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;

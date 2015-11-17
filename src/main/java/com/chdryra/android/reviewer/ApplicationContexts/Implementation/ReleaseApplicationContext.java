@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterMd;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.FactoryDataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories.FactoryDataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
@@ -31,12 +31,14 @@ import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryTreeDataGetter;
 import com.chdryra.android.reviewer.Models.Social.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Models.TagsModel.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
@@ -165,7 +167,9 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     private void setFactoryReviews(FactoryReviewPublisher publisherFactory) {
-        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent();
+        FactoryVisitorReviewNode visitorFactory = new FactoryVisitorReviewNode();
+        FactoryTreeDataGetter getterFactory = new FactoryTreeDataGetter();
+        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent(visitorFactory, getterFactory);
         ConverterMd convertersMd = getDataConverters().getMdConverter();
 
         setFactoryReviews(new FactoryReviews(publisherFactory, factory, convertersMd));

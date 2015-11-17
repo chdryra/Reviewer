@@ -26,8 +26,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubj
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.TreeMethods.ReviewTreeComparer;
-import com.chdryra.android.reviewer.TreeMethods.VisitorReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
@@ -41,6 +40,7 @@ import com.chdryra.android.reviewer.TreeMethods.VisitorReviewNode;
  */
 public class ReviewTree implements ReviewNode {
     private final ReviewNode mNode;
+    private static final ReviewTreeComparer COMPARER = new ReviewTreeComparer();
 
     //Constructors
     public ReviewTree(ReviewNode node) {
@@ -81,7 +81,7 @@ public class ReviewTree implements ReviewNode {
 
     @Override
     public boolean hasChild(String reviewId) {
-        return hasChild(reviewId);
+        return mNode.hasChild(reviewId);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class ReviewTree implements ReviewNode {
         if (!(o instanceof ReviewNode)) return false;
 
         ReviewNode that = (ReviewNode) o;
-        return ReviewTreeComparer.compareTrees(this, that);
+        return COMPARER.compareTrees(this, that);
     }
 
     @Override

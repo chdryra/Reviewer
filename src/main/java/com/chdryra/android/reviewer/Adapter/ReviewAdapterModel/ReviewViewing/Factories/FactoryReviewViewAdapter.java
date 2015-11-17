@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.AdapterReviewNode;
@@ -97,13 +97,13 @@ public class FactoryReviewViewAdapter {
         return newAdapterReviewNode(parent, mViewerFactory.newDataToDataViewer(parent, data, this));
     }
 
-    //TODO make type safe
     public <T extends GvData> ReviewViewAdapter newAggregateToReviewsAdapter
     (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> type = data.getGvDataType();
 
         if (type.equals(GvCommentList.GvComment.TYPE)) {
             ReviewNode node = mProvider.createMetaReview(data, subject).getTreeRepresentation();
+            //TODO make type safe
             return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
                     (GvCanonicalCollection<GvCommentList.GvComment>) data, mViewerFactory, this,
                     mAggregater);

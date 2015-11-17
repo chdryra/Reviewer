@@ -13,14 +13,14 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.TreeDataGetter;
-import com.chdryra.android.reviewer.TreeMethods.ReviewTreeComparer;
-import com.chdryra.android.reviewer.TreeMethods.VisitorRatingAverageOfChildren;
-import com.chdryra.android.reviewer.TreeMethods.VisitorRatingCalculator;
-import com.chdryra.android.reviewer.TreeMethods.VisitorReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorRatingCalculator;
+import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * Creates a new unique {@link MdReviewId} if required so can represent a new review structure even
@@ -32,19 +32,23 @@ import com.chdryra.android.reviewer.TreeMethods.VisitorReviewNode;
  * </p>
  */
 public class ReviewTreeNode implements ReviewNodeComponent {
-    private final MdReviewId mId;
+    private static final ReviewTreeComparer COMPARER = new ReviewTreeComparer();
 
+    private final MdReviewId mId;
     private final Review mReview;
     private final TreeDataGetter mGetter;
     private final MdIdableList<ReviewNode> mChildren;
     private ReviewNodeComponent mParent;
     private boolean mRatingIsAverage = false;
+    private FactoryVisitorReviewNode mVisitorFactory;
+    private FactoryReviewNode mNodeFactory;
 
     //Constructors
-    public ReviewTreeNode(Review review,
+    public ReviewTreeNode(MdReviewId nodeId, Review review,
                           boolean ratingIsAverage,
-                          MdReviewId nodeId,
-                          TreeDataGetter treeDataGetter) {
+                          TreeDataGetter treeDataGetter,
+                          FactoryVisitorReviewNode visitorFactory,
+                          FactoryReviewNode nodeFactory) {
         mId = nodeId;
         mReview = review;
         mChildren = new MdIdableList<>(nodeId);
@@ -52,6 +56,8 @@ public class ReviewTreeNode implements ReviewNodeComponent {
         mRatingIsAverage = ratingIsAverage;
         mGetter = treeDataGetter;
         mGetter.setRoot(this);
+        mVisitorFactory = visitorFactory;
+        mNodeFactory = nodeFactory;
     }
 
     private void removeChild(ReviewNodeComponent childNode) {
@@ -88,7 +94,7 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     @Override
     public ReviewNode makeTree() {
-        return new ReviewTree(this);
+        return mNodeFactory.createReviewNode(this);
     }
 
     @Override
@@ -156,7 +162,7 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     public DataRating getRating() {
         DataRating rating;
         if (mRatingIsAverage) {
-            VisitorRatingCalculator visitor = new VisitorRatingAverageOfChildren();
+            VisitorRatingCalculator visitor = mVisitorFactory.newRatingsAverager();
             acceptVisitor(visitor);
             rating = new MdRating(mId, visitor.getRating(), visitor.getWeight());
         } else {
@@ -223,7 +229,7 @@ public class ReviewTreeNode implements ReviewNodeComponent {
         if (!(o instanceof ReviewNode)) return false;
 
         ReviewNode that = (ReviewNode) o;
-        return ReviewTreeComparer.compareNodes(this, that);
+        return COMPARER.compareNodes(this, that);
     }
 
     @Override

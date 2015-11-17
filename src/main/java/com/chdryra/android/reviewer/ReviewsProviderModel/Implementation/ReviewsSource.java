@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.TreeMethods.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.TreeMethods.Implementation.VisitorReviewsGetter;
 
 /**
  * Created by: Rizwan Choudrey

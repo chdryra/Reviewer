@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLoca
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.TreeMethods.VisitorReviewNode;
+import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey

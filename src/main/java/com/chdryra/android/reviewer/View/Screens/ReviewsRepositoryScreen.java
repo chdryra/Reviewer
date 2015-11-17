@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.View.Screens;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvImageConverter;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.GvReviewConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.GvImageConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.GvReviewConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;

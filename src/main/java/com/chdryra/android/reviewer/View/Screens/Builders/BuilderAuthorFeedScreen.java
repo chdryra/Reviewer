@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Screens.Builders;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.DataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;

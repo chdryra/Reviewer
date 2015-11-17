@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Models.ReviewsModel.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.ConverterMd;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
