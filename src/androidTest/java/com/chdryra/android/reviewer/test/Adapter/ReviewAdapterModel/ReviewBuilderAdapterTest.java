@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdGvEquality;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;

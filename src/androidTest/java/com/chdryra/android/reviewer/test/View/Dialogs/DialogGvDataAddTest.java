@@ -26,8 +26,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation
         .EditScreenReviewDataImpl;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;

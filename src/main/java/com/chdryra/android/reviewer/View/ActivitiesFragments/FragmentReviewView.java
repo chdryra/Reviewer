@@ -36,14 +36,14 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.BannerButtonAction;
-import com.chdryra.android.reviewer.View.Screens.Factories.FactoryGridCellAdapter;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.GridItemAction;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.RatingBarAction;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.SubjectAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryGridCellAdapter;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectAction;
 
 /**
  * Created by: Rizwan Choudrey

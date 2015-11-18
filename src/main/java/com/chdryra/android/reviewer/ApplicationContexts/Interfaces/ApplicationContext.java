@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public interface ApplicationContext {
     DataValidator getDataValidator();
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();
-    BuilderChildListScreen getBuilderChildListScreen();
+    BuilderChildListView getBuilderChildListView();
     FactoryReviews getReviewsFactory();
     FactoryLaunchable getLaunchableFactory();
     ConfigDataUi getUiConfig();

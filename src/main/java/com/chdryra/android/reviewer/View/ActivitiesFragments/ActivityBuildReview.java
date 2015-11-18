@@ -7,9 +7,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation.BuildScreen;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories.FactoryReviewEditor;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.BuildScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey

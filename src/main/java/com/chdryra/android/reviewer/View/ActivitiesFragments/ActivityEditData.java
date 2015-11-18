@@ -13,11 +13,11 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories.FactoryReviewDataEditor;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation.EditScreenImages;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation.EditScreenReviewData;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories.FactoryEditScreen;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewDataEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.EditScreenImages;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.EditScreenReviewData;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 
 /**

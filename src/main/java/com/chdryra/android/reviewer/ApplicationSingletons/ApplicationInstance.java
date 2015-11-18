@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -104,8 +104,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mApplicationContext.getDataConverters();
     }
 
-    public BuilderChildListScreen getBuilderChildListScreen() {
-        return mApplicationContext.getBuilderChildListScreen();
+    public BuilderChildListView getBuilderChildListScreen() {
+        return mApplicationContext.getBuilderChildListView();
     }
 
     public FactoryReviewViewAdapter getReviewViewAdapterFactory() {

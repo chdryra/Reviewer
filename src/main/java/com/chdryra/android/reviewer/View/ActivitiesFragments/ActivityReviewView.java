@@ -12,7 +12,7 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey

@@ -7,8 +7,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
 
 /**
@@ -35,7 +33,11 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     private GvDataType<T> mType;
 
     //Constructors
-    public GvCanonical(@NotNull T canonical, @NotNull GvDataList<T> data) {
+    public GvCanonical(){
+
+    }
+
+    public GvCanonical(T canonical, GvDataList<T> data) {
         mCanonical = canonical;
         mType = data.getGvDataType();
         if (data.size() == 0) {

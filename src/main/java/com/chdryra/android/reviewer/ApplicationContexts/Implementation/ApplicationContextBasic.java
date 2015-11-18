@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +23,7 @@ public class ApplicationContextBasic implements ApplicationContext {
     private ReviewerDb mReviewerDb;
     private ReviewsProvider mReviewsProvider;
     private SocialPlatformList mSocialPlatforms;
-    private BuilderChildListScreen mBuilderChildListScreen;
+    private BuilderChildListView mBuilderChildListView;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private DataConverters mDataConverters;
     private DataValidator mDataValidator;
@@ -63,8 +63,8 @@ public class ApplicationContextBasic implements ApplicationContext {
         mSocialPlatforms = socialPlatforms;
     }
 
-    public void setBuilderChildListScreen(BuilderChildListScreen builderChildListScreen) {
-        mBuilderChildListScreen = builderChildListScreen;
+    public void setBuilderChildListView(BuilderChildListView builderChildListView) {
+        mBuilderChildListView = builderChildListView;
     }
 
     public void setFactoryReviewViewAdapter(FactoryReviewViewAdapter factoryReviewViewAdapter) {
@@ -105,8 +105,8 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     @Override
-    public BuilderChildListScreen getBuilderChildListScreen() {
-        return mBuilderChildListScreen;
+    public BuilderChildListView getBuilderChildListView() {
+        return mBuilderChildListView;
     }
 
     @Override

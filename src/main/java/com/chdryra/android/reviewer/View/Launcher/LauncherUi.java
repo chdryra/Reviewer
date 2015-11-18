@@ -16,7 +16,7 @@ import android.os.Bundle;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey

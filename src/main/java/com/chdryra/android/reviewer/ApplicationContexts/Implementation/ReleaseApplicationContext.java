@@ -5,6 +5,8 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories.FactoryDataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
+
+
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
@@ -44,10 +46,11 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepos
 import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Configs.Factories.FactoryConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 
 import java.io.File;
 
@@ -61,11 +64,11 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                                      File extDir, String imageDir,
                                      String databaseName, int databaseVersion) {
         //UI config
-        FactoryConfigDataUi configBuilder = new FactoryConfigDataUi();
-        setConfigDataUi(configBuilder.getDefaultConfig());
+        ConfigDataUi config = setUiConfig();
 
         //FactoryLaunchable
-        setFactoryLaunchable(new FactoryLaunchable());
+        FactoryLaunchable factoryLaunchable = new FactoryLaunchable(config);
+        setFactoryLaunchable(factoryLaunchable);
 
         //DataValidator
         DataValidator dataValidator = new DataValidator();
@@ -84,23 +87,31 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setSocialPlatforms(context);
 
         //BuilderChildListScreen
-        BuilderChildListScreen builder = setBuilderChildListScreen();
+        BuilderChildListView builder = setBuilderChildListScreen(converters.getGvConverter(),
+                factoryLaunchable);
 
         //ReviewerDb
         ReviewerDb db = setReviewerDb(context, databaseName, databaseVersion, reviewsFactory,
                 dataValidator, tagsManager);
 
         //ReviewsRepository
-        FactoryVisitorReviewNode factoryVisitorReviewNode = new FactoryVisitorReviewNode();
-        ReviewsProvider provider = setReviewsProvider(publisherFactory, factoryVisitorReviewNode, reviewsFactory, db);
+        FactoryVisitorReviewNode factoryVisitor = new FactoryVisitorReviewNode();
+        ReviewsProvider provider = setReviewsProvider(publisherFactory, factoryVisitor, reviewsFactory, db);
 
         //FactoryReviewViewAdapter
         setFactoryReviewViewAdapter(builder, provider, converters.getGvConverter(),
-                factoryVisitorReviewNode);
+                factoryVisitor, factoryLaunchable);
 
         //ReviewBuilderAdapter
         setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
                 reviewsFactory, dataValidator, extDir, imageDir, author.getName());
+    }
+
+    private ConfigDataUi setUiConfig() {
+        FactoryConfigDataUi configBuilder = new FactoryConfigDataUi();
+        ConfigDataUi defaultConfig = configBuilder.getDefaultConfig();
+        setConfigDataUi(defaultConfig);
+        return defaultConfig;
     }
 
     private ReviewsProvider setReviewsProvider(FactoryReviewPublisher publisherFactory,
@@ -169,20 +180,25 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         return db;
     }
 
-    private void setFactoryReviewViewAdapter(BuilderChildListScreen builder,
+    private void setFactoryReviewViewAdapter(BuilderChildListView builder,
                                              ReviewsProvider provider,
                                              ConverterGv converter,
-                                             FactoryVisitorReviewNode visitorFactory) {
+                                             FactoryVisitorReviewNode visitorFactory,
+                                             FactoryLaunchable launchableFactory) {
         GvDataAggregater aggregater = new GvDataAggregater();
 
-        setFactoryReviewViewAdapter(new FactoryReviewViewAdapter(builder,
-                visitorFactory, aggregater, provider, converter));
+        FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(builder,
+                visitorFactory, launchableFactory, aggregater, provider, converter);
+        setFactoryReviewViewAdapter(factory);
     }
 
-    private BuilderChildListScreen setBuilderChildListScreen() {
-        BuilderChildListScreen builderChildListScreen = new BuilderChildListScreen();
-        setBuilderChildListScreen(builderChildListScreen);
-        return builderChildListScreen;
+    private BuilderChildListView setBuilderChildListScreen(ConverterGv converter,
+                                                             FactoryLaunchable launchableFactory) {
+        BuilderChildListView builderChildListView =
+                new BuilderChildListView(converter.getConverterReviews(),
+                        converter.getConverterImages(), launchableFactory);
+        setBuilderChildListView(builderChildListView);
+        return builderChildListView;
     }
 
     private void setSocialPlatforms(Context context) {

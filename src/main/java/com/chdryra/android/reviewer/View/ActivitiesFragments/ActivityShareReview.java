@@ -4,8 +4,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.Builders.BuilderShareScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Builders.BuilderShareScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,6 +21,6 @@ public class ActivityShareReview extends ActivityReviewView {
         ReviewBuilderAdapter builder = app.getReviewBuilderAdapter();
         if(builder == null) throw new RuntimeException("Builder is null!");
         BuilderShareScreen shareScreen = new BuilderShareScreen();
-        return shareScreen.createView(title, socialPlatforms, builder);
+        return shareScreen.buildView(title, socialPlatforms, builder);
     }
 }
