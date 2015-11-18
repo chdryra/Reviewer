@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 
 /**
  * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently

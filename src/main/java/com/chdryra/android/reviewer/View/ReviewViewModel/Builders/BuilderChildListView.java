@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Imp
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.SubjectActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
@@ -32,11 +32,11 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewVi
 public class BuilderChildListView {
     private GvReviewConverter<GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> mReviewConverter;
     private GvImageConverter mImageConverter;
-    private FactoryLaunchable mLaunchableFactory;
+    private FactoryLaunchableUi mLaunchableFactory;
 
     public BuilderChildListView(GvReviewConverter<GvReviewOverviewList.GvReviewOverview,
             GvReviewOverviewList> reviewConverter, GvImageConverter imageConverter,
-                                FactoryLaunchable launchableFactory) {
+                                FactoryLaunchableUi launchableFactory) {
         mReviewConverter = reviewConverter;
         mImageConverter = imageConverter;
         mLaunchableFactory = launchableFactory;
@@ -68,7 +68,7 @@ public class BuilderChildListView {
 
 
     private ReviewViewActions<GvReviewOverviewList.GvReviewOverview>
-    getActions(FactoryLaunchable launchableFactory,
+    getActions(FactoryLaunchableUi launchableFactory,
                       GridItemAction<GvReviewOverviewList.GvReviewOverview> giAction,
                       MenuAction<GvReviewOverviewList.GvReviewOverview> menuAction) {
         SubjectAction<GvReviewOverviewList.GvReviewOverview> subject = new SubjectActionNone<>();

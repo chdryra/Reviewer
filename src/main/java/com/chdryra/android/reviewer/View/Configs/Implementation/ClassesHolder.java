@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Configs.Implementation;
 
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 
 /**
  * Packages together add, edit and view UIs.

@@ -17,8 +17,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 
 /**
  * Created by: Rizwan Choudrey

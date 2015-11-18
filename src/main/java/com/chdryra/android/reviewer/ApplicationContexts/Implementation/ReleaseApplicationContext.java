@@ -49,7 +49,8 @@ import com.chdryra.android.reviewer.View.Configs.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 
 import java.io.File;
@@ -66,8 +67,11 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         //UI config
         ConfigDataUi config = setUiConfig();
 
+        //FactoryLauncher
+        setFactoryLauncher(new FactoryLauncherUi());
+
         //FactoryLaunchable
-        FactoryLaunchable factoryLaunchable = new FactoryLaunchable(config);
+        FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config);
         setFactoryLaunchable(factoryLaunchable);
 
         //DataValidator
@@ -184,7 +188,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                                              ReviewsProvider provider,
                                              ConverterGv converter,
                                              FactoryVisitorReviewNode visitorFactory,
-                                             FactoryLaunchable launchableFactory) {
+                                             FactoryLaunchableUi launchableFactory) {
         GvDataAggregater aggregater = new GvDataAggregater();
 
         FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(builder,
@@ -193,7 +197,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     private BuilderChildListView setBuilderChildListScreen(ConverterGv converter,
-                                                             FactoryLaunchable launchableFactory) {
+                                                             FactoryLaunchableUi launchableFactory) {
         BuilderChildListView builderChildListView =
                 new BuilderChildListView(converter.getConverterReviews(),
                         converter.getConverterImages(), launchableFactory);

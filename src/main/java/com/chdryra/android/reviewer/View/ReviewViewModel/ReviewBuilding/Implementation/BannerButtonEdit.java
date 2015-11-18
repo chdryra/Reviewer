@@ -14,8 +14,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
@@ -37,7 +37,7 @@ public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
     private ReviewDataEditor<T> mEditor;
 
     protected BannerButtonEdit(GvDataType<T> dataType, String title,
-                               LaunchableConfig<T> adderConfig, FactoryLaunchable launchableFactory) {
+                               LaunchableConfig<T> adderConfig, FactoryLaunchableUi launchableFactory) {
         super(title);
         mDataType = dataType;
         mConfig = adderConfig;
@@ -63,7 +63,7 @@ public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
     //Overridden
     @Override
     public void onClick(View v) {
-        LauncherUi.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
+        LauncherUiImpl.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
                 mConfig.getTag(), new Bundle());
     }
 

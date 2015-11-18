@@ -44,10 +44,10 @@ public interface ReviewBuilderAdapter<D extends GvDataList> extends ReviewViewAd
     Review publishReview();
 
     @Override
-    void attachReviewView(ReviewView view);
+    void attachReviewView(ReviewView<D> view);
 
     @Override
-    ReviewView getReviewView();
+    ReviewView<D> getReviewView();
 
     @Override
     String getSubject();
@@ -65,10 +65,10 @@ public interface ReviewBuilderAdapter<D extends GvDataList> extends ReviewViewAd
     boolean isExpandable(D datum);
 
     @Override
-    ReviewViewAdapter expandGridCell(D datum);
+    ReviewViewAdapter<?> expandGridCell(D datum);
 
     @Override
-    ReviewViewAdapter expandGridData();
+    ReviewViewAdapter<?> expandGridData();
 
     @Override
     void registerGridDataObserver(GridDataObserver observer);

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderAuthorFeedScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreen;
@@ -38,7 +38,7 @@ public class ActivityFeed extends ActivityReviewView
 
         FactoryReviews reviewFactory = app.getReviewsFactory();
         FactoryReviewViewAdapter adapterFactory = app.getReviewViewAdapterFactory();
-        FactoryLaunchable launchableFactory = app.getLaunchableFactory();
+        FactoryLaunchableUi launchableFactory = app.getLaunchableFactory();
 
         BuilderAuthorFeedScreen feedScreenBuilder =
                 new BuilderAuthorFeedScreen(adapterFactory, launchableFactory, reviewFactory);

@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
@@ -88,7 +88,7 @@ public class GridItemEdit<T extends GvData> extends GridItemActionNone implement
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
 
-        LauncherUi.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
+        LauncherUiImpl.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
                 mConfig.getTag(), args);
     }
 

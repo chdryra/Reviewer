@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;

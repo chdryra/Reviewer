@@ -6,7 +6,7 @@
  * Date: 14 May, 2015
  */
 
-package com.chdryra.android.reviewer.View.Launcher;
+package com.chdryra.android.reviewer.View.Launcher.Factories;
 
 import android.util.Log;
 
@@ -19,9 +19,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemComments;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemViewerLauncher;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.SubjectActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
@@ -41,11 +42,11 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectActio
  * On: 14/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryLaunchable {
+public class FactoryLaunchableUi {
     private static final String TAG = "FactoryLaunchable";
     private ConfigDataUi mConfig;
 
-    public FactoryLaunchable(ConfigDataUi config) {
+    public FactoryLaunchableUi(ConfigDataUi config) {
         mConfig = config;
     }
 
@@ -98,7 +99,7 @@ public class FactoryLaunchable {
                     = (LaunchableConfig<GvCommentList.GvComment>) viewerConfig;
             return (GridItemAction<T>) new GridItemComments(config, this);
         } else {
-            return new GridItemViewerLauncher<>(viewerConfig, this);
+            return new GridItemConfigLauncher<>(viewerConfig, this);
         }
     }
 

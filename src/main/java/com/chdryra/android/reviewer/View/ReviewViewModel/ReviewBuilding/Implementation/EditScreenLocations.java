@@ -18,10 +18,10 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocatio
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewDataEditor;
 
 /**
@@ -66,8 +66,9 @@ public class EditScreenLocations extends EditScreenReviewDataImpl<GvLocationList
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == ADD_ON_MAP) {
-                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getActivity(), getLaunchableRequestCode(), null,
+                LaunchableUi mapUi = FactoryLaunchableUi.newLaunchable(ActivityEditLocationMap
+                        .class);
+                LauncherUiImpl.launch(mapUi, getActivity(), getLaunchableRequestCode(), null,
                         new Bundle());
             }
         }
@@ -91,8 +92,8 @@ public class EditScreenLocations extends EditScreenReviewDataImpl<GvLocationList
         @Override
         public void onAlertPositive(int requestCode, Bundle args) {
             if (requestCode == EDIT_ON_MAP) {
-                LaunchableUi mapUi = FactoryLaunchable.newLaunchable(ActivityEditLocationMap.class);
-                LauncherUi.launch(mapUi, getActivity(), getLaunchableRequestCode(), null, args);
+                LaunchableUi mapUi = FactoryLaunchableUi.newLaunchable(ActivityEditLocationMap.class);
+                LauncherUiImpl.launch(mapUi, getActivity(), getLaunchableRequestCode(), null, args);
             }
         }
     }

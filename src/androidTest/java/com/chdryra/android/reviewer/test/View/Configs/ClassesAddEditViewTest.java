@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;

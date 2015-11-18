@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.View.Configs.Implementation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 
 /**
  * Encapsulates a configuration for a UI that can add, edit, view review data of a certain
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
  * <li>A String tag that may be used (if ultimately launching a dialog)</li>
  * </ul>
  * The {@link LaunchableUi} is launched using a
- * {@link LauncherUi}
+ * {@link LauncherUiImpl}
  */
 public class LaunchableConfigImpl<T extends GvData> implements LaunchableConfig<T> {
     private final GvDataType<T> mDataType;
@@ -42,7 +42,7 @@ public class LaunchableConfigImpl<T extends GvData> implements LaunchableConfig<
     }
 
     @Override
-    public LaunchableUi getLaunchable(FactoryLaunchable launchableFactory) {
+    public LaunchableUi getLaunchable(FactoryLaunchableUi launchableFactory) {
         return launchableFactory.newLaunchable(mUiClass);
     }
 

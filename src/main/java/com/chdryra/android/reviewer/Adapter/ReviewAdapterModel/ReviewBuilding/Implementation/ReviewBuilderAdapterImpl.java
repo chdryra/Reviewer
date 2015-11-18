@@ -124,6 +124,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList>
         return mBuilder.getSubject();
     }
 
+    @Override
     public void setSubject(String subject) {
         mBuilder.setSubject(subject);
         newIncrementor();

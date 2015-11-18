@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -160,7 +160,7 @@ public class FragmentViewLocation extends Fragment implements
         mLocationClient = new LocationClientConnector(activity, this);
         mLocationClient.connect();
 
-        Bundle args = LauncherUi.getArgsForActivity(activity);
+        Bundle args = LauncherUiImpl.getArgsForActivity(activity);
         mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
                 .CurrentNewDatum.CURRENT, args);
 

@@ -8,21 +8,22 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemViewerLauncher<T extends GvData> extends GridItemLauncher<T> {
+public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
     private LaunchableConfig<T> mLaunchableConfig;
 
-    public GridItemViewerLauncher(LaunchableConfig<T> launchableConfig, FactoryLaunchable
-            launchableFactory) {
-        super(launchableFactory);
+    public GridItemConfigLauncher(LaunchableConfig<T> launchableConfig,
+                                  FactoryLauncherUi launcherfactory,
+                                  FactoryLaunchableUi launchableFactory) {
+        super(launcherfactory, launchableFactory);
         mLaunchableConfig = launchableConfig;
     }
 
@@ -50,13 +51,10 @@ public class GridItemViewerLauncher<T extends GvData> extends GridItemLauncher<T
     }
 
     private void launchViewer(GvData item) {
-        if (item.isVerboseCollection()) return;
+        if (item.isVerboseCollection() || mLaunchableConfig == null) return;
         Bundle args = new Bundle();
         GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        if (mLaunchableConfig != null) {
-            LaunchableUi launchable = mLaunchableConfig.getLaunchable(getLaunchableFactory());
-            LauncherUi.launch(launchable, getActivity(), mLaunchableConfig.getRequestCode(),
-                    mLaunchableConfig.getTag(), args);
-        }
+        LaunchableUi launchable = mLaunchableConfig.getLaunchable(getLaunchableFactory());
+        launch(launchable, mLaunchableConfig.getRequestCode(), mLaunchableConfig.getTag(), args);
     }
 }

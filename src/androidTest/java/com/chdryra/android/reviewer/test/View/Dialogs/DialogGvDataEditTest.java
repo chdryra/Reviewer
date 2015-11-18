@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.test.TestUtils.DialogEditListener;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
@@ -181,7 +181,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
 
         assertFalse(mDialog.isShowing());
 
-        LauncherUi.launch(mDialog, mListener, REQUEST_CODE, DIALOG_TAG, args);
+        LauncherUiImpl.launch(mDialog, mListener, REQUEST_CODE, DIALOG_TAG, args);
 
         final FragmentManager manager = mActivity.getFragmentManager();
         mActivity.runOnUiThread(new Runnable() {

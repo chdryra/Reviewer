@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 
 /**
  * Base class for all dialog fragments that can edit data on reviews.

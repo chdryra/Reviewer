@@ -4,16 +4,16 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class GridItemComments extends GridItemViewerLauncher<GvCommentList.GvComment> {
+public class GridItemComments extends GridItemConfigLauncher<GvCommentList.GvComment> {
     public GridItemComments(LaunchableConfig<GvCommentList.GvComment> launchableConfig,
-                            FactoryLaunchable launchableFactory) {
+                            FactoryLaunchableUi launchableFactory) {
         super(launchableConfig, launchableFactory);
     }
 

@@ -38,8 +38,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarActionNone;
@@ -62,7 +62,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
     private final ReviewEditor mEditor;
     private final BuildScreenGridItem mGridItem;
     private final ConfigDataUi mUiConfig;
-    private final FactoryLaunchable mLaunchableFactory;
+    private final FactoryLaunchableUi mLaunchableFactory;
 
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
@@ -72,7 +72,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
                        ReviewBuilderAdapter builder,
                        FactoryReviewEditor editorFactory,
                        ConfigDataUi uiConfig,
-                       FactoryLaunchable launchableFactory) {
+                       FactoryLaunchableUi launchableFactory) {
         mUiConfig = uiConfig;
         mLaunchableFactory = launchableFactory;
 
@@ -198,7 +198,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
             args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
             packLatLng(args);
 
-            LauncherUi.launch(adderConfig.getLaunchable(mLaunchableFactory), getActivity(),
+            LauncherUiImpl.launch(adderConfig.getLaunchable(mLaunchableFactory), getActivity(),
                     adderConfig.getRequestCode(), adderConfig.getTag(), args);
         }
 

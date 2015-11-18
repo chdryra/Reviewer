@@ -32,7 +32,7 @@ import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -98,7 +98,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = LauncherUi.getArgsForActivity(getActivity());
+        Bundle args = LauncherUiImpl.getArgsForActivity(getActivity());
         if (args != null) {
             mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.
                     CURRENT, args);

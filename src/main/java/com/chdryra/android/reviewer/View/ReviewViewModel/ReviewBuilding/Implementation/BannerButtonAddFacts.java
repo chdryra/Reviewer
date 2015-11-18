@@ -7,9 +7,9 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,8 +34,8 @@ public class BannerButtonAddFacts extends BannerButtonEdit<GvFactList.GvFact> {
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == ADD_ON_BROWSER) {
-            LaunchableUi urlUi = FactoryLaunchable.newLaunchable(ActivityEditUrlBrowser.class);
-            LauncherUi.launch(urlUi, getActivity(), getLaunchableRequestCode(), null,
+            LaunchableUi urlUi = FactoryLaunchableUi.newLaunchable(ActivityEditUrlBrowser.class);
+            LauncherUiImpl.launch(urlUi, getActivity(), getLaunchableRequestCode(), null,
                     new Bundle());
         }
     }

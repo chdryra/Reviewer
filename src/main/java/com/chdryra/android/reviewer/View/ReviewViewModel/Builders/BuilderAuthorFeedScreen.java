@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.Builders;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemFeedScreen;
@@ -16,14 +16,14 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
  */
 public class BuilderAuthorFeedScreen {
     private FactoryReviewViewAdapter mAdapterFactory;
-    private FactoryLaunchable mLaunchableFactory;
+    private FactoryLaunchableUi mLaunchableFactory;
     private FactoryReviews mReviewFactory;
 
     private FeedScreen mFeedScreen;
     private ReviewView mView;
 
     public BuilderAuthorFeedScreen(FactoryReviewViewAdapter adapterFactory,
-                                   FactoryLaunchable launchableFactory,
+                                   FactoryLaunchableUi launchableFactory,
                                    FactoryReviews reviewFactory) {
         mAdapterFactory = adapterFactory;
         mLaunchableFactory = launchableFactory;

@@ -35,7 +35,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
@@ -52,7 +53,8 @@ public class FactoryReviewViewAdapter {
     private BuilderChildListView mChildViewBuilder;
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryLaunchable mLaunchableFactory;
+    private FactoryLauncherUi mLauncherFactory;
+    private FactoryLaunchableUi mLaunchableFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
     private ReviewsProvider mProvider;
@@ -60,7 +62,8 @@ public class FactoryReviewViewAdapter {
     //Constructors
     public FactoryReviewViewAdapter(BuilderChildListView childViewBuilder,
                                     FactoryVisitorReviewNode visitorFactory,
-                                    FactoryLaunchable launchableFactory,
+                                    FactoryLauncherUi launcherFactory,
+                                    FactoryLaunchableUi launchableFactory,
                                     GvDataAggregater aggregater,
                                     ReviewsProvider provider,
                                     ConverterGv converter) {
@@ -70,6 +73,7 @@ public class FactoryReviewViewAdapter {
         mProvider = provider;
         mConverter = converter;
         mVisitorFactory = visitorFactory;
+        mLauncherFactory = launcherFactory;
         mLaunchableFactory = launchableFactory;
     }
 
@@ -78,7 +82,8 @@ public class FactoryReviewViewAdapter {
     }
 
     public ReviewViewAdapter newReviewsListAdapter(ReviewNode node) {
-        GridItemAction<GvReviewOverviewList.GvReviewOverview> gi = new GridItemLauncher<>(mLaunchableFactory);
+        GridItemAction<GvReviewOverviewList.GvReviewOverview> gi
+                = new GridItemLauncher<>(mLauncherFactory, mLaunchableFactory);
         MenuAction<GvReviewOverviewList.GvReviewOverview> ma = new MenuActionNone<>();
         ReviewView view = mChildViewBuilder.buildView(node, this, gi, ma);
         return view.getAdapter();

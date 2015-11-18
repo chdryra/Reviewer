@@ -6,7 +6,7 @@
  * Date: 23 October, 2014
  */
 
-package com.chdryra.android.reviewer.View.Launcher;
+package com.chdryra.android.reviewer.View.Launcher.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,8 +14,10 @@ package com.chdryra.android.reviewer.View.Launcher;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
+
 /**
- * For UIs that can be launched by a {@link LauncherUi}.
+ * For UIs that can be launched by a {@link LauncherUiImpl}.
  * Usually by calling "launcher.launch(this)".
  */
 public interface LaunchableUi {

@@ -42,9 +42,9 @@ import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
+import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -304,7 +304,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = LauncherUi.getArgsForActivity(getActivity());
+        Bundle args = LauncherUiImpl.getArgsForActivity(getActivity());
         if (args != null) {
             mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
                     .CurrentNewDatum.CURRENT, args);

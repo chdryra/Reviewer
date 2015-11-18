@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.View.Configs.Interfaces;
 
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -15,7 +15,7 @@ public interface LaunchableConfig<T extends GvData> {
 
     int getRequestCode();
 
-    LaunchableUi getLaunchable(FactoryLaunchable launchableFactory);
+    LaunchableUi getLaunchable(FactoryLaunchableUi launchableFactory);
 
     GvDataType<T> getGvDataType();
 }

@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
 
