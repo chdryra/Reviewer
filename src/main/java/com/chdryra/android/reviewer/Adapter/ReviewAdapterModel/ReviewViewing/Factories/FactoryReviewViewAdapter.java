@@ -30,9 +30,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
-import com.chdryra.android.reviewer.View.Screens.GiLaunchReviewDataScreen;
-import com.chdryra.android.reviewer.View.Screens.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemLauncher;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**
@@ -43,14 +44,16 @@ import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 public class FactoryReviewViewAdapter {
     private BuilderChildListScreen mListScreenFactory;
     private FactoryGridDataViewer mViewerFactory;
+    private FactoryVisitorReviewNode mVisitorFactory;
+    private FactoryLaunchable mLaunchableFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
     private ReviewsProvider mProvider;
-    private FactoryVisitorReviewNode mVisitorFactory;
 
     //Constructors
     public FactoryReviewViewAdapter(BuilderChildListScreen listScreenFactory,
                                     FactoryVisitorReviewNode visitorFactory,
+                                    FactoryLaunchable launchableFactory,
                                     GvDataAggregater aggregater,
                                     ReviewsProvider provider,
                                     ConverterGv converter) {
@@ -60,6 +63,7 @@ public class FactoryReviewViewAdapter {
         mProvider = provider;
         mConverter = converter;
         mVisitorFactory = visitorFactory;
+        mLaunchableFactory = launchableFactory;
     }
 
     private TagsManager getTagsManager() {
@@ -67,7 +71,7 @@ public class FactoryReviewViewAdapter {
     }
 
     public ReviewViewAdapter newReviewsListAdapter(ReviewNode node) {
-        GridItemAction gi = new GiLaunchReviewDataScreen();
+        GridItemAction gi = new GridItemLauncher(mLaunchableFactory);
         ReviewView view = mListScreenFactory.createView(node, mConverter.getConverterReviews(),
                 mConverter.getConverterImages(), this, gi, null);
         return view.getAdapter();

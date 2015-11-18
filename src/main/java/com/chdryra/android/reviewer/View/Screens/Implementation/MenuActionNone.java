@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Implementation;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -10,31 +10,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.MenuAction;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuAction extends ReviewViewAction {
-    public static final int MENU_UP_ID = android.R.id.home;
-    public static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
+public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
+        implements MenuAction<T> {
+    private static final int MENU_UP_ID = android.R.id.home;
+    private static final ActivityResultCode RESULT_UP = ActivityResultCode.UP;
+
     private final String mTitle;
     private final SparseArray<MenuActionItemInfo> mActionItems;
     private int mMenuId = -1;
     private boolean mDisplayHomeAsUp = true;
 
-    public interface MenuActionItem {
-        //abstract methods
-        void doAction(Context context, MenuItem item);
-    }
-
     //Constructors
-    public MenuAction() {
+    public MenuActionNone() {
         this(-1, null, true);
     }
 
-    public MenuAction(int menuId, String title, boolean displayHomeAsUp) {
+    public MenuActionNone(int menuId, String title, boolean displayHomeAsUp) {
         mMenuId = menuId;
         mTitle = title;
         mDisplayHomeAsUp = displayHomeAsUp;
@@ -42,22 +41,26 @@ public class MenuAction extends ReviewViewAction {
         if (mDisplayHomeAsUp) bindMenuActionItem(getUpActionItem(), MENU_UP_ID, true);
     }
 
-    public MenuAction(String title) {
+    public MenuActionNone(String title) {
         this(-1, title, true);
     }
 
+    @Override
     public boolean hasOptionsMenu() {
         return mMenuId != -1;
     }
 
+    @Override
     public void inflateMenu(Menu menu, MenuInflater inflater) {
         if (hasOptionsMenu()) inflater.inflate(mMenuId, menu);
     }
 
+    @Override
     public void bindMenuActionItem(MenuActionItem item, int itemId, boolean finishActivity) {
         mActionItems.put(itemId, new MenuActionItemInfo(item, finishActivity));
     }
 
+    @Override
     public boolean onItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         MenuActionItemInfo actionItem = mActionItems.get(itemId);

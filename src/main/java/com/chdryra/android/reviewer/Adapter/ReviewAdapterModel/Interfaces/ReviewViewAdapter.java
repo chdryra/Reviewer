@@ -29,9 +29,9 @@ import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, GridDataObservable {
 
     //abstract
-    void attachReviewView(ReviewView view);
+    void attachReviewView(ReviewView<T> view);
 
-    ReviewView getReviewView();
+    ReviewView<T> getReviewView();
 
     String getSubject();
 
@@ -47,10 +47,10 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, 
     boolean isExpandable(T datum);
 
     @Override
-    ReviewViewAdapter expandGridCell(T datum);
+    ReviewViewAdapter<?> expandGridCell(T datum);
 
     @Override
-    ReviewViewAdapter expandGridData();
+    ReviewViewAdapter<?> expandGridData();
 
     @Override
     void registerGridDataObserver(GridDataObserver observer);

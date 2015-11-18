@@ -9,12 +9,12 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerChildList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Screens.GridItemAction;
-import com.chdryra.android.reviewer.View.Screens.MenuAction;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.Screens.RbExpandGrid;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewImpl;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewDefault;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
 
@@ -46,6 +46,6 @@ public class BuilderChildListScreen {
                 .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
 
         ReviewViewPerspective perspective = new ReviewViewPerspective(adapter, params, actions);
-        return new ReviewViewImpl(perspective);
+        return new ReviewViewDefault(perspective);
     }
 }

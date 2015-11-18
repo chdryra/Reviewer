@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Screens.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewDataEditor;
 
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.Revie
  * Email: rizwan.choudrey@gmail.com
  */
 @SuppressWarnings("EmptyMethod")
-public class GridItemEdit<T extends GvData> extends GridItemAction implements
+public class GridItemEdit<T extends GvData> extends GridItemActionNone implements
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataEdit.GvDataEditListener<T>,
         ActivityResultListener {

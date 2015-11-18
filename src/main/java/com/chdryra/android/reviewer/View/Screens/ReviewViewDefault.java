@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
@@ -29,18 +30,18 @@ import java.util.ArrayList;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewImpl implements ReviewView {
-    private ReviewViewPerspective mPerspective;
+public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
+    private ReviewViewPerspective<T> mPerspective;
     private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
     private FragmentReviewView mFragment;
-    private GvDataList mGridViewData;
+    private GvDataList<T> mGridViewData;
 
     //Constructors
-    public ReviewViewImpl(ReviewViewPerspective perspective) {
+    public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
         mGridObservers = new ArrayList<>();
 
-        ReviewViewAdapter adapter = mPerspective.getAdapter();
+        ReviewViewAdapter<T> adapter = mPerspective.getAdapter();
         adapter.attachReviewView(this);
         adapter.registerGridDataObserver(this);
         mGridViewData = adapter.getGridData();
@@ -48,7 +49,7 @@ public class ReviewViewImpl implements ReviewView {
 
     //public methods
     @Override
-    public ReviewViewAdapter getAdapter() {
+    public ReviewViewAdapter<T> getAdapter() {
         return mPerspective.getAdapter();
     }
 
@@ -78,17 +79,17 @@ public class ReviewViewImpl implements ReviewView {
     }
 
     @Override
-    public GvDataList getGridData() {
+    public GvDataList<T> getGridData() {
         return getAdapter().getGridData();
     }
 
     @Override
-    public GvDataList getGridViewData() {
+    public GvDataList<T> getGridViewData() {
         return mGridViewData != null ? mGridViewData : getGridData();
     }
 
     @Override
-    public void setGridViewData(GvDataList dataToShow) {
+    public void setGridViewData(GvDataList<T> dataToShow) {
         mGridViewData = dataToShow;
         if(mFragment != null) mFragment.onGridDataChanged();
     }

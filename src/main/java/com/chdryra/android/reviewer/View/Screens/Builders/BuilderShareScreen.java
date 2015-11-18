@@ -30,12 +30,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.Screens.BannerButtonAction;
-import com.chdryra.android.reviewer.View.Screens.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.Screens.MenuAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewImpl;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewDefault;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
 
@@ -52,9 +52,9 @@ public class BuilderShareScreen {
         ReviewViewAdapter adapter = new ShareScreenAdapter(platforms, builder);
 
         ReviewViewActions actions = new ReviewViewActions();
-        actions.setAction(BannerButtonAction.newDisplayButton(title));
+        actions.setAction(new BannerButtonActionNone(title));
         actions.setAction(new ShareScreenGridItem());
-        actions.setAction(new MenuAction(title));
+        actions.setAction(new MenuActionNone(title));
 
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
@@ -62,10 +62,10 @@ public class BuilderShareScreen {
         ReviewViewPerspective perspective =
                 new ReviewViewPerspective(adapter, params, actions, new ShareScreenModifier());
 
-        return new ReviewViewImpl(perspective);
+        return new ReviewViewDefault(perspective);
     }
 
-    private static class ShareScreenGridItem extends GridItemAction {
+    private static class ShareScreenGridItem extends GridItemActionNone {
         //Overridden
         @Override
         public void onGridItemClick(GvData item, int position, View v) {

@@ -99,12 +99,12 @@ public class EditScreenComments extends EditScreenReviewDataImpl<GvCommentList.G
         private static final int MENU_SPLIT_ID = R.id.menu_item_split_comment;
         private static final int MENU = R.menu.menu_edit_comments;
 
-        private final MaiSplitComments mSplitter;
+        private final MaiSplitComments<GvCommentList.GvComment> mSplitter;
 
         //Constructors
         private MenuEditComment() {
             super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
-            mSplitter = new MaiSplitComments(this);
+            mSplitter = new MaiSplitComments<>(this);
         }
 
         //Overridden

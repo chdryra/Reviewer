@@ -9,6 +9,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemFeedScreen;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**
@@ -17,10 +18,10 @@ import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FeedScreen implements DialogAlertFragment.DialogAlertListener{
-    private FeedScreenGridItem mGridItem;
+    private GridItemFeedScreen mGridItem;
     private FeedScreenMenu mMenu;
 
-    public FeedScreen(FeedScreenGridItem gridItemAction, FeedScreenMenu menuAction) {
+    public FeedScreen(GridItemFeedScreen gridItemAction, FeedScreenMenu menuAction) {
         mGridItem = gridItemAction;
         mMenu = menuAction;
     }

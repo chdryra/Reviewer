@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Screens.DefaultParameters;
-import com.chdryra.android.reviewer.View.Screens.RatingBarAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.RatingBarActionNone;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories.FactoryReviewDataEditor;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
@@ -169,7 +169,7 @@ public class EditScreenReviewDataImpl<T extends GvData> implements EditScreenRev
         return mEditor;
     }
 
-    protected class RatingBarEdit extends RatingBarAction {
+    protected class RatingBarEdit extends RatingBarActionNone {
         //Overridden
         @Override
         public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {

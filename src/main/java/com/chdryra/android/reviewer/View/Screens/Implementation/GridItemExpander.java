@@ -6,7 +6,7 @@
  * Date: 22 April, 2015
  */
 
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Implementation;
 
 import android.view.View;
 
@@ -18,23 +18,23 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
  * On: 22/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GridItemExpander extends GridItemAction {
-    public void onClickExpandable(GvData item, int position, View v, ReviewViewAdapter expanded) {
+public abstract class GridItemExpander<T extends GvData> extends GridItemActionNone<T> {
+    public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
     }
 
-    public void onLongClickExpandable(GvData item, int position, View v, ReviewViewAdapter
+    public void onLongClickExpandable(T item, int position, View v, ReviewViewAdapter<?>
             expanded) {
     }
 
-    public void onClickNotExpandable(GvData item, int position, View v) {
+    public void onClickNotExpandable(T item, int position, View v) {
     }
 
-    public void onLongClickNotExpandable(GvData item, int position, View v) {
+    public void onLongClickNotExpandable(T item, int position, View v) {
     }
 
     //Overridden
     @Override
-    public void onGridItemClick(GvData item, int position, View v) {
+    public void onGridItemClick(T item, int position, View v) {
         if (getAdapter().isExpandable(item)) {
             onClickExpandable(item, position, v, getAdapter().expandGridCell(item));
         } else {
@@ -43,7 +43,7 @@ public abstract class GridItemExpander extends GridItemAction {
     }
 
     @Override
-    public void onGridItemLongClick(GvData item, int position, View v) {
+    public void onGridItemLongClick(T item, int position, View v) {
         if (getAdapter().isExpandable(item)) {
             onLongClickExpandable(item, position, v, getAdapter().expandGridCell(item));
         } else {

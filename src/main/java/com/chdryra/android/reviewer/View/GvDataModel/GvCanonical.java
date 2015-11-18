@@ -19,11 +19,12 @@ import java.util.Iterator;
 public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Iterable<T> {
     public static final Parcelable.Creator<GvCanonical> CREATOR = new Parcelable
             .Creator<GvCanonical>() {
-        //Overridden
+        @Override
         public GvCanonical createFromParcel(Parcel in) {
             return new GvCanonical(in);
         }
 
+        @Override
         public GvCanonical[] newArray(int size) {
             return new GvCanonical[size];
         }
@@ -36,7 +37,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     //Constructors
     public GvCanonical(@NotNull T canonical, @NotNull GvDataList<T> data) {
         mCanonical = canonical;
-        mType = (GvDataType<T>) canonical.getGvDataType();
+        mType = data.getGvDataType();
         if (data.size() == 0) {
             throw new IllegalArgumentException("Data must have size!");
         }

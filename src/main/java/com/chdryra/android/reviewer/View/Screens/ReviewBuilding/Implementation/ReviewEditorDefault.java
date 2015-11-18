@@ -1,26 +1,30 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewDefault;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewEditorImpl extends ReviewViewImpl implements ReviewEditor {
+public class ReviewEditorDefault extends ReviewViewDefault implements ReviewEditor {
     private FragmentReviewView mParent;
-    private ReviewBuilderAdapter mBuilder;
+    private ReviewBuilderAdapter<?> mBuilder;
 
     //Constructors
-    public ReviewEditorImpl(ReviewBuilderAdapter builder,
-                            ReviewViewParams params,
-                            ReviewViewActions actions,
-                            ReviewViewPerspective.ReviewViewModifier modifier) {
+    public ReviewEditorDefault(ReviewBuilderAdapter<?> builder,
+                               ReviewViewParams params,
+                               ReviewViewActions actions,
+                               ReviewViewPerspective.ReviewViewModifier modifier) {
         super(new ReviewViewPerspective(builder, params, actions, modifier));
         mBuilder = builder;
     }

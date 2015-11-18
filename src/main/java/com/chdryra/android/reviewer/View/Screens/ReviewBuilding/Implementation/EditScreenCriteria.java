@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.GridDataObservable;
-import com.chdryra.android.reviewer.View.Screens.MenuAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories.FactoryReviewDataEditor;
 
 /**
@@ -78,7 +78,7 @@ public class EditScreenCriteria extends EditScreenReviewDataImpl<GvCriterionList
             super.onUnattachReviewView();
         }
 
-        public class MenuItemCriteriaRatingAverage implements MenuAction.MenuActionItem {
+        public class MenuItemCriteriaRatingAverage implements MenuActionNone.MenuActionItem {
             public void setAverageRating() {
                 float rating = 0;
                 GvCriterionList children = (GvCriterionList) getGridData();

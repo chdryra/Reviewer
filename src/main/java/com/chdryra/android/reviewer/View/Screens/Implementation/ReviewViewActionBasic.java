@@ -6,51 +6,59 @@
  * Date: 27 January, 2015
  */
 
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Implementation;
 
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewViewAction;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewAction {
-    private ReviewView mReviewView;
+public abstract class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction<T> {
+    private ReviewView<T> mReviewView;
 
     //public methods
-    public ReviewView getReviewView() {
+    @Override
+    public ReviewView<T> getReviewView() {
         return mReviewView;
     }
 
-    public ReviewViewAdapter getAdapter() {
+    @Override
+    public ReviewViewAdapter<T> getAdapter() {
         return mReviewView.getAdapter();
     }
 
+    @Override
     public Activity getActivity() {
         return mReviewView != null ? mReviewView.getActivity() : null;
     }
 
-    public void attachReviewView(ReviewView reviewView) {
+    @Override
+    public void attachReviewView(ReviewView<T> reviewView) {
         if (mReviewView != null) onUnattachReviewView();
         mReviewView = reviewView;
         onAttachReviewView();
     }
 
+    @Override
     public void onUnattachReviewView() {
 
     }
 
+    @Override
     public void onAttachReviewView() {
 
     }
 
     //protected methods
-    protected GvDataList getGridData() {
+    protected GvDataList<T> getGridData() {
         return getReviewView().getGridData();
     }
 }

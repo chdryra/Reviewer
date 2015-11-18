@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewViewPerspective {
-    private ReviewViewAdapter mAdapter;
+public class ReviewViewPerspective<T extends GvData> {
+    private ReviewViewAdapter<T> mAdapter;
     private ReviewViewParams mParams;
     private ReviewViewActions mActions;
     private ReviewViewModifier mModifier;
@@ -26,13 +27,13 @@ public class ReviewViewPerspective {
     }
 
     //Constructors
-    public ReviewViewPerspective(ReviewViewAdapter adapter,
+    public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
                                  ReviewViewParams params,
                                  ReviewViewActions actions) {
         this(adapter, params, actions, null);
     }
 
-    public ReviewViewPerspective(ReviewViewAdapter adapter,
+    public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
                                  ReviewViewParams params,
                                  ReviewViewActions actions,
                                  ReviewViewModifier modifier) {
@@ -43,7 +44,7 @@ public class ReviewViewPerspective {
     }
 
     //public methods
-    public ReviewViewAdapter getAdapter() {
+    public ReviewViewAdapter<T> getAdapter() {
         return mAdapter;
     }
 

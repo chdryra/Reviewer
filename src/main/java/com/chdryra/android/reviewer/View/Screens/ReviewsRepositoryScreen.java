@@ -19,6 +19,8 @@ import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvi
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 
 /**

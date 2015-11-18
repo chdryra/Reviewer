@@ -1,6 +1,16 @@
 package com.chdryra.android.reviewer.View.Screens;
 
+import com.chdryra.android.reviewer.View.Screens.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.MenuActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.RatingBarActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.SubjectActionNone;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.MenuAction;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.RatingBarAction;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.BannerButtonAction;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.SubjectAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,11 +26,11 @@ public class ReviewViewActions {
 
     //Constructors
     public ReviewViewActions() {
-        mSubjectAction = new SubjectAction();
-        mRatingBarAction = new RatingBarAction();
-        mBannerButtonAction = new BannerButtonAction();
-        mGridItemAction = new GridItemAction();
-        mMenuAction = new MenuAction();
+        mSubjectAction = new SubjectActionNone();
+        mRatingBarAction = new RatingBarActionNone();
+        mBannerButtonAction = new BannerButtonActionNone();
+        mGridItemAction = new GridItemActionNone();
+        mMenuAction = new MenuActionNone();
     }
 
     //public methods

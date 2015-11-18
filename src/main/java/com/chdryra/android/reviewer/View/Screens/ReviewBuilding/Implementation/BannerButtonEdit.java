@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
@@ -17,7 +16,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Screens.BannerButtonAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewDataEditor;
 
@@ -26,7 +25,7 @@ import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.Revie
  * On: 09/10/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class BannerButtonEdit<T extends GvData> extends BannerButtonAction
+public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
         implements
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataAdd.GvDataAddListener<T>,

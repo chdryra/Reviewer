@@ -1,23 +1,30 @@
-package com.chdryra.android.reviewer.View.Screens;
+package com.chdryra.android.reviewer.View.Screens.Implementation;
 
 import android.view.View;
 import android.widget.RatingBar;
+
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.Screens.Interfaces.RatingBarAction;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RatingBarAction extends ReviewViewAction {
+public class RatingBarActionNone<T extends GvData> extends ReviewViewActionBasic<T>
+        implements RatingBarAction<T> {
     //public methods
+    @Override
     public float getRating() {
         return getAdapter().getRating();
     }
 
+    @Override
     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
     }
 
+    @Override
     public void onClick(View v) {
 
     }

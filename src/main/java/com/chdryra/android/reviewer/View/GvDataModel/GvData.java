@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseD
  */
 public interface GvData extends VerboseDataReview, ViewHolderData, Parcelable {
     //abstract
-    GvDataType<? extends GvData> getGvDataType();
+    GvDataType<?> getGvDataType();
 
     GvReviewId getGvReviewId();
 

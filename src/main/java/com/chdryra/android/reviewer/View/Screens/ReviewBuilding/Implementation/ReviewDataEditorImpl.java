@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
-import com.chdryra.android.reviewer.View.Screens.ReviewViewImpl;
+import com.chdryra.android.reviewer.View.Screens.ReviewViewDefault;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
 
@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewImpl implements ReviewDataEditor<T> {
+public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault implements ReviewDataEditor<T> {
     private String mSubject;
     private float mRating;
     private boolean mRatingIsAverage;

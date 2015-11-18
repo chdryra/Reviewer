@@ -40,16 +40,16 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Launcher.FactoryLaunchable;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
-import com.chdryra.android.reviewer.View.Screens.BannerButtonAction;
-import com.chdryra.android.reviewer.View.Screens.GridItemAction;
-import com.chdryra.android.reviewer.View.Screens.MenuAction;
-import com.chdryra.android.reviewer.View.Screens.RatingBarAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.RatingBarActionNone;
+import com.chdryra.android.reviewer.View.Screens.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
-import com.chdryra.android.reviewer.View.Screens.SubjectAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.SubjectActionNone;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -84,7 +84,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
         actions.setAction(new SubjectEdit());
         actions.setAction(new RatingBar());
-        actions.setAction(BannerButtonAction.newDisplayButton(buttonTitle));
+        actions.setAction(BannerButtonActionNone.newDisplayButton(buttonTitle));
         actions.setAction(new BuildScreenMenu(screenTitle));
 
         //Parameters
@@ -157,7 +157,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
      * On: 24/01/2015
      * Email: rizwan.choudrey@gmail.com
      */
-    private class SubjectEdit extends SubjectAction {
+    private class SubjectEdit extends SubjectActionNone {
         //Overridden
         @Override
         public void onKeyboardDone(CharSequence s) {
@@ -165,7 +165,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
     }
 
-    private class RatingBar extends RatingBarAction {
+    private class RatingBar extends RatingBarActionNone {
         //Overridden
         @Override
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
@@ -174,7 +174,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
     }
 
-    private class BuildScreenGridItem extends GridItemAction {
+    private class BuildScreenGridItem extends GridItemActionNone {
         private LocationClientConnector mLocationClient;
 
         //private methods
@@ -242,7 +242,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
     }
 
-    private class BuildScreenMenu extends MenuAction {
+    private class BuildScreenMenu extends MenuActionNone {
         public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU = R.menu.menu_build_review;
 

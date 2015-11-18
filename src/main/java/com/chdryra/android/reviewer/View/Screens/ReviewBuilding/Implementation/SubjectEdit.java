@@ -3,14 +3,14 @@ package com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.View.Screens.SubjectAction;
+import com.chdryra.android.reviewer.View.Screens.Implementation.SubjectActionNone;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEdit<T extends GvData> extends SubjectAction {
+public class SubjectEdit<T extends GvData> extends SubjectActionNone {
     private GvDataType<T> mDataType;
     private ReviewDataEditor<T> mEditor;
 

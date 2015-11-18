@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Factories;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation.ReviewEditorImpl;
+import com.chdryra.android.reviewer.View.Screens.ReviewBuilding.Implementation.ReviewEditorDefault;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
 import com.chdryra.android.reviewer.View.Screens.ReviewViewPerspective;
@@ -18,6 +18,6 @@ public class FactoryReviewEditor {
                                   ReviewViewParams params,
                                   ReviewViewActions actions,
                                   ReviewViewPerspective.ReviewViewModifier modifier) {
-        return new ReviewEditorImpl(builder, params, actions, modifier);
+        return new ReviewEditorDefault(builder, params, actions, modifier);
     }
 }

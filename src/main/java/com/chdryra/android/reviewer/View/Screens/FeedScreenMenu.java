@@ -7,13 +7,15 @@ import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityBuildReview;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.Screens.Implementation.MenuActionNone;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedScreenMenu extends MenuAction {
+public class FeedScreenMenu<T extends GvData> extends MenuActionNone<T> {
     public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 

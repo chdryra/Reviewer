@@ -55,7 +55,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Screens.Builders.BuilderChildListScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreen;
-import com.chdryra.android.reviewer.View.Screens.FeedScreenGridItem;
+import com.chdryra.android.reviewer.View.Screens.Implementation.GridItemFeedScreen;
 import com.chdryra.android.reviewer.View.Screens.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Screens.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
@@ -165,7 +165,7 @@ public class ActivityFeedTest extends
         GvDataAggregater aggregator = new GvDataAggregater();
         ReviewsProvider feed = createFeed(converterGv, tagsManager, reviewFactory);
         FactoryReviewViewAdapter adapterFactory = new FactoryReviewViewAdapter(builder, viewerFactory, aggregator, feed, converterGv);
-        FeedScreen screen = new FeedScreen(new FeedScreenGridItem());
+        FeedScreen screen = new FeedScreen(new GridItemFeedScreen());
         ReviewView feedScreen = screen.createView(feed, publishDate, reviewFactory, converterGv, builder, adapterFactory, new FeedScreenMenu());
         mAdapter = feedScreen.getAdapter();
 

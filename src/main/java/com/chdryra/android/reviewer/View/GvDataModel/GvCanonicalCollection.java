@@ -21,10 +21,12 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     public static final Parcelable.Creator<GvCanonicalCollection> CREATOR = new Parcelable
             .Creator<GvCanonicalCollection>() {
         //Overridden
+        @Override
         public GvCanonicalCollection createFromParcel(Parcel in) {
             return new GvCanonicalCollection(in);
         }
 
+        @Override
         public GvCanonicalCollection[] newArray(int size) {
             return new GvCanonicalCollection[size];
         }

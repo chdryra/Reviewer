@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.LauncherUi;
@@ -27,18 +28,18 @@ import com.chdryra.android.reviewer.View.Screens.ReviewViewParams;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewView extends GridDataObservable.GridDataObserver, LaunchableUi {
+public interface ReviewView<T extends GvData> extends GridDataObservable.GridDataObserver, LaunchableUi {
     String getSubject();
 
     float getRating();
 
-    GvDataList getGridData();
+    GvDataList<T> getGridData();
 
-    GvDataList getGridViewData();
+    GvDataList<T> getGridViewData();
 
-    void setGridViewData(GvDataList dataToShow);
+    void setGridViewData(GvDataList<T> dataToShow);
 
-    ReviewViewAdapter getAdapter();
+    ReviewViewAdapter<T> getAdapter();
 
     ReviewViewParams getParams();
 

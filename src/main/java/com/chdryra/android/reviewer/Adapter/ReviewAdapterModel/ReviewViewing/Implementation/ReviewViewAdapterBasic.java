@@ -38,12 +38,12 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     //Overridden
     @Override
-    public void attachReviewView(ReviewView view) {
+    public void attachReviewView(ReviewView<T> view) {
         mView = view;
     }
 
     @Override
-    public ReviewView getReviewView() {
+    public ReviewView<T> getReviewView() {
         return mView;
     }
 
@@ -58,12 +58,12 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(T datum) {
+    public ReviewViewAdapter<?> expandGridCell(T datum) {
         return isExpandable(datum) ? mWrapper.expandGridCell(datum) : null;
     }
 
     @Override
-    public ReviewViewAdapter expandGridData() {
+    public ReviewViewAdapter<?> expandGridData() {
         return mWrapper != null ? mWrapper.expandGridData() : null;
     }
 
