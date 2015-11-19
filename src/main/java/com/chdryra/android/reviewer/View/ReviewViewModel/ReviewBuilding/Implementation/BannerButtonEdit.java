@@ -15,32 +15,42 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/10/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
+public class BannerButtonEdit<T extends GvData> extends ReviewDataEditorActionBasic<T>
         implements
+        BannerButtonAction<T>,
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataAdd.GvDataAddListener<T>,
         ActivityResultListener {
 
+    private String mTitle;
     private GvDataType<T> mDataType;
-    private final LaunchableConfig mConfig;
+    private FactoryGvData mDataFactory;
+    private GvDataPacker<T> mDataPacker;
+    private final LaunchableConfig<T> mConfig;
     private GvDataList<T> mAdded;
-    private ReviewDataEditor<T> mEditor;
+    private FactoryLaunchableUi mLaunchableFactory;
 
-    protected BannerButtonEdit(GvDataType<T> dataType, String title,
-                               LaunchableConfig<T> adderConfig, FactoryLaunchableUi launchableFactory) {
-        super(title);
+    protected BannerButtonEdit(String title,
+                               GvDataType<T> dataType,
+                               FactoryGvData dataFactory,
+                               GvDataPacker<T> dataPacker,
+                               LaunchableConfig<T> adderConfig,
+                               FactoryLaunchableUi launchableFactory) {
+        mTitle = title;
         mDataType = dataType;
+        mDataFactory = dataFactory;
+        mDataPacker = dataPacker;
         mConfig = adderConfig;
+        mLaunchableFactory = launchableFactory;
         initDataList();
     }
 
@@ -49,7 +59,7 @@ public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
     }
 
     protected boolean addData(T data) {
-        return mEditor.add(data);
+        return getEditor().add(data);
     }
 
     protected void showAlertDialog(String alert, int requestCode) {
@@ -57,25 +67,30 @@ public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
     }
 
     private void initDataList() {
-        mAdded = FactoryGvData.newDataList(mDataType);
+        mAdded = mDataFactory.newDataList(mDataType);
+    }
+
+    protected void launchConfig(LaunchableConfig<? extends T> config) {
+        LaunchableUi ui = config.getLaunchable(mLaunchableFactory);
+        mLaunchableFactory.launch(ui, getActivity(), config.getRequestCode(), config.getTag());
     }
 
     //Overridden
     @Override
     public void onClick(View v) {
-        LauncherUiImpl.launch(mConfig.getLaunchable(), getActivity(), getLaunchableRequestCode(),
-                mConfig.getTag(), new Bundle());
+        launchConfig(mConfig);
     }
 
     @Override
-    public void onAttachReviewView() {
-        try {
-            mEditor = (ReviewDataEditor<T>)getReviewView();
-        } catch (ClassCastException e) {
-            throw new RuntimeException(e);
-        }
+    public boolean onLongClick(View v) {
+        onClick(v);
+        return true;
     }
 
+    @Override
+    public String getButtonTitle() {
+        return mTitle;
+    }
 
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
@@ -101,7 +116,7 @@ public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
     public void onGvDataCancel(int requestCode) {
         if(requestCode == getLaunchableRequestCode()) {
             for (T added : mAdded) {
-                mEditor.delete(added);
+                getEditor().delete(added);
             }
             initDataList();
         }
@@ -117,7 +132,7 @@ public class BannerButtonEdit<T extends GvData> extends BannerButtonActionNone
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == getLaunchableRequestCode() && data != null
                 && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-            T datum = (T) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.NEW, data);
+            T datum = mDataPacker.unpack(GvDataPacker.CurrentNewDatum.NEW, data);
             onGvDataAdd(datum, requestCode);
         }
     }

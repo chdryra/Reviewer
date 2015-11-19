@@ -36,7 +36,7 @@ public class FactoryReviewsListScreen {
         mBuilder = childListBuilder;
     }
 
-    public ReviewView<?> newReviewsListScreen(ReviewNode node,
+    public ReviewView<GvReviewOverviewList.GvReviewOverview> newReviewsListScreen(ReviewNode node,
                                            FactoryReviewViewAdapter adapterFactory) {
         SubjectAction<GvReviewOverviewList.GvReviewOverview> subject = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverviewList.GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory);

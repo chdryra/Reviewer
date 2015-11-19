@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,9 +36,14 @@ public class ApplicationContextBasic implements ApplicationContext {
     private ConfigDataUi mConfigDataUi;
     private FactoryLaunchableUi mFactoryLaunchable;
     private FactoryLauncherUi mFactoryLauncher;
+    private FactoryReviewViewParams mParamsFactory;
 
     protected ApplicationContextBasic() {
 
+    }
+
+    public void setParamsFactory(FactoryReviewViewParams paramsFactory) {
+        mParamsFactory = paramsFactory;
     }
 
     public void setFactoryReviews(FactoryReviews factoryReviews) {
@@ -146,5 +152,10 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public FactoryLauncherUi getLauncherFactory() {
         return mFactoryLauncher;
+    }
+
+    @Override
+    public FactoryReviewViewParams getParamsFactory() {
+        return mParamsFactory;
     }
 }

@@ -7,22 +7,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ImageChooser;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewEditor extends ReviewView {
+public interface ReviewEditor<T extends GvData> extends ReviewView {
     //public methods
     void setSubject();
 

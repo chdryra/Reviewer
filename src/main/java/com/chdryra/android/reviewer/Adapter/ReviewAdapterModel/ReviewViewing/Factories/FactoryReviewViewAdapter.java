@@ -64,16 +64,16 @@ public class FactoryReviewViewAdapter {
         return mProvider.getTagsManager();
     }
 
-    public ReviewViewAdapter newReviewsListAdapter(ReviewNode node) {
+    public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
         return mListScreenFactory.newReviewsListScreen(node, this).getAdapter();
     }
 
-    public <T extends GvData> ReviewViewAdapter newReviewsListAdapter(T datum) {
+    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(T datum) {
         Review meta = mProvider.asMetaReview(datum, datum.getStringSummary());
         return newReviewsListAdapter(meta.getTreeRepresentation());
     }
 
-    public <T extends GvData> ReviewViewAdapter newFlattenedReviewsListAdapter(GvDataCollection<T> data) {
+    public <T extends GvData> ReviewViewAdapter<?> newFlattenedReviewsListAdapter(GvDataCollection<T> data) {
         Review meta = mProvider.createFlattenedMetaReview(data, data.getStringSummary());
         return newReviewsListAdapter(meta.getTreeRepresentation());
     }

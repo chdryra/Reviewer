@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.Launcher.Factories;
 
+import android.app.Activity;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
@@ -18,10 +20,11 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemComments;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemConfigLauncher;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
@@ -46,12 +49,21 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectActio
 public class FactoryLaunchableUi {
     private static final String TAG = "FactoryLaunchable";
     private ConfigDataUi mConfig;
+    private FactoryReviewViewParams mParamsFactory;
     private FactoryLauncherUi mLauncherFactory;
+    private FactoryReviewsListScreen mListScreenFactory;
 
     public FactoryLaunchableUi(ConfigDataUi config,
-                               FactoryLauncherUi launcherFactory) {
+                               FactoryReviewViewParams paramsFactory,
+                               BuilderChildListView childListBuilder) {
         mConfig = config;
-        mLauncherFactory = launcherFactory;
+        mParamsFactory = paramsFactory;
+        mLauncherFactory = new FactoryLauncherUi();
+        mListScreenFactory = new FactoryReviewsListScreen(mLauncherFactory, this, childListBuilder);
+    }
+
+    public FactoryReviewsListScreen getListScreenFactory() {
+        return mListScreenFactory;
     }
 
     public LaunchableUi newLaunchable(Class<? extends LaunchableUi> uiClass) throws
@@ -71,28 +83,36 @@ public class FactoryLaunchableUi {
         }
     }
 
-    public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory,
-                                             FactoryReviewsListScreen listScreenFactory) {
-        return listScreenFactory.newReviewsListScreen(node, adapterFactory);
+    public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
+        return mListScreenFactory.newReviewsListScreen(node, adapterFactory);
     }
 
     public <T extends GvData> LaunchableUi newViewScreen(ReviewViewAdapter<T> adapter) {
         //TODO this is probably expensive...
         GvDataType<T> dataType = adapter.getGridData().getGvDataType();
 
-        ReviewViewParams params = getParams(dataType);
+        ReviewViewParams params = mParamsFactory.getParams(dataType);
+        ReviewViewActions<T> actions = newActions(dataType);
+        ReviewViewPerspective<T> perspective = new ReviewViewPerspective<>(adapter, params, actions);
 
+        return new ReviewViewDefault<>(perspective);
+    }
+
+    public void launch(LaunchableUi ui, Activity commissioner, int requestCode, String tag, Bundle args) {
+        ui.launch(mLauncherFactory.newLauncher(commissioner, requestCode, tag, args));
+    }
+
+    public void launch(LaunchableUi ui, Activity commissioner, int requestCode, String tag){
+        ui.launch(mLauncherFactory.newLauncher(commissioner, requestCode, tag));
+    }
+
+    private <T extends GvData> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
         SubjectAction<T> subject = new SubjectActionNone<>();
         RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this);
         BannerButtonAction<T> bannerButton = new BannerButtonActionNone<>();
         GridItemAction<T> gridItem = getGridItem(dataType);
         MenuAction<T> menu = getMenu(dataType);
-        ReviewViewActions<T> actions = new ReviewViewActions<>(subject, ratingBar, bannerButton,
-                gridItem, menu);
-
-        ReviewViewPerspective<T> perspective = new ReviewViewPerspective<>(adapter, params, actions);
-
-        return new ReviewViewDefault<>(perspective);
+        return new ReviewViewActions<>(subject, ratingBar, bannerButton, gridItem, menu);
     }
 
     //TODO make type safe
@@ -114,15 +134,5 @@ public class FactoryLaunchableUi {
         } else {
             return new MenuActionNone<>(dataType.getDataName());
         }
-    }
-
-    private ReviewViewParams getParams(GvDataType dataType) {
-        ReviewViewParams params = new ReviewViewParams();
-        if (dataType.equals(GvImageList.GvImage.TYPE)) {
-            ReviewViewParams.CellDimension half = ReviewViewParams.CellDimension.HALF;
-            params.setCellHeight(half).setCellWidth(half);
-        }
-
-        return params;
     }
 }

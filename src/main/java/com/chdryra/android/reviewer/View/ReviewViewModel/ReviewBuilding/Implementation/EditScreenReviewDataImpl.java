@@ -50,21 +50,14 @@ public class EditScreenReviewDataImpl<T extends GvData> implements EditScreenRev
         //Adapter
         DataBuilderAdapter<T> adapter = builder.getDataBuilderAdapter(mDataType);
 
-        //Parameters
-        ReviewViewParams params = DefaultParameters.getParams(mDataType);
-
         //Actions
         mMenu = newMenuAction();
         mBannerButton = newBannerButtonAction();
         mGriditem = newGridItemAction();
-        ReviewViewActions actions = new ReviewViewActions();
-        actions.setAction(mMenu);
-        actions.setAction(newSubjectAction());
-        actions.setAction(newRatingBarAction());
-        actions.setAction(mBannerButton);
-        actions.setAction(mGriditem);
+        ReviewViewActions<T> actions
+                = new ReviewViewActions<>(newSubjectAction(), newRatingBarAction(), mBannerButton, mGriditem, mMenu);
 
-        mEditor = editorFactory.newEditor(adapter, params, actions);
+        mEditor = editorFactory.newEditor(adapter, actions);
     }
 
     protected Context getContext() {
@@ -144,11 +137,11 @@ public class EditScreenReviewDataImpl<T extends GvData> implements EditScreenRev
     }
 
     protected SubjectEdit<T> newSubjectAction() {
-        return new SubjectEdit<>(mDataType);
+        return new SubjectEdit<>();
     }
 
-    protected RatingBarEdit newRatingBarAction() {
-        return new RatingBarEdit();
+    protected RatingBarEdit<T> newRatingBarAction() {
+        return new RatingBarEdit<T>();
     }
 
     protected MenuDataEdit<T> newMenuAction() {
@@ -166,13 +159,5 @@ public class EditScreenReviewDataImpl<T extends GvData> implements EditScreenRev
     @Override
     public ReviewDataEditor<T> getEditor() {
         return mEditor;
-    }
-
-    protected class RatingBarEdit extends RatingBarActionNone {
-        //Overridden
-        @Override
-        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-            if (fromUser) mEditor.setRating(rating, true);
-        }
     }
 }

@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
  * For building reviews. Collects appropriate data and builds a {@link com.chdryra.android
  * .reviewer.Model.Review} object
  */
-public interface ReviewBuilderAdapter<D extends GvDataList> extends ReviewViewAdapter<D> {
+public interface ReviewBuilderAdapter<D extends GvDataList<? extends GvData>> extends ReviewViewAdapter<D> {
     ReviewBuilder getBuilder();
 
     void setSubject(String subject);

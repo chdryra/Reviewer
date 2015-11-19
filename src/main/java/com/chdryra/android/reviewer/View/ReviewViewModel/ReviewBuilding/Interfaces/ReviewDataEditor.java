@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewVi
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDataEditor<T extends GvData> extends ReviewView {
+public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
     //public methods
     boolean isRatingAverage();
 
@@ -45,7 +45,7 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView {
     GvImageList.GvImage getCover();
 
     @Override
-    ReviewViewAdapter getAdapter();
+    ReviewViewAdapter<T> getAdapter();
 
     @Override
     ReviewViewParams getParams();
@@ -63,13 +63,13 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView {
     float getRating();
 
     @Override
-    GvDataList getGridData();
+    GvDataList<T> getGridData();
 
     @Override
-    GvDataList getGridViewData();
+    GvDataList<T> getGridViewData();
 
     @Override
-    void setGridViewData(GvDataList dataToShow);
+    void setGridViewData(GvDataList<T> dataToShow);
 
     @Override
     ReviewViewActions getActions();

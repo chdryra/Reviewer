@@ -24,24 +24,19 @@ public class FactoryGvData {
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
-    private static FactoryGvData sFactory;
     private final ListsMap mMap = new ListsMap();
 
-    private FactoryGvData() {
-    }
-
     //Static methods
-    public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType) {
-        return newDataList(get().mMap.get(dataType));
+    public <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType) {
+        return newDataList(mMap.get(dataType));
     }
 
-    public static <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType,
+    public <T extends GvData> GvDataList<T> newDataList(GvDataType<T> dataType,
                                                                GvReviewId id) {
-        return newDataList(get().mMap.get(dataType), id);
+        return newDataList(mMap.get(dataType), id);
     }
 
-    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2>
-                                                                                        listClass) {
+    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(Class<T2> listClass) {
         try {
             return listClass.newInstance();
         } catch (InstantiationException e) {
@@ -51,7 +46,7 @@ public class FactoryGvData {
         }
     }
 
-    public static <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(
+    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 newDataList(
             Class<T2> listClass, GvReviewId id) {
         if (id == null) return newDataList(listClass);
 
@@ -69,7 +64,7 @@ public class FactoryGvData {
         }
     }
 
-    public static <T extends GvData> T newNull(Class<T> dataClass) {
+    public <T extends GvData> T newNull(Class<T> dataClass) {
         try {
             return dataClass.newInstance();
         } catch (InstantiationException e) {
@@ -77,11 +72,6 @@ public class FactoryGvData {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
         }
-    }
-
-    private static FactoryGvData get() {
-        if (sFactory == null) sFactory = new FactoryGvData();
-        return sFactory;
     }
 
     //To aid type safety

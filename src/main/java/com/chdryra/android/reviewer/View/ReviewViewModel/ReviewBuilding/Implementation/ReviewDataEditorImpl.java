@@ -15,7 +15,8 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewVi
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault implements ReviewDataEditor<T> {
+public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
+        implements ReviewDataEditor<T> {
     private String mSubject;
     private float mRating;
     private boolean mRatingIsAverage;
@@ -26,8 +27,8 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault im
     //Constructors
     public ReviewDataEditorImpl(DataBuilderAdapter<T> builder,
                                 ReviewViewParams params,
-                                ReviewViewActions actions) {
-        super(new ReviewViewPerspective(builder, params, actions));
+                                ReviewViewActions<T> actions) {
+        super(new ReviewViewPerspective<>(builder, params, actions));
         mBuilder = builder;
         mSubject = builder.getSubject();
         mRating = builder.getRating();

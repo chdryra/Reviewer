@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,4 +32,5 @@ public interface ApplicationContext {
     FactoryLauncherUi getLauncherFactory();
     FactoryLaunchableUi getLaunchableFactory();
     ConfigDataUi getUiConfig();
+    FactoryReviewViewParams getParamsFactory();
 }

@@ -42,23 +42,14 @@ public class GvDataPacker<T extends GvData> {
         }
     }
 
-    //Static methods
-    public static void packItem(CurrentNewDatum currentNew, GvData item, Bundle args) {
+    public void packItem(CurrentNewDatum currentNew, T item, Bundle args) {
         if (item != null && !item.isValidForDisplay()) item = null;
         args.putParcelable(currentNew.getPackingTag(), item);
     }
 
-    public static void packItem(CurrentNewDatum currentNew, GvData item, Intent data) {
+    public void packItem(CurrentNewDatum currentNew, T item, Intent data) {
         if (item != null && !item.isValidForDisplay()) item = null;
         data.putExtra(currentNew.getPackingTag(), item);
-    }
-
-    public static GvData unpackItem(CurrentNewDatum currentNew, Bundle args) {
-        return args.getParcelable(currentNew.getPackingTag());
-    }
-
-    public static GvData unpackItem(CurrentNewDatum currentNew, Intent data) {
-        return data.getParcelableExtra(currentNew.getPackingTag());
     }
 
     public T unpack(CurrentNewDatum currentNew, Bundle args) {

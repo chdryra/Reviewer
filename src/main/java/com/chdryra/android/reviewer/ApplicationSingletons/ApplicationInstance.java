@@ -12,15 +12,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
-        .FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
@@ -35,6 +30,7 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -101,10 +97,6 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mApplicationContext.getReviewsFactory();
     }
 
-    public DataConverters getDataConverters() {
-        return mApplicationContext.getDataConverters();
-    }
-
     public BuilderChildListView getBuilderChildListScreen() {
         return mApplicationContext.getBuilderChildListView();
     }
@@ -154,6 +146,10 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public FactoryLauncherUi getLauncherFactory() {
         return mApplicationContext.getLauncherFactory();
+    }
+
+    public FactoryReviewViewParams getParamsFactory() {
+        return mApplicationContext.getParamsFactory();
     }
 
     public LauncherUi newLauncher(Activity activity, int requestCode, String tag, Bundle args) {

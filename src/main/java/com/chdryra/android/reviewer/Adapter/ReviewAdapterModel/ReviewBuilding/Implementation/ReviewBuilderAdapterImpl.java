@@ -29,7 +29,7 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvData>>
         extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;

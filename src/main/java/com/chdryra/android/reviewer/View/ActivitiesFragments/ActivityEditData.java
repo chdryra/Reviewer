@@ -62,7 +62,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         ReviewBuilderAdapter parentBuilder = app.getReviewBuilderAdapter();
         DataValidator validator = app.getDataValidator();
-        FactoryReviewDataEditor editorFactory = new FactoryReviewDataEditor();
+        FactoryReviewDataEditor editorFactory = new FactoryReviewDataEditor(app.getParamsFactory());
         FactoryEditScreen factory = new FactoryEditScreen(this, parentBuilder, editorFactory);
         mScreen = factory.newScreen(mDataType, validator);
         return mScreen.getEditor();

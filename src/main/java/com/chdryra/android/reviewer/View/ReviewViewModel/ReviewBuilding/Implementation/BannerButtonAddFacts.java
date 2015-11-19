@@ -5,11 +5,10 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,10 +17,14 @@ import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
  */ //Classes
 public class BannerButtonAddFacts extends BannerButtonEdit<GvFactList.GvFact> {
     private static final int ADD_ON_BROWSER = RequestCodeGenerator.getCode("AddOnBrowser");
+    private LaunchableConfig<GvUrlList.GvUrl> mUrlAdder;
 
     //Constructors
-    public BannerButtonAddFacts(String title) {
-        super(GvFactList.GvFact.TYPE, title);
+    public BannerButtonAddFacts(String title, LaunchableConfig<GvFactList.GvFact> factAdder,
+                                LaunchableConfig<GvUrlList.GvUrl> urlAdder,
+                                FactoryLaunchableUi launchableFactory) {
+        super(GvFactList.GvFact.TYPE, title, factAdder, launchableFactory);
+        mUrlAdder = urlAdder;
     }
 
     //Overridden
@@ -33,10 +36,6 @@ public class BannerButtonAddFacts extends BannerButtonEdit<GvFactList.GvFact> {
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == ADD_ON_BROWSER) {
-            LaunchableUi urlUi = FactoryLaunchableUi.newLaunchable(ActivityEditUrlBrowser.class);
-            LauncherUiImpl.launch(urlUi, getActivity(), getLaunchableRequestCode(), null,
-                    new Bundle());
-        }
+        if (requestCode == ADD_ON_BROWSER) launchConfig(mUrlAdder);
     }
 }
