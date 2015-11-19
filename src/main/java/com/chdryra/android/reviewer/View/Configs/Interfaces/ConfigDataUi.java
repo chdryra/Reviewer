@@ -9,5 +9,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ConfigDataUi {
-    <T extends GvData> LaunchableConfigsHolder<T> getLaunchableConfigs(GvDataType<T> dataType);
+    <T extends GvData> LaunchableConfig<T> getViewerConfig(GvDataType<T> dataType);
+
+    <T extends GvData> LaunchableConfig<T> getEditorConfig(GvDataType<T> dataType);
+
+    <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType);
 }

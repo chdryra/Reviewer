@@ -37,7 +37,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
     @SmallTest
     public void testGetDataType() {
         for (GvDataType dataType : TYPES) {
-            assertEquals(dataType, getBuilder(dataType).getDataType());
+            assertEquals(dataType, getBuilder(dataType).getGvDataType());
         }
     }
 

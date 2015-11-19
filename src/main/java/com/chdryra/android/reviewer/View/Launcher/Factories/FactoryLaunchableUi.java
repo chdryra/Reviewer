@@ -117,7 +117,7 @@ public class FactoryLaunchableUi {
 
     //TODO make type safe
     private <T extends GvData> GridItemAction<T> getGridItem(GvDataType<T> dataType) {
-        LaunchableConfig<T> viewerConfig = mConfig.getLaunchableConfigs(dataType).getViewerConfig();
+        LaunchableConfig<T> viewerConfig = mConfig.getViewerConfig(dataType);
         if (dataType.equals(GvCommentList.GvComment.TYPE)) {
             LaunchableConfig<GvCommentList.GvComment> config
                     = (LaunchableConfig<GvCommentList.GvComment>) viewerConfig;

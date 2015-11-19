@@ -6,10 +6,12 @@
  * Date: 15 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,7 +24,7 @@ import android.os.Bundle;
  *
  * @param <T>: {@link GvData} type.
  */
-public class GvDataPacker<T extends GvData> {
+public class GvDataPacker<T extends GvData>{
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW = "com.chdryra.android.reviewer.data_new";
 

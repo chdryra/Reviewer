@@ -72,7 +72,7 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
     void setGridViewData(GvDataList<T> dataToShow);
 
     @Override
-    ReviewViewActions getActions();
+    ReviewViewActions<T> getActions();
 
     @Override
     boolean isEditable();

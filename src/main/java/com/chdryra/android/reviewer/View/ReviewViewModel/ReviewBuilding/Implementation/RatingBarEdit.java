@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAct
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-class RatingBarEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements RatingBarAction<T>{
+public class RatingBarEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements RatingBarAction<T>{
     @Override
     public void onClick(View v) {
 

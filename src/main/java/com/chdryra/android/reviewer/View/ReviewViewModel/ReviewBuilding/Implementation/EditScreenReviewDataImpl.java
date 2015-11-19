@@ -11,20 +11,10 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Impleme
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarActionNone;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewDataEditor;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,29 +25,19 @@ public class EditScreenReviewDataImpl<T extends GvData> implements EditScreenRev
 
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
-    private GvDataType<T> mDataType;
     private MenuDataEdit<T> mMenu;
     private BannerButtonEdit<T> mBannerButton;
     private GridItemEdit<T> mGriditem;
 
     public EditScreenReviewDataImpl(Context context,
-                                    ReviewBuilderAdapter<?> builder,
-                                    GvDataType<T> dataType,
-                                    FactoryReviewDataEditor editorFactory) {
+                                    ReviewDataEditor<T> editor) {
         mContext = context;
-        mDataType = dataType;
+        mEditor = editor;
 
-        //Adapter
-        DataBuilderAdapter<T> adapter = builder.getDataBuilderAdapter(mDataType);
-
-        //Actions
-        mMenu = newMenuAction();
-        mBannerButton = newBannerButtonAction();
-        mGriditem = newGridItemAction();
-        ReviewViewActions<T> actions
-                = new ReviewViewActions<>(newSubjectAction(), newRatingBarAction(), mBannerButton, mGriditem, mMenu);
-
-        mEditor = editorFactory.newEditor(adapter, actions);
+        ReviewViewActions<T> actions = mEditor.getActions();
+        mMenu = (MenuDataEdit<T>) actions.getMenuAction();
+        mBannerButton = (BannerButtonEdit<T>) actions.getBannerButtonAction();
+        mGriditem = (GridItemEdit<T>) actions.getGridItemAction();
     }
 
     protected Context getContext() {
@@ -127,33 +107,6 @@ public class EditScreenReviewDataImpl<T extends GvData> implements EditScreenRev
         } else if(requestCode == mGriditem.getLaunchableRequestCode()) {
             mGriditem.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    //protected methods
-    protected String getBannerButtonTitle() {
-        String title = mContext.getResources().getString(R.string.button_add);
-        title += " " + mDataType.getDatumName();
-        return title;
-    }
-
-    protected SubjectEdit<T> newSubjectAction() {
-        return new SubjectEdit<>();
-    }
-
-    protected RatingBarEdit<T> newRatingBarAction() {
-        return new RatingBarEdit<T>();
-    }
-
-    protected MenuDataEdit<T> newMenuAction() {
-        return new MenuDataEdit<>(mDataType);
-    }
-
-    protected GridItemEdit<T> newGridItemAction() {
-        return new GridItemEdit<>(mDataType);
-    }
-
-    protected BannerButtonEdit<T> newBannerButtonAction() {
-        return new BannerButtonEdit<>(mDataType, getBannerButtonTitle());
     }
 
     @Override

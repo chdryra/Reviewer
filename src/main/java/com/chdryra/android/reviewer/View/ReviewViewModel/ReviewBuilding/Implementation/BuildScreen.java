@@ -111,7 +111,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
     //private methods
     private <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType) {
-        return mUiConfig.getLaunchableConfigs(dataType).getAdderConfig();
+        return mUiConfig.getAdderConfig(dataType);
     }
 
     private int getImageRequestCode() {

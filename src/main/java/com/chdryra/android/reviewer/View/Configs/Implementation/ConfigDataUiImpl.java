@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.View.Configs.Implementation;
 import com.chdryra.android.reviewer.View.Configs.Factories.FactoryLaunchableConfigs;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
@@ -33,9 +34,23 @@ public final class ConfigDataUiImpl implements ConfigDataUi {
         }
     }
 
-    @Override
-    public <T extends GvData> LaunchableConfigsHolder<T> getLaunchableConfigs(GvDataType<T> dataType) {
+    private <T extends GvData> LaunchableConfigsHolder<T> getConfigs(GvDataType<T> dataType) {
         //TODO make type safe
         return (LaunchableConfigsHolder<T>) mConfigsMap.get(dataType);
+    }
+
+    @Override
+    public <T extends GvData> LaunchableConfig<T> getViewerConfig(GvDataType<T> dataType) {
+        return getConfigs(dataType).getViewerConfig();
+    }
+
+    @Override
+    public <T extends GvData> LaunchableConfig<T> getEditorConfig(GvDataType<T> dataType) {
+        return getConfigs(dataType).getEditorConfig();
+    }
+
+    @Override
+    public <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType) {
+        return getConfigs(dataType).getAdderConfig();
     }
 }

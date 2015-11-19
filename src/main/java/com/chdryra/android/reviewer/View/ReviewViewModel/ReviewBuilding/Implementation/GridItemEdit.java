@@ -10,7 +10,6 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ActivityResultListener;
@@ -51,6 +50,10 @@ public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<
     //protected methods
     protected FactoryLaunchableUi getLaunchableFactory() {
         return mLaunchableFactory;
+    }
+
+    protected T unpackItem(GvDataPacker.CurrentNewDatum currentNew, Bundle args) {
+        return mDataPacker.unpack(currentNew, args);
     }
 
     protected void editData(T oldDatum, T newDatum) {

@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.View.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
@@ -39,12 +38,12 @@ public class BannerButtonEdit<T extends GvData> extends ReviewDataEditorActionBa
     private GvDataList<T> mAdded;
     private FactoryLaunchableUi mLaunchableFactory;
 
-    protected BannerButtonEdit(String title,
-                               GvDataType<T> dataType,
-                               FactoryGvData dataFactory,
-                               GvDataPacker<T> dataPacker,
-                               LaunchableConfig<T> adderConfig,
-                               FactoryLaunchableUi launchableFactory) {
+    public BannerButtonEdit(LaunchableConfig<T> adderConfig,
+                            String title,
+                           GvDataType<T> dataType,
+                           FactoryGvData dataFactory,
+                           GvDataPacker<T> dataPacker,
+                           FactoryLaunchableUi launchableFactory) {
         mTitle = title;
         mDataType = dataType;
         mDataFactory = dataFactory;

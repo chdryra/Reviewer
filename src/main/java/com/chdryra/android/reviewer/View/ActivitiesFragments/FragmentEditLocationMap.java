@@ -40,7 +40,7 @@ import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;

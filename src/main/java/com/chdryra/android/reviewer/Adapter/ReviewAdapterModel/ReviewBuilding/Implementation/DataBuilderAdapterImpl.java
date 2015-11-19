@@ -47,7 +47,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
 
     //public methods
     @Override
-    public GvDataType<T> getDataType() {
+    public GvDataType<T> getGvDataType() {
         return mType;
     }
 

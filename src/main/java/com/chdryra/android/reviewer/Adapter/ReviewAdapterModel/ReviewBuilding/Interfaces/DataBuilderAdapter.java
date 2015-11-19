@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataBuilderAdapter<T extends GvData> extends ReviewViewAdapter<T>{
-    GvDataType<T> getDataType();
+    GvDataType<T> getGvDataType();
 
     ReviewBuilderAdapter getParentBuilder();
 

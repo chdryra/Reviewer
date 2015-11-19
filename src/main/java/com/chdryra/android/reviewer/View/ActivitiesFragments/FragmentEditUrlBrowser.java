@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
 import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 
@@ -100,7 +100,8 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
         super.onCreate(savedInstanceState);
         Bundle args = LauncherUiImpl.getArgsForActivity(getActivity());
         if (args != null) {
-            mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker.CurrentNewDatum.
+            mCurrent = (GvUrlList.GvUrl) GvDataPacker.unpackItem(GvDataPacker
+                    .CurrentNewDatum.
                     CURRENT, args);
         }
         setDeleteWhatTitle(GvUrlList.GvUrl.TYPE.getDatumName());
