@@ -52,6 +52,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
 
 import java.io.File;
 
@@ -68,10 +69,11 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         ConfigDataUi config = setUiConfig();
 
         //FactoryLauncher
-        setFactoryLauncher(new FactoryLauncherUi());
+        FactoryLauncherUi factoryLauncher = new FactoryLauncherUi();
+        setFactoryLauncher(factoryLauncher);
 
         //FactoryLaunchable
-        FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config);
+        FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config, factoryLauncher);
         setFactoryLaunchable(factoryLaunchable);
 
         //DataValidator
@@ -91,8 +93,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setSocialPlatforms(context);
 
         //BuilderChildListScreen
-        BuilderChildListView builder = setBuilderChildListScreen(converters.getGvConverter(),
-                factoryLaunchable);
+        BuilderChildListView builder = setBuilderChildListScreen();
 
         //ReviewerDb
         ReviewerDb db = setReviewerDb(context, databaseName, databaseVersion, reviewsFactory,
@@ -103,8 +104,8 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         ReviewsProvider provider = setReviewsProvider(publisherFactory, factoryVisitor, reviewsFactory, db);
 
         //FactoryReviewViewAdapter
-        setFactoryReviewViewAdapter(builder, provider, converters.getGvConverter(),
-                factoryVisitor, factoryLaunchable);
+        setFactoryReviewViewAdapter(factoryLauncher, factoryLaunchable, builder, provider,
+                converters.getGvConverter(), factoryVisitor);
 
         //ReviewBuilderAdapter
         setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
@@ -184,23 +185,22 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         return db;
     }
 
-    private void setFactoryReviewViewAdapter(BuilderChildListView builder,
+    private void setFactoryReviewViewAdapter(FactoryLauncherUi launcherFactory,
+                                             FactoryLaunchableUi launchableFactory,
+                                             BuilderChildListView builderChildListView,
                                              ReviewsProvider provider,
                                              ConverterGv converter,
-                                             FactoryVisitorReviewNode visitorFactory,
-                                             FactoryLaunchableUi launchableFactory) {
+                                             FactoryVisitorReviewNode visitorFactory) {
+        FactoryReviewsListScreen listScreenFactory
+                = new FactoryReviewsListScreen(launcherFactory, launchableFactory, builderChildListView);
         GvDataAggregater aggregater = new GvDataAggregater();
-
-        FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(builder,
-                visitorFactory, launchableFactory, aggregater, provider, converter);
+        FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(listScreenFactory,
+                visitorFactory, aggregater, provider, converter);
         setFactoryReviewViewAdapter(factory);
     }
 
-    private BuilderChildListView setBuilderChildListScreen(ConverterGv converter,
-                                                             FactoryLaunchableUi launchableFactory) {
-        BuilderChildListView builderChildListView =
-                new BuilderChildListView(converter.getConverterReviews(),
-                        converter.getConverterImages(), launchableFactory);
+    private BuilderChildListView setBuilderChildListScreen() {
+        BuilderChildListView builderChildListView = new BuilderChildListView();
         setBuilderChildListView(builderChildListView);
         return builderChildListView;
     }

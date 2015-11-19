@@ -11,14 +11,9 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderAuthorFeedScreen;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
@@ -36,16 +31,11 @@ public class ActivityFeed extends ActivityReviewView
 
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
-        FactoryReviews reviewFactory = app.getReviewsFactory();
-        FactoryReviewViewAdapter adapterFactory = app.getReviewViewAdapterFactory();
-        FactoryLaunchableUi launchableFactory = app.getLaunchableFactory();
+        BuilderAuthorFeedScreen feedScreenBuilder
+                = new BuilderAuthorFeedScreen(app.getReviewViewAdapterFactory(),
+                app.getLauncherFactory(), app.getLaunchableFactory(), app.getReviewsFactory());
 
-        BuilderAuthorFeedScreen feedScreenBuilder =
-                new BuilderAuthorFeedScreen(adapterFactory, launchableFactory, reviewFactory);
-
-        ReviewsProvider feed = app.getReviewsProvider();
-        BuilderChildListView childListBuilder = app.getBuilderChildListScreen();
-        feedScreenBuilder.buildScreen(feed, childListBuilder);
+        feedScreenBuilder.buildScreen(app.getReviewsProvider(), app.getBuilderChildListScreen());
 
         mScreen = feedScreenBuilder.getFeedScreen();
 

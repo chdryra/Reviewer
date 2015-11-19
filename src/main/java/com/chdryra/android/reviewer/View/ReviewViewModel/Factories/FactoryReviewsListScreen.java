@@ -24,12 +24,20 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectActio
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewView {
+public class FactoryReviewsListScreen {
+    private BuilderChildListView mBuilder;
     private FactoryLauncherUi mLauncherFactory;
     private FactoryLaunchableUi mLaunchableFactory;
-    private FactoryReviewViewAdapter mAdapterFactory;
 
-    public ReviewView newReviewsListScreen(ReviewNode node, BuilderChildListView childListBuilder) {
+    public FactoryReviewsListScreen(FactoryLauncherUi launcherFactory, FactoryLaunchableUi
+            launchableFactory, BuilderChildListView childListBuilder) {
+        mLauncherFactory = launcherFactory;
+        mLaunchableFactory = launchableFactory;
+        mBuilder = childListBuilder;
+    }
+
+    public ReviewView<?> newReviewsListScreen(ReviewNode node,
+                                           FactoryReviewViewAdapter adapterFactory) {
         SubjectAction<GvReviewOverviewList.GvReviewOverview> subject = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverviewList.GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory);
         BannerButtonAction<GvReviewOverviewList.GvReviewOverview> bb = new BannerButtonActionNone<>();
@@ -39,6 +47,6 @@ public class FactoryReviewView {
         ReviewViewActions<GvReviewOverviewList.GvReviewOverview> actions
                 = new ReviewViewActions<>(subject, rb, bb, giAction, menuAction);
 
-        return childListBuilder.buildView(node, mAdapterFactory, actions);
+        return mBuilder.buildView(node, adapterFactory, actions);
     }
 }

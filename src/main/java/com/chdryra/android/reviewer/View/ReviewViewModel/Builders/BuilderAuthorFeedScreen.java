@@ -1,10 +1,7 @@
 package com.chdryra.android.reviewer.View.ReviewViewModel.Builders;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
@@ -26,42 +23,35 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectActio
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuilderAuthorFeedScreen {
+    private FeedScreen mFeedScreen;
+    private ReviewView mView;
     private FactoryReviewViewAdapter mAdapterFactory;
+    private FactoryLauncherUi mLauncherFactory;
     private FactoryLaunchableUi mLaunchableFactory;
     private FactoryReviews mReviewFactory;
 
-    private FeedScreen mFeedScreen;
-    private ReviewView mView;
-
     public BuilderAuthorFeedScreen(FactoryReviewViewAdapter adapterFactory,
+                                   FactoryLauncherUi launcherFactory,
                                    FactoryLaunchableUi launchableFactory,
                                    FactoryReviews reviewFactory) {
         mAdapterFactory = adapterFactory;
+        mLauncherFactory = launcherFactory;
         mLaunchableFactory = launchableFactory;
         mReviewFactory = reviewFactory;
     }
 
     public void buildScreen(ReviewsProvider feed,
-                            BuilderChildListView childListBuilder,
-                            FactoryReviewViewAdapter adapterFactory,
-                            FactoryLauncherUi launcherFactory,
-                            FactoryLaunchableUi launchableFactory,
-                            FactoryReviews reviewFactory) {
+                            BuilderChildListView childListBuilder) {
         String title = feed.getAuthor().getName() + "'s feed";
-        GridItemFeedScreen gridItem = new GridItemFeedScreen(launcherFactory, mLaunchableFactory);
+        GridItemFeedScreen gi = new GridItemFeedScreen(mLauncherFactory, mLaunchableFactory);
         SubjectAction<GvReviewOverviewList.GvReviewOverview> sa = new SubjectActionNone<>();
-        RatingBarAction<GvReviewOverviewList.GvReviewOverview> rb = new RatingBarExpandGrid<>(launchableFactory);
+        RatingBarAction<GvReviewOverviewList.GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory);
         BannerButtonAction<GvReviewOverviewList.GvReviewOverview> bba = new BannerButtonActionNone<>();
-        FeedScreenMenu menuAction = new FeedScreenMenu();
-        FactoryReviewNodeComponent nodeFactory = reviewFactory.getComponentFactory();
-        Review root = reviewFactory.createUserReview(title, 0f);
-        ReviewNodeComponent node = nodeFactory.createReviewNodeComponent(root, true);
-        for (Review review : feed.getReviews()) {
-            node.addChild(nodeFactory.createReviewNodeComponent(review, false));
-        }
-        mFeedScreen = new FeedScreen(node, nodeFactory, gridItem);
+        FeedScreenMenu ma = new FeedScreenMenu();
+
+        mFeedScreen = new FeedScreen(feed, title, mReviewFactory);
         feed.registerObserver(mFeedScreen);
-        mView = mFeedScreen.createView(childListBuilder,adapterFactory, sa, rb, bba, menuAction);
+        mView = mFeedScreen.createView(childListBuilder, mAdapterFactory, sa, rb, bba, gi, ma);
     }
 
     public FeedScreen getFeedScreen() {

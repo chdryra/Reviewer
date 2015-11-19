@@ -19,13 +19,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemComments;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemConfigLauncher;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuComments;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarExpandGrid;
@@ -49,14 +47,11 @@ public class FactoryLaunchableUi {
     private static final String TAG = "FactoryLaunchable";
     private ConfigDataUi mConfig;
     private FactoryLauncherUi mLauncherFactory;
-    private BuilderChildListView mBuilderChildListView;
 
     public FactoryLaunchableUi(ConfigDataUi config,
-                               FactoryLauncherUi launcherFactory,
-                               BuilderChildListView childListViewBuilder) {
+                               FactoryLauncherUi launcherFactory) {
         mConfig = config;
         mLauncherFactory = launcherFactory;
-        mBuilderChildListView = childListViewBuilder;
     }
 
     public LaunchableUi newLaunchable(Class<? extends LaunchableUi> uiClass) throws
@@ -76,11 +71,9 @@ public class FactoryLaunchableUi {
         }
     }
 
-    public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
-        GridItemAction<GvReviewOverviewList.GvReviewOverview> gi
-                = new GridItemLauncher<>(mLauncherFactory, this);
-        MenuAction<GvReviewOverviewList.GvReviewOverview> ma = new MenuActionNone<>();
-        return mBuilderChildListView.buildView(node, adapterFactory, gi, ma);
+    public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory,
+                                             FactoryReviewsListScreen listScreenFactory) {
+        return listScreenFactory.newReviewsListScreen(node, adapterFactory);
     }
 
     public <T extends GvData> LaunchableUi newViewScreen(ReviewViewAdapter<T> adapter) {
