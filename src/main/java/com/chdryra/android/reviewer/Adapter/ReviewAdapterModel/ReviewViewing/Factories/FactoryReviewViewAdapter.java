@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Imp
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
         .AdapterReviewNode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ViewerChildList;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
         .ViewerDataToReviews;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
         .GridDataViewer;
@@ -40,6 +42,10 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewDefault;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
@@ -99,23 +105,29 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(meta.getTreeRepresentation());
     }
 
-    public ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
+    public ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> newChildListAdapter(ReviewNode node) {
+        GridDataViewer<GvReviewOverviewList.GvReviewOverview> viewer;
+        viewer = new ViewerChildList(node, mConverter.getConverterReviews(), this);
+        return  newAdapterReviewNode(node, viewer);
+    }
+
+    public ReviewViewAdapter<GvData> newNodeDataAdapter(ReviewNode node) {
         GridDataViewer<GvData> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
                 getTagsManager(), mVisitorFactory, mAggregater);
         return newAdapterReviewNode(node, viewer);
     }
 
-    public <T extends GvData> ReviewViewAdapter newNodeDataAdapter(GvDataCollection<T> data) {
+    public <T extends GvData> ReviewViewAdapter<?> newNodeDataAdapter(GvDataCollection<T> data) {
         Review meta = mProvider.createMetaReview(data, data.getStringSummary());
         return newNodeDataAdapter(meta.getTreeRepresentation());
     }
 
-    public <T extends GvData> ReviewViewAdapter newDataToDataAdapter(ReviewNode parent,
+    public <T extends GvData> ReviewViewAdapter<?> newDataToDataAdapter(ReviewNode parent,
                                                                      GvDataCollection<T> data) {
         return newAdapterReviewNode(parent, mViewerFactory.newDataToDataViewer(parent, data));
     }
 
-    public <T extends GvData> ReviewViewAdapter newAggregateToReviewsAdapter
+    public <T extends GvData> ReviewViewAdapter<?> newAggregateToReviewsAdapter
     (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> type = data.getGvDataType();
 
@@ -139,18 +151,18 @@ public class FactoryReviewViewAdapter {
         return newMetaReviewAdapter(data, subject, viewer);
     }
 
-    public <T extends GvData> ReviewViewAdapter newDataToReviewsAdapter(GvDataCollection<T> data,
+    public <T extends GvData> ReviewViewAdapter<T> newDataToReviewsAdapter(GvDataCollection<T> data,
                                                                         String subject) {
         ViewerDataToReviews<T> viewer = new ViewerDataToReviews<>(data, this);
         return newMetaReviewAdapter(data, subject, viewer);
     }
 
-    private <T extends GvData> ReviewViewAdapter newAdapterReviewNode(ReviewNode node,
+    private <T extends GvData> ReviewViewAdapter<T> newAdapterReviewNode(ReviewNode node,
                                                                       GridDataViewer<T> viewer) {
         return new AdapterReviewNode<>(node, mConverter.getConverterImages(), viewer);
     }
 
-    private <T extends GvData> ReviewViewAdapter newMetaReviewAdapter(GvDataCollection<T> data,
+    private <T extends GvData> ReviewViewAdapter<T> newMetaReviewAdapter(GvDataCollection<T> data,
                                                                       String subject,
                                                                       GridDataViewer<T> viewer) {
         ReviewNode node = mProvider.createMetaReview(data, subject).getTreeRepresentation();

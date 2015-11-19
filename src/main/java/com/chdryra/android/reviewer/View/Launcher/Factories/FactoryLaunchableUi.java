@@ -19,21 +19,24 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemComments;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemLauncher;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.SubjectActionNone;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuComments;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarExpandGrid;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewDefault;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewPerspective;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.SubjectActionNone;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectAction;
 
@@ -45,9 +48,15 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectActio
 public class FactoryLaunchableUi {
     private static final String TAG = "FactoryLaunchable";
     private ConfigDataUi mConfig;
+    private FactoryLauncherUi mLauncherFactory;
+    private BuilderChildListView mBuilderChildListView;
 
-    public FactoryLaunchableUi(ConfigDataUi config) {
+    public FactoryLaunchableUi(ConfigDataUi config,
+                               FactoryLauncherUi launcherFactory,
+                               BuilderChildListView childListViewBuilder) {
         mConfig = config;
+        mLauncherFactory = launcherFactory;
+        mBuilderChildListView = childListViewBuilder;
     }
 
     public LaunchableUi newLaunchable(Class<? extends LaunchableUi> uiClass) throws
@@ -67,9 +76,11 @@ public class FactoryLaunchableUi {
         }
     }
 
-    public LaunchableUi newReviewsListScreen(ReviewNode node,
-                                             FactoryReviewViewAdapter adapterFactory) {
-        return adapterFactory.newReviewsListAdapter(node).getReviewView();
+    public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
+        GridItemAction<GvReviewOverviewList.GvReviewOverview> gi
+                = new GridItemLauncher<>(mLauncherFactory, this);
+        MenuAction<GvReviewOverviewList.GvReviewOverview> ma = new MenuActionNone<>();
+        return mBuilderChildListView.buildView(node, adapterFactory, gi, ma);
     }
 
     public <T extends GvData> LaunchableUi newViewScreen(ReviewViewAdapter<T> adapter) {
@@ -99,7 +110,7 @@ public class FactoryLaunchableUi {
                     = (LaunchableConfig<GvCommentList.GvComment>) viewerConfig;
             return (GridItemAction<T>) new GridItemComments(config, this);
         } else {
-            return new GridItemConfigLauncher<>(viewerConfig, this);
+            return new GridItemConfigLauncher<>(viewerConfig, mLauncherFactory, this);
         }
     }
 

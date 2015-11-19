@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvDataPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,8 +24,9 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverviewList.Gv
         implements DialogAlertFragment.DialogAlertListener{
     private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
 
-    public GridItemFeedScreen(FactoryLaunchableUi launchableFactory) {
-        super(launchableFactory);
+    public GridItemFeedScreen(FactoryLauncherUi launcherFactory,
+                              FactoryLaunchableUi launchableFactory) {
+        super(launcherFactory, launchableFactory);
     }
 
     //Overridden
