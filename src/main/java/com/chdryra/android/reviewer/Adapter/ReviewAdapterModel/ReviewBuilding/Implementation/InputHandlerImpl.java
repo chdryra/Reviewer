@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .InputHandler;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
@@ -57,6 +57,7 @@ public class InputHandlerImpl<T extends GvData> implements InputHandler<T> {
         return mData;
     }
 
+    @Override
     public ConstraintResult add(T newDatum) {
         ConstraintResult res;
         if (isValid(newDatum)) {
@@ -69,6 +70,7 @@ public class InputHandlerImpl<T extends GvData> implements InputHandler<T> {
         return res;
     }
 
+    @Override
     public ConstraintResult replace(T oldDatum, T newDatum) {
         ConstraintResult res;
         if(oldDatum.equals(newDatum)) {
@@ -86,10 +88,12 @@ public class InputHandlerImpl<T extends GvData> implements InputHandler<T> {
         return res;
     }
 
+    @Override
     public void delete(T data) {
         mData.remove(data);
     }
 
+    @Override
     public void deleteAll() {
         mData.removeAll();
     }

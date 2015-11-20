@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey

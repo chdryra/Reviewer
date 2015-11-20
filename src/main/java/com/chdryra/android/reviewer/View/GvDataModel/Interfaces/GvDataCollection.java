@@ -3,32 +3,46 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 24 March, 2015
+ * Date: 26 June, 2015
  */
 
-package com.chdryra.android.reviewer.View.GvDataModel;
+package com.chdryra.android.reviewer.View.GvDataModel.Interfaces;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/03/2015
+ * On: 26/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvData extends VerboseDataReview, ViewHolderData, Parcelable {
+public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdableList<T> {
     //abstract
-    GvDataType<?> getGvDataType();
+    @Override
+    int size();
 
-    GvReviewId getGvReviewId();
+    void sort();
+
+    @Override
+    T getItem(int position);
+
+    GvDataList<T> toList();
+
+    boolean contains(T item);
+
+    @Override
+    GvDataType<? extends GvData> getGvDataType();
 
     @Override
     String getStringSummary();
+
+    @Override
+    String getReviewId();
 
     @Override
     boolean hasElements();
@@ -36,10 +50,6 @@ public interface GvData extends VerboseDataReview, ViewHolderData, Parcelable {
     @Override
     boolean isVerboseCollection();
 
-    @Override
-    String getReviewId();
-
-    //Overridden
     @Override
     int describeContents();
 

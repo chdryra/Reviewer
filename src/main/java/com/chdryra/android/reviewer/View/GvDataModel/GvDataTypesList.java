@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
 import java.util.ArrayList;
 
 /**

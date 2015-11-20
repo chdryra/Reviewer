@@ -14,10 +14,12 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
+        .GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
@@ -27,8 +29,6 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
  * {@link GvData}
  */
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, GridDataObservable {
-
-    //abstract
     void attachReviewView(ReviewView<T> view);
 
     ReviewView<T> getReviewView();
@@ -40,6 +40,9 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, 
     GvImageList getCovers();
 
     //Overridden
+    @Override
+    GvDataType<? extends GvData> getGvDataType();
+
     @Override
     GvDataList<T> getGridData();
 

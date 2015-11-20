@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.View.Configs.Implementation;
 
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;

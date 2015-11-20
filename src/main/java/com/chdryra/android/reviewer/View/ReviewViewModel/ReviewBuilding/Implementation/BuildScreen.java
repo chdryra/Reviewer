@@ -19,12 +19,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityShareReview;
@@ -33,23 +36,23 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarActionNone;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewEditor;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewPerspective;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.SubjectActionNone;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories
+        .FactoryReviewEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -84,7 +87,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
         actions.setAction(new SubjectEdit());
         actions.setAction(new RatingBar());
-        actions.setAction(BannerButtonActionNone.newDisplayButton(buttonTitle));
+        actions.setAction(new BannerButtonActionNone(buttonTitle));
         actions.setAction(new BuildScreenMenu(screenTitle));
 
         //Parameters
@@ -152,20 +155,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
 
     //Classes
 
-    /**
-     * Created by: Rizwan Choudrey
-     * On: 24/01/2015
-     * Email: rizwan.choudrey@gmail.com
-     */
-    private class SubjectEdit extends SubjectActionNone {
-        //Overridden
-        @Override
-        public void onKeyboardDone(CharSequence s) {
-            mEditor.setSubject();
-        }
-    }
-
-    private class RatingBar extends RatingBarActionNone {
+    private static class RatingBarBuildScreen extends RatingBarActionNone {
         //Overridden
         @Override
         public void onRatingChanged(android.widget.RatingBar ratingBar, float rating,
@@ -174,7 +164,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
     }
 
-    private class BuildScreenGridItem extends GridItemActionNone {
+    private static class BuildScreenGridItem extends GridItemActionNone {
         private LocationClientConnector mLocationClient;
 
         //private methods
@@ -242,7 +232,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
     }
 
-    private class BuildScreenMenu extends MenuActionNone {
+    private static class BuildScreenMenu extends MenuActionNone {
         public static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
         private static final int MENU = R.menu.menu_build_review;
 
@@ -266,7 +256,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
     }
 
-    private class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
+    private static class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
         private void requestShareIntent(FragmentReviewView parent) {
             Activity activity = parent.getActivity();
 

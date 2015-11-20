@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Imp
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
         .DataConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;

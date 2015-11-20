@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 13/05/2015
@@ -19,11 +21,12 @@ import android.os.Parcelable;
 public class GvList extends GvDataList<GvData> {
     public static final Parcelable.Creator<GvList> CREATOR = new Parcelable
             .Creator<GvList>() {
-        //Overridden
+        @Override
         public GvList createFromParcel(Parcel in) {
             return new GvList(in);
         }
 
+        @Override
         public GvList[] newArray(int size) {
             return new GvList[size];
         }

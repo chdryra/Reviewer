@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,11 +24,12 @@ public class GvDataType<T extends GvData> implements Parcelable {
     public static final GvDataType NULL_TYPE = new GvDataType<>();
     public static final Parcelable.Creator<GvDataType> CREATOR = new Parcelable
             .Creator<GvDataType>() {
-        //Overridden
+        @Override
         public GvDataType createFromParcel(Parcel in) {
             return new GvDataType(in);
         }
 
+        @Override
         public GvDataType[] newArray(int size) {
             return new GvDataType[size];
         }
@@ -58,10 +61,6 @@ public class GvDataType<T extends GvData> implements Parcelable {
         mDataClass = (Class<T>) in.readValue(Class.class.getClassLoader());
         mDatumName = in.readString();
         mDataName = in.readString();
-    }
-
-    public static boolean areEqual(@NotNull GvDataType lhs, @NotNull GvDataType rhs) {
-        return lhs.equals(rhs);
     }
 
     //public methods

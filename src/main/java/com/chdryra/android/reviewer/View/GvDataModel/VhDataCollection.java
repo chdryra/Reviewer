@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 
 /**
  * Created by: Rizwan Choudrey

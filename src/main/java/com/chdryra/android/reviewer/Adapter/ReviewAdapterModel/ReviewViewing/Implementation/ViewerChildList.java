@@ -16,7 +16,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
         .GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +30,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
  * Grid data is {@link GvReviewOverviewList}.
  */
 public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvReviewOverview> {
+    private static final GvDataType<GvReviewOverviewList.GvReviewOverview> TYPE
+            = GvReviewOverviewList.GvReviewOverview.TYPE;
+
     private ReviewNode mNode;
     private DataConverter<Review, GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> mConverter;
     private FactoryReviewViewAdapter mAdapterFactory;
@@ -46,6 +51,11 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverviewList.GvRe
     }
 
     //Overridden
+    @Override
+    public GvDataType<? extends GvData> getGvDataType() {
+        return TYPE;
+    }
+
     @Override
     public GvReviewOverviewList getGridData() {
         return mConverter.convert(mNode.getChildren());

@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.Implementation;
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
 
 /**

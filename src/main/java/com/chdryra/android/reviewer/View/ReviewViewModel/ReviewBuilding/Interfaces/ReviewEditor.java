@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ImageChooser;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewEditor<T extends GvData> extends ReviewView {
+public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
     //public methods
     void setSubject();
 
@@ -43,7 +43,7 @@ public interface ReviewEditor<T extends GvData> extends ReviewView {
     ImageChooser getImageChooser();
 
     @Override
-    ReviewViewAdapter getAdapter();
+    ReviewViewAdapter<T> getAdapter();
 
     @Override
     ReviewViewParams getParams();
@@ -61,13 +61,13 @@ public interface ReviewEditor<T extends GvData> extends ReviewView {
     float getRating();
 
     @Override
-    GvDataList getGridData();
+    GvDataList<T> getGridData();
 
     @Override
-    GvDataList getGridViewData();
+    GvDataList<T> getGridViewData();
 
     @Override
-    void setGridViewData(GvDataList dataToShow);
+    void setGridViewData(GvDataList<T> dataToShow);
 
     @Override
     ReviewViewActions getActions();

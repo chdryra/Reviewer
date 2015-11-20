@@ -5,19 +5,16 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories.FactoryDataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
-
-
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryRvaGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryVhBuildReviewData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
@@ -35,15 +32,15 @@ import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryTreeDataGetter;
-import com.chdryra.android.reviewer.Models.Social.Factories.FactorySocialPlatformList;
-import com.chdryra.android.reviewer.Models.TagsModel.Factories.FactoryTagsManager;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Factories.FactoryReviewsProvider;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Models.Social.Factories.FactorySocialPlatformList;
+import com.chdryra.android.reviewer.Models.TagsModel.Factories.FactoryTagsManager;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Configs.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
@@ -145,7 +142,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                                                 FactoryReviews reviewsFactory,
                                                 DataValidator validator,
                                                 File extDir, String dir, String authorName) {
-        FactoryGridUi<? extends GvDataList, ReviewBuilderAdapter> gridUi = new FactoryRvaGridUi();
+        FactoryGridUi<? extends GvDataList> gridUi = new FactoryDataBuildersGridUi();
         FactoryVhBuildReviewData factoryVhBuildReviewData = new FactoryVhBuildReviewData();
         FactoryDataBuilderAdapter factoryDataBuilderAdapter = new FactoryDataBuilderAdapter
                 (context);

@@ -6,8 +6,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
         .GridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 /**
@@ -30,6 +31,12 @@ public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
     }
 
     //Overridden
+
+    @Override
+    public GvDataType<T> getGvDataType() {
+        return getGridData().getGvDataType();
+    }
+
     @Override
     public GvDataList<T> getGridData() {
         return mData.toList();

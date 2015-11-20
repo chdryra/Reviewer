@@ -55,6 +55,7 @@ public class ImageChooserImpl implements ImageChooser {
     }
 
     //public methods
+    @Override
     public Intent getChooserIntents() {
         try {
             createNewCaptureFile();
@@ -66,6 +67,7 @@ public class ImageChooserImpl implements ImageChooser {
         return null;
     }
 
+    @Override
     public boolean chosenImageExists(ActivityResultCode resultCode, Intent data) {
         //Returns true if bitmap exists.
         if (resultCode.equals(ActivityResultCode.OK)) {
@@ -105,6 +107,7 @@ public class ImageChooserImpl implements ImageChooser {
         return false;
     }
 
+    @Override
     public void getChosenImage(final ImageChooserListener listener) {
         if (mCaptureFile != null) {
             int maxWidth = (int) mContext.getResources().getDimension(R.dimen.imageMaxWidth);

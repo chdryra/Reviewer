@@ -15,6 +15,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Random;

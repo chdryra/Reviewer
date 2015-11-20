@@ -9,7 +9,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
         .GridDataViewer;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 /**
@@ -42,6 +43,11 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
     }
 
     //Overridden
+    @Override
+    public GvDataType<? extends GvData> getGvDataType() {
+        return mData.getGvDataType();
+    }
+
     @Override
     public GvDataList<GvCanonical> getGridData() {
         return mData.toList();

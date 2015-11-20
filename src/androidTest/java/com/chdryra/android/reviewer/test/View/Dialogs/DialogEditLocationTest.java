@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 
 /**

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;

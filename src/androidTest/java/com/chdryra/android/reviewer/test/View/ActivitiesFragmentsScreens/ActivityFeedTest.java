@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Publ
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryConfiguredGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryRvaGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -49,7 +49,7 @@ import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.R
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
@@ -183,7 +183,7 @@ public class ActivityFeedTest extends
         MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(converterGv);
         DataValidator validator = new DataValidator();
-        FactoryRvaGridUi gridCellFactory = new FactoryRvaGridUi();
+        FactoryDataBuildersGridUi gridCellFactory = new FactoryDataBuildersGridUi();
         FactoryConfiguredGridUi gridUiFactory = new FactoryConfiguredGridUi(gridCellFactory);
         FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(FILE_DIR_EXT, "ActivityFeedTest", "test", validator);
         FactoryImageChooser chooserFactory = new FactoryImageChooser();

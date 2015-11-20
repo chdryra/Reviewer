@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Im
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T> {
     final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
     private GridDataViewer<T> mWrapper;
-    private ReviewView mView;
+    private ReviewView<T> mView;
 
     public void setViewer(GridDataViewer<T> wrapper) {
         mWrapper = wrapper;

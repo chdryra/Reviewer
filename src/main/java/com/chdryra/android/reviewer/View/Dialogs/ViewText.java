@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.Dialogs;
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey

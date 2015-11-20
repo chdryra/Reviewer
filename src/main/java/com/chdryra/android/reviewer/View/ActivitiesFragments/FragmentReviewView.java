@@ -35,7 +35,7 @@ import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryGridCellAdapter;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;

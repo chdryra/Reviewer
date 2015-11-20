@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Impleme
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey

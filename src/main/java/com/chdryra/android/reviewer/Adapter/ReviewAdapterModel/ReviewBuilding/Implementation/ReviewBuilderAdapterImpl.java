@@ -5,20 +5,20 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.BuildScreenGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataTypesList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,13 +29,13 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvData>>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;
 
     private final DataBuildersMap mDataBuilders;
-    private final WrapperGridData<GC, ReviewBuilderAdapter> mGridUi;
+    private final BuildScreenGridUi<GC> mGridUi;
     private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
     private final FactoryFileIncrementor mIncrementorFactory;
     private FileIncrementor mIncrementor;
@@ -46,7 +46,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvData>>
 
     //Constructors
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
-                                WrapperGridData<GC, ReviewBuilderAdapter> gridUi,
+                                BuildScreenGridUi<GC> gridUi,
                                 DataValidator dataValidator,
                                 FactoryDataBuilderAdapter dataBuilderAdapterFactory,
                                 FactoryFileIncrementor incrementorFactory,
@@ -56,13 +56,19 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<? extends GvData>>
         mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
         mDataBuilders = new DataBuildersMap();
         mGridUi = gridUi;
-        gridUi.setSourceAdapter(this);
+        gridUi.setParentAdapter(this);
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
         newIncrementor();
     }
 
     //public methods
+
+    @Override
+    public GvDataType<? extends GvData> getGvDataType() {
+        return mGridUi.getGridWrapper().getGvDataType();
+    }
+
     @Override
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mBuilder.setRatingIsAverage(ratingIsAverage);

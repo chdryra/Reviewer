@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
         .InputHandler;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ReviewBuilder;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
@@ -38,30 +38,37 @@ public class DataBuilderImpl <T extends GvData> implements DataBuilder<T> {
         return mParentBuilder;
     }
 
+    @Override
     public GvDataList<T> getData() {
         return mHandler.getData();
     }
 
+    @Override
     public InputHandler.ConstraintResult add(T datum) {
         return mHandler.add(datum);
     }
 
+    @Override
     public void delete(T datum) {
         mHandler.delete(datum);
     }
 
+    @Override
     public void deleteAll() {
         mHandler.deleteAll();
     }
 
+    @Override
     public InputHandler.ConstraintResult replace(T oldDatum, T newDatum) {
         return mHandler.replace(oldDatum, newDatum);
     }
 
+    @Override
     public void setData() {
         getParentBuilder().setData(this);
     }
 
+    @Override
     public void resetData() {
         GvDataList<T> data = mCopier.convert(getParentBuilder().getData(mDataType));
         mHandler = FactoryInputHandler.newHandler(data);

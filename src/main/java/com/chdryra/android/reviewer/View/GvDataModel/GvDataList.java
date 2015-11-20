@@ -16,6 +16,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataSorting.GvDataComparators;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,11 +41,12 @@ public class GvDataList<T extends GvData> extends ViewHolderDataList<T> implemen
         GvDataCollection<T> {
     public static final Parcelable.Creator<GvDataList> CREATOR = new Parcelable
             .Creator<GvDataList>() {
-        //Overridden
+        @Override
         public GvDataList createFromParcel(Parcel in) {
             return new GvDataList(in);
         }
 
+        @Override
         public GvDataList[] newArray(int size) {
             return new GvDataList[size];
         }

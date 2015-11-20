@@ -4,9 +4,11 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
@@ -16,35 +18,38 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObse
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RvaGridCell<T extends GvData> extends GvDataList<T>
+public class DataBuilderGridCell<T extends GvData> extends GvDataList<T>
         implements GridDataObservable.GridDataObserver {
-    public static final Creator<RvaGridCell> CREATOR = new Creator<RvaGridCell>() {
+
+    public static final Creator<DataBuilderGridCell> CREATOR = new Creator<DataBuilderGridCell>() {
         //Overridden
-        public RvaGridCell createFromParcel(Parcel in) {
-            return new RvaGridCell(in);
+        @Override
+        public DataBuilderGridCell createFromParcel(Parcel in) {
+            return new DataBuilderGridCell(in);
         }
 
-        public RvaGridCell[] newArray(int size) {
-            return new RvaGridCell[size];
+        @Override
+        public DataBuilderGridCell[] newArray(int size) {
+            return new DataBuilderGridCell[size];
         }
     };
 
-    public static final GvDataType<RvaGridCell> TYPE =
-            new GvDataType<>(RvaGridCell.class, "create", "create");
+    public static final GvDataType<DataBuilderGridCell> TYPE =
+            new GvDataType<>(DataBuilderGridCell.class, "create", "create");
 
     private ReviewViewAdapter<T> mDataAdapter;
     private FactoryVhDataCollection mViewHolderFactory;
 
-    RvaGridCell(GvDataType<T> dataType,
-                ReviewViewAdapter<T> dataAdapter,
-                FactoryVhDataCollection viewHolderFactory) {
-        super(dataType, null);
+    public DataBuilderGridCell(DataBuilderAdapter<T> dataAdapter,
+                               FactoryVhDataCollection viewHolderFactory) {
+        super(dataAdapter.getGvDataType(), null);
         mDataAdapter = dataAdapter;
         mViewHolderFactory = viewHolderFactory;
         mDataAdapter.registerGridDataObserver(this);
+        onGridDataChanged();
     }
 
-    private RvaGridCell(Parcel in) {
+    private DataBuilderGridCell(Parcel in) {
         super(in);
     }
 

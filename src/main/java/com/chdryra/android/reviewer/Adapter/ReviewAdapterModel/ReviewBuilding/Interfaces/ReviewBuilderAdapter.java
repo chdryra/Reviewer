@@ -9,11 +9,8 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
@@ -29,7 +26,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
  * For building reviews. Collects appropriate data and builds a {@link com.chdryra.android
  * .reviewer.Model.Review} object
  */
-public interface ReviewBuilderAdapter<D extends GvDataList<? extends GvData>> extends ReviewViewAdapter<D> {
+public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewViewAdapter<GC> {
     ReviewBuilder getBuilder();
 
     void setSubject(String subject);
@@ -47,10 +44,13 @@ public interface ReviewBuilderAdapter<D extends GvDataList<? extends GvData>> ex
     Review publishReview();
 
     @Override
-    void attachReviewView(ReviewView<D> view);
+    GvDataType<? extends GvData> getGvDataType();
 
     @Override
-    ReviewView<D> getReviewView();
+    void attachReviewView(ReviewView<GC> view);
+
+    @Override
+    ReviewView<GC> getReviewView();
 
     @Override
     String getSubject();
@@ -62,13 +62,13 @@ public interface ReviewBuilderAdapter<D extends GvDataList<? extends GvData>> ex
     GvImageList getCovers();
 
     @Override
-    GvDataList<D> getGridData();
+    GvDataList<GC> getGridData();
 
     @Override
-    boolean isExpandable(D datum);
+    boolean isExpandable(GC datum);
 
     @Override
-    ReviewViewAdapter<?> expandGridCell(D datum);
+    ReviewViewAdapter<?> expandGridCell(GC datum);
 
     @Override
     ReviewViewAdapter<?> expandGridData();

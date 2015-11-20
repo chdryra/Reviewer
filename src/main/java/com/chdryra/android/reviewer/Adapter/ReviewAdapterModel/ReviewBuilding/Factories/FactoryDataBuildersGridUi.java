@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.BuildScreenGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .FactoryGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.BuildScreenGridUiImpl;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.DataBuilderGridCell;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.BuildScreenGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryVhDataCollection;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.RvaGridCell;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
@@ -19,10 +17,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryRvaGridUi implements FactoryGridUi<RvaGridCell, ReviewBuilderAdapter>{
+public class FactoryDataBuildersGridUi implements FactoryGridUi<DataBuilderGridCell>{
     @Override
-    public WrapperGridData<RvaGridCell, ReviewBuilderAdapter> newGridUiWrapper(FactoryVhDataCollection vhFactory) {
-        BuildScreenGridUi ui = new BuildScreenGridUi(vhFactory);
+    public BuildScreenGridUi<DataBuilderGridCell>
+    newGridUiWrapper(FactoryVhDataCollection vhFactory) {
+        BuildScreenGridUiImpl ui = new BuildScreenGridUiImpl(vhFactory);
         ui.addGridCell(GvTagList.GvTag.TYPE);
         ui.addGridCell(GvCriterionList.GvCriterion.TYPE);
         ui.addGridCell(GvImageList.GvImage.TYPE);

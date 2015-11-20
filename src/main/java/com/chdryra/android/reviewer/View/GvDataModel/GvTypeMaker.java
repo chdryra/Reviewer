@@ -11,6 +11,9 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
+
 import java.util.ArrayList;
 
 /**

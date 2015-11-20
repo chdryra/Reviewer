@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import org.jetbrains.annotations.NotNull;
 

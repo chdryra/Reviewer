@@ -23,8 +23,8 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 
 /**
  * Created by: Rizwan Choudrey

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorR
 import com.chdryra.android.reviewer.Models.TreeMethods.Implementation.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;

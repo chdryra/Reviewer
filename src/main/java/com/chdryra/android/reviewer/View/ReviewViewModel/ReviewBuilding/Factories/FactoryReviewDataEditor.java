@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;

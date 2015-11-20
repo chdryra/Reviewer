@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.View.GvDataModel;
 
 import android.os.Parcel;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 25/03/2015

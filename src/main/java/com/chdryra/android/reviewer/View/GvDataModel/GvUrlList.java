@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.net.URL;
 

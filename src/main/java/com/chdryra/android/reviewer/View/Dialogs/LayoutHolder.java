@@ -12,6 +12,8 @@ import android.content.Context;
 import android.util.SparseArray;
 import android.view.View;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 20/10/2014
@@ -20,7 +22,7 @@ import android.view.View;
 
 /**
  * Concerned with inflating layouts and
- * holding Views on some {@link com.chdryra.android.reviewer.View.GvDataModel.GvData}.
+ * holding Views on some {@link GvData}.
  */
 public class LayoutHolder {
     private final int mLayout;

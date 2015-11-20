@@ -9,8 +9,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
 
@@ -20,6 +21,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerReviewData implements GridDataViewer<GvData> {
+    private static final GvDataType<GvData> TYPE = GvList.TYPE;
+
     private ReviewNode mNode;
     private ConverterGv mConverter;
     private TagsManager mTagsManager;
@@ -70,6 +73,12 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
     }
 
     //Overridden
+
+    @Override
+    public GvDataType<GvData> getGvDataType() {
+        return TYPE;
+    }
+
     @Override
     public GvList getGridData() {
         GvList data = makeGridData();
