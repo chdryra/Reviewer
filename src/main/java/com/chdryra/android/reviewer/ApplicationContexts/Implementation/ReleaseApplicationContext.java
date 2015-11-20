@@ -39,11 +39,11 @@ import com.chdryra.android.reviewer.Models.Social.Factories.FactorySocialPlatfor
 import com.chdryra.android.reviewer.Models.TagsModel.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsProvider;
-import com.chdryra.android.reviewer.ReviewsProviderModel.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.ReviewsProviderModel.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Factories.FactoryReviewsProvider;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Configs.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;

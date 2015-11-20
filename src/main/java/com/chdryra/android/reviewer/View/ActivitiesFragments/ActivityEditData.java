@@ -5,20 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewDataEditor;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.EditScreenImages;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.EditScreenReviewData;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditActions;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewDataEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditScreen;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,12 +26,12 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 public class ActivityEditData<T extends GvData> extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataEdit.GvDataEditListener<T>,
-        DialogGvDataAdd.GvDataAddListener<T>, ImageChooser.ImageChooserListener{
+        DialogGvDataAdd.GvDataAddListener<T>{
 
     private static final String GVDATA_TYPE
             = "com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData.gvdata_type";
     private GvDataType<T> mDataType;
-    private EditScreenReviewData<T> mScreen;
+    private ReviewDataEditScreen<T> mScreen;
 
     public ActivityEditData() {
 
@@ -59,13 +57,17 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @Override
     protected ReviewView createReviewView() {
+        mScreen = newEditScreenFactory().newScreen(mDataType);
+        return mScreen.getEditor();
+    }
+
+    private FactoryEditScreen newEditScreenFactory() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         ReviewBuilderAdapter parentBuilder = app.getReviewBuilderAdapter();
-        DataValidator validator = app.getDataValidator();
-        FactoryReviewDataEditor editorFactory = new FactoryReviewDataEditor(app.getParamsFactory());
-        FactoryEditScreen factory = new FactoryEditScreen(this, parentBuilder, editorFactory);
-        mScreen = factory.newScreen(mDataType, validator);
-        return mScreen.getEditor();
+        FactoryEditActions actionsFactory = new FactoryEditActions(this, app.getConfigDataUi(),
+                app.getLaunchableFactory(), new FactoryGvData(), parentBuilder.getImageChooser());
+        FactoryReviewDataEditor editorFactory = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
+        return new FactoryEditScreen(this, parentBuilder, editorFactory);
     }
 
     @Override
@@ -106,13 +108,5 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mScreen.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onChosenImage(GvImageList.GvImage image) {
-        if(mDataType.equals(GvImageList.GvImage.TYPE)) {
-            EditScreenImages screen = (EditScreenImages) mScreen;
-            screen.onChosenImage(image);
-        }
     }
 }

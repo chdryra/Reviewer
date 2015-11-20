@@ -18,9 +18,9 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.TreeDataGetter;
-import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorRatingCalculator;
-import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
+import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Models.TreeMethods.Interfaces.VisitorRatingCalculator;
+import com.chdryra.android.reviewer.Models.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * Creates a new unique {@link MdReviewId} if required so can represent a new review structure even

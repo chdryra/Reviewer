@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubj
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.TreeMethods.Interfaces.VisitorReviewNode;
+import com.chdryra.android.reviewer.Models.TreeMethods.Interfaces.VisitorReviewNode;
 
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no

@@ -86,9 +86,7 @@ public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<
     public void onGridItemClick(T item, int position, View v) {
         Bundle args = new Bundle();
         mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        LaunchableUi ui = mConfig.getLaunchable(mLaunchableFactory);
-        mLaunchableFactory.launch(ui, getActivity(), getLaunchableRequestCode(),
-                mConfig.getTag(), args);
+        launch(mConfig, args);
     }
 
     @Override
@@ -118,5 +116,11 @@ public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<
                 onGvDataDelete(oldDatum, requestCode);
             }
         }
+    }
+
+    protected void launch(LaunchableConfig<? extends T> config, Bundle args) {
+        LaunchableUi ui = mConfig.getLaunchable(mLaunchableFactory);
+        mLaunchableFactory.launch(ui, getActivity(), getLaunchableRequestCode(), config.getTag(),
+                args);
     }
 }

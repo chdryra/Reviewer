@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.ReviewEditorDefault;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;

@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewTre
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.TreeDataGetter;
-import com.chdryra.android.reviewer.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
