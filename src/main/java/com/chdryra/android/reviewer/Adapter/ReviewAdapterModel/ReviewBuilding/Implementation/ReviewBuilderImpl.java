@@ -46,6 +46,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     private final TagsManager mTagsManager;
     private final FactoryReviews mReviewFactory;
     private final FactoryDataBuilder mDataBuilderFactory;
+    private final FactoryGvData mDataFactory;
     private final DataValidator mDataValidator;
 
     //Constructors
@@ -53,6 +54,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
                              TagsManager tagsManager,
                              FactoryReviews reviewFactory,
                              FactoryDataBuilder databuilderFactory,
+                             FactoryGvData dataFactory,
                              DataValidator dataValidator) {
         mConverter = converter;
         mTagsManager = tagsManager;
@@ -63,8 +65,9 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
         mDataBuilderFactory = databuilderFactory;
+        mDataFactory = dataFactory;
         for (GvDataType dataType : TYPES) {
-            mData.put(dataType, FactoryGvData.newDataList(dataType));
+            mData.put(dataType, mDataFactory.newDataList(dataType));
             mDataBuilders.put(dataType, mDataBuilderFactory.newDataBuilder(dataType, this));
         }
 
@@ -73,46 +76,56 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     }
 
     //public methods
+    @Override
     public String getSubject() {
         return mSubject;
     }
 
+    @Override
     public void setSubject(String subject) {
         mSubject = subject;
     }
 
+    @Override
     public boolean isRatingAverage() {
         return mIsAverage;
     }
 
+    @Override
     public float getRating() {
         return isRatingAverage() ? getAverageRating() : mRating;
     }
 
+    @Override
     public void setRating(float rating) {
         if (!isRatingAverage()) mRating = rating;
     }
 
+    @Override
     public float getAverageRating() {
         GvCriterionList criteria = (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
         return criteria.getAverageRating();
     }
 
+    @Override
     public void setRatingIsAverage(boolean ratingIsAverage) {
         mIsAverage = ratingIsAverage;
         if (ratingIsAverage) mRating = getAverageRating();
     }
 
     //TODO make type safe
+    @Override
     public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
         return mDataBuilders.get(dataType);
     }
 
     //TODO make type safe
+    @Override
     public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return mData.get(dataType);
     }
 
+    @Override
     public <T extends GvData> void setData(DataBuilder<T> dataBuilder) {
         GvDataList<T> data = dataBuilder.getData();
         GvDataType<T> dataType = data.getGvDataType();
@@ -123,6 +136,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         }
     }
 
+    @Override
     public Review buildReview() {
         if (!isValidForPublication()) {
             throw new IllegalStateException("Review is not valid for publication!");
@@ -158,7 +172,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mChildren = new ArrayList<>();
         for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
             ReviewBuilderImpl childBuilder = new ReviewBuilderImpl(mConverter, mTagsManager,
-                    mReviewFactory, mDataBuilderFactory, mDataValidator);
+                    mReviewFactory, mDataBuilderFactory, mDataFactory, mDataValidator);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);

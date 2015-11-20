@@ -7,6 +7,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Impl
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryDataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
@@ -45,6 +47,7 @@ import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Configs.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
@@ -76,6 +79,10 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         //FactoryLauncher
         FactoryLauncherUi factoryLauncher = new FactoryLauncherUi();
         setFactoryLauncher(factoryLauncher);
+
+        //FactoryGvData
+        FactoryGvData dataFactory = new FactoryGvData();
+        setFactoryGvData(dataFactory);
 
         //FactoryLaunchable
         FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config, paramsFactory, builder);
@@ -111,7 +118,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
 
         //ReviewBuilderAdapter
         setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
-                reviewsFactory, dataValidator, extDir, imageDir, author.getName());
+                reviewsFactory, dataFactory, dataValidator, extDir, imageDir, author.getName());
     }
 
     private ConfigDataUi setUiConfig() {
@@ -140,6 +147,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                                                 ConverterGv converter,
                                                 TagsManager tagsManager,
                                                 FactoryReviews reviewsFactory,
+                                                FactoryGvData dataFactory,
                                                 DataValidator validator,
                                                 File extDir, String dir, String authorName) {
         FactoryGridUi<? extends GvDataList> gridUi = new FactoryDataBuildersGridUi();
@@ -147,8 +155,9 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         FactoryDataBuilderAdapter factoryDataBuilderAdapter = new FactoryDataBuilderAdapter
                 (context);
         FactoryImageChooser factoryImageChooser = new FactoryImageChooser(context);
+        FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(converter);
         FactoryReviewBuilder factoryReviewBuilder = new FactoryReviewBuilder(converter,
-                tagsManager, reviewsFactory, validator);
+                tagsManager, reviewsFactory, dataBuilderFactory, dataFactory, validator);
         FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(extDir, dir,
                 authorName, validator);
         FactoryReviewBuilderAdapter builderAdapterFactory

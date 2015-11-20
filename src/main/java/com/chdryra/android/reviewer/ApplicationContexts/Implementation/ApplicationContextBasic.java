@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
@@ -36,9 +37,14 @@ public class ApplicationContextBasic implements ApplicationContext {
     private FactoryLaunchableUi mFactoryLaunchable;
     private FactoryLauncherUi mFactoryLauncher;
     private FactoryReviewViewParams mParamsFactory;
+    private FactoryGvData mFactoryGvData;
 
     protected ApplicationContextBasic() {
 
+    }
+
+    public void setFactoryGvData(FactoryGvData factoryGvData) {
+        mFactoryGvData = factoryGvData;
     }
 
     public void setParamsFactory(FactoryReviewViewParams paramsFactory) {
@@ -156,5 +162,10 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public FactoryReviewViewParams getParamsFactory() {
         return mParamsFactory;
+    }
+
+    @Override
+    public FactoryGvData getGvDataFactory() {
+        return mFactoryGvData;
     }
 }

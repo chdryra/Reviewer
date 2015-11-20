@@ -9,9 +9,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditScreen;
@@ -65,7 +64,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         ReviewBuilderAdapter parentBuilder = app.getReviewBuilderAdapter();
         FactoryEditActions actionsFactory = new FactoryEditActions(this, app.getConfigDataUi(),
-                app.getLaunchableFactory(), new FactoryGvData(), parentBuilder.getImageChooser());
+                app.getLaunchableFactory(), app.getGvDataFactory(), parentBuilder.getImageChooser());
         FactoryReviewDataEditor editorFactory = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
         return new FactoryEditScreen(this, parentBuilder, editorFactory);
     }
