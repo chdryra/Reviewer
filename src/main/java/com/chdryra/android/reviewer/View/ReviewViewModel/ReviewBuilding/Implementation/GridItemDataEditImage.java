@@ -15,13 +15,13 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfac
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditImage extends GridItemEdit<GvImage> {
+public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
     private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
     //Constructors
-    public GridItemEditImage(LaunchableConfig<GvImage> editorConfig,
-                             FactoryLaunchableUi launchableFactory,
-                             GvDataPacker<GvImage> dataPacker) {
+    public GridItemDataEditImage(LaunchableConfig<GvImage> editorConfig,
+                                 FactoryLaunchableUi launchableFactory,
+                                 GvDataPacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 

@@ -9,10 +9,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation
-        .GridItemEditComment;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemDataEditComment;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.MenuEditComments;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.MenuDataEditComments;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,11 +29,11 @@ public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComm
 
     @Override
     protected GridItemAction<GvComment> newGridItemEdit() {
-        return new GridItemEditComment(getEditorConfig(), getLaunchableFactory(), getPacker());
+        return new GridItemDataEditComment(getEditorConfig(), getLaunchableFactory(), getPacker());
     }
 
     @Override
     protected MenuAction<GvComment> newMenuEdit() {
-        return new MenuEditComments();
+        return new MenuDataEditComments();
     }
 }

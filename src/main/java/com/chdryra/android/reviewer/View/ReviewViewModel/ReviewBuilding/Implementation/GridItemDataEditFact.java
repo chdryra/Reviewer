@@ -15,15 +15,15 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditFact extends GridItemEdit<GvFact> {
+public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
     private static final int EDIT_ON_BROWSER = RequestCodeGenerator.getCode("EditOnBrowser");
     private LaunchableConfig<GvUrl> mUrlConfig;
 
     //Constructors
-    public GridItemEditFact(LaunchableConfig<GvFact> factConfig,
-                            LaunchableConfig<GvUrl> urlConfig,
-                            FactoryLaunchableUi launchableFactory,
-                            GvDataPacker<GvFact> dataPacker) {
+    public GridItemDataEditFact(LaunchableConfig<GvFact> factConfig,
+                                LaunchableConfig<GvUrl> urlConfig,
+                                FactoryLaunchableUi launchableFactory,
+                                GvDataPacker<GvFact> dataPacker) {
         super(factConfig, launchableFactory, dataPacker);
         mUrlConfig = urlConfig;
     }

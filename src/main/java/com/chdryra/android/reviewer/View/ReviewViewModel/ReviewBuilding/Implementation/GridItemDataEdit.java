@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemActi
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements
+public class GridItemDataEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements
         GridItemAction<T>,
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataEdit.EditListener<T>,
@@ -31,9 +31,9 @@ public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<
     private final FactoryLaunchableUi mLaunchableFactory;
     private final GvDataPacker<T> mDataPacker;
 
-    public GridItemEdit(LaunchableConfig<T> editorConfig,
-                        FactoryLaunchableUi launchableFactory,
-                        GvDataPacker<T> dataPacker) {
+    public GridItemDataEdit(LaunchableConfig<T> editorConfig,
+                            FactoryLaunchableUi launchableFactory,
+                            GvDataPacker<T> dataPacker) {
         mConfig = editorConfig;
         mLaunchableFactory = launchableFactory;
         mDataPacker = dataPacker;

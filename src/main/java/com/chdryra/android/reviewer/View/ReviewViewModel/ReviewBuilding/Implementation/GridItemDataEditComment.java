@@ -15,14 +15,14 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class GridItemEditComment extends GridItemEdit<GvComment> {
+public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
     private static final int COMMENT_AS_HEADLINE
             = RequestCodeGenerator.getCode("CommentAsHeadline");
 
     //Constructors
-    public GridItemEditComment(LaunchableConfig<GvComment> editorConfig,
-                               FactoryLaunchableUi launchableFactory,
-                               GvDataPacker<GvComment> dataPacker) {
+    public GridItemDataEditComment(LaunchableConfig<GvComment> editorConfig,
+                                   FactoryLaunchableUi launchableFactory,
+                                   GvDataPacker<GvComment> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 

@@ -7,10 +7,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectEditTags extends SubjectEdit<GvTag> {
+public class SubjectDataEditTags extends SubjectDataEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
-    public SubjectEditTags(TagAdjuster tagAdjuster) {
+    public SubjectDataEditTags(TagAdjuster tagAdjuster) {
         mTagAdjuster = tagAdjuster;
     }
 

@@ -8,6 +8,8 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAct
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectAction;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 03/10/2015
@@ -19,9 +21,11 @@ public class ReviewViewActions<T extends GvData> {
     private BannerButtonAction<T> mBannerButtonAction;
     private GridItemAction<T> mGridItemAction;
     private MenuAction<T> mMenuAction;
+    private ArrayList<ReviewViewAttachedObserver> mObservers;
 
-    //Constructors
-
+    public interface ReviewViewAttachedObserver {
+        <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView);
+    }
 
     public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
                              BannerButtonAction<T> bannerButtonAction, GridItemAction<T>
@@ -31,6 +35,7 @@ public class ReviewViewActions<T extends GvData> {
         mBannerButtonAction = bannerButtonAction;
         mGridItemAction = gridItemAction;
         mMenuAction = menuAction;
+        mObservers = new ArrayList<>();
     }
 
     //public methods
@@ -60,5 +65,15 @@ public class ReviewViewActions<T extends GvData> {
         mRatingBarAction.attachReviewView(view);
         mBannerButtonAction.attachReviewView(view);
         mGridItemAction.attachReviewView(view);
+    }
+
+    public void notifyObservers(ReviewView<T> reviewView) {
+        for(ReviewViewAttachedObserver observer : mObservers) {
+            observer.onReviewViewAttached(reviewView);
+        }
+    }
+
+    public void registerObserver(ReviewViewAttachedObserver observer) {
+        mObservers.add(observer);
     }
 }

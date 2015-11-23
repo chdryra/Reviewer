@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.BannerButtonAddLocation;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemEditLocation;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemDataEditLocation;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 
@@ -37,7 +37,7 @@ public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLoc
 
     @Override
     protected GridItemAction<GvLocation> newGridItemEdit() {
-        return new GridItemEditLocation(getEditorConfig(), getLaunchableFactory(), getPacker());
+        return new GridItemDataEditLocation(getEditorConfig(), getLaunchableFactory(), getPacker());
     }
 
 }

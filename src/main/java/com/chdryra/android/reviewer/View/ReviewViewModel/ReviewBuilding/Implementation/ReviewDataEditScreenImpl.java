@@ -27,7 +27,7 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
     private ReviewDataEditor<T> mEditor;
     private MenuDataEdit<T> mMenu;
     private BannerButtonAdd<T> mBannerButton;
-    private GridItemEdit<T> mGriditem;
+    private GridItemDataEdit<T> mGriditem;
 
     public ReviewDataEditScreenImpl(Context context,
                                     ReviewDataEditor<T> editor) {
@@ -37,7 +37,7 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
         ReviewViewActions<T> actions = mEditor.getActions();
         mMenu = (MenuDataEdit<T>) actions.getMenuAction();
         mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
-        mGriditem = (GridItemEdit<T>) actions.getGridItemAction();
+        mGriditem = (GridItemDataEdit<T>) actions.getGridItemAction();
     }
 
     protected Context getContext() {

@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewVi
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewEditor {
-    public ReviewEditor newEditor(ReviewBuilderAdapter builder,
+    public ReviewEditor<?> newEditor(ReviewBuilderAdapter<?> builder,
                                   ReviewViewParams params,
                                   ReviewViewActions actions,
                                   ReviewViewPerspective.ReviewViewModifier modifier) {

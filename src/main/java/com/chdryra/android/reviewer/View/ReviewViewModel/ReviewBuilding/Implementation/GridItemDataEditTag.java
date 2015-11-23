@@ -11,13 +11,13 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditTag extends GridItemEdit<GvTag> {
+public class GridItemDataEditTag extends GridItemDataEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
-    public GridItemEditTag(LaunchableConfig<GvTag> editorConfig,
-                           FactoryLaunchableUi launchableFactory,
-                           GvDataPacker<GvTag> dataPacker,
-                           TagAdjuster tagAdjuster) {
+    public GridItemDataEditTag(LaunchableConfig<GvTag> editorConfig,
+                               FactoryLaunchableUi launchableFactory,
+                               GvDataPacker<GvTag> dataPacker,
+                               TagAdjuster tagAdjuster) {
         super(editorConfig, launchableFactory, dataPacker);
         mTagAdjuster = tagAdjuster;
     }

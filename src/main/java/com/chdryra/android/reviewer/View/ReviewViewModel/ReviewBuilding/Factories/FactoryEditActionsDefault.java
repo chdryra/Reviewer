@@ -17,12 +17,11 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAct
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation
         .BannerButtonAdd;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemEdit;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemDataEdit;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.MenuDataEdit;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation
-        .RatingBarEdit;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.SubjectEdit;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.RatingBarDataEdit;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.SubjectDataEdit;
 
 /**
  * Created by: Rizwan Choudrey
@@ -89,11 +88,11 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected SubjectAction<T> newSubjectEdit() {
-        return new SubjectEdit<>();
+        return new SubjectDataEdit<>();
     }
 
     protected RatingBarAction<T> newRatingBarEdit() {
-        return new RatingBarEdit<>();
+        return new RatingBarDataEdit<>();
     }
 
     protected BannerButtonAction<T> newBannerButtonAdd() {
@@ -102,7 +101,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected GridItemAction<T> newGridItemEdit() {
-        return new GridItemEdit<>(getEditorConfig(), mLaunchableFactory, mPacker);
+        return new GridItemDataEdit<>(getEditorConfig(), mLaunchableFactory, mPacker);
     }
 
     protected MenuAction<T> newMenuEdit() {

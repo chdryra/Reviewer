@@ -9,8 +9,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation
-        .MenuEditCriteria;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.MenuDataEditCriteria;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,6 +29,6 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
 
     @Override
     protected MenuAction<GvCriterion> newMenuEdit() {
-        return new MenuEditCriteria();
+        return new MenuDataEditCriteria();
     }
 }

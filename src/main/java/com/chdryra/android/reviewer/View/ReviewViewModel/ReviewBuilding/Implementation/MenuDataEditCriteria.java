@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObse
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MenuEditCriteria extends MenuDataEdit<GvCriterion>
+public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
         implements GridDataObservable.GridDataObserver {
     private static final GvDataType<GvCriterion> TYPE = GvCriterion.TYPE;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
@@ -25,7 +25,7 @@ public class MenuEditCriteria extends MenuDataEdit<GvCriterion>
     private final MenuItemCriteriaRatingAverage mActionItem;
 
     //Constructors
-    public MenuEditCriteria() {
+    public MenuDataEditCriteria() {
         super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         mActionItem = new MenuItemCriteriaRatingAverage();
     }

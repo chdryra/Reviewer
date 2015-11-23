@@ -1,15 +1,19 @@
 package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewDefault;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewPerspective;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,11 +25,11 @@ public class ReviewEditorDefault extends ReviewViewDefault implements ReviewEdit
     private ReviewBuilderAdapter<?> mBuilder;
 
     //Constructors
-    public ReviewEditorDefault(ReviewBuilderAdapter<?> builder,
+    public ReviewEditorDefault(ReviewBuilderAdapter<? extends GvDataList> builder,
                                ReviewViewParams params,
-                               ReviewViewActions actions,
+                               ReviewViewActions<?> actions,
                                ReviewViewPerspective.ReviewViewModifier modifier) {
-        super(new ReviewViewPerspective(builder, params, actions, modifier));
+        super(new ReviewViewPerspective<>(builder, params, actions, modifier));
         mBuilder = builder;
     }
 

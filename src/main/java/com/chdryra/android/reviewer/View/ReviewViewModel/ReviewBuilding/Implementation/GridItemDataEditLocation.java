@@ -16,14 +16,14 @@ import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditLocation extends GridItemEdit<GvLocation> {
+public class GridItemDataEditLocation extends GridItemDataEdit<GvLocation> {
     private static final String TAG = "EditOnMap";
     private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode(TAG);
 
     //Constructors
-    public GridItemEditLocation(LaunchableConfig<GvLocation> editorConfig,
-                                FactoryLaunchableUi launchableFactory,
-                                GvDataPacker<GvLocation> dataPacker) {
+    public GridItemDataEditLocation(LaunchableConfig<GvLocation> editorConfig,
+                                    FactoryLaunchableUi launchableFactory,
+                                    GvDataPacker<GvLocation> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 

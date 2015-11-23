@@ -8,12 +8,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuEditTags extends MenuDataEdit<GvTag> {
+public class MenuDataEditTags extends MenuDataEdit<GvTag> {
     private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
     private TagAdjuster mTagAdjuster;
 
 
-    public MenuEditTags(TagAdjuster tagAdjuster) {
+    public MenuDataEditTags(TagAdjuster tagAdjuster) {
         super(TYPE);
         mTagAdjuster = tagAdjuster;
     }

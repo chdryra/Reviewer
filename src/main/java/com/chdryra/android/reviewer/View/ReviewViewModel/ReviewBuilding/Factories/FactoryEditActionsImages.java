@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.BannerButtonAddImage;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemEditImage;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GridItemDataEditImage;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 /**
@@ -39,7 +39,7 @@ public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage>
 
     @Override
     protected GridItemAction<GvImage> newGridItemEdit() {
-        return new GridItemEditImage(getEditorConfig(), getLaunchableFactory(), getPacker());
+        return new GridItemDataEditImage(getEditorConfig(), getLaunchableFactory(), getPacker());
     }
 
 }

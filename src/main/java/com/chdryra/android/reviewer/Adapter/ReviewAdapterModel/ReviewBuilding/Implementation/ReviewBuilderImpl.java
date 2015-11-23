@@ -69,13 +69,6 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mRating = 0f;
     }
 
-    private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
-        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(mDataFactory.newDataList(dataType));
-        db.registerObserver(this);
-        mDataBuilders.put(dataType, db);
-        return db;
-    }
-
     //public methods
     @Override
     public String getSubject() {
@@ -122,7 +115,6 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         return builder;
     }
 
-    //TODO make type safe
     private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
         return getDataBuilder(dataType).getData();
     }
@@ -158,8 +150,15 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     }
 
     //private methods
+    private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
+        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(mDataFactory.newDataList(dataType));
+        db.registerObserver(this);
+        mDataBuilders.put(dataType, db);
+        return db;
+    }
+
     private boolean isValidForPublication() {
-        return mDataValidator.validateString(mSubject) && getData(GvTag.TYPE).size() > 0;
+        return mDataValidator.validateString(mSubject) && hasTags();
     }
 
     private Review assembleReview() {

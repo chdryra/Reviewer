@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
@@ -30,7 +30,7 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataListImpl<?>>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;
@@ -139,7 +139,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataListImpl<?>>
     }
 
     @Override
-    public GvDataListImpl<GC> getGridData() {
+    public GvDataList<GC> getGridData() {
         return mGridUi.getGridWrapper();
     }
 
