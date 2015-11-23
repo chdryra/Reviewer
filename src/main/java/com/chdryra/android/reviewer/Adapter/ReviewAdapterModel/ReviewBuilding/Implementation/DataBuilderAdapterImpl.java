@@ -3,18 +3,11 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 import android.content.Context;
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .DataBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .InputHandler;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
-        .ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
@@ -75,12 +68,12 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
 
     @Override
     public boolean add(T datum) {
-        InputHandler.ConstraintResult res = mDataBuilder.add(datum);
-        if (res == InputHandler.ConstraintResult.PASSED) {
+        DataBuilder.ConstraintResult res = mDataBuilder.add(datum);
+        if (res == DataBuilder.ConstraintResult.PASSED) {
             this.notifyGridDataObservers();
             return true;
         } else {
-            if (res == InputHandler.ConstraintResult.HAS_DATUM) {
+            if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
                 makeToastHasItem(mContext, datum);
             }
             return false;
@@ -101,11 +94,11 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
 
     @Override
     public void replace(T oldDatum, T newDatum) {
-        InputHandler.ConstraintResult res = mDataBuilder.replace(oldDatum, newDatum);
-        if (res == InputHandler.ConstraintResult.PASSED) {
+        DataBuilder.ConstraintResult res = mDataBuilder.replace(oldDatum, newDatum);
+        if (res == DataBuilder.ConstraintResult.PASSED) {
             this.notifyGridDataObservers();
         } else {
-            if (res == InputHandler.ConstraintResult.HAS_DATUM) {
+            if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
                 makeToastHasItem(mContext, newDatum);
             }
         }

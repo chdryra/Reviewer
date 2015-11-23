@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryInputHandler;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilder;
 
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class InputHandlerTest extends AndroidTestCase {
+public class DataBuilderTest extends AndroidTestCase {
     private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
     private static final int NUMDATA = 30;
 
@@ -56,8 +56,8 @@ public class InputHandlerTest extends AndroidTestCase {
     @SmallTest
     public void testAddConstraint() {
         GvTagList data = (GvTagList) getData(GvTag.TYPE);
-        InputHandler noAddHandler = new InputHandler<>(data, getNoAddAddConstraint(data));
-        InputHandler alwaysAddHandler = new InputHandler<>(data, getAlwaysAddAddConstraint(data));
+        DataBuilder noAddHandler = new DataBuilder<>(data, getNoAddAddConstraint(data));
+        DataBuilder alwaysAddHandler = new DataBuilder<>(data, getAlwaysAddAddConstraint(data));
 
         GvTagList addData1 = (GvTagList) getData(GvTag.TYPE);
         GvTagList addData2 = (GvTagList) getData(GvTag.TYPE);
@@ -78,9 +78,9 @@ public class InputHandlerTest extends AndroidTestCase {
         assertEquals(originalSize + addData2.size(), data.size());
     }
 
-    private <T extends GvData> InputHandler.AddConstraint<T> getNoAddAddConstraint
+    private <T extends GvData> DataBuilder.AddConstraint<T> getNoAddAddConstraint
             (GvDataList<T> dummy) {
-        return new InputHandler.AddConstraint<T>() {
+        return new DataBuilder.AddConstraint<T>() {
             //Overridden
             @Override
             public boolean passes(GvDataList<T> data, T datum) {
@@ -89,9 +89,9 @@ public class InputHandlerTest extends AndroidTestCase {
         };
     }
 
-    private <T extends GvData> InputHandler.AddConstraint<T> getAlwaysAddAddConstraint
+    private <T extends GvData> DataBuilder.AddConstraint<T> getAlwaysAddAddConstraint
             (GvDataList<T> dummy) {
-        return new InputHandler.AddConstraint<T>() {
+        return new DataBuilder.AddConstraint<T>() {
 //Overridden
             @Override
             public boolean passes(GvDataList<T> data, T datum) {
@@ -102,7 +102,7 @@ public class InputHandlerTest extends AndroidTestCase {
 
     private void testAdd(GvDataType dataType) {
         GvDataList data = getData(dataType);
-        InputHandler handler = FactoryInputHandler.newHandler(data);
+        DataBuilder handler = FactoryDataBuilder.newDataBuilder(data);
 
         int originalSize = data.size();
         GvDataList addData = getData(dataType, originalSize / 2);
@@ -127,7 +127,7 @@ public class InputHandlerTest extends AndroidTestCase {
         //Test normal deletion
         GvDataList data = getData(dataType);
         int originalSize = data.size();
-        InputHandler handler = FactoryInputHandler.newHandler(data);
+        DataBuilder handler = FactoryDataBuilder.newDataBuilder(data);
         for (int i = 0; i < originalSize; ++i) {
             assertEquals(originalSize - i, data.size());
             GvData deleteItem = (GvData) data.getItem(originalSize - i - 1);
@@ -140,7 +140,7 @@ public class InputHandlerTest extends AndroidTestCase {
         //Test no deletion when item not in data
         data = getData(dataType);
         originalSize = data.size();
-        handler = FactoryInputHandler.newHandler(data);
+        handler = FactoryDataBuilder.newDataBuilder(data);
         GvDataList noDeleteData = getData(dataType);
         for (int i = 0; i < noDeleteData.size(); ++i) {
             assertEquals(originalSize, data.size());
@@ -157,7 +157,7 @@ public class InputHandlerTest extends AndroidTestCase {
         GvDataList replaceData = getData(dataType, replaceSize);
         assertEquals(replaceSize, replaceData.size());
 
-        InputHandler handler = FactoryInputHandler.newHandler(data);
+        DataBuilder handler = FactoryDataBuilder.newDataBuilder(data);
         for (int i = 0; i < replaceSize; ++i) {
             GvData toReplace = (GvData) data.getItem(i);
             GvData replaceWith = (GvData) replaceData.getItem(i);
@@ -184,15 +184,15 @@ public class InputHandlerTest extends AndroidTestCase {
     }
 
     //These are here to avoid unchecked casts....
-    private <T extends GvData> void deleteItem(InputHandler<T> handler, T item) {
+    private <T extends GvData> void deleteItem(DataBuilder<T> handler, T item) {
         handler.delete(item);
     }
 
-    private <T extends GvData> void addItem(InputHandler<T> handler, T item) {
+    private <T extends GvData> void addItem(DataBuilder<T> handler, T item) {
         handler.add(item, getContext());
     }
 
-    private <T extends GvData> void replaceItem(InputHandler<T> handler, T toReplace,
+    private <T extends GvData> void replaceItem(DataBuilder<T> handler, T toReplace,
                                                 T replaceWith) {
         handler.replace(toReplace, replaceWith, getContext());
     }

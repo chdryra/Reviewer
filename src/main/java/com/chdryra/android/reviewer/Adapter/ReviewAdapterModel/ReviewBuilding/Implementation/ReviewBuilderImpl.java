@@ -14,15 +14,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     public ReviewBuilderImpl(ConverterGv converter,
                              TagsManager tagsManager,
                              FactoryReviews reviewFactory,
-                             FactoryDataBuilder databuilderFactory,
+                             FactoryDataBuilder dataBuilderFactory,
                              FactoryGvData dataFactory,
                              DataValidator dataValidator) {
         mConverter = converter;
@@ -66,7 +66,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mChildren = new ArrayList<>();
         mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
-        mDataBuilderFactory = databuilderFactory;
+        mDataBuilderFactory = dataBuilderFactory;
         mDataFactory = dataFactory;
         for (GvDataType dataType : TYPES) {
             mData.put(dataType, mDataFactory.newDataList(dataType));

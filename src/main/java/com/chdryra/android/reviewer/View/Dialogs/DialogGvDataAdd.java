@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
@@ -35,7 +35,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implemen
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
  * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link GvDataAddListener}: commissioning fragment.
- * <li>{@link InputHandler}: input validation when QUICK_SET = true.
+ * <li>{@link DataBuilder}: input validation when QUICK_SET = true.
  * </ul>
  * </p>
  * <p>
@@ -43,7 +43,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implemen
  * a callback to the commissioning fragment.
  * It is then up to that fragment/activity to decide what to do
  * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
- * true, the dialog will validate using a {@link InputHandler} and forward the data directly to the
+ * true, the dialog will validate using a {@link DataBuilder} and forward the data directly to the
  * ControllerReviewEditable packed in the arguments by the Administrator.
  * </p>
  */
