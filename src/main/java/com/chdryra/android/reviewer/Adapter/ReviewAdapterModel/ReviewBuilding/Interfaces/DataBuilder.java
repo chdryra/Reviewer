@@ -24,6 +24,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * @param <T>: {@link GvData} type.
  */
 public interface DataBuilder<T extends GvData> {
+    interface DataBuilderObserver {
+        <T2 extends GvData> void onDataPublished(DataBuilder<T2> builder);
+    }
+
     GvDataType<T> getGvDataType();
 
     GvDataList<T> getData();
@@ -36,11 +40,12 @@ public interface DataBuilder<T extends GvData> {
 
     void deleteAll();
 
-    void setData();
-
     void resetData();
 
-    //Classes
+    void publishData();
+
+    void registerObserver(DataBuilderObserver observer);
+
     interface AddConstraint<G extends GvData> {
         ConstraintResult passes(GvDataList<G> data, G datum);
     }

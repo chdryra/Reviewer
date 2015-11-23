@@ -203,7 +203,7 @@ public class ActivityFeedTest extends
             for (int j = 0; j < tags.size(); ++j) {
                 dataBuilderAdapter.add(tags.getItem(j));
             }
-            dataBuilderAdapter.setData();
+            dataBuilderAdapter.publishData();
 
             reviews.add(adapter.publishReview());
         }

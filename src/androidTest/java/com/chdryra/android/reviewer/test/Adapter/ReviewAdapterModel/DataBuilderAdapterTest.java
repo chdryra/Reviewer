@@ -138,7 +138,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
             }
         }
 
-        criteriaBuilder.setData();
+        criteriaBuilder.publishData();
         for (GvDataType dataType : TYPES) {
             DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
             assertEquals(criteria2.getAverageRating(), builder.getAverageRating());
@@ -255,7 +255,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
             addAndTestDatum(dataType, 2, null);
             assertEquals(origData.size() + 3, adapter.getGridData().size());
             observer.reset();
-            adapter.reset();
+            adapter.resetData();
             observer.waitAndTestForNotification();
             assertEquals(origData, adapter.getGridData());
         }
@@ -293,7 +293,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
             T datum = data.getItem(i);
             assertTrue(builder.add(datum));
         }
-        builder.setData();
+        builder.publishData();
     }
 
     private <T extends GvData> DataBuilderAdapter<T> getBuilder(GvDataType<T> dataType) {

@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
@@ -88,7 +87,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataListImpl<?>>
 
     @Override
     public boolean hasTags() {
-        return mBuilder.getData(GvTag.TYPE).size() > 0;
+        return mBuilder.hasTags();
     }
 
     @Override
@@ -117,7 +116,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataListImpl<?>>
         boolean added = mDataValidator.validateString(camel) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
         tagBuilder.delete(toRemove);
-        tagBuilder.setData();
+        tagBuilder.publishData();
 
         return added ? newTag : null;
     }
@@ -156,7 +155,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataListImpl<?>>
 
     @Override
     public GvImageList getCovers() {
-        return ((GvImageList) mBuilder.getData(GvImage.TYPE)).getCovers();
+        return mBuilder.getCovers();
     }
 
     private class DataBuildersMap {

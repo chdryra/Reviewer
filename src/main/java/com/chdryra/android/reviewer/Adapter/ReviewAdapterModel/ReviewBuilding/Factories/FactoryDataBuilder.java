@@ -8,23 +8,18 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
-        .GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.DataBuilderImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
-
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,11 +34,11 @@ public class FactoryDataBuilder {
     }
 
     public <T extends GvData> DataBuilder<T> newDataBuilder
-    (GvDataType<T> dataType,
-     ReviewBuilder parentBuilder) {
-        DataConverter<? super T, T, ? extends GvDataList<T>> copier = mConverter.getCopier(dataType);
+    (GvDataList<T> data) {
+        GvDataType<T> dataType = data.getGvDataType();
+        GvDataList<T> copied = mConverter.copy(data);
         if (dataType.equals(GvImage.TYPE)) {
-            return new DataBuilderImpl<>(dataType, parentBuilder, copier,
+            return new DataBuilderImpl<>(copied,
                     new DataBuilderImpl.AddConstraintImpl<T>() {
                 //Overridden
                 @Override
@@ -70,12 +65,12 @@ public class FactoryDataBuilder {
                 }
             };
 
-            return new DataBuilderImpl<>(dataType, parentBuilder, copier, add, replace);
+            return new DataBuilderImpl<>(data, add, replace);
         } else if (dataType.equals(GvComment.TYPE)) {
             //TODO make type safe
-            return (DataBuilder) new GvCommentHandler(parentBuilder, (DataConverter<? super GvComment, GvComment, ? extends GvDataList<GvComment>>) copier);
+            return (DataBuilder) new GvCommentHandler((GvDataList<GvComment>) copied);
         } else {
-            return new DataBuilderImpl<>(dataType, parentBuilder, copier);
+            return new DataBuilderImpl<>(copied);
         }
     }
 
@@ -130,9 +125,8 @@ public class FactoryDataBuilder {
 
     public static class GvCommentHandler extends DataBuilderImpl<GvComment> {
         //Constructors
-        public GvCommentHandler(ReviewBuilder parentBuilder,
-                                DataConverter<? super GvComment, GvComment, ? extends GvDataList<GvComment>> copier) {
-            super(GvComment.TYPE, parentBuilder, copier);
+        public GvCommentHandler(GvDataList<GvComment> data) {
+            super(data);
         }
 
         //Overridden

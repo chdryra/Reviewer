@@ -751,7 +751,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
                 //TODO make type safe
                 mBuilder.add(mData.getItem(i));
             }
-            mBuilder.setData();
+            mBuilder.publishData();
         }
 
         mAdapter = mBuilder;

@@ -104,7 +104,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
         for (GvTag tag : GvDataMocker.newTagList(3, false)) {
             tagBulder.add(tag);
         }
-        tagBulder.setData();
+        tagBulder.publishData();
         mAdapter = builder;
     }
 

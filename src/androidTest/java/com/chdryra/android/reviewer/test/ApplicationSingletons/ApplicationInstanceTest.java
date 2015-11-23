@@ -80,7 +80,7 @@ public class ApplicationInstanceTest extends InstrumentationTestCase {
         for (GvTag tag : tags) {
             tagBuilder.add(tag);
         }
-        tagBuilder.setData();
+        tagBuilder.publishData();
         mAdmin.publishReviewBuilder();
 
         MdIdableCollection<Review> reviews = repo.getReviews();

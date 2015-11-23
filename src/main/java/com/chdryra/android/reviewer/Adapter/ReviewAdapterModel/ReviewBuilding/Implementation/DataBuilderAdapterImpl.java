@@ -38,7 +38,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
         mParentBuilder = parentBuilder;
         mBuilder = parentBuilder.getBuilder();
         mDataBuilder = mBuilder.getDataBuilder(mType);
-        reset();
+        resetData();
     }
 
     //public methods
@@ -105,13 +105,13 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
     }
 
     @Override
-    public void setData() {
-        mDataBuilder.setData();
+    public void publishData() {
+        mDataBuilder.publishData();
         getParentBuilder().notifyGridDataObservers();
     }
 
     @Override
-    public void reset() {
+    public void resetData() {
         mDataBuilder.resetData();
         this.notifyGridDataObservers();
     }

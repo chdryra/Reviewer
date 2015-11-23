@@ -151,7 +151,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     @Override
     protected void onCancelButtonClick() {
         if (isQuickSet()) {
-            mBuilder.reset();
+            mBuilder.resetData();
         } else {
             mAddListener.onGvDataCancel(getTargetRequestCode());
         }
@@ -160,7 +160,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     @Override
     protected void onDoneButtonClick() {
         if (isQuickSet()) {
-            mBuilder.setData();
+            mBuilder.publishData();
         } else {
             mAddListener.onGvDataDone(getTargetRequestCode());
         }

@@ -88,12 +88,12 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
         mBuilder.setSubject(getFragmentSubject());
         mBuilder.setRatingIsAverage(mRatingIsAverage);
         mBuilder.setRating(getFragmentRating());
-        mBuilder.setData();
+        mBuilder.publishData();
     }
 
     @Override
     public void discardEdits() {
-        mBuilder.reset();
+        mBuilder.resetData();
     }
 
     //Overridden

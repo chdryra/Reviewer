@@ -1,16 +1,16 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces;
 
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewBuilder {
+public interface ReviewBuilder extends DataBuilder.DataBuilderObserver{
     String getSubject();
 
     void setSubject(String subject);
@@ -27,9 +27,12 @@ public interface ReviewBuilder {
 
     <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType);
 
-    <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType);
+    GvImageList getCovers();
 
-    <T extends GvData> void setData(DataBuilder<T> dataBuilder);
+    boolean hasTags();
 
     Review buildReview();
+
+    @Override
+    <T extends GvData> void onDataPublished(DataBuilder<T> dataBuilder);
 }

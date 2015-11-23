@@ -64,7 +64,7 @@ public class ReviewEditorDefault extends ReviewViewDefault implements ReviewEdit
         DataBuilderAdapter<GvImage> builder;
         builder = mBuilder.getDataBuilderAdapter(GvImage.TYPE);
         builder.add(image);
-        builder.setData();
+        builder.publishData();
     }
 
     @Override

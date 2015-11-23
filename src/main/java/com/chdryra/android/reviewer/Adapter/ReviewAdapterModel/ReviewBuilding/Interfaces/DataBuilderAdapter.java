@@ -27,9 +27,9 @@ public interface DataBuilderAdapter<T extends GvData> extends ReviewViewAdapter<
 
     void replace(T oldDatum, T newDatum);
 
-    void setData();
+    void publishData();
 
-    void reset();
+    void resetData();
 
     void setRatingIsAverage(boolean ratingIsAverage);
 

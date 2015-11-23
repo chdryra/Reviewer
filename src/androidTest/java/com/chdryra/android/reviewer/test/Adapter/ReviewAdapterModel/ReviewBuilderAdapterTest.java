@@ -222,7 +222,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
             assertTrue(builder.add(datum));
         }
         mSignaler.reset();
-        builder.setData();
+        builder.publishData();
         mSignaler.waitForSignal();
         assertFalse(mSignaler.timedOut());
         mSignaler.reset();

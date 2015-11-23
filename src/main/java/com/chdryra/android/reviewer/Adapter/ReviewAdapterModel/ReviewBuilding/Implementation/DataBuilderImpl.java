@@ -14,15 +14,13 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
-
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilder;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
+import java.util.ArrayList;
 
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
@@ -30,37 +28,30 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * @param <T>: {@link GvData} type.
  */
 public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
-    private final ReviewBuilder mParentBuilder;
-    private final DataConverter<? super T, T, ? extends GvDataList<T>> mCopier;
     private final AddConstraint<T> mAddConstraint;
     private final ReplaceConstraint<T> mReplaceConstraint;
-    private final GvDataType<T> mDataType;
+    private final ArrayList<DataBuilderObserver> mObservers;
+    
+    private GvDataList<T> mResetData;
     private GvDataList<T> mData;
 
     //Constructors
-    public DataBuilderImpl(GvDataType<T> dataType,
-                           ReviewBuilder parentBuilder,
-                           DataConverter<? super T, T, ? extends GvDataList<T>> copier) {
-        this(dataType, parentBuilder, copier, new AddConstraintImpl<T>());
+    public DataBuilderImpl(GvDataList<T> data) {
+        this(data, new AddConstraintImpl<T>());
     }
 
-    public DataBuilderImpl(GvDataType<T> dataType,
-                           ReviewBuilder parentBuilder,
-                           DataConverter<? super T, T, ? extends GvDataList<T>> copier,
+    public DataBuilderImpl(GvDataList<T> data,
                            AddConstraint<T> addConstraint) {
-        this(dataType, parentBuilder, copier, addConstraint, new ReplaceConstraintImpl<T>());
+        this(data, addConstraint, new ReplaceConstraintImpl<T>());
     }
 
-    public DataBuilderImpl(GvDataType<T> dataType,
-                           ReviewBuilder parentBuilder,
-                           DataConverter<? super T, T, ? extends GvDataList<T>> copier,
+    public DataBuilderImpl(GvDataList<T> data,
                            AddConstraint<T> addConstraint,
                            ReplaceConstraint<T> replaceConstraint) {
-        mDataType = dataType;
-        mParentBuilder = parentBuilder;
-        mCopier = copier;
         mAddConstraint = addConstraint;
         mReplaceConstraint = replaceConstraint;
+        mObservers = new ArrayList<>();
+        mResetData = data;
         resetData();
     }
 
@@ -117,13 +108,20 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     }
 
     @Override
-    public void setData() {
-        mParentBuilder.setData(this);
+    public void resetData() {
+        mData = new GvDataListImpl<>(mResetData);
     }
 
     @Override
-    public void resetData() {
-        mData = mCopier.convert(mParentBuilder.getData(mDataType));
+    public void registerObserver(DataBuilderObserver observer) {
+        mObservers.add(observer);
+    }
+
+    @Override
+    public void publishData() {
+        for(DataBuilderObserver observer : mObservers) {
+            observer.onDataPublished(this);
+        }
     }
 
     private boolean isValid(T datum) {

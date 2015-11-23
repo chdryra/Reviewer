@@ -16,9 +16,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
@@ -34,9 +34,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderImpl implements ReviewBuilder {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;
-
-    private final Map<GvDataType, GvDataList> mData;
     private final Map<GvDataType, DataBuilder> mDataBuilders;
 
     private String mSubject;
@@ -64,17 +61,19 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mDataValidator = dataValidator;
 
         mChildren = new ArrayList<>();
-        mData = new HashMap<>();
         mDataBuilders = new HashMap<>();
         mDataBuilderFactory = dataBuilderFactory;
         mDataFactory = dataFactory;
-        for (GvDataType dataType : TYPES) {
-            mData.put(dataType, mDataFactory.newDataList(dataType));
-            mDataBuilders.put(dataType, mDataBuilderFactory.newDataBuilder(dataType, this));
-        }
 
         mSubject = "";
         mRating = 0f;
+    }
+
+    private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
+        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(mDataFactory.newDataList(dataType));
+        db.registerObserver(this);
+        mDataBuilders.put(dataType, db);
+        return db;
     }
 
     //public methods
@@ -115,27 +114,34 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         if (ratingIsAverage) mRating = getAverageRating();
     }
 
-    //TODO make type safe
     @Override
     public <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType) {
-        return mDataBuilders.get(dataType);
+        DataBuilder builder = mDataBuilders.get(dataType);
+        if(builder == null) builder = createDataBuilder(dataType);
+        //TODO make type safe
+        return builder;
     }
 
     //TODO make type safe
-    @Override
-    public <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
-        return mData.get(dataType);
+    private <T extends GvData> GvDataList<T> getData(GvDataType<T> dataType) {
+        return getDataBuilder(dataType).getData();
     }
 
     @Override
-    public <T extends GvData> void setData(DataBuilder<T> dataBuilder) {
-        GvDataList<T> data = dataBuilder.getData();
-        GvDataType<T> dataType = data.getGvDataType();
-        if (dataType.equals(GvCriterion.TYPE)) {
-            setCriteria(data);
-        } else if (TYPES.contains(dataType)) {
-            mData.put(dataType, data);
-        }
+    public <T extends GvData> void onDataPublished(DataBuilder<T> dataBuilder) {
+        GvDataType<T> dataType = dataBuilder.getGvDataType();
+        if (dataType.equals(GvCriterion.TYPE)) setCriteria(dataBuilder.getData());
+        mDataBuilders.put(dataType, dataBuilder);
+    }
+
+    @Override
+    public GvImageList getCovers() {
+        return ((GvImageList) getData(GvImage.TYPE)).getCovers();
+    }
+
+    @Override
+    public boolean hasTags() {
+        return getData(GvTag.TYPE).size() > 0;
     }
 
     @Override
@@ -179,6 +185,5 @@ public class ReviewBuilderImpl implements ReviewBuilder {
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-        mData.put(GvCriterion.TYPE, mConverter.copy(children));
     }
 }
