@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewDefault;
@@ -51,18 +51,18 @@ public class ReviewEditorDefault extends ReviewViewDefault implements ReviewEdit
     }
 
     @Override
-    public GvImageList.GvImage getCover() {
+    public GvImage getCover() {
         return mBuilder.getCovers().getItem(0);
     }
 
     @Override
-    public void setCover(GvImageList.GvImage image) {
-        for(GvImageList.GvImage cover : mBuilder.getCovers()) {
+    public void setCover(GvImage image) {
+        for(GvImage cover : mBuilder.getCovers()) {
             cover.setIsCover(false);
         }
         image.setIsCover(true);
-        DataBuilderAdapter<GvImageList.GvImage> builder;
-        builder = mBuilder.getDataBuilderAdapter(GvImageList.GvImage.TYPE);
+        DataBuilderAdapter<GvImage> builder;
+        builder = mBuilder.getDataBuilderAdapter(GvImage.TYPE);
         builder.add(image);
         builder.setData();
     }

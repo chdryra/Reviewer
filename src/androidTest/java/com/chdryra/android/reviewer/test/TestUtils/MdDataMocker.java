@@ -15,12 +15,12 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageLi
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
@@ -55,15 +55,15 @@ public class MdDataMocker {
 
     //Just a convenient method even if it uses GvType.....
     public MdDataList getData(GvDataType dataType, int size) {
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+        if (dataType.equals(GvComment.TYPE)) {
             return newCommentList(size);
-        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
+        } else if (dataType.equals(GvFact.TYPE)) {
             return newFactList(size);
-        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
+        } else if (dataType.equals(GvImage.TYPE)) {
             return newImageList(size);
-        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
+        } else if (dataType.equals(GvLocation.TYPE)) {
             return newLocationList(size);
-        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
+        } else if (dataType.equals(GvUrl.TYPE)) {
             return newUrlList(size);
         } else {
             return null;

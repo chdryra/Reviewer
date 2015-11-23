@@ -5,17 +5,26 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
 import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -38,10 +47,10 @@ public class AggregaterTest extends TestCase {
 
     @SmallTest
     public void testAggregateAuthor() {
-        GvAuthorList.GvAuthor author1 = GvDataMocker.newAuthor(null);
-        GvAuthorList.GvAuthor author2 = GvDataMocker.newAuthor(null);
-        GvAuthorList.GvAuthor author3 = GvDataMocker.newAuthor(null);
-        GvAuthorList.GvAuthor[] references = {author1, author2, author3};
+        GvAuthor author1 = GvDataMocker.newAuthor(null);
+        GvAuthor author2 = GvDataMocker.newAuthor(null);
+        GvAuthor author3 = GvDataMocker.newAuthor(null);
+        GvAuthor[] references = {author1, author2, author3};
 
         int num1 = randNum();
         int num2 = randNum();
@@ -56,33 +65,33 @@ public class AggregaterTest extends TestCase {
         int size3 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                authors.add(new GvAuthorList.GvAuthor(RandomReviewId.nextGvReviewId(), author1
+                authors.add(new GvAuthor(RandomReviewId.nextGvReviewId(), author1
                         .getName(), author1.getUserId()));
             }
             if (size2++ < num2) {
-                authors.add(new GvAuthorList.GvAuthor(RandomReviewId.nextGvReviewId(), author2
+                authors.add(new GvAuthor(RandomReviewId.nextGvReviewId(), author2
                         .getName(), author2.getUserId()));
             }
             if (size3++ < num3) {
-                authors.add(new GvAuthorList.GvAuthor(RandomReviewId.nextGvReviewId(), author3
+                authors.add(new GvAuthor(RandomReviewId.nextGvReviewId(), author3
                         .getName(), author3.getUserId()));
             }
         }
         assertEquals(total, authors.size());
 
-        GvCanonicalCollection<GvAuthorList.GvAuthor> results = Aggregater.aggregate(authors);
+        GvCanonicalCollection<GvAuthor> results = Aggregater.aggregate(authors);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvAuthorList.GvAuthor> gvCanonical = results.getItem(i);
-            GvAuthorList.GvAuthor canonical = gvCanonical.getCanonical();
+            GvCanonical<GvAuthor> gvCanonical = results.getItem(i);
+            GvAuthor canonical = gvCanonical.getCanonical();
             GvAuthorList values = (GvAuthorList) gvCanonical.toList();
-            GvAuthorList.GvAuthor reference = references[i];
+            GvAuthor reference = references[i];
             assertEquals(reference.getName(), canonical.getName());
             assertEquals(reference.getUserId(), canonical.getUserId());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvAuthorList.GvAuthor value = values.getItem(j);
+                GvAuthor value = values.getItem(j);
                 assertEquals(reference.getName(), value.getName());
                 assertEquals(reference.getUserId(), value.getUserId());
             }
@@ -91,10 +100,10 @@ public class AggregaterTest extends TestCase {
 
     @SmallTest
     public void testAggregateSubject() {
-        GvSubjectList.GvSubject subject1 = GvDataMocker.newSubject(null);
-        GvSubjectList.GvSubject subject2 = GvDataMocker.newSubject(null);
-        GvSubjectList.GvSubject subject3 = GvDataMocker.newSubject(null);
-        GvSubjectList.GvSubject[] references = {subject1, subject2, subject3};
+        GvSubject subject1 = GvDataMocker.newSubject(null);
+        GvSubject subject2 = GvDataMocker.newSubject(null);
+        GvSubject subject3 = GvDataMocker.newSubject(null);
+        GvSubject[] references = {subject1, subject2, subject3};
 
         int num1 = randNum();
         int num2 = randNum();
@@ -109,32 +118,32 @@ public class AggregaterTest extends TestCase {
         int size3 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                subjects.add(new GvSubjectList.GvSubject(RandomReviewId.nextGvReviewId(), subject1
+                subjects.add(new GvSubject(RandomReviewId.nextGvReviewId(), subject1
                         .getString()));
             }
             if (size2++ < num2) {
-                subjects.add(new GvSubjectList.GvSubject(RandomReviewId.nextGvReviewId(), subject2
+                subjects.add(new GvSubject(RandomReviewId.nextGvReviewId(), subject2
                         .getString()));
             }
             if (size3++ < num3) {
-                subjects.add(new GvSubjectList.GvSubject(RandomReviewId.nextGvReviewId(), subject3
+                subjects.add(new GvSubject(RandomReviewId.nextGvReviewId(), subject3
                         .getString()));
             }
         }
         assertEquals(total, subjects.size());
 
-        GvCanonicalCollection<GvSubjectList.GvSubject> results = Aggregater.aggregate(subjects);
+        GvCanonicalCollection<GvSubject> results = Aggregater.aggregate(subjects);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvSubjectList.GvSubject> gvCanonical = results.getItem(i);
+            GvCanonical<GvSubject> gvCanonical = results.getItem(i);
             GvSubjectList values = (GvSubjectList) gvCanonical.toList();
-            GvSubjectList.GvSubject reference = references[i];
-            GvSubjectList.GvSubject canonical = gvCanonical.getCanonical();
+            GvSubject reference = references[i];
+            GvSubject canonical = gvCanonical.getCanonical();
             assertEquals(reference.getString(), canonical.getString());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvSubjectList.GvSubject value = values.getItem(j);
+                GvSubject value = values.getItem(j);
                 assertEquals(reference.getString(), value.getString());
             }
         }
@@ -142,10 +151,10 @@ public class AggregaterTest extends TestCase {
 
     @SmallTest
     public void testAggregateTag() {
-        GvTagList.GvTag tag1 = GvDataMocker.newTag(null);
-        GvTagList.GvTag tag2 = GvDataMocker.newTag(null);
-        GvTagList.GvTag tag3 = GvDataMocker.newTag(null);
-        GvTagList.GvTag[] references = {tag1, tag2, tag3};
+        GvTag tag1 = GvDataMocker.newTag(null);
+        GvTag tag2 = GvDataMocker.newTag(null);
+        GvTag tag3 = GvDataMocker.newTag(null);
+        GvTag[] references = {tag1, tag2, tag3};
 
         int num1 = randNum();
         int num2 = randNum();
@@ -160,32 +169,32 @@ public class AggregaterTest extends TestCase {
         int size3 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                tags.add(new GvTagList.GvTag(RandomReviewId.nextGvReviewId(), tag1
+                tags.add(new GvTag(RandomReviewId.nextGvReviewId(), tag1
                         .getString()));
             }
             if (size2++ < num2) {
-                tags.add(new GvTagList.GvTag(RandomReviewId.nextGvReviewId(), tag2
+                tags.add(new GvTag(RandomReviewId.nextGvReviewId(), tag2
                         .getString()));
             }
             if (size3++ < num3) {
-                tags.add(new GvTagList.GvTag(RandomReviewId.nextGvReviewId(), tag3
+                tags.add(new GvTag(RandomReviewId.nextGvReviewId(), tag3
                         .getString()));
             }
         }
         assertEquals(total, tags.size());
 
-        GvCanonicalCollection<GvTagList.GvTag> results = Aggregater.aggregate(tags);
+        GvCanonicalCollection<GvTag> results = Aggregater.aggregate(tags);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvTagList.GvTag> gvCanonical = results.getItem(i);
-            GvTagList.GvTag canonical = gvCanonical.getCanonical();
+            GvCanonical<GvTag> gvCanonical = results.getItem(i);
+            GvTag canonical = gvCanonical.getCanonical();
             GvTagList values = (GvTagList) gvCanonical.toList();
-            GvTagList.GvTag reference = references[i];
+            GvTag reference = references[i];
             assertEquals(reference.getString(), canonical.getString());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvTagList.GvTag value = values.getItem(j);
+                GvTag value = values.getItem(j);
                 assertEquals(reference.getString(), value.getString());
             }
         }
@@ -193,10 +202,10 @@ public class AggregaterTest extends TestCase {
 
     @SmallTest
     public void testAggregateComment() {
-        GvCommentList.GvComment comment1 = GvDataMocker.newComment(null);
-        GvCommentList.GvComment comment2 = GvDataMocker.newComment(null);
-        GvCommentList.GvComment comment3 = GvDataMocker.newComment(null);
-        GvCommentList.GvComment[] references = {comment1, comment2, comment3};
+        GvComment comment1 = GvDataMocker.newComment(null);
+        GvComment comment2 = GvDataMocker.newComment(null);
+        GvComment comment3 = GvDataMocker.newComment(null);
+        GvComment[] references = {comment1, comment2, comment3};
 
         int num1 = randNum();
         int num2 = randNum();
@@ -211,32 +220,32 @@ public class AggregaterTest extends TestCase {
         int size3 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                comments.add(new GvCommentList.GvComment(RandomReviewId.nextGvReviewId(), comment1
+                comments.add(new GvComment(RandomReviewId.nextGvReviewId(), comment1
                         .getComment()));
             }
             if (size2++ < num2) {
-                comments.add(new GvCommentList.GvComment(RandomReviewId.nextGvReviewId(), comment2
+                comments.add(new GvComment(RandomReviewId.nextGvReviewId(), comment2
                         .getComment()));
             }
             if (size3++ < num3) {
-                comments.add(new GvCommentList.GvComment(RandomReviewId.nextGvReviewId(), comment3
+                comments.add(new GvComment(RandomReviewId.nextGvReviewId(), comment3
                         .getComment()));
             }
         }
         assertEquals(total, comments.size());
 
-        GvCanonicalCollection<GvCommentList.GvComment> results = Aggregater.aggregate(comments);
+        GvCanonicalCollection<GvComment> results = Aggregater.aggregate(comments);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getItem(i);
-            GvCommentList.GvComment canonical = gvCanonical.getCanonical();
+            GvCanonical<GvComment> gvCanonical = results.getItem(i);
+            GvComment canonical = gvCanonical.getCanonical();
             GvCommentList values = (GvCommentList) gvCanonical.toList();
-            GvCommentList.GvComment reference = references[i];
+            GvComment reference = references[i];
             assertEquals(reference.getComment(), canonical.getComment());
             assertEquals(referenceNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvCommentList.GvComment value = values.getItem(j);
+                GvComment value = values.getItem(j);
                 assertEquals(reference.getComment(), value.getComment());
             }
         }
@@ -256,12 +265,12 @@ public class AggregaterTest extends TestCase {
         cal5.set(2013, 1, 1, 11, 30);
         Calendar[] refCals = {cal2, cal3, cal4, cal5};
 
-        GvDateList.GvDate date1 = new GvDateList.GvDate(cal1.getTime());
-        GvDateList.GvDate date2 = new GvDateList.GvDate(cal2.getTime());
-        GvDateList.GvDate date3 = new GvDateList.GvDate(cal3.getTime());
-        GvDateList.GvDate date4 = new GvDateList.GvDate(cal4.getTime());
-        GvDateList.GvDate date5 = new GvDateList.GvDate(cal5.getTime());
-        GvDateList.GvDate[] refDates = {date1, date2, date3, date4, date5};
+        GvDate date1 = new GvDate(cal1.getTime());
+        GvDate date2 = new GvDate(cal2.getTime());
+        GvDate date3 = new GvDate(cal3.getTime());
+        GvDate date4 = new GvDate(cal4.getTime());
+        GvDate date5 = new GvDate(cal5.getTime());
+        GvDate[] refDates = {date1, date2, date3, date4, date5};
 
         int num1 = randNum();
         int num2 = randNum();
@@ -285,40 +294,40 @@ public class AggregaterTest extends TestCase {
         int size5 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                dates.add(new GvDateList.GvDate(RandomReviewId.nextGvReviewId(), date1
+                dates.add(new GvDate(RandomReviewId.nextGvReviewId(), date1
                         .getDate()));
             }
             if (size2++ < num2) {
-                dates.add(new GvDateList.GvDate(RandomReviewId.nextGvReviewId(), date2
+                dates.add(new GvDate(RandomReviewId.nextGvReviewId(), date2
                         .getDate()));
             }
             if (size3++ < num3) {
-                dates.add(new GvDateList.GvDate(RandomReviewId.nextGvReviewId(), date3
+                dates.add(new GvDate(RandomReviewId.nextGvReviewId(), date3
                         .getDate()));
             }
             if (size4++ < num4) {
-                dates.add(new GvDateList.GvDate(RandomReviewId.nextGvReviewId(), date4
+                dates.add(new GvDate(RandomReviewId.nextGvReviewId(), date4
                         .getDate()));
             }
             if (size5++ < num5) {
-                dates.add(new GvDateList.GvDate(RandomReviewId.nextGvReviewId(), date5
+                dates.add(new GvDate(RandomReviewId.nextGvReviewId(), date5
                         .getDate()));
             }
         }
         assertEquals(total, dates.size());
 
-        GvCanonicalCollection<GvDateList.GvDate> results = Aggregater.aggregate(dates);
+        GvCanonicalCollection<GvDate> results = Aggregater.aggregate(dates);
         assertEquals(refDates.length - 1, results.size());
 
         for (int i = 1; i < refDates.length; ++i) {
-            GvCanonical<GvDateList.GvDate> gvCanonical = results.getItem(i - 1);
-            GvDateList.GvDate canonical = gvCanonical.getCanonical();
+            GvCanonical<GvDate> gvCanonical = results.getItem(i - 1);
+            GvDate canonical = gvCanonical.getCanonical();
             GvDateList values = (GvDateList) gvCanonical.toList();
-            GvDateList.GvDate reference = refDates[i];
+            GvDate reference = refDates[i];
             assertEquals(reference.getDate(), canonical.getDate());
             assertEquals(refNums[i - 1], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvDateList.GvDate value = values.getItem(j);
+                GvDate value = values.getItem(j);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(value.getDate());
                 Calendar ref = refCals[i - 1];
@@ -331,12 +340,12 @@ public class AggregaterTest extends TestCase {
 
     @SmallTest
     public void testAggregateImage() {
-        GvImageList.GvImage image1 = GvDataMocker.newImage(null);
-        GvImageList.GvImage image2 = GvDataMocker.newImage(null);
-        GvImageList.GvImage image3 = GvDataMocker.newImage(null);
-        GvImageList.GvImage image4 = new GvImageList.GvImage(null, image3.getBitmap(),
+        GvImage image1 = GvDataMocker.newImage(null);
+        GvImage image2 = GvDataMocker.newImage(null);
+        GvImage image3 = GvDataMocker.newImage(null);
+        GvImage image4 = new GvImage(null, image3.getBitmap(),
                 image1.getDate(), image2.getCaption(), image3.isCover());
-        GvImageList.GvImage[] references = {image1, image2, image3, image4};
+        GvImage[] references = {image1, image2, image3, image4};
 
         int num1 = randNum();
         int num2 = randNum();
@@ -358,36 +367,36 @@ public class AggregaterTest extends TestCase {
         int size4 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                images.add(new GvImageList.GvImage(RandomReviewId.nextGvReviewId(), image1
+                images.add(new GvImage(RandomReviewId.nextGvReviewId(), image1
                         .getBitmap(), image1.getDate(), image1.getCaption(), image1.isCover()));
             }
             if (size2++ < num2) {
-                images.add(new GvImageList.GvImage(RandomReviewId.nextGvReviewId(), image2
+                images.add(new GvImage(RandomReviewId.nextGvReviewId(), image2
                         .getBitmap(), image2.getDate(), image2.getCaption(), image2.isCover()));
             }
             if (size3++ < num3) {
-                images.add(new GvImageList.GvImage(RandomReviewId.nextGvReviewId(), image3
+                images.add(new GvImage(RandomReviewId.nextGvReviewId(), image3
                         .getBitmap(), image3.getDate(), image3.getCaption(), image3.isCover()));
             }
             if (size4++ < num4) {
-                images.add(new GvImageList.GvImage(RandomReviewId.nextGvReviewId(), image4
+                images.add(new GvImage(RandomReviewId.nextGvReviewId(), image4
                         .getBitmap(), image4.getDate(), image4.getCaption(), image4.isCover()));
             }
         }
         assertEquals(total, images.size());
 
-        GvCanonicalCollection<GvImageList.GvImage> results = Aggregater.aggregate(images);
+        GvCanonicalCollection<GvImage> results = Aggregater.aggregate(images);
         assertEquals(references.length - 1, results.size());
 
         for (int i = 0; i < references.length - 1; ++i) {
-            GvCanonical<GvImageList.GvImage> gvCanonical = results.getItem(i);
-            GvImageList.GvImage canonical = gvCanonical.getCanonical();
+            GvCanonical<GvImage> gvCanonical = results.getItem(i);
+            GvImage canonical = gvCanonical.getCanonical();
             GvImageList values = (GvImageList) gvCanonical.toList();
-            GvImageList.GvImage reference = references[i];
+            GvImage reference = references[i];
             assertEquals(reference.getBitmap(), canonical.getBitmap());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvImageList.GvImage value = values.getItem(j);
+                GvImage value = values.getItem(j);
                 assertEquals(reference.getBitmap(), value.getBitmap());
             }
         }
@@ -398,11 +407,11 @@ public class AggregaterTest extends TestCase {
         LatLng ll1 = new LatLng(51.517972, -0.063291);
         LatLng ll2 = new LatLng(51.518022, -0.063291);
         String name = "Tayyabs";
-        GvLocationList.GvLocation location1 = new GvLocationList.GvLocation(ll1, name);
-        GvLocationList.GvLocation location2 = new GvLocationList.GvLocation(ll2, name);
-        GvLocationList.GvLocation location3 = new GvLocationList.GvLocation(RandomLatLng
+        GvLocation location1 = new GvLocation(ll1, name);
+        GvLocation location2 = new GvLocation(ll2, name);
+        GvLocation location3 = new GvLocation(RandomLatLng
                 .nextLatLng(), name);
-        GvLocationList.GvLocation location4 = new GvLocationList.GvLocation(ll1, RandomString
+        GvLocation location4 = new GvLocation(ll1, RandomString
                 .nextWord());
 
         int num1 = randNum();
@@ -427,46 +436,46 @@ public class AggregaterTest extends TestCase {
         int index = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                locations.add(new GvLocationList.GvLocation(RandomReviewId.nextGvReviewId(),
+                locations.add(new GvLocation(RandomReviewId.nextGvReviewId(),
                         location1.getLatLng(), location1.getName()));
                 lls[index++] = location1.getLatLng();
             }
             if (size2++ < num2) {
-                locations.add(new GvLocationList.GvLocation(RandomReviewId.nextGvReviewId(),
+                locations.add(new GvLocation(RandomReviewId.nextGvReviewId(),
                         location2.getLatLng(), location2.getName()));
                 lls[index++] = location2.getLatLng();
             }
             if (size3++ < num3) {
-                locations.add(new GvLocationList.GvLocation(RandomReviewId.nextGvReviewId(),
+                locations.add(new GvLocation(RandomReviewId.nextGvReviewId(),
                         location3.getLatLng(), location3.getName()));
             }
             if (size4++ < num4) {
-                locations.add(new GvLocationList.GvLocation(RandomReviewId.nextGvReviewId(),
+                locations.add(new GvLocation(RandomReviewId.nextGvReviewId(),
                         location4.getLatLng(), location4.getName()));
             }
         }
         LatLngMidpoint mid = new LatLngMidpoint(lls);
         LatLng midpoint = mid.getGeoMidpoint();
-        GvLocationList.GvLocation canon = new GvLocationList.GvLocation(midpoint, name);
-        GvLocationList.GvLocation[] references = {canon, location3, location4};
+        GvLocation canon = new GvLocation(midpoint, name);
+        GvLocation[] references = {canon, location3, location4};
 
         assertEquals(total, locations.size());
 
-        GvCanonicalCollection<GvLocationList.GvLocation> results = Aggregater.aggregate(locations);
+        GvCanonicalCollection<GvLocation> results = Aggregater.aggregate(locations);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvLocationList.GvLocation> gvCanonical = results.getItem(i);
-            GvLocationList.GvLocation canonical = gvCanonical.getCanonical();
+            GvCanonical<GvLocation> gvCanonical = results.getItem(i);
+            GvLocation canonical = gvCanonical.getCanonical();
             GvLocationList values = (GvLocationList) gvCanonical.toList();
-            GvLocationList.GvLocation reference = references[i];
+            GvLocation reference = references[i];
             assertEquals(reference.getLatLng().latitude, canonical.getLatLng().latitude, 0.0000001);
             assertEquals(reference.getLatLng().longitude, canonical.getLatLng().longitude,
                     0.0000001);
             assertEquals(reference.getName(), canonical.getName());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvLocationList.GvLocation value = values.getItem(j);
+                GvLocation value = values.getItem(j);
                 assertEquals(reference.getName(), value.getName());
                 float[] res = new float[1];
                 LatLng llr = reference.getLatLng();
@@ -481,12 +490,12 @@ public class AggregaterTest extends TestCase {
     @SmallTest
     public void testAggregateChildreview() {
         String subject = RandomString.nextWord();
-        GvCriterionList.GvCriterion review1 =
-                new GvCriterionList.GvCriterion(subject, RandomRating.nextRating());
-        GvCriterionList.GvCriterion review2 =
-                new GvCriterionList.GvCriterion(subject, RandomRating.nextRating());
-        GvCriterionList.GvCriterion review3 = GvDataMocker.newChild(null);
-        GvCriterionList.GvCriterion review4 = GvDataMocker.newChild(null);
+        GvCriterion review1 =
+                new GvCriterion(subject, RandomRating.nextRating());
+        GvCriterion review2 =
+                new GvCriterion(subject, RandomRating.nextRating());
+        GvCriterion review3 = GvDataMocker.newChild(null);
+        GvCriterion review4 = GvDataMocker.newChild(null);
 
         int num1 = randNum();
         int num2 = randNum();
@@ -509,46 +518,46 @@ public class AggregaterTest extends TestCase {
         float average = 0f;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
+                reviews.add(new GvCriterion(RandomReviewId
                         .nextGvReviewId(), review1.getSubject(), review1.getRating()));
                 average += review1.getRating();
             }
             if (size2++ < num2) {
-                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
+                reviews.add(new GvCriterion(RandomReviewId
                         .nextGvReviewId(), review2.getSubject(), review2.getRating()));
                 average += review2.getRating();
             }
             if (size3++ < num3) {
-                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
+                reviews.add(new GvCriterion(RandomReviewId
                         .nextGvReviewId(), review3.getSubject(), review3.getRating()));
             }
             if (size4++ < num4) {
-                reviews.add(new GvCriterionList.GvCriterion(RandomReviewId
+                reviews.add(new GvCriterion(RandomReviewId
                         .nextGvReviewId(), review4.getSubject(), review4.getRating()));
             }
         }
         average /= num1 + num2;
-        GvCriterionList.GvCriterion canon = new GvCriterionList.GvCriterion(subject,
+        GvCriterion canon = new GvCriterion(subject,
                 average);
-        GvCriterionList.GvCriterion[] references = {canon, review3, review4};
+        GvCriterion[] references = {canon, review3, review4};
 
         assertEquals(total, reviews.size());
 
-        GvCanonicalCollection<GvCriterionList.GvCriterion> results = Aggregater.aggregate
+        GvCanonicalCollection<GvCriterion> results = Aggregater.aggregate
                 (reviews);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvCriterionList.GvCriterion> gvCanonical = results.getItem(i);
-            GvCriterionList.GvCriterion canonical = gvCanonical.getCanonical();
+            GvCanonical<GvCriterion> gvCanonical = results.getItem(i);
+            GvCriterion canonical = gvCanonical.getCanonical();
             GvCriterionList values = (GvCriterionList) gvCanonical.toList();
-            GvCriterionList.GvCriterion reference = references[i];
+            GvCriterion reference = references[i];
             assertEquals(reference.getSubject(), canonical.getSubject());
             assertEquals(reference.getRating(), canonical.getRating(), 0.0001);
             assertEquals(refNums[i], values.size());
             average = 0f;
             for (int j = 0; j < values.size(); ++j) {
-                GvCriterionList.GvCriterion value = values.getItem(j);
+                GvCriterion value = values.getItem(j);
                 assertEquals(reference.getSubject(), value.getSubject());
                 average += value.getRating();
             }
@@ -559,10 +568,10 @@ public class AggregaterTest extends TestCase {
     @SmallTest
     public void testAggregateFact() {
         String label = RandomString.nextWord();
-        GvFactList.GvFact fact1 = new GvFactList.GvFact(label, RandomString.nextWord());
-        GvFactList.GvFact fact2 = new GvFactList.GvFact(label, RandomString.nextWord());
-        GvFactList.GvFact fact3 = GvDataMocker.newFact(null);
-        GvFactList.GvFact fact4 = GvDataMocker.newFact(null);
+        GvFact fact1 = new GvFact(label, RandomString.nextWord());
+        GvFact fact2 = new GvFact(label, RandomString.nextWord());
+        GvFact fact3 = GvDataMocker.newFact(null);
+        GvFact fact4 = GvDataMocker.newFact(null);
 
         int num1 = randNum();
         int num2 = randNum();
@@ -584,40 +593,40 @@ public class AggregaterTest extends TestCase {
         int size4 = 0;
         for (int i = 0; i < maxIter; ++i) {
             if (size1++ < num1) {
-                facts.add(new GvFactList.GvFact(RandomReviewId.nextGvReviewId(), fact1.getLabel(),
+                facts.add(new GvFact(RandomReviewId.nextGvReviewId(), fact1.getLabel(),
                         fact1.getValue()));
             }
             if (size2++ < num2) {
-                facts.add(new GvFactList.GvFact(RandomReviewId.nextGvReviewId(), fact2.getLabel(),
+                facts.add(new GvFact(RandomReviewId.nextGvReviewId(), fact2.getLabel(),
                         fact2.getValue()));
             }
             if (size3++ < num3) {
-                facts.add(new GvFactList.GvFact(RandomReviewId.nextGvReviewId(), fact3.getLabel(),
+                facts.add(new GvFact(RandomReviewId.nextGvReviewId(), fact3.getLabel(),
                         fact3.getValue()));
             }
             if (size4++ < num4) {
-                facts.add(new GvFactList.GvFact(RandomReviewId.nextGvReviewId(), fact4.getLabel(),
+                facts.add(new GvFact(RandomReviewId.nextGvReviewId(), fact4.getLabel(),
                         fact4.getValue()));
             }
         }
-        GvFactList.GvFact canon = new GvFactList.GvFact(label, "2 values");
-        GvFactList.GvFact[] references = {canon, fact3, fact4};
+        GvFact canon = new GvFact(label, "2 values");
+        GvFact[] references = {canon, fact3, fact4};
 
         assertEquals(total, facts.size());
 
-        GvCanonicalCollection<GvFactList.GvFact> results = Aggregater.aggregate(facts);
+        GvCanonicalCollection<GvFact> results = Aggregater.aggregate(facts);
         assertEquals(references.length, results.size());
 
         for (int i = 0; i < references.length; ++i) {
-            GvCanonical<GvFactList.GvFact> gvCanonical = results.getItem(i);
-            GvFactList.GvFact canonical = gvCanonical.getCanonical();
+            GvCanonical<GvFact> gvCanonical = results.getItem(i);
+            GvFact canonical = gvCanonical.getCanonical();
             GvFactList values = (GvFactList) gvCanonical.toList();
-            GvFactList.GvFact reference = references[i];
+            GvFact reference = references[i];
             assertEquals(reference.getLabel(), canonical.getLabel());
             assertEquals(reference.getValue(), canonical.getValue());
             assertEquals(refNums[i], values.size());
             for (int j = 0; j < values.size(); ++j) {
-                GvFactList.GvFact value = values.getItem(j);
+                GvFact value = values.getItem(j);
                 assertEquals(reference.getLabel(), value.getLabel());
             }
         }

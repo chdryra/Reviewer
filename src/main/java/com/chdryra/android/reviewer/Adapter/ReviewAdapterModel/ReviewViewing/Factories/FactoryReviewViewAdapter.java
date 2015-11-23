@@ -18,19 +18,19 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
 
 /**
@@ -44,13 +44,13 @@ public class FactoryReviewViewAdapter {
     private FactoryVisitorReviewNode mVisitorFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
-    private ReviewsProvider mProvider;
+    private ReviewsFeed mProvider;
 
     //Constructors
     public FactoryReviewViewAdapter(FactoryReviewsListScreen listScreenFactory,
                                     FactoryVisitorReviewNode visitorFactory,
                                     GvDataAggregater aggregater,
-                                    ReviewsProvider provider,
+                                    ReviewsFeed provider,
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);
         mListScreenFactory = listScreenFactory;
@@ -78,8 +78,8 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(meta.getTreeRepresentation());
     }
 
-    public ReviewViewAdapter<GvReviewOverviewList.GvReviewOverview> newChildListAdapter(ReviewNode node) {
-        GridDataViewer<GvReviewOverviewList.GvReviewOverview> viewer;
+    public ReviewViewAdapter<GvReviewOverview> newChildListAdapter(ReviewNode node) {
+        GridDataViewer<GvReviewOverview> viewer;
         viewer = new ViewerChildList(node, mConverter.getConverterReviews(), this);
         return  newAdapterReviewNode(node, viewer);
     }
@@ -104,17 +104,17 @@ public class FactoryReviewViewAdapter {
     (GvCanonicalCollection<T> data, String subject) {
         GvDataType<T> type = data.getGvDataType();
 
-        if (type.equals(GvCommentList.GvComment.TYPE)) {
+        if (type.equals(GvComment.TYPE)) {
             ReviewNode node = mProvider.createMetaReview(data, subject).getTreeRepresentation();
             //TODO make type safe
             return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
-                    (GvCanonicalCollection<GvCommentList.GvComment>) data, mViewerFactory,
+                    (GvCanonicalCollection<GvComment>) data, mViewerFactory,
                     mAggregater);
         }
 
         GridDataViewer<GvCanonical> viewer;
-        boolean aggregateToData = type.equals(GvCriterionList.GvCriterion.TYPE) ||
-                type.equals(GvFactList.GvFact.TYPE) || type.equals(GvImageList.GvImage.TYPE);
+        boolean aggregateToData = type.equals(GvCriterion.TYPE) ||
+                type.equals(GvFact.TYPE) || type.equals(GvImage.TYPE);
         if (aggregateToData) {
             viewer = mViewerFactory.newAggregateToDataViewer(data, mAggregater);
         } else {

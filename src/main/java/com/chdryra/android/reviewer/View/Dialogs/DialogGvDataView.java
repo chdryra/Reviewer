@@ -13,10 +13,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 
@@ -75,7 +75,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         mLayout.onActivityAttached(getActivity(), args);
 
         GvDataType dataType = mDatum.getGvDataType();
-        if (dataType.equals(GvImageList.GvImage.TYPE)) {
+        if (dataType.equals(GvImage.TYPE)) {
             setDialogTitle(null);
         } else {
             setDialogTitle(dataType.getDatumName());

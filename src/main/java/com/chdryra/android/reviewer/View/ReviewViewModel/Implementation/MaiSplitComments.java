@@ -7,10 +7,11 @@ import android.widget.Toast;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
         .AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
@@ -40,7 +41,7 @@ public class MaiSplitComments<T extends GvData> implements MenuActionNone.MenuAc
         //Hacky central...
         GvDataList<T> data = view.getGridData();
         GvDataType<T> dataType = data.getGvDataType();
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+        if (dataType.equals(GvComment.TYPE)) {
             GvCommentList comments = (GvCommentList) data;
             if (mCommentsAreSplit) {
                 view.setGridViewData((GvDataList<T>) comments.getSplitComments());

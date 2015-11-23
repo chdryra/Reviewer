@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
  * For building reviews. Collects appropriate data and builds a {@link com.chdryra.android
  * .reviewer.Model.Review} object
  */
-public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewViewAdapter<GC> {
+public interface ReviewBuilderAdapter<GC extends GvDataListImpl<?>> extends ReviewViewAdapter<GC> {
     ReviewBuilder getBuilder();
 
     void setSubject(String subject);
@@ -62,7 +62,7 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewVi
     GvImageList getCovers();
 
     @Override
-    GvDataList<GC> getGridData();
+    GvDataListImpl<GC> getGridData();
 
     @Override
     boolean isExpandable(GC datum);

@@ -13,11 +13,13 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataTypesList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
+public class ReviewBuilderAdapterImpl<GC extends GvDataListImpl<?>>
         extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
     private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;
@@ -42,7 +44,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
     private final FactoryImageChooser mImageChooserFactory;
     private final ReviewBuilder mBuilder;
     private final DataValidator mDataValidator;
-    private GvTagList.GvTag mSubjectTag;
+    private GvTag mSubjectTag;
 
     //Constructors
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
@@ -86,7 +88,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
 
     @Override
     public boolean hasTags() {
-        return mBuilder.getData(GvTagList.GvTag.TYPE).size() > 0;
+        return mBuilder.getData(GvTag.TYPE).size() > 0;
     }
 
     @Override
@@ -104,12 +106,12 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType, this);
     }
 
-    private GvTagList.GvTag adjustTagsIfNecessary(GvTagList.GvTag toRemove, String toAdd) {
+    private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
         String camel = TextUtils.toCamelCase(toAdd);
-        GvTagList.GvTag newTag = new GvTagList.GvTag(camel);
+        GvTag newTag = new GvTag(camel);
         if (newTag.equals(toRemove)) return toRemove;
 
-        DataBuilderAdapter<GvTagList.GvTag> tagBuilder = getDataBuilderAdapter(GvTagList.GvTag
+        DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag
                 .TYPE);
         GvTagList tags = (GvTagList) tagBuilder.getGridData();
         boolean added = mDataValidator.validateString(camel) && !tags.contains(newTag)
@@ -138,7 +140,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
     }
 
     @Override
-    public GvDataList<GC> getGridData() {
+    public GvDataListImpl<GC> getGridData() {
         return mGridUi.getGridWrapper();
     }
 
@@ -154,7 +156,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
 
     @Override
     public GvImageList getCovers() {
-        return ((GvImageList) mBuilder.getData(GvImageList.GvImage.TYPE)).getCovers();
+        return ((GvImageList) mBuilder.getData(GvImage.TYPE)).getCovers();
     }
 
     private class DataBuildersMap {

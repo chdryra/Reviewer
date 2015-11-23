@@ -43,19 +43,21 @@ import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.ReviewsSource;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreen;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemFeedScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemAuthorsScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
@@ -96,18 +98,17 @@ public class ActivityFeedTest extends
     public void testFeed() {
         GvReviewOverviewList list = (GvReviewOverviewList) mAdapter.getGridData();
         assertEquals(NUM, getGridSize());
-        GvReviewOverviewList.GvReviewOverview oldReview = (GvReviewOverviewList.GvReviewOverview)
+        GvReviewOverview oldReview = (GvReviewOverview)
                 getGridItem(0);
         for (int i = 0; i < NUM; ++i) {
-            GvReviewOverviewList.GvReviewOverview review = (GvReviewOverviewList
-                    .GvReviewOverview) getGridItem(i);
+            GvReviewOverview review = (GvReviewOverview) getGridItem(i);
             int j = list.size() - i - 1;
             assertEquals(list.getItem(j).getSubject(), review.getSubject());
             assertEquals(list.getItem(j).getRating(), review.getRating());
             assertNotNull(review.getPublishDate());
             if (i > 0) {
-                GvDateList.GvDate oldDate = oldReview.getPublishDate();
-                GvDateList.GvDate newDate = review.getPublishDate();
+                GvDate oldDate = oldReview.getPublishDate();
+                GvDate newDate = review.getPublishDate();
                 assertTrue(oldDate.getTime() > newDate.getTime());
             }
             oldReview = review;
@@ -163,9 +164,9 @@ public class ActivityFeedTest extends
         BuilderChildListView builder = new BuilderChildListView();
         FactoryGridDataViewer viewerFactory = new FactoryGridDataViewer();
         GvDataAggregater aggregator = new GvDataAggregater();
-        ReviewsProvider feed = createFeed(converterGv, tagsManager, reviewFactory);
+        ReviewsFeed feed = createFeed(converterGv, tagsManager, reviewFactory);
         FactoryReviewViewAdapter adapterFactory = new FactoryReviewViewAdapter(builder, viewerFactory, aggregator, feed, converterGv);
-        FeedScreen screen = new FeedScreen(new GridItemFeedScreen());
+        FeedScreen screen = new FeedScreen(new GridItemAuthorsScreen());
         ReviewView feedScreen = screen.createView(feed, publishDate, reviewFactory, converterGv, builder, adapterFactory, new FeedScreenMenu());
         mAdapter = feedScreen.getAdapter();
 
@@ -178,7 +179,7 @@ public class ActivityFeedTest extends
         SoloUtils.pretouchScreen(mActivity, mSolo);
     }
 
-    private ReviewsProvider createFeed(ConverterGv converterGv, TagsManager tagsManager, FactoryReviews reviewFactory) {
+    private ReviewsFeed createFeed(ConverterGv converterGv, TagsManager tagsManager, FactoryReviews reviewFactory) {
         Author author = RandomAuthor.nextAuthor();
         MdIdableCollection<Review> reviews = new MdIdableCollection<>();
         FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(converterGv);
@@ -196,8 +197,8 @@ public class ActivityFeedTest extends
             adapter.setSubject(RandomString.nextWord());
             adapter.setRating(RandomRating.nextRating());
 
-            DataBuilderAdapter<GvTagList.GvTag> dataBuilderAdapter =
-                    adapter.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
+            DataBuilderAdapter<GvTag> dataBuilderAdapter =
+                    adapter.getDataBuilderAdapter(GvTag.TYPE);
             GvTagList tags = GvDataMocker.newTagList(NUM, false);
             for (int j = 0; j < tags.size(); ++j) {
                 dataBuilderAdapter.add(tags.getItem(j));

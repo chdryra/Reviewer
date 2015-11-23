@@ -44,8 +44,9 @@ public class LauncherUiImpl implements LauncherUi {
         mArgs = args;
     }
 
-    public static Bundle getArgsForActivity(Activity launchableUI) {
-        return launchableUI.getIntent().getBundleExtra(LAUNCHER_ARGS);
+    @Override
+    public Bundle getArguments() {
+        return mArgs;
     }
 
     @Override

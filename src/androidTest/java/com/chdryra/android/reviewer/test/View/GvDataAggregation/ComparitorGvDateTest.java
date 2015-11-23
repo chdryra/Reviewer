@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvDate;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceDate;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
 
 import junit.framework.TestCase;
 
@@ -44,8 +44,8 @@ public class ComparitorGvDateTest extends TestCase {
 
         ComparitorGvDate comparitor = new ComparitorGvDate();
 
-        GvDateList.GvDate lhs = new GvDateList.GvDate(cal1.getTime());
-        GvDateList.GvDate rhs = new GvDateList.GvDate(cal1.getTime());
+        GvDate lhs = new GvDate(cal1.getTime());
+        GvDate rhs = new GvDate(cal1.getTime());
         DifferenceDate difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(day));
         assertTrue(difference.lessThanOrEqualTo(month));
@@ -57,7 +57,7 @@ public class ComparitorGvDateTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(year));
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvDateList.GvDate(cal2.getTime());
+        rhs = new GvDate(cal2.getTime());
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(day));
         assertTrue(difference.lessThanOrEqualTo(month));
@@ -69,7 +69,7 @@ public class ComparitorGvDateTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(year));
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvDateList.GvDate(cal3.getTime());
+        rhs = new GvDate(cal3.getTime());
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(day));
         assertTrue(difference.lessThanOrEqualTo(month));
@@ -81,7 +81,7 @@ public class ComparitorGvDateTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(year));
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvDateList.GvDate(cal4.getTime());
+        rhs = new GvDate(cal4.getTime());
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(day));
         assertFalse(difference.lessThanOrEqualTo(month));
@@ -93,7 +93,7 @@ public class ComparitorGvDateTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(year));
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvDateList.GvDate(cal5.getTime());
+        rhs = new GvDate(cal5.getTime());
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(day));
         assertFalse(difference.lessThanOrEqualTo(month));

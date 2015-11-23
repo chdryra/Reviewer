@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCommentMode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvCommentList.GvComment> {
+public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvComment> {
     private static final String COMMENT1 = RandomString.nextSentence();
     private static final String COMMENT2 = RandomString.nextSentence();
     private static final String COMMENT3 = RandomString.nextSentence();
@@ -26,23 +26,23 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvCommentList.
 
 //protected methods
     @Override
-    protected GvCommentList.GvComment getTestDatum() {
-        return new GvCommentList.GvComment(COMMENT1);
+    protected GvComment getTestDatum() {
+        return new GvComment(COMMENT1);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvCommentList.GvComment> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvComment> getCanonicalMaker() {
         return new CanonicalCommentMode();
     }
 
     private void checkDifferentComments() {
         mData = newDataList();
-        GvCommentList.GvComment comment1 = new GvCommentList.GvComment(COMMENT2);
-        GvCommentList.GvComment comment2 = new GvCommentList.GvComment(COMMENT2);
-        GvCommentList.GvComment comment3 = new GvCommentList.GvComment(COMMENT3);
-        GvCommentList.GvComment comment4 = new GvCommentList.GvComment(COMMENT2);
-        GvCommentList.GvComment comment5 = new GvCommentList.GvComment(COMMENT2);
-        GvCommentList.GvComment comment6 = new GvCommentList.GvComment(COMMENT4);
+        GvComment comment1 = new GvComment(COMMENT2);
+        GvComment comment2 = new GvComment(COMMENT2);
+        GvComment comment3 = new GvComment(COMMENT3);
+        GvComment comment4 = new GvComment(COMMENT2);
+        GvComment comment5 = new GvComment(COMMENT2);
+        GvComment comment6 = new GvComment(COMMENT4);
         mData.add(comment1);
         mData.add(comment2);
         mData.add(comment3);
@@ -50,7 +50,7 @@ public class CanonicalCommentModeTest extends CanonicalGvDataTest<GvCommentList.
         mData.add(comment5);
         mData.add(comment6);
 
-        GvCommentList.GvComment canon = mCanonical.getCanonical(mData);
+        GvComment canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(COMMENT2 + " + 2", canon.getComment());
     }

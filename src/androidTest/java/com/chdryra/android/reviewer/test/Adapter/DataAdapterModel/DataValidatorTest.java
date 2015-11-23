@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageLi
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
@@ -62,14 +62,14 @@ public class DataValidatorTest extends TestCase {
     @SmallTest
     public void testValidateComment() {
         String comment = RandomString.nextSentence();
-        GvCommentList.GvComment invalid = new GvCommentList.GvComment("");
-        GvCommentList.GvComment valid = new GvCommentList.GvComment(comment);
+        GvComment invalid = new GvComment("");
+        GvComment valid = new GvComment(comment);
 
-        assertFalse(DataValidator.validate(new GvCommentList.GvComment()));
+        assertFalse(DataValidator.validate(new GvComment()));
         assertFalse(DataValidator.validate(invalid));
-        assertFalse(DataValidator.validate(new GvCommentList.GvComment(invalid)));
+        assertFalse(DataValidator.validate(new GvComment(invalid)));
         assertTrue(DataValidator.validate(valid));
-        assertTrue(DataValidator.validate(new GvCommentList.GvComment(valid)));
+        assertTrue(DataValidator.validate(new GvComment(valid)));
         assertTrue(DataValidator.validate(GvDataMocker.newComment(null)));
 
         MdReviewId r = ReviewMocker.newReview().getMdReviewId();
@@ -87,13 +87,13 @@ public class DataValidatorTest extends TestCase {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
 
-        assertFalse(DataValidator.validate(new GvFactList.GvFact()));
-        assertFalse(DataValidator.validate(new GvFactList.GvFact("", null)));
-        assertFalse(DataValidator.validate(new GvFactList.GvFact(null, "")));
-        assertFalse(DataValidator.validate(new GvFactList.GvFact("", "")));
-        assertFalse(DataValidator.validate(new GvFactList.GvFact("", value)));
-        assertFalse(DataValidator.validate(new GvFactList.GvFact(label, "")));
-        assertTrue(DataValidator.validate(new GvFactList.GvFact(label, value)));
+        assertFalse(DataValidator.validate(new GvFact()));
+        assertFalse(DataValidator.validate(new GvFact("", null)));
+        assertFalse(DataValidator.validate(new GvFact(null, "")));
+        assertFalse(DataValidator.validate(new GvFact("", "")));
+        assertFalse(DataValidator.validate(new GvFact("", value)));
+        assertFalse(DataValidator.validate(new GvFact(label, "")));
+        assertTrue(DataValidator.validate(new GvFact(label, value)));
         assertTrue(DataValidator.validate(GvDataMocker.newFact(null)));
 
         assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, null, null)));
@@ -113,42 +113,42 @@ public class DataValidatorTest extends TestCase {
         String caption = RandomString.nextSentence();
         LatLng latLng = RandomLatLng.nextLatLng();
 
-        assertFalse(DataValidator.validate(new GvImageList.GvImage()));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, null, true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, null, false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, latLng, null,
+        assertFalse(DataValidator.validate(new GvImage()));
+        assertFalse(DataValidator.validate(new GvImage(null, date, null, null, true)));
+        assertFalse(DataValidator.validate(new GvImage(null, date, null, null, false)));
+        assertFalse(DataValidator.validate(new GvImage(null, null, latLng, null,
                 true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, null, latLng, null,
+        assertFalse(DataValidator.validate(new GvImage(null, null, latLng, null,
                 false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, caption,
+        assertFalse(DataValidator.validate(new GvImage(null, date, null, caption,
                 true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, null, caption,
+        assertFalse(DataValidator.validate(new GvImage(null, date, null, caption,
                 false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, null,
+        assertFalse(DataValidator.validate(new GvImage(null, date, latLng, null,
                 true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, null,
+        assertFalse(DataValidator.validate(new GvImage(null, date, latLng, null,
                 false)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, caption,
+        assertFalse(DataValidator.validate(new GvImage(null, date, latLng, caption,
                 true)));
-        assertFalse(DataValidator.validate(new GvImageList.GvImage(null, date, latLng, caption,
+        assertFalse(DataValidator.validate(new GvImage(null, date, latLng, caption,
                 false)));
 
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, null, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, null, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, null, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, null, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, latLng, null, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, latLng, null, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, caption, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, null, null, caption, false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, caption, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, null, caption,
+        assertTrue(DataValidator.validate(new GvImage(b, null, null, null, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, null, null, null, false)));
+        assertTrue(DataValidator.validate(new GvImage(b, date, null, null, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, date, null, null, false)));
+        assertTrue(DataValidator.validate(new GvImage(b, null, latLng, null, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, null, latLng, null, false)));
+        assertTrue(DataValidator.validate(new GvImage(b, null, null, caption, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, null, null, caption, false)));
+        assertTrue(DataValidator.validate(new GvImage(b, date, null, caption, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, date, null, caption,
                 false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, null, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, null,
+        assertTrue(DataValidator.validate(new GvImage(b, date, latLng, null, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, date, latLng, null,
                 false)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, caption, true)));
-        assertTrue(DataValidator.validate(new GvImageList.GvImage(b, date, latLng, caption,
+        assertTrue(DataValidator.validate(new GvImage(b, date, latLng, caption, true)));
+        assertTrue(DataValidator.validate(new GvImage(b, date, latLng, caption,
                 false)));
         assertTrue(DataValidator.validate(GvDataMocker.newImage(null)));
 
@@ -187,11 +187,11 @@ public class DataValidatorTest extends TestCase {
         LatLng latLng = RandomLatLng.nextLatLng();
         String name = RandomString.nextWord();
 
-        assertFalse(DataValidator.validate(new GvLocationList.GvLocation()));
-        assertFalse(DataValidator.validate(new GvLocationList.GvLocation(latLng, null)));
-        assertFalse(DataValidator.validate(new GvLocationList.GvLocation(null, "")));
-        assertFalse(DataValidator.validate(new GvLocationList.GvLocation(latLng, "")));
-        assertTrue(DataValidator.validate(new GvLocationList.GvLocation(latLng, name)));
+        assertFalse(DataValidator.validate(new GvLocation()));
+        assertFalse(DataValidator.validate(new GvLocation(latLng, null)));
+        assertFalse(DataValidator.validate(new GvLocation(null, "")));
+        assertFalse(DataValidator.validate(new GvLocation(latLng, "")));
+        assertTrue(DataValidator.validate(new GvLocation(latLng, name)));
         assertTrue(DataValidator.validate(GvDataMocker.newLocation(null)));
 
         assertFalse(DataValidator.validate(new MdLocationList.MdLocation(mR, null, null)));
@@ -205,12 +205,12 @@ public class DataValidatorTest extends TestCase {
     @SmallTest
     public void testValidateUrl() {
 
-        GvUrlList.GvUrl gvUrl = null;
+        GvUrl gvUrl = null;
         while (gvUrl == null) gvUrl = GvDataMocker.newUrl(null);
 
         URL url = gvUrl.getUrl();
-        assertFalse(DataValidator.validate(new GvUrlList.GvUrl()));
-        assertTrue(DataValidator.validate(new GvUrlList.GvUrl(RandomString.nextWord(), url)));
+        assertFalse(DataValidator.validate(new GvUrl()));
+        assertTrue(DataValidator.validate(new GvUrl(RandomString.nextWord(), url)));
         assertTrue(DataValidator.validate(GvDataMocker.newUrl(null)));
 
         MdReviewId r = ReviewMocker.newReview().getMdReviewId();

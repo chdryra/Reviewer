@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataSorting.TagComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
@@ -13,7 +13,7 @@ import java.util.Comparator;
  * On: 06/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TagComparatorsTest extends ComparatorCollectionTest<GvTagList.GvTag> {
+public class TagComparatorsTest extends ComparatorCollectionTest<GvTag> {
 
     //Constructors
     public TagComparatorsTest() {
@@ -22,14 +22,14 @@ public class TagComparatorsTest extends ComparatorCollectionTest<GvTagList.GvTag
 
     @SmallTest
     public void testDefaultComparator() {
-        Comparator<GvTagList.GvTag> comparator = mComparators.getDefault();
-        GvTagList.GvTag A = new GvTagList.GvTag("A");
-        GvTagList.GvTag A2 = new GvTagList.GvTag("A");
-        GvTagList.GvTag a = new GvTagList.GvTag("a");
-        GvTagList.GvTag B = new GvTagList.GvTag("B");
-        GvTagList.GvTag C = new GvTagList.GvTag("C");
+        Comparator<GvTag> comparator = mComparators.getDefault();
+        GvTag A = new GvTag("A");
+        GvTag A2 = new GvTag("A");
+        GvTag a = new GvTag("a");
+        GvTag B = new GvTag("B");
+        GvTag C = new GvTag("C");
 
-        ComparatorTester<GvTagList.GvTag> tester = new ComparatorTester<>(comparator);
+        ComparatorTester<GvTag> tester = new ComparatorTester<>(comparator);
         tester.testEquals(A, A);
         tester.testEquals(A, A2);
         tester.testEquals(A, a);

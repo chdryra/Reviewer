@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
 import com.chdryra.android.reviewer.View.GvDataSorting.AuthorComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
@@ -14,7 +14,7 @@ import java.util.Comparator;
  * On: 05/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorComparatorsTest extends ComparatorCollectionTest<GvAuthorList.GvAuthor> {
+public class AuthorComparatorsTest extends ComparatorCollectionTest<GvAuthor> {
     //Constructors
     public AuthorComparatorsTest() {
         super(AuthorComparators.getComparators());
@@ -22,14 +22,14 @@ public class AuthorComparatorsTest extends ComparatorCollectionTest<GvAuthorList
 
     @SmallTest
     public void testDefaultComparator() {
-        Comparator<GvAuthorList.GvAuthor> comparator = mComparators.getDefault();
-        GvAuthorList.GvAuthor A = new GvAuthorList.GvAuthor("A", UserId.generateId().toString());
-        GvAuthorList.GvAuthor A2 = new GvAuthorList.GvAuthor("A", UserId.generateId().toString());
-        GvAuthorList.GvAuthor a = new GvAuthorList.GvAuthor("a", UserId.generateId().toString());
-        GvAuthorList.GvAuthor B = new GvAuthorList.GvAuthor("B", UserId.generateId().toString());
-        GvAuthorList.GvAuthor C = new GvAuthorList.GvAuthor("C", UserId.generateId().toString());
+        Comparator<GvAuthor> comparator = mComparators.getDefault();
+        GvAuthor A = new GvAuthor("A", UserId.generateId().toString());
+        GvAuthor A2 = new GvAuthor("A", UserId.generateId().toString());
+        GvAuthor a = new GvAuthor("a", UserId.generateId().toString());
+        GvAuthor B = new GvAuthor("B", UserId.generateId().toString());
+        GvAuthor C = new GvAuthor("C", UserId.generateId().toString());
 
-        ComparatorTester<GvAuthorList.GvAuthor> tester = new ComparatorTester<>(comparator);
+        ComparatorTester<GvAuthor> tester = new ComparatorTester<>(comparator);
         tester.testEquals(A, A);
         tester.testEquals(A, A2);
         tester.testEquals(A, a);

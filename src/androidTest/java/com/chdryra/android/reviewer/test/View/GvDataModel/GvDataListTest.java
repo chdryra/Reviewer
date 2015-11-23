@@ -10,9 +10,10 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -32,7 +33,7 @@ public class GvDataListTest extends TestCase {
     private static final int NUM = 10;
     private static final Random RAND = new Random();
 
-    private GvDataList<GvCommentList.GvComment> mList;
+    private GvDataListImpl<GvComment> mList;
 
     @SmallTest
     public void testNoReviewIdConstructor() {
@@ -49,7 +50,7 @@ public class GvDataListTest extends TestCase {
     public void testReviewIdConstructor() {
         GvReviewId id = RandomReviewId.nextGvReviewId();
         mList.addList(newData(id));
-        GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
+        GvDataListImpl<GvComment> idList = new GvDataListImpl<>(id, mList);
 
         testAdd(id, idList);
         testAddIterable(id, idList);
@@ -66,15 +67,15 @@ public class GvDataListTest extends TestCase {
         GvReviewId id = RandomReviewId.nextGvReviewId();
         mList.removeAll();
         mList.addList(newData(id));
-        GvDataList<GvCommentList.GvComment> idList = new GvDataList<>(id, mList);
+        GvDataList<GvComment> idList = new GvDataListImpl<>(id, mList);
         ParcelableTester.testParcelable(idList);
     }
 
-    private void testAdd(GvReviewId id, GvDataList<GvCommentList.GvComment> list) {
+    private void testAdd(GvReviewId id, GvDataListImpl<GvComment> list) {
         int size = list.size();
 
-        ArrayList<GvCommentList.GvComment> current = list.toArrayList();
-        ArrayList<GvCommentList.GvComment> comments = addData(id, list);
+        ArrayList<GvComment> current = list.toArrayList();
+        ArrayList<GvComment> comments = addData(id, list);
 
         assertEquals(size + NUM, list.size());
         for (int i = 0; i < list.size(); ++i) {
@@ -86,11 +87,11 @@ public class GvDataListTest extends TestCase {
         }
     }
 
-    private void testAddIterable(GvReviewId id, GvDataList<GvCommentList.GvComment> list) {
+    private void testAddIterable(GvReviewId id, GvDataListImpl<GvComment> list) {
         int size = list.size();
 
-        ArrayList<GvCommentList.GvComment> current = list.toArrayList();
-        ArrayList<GvCommentList.GvComment> comments = newData(id);
+        ArrayList<GvComment> current = list.toArrayList();
+        ArrayList<GvComment> comments = newData(id);
         list.addList(comments);
 
         assertEquals(size + NUM, list.size());
@@ -103,10 +104,10 @@ public class GvDataListTest extends TestCase {
         }
     }
 
-    private void testRemove(GvDataList<GvCommentList.GvComment> list) {
+    private void testRemove(GvDataListImpl<GvComment> list) {
         int size = list.size();
         int index = RAND.nextInt(size - 1);
-        GvCommentList.GvComment comment = list.getItem(index);
+        GvComment comment = list.getItem(index);
         assertTrue(list.contains(comment));
 
         list.remove(comment);
@@ -115,13 +116,13 @@ public class GvDataListTest extends TestCase {
         assertFalse(list.contains(comment));
     }
 
-    private void testRemoveAll(GvDataList<GvCommentList.GvComment> list) {
+    private void testRemoveAll(GvDataListImpl<GvComment> list) {
         assertTrue(list.size() > 0);
         list.removeAll();
         assertEquals(0, list.size());
     }
 
-    private void testIteratorRemove(GvDataList<GvCommentList.GvComment> list) {
+    private void testIteratorRemove(GvDataList<GvComment> list) {
         Iterator it = list.iterator();
         while (it.hasNext()) {
             it.next();
@@ -130,9 +131,9 @@ public class GvDataListTest extends TestCase {
         assertEquals(0, list.size());
     }
 
-    private ArrayList<GvCommentList.GvComment> addData(GvReviewId id,
-                                                       GvDataList<GvCommentList.GvComment> list) {
-        ArrayList<GvCommentList.GvComment> comments = newData(id);
+    private ArrayList<GvComment> addData(GvReviewId id,
+                                                       GvDataListImpl<GvComment> list) {
+        ArrayList<GvComment> comments = newData(id);
         for (int i = 0; i < NUM; ++i) {
             list.add(comments.get(i));
         }
@@ -140,12 +141,12 @@ public class GvDataListTest extends TestCase {
         return comments;
     }
 
-    private ArrayList<GvCommentList.GvComment> newData(GvReviewId id) {
-        ArrayList<GvCommentList.GvComment> comments = new ArrayList<>();
+    private ArrayList<GvComment> newData(GvReviewId id) {
+        ArrayList<GvComment> comments = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
-            GvCommentList.GvComment comment = id != null ?
-                    new GvCommentList.GvComment(id, RandomString.nextSentence()) :
-                    new GvCommentList.GvComment(RandomString.nextSentence());
+            GvComment comment = id != null ?
+                    new GvComment(id, RandomString.nextSentence()) :
+                    new GvComment(RandomString.nextSentence());
             comments.add(comment);
         }
 
@@ -156,6 +157,6 @@ public class GvDataListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mList = new GvDataList<>(GvCommentList.GvComment.TYPE, null);
+        mList = new GvDataListImpl<>(GvComment.TYPE, null);
     }
 }

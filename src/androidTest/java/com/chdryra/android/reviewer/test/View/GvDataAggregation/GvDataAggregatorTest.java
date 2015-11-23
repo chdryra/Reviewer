@@ -6,9 +6,10 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCommentMode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregator;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
@@ -29,20 +30,20 @@ public class GvDataAggregatorTest extends TestCase {
         DifferencePercentage minDiff = new DifferencePercentage(0.85);
         CanonicalCommentMode canonical = new CanonicalCommentMode();
 
-        GvDataAggregator<GvCommentList.GvComment, DifferencePercentage, DifferencePercentage>
+        GvDataAggregator<GvComment, DifferencePercentage, DifferencePercentage>
                 aggregater = new GvDataAggregator<>(comparitor, minDiff, canonical);
-        GvCanonicalCollection<GvCommentList.GvComment> results = aggregater.aggregate(data);
+        GvCanonicalCollection<GvComment> results = aggregater.aggregate(data);
 
         assertTrue(results.size() > 0);
         int total = 0;
         for (int i = 0; i < results.size(); ++i) {
-            GvCanonical<GvCommentList.GvComment> gvCanonical = results.getItem(i);
+            GvCanonical<GvComment> gvCanonical = results.getItem(i);
             GvCommentList values = (GvCommentList) gvCanonical.toList();
             assertEquals(canonical.getCanonical(values), gvCanonical.getCanonical());
             int numVals = values.size();
             assertTrue(numVals > 0 && numVals < NUM);
             total += numVals;
-            GvCommentList.GvComment reference = values.getItem(0);
+            GvComment reference = values.getItem(0);
             for (int j = 1; j < numVals; ++j) {
                 DifferencePercentage diff = comparitor.compare(reference, values.getItem(j));
                 assertTrue(diff.lessThanOrEqualTo(minDiff));

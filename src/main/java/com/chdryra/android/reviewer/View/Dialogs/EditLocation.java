@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.Dialogs;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 13/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditLocation extends AddEditLayout<GvLocationList.GvLocation> {
+public class EditLocation extends AddEditLayout<GvLocation> {
     public static final int LAYOUT = R.layout.dialog_location_edit;
     public static final int LOCATION = R.id.location_edit_edit_text;
     public static final int[] VIEWS = new int[]{LOCATION};
@@ -28,18 +28,18 @@ public class EditLocation extends AddEditLayout<GvLocationList.GvLocation> {
 
     //Constructors
     public EditLocation(GvDataEditor editor) {
-        super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, LOCATION, editor);
+        super(GvLocation.class, LAYOUT, VIEWS, LOCATION, editor);
     }
 
     //Overridden
     @Override
-    public GvLocationList.GvLocation createGvData() {
-        return new GvLocationList.GvLocation(mLatLng, ((EditText) getView(LOCATION)).getText()
+    public GvLocation createGvData() {
+        return new GvLocation(mLatLng, ((EditText) getView(LOCATION)).getText()
                 .toString().trim());
     }
 
     @Override
-    public void updateLayout(GvLocationList.GvLocation location) {
+    public void updateLayout(GvLocation location) {
         ((EditText) getView(LOCATION)).setText(location.getName());
         mLatLng = location.getLatLng();
     }

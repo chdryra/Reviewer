@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Models.ReviewsModel.Implementation;
 
-import com.chdryra.android.mygenerallibrary.SortableList;
+import com.chdryra.android.mygenerallibrary.SortableListImpl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.MdData;
  *
  * @param <T>: {@link MdData} type in collection.
  */
-public class MdDataList<T extends MdData> extends SortableList<T> implements MdData, IdableList<T> {
+public class MdDataList<T extends MdData> extends SortableListImpl<T> implements MdData, IdableList<T> {
     private final MdReviewId mReviewId;
 
     //Constructors

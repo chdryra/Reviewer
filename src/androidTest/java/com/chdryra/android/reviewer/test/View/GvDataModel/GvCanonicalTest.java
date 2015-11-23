@@ -3,10 +3,13 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -20,21 +23,21 @@ import junit.framework.TestCase;
  */
 public class GvCanonicalTest extends TestCase {
     private static final int NUM = 10;
-    private GvCanonical<GvAuthorList.GvAuthor> mGvCanonical;
-    private GvAuthorList.GvAuthor mCanonical;
-    private GvDataList<GvAuthorList.GvAuthor> mData;
+    private GvCanonical<GvAuthor> mGvCanonical;
+    private GvAuthor mCanonical;
+    private GvDataListImpl<GvAuthor> mData;
 
     @SmallTest
     public void testParcelable() {
-        GvCommentList.GvComment comment = GvDataMocker.newComment(null);
-        GvCommentList.GvComment comment2 = GvDataMocker.newComment(RandomReviewId.nextGvReviewId());
+        GvComment comment = GvDataMocker.newComment(null);
+        GvComment comment2 = GvDataMocker.newComment(RandomReviewId.nextGvReviewId());
         GvCommentList similar = GvDataMocker.newCommentList(NUM, false);
         GvCommentList similar2 = GvDataMocker.newCommentList(NUM, true);
 
-        GvCanonical<GvCommentList.GvComment> canonical1 = new GvCanonical<>(comment, similar);
-        GvCanonical<GvCommentList.GvComment> canonical2 = new GvCanonical<>(comment2, similar);
-        GvCanonical<GvCommentList.GvComment> canonical3 = new GvCanonical<>(comment, similar2);
-        GvCanonical<GvCommentList.GvComment> canonical4 = new GvCanonical<>(comment2, similar2);
+        GvCanonical<GvComment> canonical1 = new GvCanonical<>(comment, similar);
+        GvCanonical<GvComment> canonical2 = new GvCanonical<>(comment2, similar);
+        GvCanonical<GvComment> canonical3 = new GvCanonical<>(comment, similar2);
+        GvCanonical<GvComment> canonical4 = new GvCanonical<>(comment2, similar2);
         ParcelableTester.testParcelable(canonical1);
         ParcelableTester.testParcelable(canonical2);
         ParcelableTester.testParcelable(canonical3);
@@ -43,17 +46,17 @@ public class GvCanonicalTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        GvAuthorList.GvAuthor author1 = GvDataMocker.newAuthor(null);
+        GvAuthor author1 = GvDataMocker.newAuthor(null);
         GvAuthorList data1 = GvDataMocker.newAuthorList(NUM, true);
-        GvAuthorList.GvAuthor author2 = GvDataMocker.newAuthor(null);
+        GvAuthor author2 = GvDataMocker.newAuthor(null);
         GvAuthorList data2 = GvDataMocker.newAuthorList(NUM, true);
 
-        GvCanonical<GvAuthorList.GvAuthor> canonical1 = new GvCanonical<>(author1, data1);
-        GvCanonical<GvAuthorList.GvAuthor> canonical2 = new GvCanonical<>(author2, data2);
-        GvCanonical<GvAuthorList.GvAuthor> canonical1Equals = new GvCanonical<>(author1, data1);
-        GvCanonical<GvAuthorList.GvAuthor> canonical2Equals = new GvCanonical<>(author2, data2);
-        GvCanonical<GvAuthorList.GvAuthor> canonicalNotEquals1 = new GvCanonical<>(author1, data2);
-        GvCanonical<GvAuthorList.GvAuthor> canonicalNotEquals2 = new GvCanonical<>(author2, data1);
+        GvCanonical<GvAuthor> canonical1 = new GvCanonical<>(author1, data1);
+        GvCanonical<GvAuthor> canonical2 = new GvCanonical<>(author2, data2);
+        GvCanonical<GvAuthor> canonical1Equals = new GvCanonical<>(author1, data1);
+        GvCanonical<GvAuthor> canonical2Equals = new GvCanonical<>(author2, data2);
+        GvCanonical<GvAuthor> canonicalNotEquals1 = new GvCanonical<>(author1, data2);
+        GvCanonical<GvAuthor> canonicalNotEquals2 = new GvCanonical<>(author2, data1);
 
         assertTrue(canonical1.equals(canonical1Equals));
         assertFalse(canonical1.equals(canonical2));
@@ -82,8 +85,8 @@ public class GvCanonicalTest extends TestCase {
 
     @SmallTest
     public void testSort() {
-        GvDataList<GvAuthorList.GvAuthor> fromCanonical = mGvCanonical.toList();
-        GvDataList<GvAuthorList.GvAuthor> copy = FactoryGvData.copy(fromCanonical);
+        GvDataList<GvAuthor> fromCanonical = mGvCanonical.toList();
+        GvDataList<GvAuthor> copy = FactoryGvData.copy(fromCanonical);
         assertTrue(fromCanonical.equals(copy));
         copy.sort();
         assertFalse(fromCanonical.equals(copy));
@@ -132,8 +135,8 @@ public class GvCanonicalTest extends TestCase {
     @SmallTest
     public void testIsValidForDisplay() {
         assertTrue(mGvCanonical.isValidForDisplay());
-        GvAuthorList.GvAuthor author = new GvAuthorList.GvAuthor();
-        GvCanonical<GvAuthorList.GvAuthor> canonical = new GvCanonical<>(author, mData);
+        GvAuthor author = new GvAuthor();
+        GvCanonical<GvAuthor> canonical = new GvCanonical<>(author, mData);
         assertFalse(canonical.isValidForDisplay());
     }
 
@@ -141,7 +144,7 @@ public class GvCanonicalTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         mCanonical = GvDataMocker.newAuthor(RandomReviewId.nextGvReviewId());
-        GvDataList<GvAuthorList.GvAuthor> data = null;
+        GvDataList<GvAuthor> data = null;
         do {
             data = GvDataMocker.newAuthorList(NUM, true);
             mData = FactoryGvData.copy(data);

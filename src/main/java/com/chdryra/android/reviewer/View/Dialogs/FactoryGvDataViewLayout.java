@@ -10,14 +10,14 @@ package com.chdryra.android.reviewer.View.Dialogs;
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -41,24 +41,24 @@ public class FactoryGvDataViewLayout {
 
     private FactoryGvDataViewLayout() {
         mMapAdd = new HashMap<>();
-        mMapAdd.put(GvCriterionList.GvCriterion.TYPE, AddEditChildReview.class);
-        mMapAdd.put(GvCommentList.GvComment.TYPE, AddEditComment.class);
-        mMapAdd.put(GvFactList.GvFact.TYPE, AddEditFact.class);
-        mMapAdd.put(GvImageList.GvImage.TYPE, ImageEdit.class);
-        mMapAdd.put(GvTagList.GvTag.TYPE, AddEditTag.class);
-        mMapAdd.put(GvLocationList.GvLocation.TYPE, AddLocation.class);
+        mMapAdd.put(GvCriterion.TYPE, AddEditChildReview.class);
+        mMapAdd.put(GvComment.TYPE, AddEditComment.class);
+        mMapAdd.put(GvFact.TYPE, AddEditFact.class);
+        mMapAdd.put(GvImage.TYPE, ImageEdit.class);
+        mMapAdd.put(GvTag.TYPE, AddEditTag.class);
+        mMapAdd.put(GvLocation.TYPE, AddLocation.class);
 
         mMapEdit = new HashMap<>();
         mMapEdit.putAll(mMapAdd);
-        mMapEdit.put(GvLocationList.GvLocation.TYPE, EditLocation.class);
+        mMapEdit.put(GvLocation.TYPE, EditLocation.class);
 
         mMapView = new HashMap<>();
         mMapView.putAll(mMapEdit);
-        mMapView.put(GvCriterionList.GvCriterion.TYPE, ViewChildReview.class);
-        mMapView.put(GvCommentList.GvComment.TYPE, ViewComment.class);
-        mMapView.put(GvFactList.GvFact.TYPE, ViewFact.class);
-        mMapView.put(GvImageList.GvImage.TYPE, ViewImage.class);
-        mMapView.put(GvTagList.GvTag.TYPE, ViewTag.class);
+        mMapView.put(GvCriterion.TYPE, ViewChildReview.class);
+        mMapView.put(GvComment.TYPE, ViewComment.class);
+        mMapView.put(GvFact.TYPE, ViewFact.class);
+        mMapView.put(GvImage.TYPE, ViewImage.class);
+        mMapView.put(GvTag.TYPE, ViewTag.class);
     }
 
     //Static methods

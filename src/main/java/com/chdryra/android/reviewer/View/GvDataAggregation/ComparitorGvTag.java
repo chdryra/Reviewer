@@ -8,20 +8,20 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvTag extends ComparitorStringable<GvTagList.GvTag> {
+public class ComparitorGvTag extends ComparitorStringable<GvTag> {
     //Constructors
     public ComparitorGvTag() {
-        super(new DataGetter<GvTagList.GvTag, String>() {
+        super(new DataGetter<GvTag, String>() {
             //Overridden
             @Override
-            public String getData(GvTagList.GvTag datum) {
+            public String getData(GvTag datum) {
                 return datum.getString().toLowerCase();
             }
         });

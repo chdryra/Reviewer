@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 import java.util.Comparator;
 
@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageComparators extends ComparatorCollection<GvImageList.GvImage> {
+public class ImageComparators extends ComparatorCollection<GvImage> {
     private static ImageComparators sComparators = new ImageComparators();
 
     private ImageComparators() {
@@ -21,10 +21,10 @@ public class ImageComparators extends ComparatorCollection<GvImageList.GvImage> 
         return sComparators;
     }
 
-    private static class CoverThenMostRecent implements Comparator<GvImageList.GvImage> {
+    private static class CoverThenMostRecent implements Comparator<GvImage> {
         //Overridden
         @Override
-        public int compare(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
+        public int compare(GvImage lhs, GvImage rhs) {
             int comp = 0;
             if (lhs.isCover() && !rhs.isCover()) {
                 comp = -1;

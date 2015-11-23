@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.ReviewDataEditScreenImpl;
@@ -101,8 +101,8 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
 
         GvDataList data = getData(mAdapter);
 
-        if (datum1.getGvDataType().equals(GvCommentList.GvComment.TYPE)) {
-            ((GvCommentList.GvComment) datum1).setIsHeadline(true);
+        if (datum1.getGvDataType().equals(GvComment.TYPE)) {
+            ((GvComment) datum1).setIsHeadline(true);
         }
         assertEquals(3, data.size());
         assertTrue(data.contains(datum1));

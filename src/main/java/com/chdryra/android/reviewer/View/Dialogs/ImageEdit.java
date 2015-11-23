@@ -12,38 +12,38 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageEdit extends AddEditLayout<GvImageList.GvImage> {
+public class ImageEdit extends AddEditLayout<GvImage> {
     public static final int LAYOUT = R.layout.dialog_image_edit;
     public static final int IMAGE = R.id.photo_image_view;
     public static final int CAPTION = R.id.caption_edit_text;
     public static final int[] VIEWS = new int[]{IMAGE, CAPTION};
 
-    private GvImageList.GvImage mCurrent;
+    private GvImage mCurrent;
 
     //Constructors
     public ImageEdit(GvDataEditor editor) {
-        super(GvImageList.GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
+        super(GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
     }
 
     //Overridden
     @Override
-    public GvImageList.GvImage createGvData() {
+    public GvImage createGvData() {
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+        mCurrent = new GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), caption, mCurrent.isCover());
 
         return mCurrent;
     }
 
     @Override
-    public void updateLayout(GvImageList.GvImage image) {
+    public void updateLayout(GvImage image) {
         ImageView imageView = (ImageView) getView(IMAGE);
         EditText imageCaption = (EditText) getView(CAPTION);
 

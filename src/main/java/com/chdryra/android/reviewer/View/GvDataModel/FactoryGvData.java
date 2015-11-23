@@ -8,6 +8,31 @@
 
 package com.chdryra.android.reviewer.View.GvDataModel;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrlList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.lang.reflect.Constructor;
@@ -22,8 +47,8 @@ import java.util.Map;
  */
 public class FactoryGvData {
     private static final String NO_CTOR_ERR = "Constructor not found: ";
-    private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";
+    private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
 
     private final ListsMap mMap = new ListsMap();
@@ -78,21 +103,21 @@ public class FactoryGvData {
 
     //To aid type safety
     private class ListsMap {
-        private Map<GvDataType, Class> mClasses = new HashMap<>();
+        private Map<GvDataType<?>, Class<? extends GvDataList<?>>> mClasses = new HashMap<>();
 
         //Constructors
         public ListsMap() {
-            add(GvTagList.GvTag.TYPE, GvTagList.class);
-            add(GvCriterionList.GvCriterion.TYPE, GvCriterionList.class);
-            add(GvCommentList.GvComment.TYPE, GvCommentList.class);
-            add(GvFactList.GvFact.TYPE, GvFactList.class);
-            add(GvImageList.GvImage.TYPE, GvImageList.class);
-            add(GvLocationList.GvLocation.TYPE, GvLocationList.class);
-            add(GvUrlList.GvUrl.TYPE, GvUrlList.class);
-            add(GvAuthorList.GvAuthor.TYPE, GvAuthorList.class);
-            add(GvDateList.GvDate.TYPE, GvDateList.class);
-            add(GvSubjectList.GvSubject.TYPE, GvSubjectList.class);
-            add(GvReviewOverviewList.GvReviewOverview.TYPE, GvReviewOverviewList.class);
+            add(GvTag.TYPE, GvTagList.class);
+            add(GvCriterion.TYPE, GvCriterionList.class);
+            add(GvComment.TYPE, GvCommentList.class);
+            add(GvFact.TYPE, GvFactList.class);
+            add(GvImage.TYPE, GvImageList.class);
+            add(GvLocation.TYPE, GvLocationList.class);
+            add(GvUrl.TYPE, GvUrlList.class);
+            add(GvAuthor.TYPE, GvAuthorList.class);
+            add(GvDate.TYPE, GvDateList.class);
+            add(GvSubject.TYPE, GvSubjectList.class);
+            add(GvReviewOverview.TYPE, GvReviewOverviewList.class);
         }
 
         private <T1 extends GvData, T2 extends GvDataList<T1>> void add(GvDataType<T1> dataType,
@@ -102,7 +127,7 @@ public class FactoryGvData {
 
         //TODO make type safe but it is really....
         private <T extends GvData> Class<? extends GvDataList<T>> get(GvDataType<T> dataType) {
-            return mClasses.get(dataType);
+            return (Class<? extends GvDataList<T>>) mClasses.get(dataType);
         }
     }
 }

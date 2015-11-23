@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogAddFactTest extends
-        DialogGvDataAddTest<GvFactList.GvFact> {
+        DialogGvDataAddTest<GvFact> {
 
     //Constructors
     public DialogAddFactTest() {

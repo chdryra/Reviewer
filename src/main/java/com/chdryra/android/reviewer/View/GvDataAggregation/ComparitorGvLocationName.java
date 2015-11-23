@@ -8,20 +8,20 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvLocationName extends ComparitorStringable<GvLocationList.GvLocation> {
+public class ComparitorGvLocationName extends ComparitorStringable<GvLocation> {
     //Constructors
     public ComparitorGvLocationName() {
-        super(new DataGetter<GvLocationList.GvLocation, String>() {
+        super(new DataGetter<GvLocation, String>() {
             //Overridden
             @Override
-            public String getData(GvLocationList.GvLocation datum) {
+            public String getData(GvLocation datum) {
                 return datum.getName().toLowerCase();
             }
         });

@@ -3,10 +3,10 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Imp
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
         .DataConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataList<T2>>
+public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataListImpl<T2>>
         implements DataConverter<T1, T2, T3> {
     private static final String NO_CTOR_ERR = "Constructor not found: ";
     private static final String INSTANTIATION_ERR = "Constructor not found: ";

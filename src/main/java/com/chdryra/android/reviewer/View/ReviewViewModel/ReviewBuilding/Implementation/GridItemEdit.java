@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemActi
 public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements
         GridItemAction<T>,
         DialogAlertFragment.DialogAlertListener,
-        DialogGvDataEdit.GvDataEditListener<T>,
+        DialogGvDataEdit.EditListener<T>,
         ActivityResultListener {
 
     private final LaunchableConfig<T> mConfig;
@@ -95,12 +95,12 @@ public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<
     }
 
     @Override
-    public void onGvDataDelete(T data, int requestCode) {
+    public void onDelete(T data, int requestCode) {
         if(requestCode == getLaunchableRequestCode()) deleteData(data);
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
+    public void onEdit(T oldDatum, T newDatum, int requestCode) {
         if(requestCode == getLaunchableRequestCode()) editData(oldDatum, newDatum);
     }
 
@@ -111,9 +111,9 @@ public class GridItemEdit<T extends GvData> extends ReviewDataEditorActionBasic<
             T oldDatum = mDataPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, data);
             if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
                 T newDatum = mDataPacker.unpack(GvDataPacker.CurrentNewDatum.NEW, data);
-                onGvDataEdit(oldDatum, newDatum, requestCode);
+                onEdit(oldDatum, newDatum, requestCode);
             } else if (ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
-                onGvDataDelete(oldDatum, requestCode);
+                onDelete(oldDatum, requestCode);
             }
         }
     }

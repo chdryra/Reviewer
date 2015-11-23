@@ -267,18 +267,18 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
         final GridItemAction action = mReviewView.getActions().getGridItemAction();
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //Overridden
+            @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                GvData item = (GvData) parent.getItemAtPosition(position);
-                action.onGridItemClick(item, position, v);
+                //TODO make type safe
+                action.onGridItemClick((GvData)parent.getItemAtPosition(position), position, v);
             }
         });
 
         mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            //Overridden
+            @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                GvData item = (GvData) parent.getItemAtPosition(position);
-                action.onGridItemLongClick(item, position, v);
+                //TODO make type safe
+                action.onGridItemLongClick((GvData)parent.getItemAtPosition(position), position, v);
                 return true;
             }
         });

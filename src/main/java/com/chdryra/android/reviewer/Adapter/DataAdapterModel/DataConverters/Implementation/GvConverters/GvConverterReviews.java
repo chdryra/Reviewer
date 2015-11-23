@@ -7,13 +7,15 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Inte
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
 
 import java.util.ArrayList;
 
@@ -23,7 +25,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterReviews extends GvConverterBasic<Review,
-        GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> implements GvReviewConverter<GvReviewOverviewList.GvReviewOverview, GvReviewOverviewList> {
+        GvReviewOverview, GvReviewOverviewList> implements GvReviewConverter<GvReviewOverview, GvReviewOverviewList> {
     private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
@@ -44,33 +46,33 @@ public class GvConverterReviews extends GvConverterBasic<Review,
         mGvConverterAuthor = gvConverterAuthor;
     }
 
-    public GvReviewOverviewList.GvReviewOverview convert(Review review, String parentId) {
+    public GvReviewOverview convert(Review review, String parentId) {
         String reviewId = review.getReviewId();
         GvReviewId id = newId(parentId);
         GvImageList images = mConverterImages.convert(review.getImages(), reviewId);
         GvCommentList headlines = mConverterComments.convert(review.getComments(), reviewId).getHeadlines();
         GvLocationList locations = mConverterLocations.convert(review.getLocations(), reviewId);
-        GvAuthorList.GvAuthor author = mGvConverterAuthor.convert(review.getAuthor());
-        GvDateList.GvDate publishDate = mConverterDate.convert(review.getPublishDate());
+        GvAuthor author = mGvConverterAuthor.convert(review.getAuthor());
+        GvDate publishDate = mConverterDate.convert(review.getPublishDate());
 
         Bitmap cover = images.size() > 0 ? images.getRandomCover().getBitmap() : null;
         String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() :
                 null;
 
         ArrayList<String> locationNames = new ArrayList<>();
-        for (GvLocationList.GvLocation location : locations) {
+        for (GvLocation location : locations) {
             locationNames.add(location.getShortenedName());
         }
 
         ArrayList<String> tags = mTagsManager.getTagsArray(review.getReviewId());
 
-        return new GvReviewOverviewList.GvReviewOverview(id, review.getReviewId(),
+        return new GvReviewOverview(id, review.getReviewId(),
                 author, publishDate, review.getSubject().getSubject(),
                 review.getRating().getRating(), cover, headline, locationNames, tags);
     }
 
     @Override
-    public GvReviewOverviewList.GvReviewOverview convert(Review review) {
+    public GvReviewOverview convert(Review review) {
         return convert(review, null);
     }
 

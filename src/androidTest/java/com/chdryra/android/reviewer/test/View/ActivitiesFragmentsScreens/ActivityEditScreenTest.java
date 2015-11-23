@@ -26,10 +26,11 @@ import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.ReviewDataEditScreenImpl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -80,7 +81,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     public void testSubjectRatingChange() {
         setUp(false);
 
-        GvCriterionList.GvCriterion child = editSubjectRating();
+        GvCriterion child = editSubjectRating();
 
         mSolo.sleep(500);
 
@@ -253,8 +254,8 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         assertEquals(nearestHalf, fragment.getRating());
     }
 
-    protected GvCriterionList.GvCriterion editSubjectRating() {
-        GvCriterionList.GvCriterion child = GvDataMocker.newChild(null);
+    protected GvCriterion editSubjectRating() {
+        GvCriterion child = GvDataMocker.newChild(null);
         editSubject(child.getSubject());
         editRating(child.getRating());
         return child;
@@ -277,7 +278,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         setUp(true);
 
         //TODO make type safe
-        GvDataList<T> data = MdGvConverter.copy(getBuilder().getGridData());
+        GvDataListImpl<T> data = MdGvConverter.copy(getBuilder().getGridData());
         assertNotNull(data);
         T currentDatum = getGridItem(0);
         T newDatum = newEditDatum(currentDatum);
@@ -309,7 +310,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         return (T)GvDataMocker.getDatum(mDataType);
     }
 
-    protected GvDataList<T> newData() {
+    protected GvDataListImpl<T> newData() {
         //TODO make type safe
         return GvDataMocker.getData(mDataType, NUM_DATA);
     }
@@ -522,7 +523,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
     private void testBannerButtonAdd(boolean confirm) {
         setUp(false);
 
-        final GvDataList<T> data = newData();
+        final GvDataListImpl<T> data = newData();
         checkInBuilders(data, false);
         checkInGrid(data, false);
 

@@ -14,12 +14,12 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdFactLis
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrlList;
 
 import junit.framework.Assert;
 

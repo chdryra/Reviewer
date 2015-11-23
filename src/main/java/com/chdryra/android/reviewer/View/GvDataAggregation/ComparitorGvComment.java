@@ -8,20 +8,20 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvComment extends ComparitorStringable<GvCommentList.GvComment> {
+public class ComparitorGvComment extends ComparitorStringable<GvComment> {
     //Constructors
     public ComparitorGvComment() {
-        super(new DataGetter<GvCommentList.GvComment, String>() {
+        super(new DataGetter<GvComment, String>() {
             //Overridden
             @Override
-            public String getData(GvCommentList.GvComment datum) {
+            public String getData(GvComment datum) {
                 return datum.getComment().toLowerCase();
             }
         });

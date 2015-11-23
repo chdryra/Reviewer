@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
@@ -42,7 +42,7 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
 
     void setRating(float rating, boolean fromUser);
 
-    GvImageList.GvImage getCover();
+    GvImage getCover();
 
     @Override
     ReviewViewAdapter<T> getAdapter();

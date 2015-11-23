@@ -9,14 +9,14 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 07/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditTagTest extends DialogGvDataEditTest<GvTagList.GvTag> {
+public class DialogEditTagTest extends DialogGvDataEditTest<GvTag> {
 
     //Constructors
     public DialogEditTagTest() {
@@ -25,7 +25,7 @@ public class DialogEditTagTest extends DialogGvDataEditTest<GvTagList.GvTag> {
 
     //protected methods
     @Override
-    protected GvTagList.GvTag getDataShown() {
-        return new GvTagList.GvTag(mSolo.getEditText(0).getText().toString());
+    protected GvTag getDataShown() {
+        return new GvTag(mSolo.getEditText(0).getText().toString());
     }
 }

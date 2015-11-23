@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
 
 import java.util.Date;
 
@@ -19,18 +19,18 @@ import java.util.Date;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalDate implements CanonicalDatumMaker<GvDateList.GvDate> {
+public class CanonicalDate implements CanonicalDatumMaker<GvDate> {
     //Overridden
     @Override
-    public GvDateList.GvDate getCanonical(GvDataList<GvDateList.GvDate> data) {
+    public GvDate getCanonical(GvDataList<GvDate> data) {
         GvReviewId id = new GvReviewId(data.getReviewId());
-        if (data.size() == 0) return new GvDateList.GvDate(id, 0);
+        if (data.size() == 0) return new GvDate(id, 0);
 
-        DatumCounter<GvDateList.GvDate, Date> counter = new DatumCounter<>(data,
-                new DataGetter<GvDateList.GvDate, Date>() {
+        DatumCounter<GvDate, Date> counter = new DatumCounter<>(data,
+                new DataGetter<GvDate, Date>() {
                     //Overridden
                     @Override
-                    public Date getData(GvDateList.GvDate datum) {
+                    public Date getData(GvDate datum) {
                         return new Date(datum.getTime());
                     }
                 });
@@ -38,12 +38,12 @@ public class CanonicalDate implements CanonicalDatumMaker<GvDateList.GvDate> {
         Date canon = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) {
-            for (GvDateList.GvDate date : data) {
+            for (GvDate date : data) {
                 Date candidate = new Date(date.getTime());
                 if (candidate.after(canon)) canon = candidate;
             }
         }
 
-        return new GvDateList.GvDate(id, canon.getTime());
+        return new GvDate(id, canon.getTime());
     }
 }

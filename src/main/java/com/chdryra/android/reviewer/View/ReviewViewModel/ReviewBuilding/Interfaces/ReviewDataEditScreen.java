@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ActivityResu
 public interface ReviewDataEditScreen<T extends GvData> extends
         DialogAlertFragment.DialogAlertListener,
         DialogGvDataAdd.GvDataAddListener<T>,
-        DialogGvDataEdit.GvDataEditListener<T>,
+        DialogGvDataEdit.EditListener<T>,
         ActivityResultListener {
 
     ReviewDataEditor<T> getEditor();
@@ -41,8 +41,8 @@ public interface ReviewDataEditScreen<T extends GvData> extends
     void onGvDataDone(int requestCode);
 
     @Override
-    void onGvDataDelete(T data, int requestCode);
+    void onDelete(T data, int requestCode);
 
     @Override
-    void onGvDataEdit(T oldDatum, T newDatum, int requestCode);
+    void onEdit(T oldDatum, T newDatum, int requestCode);
 }

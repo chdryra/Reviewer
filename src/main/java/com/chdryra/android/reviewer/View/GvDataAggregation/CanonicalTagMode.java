@@ -8,25 +8,25 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalTagMode implements CanonicalDatumMaker<GvTagList.GvTag> {
+public class CanonicalTagMode implements CanonicalDatumMaker<GvTag> {
     //Overridden
     @Override
-    public GvTagList.GvTag getCanonical(GvDataList<GvTagList.GvTag> data) {
-        if (data.size() == 0) return new GvTagList.GvTag(data.getGvReviewId(), "");
+    public GvTag getCanonical(GvDataList<GvTag> data) {
+        if (data.size() == 0) return new GvTag(data.getGvReviewId(), "");
 
-        DatumCounter<GvTagList.GvTag, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvTagList.GvTag, String>() {
+        DatumCounter<GvTag, String> counter = new DatumCounter<>(data,
+                new DataGetter<GvTag, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvTagList.GvTag datum) {
+                    public String getData(GvTag datum) {
                         return datum.getString();
                     }
                 });
@@ -34,6 +34,6 @@ public class CanonicalTagMode implements CanonicalDatumMaker<GvTagList.GvTag> {
         String maxTag = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxTag += " + " + String.valueOf(nonMax);
-        return new GvTagList.GvTag(data.getGvReviewId(), maxTag);
+        return new GvTag(data.getGvReviewId(), maxTag);
     }
 }

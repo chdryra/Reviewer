@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataSorting.ImageComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 import com.chdryra.android.testutils.BitmapMocker;
@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
  * On: 06/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageComparatorTest extends ComparatorCollectionTest<GvImageList.GvImage> {
+public class ImageComparatorTest extends ComparatorCollectionTest<GvImage> {
     //Constructors
     public ImageComparatorTest() {
         super(ImageComparators.getComparators());
@@ -28,7 +28,7 @@ public class ImageComparatorTest extends ComparatorCollectionTest<GvImageList.Gv
 
     @SmallTest
     public void testDefaultComparators() {
-        Comparator<GvImageList.GvImage> comparator = mComparators.getDefault();
+        Comparator<GvImage> comparator = mComparators.getDefault();
 
         Date date1 = new GregorianCalendar(2015, 2, 25, 19, 30).getTime();
         Date date2 = new GregorianCalendar(2015, 7, 25, 19, 30).getTime();
@@ -40,15 +40,15 @@ public class ImageComparatorTest extends ComparatorCollectionTest<GvImageList.Gv
         String caption = RandomString.nextSentence();
         String caption2 = RandomString.nextSentence();
 
-        GvImageList.GvImage image1 = new GvImageList.GvImage(bitmap, date1, latLng, caption, false);
-        GvImageList.GvImage image12 = new GvImageList.GvImage(bitmap, date1, latLng, caption,
+        GvImage image1 = new GvImage(bitmap, date1, latLng, caption, false);
+        GvImage image12 = new GvImage(bitmap, date1, latLng, caption,
                 false);
-        GvImageList.GvImage image13 = new GvImageList.GvImage(bitmap2, date1, latLng2, caption2,
+        GvImage image13 = new GvImage(bitmap2, date1, latLng2, caption2,
                 false);
-        GvImageList.GvImage image2 = new GvImageList.GvImage(bitmap, date1, latLng, caption, true);
-        GvImageList.GvImage image3 = new GvImageList.GvImage(bitmap, date2, latLng, caption, false);
+        GvImage image2 = new GvImage(bitmap, date1, latLng, caption, true);
+        GvImage image3 = new GvImage(bitmap, date2, latLng, caption, false);
 
-        ComparatorTester<GvImageList.GvImage> tester = new ComparatorTester<>(comparator);
+        ComparatorTester<GvImage> tester = new ComparatorTester<>(comparator);
         tester.testEquals(image1, image1);
         tester.testEquals(image1, image12);
         tester.testEquals(image1, image13);

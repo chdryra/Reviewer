@@ -1,16 +1,12 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
@@ -25,12 +21,10 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReview
  */
 public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviews mFactoryReviews;
-    private ReviewerDb mReviewerDb;
-    private ReviewsProvider mReviewsProvider;
+    private ReviewsFeedMutable mAuthordFeed;
     private SocialPlatformList mSocialPlatforms;
     private BuilderChildListView mBuilderChildListView;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
-    private DataConverters mDataConverters;
     private DataValidator mDataValidator;
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
     private ConfigDataUi mConfigDataUi;
@@ -63,20 +57,12 @@ public class ApplicationContextBasic implements ApplicationContext {
         mFactoryLauncher = factoryLauncher;
     }
 
-    public void setDataConverters(DataConverters converters) {
-        mDataConverters = converters;
-    }
-
     public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter factoryBuilderAdapter) {
         mFactoryBuilderAdapter = factoryBuilderAdapter;
     }
 
-    public void setReviewerDb(ReviewerDb reviewerDb) {
-        mReviewerDb = reviewerDb;
-    }
-
-    public void setReviewsProvider(ReviewsProvider reviewsProvider) {
-        mReviewsProvider = reviewsProvider;
+    public void setAuthorsFeed(ReviewsFeedMutable authorsFeed) {
+        mAuthordFeed = authorsFeed;
     }
 
     public void setSocialPlatforms(SocialPlatformList socialPlatforms) {
@@ -100,23 +86,13 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     @Override
-    public ReviewerDb getReviewerDb() {
-        return mReviewerDb;
+    public ReviewsFeedMutable getAuthorsFeed() {
+        return mAuthordFeed;
     }
 
     @Override
     public SocialPlatformList getSocialPlatformList() {
         return mSocialPlatforms;
-    }
-
-    @Override
-    public ReviewsProvider getReviewsProvider() {
-        return mReviewsProvider;
-    }
-
-    @Override
-    public DataConverters getDataConverters() {
-        return mDataConverters;
     }
 
     @Override

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -18,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 10/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.GvLocation> {
+public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocation> {
     private static final String NYC = "New York";
     private static final double NYC_LAT = 40.7143528;
     private static final double NYC_LNG = -74.0059731;
@@ -36,12 +36,12 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.Gv
 
 //protected methods
     @Override
-    protected GvLocationList.GvLocation getTestDatum() {
-        return new GvLocationList.GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
+    protected GvLocation getTestDatum() {
+        return new GvLocation(new LatLng(NYC_LAT, NYC_LNG), NYC);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvLocationList.GvLocation> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvLocation> getCanonicalMaker() {
         return new CanonicalLocation();
     }
 
@@ -51,10 +51,10 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.Gv
         LatLng atlLL = new LatLng(ATL_LAT, ATL_LNG);
         LatLng midLL = new LatLng(MID_LAT, MID_LNG);
 
-        GvLocationList.GvLocation nyc = new GvLocationList.GvLocation(nycLL, NYC);
-        GvLocationList.GvLocation chi = new GvLocationList.GvLocation(chiLL, CHI);
-        GvLocationList.GvLocation atl = new GvLocationList.GvLocation(atlLL, ATL);
-        GvLocationList.GvLocation mid = new GvLocationList.GvLocation(midLL, NYC + " + 2");
+        GvLocation nyc = new GvLocation(nycLL, NYC);
+        GvLocation chi = new GvLocation(chiLL, CHI);
+        GvLocation atl = new GvLocation(atlLL, ATL);
+        GvLocation mid = new GvLocation(midLL, NYC + " + 2");
 
         mData = newDataList();
         mData.add(chi);
@@ -62,7 +62,7 @@ public class CanonicalLocationTest extends CanonicalGvDataTest<GvLocationList.Gv
         mData.add(atl);
         mData.add(nyc);
 
-        GvLocationList.GvLocation canon = mCanonical.getCanonical(mData);
+        GvLocation canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(mid.getName(), canon.getName());
         assertEquals(mid.getLatLng().latitude, canon.getLatLng().latitude, 0.01);

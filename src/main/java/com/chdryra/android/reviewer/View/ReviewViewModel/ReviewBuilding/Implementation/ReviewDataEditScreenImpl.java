@@ -87,16 +87,16 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
     }
 
     @Override
-    public void onGvDataDelete(T data, int requestCode) {
+    public void onDelete(T data, int requestCode) {
         if(requestCode == mGriditem.getLaunchableRequestCode()) {
-            mGriditem.onGvDataDelete(data, requestCode);
+            mGriditem.onDelete(data, requestCode);
         }
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
+    public void onEdit(T oldDatum, T newDatum, int requestCode) {
         if(requestCode == mGriditem.getLaunchableRequestCode()) {
-            mGriditem.onGvDataEdit(oldDatum, newDatum, requestCode);
+            mGriditem.onEdit(oldDatum, newDatum, requestCode);
         }
     }
 

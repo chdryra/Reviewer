@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
@@ -43,7 +43,7 @@ public interface ReviewView<T extends GvData> extends GridDataObservable.GridDat
 
     ReviewViewParams getParams();
 
-    ReviewViewActions getActions();
+    ReviewViewActions<T> getActions();
 
     FragmentReviewView getParentFragment();
 

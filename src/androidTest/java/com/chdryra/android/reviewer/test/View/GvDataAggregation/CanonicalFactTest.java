@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalFact;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
+public class CanonicalFactTest extends CanonicalGvDataTest<GvFact> {
     private static final String LABEL1 = RandomString.nextWord();
     private static final String LABEL2 = RandomString.nextWord();
     private static final String LABEL3 = RandomString.nextWord();
@@ -30,24 +30,24 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
 
     //protected methods
     @Override
-    protected GvFactList.GvFact getTestDatum() {
-        return new GvFactList.GvFact(LABEL1, VALUE1);
+    protected GvFact getTestDatum() {
+        return new GvFact(LABEL1, VALUE1);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvFactList.GvFact> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvFact> getCanonicalMaker() {
         return new CanonicalFact();
     }
 
     private void checkDifferentFacts() {
         mData = newDataList();
-        GvFactList.GvFact fact1 = new GvFactList.GvFact(LABEL1, VALUE1);
-        GvFactList.GvFact fact2 = new GvFactList.GvFact(LABEL2, VALUE2);
-        GvFactList.GvFact fact3 = new GvFactList.GvFact(LABEL3, VALUE3);
-        GvFactList.GvFact fact4 = new GvFactList.GvFact(LABEL4, VALUE4);
-        GvFactList.GvFact fact5 = new GvFactList.GvFact(LABEL1, VALUE4);
-        GvFactList.GvFact fact6 = new GvFactList.GvFact(LABEL1, VALUE2);
-        GvFactList.GvFact fact7 = new GvFactList.GvFact(LABEL2, VALUE2);
+        GvFact fact1 = new GvFact(LABEL1, VALUE1);
+        GvFact fact2 = new GvFact(LABEL2, VALUE2);
+        GvFact fact3 = new GvFact(LABEL3, VALUE3);
+        GvFact fact4 = new GvFact(LABEL4, VALUE4);
+        GvFact fact5 = new GvFact(LABEL1, VALUE4);
+        GvFact fact6 = new GvFact(LABEL1, VALUE2);
+        GvFact fact7 = new GvFact(LABEL2, VALUE2);
         mData.add(fact1);
         mData.add(fact2);
         mData.add(fact3);
@@ -55,7 +55,7 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
         mData.add(fact5);
         mData.add(fact6);
         mData.add(fact7);
-        GvFactList.GvFact canon = mCanonical.getCanonical(mData);
+        GvFact canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(LABEL1 + " + 3", canon.getLabel());
         assertEquals("4 values", canon.getValue());
@@ -63,13 +63,13 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
 
     private void checkSameLabelDifferentValues() {
         mData = newDataList();
-        GvFactList.GvFact fact1 = new GvFactList.GvFact(LABEL1, VALUE1);
-        GvFactList.GvFact fact2 = new GvFactList.GvFact(LABEL1, VALUE2);
-        GvFactList.GvFact fact3 = new GvFactList.GvFact(LABEL1, VALUE3);
-        GvFactList.GvFact fact4 = new GvFactList.GvFact(LABEL1, VALUE4);
-        GvFactList.GvFact fact5 = new GvFactList.GvFact(LABEL1, VALUE4);
-        GvFactList.GvFact fact6 = new GvFactList.GvFact(LABEL1, VALUE2);
-        GvFactList.GvFact fact7 = new GvFactList.GvFact(LABEL1, VALUE2);
+        GvFact fact1 = new GvFact(LABEL1, VALUE1);
+        GvFact fact2 = new GvFact(LABEL1, VALUE2);
+        GvFact fact3 = new GvFact(LABEL1, VALUE3);
+        GvFact fact4 = new GvFact(LABEL1, VALUE4);
+        GvFact fact5 = new GvFact(LABEL1, VALUE4);
+        GvFact fact6 = new GvFact(LABEL1, VALUE2);
+        GvFact fact7 = new GvFact(LABEL1, VALUE2);
         mData.add(fact1);
         mData.add(fact2);
         mData.add(fact3);
@@ -77,7 +77,7 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
         mData.add(fact5);
         mData.add(fact6);
         mData.add(fact7);
-        GvFactList.GvFact canon = mCanonical.getCanonical(mData);
+        GvFact canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(LABEL1, canon.getLabel());
         assertEquals("4 values", canon.getValue());
@@ -85,13 +85,13 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
 
     private void checkDifferentLabelsSameValues() {
         mData = newDataList();
-        GvFactList.GvFact fact1 = new GvFactList.GvFact(LABEL2, VALUE1);
-        GvFactList.GvFact fact2 = new GvFactList.GvFact(LABEL2, VALUE1);
-        GvFactList.GvFact fact3 = new GvFactList.GvFact(LABEL2, VALUE1);
-        GvFactList.GvFact fact4 = new GvFactList.GvFact(LABEL3, VALUE1);
-        GvFactList.GvFact fact5 = new GvFactList.GvFact(LABEL3, VALUE1);
-        GvFactList.GvFact fact6 = new GvFactList.GvFact(LABEL4, VALUE1);
-        GvFactList.GvFact fact7 = new GvFactList.GvFact(LABEL4, VALUE1);
+        GvFact fact1 = new GvFact(LABEL2, VALUE1);
+        GvFact fact2 = new GvFact(LABEL2, VALUE1);
+        GvFact fact3 = new GvFact(LABEL2, VALUE1);
+        GvFact fact4 = new GvFact(LABEL3, VALUE1);
+        GvFact fact5 = new GvFact(LABEL3, VALUE1);
+        GvFact fact6 = new GvFact(LABEL4, VALUE1);
+        GvFact fact7 = new GvFact(LABEL4, VALUE1);
         mData.add(fact1);
         mData.add(fact2);
         mData.add(fact3);
@@ -99,7 +99,7 @@ public class CanonicalFactTest extends CanonicalGvDataTest<GvFactList.GvFact> {
         mData.add(fact5);
         mData.add(fact6);
         mData.add(fact7);
-        GvFactList.GvFact canon = mCanonical.getCanonical(mData);
+        GvFact canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(LABEL2 + " + 2", canon.getLabel());
         assertEquals(VALUE1, canon.getValue());

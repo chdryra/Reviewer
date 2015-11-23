@@ -22,8 +22,8 @@ import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Builders.BuilderShareScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -46,7 +46,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
         assertEquals(mList.size(), getGridSize());
         int i = 0;
         for (SocialPlatform platform : mList) {
-            GvSocialPlatformList.GvSocialPlatform gv = getPlatform(i++);
+            GvSocialPlatform gv = getPlatform(i++);
             assertEquals(platform.getName(), gv.getName());
             assertEquals(platform.getFollowers(), gv.getFollowers());
         }
@@ -55,7 +55,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     @SmallTest
     public void testSelection() {
         for (int i = 0; i < mList.size(); ++i) {
-            GvSocialPlatformList.GvSocialPlatform platform = getPlatform(i);
+            GvSocialPlatform platform = getPlatform(i);
             assertFalse(platform.isChosen());
             mSolo.clickInList(i + 1);
             mSolo.sleep(1000);
@@ -88,8 +88,8 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
         return builder.buildView("ShareScreen", mList, (ReviewBuilderAdapter) mAdapter);
     }
 
-    private GvSocialPlatformList.GvSocialPlatform getPlatform(int index) {
-        return (GvSocialPlatformList.GvSocialPlatform) getGridItem(index);
+    private GvSocialPlatform getPlatform(int index) {
+        return (GvSocialPlatform) getGridItem(index);
     }
 
     //Overridden
@@ -99,9 +99,9 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
 
         builder.setRating(RandomRating.nextRating());
         builder.setSubject(RandomString.nextWord());
-        DataBuilderAdapter<GvTagList.GvTag> tagBulder =
-                builder.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
-        for (GvTagList.GvTag tag : GvDataMocker.newTagList(3, false)) {
+        DataBuilderAdapter<GvTag> tagBulder =
+                builder.getDataBuilderAdapter(GvTag.TYPE);
+        for (GvTag tag : GvDataMocker.newTagList(3, false)) {
             tagBulder.add(tag);
         }
         tagBulder.setData();

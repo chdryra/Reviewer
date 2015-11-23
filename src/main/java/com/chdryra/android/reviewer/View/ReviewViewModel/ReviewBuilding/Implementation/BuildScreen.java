@@ -36,11 +36,11 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Dialogs.AddLocation;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
@@ -118,10 +118,10 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
     }
 
     private int getImageRequestCode() {
-        return getAdderConfig(GvImageList.GvImage.TYPE).getRequestCode();
+        return getAdderConfig(GvImage.TYPE).getRequestCode();
     }
 
-    private void setCover(GvImageList.GvImage image) {
+    private void setCover(GvImage image) {
         mEditor.setCover(image);
     }
 
@@ -134,7 +134,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
     }
 
     private void showTagDialog() {
-        mGridItem.showQuickDialog(getAdderConfig(GvTagList.GvTag.TYPE));
+        mGridItem.showQuickDialog(getAdderConfig(GvTag.TYPE));
     }
 
     //Overridden
@@ -149,7 +149,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
     }
 
     @Override
-    public void onChosenImage(GvImageList.GvImage image) {
+    public void onChosenImage(GvImage image) {
         setCover(image);
     }
 
@@ -178,7 +178,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
         }
 
         private <T extends GvData> void showQuickDialog(LaunchableConfig<T> adderConfig) {
-            if (adderConfig.getGvDataType().equals(GvImageList.GvImage.TYPE)) {
+            if (adderConfig.getGvDataType().equals(GvImage.TYPE)) {
                 getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
                         getImageRequestCode());
                 return;
@@ -196,7 +196,7 @@ public class BuildScreen implements ImageChooser.ImageChooserListener,
             LatLng latLng = mLatLng;
             boolean fromImage = false;
 
-            GvImageList.GvImage cover = mEditor.getCover();
+            GvImage cover = mEditor.getCover();
             LatLng coverLatLng = cover.getLatLng();
             if (coverLatLng != null ) {
                     latLng = coverLatLng;

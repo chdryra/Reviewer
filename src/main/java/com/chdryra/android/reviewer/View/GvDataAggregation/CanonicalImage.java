@@ -9,39 +9,39 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> {
+public class CanonicalImage implements CanonicalDatumMaker<GvImage> {
     //Overridden
     @Override
-    public GvImageList.GvImage getCanonical(GvDataList<GvImageList.GvImage> data) {
-        GvImageList.GvImage nullImage = new GvImageList.GvImage(data.getGvReviewId(), null, null,
+    public GvImage getCanonical(GvDataList<GvImage> data) {
+        GvImage nullImage = new GvImage(data.getGvReviewId(), null, null,
                 "", false);
         if (data.size() == 0) return nullImage;
 
-        GvImageList.GvImage reference = data.getItem(0);
+        GvImage reference = data.getItem(0);
         ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);
         DataDate finalDate = reference.getDate();
-        for (GvImageList.GvImage image : data) {
+        for (GvImage image : data) {
             if (!comparitor.compare(reference, image).lessThanOrEqualTo(none)) return nullImage;
             DataDate imageDate = image.getDate();
             if (imageDate.getTime() > finalDate.getTime()) finalDate = imageDate;
         }
 
-        DatumCounter<GvImageList.GvImage, String> captionCounter =
-                new DatumCounter<>(data, new DataGetter<GvImageList.GvImage, String>() {
+        DatumCounter<GvImage, String> captionCounter =
+                new DatumCounter<>(data, new DataGetter<GvImage, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvImageList.GvImage datum) {
+                    public String getData(GvImage datum) {
                         return datum.getCaption();
                     }
                 });
@@ -55,7 +55,7 @@ public class CanonicalImage implements CanonicalDatumMaker<GvImageList.GvImage> 
         }
 
         GvReviewId id = data.getGvReviewId();
-        GvDateList.GvDate finalGvDate = new GvDateList.GvDate(id, finalDate.getTime());
-        return new GvImageList.GvImage(id, reference.getBitmap(), finalGvDate, caption, true);
+        GvDate finalGvDate = new GvDate(id, finalDate.getTime());
+        return new GvImage(id, reference.getBitmap(), finalGvDate, caption, true);
     }
 }

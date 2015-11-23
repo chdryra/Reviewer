@@ -14,11 +14,10 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .InputHandler;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
 
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current
@@ -104,6 +103,7 @@ public class InputHandlerImpl<T extends GvData> implements InputHandler<T> {
 
     //Classes
     public static class AddConstraintImpl<G extends GvData> implements AddConstraint<G>{
+        @Override
         public ConstraintResult passes(GvDataList<G> data, G datum) {
             if(data == null) {
                 return ConstraintResult.NULL_LIST;
@@ -114,6 +114,7 @@ public class InputHandlerImpl<T extends GvData> implements InputHandler<T> {
     }
 
     public static class ReplaceConstraintImpl<G extends GvData> implements ReplaceConstraint<G>{
+        @Override
         public ConstraintResult passes(GvDataList<G> data, G oldDatum, G newDatum) {
             if(data == null) {
                 return ConstraintResult.NULL_LIST;

@@ -17,12 +17,11 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
@@ -56,7 +55,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static ApplicationInstance sSingleton;
 
     private final ApplicationContext mApplicationContext;
-    private final ReviewerDb mDatabase;
     private ReviewBuilderAdapter mReviewBuilderAdapter;
 
     private ApplicationInstance(Context context) {
@@ -67,7 +65,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     private ApplicationInstance(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
         mApplicationContext = applicationContext;
-        mDatabase = applicationContext.getReviewerDb();
     }
 
     //Static methods
@@ -90,8 +87,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mReviewBuilderAdapter;
     }
 
-    public ReviewsProvider getReviewsProvider() {
-        return mApplicationContext.getReviewsProvider();
+    public ReviewsFeedMutable getAuthorsFeed() {
+        return mApplicationContext.getAuthorsFeed();
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -119,16 +116,12 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public void publishReviewBuilder() {
         Review published = mReviewBuilderAdapter.publishReview();
-        mDatabase.addReviewToDb(published);
+        getAuthorsFeed().addReview(published);
         mReviewBuilderAdapter = null;
     }
 
-    public void deleteFromAuthorsFeed(String reviewId) {
-        mDatabase.deleteReviewFromDb(reviewId);
-    }
-
     public void launchReview(Activity activity, String reviewId) {
-        Review review = getReviewsProvider().getReview(reviewId);
+        Review review = getAuthorsFeed().getReview(reviewId);
         ReviewNode reviewNode = getReviewsFactory().createMetaReview(review).getTreeRepresentation();
         FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
         LaunchableUi ui = getLaunchableFactory().newReviewsListScreen(reviewNode, adapterFactory);

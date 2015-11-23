@@ -11,35 +11,35 @@ package com.chdryra.android.reviewer.View.Dialogs;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditTag extends AddEditLayout<GvTagList.GvTag> {
+public class AddEditTag extends AddEditLayout<GvTag> {
     public static final int LAYOUT = R.layout.dialog_tag_add_edit;
     public static final int TAG = R.id.tag_edit_text;
     public static final int[] VIEWS = new int[]{TAG};
 
     //Constructors
     public AddEditTag(GvDataAdder adder) {
-        super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, adder);
+        super(GvTag.class, LAYOUT, VIEWS, TAG, adder);
     }
 
     public AddEditTag(GvDataEditor editor) {
-        super(GvTagList.GvTag.class, LAYOUT, VIEWS, TAG, editor);
+        super(GvTag.class, LAYOUT, VIEWS, TAG, editor);
     }
 
     //Overridden
     @Override
-    public GvTagList.GvTag createGvData() {
-        return new GvTagList.GvTag(((EditText) getView(TAG)).getText().toString().trim());
+    public GvTag createGvData() {
+        return new GvTag(((EditText) getView(TAG)).getText().toString().trim());
     }
 
     @Override
-    public void updateLayout(GvTagList.GvTag tag) {
+    public void updateLayout(GvTag tag) {
         ((EditText) getView(TAG)).setText(tag.getString());
     }
 }

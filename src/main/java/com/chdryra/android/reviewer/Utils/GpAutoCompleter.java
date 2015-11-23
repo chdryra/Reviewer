@@ -8,11 +8,12 @@
 
 package com.chdryra.android.reviewer.Utils;
 
+import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.View.GvDataModel.VhdLocatedPlace;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class GpAutoCompleter implements ViewHolderAdapterFiltered.QueryFilter {
                 mLatLng);
 
         ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(mLatLng, predictions);
-        ViewHolderDataList<VhdLocatedPlace> filtered = new ViewHolderDataList<>();
+        ViewHolderDataList<VhdLocatedPlace> filtered = new VhDataList<>();
         for (LocatedPlace place : places) {
             filtered.add(new VhdLocatedPlace(place));
         }

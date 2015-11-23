@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
 
 import java.util.Comparator;
 
@@ -9,8 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOverviewList
-        .GvReviewOverview> {
+public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOverview> {
     private static ReviewOverviewComparators sComparators = new ReviewOverviewComparators();
 
     private ReviewOverviewComparators() {
@@ -22,13 +21,11 @@ public class ReviewOverviewComparators extends ComparatorCollection<GvReviewOver
         return sComparators;
     }
 
-    private static class MostRecentPublished implements Comparator<GvReviewOverviewList
-            .GvReviewOverview> {
+    private static class MostRecentPublished implements Comparator<GvReviewOverview> {
 
         //Overridden
         @Override
-        public int compare(GvReviewOverviewList.GvReviewOverview lhs, GvReviewOverviewList
-                .GvReviewOverview rhs) {
+        public int compare(GvReviewOverview lhs, GvReviewOverview rhs) {
             return DateComparators.getComparators().getDefault().compare(lhs.getPublishDate(), rhs
                     .getPublishDate());
         }

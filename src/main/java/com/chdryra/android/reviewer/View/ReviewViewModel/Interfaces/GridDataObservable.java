@@ -15,13 +15,9 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces;
  */
 public interface GridDataObservable {
     interface GridDataObserver {
-        //abstract methods
-        //abstract
         void onGridDataChanged();
     }
 
-    //abstract methods
-    //abstract
     void registerGridDataObserver(GridDataObserver observer);
 
     void unregisterGridDataObserver(GridDataObserver observer);

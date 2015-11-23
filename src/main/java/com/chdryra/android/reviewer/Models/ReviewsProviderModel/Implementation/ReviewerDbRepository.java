@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbObserver;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProviderObserver;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRepository implements ReviewsRepository, ReviewerDbObserver {
+public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerDbObserver {
     private ReviewerDb mDatabase;
     private ArrayList<ReviewsProviderObserver> mObservers;
 
@@ -25,6 +25,17 @@ public class ReviewerDbRepository implements ReviewsRepository, ReviewerDbObserv
     }
 
     //Overridden
+
+    @Override
+    public void addReview(Review review) {
+        mDatabase.addReviewToDb(review);
+    }
+
+    @Override
+    public void deleteReview(String reviewId) {
+        mDatabase.deleteReviewFromDb(reviewId);
+    }
+
     @Override
     public Review getReview(String reviewId) {
         return mDatabase.loadReviewFromDb(reviewId);

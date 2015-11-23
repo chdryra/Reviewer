@@ -12,22 +12,32 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrlList;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
@@ -52,57 +62,57 @@ public class GvDataMocker {
 
     //Static methods
     //Just a convenient method even if it uses GvType.....
-    public static GvDataList getData(GvDataType dataType, int size, boolean withId) {
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+    public static GvDataListImpl getData(GvDataType dataType, int size, boolean withId) {
+        if (dataType.equals(GvComment.TYPE)) {
             return newCommentList(size, withId);
-        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
+        } else if (dataType.equals(GvFact.TYPE)) {
             return newFactList(size, withId);
-        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
+        } else if (dataType.equals(GvImage.TYPE)) {
             return newImageList(size, withId);
-        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
+        } else if (dataType.equals(GvLocation.TYPE)) {
             return newLocationList(size, withId);
-        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
+        } else if (dataType.equals(GvUrl.TYPE)) {
             return newUrlList(size, withId);
-        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
+        } else if (dataType.equals(GvTag.TYPE)) {
             return newTagList(size, withId);
-        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
+        } else if (dataType.equals(GvCriterion.TYPE)) {
             return newChildList(size, withId);
-        } else if (dataType.equals(GvReviewOverviewList.GvReviewOverview.TYPE)) {
+        } else if (dataType.equals(GvReviewOverview.TYPE)) {
             return newReviewList(size, withId);
-        } else if (dataType.equals(GvAuthorList.GvAuthor.TYPE)) {
+        } else if (dataType.equals(GvAuthor.TYPE)) {
             return newAuthorList(size, withId);
-        } else if (dataType.equals(GvSubjectList.GvSubject.TYPE)) {
+        } else if (dataType.equals(GvSubject.TYPE)) {
             return newSubjectList(size, withId);
         } else {
             return null;
         }
     }
 
-    public static GvDataList getData(GvDataType dataType, int size) {
+    public static GvDataListImpl getData(GvDataType dataType, int size) {
         return getData(dataType, size, false);
     }
 
     //Just a convenient method even if it uses GvType.....
     public static GvData getDatum(GvDataType dataType, boolean withId) {
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+        if (dataType.equals(GvComment.TYPE)) {
             return newComment(getId(withId));
-        } else if (dataType.equals(GvFactList.GvFact.TYPE)) {
+        } else if (dataType.equals(GvFact.TYPE)) {
             return newFact(getId(withId));
-        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
+        } else if (dataType.equals(GvImage.TYPE)) {
             return newImage(getId(withId));
-        } else if (dataType.equals(GvLocationList.GvLocation.TYPE)) {
+        } else if (dataType.equals(GvLocation.TYPE)) {
             return newLocation(getId(withId));
-        } else if (dataType.equals(GvUrlList.GvUrl.TYPE)) {
+        } else if (dataType.equals(GvUrl.TYPE)) {
             return newUrl(getId(withId));
-        } else if (dataType.equals(GvTagList.GvTag.TYPE)) {
+        } else if (dataType.equals(GvTag.TYPE)) {
             return newTag(getId(withId));
-        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
+        } else if (dataType.equals(GvCriterion.TYPE)) {
             return newChild(getId(withId));
-        } else if (dataType.equals(GvReviewOverviewList.GvReviewOverview.TYPE)) {
+        } else if (dataType.equals(GvReviewOverview.TYPE)) {
             return newReviewOverview(getId(withId));
-        } else if (dataType.equals(GvAuthorList.GvAuthor.TYPE)) {
+        } else if (dataType.equals(GvAuthor.TYPE)) {
             return newAuthor(getId(withId));
-        } else if (dataType.equals(GvSubjectList.GvSubject.TYPE)) {
+        } else if (dataType.equals(GvSubject.TYPE)) {
             return newSubject(getId(withId));
         } else {
             return null;
@@ -213,74 +223,74 @@ public class GvDataMocker {
         return list;
     }
 
-    public static GvCommentList.GvComment newComment(GvReviewId id) {
+    public static GvComment newComment(GvReviewId id) {
         String comment = STRING_GENERATOR.nextParagraph();
         boolean isHeadline = RAND.nextBoolean();
 
-        return new GvCommentList.GvComment(id, comment, isHeadline);
+        return new GvComment(id, comment, isHeadline);
     }
 
-    public static GvImageList.GvImage newImage(GvReviewId id) {
+    public static GvImage newImage(GvReviewId id) {
         Bitmap bitmap = BitmapMocker.nextBitmap(RAND.nextBoolean());
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
         Boolean isCover = RAND.nextBoolean();
 
-        return new GvImageList.GvImage(id, bitmap, date, caption, isCover);
+        return new GvImage(id, bitmap, date, caption, isCover);
     }
 
-    public static GvLocationList.GvLocation newLocation(GvReviewId id) {
+    public static GvLocation newLocation(GvReviewId id) {
         LatLng latLng = RandomLatLng.nextLatLng();
         String name = RandomString.nextWord();
 
-        return new GvLocationList.GvLocation(id, latLng, name);
+        return new GvLocation(id, latLng, name);
     }
 
-    public static GvFactList.GvFact newFact(GvReviewId id) {
+    public static GvFact newFact(GvReviewId id) {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
 
-        return new GvFactList.GvFact(id, label, value);
+        return new GvFact(id, label, value);
     }
 
-    public static GvUrlList.GvUrl newUrl(GvReviewId id) {
+    public static GvUrl newUrl(GvReviewId id) {
         String label = RandomString.nextWord();
         String urlString = "http://www." + RandomString.nextWord() + ".co.uk";
 
         try {
             URL url = new URL(urlString);
-            return new GvUrlList.GvUrl(id, label, url);
+            return new GvUrl(id, label, url);
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return new GvUrlList.GvUrl();
+            return new GvUrl();
         }
     }
 
-    public static GvCriterionList.GvCriterion newChild(GvReviewId id) {
+    public static GvCriterion newChild(GvReviewId id) {
         String subject = RandomString.nextWord();
         float rating = RandomRating.nextRating();
 
-        return new GvCriterionList.GvCriterion(id, subject, rating);
+        return new GvCriterion(id, subject, rating);
     }
 
-    public static GvTagList.GvTag newTag(GvReviewId id) {
-        return new GvTagList.GvTag(id, RandomString.nextWord());
+    public static GvTag newTag(GvReviewId id) {
+        return new GvTag(id, RandomString.nextWord());
     }
 
-    public static GvSubjectList.GvSubject newSubject(GvReviewId id) {
-        return new GvSubjectList.GvSubject(id, RandomString.nextWord());
+    public static GvSubject newSubject(GvReviewId id) {
+        return new GvSubject(id, RandomString.nextWord());
     }
 
-    public static GvAuthorList.GvAuthor newAuthor(GvReviewId id) {
+    public static GvAuthor newAuthor(GvReviewId id) {
         Author author = RandomAuthor.nextAuthor();
-        return new GvAuthorList.GvAuthor(id, author.getName(), author.getUserId().toString());
+        return new GvAuthor(id, author.getName(), author.getUserId().toString());
     }
 
-    public static GvDateList.GvDate newDate() {
-        return new GvDateList.GvDate(RandomDate.nextDate());
+    public static GvDate newDate() {
+        return new GvDate(RandomDate.nextDate());
     }
 
-    public static GvReviewOverviewList.GvReviewOverview newReviewOverview(GvReviewId parentId) {
+    public static GvReviewOverview newReviewOverview(GvReviewId parentId) {
         Author author = RandomAuthor.nextAuthor();
         Date date = RandomDate.nextDate();
         String subject = RandomString.nextWord();
@@ -295,12 +305,12 @@ public class GvDataMocker {
         }
         GvReviewId id = GvReviewId.getId(RandomReviewId.nextId().toString());
 
-        return new GvReviewOverviewList.GvReviewOverview(parentId, id.toString(), author, date,
+        return new GvReviewOverview(parentId, id.toString(), author, date,
                 subject, rating, bitmap, comment, locations, tags);
     }
 
-    public static GvSocialPlatformList.GvSocialPlatform newSocialPlatform() {
-        return new GvSocialPlatformList.GvSocialPlatform(RandomString.nextWord(),
+    public static GvSocialPlatform newSocialPlatform() {
+        return new GvSocialPlatform(RandomString.nextWord(),
                 RAND.nextInt(100) ^ 2);
     }
 

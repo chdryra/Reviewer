@@ -14,20 +14,31 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrlList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,47 +85,47 @@ public class ConverterGv {
     }
 
     public GvConverterImages getConverterImages() {
-        return (GvConverterImages) getConverter(GvImageList.GvImage.TYPE);
+        return (GvConverterImages) getConverter(GvImage.TYPE);
     }
 
     public GvConverterReviews getConverterReviews() {
-        return (GvConverterReviews) getConverter(GvReviewOverviewList.GvReviewOverview.TYPE);
+        return (GvConverterReviews) getConverter(GvReviewOverview.TYPE);
     }
 
     public GvConverterComments getConverterComments() {
-        return (GvConverterComments) getConverter(GvCommentList.GvComment.TYPE);
+        return (GvConverterComments) getConverter(GvComment.TYPE);
     }
 
     public GvConverterFacts getConverterFacts() {
-        return (GvConverterFacts) getConverter(GvFactList.GvFact.TYPE);
+        return (GvConverterFacts) getConverter(GvFact.TYPE);
     }
 
     public GvConverterLocations getConverterLocations() {
-        return (GvConverterLocations) getConverter(GvLocationList.GvLocation.TYPE);
+        return (GvConverterLocations) getConverter(GvLocation.TYPE);
     }
 
     public GvConverterUrls getConverterUrls() {
-        return (GvConverterUrls) getConverter(GvUrlList.GvUrl.TYPE);
+        return (GvConverterUrls) getConverter(GvUrl.TYPE);
     }
 
     public GvConverterCriteria getConverterCriteria() {
-        return (GvConverterCriteria) getConverter(GvCriterionList.GvCriterion.TYPE);
+        return (GvConverterCriteria) getConverter(GvCriterion.TYPE);
     }
 
     public GvConverterSubjects getConverterSubjects() {
-        return (GvConverterSubjects) getConverter(GvSubjectList.GvSubject.TYPE);
+        return (GvConverterSubjects) getConverter(GvSubject.TYPE);
     }
 
     public GvConverterAuthors getConverterAuthors() {
-        return (GvConverterAuthors) getConverter(GvAuthorList.GvAuthor.TYPE);
+        return (GvConverterAuthors) getConverter(GvAuthor.TYPE);
     }
 
     public GvConverterDateReviews getConverterDates() {
-        return (GvConverterDateReviews) getConverter(GvDateList.GvDate.TYPE);
+        return (GvConverterDateReviews) getConverter(GvDate.TYPE);
     }
 
     public GvConverterItemTags getConverterTags() {
-        return (GvConverterItemTags) getConverter(GvTagList.GvTag.TYPE);
+        return (GvConverterItemTags) getConverter(GvTag.TYPE);
     }
 
     //Comments

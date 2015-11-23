@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
 import java.util.Comparator;
 
@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class UrlComparators extends ComparatorCollection<GvUrlList.GvUrl> {
+public class UrlComparators extends ComparatorCollection<GvUrl> {
     private static UrlComparators sComparators = new UrlComparators();
 
     private UrlComparators() {
@@ -21,10 +21,10 @@ public class UrlComparators extends ComparatorCollection<GvUrlList.GvUrl> {
         return sComparators;
     }
 
-    private static class UrlLabelComparator implements Comparator<GvUrlList.GvUrl> {
+    private static class UrlLabelComparator implements Comparator<GvUrl> {
         //Overridden
         @Override
-        public int compare(GvUrlList.GvUrl lhs, GvUrlList.GvUrl rhs) {
+        public int compare(GvUrl lhs, GvUrl rhs) {
             int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());
             if (comp == 0) {
                 comp = lhs.getValue().compareToIgnoreCase(rhs.getValue());

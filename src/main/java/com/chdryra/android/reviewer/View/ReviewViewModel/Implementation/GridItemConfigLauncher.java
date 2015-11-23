@@ -5,12 +5,11 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,12 +18,14 @@ import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
  */
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
     private LaunchableConfig<T> mLaunchableConfig;
+    private GvDataPacker<GvData> mPacker;
 
     public GridItemConfigLauncher(LaunchableConfig<T> launchableConfig,
-                                  FactoryLauncherUi launcherfactory,
-                                  FactoryLaunchableUi launchableFactory) {
-        super(launcherfactory, launchableFactory);
+                                  FactoryLaunchableUi launchableFactory,
+                                  GvDataPacker<GvData> packer) {
+        super(launchableFactory);
         mLaunchableConfig = launchableConfig;
+        mPacker = packer;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     private void launchViewer(GvData item) {
         if (item.isVerboseCollection() || mLaunchableConfig == null) return;
         Bundle args = new Bundle();
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+        mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
         LaunchableUi launchable = mLaunchableConfig.getLaunchable(getLaunchableFactory());
         launch(launchable, mLaunchableConfig.getRequestCode(), mLaunchableConfig.getTag(), args);
     }

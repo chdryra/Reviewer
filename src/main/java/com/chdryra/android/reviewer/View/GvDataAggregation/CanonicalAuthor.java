@@ -8,29 +8,29 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalAuthor implements CanonicalDatumMaker<GvAuthorList.GvAuthor> {
+public class CanonicalAuthor implements CanonicalDatumMaker<GvAuthor> {
     //Overridden
     @Override
-    public GvAuthorList.GvAuthor getCanonical(GvDataList<GvAuthorList.GvAuthor> data) {
-        GvAuthorList.GvAuthor nullAuthor = new GvAuthorList.GvAuthor(data.getGvReviewId(), "", "");
+    public GvAuthor getCanonical(GvDataList<GvAuthor> data) {
+        GvAuthor nullAuthor = new GvAuthor(data.getGvReviewId(), "", "");
         if (data.size() == 0) return nullAuthor;
 
-        GvAuthorList.GvAuthor reference = data.getItem(0);
+        GvAuthor reference = data.getItem(0);
         ComparitorGvAuthor comparitor = new ComparitorGvAuthor();
         DifferenceBoolean none = new DifferenceBoolean(false);
-        for (GvAuthorList.GvAuthor author : data) {
+        for (GvAuthor author : data) {
             if (!comparitor.compare(reference, author).lessThanOrEqualTo(none)) return nullAuthor;
         }
 
-        return new GvAuthorList.GvAuthor(data.getGvReviewId(), reference.getName(), reference
+        return new GvAuthor(data.getGvReviewId(), reference.getName(), reference
                 .getUserId());
     }
 }

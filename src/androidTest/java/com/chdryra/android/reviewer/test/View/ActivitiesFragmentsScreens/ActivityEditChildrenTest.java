@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 
 /**
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
  * On: 05/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditChildrenTest extends ActivityEditScreenTest<GvCriterionList.GvCriterion> {
+public class ActivityEditChildrenTest extends ActivityEditScreenTest<GvCriterion> {
     private static final int AVERAGE = R.id.menu_item_average_rating;
     private float mGridRatingBeforeDone;
     private boolean mIsAverage = false;
@@ -27,7 +27,7 @@ public class ActivityEditChildrenTest extends ActivityEditScreenTest<GvCriterion
 
     //Constructors
     public ActivityEditChildrenTest() {
-        super(GvCriterionList.GvCriterion.TYPE);
+        super(GvCriterion.TYPE);
     }
 
     @SmallTest

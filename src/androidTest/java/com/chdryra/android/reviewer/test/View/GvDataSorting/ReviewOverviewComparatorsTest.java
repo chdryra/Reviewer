@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
 import com.chdryra.android.reviewer.View.GvDataSorting.ReviewOverviewComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
@@ -21,8 +21,7 @@ import java.util.GregorianCalendar;
  * On: 06/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvReviewOverviewList
-        .GvReviewOverview> {
+public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvReviewOverview> {
 
     //Constructors
     public ReviewOverviewComparatorsTest() {
@@ -31,7 +30,7 @@ public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvRe
 
     @SmallTest
     public void testDefaultComparator() {
-        Comparator<GvReviewOverviewList.GvReviewOverview> comparator = mComparators.getDefault();
+        Comparator<GvReviewOverview> comparator = mComparators.getDefault();
 
         Date date1 = new GregorianCalendar(2015, 2, 25, 19, 30).getTime();
         Date date12 = new GregorianCalendar(2015, 2, 25, 19, 30).getTime();
@@ -41,15 +40,15 @@ public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvRe
         Date date5 = new GregorianCalendar(2015, 1, 25, 19, 30).getTime();
         Date date6 = new GregorianCalendar(2014, 2, 25, 19, 30).getTime();
 
-        GvReviewOverviewList.GvReviewOverview review1 = getReview(date1);
-        GvReviewOverviewList.GvReviewOverview review12 = getReview(date12);
-        GvReviewOverviewList.GvReviewOverview review2 = getReview(date2);
-        GvReviewOverviewList.GvReviewOverview review3 = getReview(date3);
-        GvReviewOverviewList.GvReviewOverview review4 = getReview(date4);
-        GvReviewOverviewList.GvReviewOverview review5 = getReview(date5);
-        GvReviewOverviewList.GvReviewOverview review6 = getReview(date6);
+        GvReviewOverview review1 = getReview(date1);
+        GvReviewOverview review12 = getReview(date12);
+        GvReviewOverview review2 = getReview(date2);
+        GvReviewOverview review3 = getReview(date3);
+        GvReviewOverview review4 = getReview(date4);
+        GvReviewOverview review5 = getReview(date5);
+        GvReviewOverview review6 = getReview(date6);
 
-        ComparatorTester<GvReviewOverviewList.GvReviewOverview> tester = new ComparatorTester<>
+        ComparatorTester<GvReviewOverview> tester = new ComparatorTester<>
                 (comparator);
         tester.testEquals(review1, review1);
         tester.testEquals(review1, review12);
@@ -61,8 +60,8 @@ public class ReviewOverviewComparatorsTest extends ComparatorCollectionTest<GvRe
         tester.testFirstSecond(review1, review6);
     }
 
-    private GvReviewOverviewList.GvReviewOverview getReview(Date publishDate) {
-        return new GvReviewOverviewList.GvReviewOverview(RandomReviewId.nextIdString(),
+    private GvReviewOverview getReview(Date publishDate) {
+        return new GvReviewOverview(RandomReviewId.nextIdString(),
                 RandomAuthor.nextAuthor(), publishDate, RandomString.nextWord(),
                 RandomRating.nextRating(), BitmapMocker.nextBitmap(), RandomString.nextSentence(),
                 new ArrayList<String>(), new ArrayList<String>());

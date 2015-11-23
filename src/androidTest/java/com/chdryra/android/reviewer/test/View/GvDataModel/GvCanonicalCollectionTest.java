@@ -3,21 +3,22 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -31,7 +32,7 @@ import junit.framework.TestCase;
  */
 public class GvCanonicalCollectionTest extends TestCase {
     private static final int NUM = 5;
-    private GvCanonicalCollection<GvCommentList.GvComment> mList;
+    private GvCanonicalCollection<GvComment> mList;
 
     @SmallTest
     public void testParcelable() {
@@ -40,35 +41,35 @@ public class GvCanonicalCollectionTest extends TestCase {
 
     @SmallTest
     public void testComparator() {
-        checkComparator(GvCommentList.GvComment.TYPE);
-        checkComparator(GvSubjectList.GvSubject.TYPE);
-        checkComparator(GvAuthorList.GvAuthor.TYPE);
-        checkComparator(GvTagList.GvTag.TYPE);
-        checkComparator(GvLocationList.GvLocation.TYPE);
-        checkComparator(GvFactList.GvFact.TYPE);
-        checkComparator(GvUrlList.GvUrl.TYPE);
-        checkComparator(GvCriterionList.GvCriterion.TYPE);
-        checkComparator(GvReviewOverviewList.GvReviewOverview.TYPE);
-        checkComparator(GvImageList.GvImage.TYPE);
+        checkComparator(GvComment.TYPE);
+        checkComparator(GvSubject.TYPE);
+        checkComparator(GvAuthor.TYPE);
+        checkComparator(GvTag.TYPE);
+        checkComparator(GvLocation.TYPE);
+        checkComparator(GvFact.TYPE);
+        checkComparator(GvUrl.TYPE);
+        checkComparator(GvCriterion.TYPE);
+        checkComparator(GvReviewOverview.TYPE);
+        checkComparator(GvImage.TYPE);
     }
 
     @SmallTest
     public void testEquals() {
-        GvCanonicalCollection<GvCommentList.GvComment> listNotEquals = new GvCanonicalCollection<>
-                (GvCommentList.GvComment.TYPE);
-        GvCommentList.GvComment comment1 = mList.getItem(0).getCanonical();
-        GvCommentList.GvComment comment2 = mList.getItem(1).getCanonical();
-        GvCommentList.GvComment comment3 = GvDataMocker.newComment(RandomReviewId.nextGvReviewId());
-        GvDataList<GvCommentList.GvComment> similar1 = mList.getItem(0).toList();
-        GvDataList<GvCommentList.GvComment> similar2 = mList.getItem(1).toList();
+        GvCanonicalCollection<GvComment> listNotEquals = new GvCanonicalCollection<>
+                (GvComment.TYPE);
+        GvComment comment1 = mList.getItem(0).getCanonical();
+        GvComment comment2 = mList.getItem(1).getCanonical();
+        GvComment comment3 = GvDataMocker.newComment(RandomReviewId.nextGvReviewId());
+        GvDataListImpl<GvComment> similar1 = mList.getItem(0).toList();
+        GvDataListImpl<GvComment> similar2 = mList.getItem(1).toList();
         GvCommentList similar3 = GvDataMocker.newCommentList(NUM, true);
 
         listNotEquals.addCanonnical(new GvCanonical<>(comment1, similar1));
         listNotEquals.addCanonnical(new GvCanonical<>(comment2, similar2));
         listNotEquals.addCanonnical(new GvCanonical<>(comment3, similar3));
 
-        GvCanonicalCollection<GvCommentList.GvComment> listEquals = FactoryGvData.copy(mList);
-        GvCanonicalCollection<GvCommentList.GvComment> listEquals2 = FactoryGvData.copy
+        GvCanonicalCollection<GvComment> listEquals = FactoryGvData.copy(mList);
+        GvCanonicalCollection<GvComment> listEquals2 = FactoryGvData.copy
                 (listNotEquals);
 
         assertTrue(mList.equals(listEquals));
@@ -78,7 +79,7 @@ public class GvCanonicalCollectionTest extends TestCase {
 
     private <T extends GvData> void checkComparator(GvDataType<T> type) {
         GvCanonicalCollection<T> list = newList(type);
-        GvDataList<T> canonicals = FactoryGvData.newDataList(list.getGvDataType());
+        GvDataListImpl<T> canonicals = FactoryGvData.newDataList(list.getGvDataType());
         for (GvCanonical canonical : list) {
             canonicals.add((T) canonical.getCanonical());
         }
@@ -93,7 +94,7 @@ public class GvCanonicalCollectionTest extends TestCase {
         GvCanonicalCollection<T> list = new GvCanonicalCollection<>(type);
         for (int i = 0; i < NUM; ++i) {
             T canonical = (T) GvDataMocker.getDatum(type);
-            GvDataList<T> data = GvDataMocker.getData(type, NUM);
+            GvDataListImpl<T> data = GvDataMocker.getData(type, NUM);
             list.addCanonnical(new GvCanonical<>(canonical, data));
         }
         return list;
@@ -102,6 +103,6 @@ public class GvCanonicalCollectionTest extends TestCase {
     //Overridden
     @Override
     protected void setUp() throws Exception {
-        mList = newList(GvCommentList.GvComment.TYPE);
+        mList = newList(GvComment.TYPE);
     }
 }

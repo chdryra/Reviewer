@@ -13,8 +13,8 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditFact;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,7 +24,7 @@ import java.net.URL;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
+public class AddEditFactTest extends AddEditLayoutTest<GvFact> {
     private static final String BBC = "BBC";
     private static final String BBC_URL = "http://www.bbc.co.uk/";
 
@@ -33,7 +33,7 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
 
     //Constructors
     public AddEditFactTest() {
-        super(GvFactList.GvFact.TYPE, new AddEditFact(new ClassesAddEditViewDefault.AddFact()));
+        super(GvFact.TYPE, new AddEditFact(new ClassesAddEditViewDefault.AddFact()));
     }
 
     @SmallTest
@@ -43,22 +43,22 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
 
     private void testCreateGvDatumFromViews(boolean isUrl) {
         mUrlData = isUrl;
-        GvFactList.GvFact datum = newDatum();
+        GvFact datum = newDatum();
         enterData(datum);
-        GvFactList.GvFact fromLayout = mLayout.createGvData();
+        GvFact fromLayout = mLayout.createGvData();
         assertEquals(isUrl, fromLayout.isUrl());
         assertEquals(datum, mLayout.createGvData());
     }
 
     //Overridden
     @Override
-    protected void enterData(GvFactList.GvFact datum) {
+    protected void enterData(GvFact datum) {
         mLabel.setText(datum.getLabel());
         mEditText.setText(datum.getValue());
     }
 
     @Override
-    protected void checkViewAndDataEquivalence(GvFactList.GvFact datum, boolean result) {
+    protected void checkViewAndDataEquivalence(GvFact datum, boolean result) {
         assertEquals(result, mLabel.getText().toString().trim().equals(datum.getLabel()));
         assertEquals(result, mEditText.getText().toString().trim().equals(datum.getValue()));
     }
@@ -69,10 +69,10 @@ public class AddEditFactTest extends AddEditLayoutTest<GvFactList.GvFact> {
     }
 
     @Override
-    protected GvFactList.GvFact newDatum() {
+    protected GvFact newDatum() {
         if (mUrlData) {
             try {
-                return new GvUrlList.GvUrl(BBC, new URL(BBC_URL));
+                return new GvUrl(BBC, new URL(BBC_URL));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 fail("Couldn't create URL data");

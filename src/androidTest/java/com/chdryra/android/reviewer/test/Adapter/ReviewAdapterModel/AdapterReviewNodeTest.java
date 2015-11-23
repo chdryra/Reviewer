@@ -22,8 +22,9 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.Models.UserModel.UserId;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewsRepository;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 import com.chdryra.android.testutils.RandomString;
@@ -37,7 +38,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     private static final int NUM = 10;
     private Author mAuthor;
     private ReviewNode mNode;
-    private AdapterReviewNode<GvReviewOverviewList.GvReviewOverview> mAdapter;
+    private AdapterReviewNode<GvReviewOverview> mAdapter;
     private MdIdableCollection<ReviewNode> mReviews;
 
     @SmallTest
@@ -73,7 +74,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     public void testExpandable() {
         GvReviewOverviewList data = (GvReviewOverviewList) mAdapter.getGridData();
         for (int i = 0; i < data.size(); ++i) {
-            GvReviewOverviewList.GvReviewOverview datum = data.getItem(i);
+            GvReviewOverview datum = data.getItem(i);
             assertTrue(mAdapter.isExpandable(datum));
             assertNotNull(mAdapter.expandGridCell(datum));
         }
@@ -103,7 +104,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
 
         mNode = collection;
         RandomReviewsRepository rando = new RandomReviewsRepository();
-        ReviewsProvider repo = RandomReviewsRepository.nextRepository(mNode);
+        ReviewsFeed repo = RandomReviewsRepository.nextRepository(mNode);
         ViewerChildList wrapper = new ViewerChildList(getContext(), mNode, repo);
         mAdapter = new AdapterReviewNode<>(mNode, wrapper);
     }

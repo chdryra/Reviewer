@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,9 +19,7 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
@@ -49,9 +46,10 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FragmentViewLocation extends Fragment implements
         LocationClientConnector.Locatable {
+    private final static String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentViewLocationMap.location";
     private static final float DEFAULT_ZOOM = 15;
 
-    private GvLocationList.GvLocation mCurrent;
+    private GvLocation mCurrent;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
 
@@ -60,6 +58,10 @@ public class FragmentViewLocation extends Fragment implements
     private Button mDoneButton;
 
     private LocationClientConnector mLocationClient;
+
+    public static Fragment newInstance(GvLocation location) {
+        return FactoryFragment.newFragment(FragmentViewLocation.class, LOCATION, location);
+    }
 
     private void onDoneSelected() {
         getActivity().finish();
@@ -154,17 +156,11 @@ public class FragmentViewLocation extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Activity activity = getActivity();
-
-        mLocationClient = new LocationClientConnector(activity, this);
+        mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();
-
-        Bundle args = LauncherUiImpl.getArgsForActivity(activity);
-        mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
-                .CurrentNewDatum.CURRENT, args);
-
-        MapsInitializer.initialize(activity);
+        Bundle args = getArguments();
+        if(args != null) mCurrent = args.getParcelable(LOCATION);
+        MapsInitializer.initialize(getActivity());
     }
 
     @Override

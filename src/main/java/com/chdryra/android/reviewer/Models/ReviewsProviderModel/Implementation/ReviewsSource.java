@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProviderObserver;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Models.TreeMethods.Implementation.VisitorRev
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsSource implements ReviewsProvider {
+public class ReviewsSource implements ReviewsFeed {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
     private FactoryReviewPublisher mPublisherFactory;

@@ -9,10 +9,13 @@
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.app.Fragment;
+import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 /**
  * UI Activity holding {@link FragmentEditUrlBrowser}: browsing and searching URLs (currently
@@ -20,6 +23,7 @@ import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
  */
 public class ActivityEditUrlBrowser extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityEditUrlMap";
+    private GvUrl mUrl;
 
     //Overridden
     @Override
@@ -29,12 +33,18 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
 
     @Override
     public void launch(LauncherUi launcher) {
+        getBundledLocation(launcher);
         launcher.launch(this);
     }
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentEditUrlBrowser();
+        return FragmentEditUrlBrowser.newInstance(mUrl);
     }
 
+    private void getBundledLocation(LauncherUi launcher) {
+        GvDataPacker<GvUrl> packer = new GvDataPacker<>();
+        Bundle args = launcher.getArguments();
+        if (args != null) mUrl = packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+    }
 }

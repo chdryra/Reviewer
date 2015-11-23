@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesHolder;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
 import com.chdryra.android.reviewer.View.Configs.Implementation.LaunchableConfigsHolderImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 
 /**
  * Created by: Rizwan Choudrey

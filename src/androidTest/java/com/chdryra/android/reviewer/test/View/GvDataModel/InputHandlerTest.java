@@ -12,11 +12,13 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryInputHandler;
+
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;
@@ -53,12 +55,12 @@ public class InputHandlerTest extends AndroidTestCase {
 
     @SmallTest
     public void testAddConstraint() {
-        GvTagList data = (GvTagList) getData(GvTagList.GvTag.TYPE);
+        GvTagList data = (GvTagList) getData(GvTag.TYPE);
         InputHandler noAddHandler = new InputHandler<>(data, getNoAddAddConstraint(data));
         InputHandler alwaysAddHandler = new InputHandler<>(data, getAlwaysAddAddConstraint(data));
 
-        GvTagList addData1 = (GvTagList) getData(GvTagList.GvTag.TYPE);
-        GvTagList addData2 = (GvTagList) getData(GvTagList.GvTag.TYPE);
+        GvTagList addData1 = (GvTagList) getData(GvTag.TYPE);
+        GvTagList addData2 = (GvTagList) getData(GvTag.TYPE);
 
         int originalSize = data.size();
         for (int i = 0; i < addData1.size(); ++i) {

@@ -8,9 +8,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObse
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DataBuilderGridCell<T extends GvData> extends GvDataList<T>
+public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
         implements GridDataObservable.GridDataObserver {
 
     public static final Creator<DataBuilderGridCell> CREATOR = new Creator<DataBuilderGridCell>() {

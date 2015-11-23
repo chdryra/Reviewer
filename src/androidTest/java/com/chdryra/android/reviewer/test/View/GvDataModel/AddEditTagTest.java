@@ -12,27 +12,27 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditTag;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditTagTest extends AddEditLayoutTest<GvTagList.GvTag> {
+public class AddEditTagTest extends AddEditLayoutTest<GvTag> {
     //Constructors
     public AddEditTagTest() {
-        super(GvTagList.GvTag.TYPE, new AddEditTag(new ClassesAddEditViewDefault.AddTag()));
+        super(GvTag.TYPE, new AddEditTag(new ClassesAddEditViewDefault.AddTag()));
     }
 
     //Overridden
     @Override
-    protected void enterData(GvTagList.GvTag comment) {
+    protected void enterData(GvTag comment) {
         mEditText.setText(comment.getString());
     }
 
     @Override
-    protected void checkViewAndDataEquivalence(GvTagList.GvTag datum, boolean result) {
+    protected void checkViewAndDataEquivalence(GvTag datum, boolean result) {
         assertEquals(result, mEditText.getText().toString().trim().equals(datum.getString()));
     }
 

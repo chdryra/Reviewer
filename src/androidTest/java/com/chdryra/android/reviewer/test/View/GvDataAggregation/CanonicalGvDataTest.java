@@ -12,8 +12,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
 
 import junit.framework.TestCase;
 
@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
-    protected GvDataList<T> mData;
+    protected GvDataListImpl<T> mData;
     protected CanonicalDatumMaker<T> mCanonical;
 
     protected abstract void additionalTests();
@@ -40,8 +40,8 @@ public abstract class CanonicalGvDataTest<T extends GvData> extends TestCase {
 
     protected abstract CanonicalDatumMaker<T> getCanonicalMaker();
 
-    protected GvDataList<T> newDataList() {
-        return (GvDataList<T>) FactoryGvData.newDataList(getTestDatum().getGvDataType(), null);
+    protected GvDataListImpl<T> newDataList() {
+        return (GvDataListImpl<T>) FactoryGvData.newDataList(getTestDatum().getGvDataType(), null);
     }
 
     protected void checkSame() {

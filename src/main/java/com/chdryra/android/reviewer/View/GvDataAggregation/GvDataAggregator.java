@@ -1,12 +1,12 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,13 +17,17 @@ public class GvDataAggregator<T extends GvData, D1, D2 extends DifferenceLevel<D
     private DifferenceComparitor<T, D2> mComparitor;
     private D1 mMinimumDifference;
     private CanonicalDatumMaker<T> mCanonical;
+    private FactoryGvData mDataFactory;
 
     //Constructors
-    public GvDataAggregator(DifferenceComparitor<T, D2> comparitor, D1 minimumDifference,
-                            CanonicalDatumMaker<T> canonical) {
+    public GvDataAggregator(DifferenceComparitor<T, D2> comparitor,
+                            D1 minimumDifference,
+                            CanonicalDatumMaker<T> canonical,
+                            FactoryGvData dataFactory) {
         mComparitor = comparitor;
         mMinimumDifference = minimumDifference;
         mCanonical = canonical;
+        mDataFactory = dataFactory;
     }
 
     public GvCanonicalCollection<T> aggregate(GvDataList<T> data) {
@@ -33,7 +37,7 @@ public class GvDataAggregator<T extends GvData, D1, D2 extends DifferenceLevel<D
         GvCanonicalCollection<T> results = new GvCanonicalCollection<>(data.getGvReviewId(), elementType);
         for (T reference : data) {
             if (allocated.contains(reference)) continue;
-            GvDataList<T> similar = FactoryGvData.newDataList(elementType, data.getGvReviewId());
+            GvDataList<T> similar = mDataFactory.newDataList(elementType, data.getGvReviewId());
             similar.add(reference);
             allocated.add(reference);
             for (T candidate : data) {

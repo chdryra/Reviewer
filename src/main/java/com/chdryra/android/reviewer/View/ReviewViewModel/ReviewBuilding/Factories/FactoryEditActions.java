@@ -6,14 +6,14 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
         .ImageChooser;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
@@ -44,30 +44,30 @@ public class FactoryEditActions {
         mDataFactory = dataFactory;
         mFactoriesMap = new HashMap<>();
 
-        addFactory(GvCommentList.GvComment.TYPE,
+        addFactory(GvComment.TYPE,
                 new FactoryEditActionsComments(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvCommentList.GvComment>()));
+                        new GvDataPacker<GvComment>()));
 
-        addFactory(GvCriterionList.GvCriterion.TYPE,
+        addFactory(GvCriterion.TYPE,
                 new FactoryEditActionsCriteria(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvCriterionList.GvCriterion>()));
+                        new GvDataPacker<GvCriterion>()));
 
-        addFactory(GvFactList.GvFact.TYPE,
+        addFactory(GvFact.TYPE,
                 new FactoryEditActionsFacts(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvFactList.GvFact>()));
+                        new GvDataPacker<GvFact>()));
 
-        addFactory(GvImageList.GvImage.TYPE,
+        addFactory(GvImage.TYPE,
                 new FactoryEditActionsImages(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvImageList.GvImage>(),
+                        new GvDataPacker<GvImage>(),
                         imageChooser));
 
-        addFactory(GvLocationList.GvLocation.TYPE,
+        addFactory(GvLocation.TYPE,
                 new FactoryEditActionsLocations(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvLocationList.GvLocation>()));
+                        new GvDataPacker<GvLocation>()));
 
-        addFactory(GvTagList.GvTag.TYPE,
+        addFactory(GvTag.TYPE,
                 new FactoryEditActionsTags(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvTagList.GvTag>()));
+                        new GvDataPacker<GvTag>()));
     }
 
     public <T extends GvData> ReviewViewActions<T> newActions(GvDataType<T> dataType) {

@@ -12,34 +12,34 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.AddEditComment;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditCommentTest extends AddEditLayoutTest<GvCommentList.GvComment> {
+public class AddEditCommentTest extends AddEditLayoutTest<GvComment> {
     //Constructors
     public AddEditCommentTest() {
-        super(GvCommentList.GvComment.TYPE,
+        super(GvComment.TYPE,
                 new AddEditComment(new ClassesAddEditViewDefault.AddComment()));
     }
 
     //Overridden
     @Override
-    protected void enterData(GvCommentList.GvComment comment) {
+    protected void enterData(GvComment comment) {
         mEditText.setText(comment.getComment());
     }
 
     @Override
-    protected void checkViewAndDataEquivalence(GvCommentList.GvComment datum, boolean result) {
+    protected void checkViewAndDataEquivalence(GvComment datum, boolean result) {
         assertEquals(result, mEditText.getText().toString().trim().equals(datum.getComment()));
     }
 
     @Override
-    protected GvCommentList.GvComment newDatum() {
-        GvCommentList.GvComment data = super.newDatum();
+    protected GvComment newDatum() {
+        GvComment data = super.newDatum();
         data.setIsHeadline(false);
         return data;
     }

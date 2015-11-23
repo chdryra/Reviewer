@@ -4,6 +4,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCo
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.StaticReviewsRepository;
@@ -34,7 +35,7 @@ public class FactoryReviewsRepository {
         return new StaticReviewsRepository(reviews, tagsManager);
     }
 
-    public ReviewsRepository newDatabaseRepository(ReviewerDb db) {
+    public ReviewsRepositoryMutable newDatabaseRepository(ReviewerDb db) {
         ReviewerDbRepository repo = new ReviewerDbRepository(db);
         db.registerObserver(repo);
         return repo;

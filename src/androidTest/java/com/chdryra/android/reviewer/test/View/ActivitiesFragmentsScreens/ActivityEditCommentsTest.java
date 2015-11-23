@@ -14,8 +14,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
@@ -23,12 +24,12 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * On: 04/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentList.GvComment> {
+public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvComment> {
     private static final int SPLIT = R.id.menu_item_split_comment;
 
     //Constructors
     public ActivityEditCommentsTest() {
-        super(GvCommentList.GvComment.TYPE);
+        super(GvComment.TYPE);
     }
 
     @SmallTest
@@ -80,12 +81,12 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentLi
     public void testSetAsHeadline() {
         setUp(true);
         GvCommentList comments = (GvCommentList) mData;
-        for (GvCommentList.GvComment comment : comments) {
+        for (GvComment comment : comments) {
             comment.setIsHeadline(false);
         }
 
         comments.getItem(0).setIsHeadline(true);
-        GvCommentList.GvComment oldHeadline = getGridItem(0);
+        GvComment oldHeadline = getGridItem(0);
         assertNotNull(oldHeadline);
         assertTrue(oldHeadline.isHeadline());
         for (int i = 0; i < comments.size(); ++i) {
@@ -119,7 +120,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentLi
         mSolo.waitForDialogToClose(TIMEOUT);
         assertFalse(mSolo.searchText(alert));
 
-        GvCommentList.GvComment newHeadline = getGridItem(0);
+        GvComment newHeadline = getGridItem(0);
         assertNotNull(newHeadline);
         assertTrue(newHeadline.isHeadline());
         assertFalse(oldHeadline.isHeadline());
@@ -141,7 +142,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentLi
         clickDeleteConfirm();
         waitForLaunchableToClose();
 
-        GvCommentList.GvComment newnewHeadline = getGridItem(0);
+        GvComment newnewHeadline = getGridItem(0);
         assertNotNull(newnewHeadline);
         assertTrue(newnewHeadline.isHeadline());
         assertFalse(newHeadline.isHeadline());
@@ -157,8 +158,8 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentLi
 
     //Overridden
     @Override
-    protected GvCommentList.GvComment newEditDatum(GvCommentList.GvComment oldDatum) {
-        GvCommentList.GvComment newComment = (GvCommentList.GvComment) GvDataMocker.getDatum
+    protected GvComment newEditDatum(GvComment oldDatum) {
+        GvComment newComment = (GvComment) GvDataMocker.getDatum
                 (mDataType);
         newComment.setIsHeadline(( oldDatum).isHeadline());
 
@@ -166,9 +167,9 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentLi
     }
 
     @Override
-    protected GvDataList<GvCommentList.GvComment> newData() {
+    protected GvDataListImpl<GvComment> newData() {
         GvCommentList comments = (GvCommentList) super.newData();
-        for (GvCommentList.GvComment comment : comments) {
+        for (GvComment comment : comments) {
             comment.setIsHeadline(false);
         }
 
@@ -178,7 +179,7 @@ public class ActivityEditCommentsTest extends ActivityEditScreenTest<GvCommentLi
     }
 
     @Override
-    protected GvCommentList.GvComment parentDatum(GvCommentList.GvComment currentDatum) {
+    protected GvComment parentDatum(GvComment currentDatum) {
         currentDatum.setIsHeadline(true);
         return currentDatum;
     }

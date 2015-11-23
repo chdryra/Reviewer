@@ -11,12 +11,12 @@ import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Models.TreeMethods.Implementation.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 
 import java.util.ArrayList;
 
@@ -67,7 +67,7 @@ public class ViewerTreeData extends ViewerReviewData {
         FactoryReviewViewAdapter adapterFactory = getAdapterFactory();
         ReviewViewAdapter adapter = null;
         if (isExpandable(datum)) {
-            if (datum.getGvDataType().equals(GvReviewOverviewList.GvReviewOverview.TYPE)) {
+            if (datum.getGvDataType().equals(GvReviewOverview.TYPE)) {
                 adapter = adapterFactory.newReviewsListAdapter(getReviewNode());
             } else {
                 String subject = datum.getStringSummary();

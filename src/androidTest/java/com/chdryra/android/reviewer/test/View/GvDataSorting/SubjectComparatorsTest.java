@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
 import com.chdryra.android.reviewer.View.GvDataSorting.SubjectComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
@@ -13,7 +13,7 @@ import java.util.Comparator;
  * On: 06/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectComparatorsTest extends ComparatorCollectionTest<GvSubjectList.GvSubject> {
+public class SubjectComparatorsTest extends ComparatorCollectionTest<GvSubject> {
 
     //Constructors
     public SubjectComparatorsTest() {
@@ -22,14 +22,14 @@ public class SubjectComparatorsTest extends ComparatorCollectionTest<GvSubjectLi
 
     @SmallTest
     public void testDefaultComparator() {
-        Comparator<GvSubjectList.GvSubject> comparator = mComparators.getDefault();
-        GvSubjectList.GvSubject A = new GvSubjectList.GvSubject("A");
-        GvSubjectList.GvSubject A2 = new GvSubjectList.GvSubject("A");
-        GvSubjectList.GvSubject a = new GvSubjectList.GvSubject("a");
-        GvSubjectList.GvSubject B = new GvSubjectList.GvSubject("B");
-        GvSubjectList.GvSubject C = new GvSubjectList.GvSubject("C");
+        Comparator<GvSubject> comparator = mComparators.getDefault();
+        GvSubject A = new GvSubject("A");
+        GvSubject A2 = new GvSubject("A");
+        GvSubject a = new GvSubject("a");
+        GvSubject B = new GvSubject("B");
+        GvSubject C = new GvSubject("C");
 
-        ComparatorTester<GvSubjectList.GvSubject> tester = new ComparatorTester<>(comparator);
+        ComparatorTester<GvSubject> tester = new ComparatorTester<>(comparator);
         tester.testEquals(A, A);
         tester.testEquals(A, A2);
         tester.testEquals(A, a);

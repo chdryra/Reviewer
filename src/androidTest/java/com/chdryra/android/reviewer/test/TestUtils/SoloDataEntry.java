@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 import com.robotium.solo.Solo;
 
 /**
@@ -25,50 +25,50 @@ import com.robotium.solo.Solo;
 public class SoloDataEntry {
     //Static methods
     public static void enter(Solo solo, GvData data) {
-        if (data instanceof GvTagList.GvTag) enterTag(solo, (GvTagList.GvTag) data);
-        if (data instanceof GvCommentList.GvComment) {
-            enterComment(solo, (GvCommentList.GvComment) data);
+        if (data instanceof GvTag) enterTag(solo, (GvTag) data);
+        if (data instanceof GvComment) {
+            enterComment(solo, (GvComment) data);
         }
-        if (data instanceof GvCriterionList.GvCriterion) {
+        if (data instanceof GvCriterion) {
             enterCriterion(solo,
-                    (GvCriterionList.GvCriterion) data);
+                    (GvCriterion) data);
         }
-        if (data instanceof GvFactList.GvFact) enterFact(solo, (GvFactList.GvFact) data);
-        if (data instanceof GvLocationList.GvLocation) {
-            enterLocation(solo, (GvLocationList.GvLocation) data);
+        if (data instanceof GvFact) enterFact(solo, (GvFact) data);
+        if (data instanceof GvLocation) {
+            enterLocation(solo, (GvLocation) data);
         }
-        if (data instanceof GvImageList.GvImage) enterImage(solo, (GvImageList.GvImage) data);
+        if (data instanceof GvImage) enterImage(solo, (GvImage) data);
     }
 
-    public static void enterTag(Solo solo, GvTagList.GvTag data) {
+    public static void enterTag(Solo solo, GvTag data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getString());
     }
 
-    public static void enterComment(Solo solo, GvCommentList.GvComment data) {
+    public static void enterComment(Solo solo, GvComment data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getComment());
     }
 
-    public static void enterCriterion(Solo solo, GvCriterionList.GvCriterion data) {
+    public static void enterCriterion(Solo solo, GvCriterion data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getSubject());
         solo.setProgressBar(0, (int) (data.getRating() * 2f));
     }
 
-    public static void enterFact(Solo solo, GvFactList.GvFact data) {
+    public static void enterFact(Solo solo, GvFact data) {
         solo.clearEditText(solo.getEditText(0));
         solo.clearEditText(solo.getEditText(1));
         solo.enterText(solo.getEditText(0), data.getLabel());
         solo.enterText(solo.getEditText(1), data.getValue());
     }
 
-    public static void enterLocation(Solo solo, GvLocationList.GvLocation data) {
+    public static void enterLocation(Solo solo, GvLocation data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getName());
     }
 
-    public static void enterImage(Solo solo, GvImageList.GvImage data) {
+    public static void enterImage(Solo solo, GvImage data) {
         solo.clearEditText(solo.getEditText(0));
         solo.enterText(solo.getEditText(0), data.getCaption());
     }

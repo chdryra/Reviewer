@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Builder
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.RatingBarActionNone;
@@ -40,21 +41,21 @@ public class BuilderShareScreen {
         GvSocialPlatformList platforms = new GvSocialPlatformList(socialPlatforms);
         ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, builder);
 
-        SubjectAction<GvSocialPlatformList.GvSocialPlatform> subjectAction = new SubjectActionNone<>();
-        RatingBarAction<GvSocialPlatformList.GvSocialPlatform> rb = new RatingBarActionNone<>();
-        BannerButtonAction<GvSocialPlatformList.GvSocialPlatform> bannerButton
+        SubjectAction<GvSocialPlatform> subjectAction = new SubjectActionNone<>();
+        RatingBarAction<GvSocialPlatform> rb = new RatingBarActionNone<>();
+        BannerButtonAction<GvSocialPlatform> bannerButton
                 = new BannerButtonActionNone<>(title);
         ShareScreenGridItem gridItem = new ShareScreenGridItem();
-        MenuAction<GvSocialPlatformList.GvSocialPlatform> menuAction
+        MenuAction<GvSocialPlatform> menuAction
                 = new MenuActionNone<>(title);
 
-        ReviewViewActions<GvSocialPlatformList.GvSocialPlatform> actions
+        ReviewViewActions<GvSocialPlatform> actions
                 = new ReviewViewActions<>(subjectAction, rb, bannerButton, gridItem, menuAction);
 
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-        ReviewViewPerspective<GvSocialPlatformList.GvSocialPlatform> perspective =
+        ReviewViewPerspective<GvSocialPlatform> perspective =
                 new ReviewViewPerspective<>(adapter, params, actions, new ShareScreenModifier());
 
         return new ReviewViewDefault<>(perspective);

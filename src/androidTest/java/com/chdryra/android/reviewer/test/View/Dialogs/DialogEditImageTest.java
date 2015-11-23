@@ -9,16 +9,16 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImage> {
-    private GvImageList.GvImage mCurrent;
+public class DialogEditImageTest extends DialogGvDataEditTest<GvImage> {
+    private GvImage mCurrent;
 
     //Constructors
     public DialogEditImageTest() {
@@ -27,9 +27,9 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImag
 
     //protected methods
     @Override
-    protected GvImageList.GvImage getDataShown() {
+    protected GvImage getDataShown() {
         String caption = mSolo.getEditText(0).getText().toString().trim();
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+        mCurrent = new GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), caption, mCurrent.isCover());
 
         return mCurrent;
@@ -37,9 +37,9 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImag
 
     @Override
     protected GvData getEditDatum() {
-        GvImageList.GvImage child = (GvImageList.GvImage) super.getEditDatum();
+        GvImage child = (GvImage) super.getEditDatum();
 
-        mCurrent = new GvImageList.GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
+        mCurrent = new GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), child.getCaption(), mCurrent.isCover());
 
         return mCurrent;
@@ -48,13 +48,13 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImageList.GvImag
 //Overridden
     @Override
     protected GvData newDatum() {
-        mCurrent = (GvImageList.GvImage) super.newDatum();
+        mCurrent = (GvImage) super.newDatum();
         return mCurrent;
     }
 
     @Override
     protected GvData launchDialogAndTestShowing() {
-        mCurrent = (GvImageList.GvImage) super.launchDialogAndTestShowing();
+        mCurrent = (GvImage) super.launchDialogAndTestShowing();
         return mCurrent;
     }
 }

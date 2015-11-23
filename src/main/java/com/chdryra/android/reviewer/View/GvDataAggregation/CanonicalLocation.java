@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -18,11 +18,11 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvLocation> {
+public class CanonicalLocation implements CanonicalDatumMaker<GvLocation> {
     //Overridden
     @Override
-    public GvLocationList.GvLocation getCanonical(GvDataList<GvLocationList.GvLocation> data) {
-        if (data.size() == 0) return new GvLocationList.GvLocation(data.getGvReviewId(), null, "");
+    public GvLocation getCanonical(GvDataList<GvLocation> data) {
+        if (data.size() == 0) return new GvLocation(data.getGvReviewId(), null, "");
 
         LatLng[] latLngs = new LatLng[data.size()];
         for (int i = 0; i < data.size(); ++i) {
@@ -32,11 +32,11 @@ public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvL
         LatLngMidpoint midpoint = new LatLngMidpoint(latLngs);
         LatLng mid = midpoint.getGeoMidpoint();
 
-        DatumCounter<GvLocationList.GvLocation, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvLocationList.GvLocation, String>() {
+        DatumCounter<GvLocation, String> counter = new DatumCounter<>(data,
+                new DataGetter<GvLocation, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvLocationList.GvLocation datum) {
+                    public String getData(GvLocation datum) {
                         return datum.getName();
                     }
                 });
@@ -45,6 +45,6 @@ public class CanonicalLocation implements CanonicalDatumMaker<GvLocationList.GvL
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
 
-        return new GvLocationList.GvLocation(data.getGvReviewId(), mid, maxLocation);
+        return new GvLocation(data.getGvReviewId(), mid, maxLocation);
     }
 }

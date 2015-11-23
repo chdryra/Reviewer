@@ -18,10 +18,11 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableC
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewsRepository;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -35,7 +36,7 @@ public class ViewerChildListTest extends AndroidTestCase {
     @SmallTest
     public void testGetGridData() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        ReviewsProvider repo = RandomReviewsRepository.nextRepository(node);
+        ReviewsFeed repo = RandomReviewsRepository.nextRepository(node);
         ViewerChildList wrapper = new ViewerChildList(getContext(), node, repo);
         GvDataList data = wrapper.getGridData();
         assertNotNull(data);
@@ -44,7 +45,7 @@ public class ViewerChildListTest extends AndroidTestCase {
         GvReviewOverviewList list = (GvReviewOverviewList) data;
         for (int i = 0; i < children.size(); ++i) {
             ReviewNode child = children.getItem(i);
-            GvReviewOverviewList.GvReviewOverview item = list.getItem(i);
+            GvReviewOverview item = list.getItem(i);
             assertEquals(child.getSubject().getSubject(), item.getSubject());
             assertEquals(child.getRating().getRating(), item.getRating());
             assertEquals(child.getAuthor(), item.getAuthor());

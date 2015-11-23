@@ -8,20 +8,20 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvFactLabel extends ComparitorStringable<GvFactList.GvFact> {
+public class ComparitorGvFactLabel extends ComparitorStringable<GvFact> {
     //Constructors
     public ComparitorGvFactLabel() {
-        super(new DataGetter<GvFactList.GvFact, String>() {
+        super(new DataGetter<GvFact, String>() {
             //Overridden
             @Override
-            public String getData(GvFactList.GvFact datum) {
+            public String getData(GvFact datum) {
                 return datum.getLabel().toLowerCase();
             }
         });

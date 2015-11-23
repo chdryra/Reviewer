@@ -15,10 +15,10 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 
@@ -37,42 +37,29 @@ import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
  * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
- * <li>{@link GvDataEditListener}: commissioning fragment.
+ * <li>{@link EditListener}: commissioning fragment.
  * </ul>
  * </p>
  */
 public abstract class DialogGvDataEdit<T extends GvData>
-        extends DialogCancelDeleteDoneFragment implements AddEditLayout.GvDataEditor,
-        LaunchableUi {
+        extends DialogCancelDeleteDoneFragment
+        implements AddEditLayout.GvDataEditor, LaunchableUi {
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
     private T mDatum;
-    private GvDataEditListener<T> mEditListener;
+    private EditListener<T> mEditListener;
 
-    /**
-     * Provides a callback that can be called delete or done buttons are pressed.
-     *
-     * @param <T>:{@link GvData} type
-     */
-    public interface GvDataEditListener<T extends GvData> {
-        //abstract
-        void onGvDataDelete(T data, int requestCode);
+    public interface EditListener<T extends GvData> {
+        void onDelete(T data, int requestCode);
 
-        void onGvDataEdit(T oldDatum, T newDatum, int requestCode);
+        void onEdit(T oldDatum, T newDatum, int requestCode);
     }
 
-    //Constructors
     public DialogGvDataEdit(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
-    //public methods
-    public GvDataType getGvDataType() {
-        return mDataType;
-    }
-
-    //protected methods
     @Override
     protected Intent getReturnData() {
         return null;
@@ -101,7 +88,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onConfirmedDeleteButtonClick() {
-        mEditListener.onGvDataDelete(mDatum, getTargetRequestCode());
+        mEditListener.onDelete(mDatum, getTargetRequestCode());
     }
 
     @Override
@@ -117,17 +104,29 @@ public abstract class DialogGvDataEdit<T extends GvData>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setLayout();
+        getDatumToEdit();
+        getTargetListener();
+        setDialogTitle();
+    }
 
-        Bundle args = getArguments();
-        mLayout = FactoryGvDataViewLayout.newLayout(getGvDataType(), this);
-        mLayout.onActivityAttached(getActivity(), args);
-        GvDataPacker<T> unpacker = new GvDataPacker<>();
-        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
-
+    private void getTargetListener() {
         //TODO make type safe
-        mEditListener = (GvDataEditListener<T>) getTargetListener(GvDataEditListener.class);
+        mEditListener = (EditListener<T>) getTargetListener(EditListener.class);
+    }
 
-        if (getGvDataType().equals(GvImageList.GvImage.TYPE)) {
+    private void getDatumToEdit() {
+        GvDataPacker<T> unpacker = new GvDataPacker<>();
+        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, getArguments());
+    }
+
+    private void setLayout() {
+        mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
+        mLayout.onActivityAttached(getActivity(), getArguments());
+    }
+
+    private void setDialogTitle() {
+        if (mDataType.equals(GvImage.TYPE)) {
             setDialogTitle(null);
             hideKeyboardOnLaunch();
         } else {
@@ -138,6 +137,6 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mEditListener.onGvDataEdit(mDatum, mLayout.createGvData(), getTargetRequestCode());
+        mEditListener.onEdit(mDatum, mLayout.createGvData(), getTargetRequestCode());
     }
 }

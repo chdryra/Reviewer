@@ -14,29 +14,29 @@ import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
 import com.chdryra.android.reviewer.View.Dialogs.ImageEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageEditTest extends AddEditLayoutTest<GvImageList.GvImage> {
+public class ImageEditTest extends AddEditLayoutTest<GvImage> {
     private ImageView mImageView;
 
     //Constructors
     public ImageEditTest() {
-        super(GvImageList.GvImage.TYPE, new ImageEdit(new ClassesAddEditViewDefault.EditImage()));
+        super(GvImage.TYPE, new ImageEdit(new ClassesAddEditViewDefault.EditImage()));
     }
 
     //Overridden
     @Override
-    protected void enterData(GvImageList.GvImage datum) {
+    protected void enterData(GvImage datum) {
         mLayout.updateLayout(datum);
     }
 
     @Override
-    protected void checkViewAndDataEquivalence(GvImageList.GvImage datum, boolean result) {
+    protected void checkViewAndDataEquivalence(GvImage datum, boolean result) {
         assertEquals(result, ((BitmapDrawable) mImageView.getDrawable()).getBitmap().sameAs
                 (datum.getBitmap()));
         assertEquals(result, mEditText.getText().toString().trim().equals(datum.getCaption()));

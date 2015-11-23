@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import com.chdryra.android.mygenerallibrary.SortableList;
+import com.chdryra.android.mygenerallibrary.SortableListImpl;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 
 /**
@@ -16,6 +16,6 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableRowList<T extends DbTableRow> extends SortableList<T> {
+public class TableRowList<T extends DbTableRow> extends SortableListImpl<T> {
 
 }

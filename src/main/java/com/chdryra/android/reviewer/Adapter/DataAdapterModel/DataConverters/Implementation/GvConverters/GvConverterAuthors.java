@@ -1,7 +1,8 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -9,14 +10,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterAuthors extends
-        GvConverterBasic<DataAuthor, GvAuthorList.GvAuthor, GvAuthorList> {
+        GvConverterBasic<DataAuthor, GvAuthor, GvAuthorList> {
 
     public GvConverterAuthors() {
         super(GvAuthorList.class);
     }
 
     @Override
-    public GvAuthorList.GvAuthor convert(DataAuthor datum, String reviewId) {
-        return new GvAuthorList.GvAuthor(newId(reviewId), datum.getName(), datum.getUserId());
+    public GvAuthor convert(DataAuthor datum, String reviewId) {
+        return new GvAuthor(newId(reviewId), datum.getName(), datum.getUserId());
     }
 }

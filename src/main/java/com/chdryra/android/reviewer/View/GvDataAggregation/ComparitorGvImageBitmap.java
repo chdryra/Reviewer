@@ -8,19 +8,19 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvImageBitmap implements DifferenceComparitor<GvImageList.GvImage,
+public class ComparitorGvImageBitmap implements DifferenceComparitor<GvImage,
         DifferenceBoolean> {
 
     //Overridden
     @Override
-    public DifferenceBoolean compare(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
+    public DifferenceBoolean compare(GvImage lhs, GvImage rhs) {
         return new DifferenceBoolean(!lhs.getBitmap().sameAs(rhs.getBitmap()));
     }
 }

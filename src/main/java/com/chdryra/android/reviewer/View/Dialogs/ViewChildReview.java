@@ -12,14 +12,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewChildReview extends DialogLayout<GvCriterionList.GvCriterion> {
+public class ViewChildReview extends DialogLayout<GvCriterion> {
     public static final int LAYOUT = R.layout.dialog_criterion_view;
     public static final int SUBJECT = R.id.child_name_text_view;
     public static final int RATING = R.id.child_rating_bar;
@@ -32,13 +32,13 @@ public class ViewChildReview extends DialogLayout<GvCriterionList.GvCriterion> {
 
     //Overridden
     @Override
-    public void updateLayout(GvCriterionList.GvCriterion data) {
+    public void updateLayout(GvCriterion data) {
         ((TextView) getView(SUBJECT)).setText(data.getSubject());
         ((RatingBar) getView(RATING)).setRating(data.getRating());
     }
 
     @Override
-    public void initialise(GvCriterionList.GvCriterion data) {
+    public void initialise(GvCriterion data) {
         getView(SUBJECT).setFocusable(false);
         ((RatingBar) getView(RATING)).setIsIndicator(true);
         super.initialise(data);

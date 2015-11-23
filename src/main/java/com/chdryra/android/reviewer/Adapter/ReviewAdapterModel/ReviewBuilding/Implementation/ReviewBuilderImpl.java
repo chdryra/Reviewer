@@ -11,16 +11,18 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableC
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataTypesList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +105,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     @Override
     public float getAverageRating() {
-        GvCriterionList criteria = (GvCriterionList) getData(GvCriterionList.GvCriterion.TYPE);
+        GvCriterionList criteria = (GvCriterionList) getData(GvCriterion.TYPE);
         return criteria.getAverageRating();
     }
 
@@ -129,7 +131,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     public <T extends GvData> void setData(DataBuilder<T> dataBuilder) {
         GvDataList<T> data = dataBuilder.getData();
         GvDataType<T> dataType = data.getGvDataType();
-        if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
+        if (dataType.equals(GvCriterion.TYPE)) {
             setCriteria(data);
         } else if (TYPES.contains(dataType)) {
             mData.put(dataType, data);
@@ -143,7 +145,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         }
 
         Review review = assembleReview();
-        GvTagList tags = (GvTagList) getData(GvTagList.GvTag.TYPE);
+        GvTagList tags = (GvTagList) getData(GvTag.TYPE);
         mTagsManager.tagItem(review.getReviewId(), tags.toStringArray());
 
         return review;
@@ -151,7 +153,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     //private methods
     private boolean isValidForPublication() {
-        return mDataValidator.validateString(mSubject) && getData(GvTagList.GvTag.TYPE).size() > 0;
+        return mDataValidator.validateString(mSubject) && getData(GvTag.TYPE).size() > 0;
     }
 
     private Review assembleReview() {
@@ -161,22 +163,22 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         }
 
         return mReviewFactory.createUserReview(getSubject(), getRating(),
-                getData(GvCommentList.GvComment.TYPE),
-                getData(GvImageList.GvImage.TYPE),
-                getData(GvFactList.GvFact.TYPE),
-                getData(GvLocationList.GvLocation.TYPE),
+                getData(GvComment.TYPE),
+                getData(GvImage.TYPE),
+                getData(GvFact.TYPE),
+                getData(GvLocation.TYPE),
                 criteria, mIsAverage);
     }
 
     private void setCriteria(GvDataList children) {
         mChildren = new ArrayList<>();
-        for (GvCriterionList.GvCriterion child : (GvCriterionList) children) {
+        for (GvCriterion child : (GvCriterionList) children) {
             ReviewBuilderImpl childBuilder = new ReviewBuilderImpl(mConverter, mTagsManager,
                     mReviewFactory, mDataBuilderFactory, mDataFactory, mDataValidator);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);
         }
-        mData.put(GvCriterionList.GvCriterion.TYPE, mConverter.copy(children));
+        mData.put(GvCriterion.TYPE, mConverter.copy(children));
     }
 }

@@ -9,15 +9,15 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditFactTest extends DialogGvDataEditTest<GvFactList.GvFact> {
+public class DialogEditFactTest extends DialogGvDataEditTest<GvFact> {
 
     //Constructors
     public DialogEditFactTest() {
@@ -27,7 +27,7 @@ public class DialogEditFactTest extends DialogGvDataEditTest<GvFactList.GvFact> 
     //protected methods
     @Override
     protected GvData getDataShown() {
-        return new GvFactList.GvFact(mSolo.getEditText(0).getText().toString(),
+        return new GvFact(mSolo.getEditText(0).getText().toString(),
                 mSolo.getEditText(1).getText().toString());
     }
 }

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDate;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
 import com.chdryra.android.testutils.RandomDate;
 
 import java.util.Date;
@@ -20,7 +20,7 @@ import java.util.Date;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalDateTest extends CanonicalGvDataTest<GvDateList.GvDate> {
+public class CanonicalDateTest extends CanonicalGvDataTest<GvDate> {
     private static final Date DATE1 = RandomDate.nextDate();
     private static final Date DATE2 = RandomDate.nextDate();
     private static final Date DATE3 = RandomDate.nextDate();
@@ -28,21 +28,21 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDateList.GvDate> {
 
     //protected methods
     @Override
-    protected GvDateList.GvDate getTestDatum() {
-        return new GvDateList.GvDate(DATE1);
+    protected GvDate getTestDatum() {
+        return new GvDate(DATE1);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvDateList.GvDate> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvDate> getCanonicalMaker() {
         return new CanonicalDate();
     }
 
     private void checkDifferentDates() {
         mData = newDataList();
-        GvDateList.GvDate date1 = new GvDateList.GvDate(DATE1);
-        GvDateList.GvDate date2 = new GvDateList.GvDate(DATE2);
-        GvDateList.GvDate date3 = new GvDateList.GvDate(DATE3);
-        GvDateList.GvDate date4 = new GvDateList.GvDate(DATE4);
+        GvDate date1 = new GvDate(DATE1);
+        GvDate date2 = new GvDate(DATE2);
+        GvDate date3 = new GvDate(DATE3);
+        GvDate date4 = new GvDate(DATE4);
         mData.add(date1);
         mData.add(date2);
         mData.add(date3);
@@ -55,7 +55,7 @@ public class CanonicalDateTest extends CanonicalGvDataTest<GvDateList.GvDate> {
         if (DATE3.after(maxDate)) maxDate = DATE3;
         if (DATE4.after(maxDate)) maxDate = DATE4;
 
-        GvDateList.GvDate canon = mCanonical.getCanonical(mData);
+        GvDate canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(maxDate, canon.getDate());
     }

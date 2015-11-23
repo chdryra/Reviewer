@@ -10,13 +10,14 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -37,7 +38,7 @@ public class GvCommentListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvCommentList.GvComment.TYPE, mList.getGvDataType());
+        assertEquals(GvComment.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -54,14 +55,14 @@ public class GvCommentListTest extends TestCase {
         String comment1 = GvDataMocker.newComment(null).getComment();
         String comment2 = GvDataMocker.newComment(null).getComment();
 
-        GvCommentList.GvComment gvComment = new GvCommentList.GvComment(comment1);
-        GvCommentList.GvComment gvCommentEquals = new GvCommentList.GvComment(comment1);
-        GvCommentList.GvComment gvCommentEquals2 = new GvCommentList.GvComment(gvComment);
-        GvCommentList.GvComment gvCommentNotEquals = new GvCommentList.GvComment(comment2);
-        GvCommentList.GvComment gvCommentNotEqual2 = new GvCommentList.GvComment(RandomReviewId
+        GvComment gvComment = new GvComment(comment1);
+        GvComment gvCommentEquals = new GvComment(comment1);
+        GvComment gvCommentEquals2 = new GvComment(gvComment);
+        GvComment gvCommentNotEquals = new GvComment(comment2);
+        GvComment gvCommentNotEqual2 = new GvComment(RandomReviewId
                 .nextGvReviewId(), comment1);
-        GvCommentList.GvComment gvCommentNull = new GvCommentList.GvComment();
-        GvCommentList.GvComment gvCommentEmpty = new GvCommentList.GvComment("");
+        GvComment gvCommentNull = new GvComment();
+        GvComment gvCommentEmpty = new GvComment("");
 
         assertNotNull(gvComment.getViewHolder());
         assertTrue(gvComment.isValidForDisplay());
@@ -85,7 +86,7 @@ public class GvCommentListTest extends TestCase {
         String[] sentences = generator.getSentencesForParagraph();
         assertTrue(sentences.length > 0);
 
-        GvCommentList.GvComment parent = (new GvCommentList.GvComment(paragraph));
+        GvComment parent = (new GvComment(paragraph));
         mList.add(parent);
 
         //Test getCommentHeadline()
@@ -111,7 +112,7 @@ public class GvCommentListTest extends TestCase {
         String[] sentences2 = generator.getSentencesForParagraph();
         assertTrue(sentences2.length > 0);
 
-        GvCommentList.GvComment parent2 = new GvCommentList.GvComment(paragraph2);
+        GvComment parent2 = new GvComment(paragraph2);
         mList.add(parent2);
 
         //Test getCommentHeadline()
@@ -145,13 +146,13 @@ public class GvCommentListTest extends TestCase {
         mList.addList(GvDataMocker.newCommentList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvCriterionList.GvCriterion.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.GvLocation.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.GvComment.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.GvFact.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.GvImage.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.GvUrl.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCriterion.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvTag.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvLocation.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvComment.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvFact.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvImage.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvUrl.TYPE, NUM)));
 
         GvCommentList list = new GvCommentList();
         GvCommentList list2 = new GvCommentList(mList);
@@ -182,8 +183,8 @@ public class GvCommentListTest extends TestCase {
         assertTrue(mList.size() > 0);
         boolean isSorted = true;
         for (int i = 0; i < mList.size() - 1; ++i) {
-            GvCommentList.GvComment before = mList.getItem(i);
-            GvCommentList.GvComment after = mList.getItem(i + 1);
+            GvComment before = mList.getItem(i);
+            GvComment after = mList.getItem(i + 1);
 
             if (!before.isHeadline() && after.isHeadline()) {
                 isSorted = false;

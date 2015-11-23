@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogEditChildTest extends
-        DialogGvDataEditTest<GvCriterionList.GvCriterion> {
+        DialogGvDataEditTest<GvCriterion> {
 
     //Constructors
     public DialogEditChildTest() {
@@ -34,7 +34,7 @@ public class DialogEditChildTest extends
         EditText et = mSolo.getEditText(0);
         RatingBar rb = (RatingBar) mSolo.getView(com.chdryra.android.reviewer.R.id
                 .child_rating_bar);
-        return new GvCriterionList.GvCriterion(et.getText().toString(), rb.getRating());
+        return new GvCriterion(et.getText().toString(), rb.getRating());
     }
 }
 

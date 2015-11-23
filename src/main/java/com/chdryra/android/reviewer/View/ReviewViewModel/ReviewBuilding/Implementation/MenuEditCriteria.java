@@ -4,8 +4,9 @@ import android.content.Context;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 
 /**
@@ -13,9 +14,9 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObse
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MenuEditCriteria extends MenuDataEdit<GvCriterionList.GvCriterion>
+public class MenuEditCriteria extends MenuDataEdit<GvCriterion>
         implements GridDataObservable.GridDataObserver {
-    private static final GvDataType<GvCriterionList.GvCriterion> TYPE = GvCriterionList.GvCriterion.TYPE;
+    private static final GvDataType<GvCriterion> TYPE = GvCriterion.TYPE;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
     private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
@@ -58,7 +59,7 @@ public class MenuEditCriteria extends MenuDataEdit<GvCriterionList.GvCriterion>
         public void setAverageRating() {
             float rating = 0;
             GvCriterionList children = (GvCriterionList) getGridData();
-            for (GvCriterionList.GvCriterion child : children) {
+            for (GvCriterion child : children) {
                 rating += child.getRating() / children.size();
             }
 

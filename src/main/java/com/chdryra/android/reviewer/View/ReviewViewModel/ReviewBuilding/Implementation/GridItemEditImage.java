@@ -6,7 +6,7 @@ import android.view.View;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
 
@@ -15,19 +15,19 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfac
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditImage extends GridItemEdit<GvImageList.GvImage> {
+public class GridItemEditImage extends GridItemEdit<GvImage> {
     private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
     //Constructors
-    public GridItemEditImage(LaunchableConfig<GvImageList.GvImage> editorConfig,
+    public GridItemEditImage(LaunchableConfig<GvImage> editorConfig,
                              FactoryLaunchableUi launchableFactory,
-                             GvDataPacker<GvImageList.GvImage> dataPacker) {
+                             GvDataPacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 
     //Overridden
     @Override
-    public void onGridItemLongClick(GvImageList.GvImage item, int position, View v) {
+    public void onGridItemLongClick(GvImage item, int position, View v) {
         if (item.isCover()) {
             super.onGridItemLongClick(item, position, v);
         } else {
@@ -37,7 +37,7 @@ public class GridItemEditImage extends GridItemEdit<GvImageList.GvImage> {
     }
 
     @Override
-    protected void deleteData(GvImageList.GvImage datum) {
+    protected void deleteData(GvImage datum) {
         super.deleteData(datum);
         if (datum.isCover()) getReviewView().updateCover();
     }
@@ -45,15 +45,15 @@ public class GridItemEditImage extends GridItemEdit<GvImageList.GvImage> {
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == IMAGE_AS_COVER) {
-            GvImageList.GvImage cover = unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
+            GvImage cover = unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
             setCover(cover);
         }
     }
 
-    private void setCover(GvImageList.GvImage image) {
-        ReviewDataEditor<GvImageList.GvImage> editor = getEditor();
+    private void setCover(GvImage image) {
+        ReviewDataEditor<GvImage> editor = getEditor();
         if (editor.getParams().manageCover()) {
-            GvImageList.GvImage cover = editor.getCover();
+            GvImage cover = editor.getCover();
             cover.setIsCover(false);
             image.setIsCover(true);
         }

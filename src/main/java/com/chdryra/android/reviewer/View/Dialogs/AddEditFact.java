@@ -13,8 +13,8 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
+public class AddEditFact extends AddEditLayout<GvFact> {
     public static final int LAYOUT = R.layout.dialog_fact_add_edit;
     public static final int LABEL = R.id.fact_label_edit_text;
     public static final int VALUE = R.id.fact_value_edit_text;
@@ -33,38 +33,38 @@ public class AddEditFact extends AddEditLayout<GvFactList.GvFact> {
 
     //Constructors
     public AddEditFact(GvDataAdder adder) {
-        super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, adder);
+        super(GvFact.class, LAYOUT, VIEWS, VALUE, adder);
     }
 
     public AddEditFact(GvDataEditor editor) {
-        super(GvFactList.GvFact.class, LAYOUT, VIEWS, VALUE, editor);
+        super(GvFact.class, LAYOUT, VIEWS, VALUE, editor);
     }
 
-    private GvFactList.GvFact newUrl(String label, String urlString) {
+    private GvFact newUrl(String label, String urlString) {
         String urlGuess = URLUtil.guessUrl(urlString.toLowerCase());
         try {
-            return new GvUrlList.GvUrl(label, new URL(urlGuess));
+            return new GvUrl(label, new URL(urlGuess));
         } catch (MalformedURLException e) {
-            return new GvFactList.GvFact(label, urlString);
+            return new GvFact(label, urlString);
         }
     }
 
     //Overridden
     @Override
-    public GvFactList.GvFact createGvData() {
+    public GvFact createGvData() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
         ArrayList<String> urls = TextUtils.getLinks(value);
 
-        GvFactList.GvFact fact = null;
+        GvFact fact = null;
         if (urls.size() > 0) fact = newUrl(label, urls.get(0));
-        if (fact == null) fact = new GvFactList.GvFact(label, value);
+        if (fact == null) fact = new GvFact(label, value);
 
         return fact;
     }
 
     @Override
-    public void updateLayout(GvFactList.GvFact fact) {
+    public void updateLayout(GvFact fact) {
         ((EditText) getView(LABEL)).setText(fact.getLabel());
         ((EditText) getView(VALUE)).setText(fact.getValue());
         getView(LABEL).requestFocus();

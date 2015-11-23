@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryEditActions;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfac
  */
 public class ActivityEditData<T extends GvData> extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
-        DialogGvDataEdit.GvDataEditListener<T>,
+        DialogGvDataEdit.EditListener<T>,
         DialogGvDataAdd.GvDataAddListener<T>{
 
     private static final String GVDATA_TYPE
@@ -80,13 +80,13 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     }
 
     @Override
-    public void onGvDataDelete(T data, int requestCode) {
-        mScreen.onGvDataDelete(data, requestCode);
+    public void onDelete(T data, int requestCode) {
+        mScreen.onDelete(data, requestCode);
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
-        mScreen.onGvDataEdit(oldDatum, newDatum, requestCode);
+    public void onEdit(T oldDatum, T newDatum, int requestCode) {
+        mScreen.onEdit(oldDatum, newDatum, requestCode);
     }
 
     @Override

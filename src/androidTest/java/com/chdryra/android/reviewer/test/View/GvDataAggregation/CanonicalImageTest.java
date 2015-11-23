@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalImage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -24,20 +24,20 @@ import java.util.Date;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage> {
-    private static final GvImageList.GvImage IMAGE1 = GvDataMocker.newImage(null);
-    private static final GvImageList.GvImage IMAGE2 = GvDataMocker.newImage(null);
-    private static final GvImageList.GvImage IMAGE3 = GvDataMocker.newImage(null);
-    private static final GvImageList.GvImage IMAGE4 = GvDataMocker.newImage(null);
+public class CanonicalImageTest extends CanonicalGvDataTest<GvImage> {
+    private static final GvImage IMAGE1 = GvDataMocker.newImage(null);
+    private static final GvImage IMAGE2 = GvDataMocker.newImage(null);
+    private static final GvImage IMAGE3 = GvDataMocker.newImage(null);
+    private static final GvImage IMAGE4 = GvDataMocker.newImage(null);
 
     //protected methods
     @Override
-    protected GvImageList.GvImage getTestDatum() {
+    protected GvImage getTestDatum() {
         return IMAGE1;
     }
 
     @Override
-    protected CanonicalDatumMaker<GvImageList.GvImage> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvImage> getCanonicalMaker() {
         return new CanonicalImage();
     }
 
@@ -47,7 +47,7 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
         mData.add(IMAGE2);
         mData.add(IMAGE3);
         mData.add(IMAGE4);
-        GvImageList.GvImage canon = mCanonical.getCanonical(mData);
+        GvImage canon = mCanonical.getCanonical(mData);
         assertFalse(canon.isValidForDisplay());
     }
 
@@ -64,10 +64,10 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
 
         Bitmap bitmap = IMAGE1.getBitmap();
         LatLng ll = IMAGE1.getLatLng();
-        GvImageList.GvImage image1 = new GvImageList.GvImage(bitmap, imageDate1, ll, null, false);
-        GvImageList.GvImage image2 = new GvImageList.GvImage(bitmap, imageDate4, ll, null, false);
-        GvImageList.GvImage image3 = new GvImageList.GvImage(bitmap, imageDate2, ll, null, false);
-        GvImageList.GvImage image4 = new GvImageList.GvImage(bitmap, imageDate3, ll, null, false);
+        GvImage image1 = new GvImage(bitmap, imageDate1, ll, null, false);
+        GvImage image2 = new GvImage(bitmap, imageDate4, ll, null, false);
+        GvImage image3 = new GvImage(bitmap, imageDate2, ll, null, false);
+        GvImage image4 = new GvImage(bitmap, imageDate3, ll, null, false);
 
         mData = newDataList();
         mData.add(image1);
@@ -75,7 +75,7 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
         mData.add(image3);
         mData.add(image4);
 
-        GvImageList.GvImage canon = mCanonical.getCanonical(mData);
+        GvImage canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertTrue(bitmap.sameAs(canon.getBitmap()));
         assertEquals(imageDate4, canon.getDate());
@@ -92,11 +92,11 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
 
         Bitmap bitmap = IMAGE1.getBitmap();
         LatLng ll = IMAGE1.getLatLng();
-        GvImageList.GvImage image1 = new GvImageList.GvImage(bitmap, imageDate1, ll, cap1, false);
-        GvImageList.GvImage image2 = new GvImageList.GvImage(bitmap, imageDate1, ll, cap2, false);
-        GvImageList.GvImage image3 = new GvImageList.GvImage(bitmap, imageDate1, ll, cap1, false);
-        GvImageList.GvImage image4 = new GvImageList.GvImage(bitmap, imageDate1, ll, cap2, false);
-        GvImageList.GvImage image5 = new GvImageList.GvImage(bitmap, imageDate1, ll, cap3, false);
+        GvImage image1 = new GvImage(bitmap, imageDate1, ll, cap1, false);
+        GvImage image2 = new GvImage(bitmap, imageDate1, ll, cap2, false);
+        GvImage image3 = new GvImage(bitmap, imageDate1, ll, cap1, false);
+        GvImage image4 = new GvImage(bitmap, imageDate1, ll, cap2, false);
+        GvImage image5 = new GvImage(bitmap, imageDate1, ll, cap3, false);
 
         mData = newDataList();
         mData.add(image1);
@@ -105,7 +105,7 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
         mData.add(image4);
         mData.add(image5);
 
-        GvImageList.GvImage canon = mCanonical.getCanonical(mData);
+        GvImage canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertTrue(bitmap.sameAs(canon.getBitmap()));
         assertEquals(imageDate1, canon.getDate());
@@ -122,7 +122,7 @@ public class CanonicalImageTest extends CanonicalGvDataTest<GvImageList.GvImage>
     }
 
     @Override
-    protected void checkEquality(GvImageList.GvImage lhs, GvImageList.GvImage rhs) {
+    protected void checkEquality(GvImage lhs, GvImage rhs) {
         assertTrue(lhs.getBitmap().sameAs(rhs.getBitmap()));
         assertTrue(lhs.getCaption().equals(rhs.getCaption()));
         assertTrue(lhs.getDate().equals(rhs.getDate()));

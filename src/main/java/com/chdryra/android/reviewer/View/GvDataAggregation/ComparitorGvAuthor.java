@@ -8,18 +8,18 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvAuthor implements DifferenceComparitor<GvAuthorList.GvAuthor,
+public class ComparitorGvAuthor implements DifferenceComparitor<GvAuthor,
         DifferenceBoolean> {
     //Overridden
     @Override
-    public DifferenceBoolean compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
+    public DifferenceBoolean compare(GvAuthor lhs, GvAuthor rhs) {
         boolean sameId = lhs.getUserId().equals(rhs.getUserId());
         boolean sameName = lhs.getName().equals(rhs.getName());
         if (sameId && !sameName) {

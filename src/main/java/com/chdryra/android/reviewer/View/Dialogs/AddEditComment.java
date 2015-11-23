@@ -11,41 +11,41 @@ package com.chdryra.android.reviewer.View.Dialogs;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditComment extends AddEditLayout<GvCommentList.GvComment> {
+public class AddEditComment extends AddEditLayout<GvComment> {
     public static final int LAYOUT = R.layout.dialog_comment_add_edit;
     public static final int COMMENT = R.id.comment_edit_text;
     public static final int[] VIEWS = new int[]{COMMENT};
 
-    private GvCommentList.GvComment mCurrent;
+    private GvComment mCurrent;
 
     //Constructors
     public AddEditComment(GvDataAdder adder) {
-        super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, adder);
+        super(GvComment.class, LAYOUT, VIEWS, COMMENT, adder);
     }
 
     public AddEditComment(GvDataEditor editor) {
-        super(GvCommentList.GvComment.class, LAYOUT, VIEWS, COMMENT, editor);
+        super(GvComment.class, LAYOUT, VIEWS, COMMENT, editor);
     }
 
     //Overridden
     @Override
-    public GvCommentList.GvComment createGvData() {
+    public GvComment createGvData() {
         EditText commentET = (EditText) getView(COMMENT);
         boolean isHeadline = mCurrent != null && mCurrent.isHeadline();
-        mCurrent = new GvCommentList.GvComment(commentET.getText().toString().trim(), isHeadline);
+        mCurrent = new GvComment(commentET.getText().toString().trim(), isHeadline);
 
         return mCurrent;
     }
 
     @Override
-    public void updateLayout(GvCommentList.GvComment comment) {
+    public void updateLayout(GvComment comment) {
         ((EditText) getView(COMMENT)).setText(comment.getComment());
         mCurrent = comment;
     }

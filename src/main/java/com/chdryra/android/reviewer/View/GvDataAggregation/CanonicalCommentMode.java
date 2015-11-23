@@ -8,27 +8,27 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCommentMode implements CanonicalDatumMaker<GvCommentList.GvComment> {
+public class CanonicalCommentMode implements CanonicalDatumMaker<GvComment> {
     //Overridden
     @Override
-    public GvCommentList.GvComment getCanonical(GvDataList<GvCommentList.GvComment> data) {
+    public GvComment getCanonical(GvDataList<GvComment> data) {
         GvReviewId id = new GvReviewId(data.getReviewId());
-        if (data.size() == 0) return new GvCommentList.GvComment(id, "");
+        if (data.size() == 0) return new GvComment(id, "");
 
-        DatumCounter<GvCommentList.GvComment, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvCommentList.GvComment, String>() {
+        DatumCounter<GvComment, String> counter = new DatumCounter<>(data,
+                new DataGetter<GvComment, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvCommentList.GvComment datum) {
+                    public String getData(GvComment datum) {
                         return datum.getComment();
                     }
                 });
@@ -36,6 +36,6 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<GvCommentList.G
         String maxComment = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxComment += " + " + String.valueOf(nonMax);
-        return new GvCommentList.GvComment(id, maxComment);
+        return new GvComment(id, maxComment);
     }
 }

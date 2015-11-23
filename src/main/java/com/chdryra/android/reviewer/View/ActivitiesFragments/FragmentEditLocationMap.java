@@ -40,11 +40,10 @@ import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
-import com.chdryra.android.reviewer.View.Launcher.Implementation.LauncherUiImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -76,12 +75,13 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
         PlaceSuggester.SuggestionsListener,
         GpPlaceSearcher.SearchListener, OnMapReadyCallback {
+    private final static String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentEditLocationMap.location";
     private final static String TAG = "FragmentEditLocationMap";
     private static final String NO_LOCATION = "no suggestions found...";
     private static final float DEFAULT_ZOOM = 15;
     private static final int NUMBER_DEFAULT_NAMES = 5;
 
-    private GvLocationList.GvLocation mCurrent;
+    private GvLocation mCurrentLocation;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
 
@@ -98,6 +98,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private String mSearchLocationName;
 
     private PlaceAutoCompleteSuggester mAutoCompleter;
+
+    private GvDataPacker<GvLocation> mDataPacker;
+
+    public static FragmentEditLocationMap newInstance(GvLocation location) {
+        return FactoryFragment.newFragment(FragmentEditLocationMap.class, LOCATION, location);
+    }
 
     public void handleSearch() {
         Intent intent = getActivity().getIntent();
@@ -136,9 +142,9 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                 suggestions_cursor, from, to, 0);
     }
 
-    private GvLocationList.GvLocation createGVData() {
+    private GvLocation createGvData() {
         String name = mLocationName.getText().toString().trim();
-        return new GvLocationList.GvLocation(mNewLatLng, name);
+        return new GvLocation(mNewLatLng, name);
     }
 
     private void invalidateSuggestions() {
@@ -208,14 +214,14 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void initRevertButtonUI() {
-        if (mCurrent != null) {
+        if (mCurrentLocation != null) {
             mRevertButton.setOnClickListener(new View.OnClickListener() {
                 //Overridden
                 @Override
                 public void onClick(View v) {
                     mSearchLocationName = null;
-                    setLatLng(mCurrent.getLatLng());
-                    mLocationName.setText(mCurrent.getName());
+                    setLatLng(mCurrentLocation.getLatLng());
+                    mLocationName.setText(mCurrentLocation.getName());
                     mLocationName.hideChrome();
                 }
             });
@@ -276,13 +282,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     @Override
     protected boolean hasDataToDelete() {
-        return mCurrent != null;
+        return mCurrentLocation != null;
     }
 
     @Override
     protected void onDeleteSelected() {
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
-                getNewReturnData());
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation, getNewReturnData());
     }
 
     @Override
@@ -296,23 +301,18 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
 
         Intent i = getNewReturnData();
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGVData(), i);
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation, i);
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGvData(), i);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Bundle args = LauncherUiImpl.getArgsForActivity(getActivity());
-        if (args != null) {
-            mCurrent = (GvLocationList.GvLocation) GvDataPacker.unpackItem(GvDataPacker
-                    .CurrentNewDatum.CURRENT, args);
-        }
-
+        mDataPacker = new GvDataPacker<>();
+        Bundle args = getArguments();
+        if (args != null) mCurrentLocation = args.getParcelable(LOCATION);
         MapsInitializer.initialize(getActivity());
-
-        setDeleteWhatTitle(GvLocationList.GvLocation.TYPE.getDatumName());
+        setDeleteWhatTitle(GvLocation.TYPE.getDatumName());
         dismissOnDelete();
     }
 
@@ -484,43 +484,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
         mLocationName.setHint(getResources().getString(R.string.edit_text_name_location_hint));
     }
-
-    /**
-     * Fragment performs search on a separate thread using this task.
-     */
-//    private class MapSearchTask extends AsyncTask<String, Void, LatLng> {
-//        private ProgressDialog pd;
-//
-//        @Override
-//        protected LatLng doInBackground(String... params) {
-//            try {
-//                GpPlaceSearchResults results = PlacesApi.fetchTextSearchResults(params[0]);
-//                return results.getItem(0).getGeometry().getLatLng();
-//            } catch (JSONException e) {
-//                Toast.makeText(getActivity(), getResources().getString(R.string
-//                        .toast_map_search_failed), Toast.LENGTH_SHORT).show();
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            pd = new ProgressDialog(getActivity());
-//            pd.setTitle(getResources().getString(R.string.progress_bar_search_location_title));
-//            pd.setMessage(getResources().getString(R.string
-// .progress_bar_search_location_message));
-//            pd.setCancelable(false);
-//            pd.setIndeterminate(true);
-//            pd.show();
-//        }
-//
-//        @Override
-//        protected void onPostExecute(LatLng latlng) {
-//            setLatLng(latlng);
-//            pd.dismiss();
-//        }
-//    }
 
     private class LocationSuggestionsObserver extends DataSetObserver {
         @Override

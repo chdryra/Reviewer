@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvAuthor;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.testutils.ExceptionTester;
 
@@ -34,9 +34,9 @@ public class ComparitorGvAuthorTest extends TestCase {
         Author lhsAuthor = RandomAuthor.nextAuthor();
         Author rhsAuthor = RandomAuthor.nextAuthor();
 
-        GvAuthorList.GvAuthor lhs = new GvAuthorList.GvAuthor(lhsAuthor.getName(), lhsAuthor
+        GvAuthor lhs = new GvAuthor(lhsAuthor.getName(), lhsAuthor
                 .getUserId().toString());
-        GvAuthorList.GvAuthor rhs = new GvAuthorList.GvAuthor(lhsAuthor.getName(), lhsAuthor
+        GvAuthor rhs = new GvAuthor(lhsAuthor.getName(), lhsAuthor
                 .getUserId().toString());
 
         DifferenceBoolean result = comparitor.compare(lhs, rhs);
@@ -47,7 +47,7 @@ public class ComparitorGvAuthorTest extends TestCase {
         assertTrue(result.lessThanOrEqualTo(same));
         assertFalse(result.lessThanOrEqualTo(notSame));
 
-        rhs = new GvAuthorList.GvAuthor(rhsAuthor.getName(), rhsAuthor.getUserId().toString());
+        rhs = new GvAuthor(rhsAuthor.getName(), rhsAuthor.getUserId().toString());
         result = comparitor.compare(lhs, rhs);
         assertFalse(result.lessThanOrEqualTo(same));
         assertTrue(result.lessThanOrEqualTo(notSame));
@@ -55,7 +55,7 @@ public class ComparitorGvAuthorTest extends TestCase {
         assertFalse(result.lessThanOrEqualTo(same));
         assertTrue(result.lessThanOrEqualTo(notSame));
 
-        rhs = new GvAuthorList.GvAuthor(lhsAuthor.getName(), rhsAuthor.getUserId().toString());
+        rhs = new GvAuthor(lhsAuthor.getName(), rhsAuthor.getUserId().toString());
         result = comparitor.compare(lhs, rhs);
         assertFalse(result.lessThanOrEqualTo(same));
         assertTrue(result.lessThanOrEqualTo(notSame));
@@ -63,8 +63,8 @@ public class ComparitorGvAuthorTest extends TestCase {
         assertFalse(result.lessThanOrEqualTo(same));
         assertTrue(result.lessThanOrEqualTo(notSame));
 
-        rhs = new GvAuthorList.GvAuthor(rhsAuthor.getName(), lhsAuthor.getUserId().toString());
-        GvAuthorList.GvAuthor[] params = new GvAuthorList.GvAuthor[2];
+        rhs = new GvAuthor(rhsAuthor.getName(), lhsAuthor.getUserId().toString());
+        GvAuthor[] params = new GvAuthor[2];
         params[0] = lhs;
         params[1] = rhs;
         ExceptionTester.test(comparitor, "compare", params, RuntimeException.class, "GvAuthors " +

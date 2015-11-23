@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatformList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
@@ -24,7 +25,7 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvSocialPlatformList.GvSocialPlatform.TYPE, mList.getGvDataType());
+        assertEquals(GvSocialPlatform.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -36,9 +37,9 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
         assertEquals(100, mList.size());
 
         mList.sort();
-        GvSocialPlatformList.GvSocialPlatform prev = mList.getItem(0);
+        GvSocialPlatform prev = mList.getItem(0);
         for (int i = 1; i < mList.size(); ++i) {
-            GvSocialPlatformList.GvSocialPlatform next = mList.getItem(i);
+            GvSocialPlatform next = mList.getItem(i);
             assertTrue(prev.getFollowers() >= next.getFollowers());
             prev = next;
         }
@@ -46,32 +47,25 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
 
     @SmallTest
     public void testGvSocialPlatform() {
-        GvSocialPlatformList.GvSocialPlatform platform1 = GvDataMocker.newSocialPlatform();
-        GvSocialPlatformList.GvSocialPlatform platform2 = GvDataMocker.newSocialPlatform();
+        GvSocialPlatform platform1 = GvDataMocker.newSocialPlatform();
+        GvSocialPlatform platform2 = GvDataMocker.newSocialPlatform();
 
         String name1 = platform1.getName();
         int followers1 = platform1.getFollowers();
         String name2 = platform2.getName();
         int followers2 = platform2.getFollowers();
 
-        GvSocialPlatformList.GvSocialPlatform gvPlatform = new GvSocialPlatformList
-                .GvSocialPlatform(name1, followers1);
-        GvSocialPlatformList.GvSocialPlatform gvPlatformEquals = new GvSocialPlatformList
-                .GvSocialPlatform(name1,
+        GvSocialPlatform gvPlatform = new GvSocialPlatform(name1, followers1);
+        GvSocialPlatform gvPlatformEquals = new GvSocialPlatform(name1,
                 followers1);
-        GvSocialPlatformList.GvSocialPlatform gvPlatformNotEquals1 = new GvSocialPlatformList
-                .GvSocialPlatform
+        GvSocialPlatform gvPlatformNotEquals1 = new GvSocialPlatform
                 (name1, followers2);
-        GvSocialPlatformList.GvSocialPlatform gvPlatformNotEquals2 = new GvSocialPlatformList
-                .GvSocialPlatform
+        GvSocialPlatform gvPlatformNotEquals2 = new GvSocialPlatform
                 (name2, followers1);
-        GvSocialPlatformList.GvSocialPlatform gvPlatformNotEquals3 = new GvSocialPlatformList
-                .GvSocialPlatform
+        GvSocialPlatform gvPlatformNotEquals3 = new GvSocialPlatform
                 (name2, followers2);
-        GvSocialPlatformList.GvSocialPlatform gvPlatformNull = new GvSocialPlatformList
-                .GvSocialPlatform();
-        GvSocialPlatformList.GvSocialPlatform gvPlatformEmpty = new GvSocialPlatformList
-                .GvSocialPlatform("", followers1);
+        GvSocialPlatform gvPlatformNull = new GvSocialPlatform();
+        GvSocialPlatform gvPlatformEmpty = new GvSocialPlatform("", followers1);
 
         assertNotNull(gvPlatform.getViewHolder());
         assertTrue(gvPlatform.isValidForDisplay());
@@ -90,7 +84,7 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
 
     @SmallTest
     public void testGvSocialPlatformIsChosenAndPress() {
-        GvSocialPlatformList.GvSocialPlatform platform = GvDataMocker.newSocialPlatform();
+        GvSocialPlatform platform = GvDataMocker.newSocialPlatform();
         assertFalse(platform.isChosen());
         platform.press();
         assertTrue(platform.isChosen());
@@ -100,7 +94,7 @@ public class GvSocialPlatformListTest extends AndroidTestCase {
     public void testGetLatest() {
         GvSocialPlatformList latest = GvSocialPlatformList.getLatest(getContext());
         assertTrue(latest.size() > 0);
-        for (GvSocialPlatformList.GvSocialPlatform platform : latest) {
+        for (GvSocialPlatform platform : latest) {
             assertNotNull(platform.getName());
             assertTrue(platform.getFollowers() == 0);
         }

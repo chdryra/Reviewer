@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
 
 import java.util.Comparator;
 
@@ -9,8 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialPlatformComparators extends ComparatorCollection<GvSocialPlatformList
-        .GvSocialPlatform> {
+public class SocialPlatformComparators extends ComparatorCollection<GvSocialPlatform> {
     private static SocialPlatformComparators sComparators = new SocialPlatformComparators();
 
     private SocialPlatformComparators() {
@@ -22,13 +21,11 @@ public class SocialPlatformComparators extends ComparatorCollection<GvSocialPlat
         return sComparators;
     }
 
-    private static class MostFollowersTheAlphabetical implements Comparator<GvSocialPlatformList
-            .GvSocialPlatform> {
+    private static class MostFollowersTheAlphabetical implements Comparator<GvSocialPlatform> {
 
         //Overridden
         @Override
-        public int compare(GvSocialPlatformList.GvSocialPlatform lhs, GvSocialPlatformList
-                .GvSocialPlatform rhs) {
+        public int compare(GvSocialPlatform lhs, GvSocialPlatform rhs) {
             int comp;
             if (lhs.getFollowers() > rhs.getFollowers()) {
                 comp = -1;

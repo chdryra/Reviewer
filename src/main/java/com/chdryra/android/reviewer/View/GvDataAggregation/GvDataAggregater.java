@@ -1,17 +1,27 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDateList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,39 +36,41 @@ public class GvDataAggregater {
     private static final DifferenceFloat TEN_METRES = new DifferenceFloat(10f);
     private static final DifferenceLocation SAME_LOC = new DifferenceLocation(TEN_METRES,
             SAME_PCNT);
+    private FactoryGvData mDataFactory;
 
-    public GvDataAggregater() {
+    public GvDataAggregater(FactoryGvData dataFactory) {
+        mDataFactory = dataFactory;
     }
 
-    public GvCanonicalCollection<GvAuthorList.GvAuthor> getAggregate(GvAuthorList data) {
+    public GvCanonicalCollection<GvAuthor> getAggregate(GvAuthorList data) {
         return newAggregate(data, new ComparitorGvAuthor(), SAME_BOOL, new CanonicalAuthor()).get();
     }
 
-    public GvCanonicalCollection<GvSubjectList.GvSubject> getAggregate(GvSubjectList data) {
+    public GvCanonicalCollection<GvSubject> getAggregate(GvSubjectList data) {
         return newAggregate(data, new ComparitorGvSubject(), SAME_PCNT, new CanonicalSubjectMode()).get();
     }
 
-    public GvCanonicalCollection<GvTagList.GvTag> getAggregate(GvTagList data) {
+    public GvCanonicalCollection<GvTag> getAggregate(GvTagList data) {
         return newAggregate(data, new ComparitorGvTag(), SAME_PCNT, new CanonicalTagMode()).get();
     }
 
-    public GvCanonicalCollection<GvCommentList.GvComment> getAggregate(GvCommentList data) {
+    public GvCanonicalCollection<GvComment> getAggregate(GvCommentList data) {
         return newAggregate(data, new ComparitorGvComment(), SAME_PCNT, new CanonicalCommentMode()).get();
     }
 
-    public GvCanonicalCollection<GvDateList.GvDate> getAggregate(GvDateList data) {
+    public GvCanonicalCollection<GvDate> getAggregate(GvDateList data) {
         return newAggregate(data, new ComparitorGvDate(), SAME_DAY, new CanonicalDate()).get();
     }
 
-    public GvCanonicalCollection<GvImageList.GvImage> getAggregate(GvImageList data) {
+    public GvCanonicalCollection<GvImage> getAggregate(GvImageList data) {
         return newAggregate(data, new ComparitorGvImageBitmap(), SAME_BOOL, new CanonicalImage()).get();
     }
 
-    public GvCanonicalCollection<GvLocationList.GvLocation> getAggregate(GvLocationList data) {
+    public GvCanonicalCollection<GvLocation> getAggregate(GvLocationList data) {
         return newAggregate(data, new ComparitorGvLocation(), SAME_LOC, new CanonicalLocation()).get();
     }
 
-    public GvCanonicalCollection<GvCriterionList.GvCriterion> getAggregate(GvCriterionList data, boolean mode) {
+    public GvCanonicalCollection<GvCriterion> getAggregate(GvCriterionList data, boolean mode) {
         if(mode) {
             return newAggregate(data, new ComparitorGvCriterion(), SAME_BOOL,
                     new CanonicalCriterionMode()).get();
@@ -69,7 +81,7 @@ public class GvDataAggregater {
 
     }
 
-    public GvCanonicalCollection<GvFactList.GvFact> getAggregate(GvFactList data) {
+    public GvCanonicalCollection<GvFact> getAggregate(GvFactList data) {
         return newAggregate(data, new ComparitorGvFactLabel(), SAME_PCNT, new CanonicalFact()).get();
     }
 
@@ -78,7 +90,7 @@ public class GvDataAggregater {
                  DifferenceComparitor<T, D2> comparitor,
                  D1 threshold,
                  CanonicalDatumMaker<T> maker) {
-        return new GvDataAggregate<>(data, new GvDataAggregator<>(comparitor, threshold, maker));
+        return new GvDataAggregate<>(data, new GvDataAggregator<>(comparitor, threshold, maker, mDataFactory));
     }
 
     /**

@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvLocationName;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -36,8 +36,8 @@ public class ComparitorGvLocationNameTest extends TestCase {
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvLocationList.GvLocation lhs = new GvLocationList.GvLocation(lhsLatLng, lhsName);
-        GvLocationList.GvLocation rhs = new GvLocationList.GvLocation(lhsLatLng, lhsName);
+        GvLocation lhs = new GvLocation(lhsLatLng, lhsName);
+        GvLocation rhs = new GvLocation(lhsLatLng, lhsName);
         DifferencePercentage difference = comparitor.compare(lhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(lhs, rhs);
@@ -45,13 +45,13 @@ public class ComparitorGvLocationNameTest extends TestCase {
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvLocationList.GvLocation(rhsLatLng, lhsName);
+        rhs = new GvLocation(rhsLatLng, lhsName);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvLocationList.GvLocation(rhsLatLng, rhsName);
+        rhs = new GvLocation(rhsLatLng, rhsName);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));

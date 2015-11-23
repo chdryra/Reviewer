@@ -27,15 +27,19 @@ import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.BuildScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Utils.CommentFormatter;
@@ -64,7 +68,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testSubjectRatingChange() {
-        GvCriterionList.GvCriterion child = editSubjectRating();
+        GvCriterion child = editSubjectRating();
 
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
@@ -86,7 +90,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         String toast = mActivity.getResources().getString(R.string.toast_enter_subject);
         assertTrue(mSolo.waitForText(toast));
 
-        GvCriterionList.GvCriterion review = editSubjectRating();
+        GvCriterion review = editSubjectRating();
         mOriginalSubject = review.getSubject();
         mOriginalRating = review.getRating();
 
@@ -97,8 +101,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mSolo.waitForDialogToOpen(TIMEOUT);
         mSolo.sleep(1000); //need to do this due to UI thread is separate to test thread
         testDialogShowing(true);
-        final GvDataList data = GvDataMocker.getData(GvTagList.GvTag.TYPE, 1);
-        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(GvTagList.GvTag.TYPE).getAdderConfig().getTag();
+        final GvDataList data = GvDataMocker.getData(GvTag.TYPE, 1);
+        String tag = ApplicationInstance.ConfigGvDataUi.getConfig(GvTag.TYPE).getAdderConfig().getTag();
         enterData(data, tag, false);
         mSolo.waitForDialogToClose(TIMEOUT);
         mSolo.sleep(1000);
@@ -119,87 +123,87 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testTagsLongPress() {
-        testLongPress(GvTagList.GvTag.TYPE);
+        testLongPress(GvTag.TYPE);
     }
 
     @SmallTest
     public void testCriteriaLongPress() {
-        testLongPress(GvCriterionList.GvCriterion.TYPE);
+        testLongPress(GvCriterion.TYPE);
     }
 
     @SmallTest
     public void testImagesLongPress() {
-        testLongPress(GvImageList.GvImage.TYPE);
+        testLongPress(GvImage.TYPE);
     }
 
     @SmallTest
     public void testCommentsLongPress() {
-        testLongPress(GvCommentList.GvComment.TYPE);
+        testLongPress(GvComment.TYPE);
     }
 
     @SmallTest
     public void testLocationsLongPress() {
-        testLongPress(GvLocationList.GvLocation.TYPE);
+        testLongPress(GvLocation.TYPE);
     }
 
     @SmallTest
     public void testFactsLongPress() {
-        testLongPress(GvFactList.GvFact.TYPE);
+        testLongPress(GvFact.TYPE);
     }
 
     @SmallTest
     public void testTagEntrySingle() {
-        testClickGridCell(GvTagList.GvTag.TYPE, 1);
+        testClickGridCell(GvTag.TYPE, 1);
     }
 
     @SmallTest
     public void testCriteriaEntrySingle() {
-        testClickGridCell(GvCriterionList.GvCriterion.TYPE, 1);
+        testClickGridCell(GvCriterion.TYPE, 1);
     }
 
     @SmallTest
     public void testCommentEntrySingle() {
-        testClickGridCell(GvCommentList.GvComment.TYPE, 1);
+        testClickGridCell(GvComment.TYPE, 1);
     }
 
     @SmallTest
     public void testFactEntrySingle() {
-        testClickGridCell(GvFactList.GvFact.TYPE, 1);
+        testClickGridCell(GvFact.TYPE, 1);
     }
 
     @SmallTest
     public void testLocationEntrySingle() {
-        testClickGridCell(GvLocationList.GvLocation.TYPE, 1, true);
+        testClickGridCell(GvLocation.TYPE, 1, true);
     }
 
     @SmallTest
     public void testTagEntryMulti() {
-        testClickGridCell(GvTagList.GvTag.TYPE, NUM_DATA);
+        testClickGridCell(GvTag.TYPE, NUM_DATA);
     }
 
     @SmallTest
     public void testCriteriaEntryMulti() {
-        testClickGridCell(GvCriterionList.GvCriterion.TYPE, NUM_DATA);
+        testClickGridCell(GvCriterion.TYPE, NUM_DATA);
     }
 
     @SmallTest
     public void testCommentEntryMulti() {
-        testClickGridCell(GvCommentList.GvComment.TYPE, NUM_DATA);
+        testClickGridCell(GvComment.TYPE, NUM_DATA);
     }
 
     @SmallTest
     public void testFactEntryMulti() {
-        testClickGridCell(GvFactList.GvFact.TYPE, NUM_DATA);
+        testClickGridCell(GvFact.TYPE, NUM_DATA);
     }
 
     @SmallTest
     public void testLocationEntryMulti() {
-        testClickGridCell(GvLocationList.GvLocation.TYPE, NUM_DATA, true);
+        testClickGridCell(GvLocation.TYPE, NUM_DATA, true);
     }
 
     @SmallTest
     public void testImagesClick() {
-        int position = getItemPosition(GvImageList.GvImage.TYPE);
+        int position = getItemPosition(GvImage.TYPE);
         mSolo.clickInList(position + 1);
 
         getInstrumentation().waitForIdleSync();
@@ -214,7 +218,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testMenuAverage() {
-        GvCriterionList.GvCriterion child = editSubjectRating();
+        GvCriterion child = editSubjectRating();
         checkFragmentSubjectRating(child.getSubject(), child.getRating());
         checkAdapterSubjectRating(child.getSubject(), child.getRating());
 
@@ -229,7 +233,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         mOriginalSubject = child.getSubject();
         mOriginalRating = child.getRating();
 
-        testClickWithoutData(GvCriterionList.GvCriterion.TYPE, NUM_DATA);
+        testClickWithoutData(GvCriterion.TYPE, NUM_DATA);
 
         while (child.getRating() == getAverageRating(true)) child = editSubjectRating();
         assertFalse(child.getRating() == getAverageRating(true));
@@ -285,7 +289,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private float getAverageRating(boolean nearestHalf) {
         GvCriterionList children = (GvCriterionList) getBuilder().getDataBuilderAdapter
-                (GvCriterionList.GvCriterion.TYPE)
+                (GvCriterion.TYPE)
                 .getGridData();
 
         float rating = children.getAverageRating();
@@ -296,7 +300,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         GvDataList fromBuilder = getBuilder().getDataBuilderAdapter(data.getGvDataType()).getGridData();
         fromBuilder.sort();
         data.sort();
-        if (data.getGvDataType() == GvLocationList.GvLocation.TYPE) {
+        if (data.getGvDataType() == GvLocation.TYPE) {
             testInBuilderLocationNames(data, fromBuilder, result);
         } else {
             assertEquals(result, data.equals(fromBuilder));
@@ -336,52 +340,52 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private void checkDatumCell(View cell, GvDataList data) {
         assertEquals(1, data.size());
-        if (data.getGvDataType().equals(GvTagList.GvTag.TYPE)) {
+        if (data.getGvDataType().equals(GvTag.TYPE)) {
             ArrayList<TextView> tvs = mSolo.getCurrentViews(TextView.class, cell);
-            GvTagList.GvTag tag = (GvTagList.GvTag) data.getItem(0);
+            GvTag tag = (GvTag) data.getItem(0);
             assertEquals(1, tvs.size());
             assertEquals(tag.getString(), tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvCommentList.GvComment.TYPE)) {
+        } else if (data.getGvDataType().equals(GvComment.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
-            GvCommentList.GvComment comment = (GvCommentList.GvComment) data.getItem(0);
+            GvComment comment = (GvComment) data.getItem(0);
             assertEquals(1, tvs.size());
             String headline = CommentFormatter.getHeadline(comment.getComment());
             assertEquals(headline, tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvFactList.GvFact.TYPE)) {
+        } else if (data.getGvDataType().equals(GvFact.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
-            GvFactList.GvFact fact = (GvFactList.GvFact) data.getItem(0);
+            GvFact fact = (GvFact) data.getItem(0);
             assertEquals(2, tvs.size());
             assertEquals(fact.getLabel(), tvs.get(0).getText().toString());
             assertEquals(fact.getValue(), tvs.get(1).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvLocationList.GvLocation.TYPE)) {
+        } else if (data.getGvDataType().equals(GvLocation.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
-            GvLocationList.GvLocation location = (GvLocationList.GvLocation) data.getItem(0);
+            GvLocation location = (GvLocation) data.getItem(0);
             assertEquals(1, tvs.size());
             assertEquals(location.getName(), tvs.get(0).getText().toString());
 
-        } else if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
+        } else if (data.getGvDataType().equals(GvCriterion.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             ArrayList<RatingBar> bars = mSolo.getCurrentViews(RatingBar.class, cell);
-            GvCriterionList.GvCriterion childReview = (GvCriterionList.GvCriterion) data
+            GvCriterion childReview = (GvCriterion) data
                     .getItem(0);
             assertEquals(1, tvs.size());
             assertEquals(1, bars.size());
             assertEquals(childReview.getSubject(), tvs.get(0).getText().toString());
             assertEquals(childReview.getRating(), bars.get(0).getRating());
 
-        } else if (data.getGvDataType().equals(GvImageList.GvImage.TYPE)) {
+        } else if (data.getGvDataType().equals(GvImage.TYPE)) {
             ArrayList<TextView> tvs;
             tvs = mSolo.getCurrentViews(TextView.class, cell);
             assertEquals(2, tvs.size());
             assertEquals(String.valueOf(1), tvs.get(0).getText().toString());
-            assertEquals(GvImageList.GvImage.TYPE.getDatumName(),
+            assertEquals(GvImage.TYPE.getDatumName(),
                     tvs.get(1).getText().toString());
 
         }
@@ -443,22 +447,22 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
 
     private GvDataList getData(GvDataType dataType, int numData) {
         GvDataList data;
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+        if (dataType.equals(GvComment.TYPE)) {
             GvCommentList mocked = GvDataMocker.newCommentList(numData, false);
             GvCommentList comments = new GvCommentList();
             for (int i = 0; i < numData; ++i) {
                 boolean isHeadline = i == 0;
-                GvCommentList.GvComment mock = mocked.getItem(i);
-                comments.add(new GvCommentList.GvComment(mock.getComment(), isHeadline));
+                GvComment mock = mocked.getItem(i);
+                comments.add(new GvComment(mock.getComment(), isHeadline));
             }
             data = comments;
-        } else if (dataType.equals(GvImageList.GvImage.TYPE)) {
+        } else if (dataType.equals(GvImage.TYPE)) {
             GvImageList mocked = GvDataMocker.newImageList(numData, false);
             GvImageList images = new GvImageList();
             for (int i = 0; i < numData; ++i) {
                 boolean isCover = i == 0;
-                GvImageList.GvImage mock = mocked.getItem(i);
-                images.add(new GvImageList.GvImage(mock.getBitmap(), mock.getDate(),
+                GvImage mock = mocked.getItem(i);
+                images.add(new GvImage(mock.getBitmap(), mock.getDate(),
                         mock.getLatLng(), mock.getCaption(), isCover));
             }
             data = images;
@@ -600,8 +604,8 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         checkFragmentSubjectRating(mOriginalSubject, mOriginalRating);
     }
 
-    private GvCriterionList.GvCriterion editSubjectRating() {
-        GvCriterionList.GvCriterion child = GvDataMocker.newChild(null);
+    private GvCriterion editSubjectRating() {
+        GvCriterion child = GvDataMocker.newChild(null);
         mSolo.clearEditText(mSolo.getEditText(0));
         mSolo.enterText(mSolo.getEditText(0), child.getSubject());
 

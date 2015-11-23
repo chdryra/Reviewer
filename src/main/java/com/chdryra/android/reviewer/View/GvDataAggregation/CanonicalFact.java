@@ -8,25 +8,25 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
+public class CanonicalFact implements CanonicalDatumMaker<GvFact> {
     //Overridden
     @Override
-    public GvFactList.GvFact getCanonical(GvDataList<GvFactList.GvFact> data) {
-        if (data.size() == 0) return new GvFactList.GvFact(data.getGvReviewId(), "", "");
+    public GvFact getCanonical(GvDataList<GvFact> data) {
+        if (data.size() == 0) return new GvFact(data.getGvReviewId(), "", "");
 
-        DatumCounter<GvFactList.GvFact, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvFactList.GvFact, String>() {
+        DatumCounter<GvFact, String> counter = new DatumCounter<>(data,
+                new DataGetter<GvFact, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvFactList.GvFact datum) {
+                    public String getData(GvFact datum) {
                         return datum.getLabel();
                     }
                 });
@@ -36,10 +36,10 @@ public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
         if (nonMax > 0) maxLabel += " + " + String.valueOf(nonMax);
 
         counter = new DatumCounter<>(data,
-                new DataGetter<GvFactList.GvFact, String>() {
+                new DataGetter<GvFact, String>() {
 //Overridden
                     @Override
-                    public String getData(GvFactList.GvFact datum) {
+                    public String getData(GvFact datum) {
                         return datum.getValue();
                     }
                 });
@@ -48,6 +48,6 @@ public class CanonicalFact implements CanonicalDatumMaker<GvFactList.GvFact> {
         nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxValue = String.valueOf(nonMax + 1) + " values";
 
-        return new GvFactList.GvFact(data.getGvReviewId(), maxLabel, maxValue);
+        return new GvFact(data.getGvReviewId(), maxLabel, maxValue);
     }
 }

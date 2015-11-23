@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 
 /**
  * Created by: Rizwan Choudrey
@@ -8,13 +8,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorGvLocation implements
-        DifferenceComparitor<GvLocationList.GvLocation, DifferenceLocation> {
+        DifferenceComparitor<GvLocation, DifferenceLocation> {
     private static final ComparitorGvLocationName NAME_COMP = new ComparitorGvLocationName();
     private static final ComparitorGvLocationDistance LOC_COMP = new ComparitorGvLocationDistance();
 
     //Overridden
     @Override
-    public DifferenceLocation compare(GvLocationList.GvLocation lhs, GvLocationList.GvLocation
+    public DifferenceLocation compare(GvLocation lhs, GvLocation
             rhs) {
         DifferenceFloat distance = LOC_COMP.compare(lhs, rhs);
         DifferencePercentage nameDifference = NAME_COMP.compare(lhs, rhs);

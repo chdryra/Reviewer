@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvImageBitmap;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;
@@ -25,15 +25,15 @@ import junit.framework.TestCase;
 public class ComparitorGvImageBitmapTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        GvImageList.GvImage lhsImage = GvDataMocker.newImage(null);
-        GvImageList.GvImage rhsImage = GvDataMocker.newImage(null);
+        GvImage lhsImage = GvDataMocker.newImage(null);
+        GvImage rhsImage = GvDataMocker.newImage(null);
 
         ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
         DifferenceBoolean same = new DifferenceBoolean(false);
         DifferenceBoolean notSame = new DifferenceBoolean(true);
 
-        GvImageList.GvImage lhs = new GvImageList.GvImage(lhsImage);
-        GvImageList.GvImage rhs = new GvImageList.GvImage(lhsImage);
+        GvImage lhs = new GvImage(lhsImage);
+        GvImage rhs = new GvImage(lhsImage);
 
         DifferenceBoolean difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(same));
@@ -42,7 +42,7 @@ public class ComparitorGvImageBitmapTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(same));
         assertFalse(difference.lessThanOrEqualTo(notSame));
 
-        rhs = new GvImageList.GvImage(rhsImage);
+        rhs = new GvImage(rhsImage);
         difference = comparitor.compare(lhs, rhs);
         assertFalse(difference.lessThanOrEqualTo(same));
         assertTrue(difference.lessThanOrEqualTo(notSame));
@@ -50,7 +50,7 @@ public class ComparitorGvImageBitmapTest extends TestCase {
         assertFalse(difference.lessThanOrEqualTo(same));
         assertTrue(difference.lessThanOrEqualTo(notSame));
 
-        rhs = new GvImageList.GvImage(lhs.getBitmap(), rhs.getDate(), rhs.getLatLng(), rhs
+        rhs = new GvImage(lhs.getBitmap(), rhs.getDate(), rhs.getLatLng(), rhs
                 .getCaption(), rhs.isCover());
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(same));

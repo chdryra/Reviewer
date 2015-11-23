@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 
 import java.util.Comparator;
 
@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactComparators extends ComparatorCollection<GvFactList.GvFact> {
+public class FactComparators extends ComparatorCollection<GvFact> {
     private static FactComparators sComparators = new FactComparators();
 
     private FactComparators() {
@@ -21,10 +21,10 @@ public class FactComparators extends ComparatorCollection<GvFactList.GvFact> {
         return sComparators;
     }
 
-    private static class AlphabeticalLabelThenValue implements Comparator<GvFactList.GvFact> {
+    private static class AlphabeticalLabelThenValue implements Comparator<GvFact> {
         //Overridden
         @Override
-        public int compare(GvFactList.GvFact lhs, GvFactList.GvFact rhs) {
+        public int compare(GvFact lhs, GvFact rhs) {
             int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());
             if (comp == 0) {
                 comp = lhs.getValue().compareToIgnoreCase(rhs.getValue());

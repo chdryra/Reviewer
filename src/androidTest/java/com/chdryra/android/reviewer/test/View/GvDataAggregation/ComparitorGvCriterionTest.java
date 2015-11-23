@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvCriterionSubject;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 
 import junit.framework.TestCase;
@@ -37,9 +37,9 @@ public class ComparitorGvCriterionTest extends TestCase {
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvCriterionList.GvCriterion lhs = new GvCriterionList.GvCriterion(lhsSubject,
+        GvCriterion lhs = new GvCriterion(lhsSubject,
                 lhsRating);
-        GvCriterionList.GvCriterion rhs = new GvCriterionList.GvCriterion(lhsSubject,
+        GvCriterion rhs = new GvCriterion(lhsSubject,
                 lhsRating);
         DifferencePercentage difference = comparitor.compare(lhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
@@ -48,13 +48,13 @@ public class ComparitorGvCriterionTest extends TestCase {
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvCriterionList.GvCriterion(lhsSubject, rhsRating);
+        rhs = new GvCriterion(lhsSubject, rhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvCriterionList.GvCriterion(rhsSubject, lhsRating);
+        rhs = new GvCriterion(rhsSubject, lhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -62,7 +62,7 @@ public class ComparitorGvCriterionTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvCriterionList.GvCriterion(rhsSubject, rhsRating);
+        rhs = new GvCriterion(rhsSubject, rhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -70,7 +70,7 @@ public class ComparitorGvCriterionTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvCriterionList.GvCriterion(empty, lhsRating);
+        rhs = new GvCriterion(empty, lhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(expected));
@@ -78,7 +78,7 @@ public class ComparitorGvCriterionTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(expected));
 
-        rhs = new GvCriterionList.GvCriterion(empty, rhsRating);
+        rhs = new GvCriterion(empty, rhsRating);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(expected));

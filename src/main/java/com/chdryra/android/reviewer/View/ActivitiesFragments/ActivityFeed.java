@@ -9,20 +9,25 @@
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderAuthorFeedScreen;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderAuthorsScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.FeedScreen;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.GridItemAuthorsScreen;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * UI Activity holding published reviews feed.
  */
 public class ActivityFeed extends ActivityReviewView
-        implements DialogAlertFragment.DialogAlertListener{
+        implements DialogAlertFragment.DialogAlertListener,
+        GridItemAuthorsScreen.DeleteRequestListener{
     private FeedScreen mScreen;
+    private ReviewsFeedMutable mAuthorsFeed;
 
     //Overridden
     @Override
@@ -31,15 +36,18 @@ public class ActivityFeed extends ActivityReviewView
 
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
-        BuilderAuthorFeedScreen feedScreenBuilder
-                = new BuilderAuthorFeedScreen(app.getReviewViewAdapterFactory(),
-                app.getLauncherFactory(), app.getLaunchableFactory(), app.getReviewsFactory());
+        mAuthorsFeed = app.getAuthorsFeed();
 
-        feedScreenBuilder.buildScreen(app.getReviewsProvider(), app.getBuilderChildListScreen());
-
+        BuilderAuthorsScreen feedScreenBuilder = getScreenBuilder(app);
+        feedScreenBuilder.buildScreen(mAuthorsFeed, app.getBuilderChildListScreen(), this);
         mScreen = feedScreenBuilder.getFeedScreen();
-
         return feedScreenBuilder.getView();
+    }
+
+    @NonNull
+    private BuilderAuthorsScreen getScreenBuilder(ApplicationInstance app) {
+        return new BuilderAuthorsScreen(app.getReviewViewAdapterFactory(),
+        app.getLaunchableFactory(), app.getReviewsFactory());
     }
 
     //Overridden
@@ -51,5 +59,10 @@ public class ActivityFeed extends ActivityReviewView
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         mScreen.onAlertPositive(requestCode, args);
+    }
+
+    @Override
+    public void onDeleteRequested(String reviewId) {
+        mAuthorsFeed.deleteReview(reviewId);
     }
 }

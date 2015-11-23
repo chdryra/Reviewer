@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.ReviewNodeRepository;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,8 +20,8 @@ public class RandomReviewsRepository {
         mReviewsFactory = reviewFactory;
     }
 
-    public ReviewsProvider nextRepository(ReviewNode node) {
+    public ReviewsFeed nextRepository(ReviewNode node) {
         ReviewNodeRepository provider = new ReviewNodeRepository(node, mTagsManager);
-        return new ReviewsProvider(provider, mReviewsFactory, node.getAuthor());
+        return new ReviewsFeed(provider, mReviewsFactory, node.getAuthor());
     }
 }

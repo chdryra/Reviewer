@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogEditCommentTest extends
-        DialogGvDataEditTest<GvCommentList.GvComment> {
+        DialogGvDataEditTest<GvComment> {
 
     //Constructors
     public DialogEditCommentTest() {
@@ -28,7 +28,7 @@ public class DialogEditCommentTest extends
     //protected methods
     @Override
     protected GvData getDataShown() {
-        return new GvCommentList.GvComment(mSolo.getEditText(0).getText().toString());
+        return new GvComment(mSolo.getEditText(0).getText().toString());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class DialogEditCommentTest extends
 //Overridden
     @Override
     protected GvData newDatum() {
-        GvCommentList.GvComment data = (GvCommentList.GvComment) super.newDatum();
+        GvComment data = (GvComment) super.newDatum();
         data.setIsHeadline(false);
         return data;
     }

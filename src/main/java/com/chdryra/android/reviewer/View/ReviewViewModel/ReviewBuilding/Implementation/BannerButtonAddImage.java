@@ -7,8 +7,9 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 
 /**
@@ -16,16 +17,16 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage>
+public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
         implements ImageChooser.ImageChooserListener {
-    private static final GvDataType<GvImageList.GvImage> TYPE = GvImageList.GvImage.TYPE;
+    private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
     private ImageChooser mImageChooser;
 
     //Constructors
-    public BannerButtonAddImage(LaunchableConfig<GvImageList.GvImage> adderConfig,
+    public BannerButtonAddImage(LaunchableConfig<GvImage> adderConfig,
                                 String title,
                                 FactoryGvData dataFactory,
-                                GvDataPacker<GvImageList.GvImage> dataPacker,
+                                GvDataPacker<GvImage> dataPacker,
                                 FactoryLaunchableUi launchableFactory,
                                 ImageChooser imageChooser) {
         super(adderConfig, title, TYPE, dataFactory, dataPacker, launchableFactory);
@@ -34,7 +35,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage>
 
     private void setCover() {
         GvImageList images = (GvImageList) getGridData();
-        GvImageList.GvImage cover = images.getItem(0);
+        GvImage cover = images.getItem(0);
         cover.setIsCover(true);
         getReviewView().notifyObservers();
     }
@@ -57,7 +58,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImageList.GvImage>
     }
 
     @Override
-    public void onChosenImage(GvImageList.GvImage image) {
+    public void onChosenImage(GvImage image) {
         if (getGridData().size() == 0) image.setIsCover(true);
         if (addData(image) && getGridData().size() == 1) setCover();
     }

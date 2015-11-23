@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvFactLabel;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;
@@ -37,8 +37,8 @@ public class ComparitorGvFactLabelTest extends TestCase {
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvFactList.GvFact lhs = new GvFactList.GvFact(lhsLabel, lhsValue);
-        GvFactList.GvFact rhs = new GvFactList.GvFact(lhsLabel, lhsValue);
+        GvFact lhs = new GvFact(lhsLabel, lhsValue);
+        GvFact rhs = new GvFact(lhsLabel, lhsValue);
         DifferencePercentage difference = comparitor.compare(lhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(lhs, rhs);
@@ -47,13 +47,13 @@ public class ComparitorGvFactLabelTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(none));
 
 
-        rhs = new GvFactList.GvFact(lhsLabel, rhsValue);
+        rhs = new GvFact(lhsLabel, rhsValue);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvFactList.GvFact(rhsLabel, rhsValue);
+        rhs = new GvFact(rhsLabel, rhsValue);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -61,7 +61,7 @@ public class ComparitorGvFactLabelTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvFactList.GvFact(empty, lhsValue);
+        rhs = new GvFact(empty, lhsValue);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));
@@ -69,7 +69,7 @@ public class ComparitorGvFactLabelTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvFactList.GvFact(empty, rhsValue);
+        rhs = new GvFact(empty, rhsValue);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));

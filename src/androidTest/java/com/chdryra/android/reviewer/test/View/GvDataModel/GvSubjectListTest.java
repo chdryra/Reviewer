@@ -10,14 +10,15 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvText;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvText;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -35,7 +36,7 @@ public class GvSubjectListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvSubjectList.GvSubject.TYPE, mList.getGvDataType());
+        assertEquals(GvSubject.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -52,14 +53,14 @@ public class GvSubjectListTest extends TestCase {
         String subject1 = GvDataMocker.newSubject(null).getString();
         String subject2 = GvDataMocker.newSubject(null).getString();
 
-        GvSubjectList.GvSubject gvSubject = new GvSubjectList.GvSubject(subject1);
-        GvSubjectList.GvSubject gvSubjectEquals = new GvSubjectList.GvSubject(subject1);
-        GvSubjectList.GvSubject gvSubjectEquals2 = new GvSubjectList.GvSubject(gvSubject);
-        GvSubjectList.GvSubject gvSubjectNotEquals = new GvSubjectList.GvSubject(subject2);
-        GvSubjectList.GvSubject gvSubjectNotEquals2 = new GvSubjectList.GvSubject(RandomReviewId
+        GvSubject gvSubject = new GvSubject(subject1);
+        GvSubject gvSubjectEquals = new GvSubject(subject1);
+        GvSubject gvSubjectEquals2 = new GvSubject(gvSubject);
+        GvSubject gvSubjectNotEquals = new GvSubject(subject2);
+        GvSubject gvSubjectNotEquals2 = new GvSubject(RandomReviewId
                 .nextGvReviewId(), subject1);
-        GvSubjectList.GvSubject gvSubjectNull = new GvSubjectList.GvSubject();
-        GvSubjectList.GvSubject gvSubjectEmpty = new GvSubjectList.GvSubject("");
+        GvSubject gvSubjectNull = new GvSubject();
+        GvSubject gvSubjectEmpty = new GvSubject("");
 
         assertNotNull(gvSubject.getViewHolder());
         assertTrue(gvSubject.isValidForDisplay());
@@ -97,13 +98,13 @@ public class GvSubjectListTest extends TestCase {
         mList.addList(GvDataMocker.newSubjectList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvCriterionList.GvCriterion.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvSubjectList.GvSubject.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.GvLocation.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.GvComment.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.GvFact.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.GvImage.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.GvUrl.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCriterion.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvSubject.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvLocation.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvComment.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvFact.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvImage.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvUrl.TYPE, NUM)));
 
         GvSubjectList list = new GvSubjectList();
         GvSubjectList list2 = new GvSubjectList(mList);

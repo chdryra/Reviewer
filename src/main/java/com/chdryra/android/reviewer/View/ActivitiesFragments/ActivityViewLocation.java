@@ -9,10 +9,13 @@
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.app.Fragment;
+import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 
 /**
@@ -20,6 +23,7 @@ import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
  */
 public class ActivityViewLocation extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityViewReviewLocation";
+    private GvLocation mLocation;
 
     //Overridden
     @Override
@@ -29,11 +33,20 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
 
     @Override
     public void launch(LauncherUi launcher) {
+        getBundledLocation(launcher);
         launcher.launch(this);
     }
 
     @Override
     protected Fragment createFragment() {
-        return new FragmentViewLocation();
+        return FragmentViewLocation.newInstance(mLocation);
+    }
+
+    private void getBundledLocation(LauncherUi launcher) {
+        GvDataPacker<GvLocation> packer = new GvDataPacker<>();
+        Bundle args = launcher.getArguments();
+        if (args != null) {
+            mLocation = packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        }
     }
 }

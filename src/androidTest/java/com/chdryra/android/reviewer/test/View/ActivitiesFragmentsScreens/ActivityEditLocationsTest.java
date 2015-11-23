@@ -17,9 +17,11 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
@@ -29,19 +31,19 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocationList.GvLocation> {
+public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation> {
     protected static final int NUM_DATA = 3;
-    private static final GvLocationList.GvLocation TAYYABS =
-            new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
+    private static final GvLocation TAYYABS =
+            new GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
     private static final String TAYYABSADD = "Fieldgate Street, London, " +
             "United Kingdom";
-    private static final GvLocationList.GvLocation TOWERBRIDGE =
-            new GvLocationList.GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
+    private static final GvLocation TOWERBRIDGE =
+            new GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
                     "Tower Bridge");
     private static final String TOWERBRIDGEADD = "Tower Bridge, London, " +
             "United Kingdom";
-    private static final GvLocationList.GvLocation DISHOOM =
-            new GvLocationList.GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
+    private static final GvLocation DISHOOM =
+            new GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
     private static final String DISHOOMADD = "Upper St Martin's Lane, " +
             "London, United Kingdom";
     private static final String[] LOCSADD = {TAYYABSADD, TOWERBRIDGEADD,
@@ -54,7 +56,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
 
     //Constructors
     public ActivityEditLocationsTest() {
-        super(GvLocationList.GvLocation.TYPE);
+        super(GvLocation.TYPE);
         mLocs = new GvLocationList();
         mLocs.add(TAYYABS);
         mLocs.add(TOWERBRIDGE);
@@ -64,7 +66,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
     public void testLongClickBannerButtonShowsMap() {
         setUp(false);
 
-        GvLocationList.GvLocation here = new GvLocationList.GvLocation(new LatLng(0, 0), "here");
+        GvLocation here = new GvLocation(new LatLng(0, 0), "here");
         final GvLocationList data = new GvLocationList();
         data.add(here);
 
@@ -107,9 +109,9 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
         checkBuildersSubjectRatingAsExpected();
 
         //Need to copy maps found location.
-        GvLocationList.GvLocation loc = getGridItem(0);
+        GvLocation loc = getGridItem(0);
         GvLocationList testData = new GvLocationList();
-        testData.add(new GvLocationList.GvLocation(loc.getLatLng(), here.getName()));
+        testData.add(new GvLocation(loc.getLatLng(), here.getName()));
 
         checkInGrid(testData, true);
         checkInBuilder(testData, true);
@@ -173,7 +175,7 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
         assertFalse(mSolo.searchText(alert));
         checkMapIsShowing(false);
 
-        GvLocationList.GvLocation clickedOn = getGridItem(0);
+        GvLocation clickedOn = getGridItem(0);
         clickLongOnGridItem(0);
 
         mSolo.waitForDialogToOpen(TIMEOUT);
@@ -230,8 +232,8 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
         waitForMapToClose();
         checkMapIsShowing(false);
 
-        GvLocationList.GvLocation testData = delete ? clickedOn
-                : new GvLocationList.GvLocation(clickedOn.getLatLng(), newName);
+        GvLocation testData = delete ? clickedOn
+                : new GvLocation(clickedOn.getLatLng(), newName);
 
         checkInGrid(testData, !delete);
     }
@@ -247,12 +249,12 @@ public class ActivityEditLocationsTest extends ActivityEditScreenTest<GvLocation
     }
 
     @Override
-    protected GvLocationList.GvLocation newEditDatum(GvLocationList.GvLocation oldDatum) {
-        return new GvLocationList.GvLocation(oldDatum.getLatLng(), RandomString.nextWord());
+    protected GvLocation newEditDatum(GvLocation oldDatum) {
+        return new GvLocation(oldDatum.getLatLng(), RandomString.nextWord());
     }
 
     @Override
-    protected GvDataList<GvLocationList.GvLocation> newData() {
+    protected GvDataListImpl<GvLocation> newData() {
         return mLocs;
     }
 

@@ -6,8 +6,8 @@ import android.view.View;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
 
 /**
@@ -15,22 +15,22 @@ import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemEditFact extends GridItemEdit<GvFactList.GvFact> {
+public class GridItemEditFact extends GridItemEdit<GvFact> {
     private static final int EDIT_ON_BROWSER = RequestCodeGenerator.getCode("EditOnBrowser");
-    private LaunchableConfig<GvUrlList.GvUrl> mUrlConfig;
+    private LaunchableConfig<GvUrl> mUrlConfig;
 
     //Constructors
-    public GridItemEditFact(LaunchableConfig<GvFactList.GvFact> factConfig,
-                            LaunchableConfig<GvUrlList.GvUrl> urlConfig,
+    public GridItemEditFact(LaunchableConfig<GvFact> factConfig,
+                            LaunchableConfig<GvUrl> urlConfig,
                             FactoryLaunchableUi launchableFactory,
-                            GvDataPacker<GvFactList.GvFact> dataPacker) {
+                            GvDataPacker<GvFact> dataPacker) {
         super(factConfig, launchableFactory, dataPacker);
         mUrlConfig = urlConfig;
     }
 
     //Overridden
     @Override
-    public void onGridItemLongClick(GvFactList.GvFact item, int position, View v) {
+    public void onGridItemLongClick(GvFact item, int position, View v) {
         if (!item.isUrl()) {
             super.onGridItemLongClick(item, position, v);
         } else {

@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 import junit.framework.TestCase;
 
@@ -24,9 +24,9 @@ import junit.framework.TestCase;
 public class ComparitorGvCommentTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        GvCommentList.GvComment kitten = new GvCommentList.GvComment("kitten");
-        GvCommentList.GvComment sitting = new GvCommentList.GvComment("sitting");
-        GvCommentList.GvComment empty = new GvCommentList.GvComment("");
+        GvComment kitten = new GvComment("kitten");
+        GvComment sitting = new GvComment("sitting");
+        GvComment empty = new GvComment("");
 
         ComparitorGvComment comparitor = new ComparitorGvComment();
         DifferencePercentage none = new DifferencePercentage(0.0);

@@ -8,16 +8,16 @@
 
 package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditTagsTest extends ActivityEditScreenTest<GvTagList.GvTag> {
+public class ActivityEditTagsTest extends ActivityEditScreenTest<GvTag> {
     //Constructors
     public ActivityEditTagsTest() {
-        super(GvTagList.GvTag.TYPE);
+        super(GvTag.TYPE);
     }
 }

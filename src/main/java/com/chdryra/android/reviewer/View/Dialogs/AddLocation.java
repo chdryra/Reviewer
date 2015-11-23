@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpNearestNamesSuggester;
@@ -28,11 +29,11 @@ import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.VhdLocatedPlace;
 import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
  * On: 04/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
+public class AddLocation extends AddEditLayout<GvLocation>
         implements LocationClientConnector.Locatable,
         GpNearestNamesSuggester.SuggestionsListener,
         GpPlaceDetailsFetcher.DetailsListener {
@@ -76,7 +77,7 @@ public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
 
     //Constructors
     public AddLocation(GvDataAdder adder) {
-        super(GvLocationList.GvLocation.class, LAYOUT, VIEWS, NAME, adder);
+        super(GvLocation.class, LAYOUT, VIEWS, NAME, adder);
     }
 
     private void fetchPlaceDetails(LocatedPlace place) {
@@ -108,7 +109,7 @@ public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
         suggester.fetchSuggestions();
 
         //Whilst initial suggestions are being found....
-        ViewHolderDataList<VhdLocatedPlace> message = new ViewHolderDataList<>();
+        ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
         message.add(mSearchingMessage);
         setNewSuggestionsAdapter(message);
     }
@@ -120,24 +121,24 @@ public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
 
     //Overridden
     @Override
-    public GvLocationList.GvLocation createGvData() {
+    public GvLocation createGvData() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
-        return new GvLocationList.GvLocation(mSelectedLatLng, name);
+        return new GvLocation(mSelectedLatLng, name);
     }
 
     @Override
-    public void onAdd(GvLocationList.GvLocation data) {
+    public void onAdd(GvLocation data) {
         super.onAdd(data);
         setNewSuggestionsAdapter(mCurrentLatLngPlaces);
     }
 
     @Override
-    public void updateLayout(GvLocationList.GvLocation location) {
+    public void updateLayout(GvLocation location) {
         ((EditText) getView(NAME)).setText(location.getName());
     }
 
     @Override
-    public View createLayoutUi(Context context, GvLocationList.GvLocation data) {
+    public View createLayoutUi(Context context, GvLocation data) {
         View v = super.createLayoutUi(context, data);
         mNameEditText = (ClearableEditText) getView(NAME);
         mNameEditText.addTextChangedListener(new TextWatcher() {
@@ -205,7 +206,7 @@ public class AddLocation extends AddEditLayout<GvLocationList.GvLocation>
     @Override
     public void onNearestNamesSuggested(GpPlaceSearchResults results) {
         ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(results);
-        mCurrentLatLngPlaces = new ViewHolderDataList<>();
+        mCurrentLatLngPlaces = new VhDataList<>();
         if (places.size() == 0) {
             mCurrentLatLngPlaces.add(mNoLocationMessage);
         } else {

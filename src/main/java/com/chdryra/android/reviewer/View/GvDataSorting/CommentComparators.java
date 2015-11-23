@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 import java.util.Comparator;
 
@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 04/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CommentComparators extends ComparatorCollection<GvCommentList.GvComment> {
+public class CommentComparators extends ComparatorCollection<GvComment> {
     private static CommentComparators sComparators = new CommentComparators();
 
     private CommentComparators() {
@@ -21,10 +21,10 @@ public class CommentComparators extends ComparatorCollection<GvCommentList.GvCom
         return sComparators;
     }
 
-    private static class HeadlineThenAlphabetical implements Comparator<GvCommentList.GvComment> {
+    private static class HeadlineThenAlphabetical implements Comparator<GvComment> {
         //Overridden
         @Override
-        public int compare(GvCommentList.GvComment lhs, GvCommentList.GvComment rhs) {
+        public int compare(GvComment lhs, GvComment rhs) {
             int comp;
             if (lhs.isHeadline() && !rhs.isHeadline()) {
                 comp = -1;

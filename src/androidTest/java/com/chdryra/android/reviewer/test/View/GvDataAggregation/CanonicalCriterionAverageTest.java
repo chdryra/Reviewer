@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCriterionAverage;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -18,8 +18,7 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriterionList
-        .GvCriterion> {
+public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriterion> {
     private static final String SUBJECT1 = RandomString.nextWord();
     private static final String SUBJECT2 = RandomString.nextWord();
     private static final String SUBJECT3 = RandomString.nextWord();
@@ -29,24 +28,24 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
 
 //protected methods
     @Override
-    protected GvCriterionList.GvCriterion getTestDatum() {
-        return new GvCriterionList.GvCriterion(SUBJECT1, RATING1);
+    protected GvCriterion getTestDatum() {
+        return new GvCriterion(SUBJECT1, RATING1);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvCriterionList.GvCriterion> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvCriterion> getCanonicalMaker() {
         return new CanonicalCriterionAverage();
     }
 
     private void checkSameSubjectDifferentRatings() {
         mData = newDataList();
-        GvCriterionList.GvCriterion review1 = new GvCriterionList.GvCriterion(SUBJECT1,
+        GvCriterion review1 = new GvCriterion(SUBJECT1,
                 RATING1);
-        GvCriterionList.GvCriterion review2 = new GvCriterionList.GvCriterion(SUBJECT1,
+        GvCriterion review2 = new GvCriterion(SUBJECT1,
                 RATING2);
-        GvCriterionList.GvCriterion review3 = new GvCriterionList.GvCriterion(SUBJECT1,
+        GvCriterion review3 = new GvCriterion(SUBJECT1,
                 RATING3);
-        GvCriterionList.GvCriterion review4 = new GvCriterionList.GvCriterion(SUBJECT1,
+        GvCriterion review4 = new GvCriterion(SUBJECT1,
                 RATING3);
         mData.add(review1);
         mData.add(review2);
@@ -54,11 +53,11 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
         mData.add(review4);
 
         float avg = 0f;
-        for (GvCriterionList.GvCriterion child : mData) {
+        for (GvCriterion child : mData) {
             avg += child.getRating() / (float) mData.size();
         }
 
-        GvCriterionList.GvCriterion canon = mCanonical.getCanonical(mData);
+        GvCriterion canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(SUBJECT1, canon.getSubject());
         assertEquals(avg, canon.getRating());
@@ -66,17 +65,17 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
 
     private void checkDifferent() {
         mData = newDataList();
-        GvCriterionList.GvCriterion review1 = new GvCriterionList.GvCriterion(SUBJECT2,
+        GvCriterion review1 = new GvCriterion(SUBJECT2,
                 RATING1);
-        GvCriterionList.GvCriterion review2 = new GvCriterionList.GvCriterion(SUBJECT2,
+        GvCriterion review2 = new GvCriterion(SUBJECT2,
                 RATING2);
-        GvCriterionList.GvCriterion review3 = new GvCriterionList.GvCriterion(SUBJECT3,
+        GvCriterion review3 = new GvCriterion(SUBJECT3,
                 RATING3);
-        GvCriterionList.GvCriterion review4 = new GvCriterionList.GvCriterion(SUBJECT2,
+        GvCriterion review4 = new GvCriterion(SUBJECT2,
                 RATING3);
-        GvCriterionList.GvCriterion review5 = new GvCriterionList.GvCriterion(SUBJECT2,
+        GvCriterion review5 = new GvCriterion(SUBJECT2,
                 RATING3);
-        GvCriterionList.GvCriterion review6 = new GvCriterionList.GvCriterion(SUBJECT3, RATING3);
+        GvCriterion review6 = new GvCriterion(SUBJECT3, RATING3);
         mData.add(review1);
         mData.add(review2);
         mData.add(review3);
@@ -85,11 +84,11 @@ public class CanonicalCriterionAverageTest extends CanonicalGvDataTest<GvCriteri
         mData.add(review6);
 
         float avg = 0f;
-        for (GvCriterionList.GvCriterion child : mData) {
+        for (GvCriterion child : mData) {
             avg += child.getRating() / (float) mData.size();
         }
 
-        GvCriterionList.GvCriterion canon = mCanonical.getCanonical(mData);
+        GvCriterion canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(SUBJECT2 + " + 1", canon.getSubject());
         assertEquals(avg, canon.getRating());

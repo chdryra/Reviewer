@@ -17,9 +17,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,7 +31,7 @@ import java.net.URL;
  * On: 05/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFactList.GvFact> {
+public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFact> {
     private static final String BBC = "BBC";
     private static final String BBC_URL = "http://www.bbc.co.uk/";
 
@@ -38,7 +40,7 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFactList.GvF
 
     //Constructors
     public ActivityEditFactsTest() {
-        super(GvFactList.GvFact.TYPE);
+        super(GvFact.TYPE);
     }
 
     public void testLongClickBannerButtonShowsBrowser() {
@@ -114,13 +116,13 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFactList.GvF
         mUrlData = true;
         super.testBannerButtonAddDone();
         GvDataList builderData = mReviewBuilder.getData(mDataType);
-        GvFactList.GvFact url = (GvFactList.GvFact) builderData.getItem(0);
+        GvFact url = (GvFact) builderData.getItem(0);
         assertTrue(url.isUrl());
     }
 
     protected void checkBrowserIsShowing(boolean isShowing) {
         if (isShowing) {
-            assertTrue(mSolo.searchText(GvUrlList.GvUrl.TYPE.getDatumName()));
+            assertTrue(mSolo.searchText(GvUrl.TYPE.getDatumName()));
         } else {
             assertTrue(mSolo.searchText(mDataType.getDataName()));
         }
@@ -151,11 +153,11 @@ public class ActivityEditFactsTest extends ActivityEditScreenTest<GvFactList.GvF
                 null, false);
     }
 
-    protected GvDataList<GvFactList.GvFact> newData() {
+    protected GvDataListImpl<GvFact> newData() {
         if (mUrlData) {
             GvFactList urls = new GvFactList();
             try {
-                urls.add(new GvUrlList.GvUrl(BBC, new URL(BBC_URL)));
+                urls.add(new GvUrl(BBC, new URL(BBC_URL)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 fail("Couldn't create URL data");

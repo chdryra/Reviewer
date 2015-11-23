@@ -10,13 +10,14 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -37,7 +38,7 @@ public class GvCriterionListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvCriterionList.GvCriterion.TYPE, mList.getGvDataType());
+        assertEquals(GvCriterion.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -51,12 +52,12 @@ public class GvCriterionListTest extends TestCase {
 
     @SmallTest
     public void testContainsSubject() {
-        GvCriterionList.GvCriterion child = GvDataMocker.newChild(null);
+        GvCriterion child = GvDataMocker.newChild(null);
         assertFalse(mList.contains(child.getSubject()));
         mList.add(child);
         assertTrue(mList.contains(child.getSubject()));
 
-        GvCriterionList.GvCriterion child2 = GvDataMocker.newChild(null);
+        GvCriterion child2 = GvDataMocker.newChild(null);
         assertFalse(mList.contains(child2.getSubject()));
         mList.add(child2);
         assertTrue(mList.contains(child2.getSubject()));
@@ -75,13 +76,13 @@ public class GvCriterionListTest extends TestCase {
             int item = rand.nextInt(9);
             String subject = mList.getItem(item).getSubject();
             float rating = RandomRating.nextRating();
-            mList.add(new GvCriterionList.GvCriterion(subject, rating));
+            mList.add(new GvCriterion(subject, rating));
         }
 
         mList.sort();
-        GvCriterionList.GvCriterion prev = mList.getItem(0);
+        GvCriterion prev = mList.getItem(0);
         for (int i = 1; i < mList.size(); ++i) {
-            GvCriterionList.GvCriterion next = mList.getItem(i);
+            GvCriterion next = mList.getItem(i);
             String prevSubject = prev.getSubject();
             float prevRating = prev.getRating();
             String nextSubject = next.getSubject();
@@ -101,13 +102,13 @@ public class GvCriterionListTest extends TestCase {
         mList.addList(GvDataMocker.newChildList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvCriterionList.GvCriterion.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.GvLocation.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.GvComment.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.GvFact.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.GvImage.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.GvUrl.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCriterion.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvTag.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvLocation.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvComment.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvFact.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvImage.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvUrl.TYPE, NUM)));
 
         GvCriterionList list = new GvCriterionList();
         GvCriterionList list2 = new GvCriterionList(mList);
@@ -127,8 +128,8 @@ public class GvCriterionListTest extends TestCase {
 
     @SmallTest
     public void testGvChildReview() {
-        GvCriterionList.GvCriterion review1 = GvDataMocker.newChild(null);
-        GvCriterionList.GvCriterion review2 = GvDataMocker.newChild(null);
+        GvCriterion review1 = GvDataMocker.newChild(null);
+        GvCriterion review2 = GvDataMocker.newChild(null);
 
         String subject1 = review1.getSubject();
         float rating1 = review1.getRating();
@@ -139,23 +140,23 @@ public class GvCriterionListTest extends TestCase {
             rating2 = review2.getRating();
         }
 
-        GvCriterionList.GvCriterion gvChild = new GvCriterionList.GvCriterion(subject1,
+        GvCriterion gvChild = new GvCriterion(subject1,
                 rating1);
-        GvCriterionList.GvCriterion gvChildEquals = new GvCriterionList.GvCriterion
+        GvCriterion gvChildEquals = new GvCriterion
                 (subject1,
                         rating1);
-        GvCriterionList.GvCriterion gvChildEquals2 = new GvCriterionList.GvCriterion
+        GvCriterion gvChildEquals2 = new GvCriterion
                 (gvChild);
-        GvCriterionList.GvCriterion gvChildNotEquals1 = new GvCriterionList.GvCriterion
+        GvCriterion gvChildNotEquals1 = new GvCriterion
                 (subject1, rating2);
-        GvCriterionList.GvCriterion gvChildNotEquals2 = new GvCriterionList.GvCriterion
+        GvCriterion gvChildNotEquals2 = new GvCriterion
                 (subject2, rating1);
-        GvCriterionList.GvCriterion gvChildNotEquals3 = new GvCriterionList.GvCriterion
+        GvCriterion gvChildNotEquals3 = new GvCriterion
                 (subject2, rating2);
-        GvCriterionList.GvCriterion gvChildNotEquals4 = new GvCriterionList.GvCriterion
+        GvCriterion gvChildNotEquals4 = new GvCriterion
                 (RandomReviewId.nextGvReviewId(), subject1, rating1);
-        GvCriterionList.GvCriterion gvChildNull = new GvCriterionList.GvCriterion();
-        GvCriterionList.GvCriterion gvChildEmpty = new GvCriterionList.GvCriterion("", rating1);
+        GvCriterion gvChildNull = new GvCriterion();
+        GvCriterion gvChildEmpty = new GvCriterion("", rating1);
 
         assertNotNull(gvChild.getViewHolder());
         assertTrue(gvChild.isValidForDisplay());

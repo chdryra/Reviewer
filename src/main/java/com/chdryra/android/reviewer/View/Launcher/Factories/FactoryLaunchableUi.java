@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
@@ -40,6 +40,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemActi
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 /**
  * Created by: Rizwan Choudrey
@@ -59,7 +60,7 @@ public class FactoryLaunchableUi {
         mConfig = config;
         mParamsFactory = paramsFactory;
         mLauncherFactory = new FactoryLauncherUi();
-        mListScreenFactory = new FactoryReviewsListScreen(mLauncherFactory, this, childListBuilder);
+        mListScreenFactory = new FactoryReviewsListScreen(this, childListBuilder);
     }
 
     public FactoryReviewsListScreen getListScreenFactory() {
@@ -118,18 +119,18 @@ public class FactoryLaunchableUi {
     //TODO make type safe
     private <T extends GvData> GridItemAction<T> getGridItem(GvDataType<T> dataType) {
         LaunchableConfig<T> viewerConfig = mConfig.getViewerConfig(dataType);
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
-            LaunchableConfig<GvCommentList.GvComment> config
-                    = (LaunchableConfig<GvCommentList.GvComment>) viewerConfig;
-            return (GridItemAction<T>) new GridItemComments(config, this);
+        if (dataType.equals(GvComment.TYPE)) {
+            LaunchableConfig<GvComment> config
+                    = (LaunchableConfig<GvComment>) viewerConfig;
+            return (GridItemAction<T>) new GridItemComments(config, this, new GvDataPacker<>());
         } else {
-            return new GridItemConfigLauncher<>(viewerConfig, mLauncherFactory, this);
+            return new GridItemConfigLauncher<>(viewerConfig, this, new GvDataPacker<>());
         }
     }
 
     //TODO make type safe
     private <T extends GvData> MenuAction<T> getMenu(GvDataType<T> dataType) {
-        if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+        if (dataType.equals(GvComment.TYPE)) {
             return (MenuAction<T>) new MenuComments();
         } else {
             return new MenuActionNone<>(dataType.getDataName());

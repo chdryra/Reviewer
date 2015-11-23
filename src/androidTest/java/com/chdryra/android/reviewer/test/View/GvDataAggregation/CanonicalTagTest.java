@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalTagMode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -18,30 +18,30 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalTagTest extends CanonicalGvDataTest<GvTagList.GvTag> {
+public class CanonicalTagTest extends CanonicalGvDataTest<GvTag> {
     private static final String TAG1 = RandomString.nextWord();
     private static final String TAG2 = RandomString.nextWord();
     private static final String TAG3 = RandomString.nextWord();
 
     //protected methods
     @Override
-    protected GvTagList.GvTag getTestDatum() {
-        return new GvTagList.GvTag(TAG1);
+    protected GvTag getTestDatum() {
+        return new GvTag(TAG1);
     }
 
     @Override
-    protected CanonicalDatumMaker<GvTagList.GvTag> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvTag> getCanonicalMaker() {
         return new CanonicalTagMode();
     }
 
     private void checkDifferent() {
         mData = newDataList();
-        GvTagList.GvTag tag1 = new GvTagList.GvTag(TAG1);
-        GvTagList.GvTag tag2 = new GvTagList.GvTag(TAG2);
-        GvTagList.GvTag tag3 = new GvTagList.GvTag(TAG3);
-        GvTagList.GvTag tag4 = new GvTagList.GvTag(TAG2);
-        GvTagList.GvTag tag5 = new GvTagList.GvTag(TAG2);
-        GvTagList.GvTag tag6 = new GvTagList.GvTag(TAG3);
+        GvTag tag1 = new GvTag(TAG1);
+        GvTag tag2 = new GvTag(TAG2);
+        GvTag tag3 = new GvTag(TAG3);
+        GvTag tag4 = new GvTag(TAG2);
+        GvTag tag5 = new GvTag(TAG2);
+        GvTag tag6 = new GvTag(TAG3);
         mData.add(tag1);
         mData.add(tag2);
         mData.add(tag3);
@@ -49,7 +49,7 @@ public class CanonicalTagTest extends CanonicalGvDataTest<GvTagList.GvTag> {
         mData.add(tag5);
         mData.add(tag6);
 
-        GvTagList.GvTag canon = mCanonical.getCanonical(mData);
+        GvTag canon = mCanonical.getCanonical(mData);
         assertTrue(canon.isValidForDisplay());
         assertEquals(TAG2 + " + 2", canon.getString());
     }

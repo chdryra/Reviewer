@@ -26,13 +26,14 @@ import com.chdryra.android.reviewer.Models.UserModel.UserId;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Implementation.StaticReviewsRepository;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.Assert;
@@ -225,20 +226,20 @@ public class TestReviews {
         builder.setRating(review.mRating);
         builder.setRatingIsAverage(review.mIsRatingAverage);
         
-        DataBuilder<GvCommentList.GvComment> commentBuilder
-                = builder.getDataBuilder(GvCommentList.GvComment.TYPE);
+        DataBuilder<GvComment> commentBuilder
+                = builder.getDataBuilder(GvComment.TYPE);
         for (String comment : review.mComments) {
-            commentBuilder.add(new GvCommentList.GvComment(comment));
+            commentBuilder.add(new GvComment(comment));
         }
         commentBuilder.setData();
         
-        DataBuilder<GvFactList.GvFact> factBuilder
-                = builder.getDataBuilder(GvFactList.GvFact.TYPE);
+        DataBuilder<GvFact> factBuilder
+                = builder.getDataBuilder(GvFact.TYPE);
         for (Fact fact : review.mFacts) {
-            GvFactList.GvFact f = new GvFactList.GvFact(fact.mLabel, fact.mValue);
+            GvFact f = new GvFact(fact.mLabel, fact.mValue);
             if (fact.mIsUrl) {
                 try {
-                    f = new GvUrlList.GvUrl(fact.mLabel, new URL(fact.mValue));
+                    f = new GvUrl(fact.mLabel, new URL(fact.mValue));
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -247,32 +248,32 @@ public class TestReviews {
         }
         factBuilder.setData();
         
-        DataBuilder<GvLocationList.GvLocation> locationBuilder
-                = builder.getDataBuilder(GvLocationList.GvLocation.TYPE);
+        DataBuilder<GvLocation> locationBuilder
+                = builder.getDataBuilder(GvLocation.TYPE);
         for (Location Location : review.mLocations) {
-            locationBuilder.add(new GvLocationList.GvLocation(Location.mLatLng, Location.mName));
+            locationBuilder.add(new GvLocation(Location.mLatLng, Location.mName));
         }
         locationBuilder.setData();
 
-        DataBuilder<GvImageList.GvImage> imageBuilder
-                = builder.getDataBuilder(GvImageList.GvImage.TYPE);
+        DataBuilder<GvImage> imageBuilder
+                = builder.getDataBuilder(GvImage.TYPE);
         for (Image image : review.mImages) {
-            imageBuilder.add(new GvImageList.GvImage(image.mBitmap, image.mDate, null,
+            imageBuilder.add(new GvImage(image.mBitmap, image.mDate, null,
                     image.mCaption, image.mIsCover));
         }
         imageBuilder.setData();
 
-        DataBuilder<GvCriterionList.GvCriterion> criterionBuilder
-                = builder.getDataBuilder(GvCriterionList.GvCriterion.TYPE);
+        DataBuilder<GvCriterion> criterionBuilder
+                = builder.getDataBuilder(GvCriterion.TYPE);
         for (Criterion child : review.mCriteria) {
-            criterionBuilder.add(new GvCriterionList.GvCriterion(child.mSubject, child.mRating));
+            criterionBuilder.add(new GvCriterion(child.mSubject, child.mRating));
         }
         criterionBuilder.setData();
 
-        DataBuilder<GvTagList.GvTag> tagBuilder
-                = builder.getDataBuilder(GvTagList.GvTag.TYPE);
+        DataBuilder<GvTag> tagBuilder
+                = builder.getDataBuilder(GvTag.TYPE);
         for (String tag : review.mTags) {
-            tagBuilder.add(new GvTagList.GvTag(tag));
+            tagBuilder.add(new GvTag(tag));
         }
         tagBuilder.setData();
 

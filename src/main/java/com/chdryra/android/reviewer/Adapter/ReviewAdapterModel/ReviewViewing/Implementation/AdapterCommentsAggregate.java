@@ -4,10 +4,11 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Inte
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -15,15 +16,15 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
-    private GvCanonicalCollection<GvCommentList.GvComment> mComments;
-    private GvCanonicalCollection<GvCommentList.GvComment> mCommentsSplit;
+    private GvCanonicalCollection<GvComment> mComments;
+    private GvCanonicalCollection<GvComment> mCommentsSplit;
     private FactoryGridDataViewer mViewerFactory;
     private GvDataAggregater mAggregater;
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
                                     GvImageConverter converter,
-                                    GvCanonicalCollection<GvCommentList.GvComment> comments,
+                                    GvCanonicalCollection<GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
                                     GvDataAggregater aggregater) {
         super(node, converter);
@@ -34,7 +35,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     }
 
     public void setSplit(boolean split) {
-        GvCanonicalCollection<GvCommentList.GvComment> current;
+        GvCanonicalCollection<GvComment> current;
 
         if (split) {
             if (mCommentsSplit == null) splitComments();
@@ -49,7 +50,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private void splitComments() {
         GvCommentList allComments = new GvCommentList(new GvReviewId(mComments.getReviewId()));
         for (int i = 0; i < mComments.size(); ++i) {
-            GvCanonical<GvCommentList.GvComment> canonical = mComments.getItem(i);
+            GvCanonical<GvComment> canonical = mComments.getItem(i);
             allComments.addList(canonical.toList());
         }
         GvCommentList split = allComments.getSplitComments();

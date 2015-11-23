@@ -8,11 +8,13 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
@@ -116,20 +118,20 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         }
 
         //Change criteria data
-        DataBuilderAdapter<GvCriterionList.GvCriterion> criteriaBuilder =
-                mAdapter.getDataBuilderAdapter(GvCriterionList.GvCriterion.TYPE);
+        DataBuilderAdapter<GvCriterion> criteriaBuilder =
+                mAdapter.getDataBuilderAdapter(GvCriterion.TYPE);
         GvCriterionList criteria2;
         do {
             criteria2 = GvDataMocker.newChildList(NUM, false);
         } while (criteria.getAverageRating() == criteria2.getAverageRating());
         for (int i = 0; i < criteria2.size(); ++i) {
-            GvCriterionList.GvCriterion datum = criteria2.getItem(i);
+            GvCriterion datum = criteria2.getItem(i);
             assertTrue(criteriaBuilder.add(datum));
         }
 
         for (GvDataType dataType : TYPES) {
             DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
-            if(dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
+            if(dataType.equals(GvCriterion.TYPE)) {
                 assertEquals(criteria2.getAverageRating(), builder.getAverageRating());
             } else {
                 assertEquals(criteria.getAverageRating(), builder.getAverageRating());
@@ -149,10 +151,10 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         GvImageList newImages = GvDataMocker.newImageList(NUM, false);
         setBuilderData(images);
 
-        DataBuilderAdapter<GvImageList.GvImage> imageBuilder =
-                mAdapter.getDataBuilderAdapter(GvImageList.GvImage.TYPE);
+        DataBuilderAdapter<GvImage> imageBuilder =
+                mAdapter.getDataBuilderAdapter(GvImage.TYPE);
         imageBuilder.deleteAll();
-        for (GvImageList.GvImage image : newImages) {
+        for (GvImage image : newImages) {
             imageBuilder.add(image);
         }
 
@@ -161,7 +163,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         for (GvDataType dataType : TYPES) {
             DataBuilderAdapter builder = mAdapter.getDataBuilderAdapter(dataType);
             assertEquals(1, builder.getCovers().size());
-            if (dataType.equals(GvImageList.GvImage.TYPE)) {
+            if (dataType.equals(GvImage.TYPE)) {
                 assertEquals(newImages.getItem(0), builder.getCovers().getItem(0));
             } else {
                 assertEquals(images.getItem(0), builder.getCovers().getItem(0));

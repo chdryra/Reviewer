@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalAuthor;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**
@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuthor> {
-    private static final GvAuthorList.GvAuthor AUTHOR1 = GvDataMocker.newAuthor(null);
-    private static final GvAuthorList.GvAuthor AUTHOR2 = GvDataMocker.newAuthor(null);
-    private static final GvAuthorList.GvAuthor AUTHOR3 = GvDataMocker.newAuthor(null);
-    private static final GvAuthorList.GvAuthor AUTHOR4 = GvDataMocker.newAuthor(null);
+public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthor> {
+    private static final GvAuthor AUTHOR1 = GvDataMocker.newAuthor(null);
+    private static final GvAuthor AUTHOR2 = GvDataMocker.newAuthor(null);
+    private static final GvAuthor AUTHOR3 = GvDataMocker.newAuthor(null);
+    private static final GvAuthor AUTHOR4 = GvDataMocker.newAuthor(null);
 
     public void testGetCanon() {
         super.testGetCanonical();
@@ -30,12 +30,12 @@ public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuth
 
     //protected methods
     @Override
-    protected GvAuthorList.GvAuthor getTestDatum() {
+    protected GvAuthor getTestDatum() {
         return AUTHOR1;
     }
 
     @Override
-    protected CanonicalDatumMaker<GvAuthorList.GvAuthor> getCanonicalMaker() {
+    protected CanonicalDatumMaker<GvAuthor> getCanonicalMaker() {
         return new CanonicalAuthor();
     }
 
@@ -45,7 +45,7 @@ public class CanonicalAuthorTest extends CanonicalGvDataTest<GvAuthorList.GvAuth
         mData.add(AUTHOR2);
         mData.add(AUTHOR3);
         mData.add(AUTHOR4);
-        GvAuthorList.GvAuthor canon = mCanonical.getCanonical(mData);
+        GvAuthor canon = mCanonical.getCanonical(mData);
         assertFalse(canon.isValidForDisplay());
     }
 

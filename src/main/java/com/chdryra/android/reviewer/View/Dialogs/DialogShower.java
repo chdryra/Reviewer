@@ -31,7 +31,11 @@ public class DialogShower {
     }
 
     public static void showAlert(String alert, Activity activity, int requestCode, String tag) {
-        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, new Bundle());
+        showAlert(alert, activity,requestCode, tag, new Bundle());
+    }
+
+    public static void showAlert(String alert, Activity activity, int requestCode, String tag, Bundle args) {
+        DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, args);
         show(dialog, activity, requestCode, tag);
     }
 }

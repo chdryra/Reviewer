@@ -13,9 +13,9 @@ import android.location.Location;
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.testutils.CallBackSignaler;
 import com.google.android.gms.maps.model.LatLng;
@@ -25,22 +25,22 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 16/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.GvLocation>
+public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocation>
         implements LocationClientConnector.Locatable {
-    private static final GvLocationList.GvLocation TAYYABS =
-            new GvLocationList.GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
+    private static final GvLocation TAYYABS =
+            new GvLocation(new LatLng(51.517264, -0.063484), "Tayyabs");
     private static final String TAYYABSADD = "Fieldgate Street, London, " +
             "United Kingdom";
 
-    private static final GvLocationList.GvLocation TOWERBRIDGE =
-            new GvLocationList.GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
+    private static final GvLocation TOWERBRIDGE =
+            new GvLocation(new LatLng(51.50418459999999, -0.07632209999999999),
                     "Tower Bridge");
     private static final String TOWERBRIDGEADD = "Tower Bridge, London, " +
             "United Kingdom";
 
-    private static final GvLocationList.GvLocation DISHOOM =
-            new GvLocationList.GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
-    private static final GvLocationList.GvLocation[] LOCS = {TAYYABS, TOWERBRIDGE, DISHOOM};
+    private static final GvLocation DISHOOM =
+            new GvLocation(new LatLng(51.51243, -0.126909), "Dishoom");
+    private static final GvLocation[] LOCS = {TAYYABS, TOWERBRIDGE, DISHOOM};
     private static final String DISHOOMADD = "Upper St Martin's Lane, " +
             "London, United Kingdom";
     private static final String[] LOCSADD = {TAYYABSADD, TOWERBRIDGEADD,
@@ -69,7 +69,7 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocationList.Gv
     }
 
     private GvData testQuickSet(boolean pressAdd, int index) {
-        final DialogAddListener<GvLocationList.GvLocation> listener = mListener;
+        final DialogAddListener<GvLocation> listener = mListener;
         final DialogCancelAddDoneFragment dialog = mDialog;
 
         assertNull(listener.getAddData());

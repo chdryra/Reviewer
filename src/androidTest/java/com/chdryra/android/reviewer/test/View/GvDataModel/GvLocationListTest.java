@@ -11,13 +11,14 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -40,7 +41,7 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testGetGvType() {
-        assertEquals(GvLocationList.GvLocation.TYPE, mList.getGvDataType());
+        assertEquals(GvLocation.TYPE, mList.getGvDataType());
     }
 
     @SmallTest
@@ -54,30 +55,30 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testGvLocation() {
-        GvLocationList.GvLocation location1 = GvDataMocker.newLocation(null);
-        GvLocationList.GvLocation location2 = GvDataMocker.newLocation(null);
+        GvLocation location1 = GvDataMocker.newLocation(null);
+        GvLocation location2 = GvDataMocker.newLocation(null);
 
         LatLng latLng1 = location1.getLatLng();
         String name1 = location1.getName();
         LatLng latLng2 = location2.getLatLng();
         String name2 = location2.getName();
 
-        GvLocationList.GvLocation gvLocation = new GvLocationList.GvLocation(latLng1, name1);
-        GvLocationList.GvLocation gvLocationEquals = new GvLocationList.GvLocation(latLng1,
+        GvLocation gvLocation = new GvLocation(latLng1, name1);
+        GvLocation gvLocationEquals = new GvLocation(latLng1,
                 name1);
-        GvLocationList.GvLocation gvLocationEquals2 = new GvLocationList.GvLocation(gvLocation);
-        GvLocationList.GvLocation gvLocationNotEquals1 = new GvLocationList.GvLocation
+        GvLocation gvLocationEquals2 = new GvLocation(gvLocation);
+        GvLocation gvLocationNotEquals1 = new GvLocation
                 (latLng1, name2);
-        GvLocationList.GvLocation gvLocationNotEquals2 = new GvLocationList.GvLocation
+        GvLocation gvLocationNotEquals2 = new GvLocation
                 (latLng2, name1);
-        GvLocationList.GvLocation gvLocationNotEquals3 = new GvLocationList.GvLocation
+        GvLocation gvLocationNotEquals3 = new GvLocation
                 (latLng2, name2);
-        GvLocationList.GvLocation gvLocationNotEquals4 = new GvLocationList.GvLocation
+        GvLocation gvLocationNotEquals4 = new GvLocation
                 (RandomReviewId.nextGvReviewId(), latLng1, name1);
-        GvLocationList.GvLocation gvLocationNull = new GvLocationList.GvLocation();
-        GvLocationList.GvLocation gvLocationEmpty1 = new GvLocationList.GvLocation(latLng1, "");
-        GvLocationList.GvLocation gvLocationEmpty2 = new GvLocationList.GvLocation(null, name1);
-        GvLocationList.GvLocation gvLocationEmpty3 = new GvLocationList.GvLocation(null, "");
+        GvLocation gvLocationNull = new GvLocation();
+        GvLocation gvLocationEmpty1 = new GvLocation(latLng1, "");
+        GvLocation gvLocationEmpty2 = new GvLocation(null, name1);
+        GvLocation gvLocationEmpty3 = new GvLocation(null, "");
 
         assertNotNull(gvLocation.getViewHolder());
         assertTrue(gvLocation.isValidForDisplay());
@@ -111,7 +112,7 @@ public class GvLocationListTest extends TestCase {
         }
 
         LatLng latLng = RandomLatLng.nextLatLng();
-        GvLocationList.GvLocation location = new GvLocationList.GvLocation(latLng, name);
+        GvLocation location = new GvLocation(latLng, name);
         String shortened = location.getShortenedName();
         assertEquals(firstBit, shortened);
     }
@@ -121,13 +122,13 @@ public class GvLocationListTest extends TestCase {
         mList.addList(GvDataMocker.newLocationList(NUM, false));
         assertEquals(NUM, mList.size());
 
-        assertFalse(mList.equals(GvDataMocker.getData(GvCriterionList.GvCriterion.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvTagList.GvTag.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvLocationList.GvLocation.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvCommentList.GvComment.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvFactList.GvFact.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvImageList.GvImage.TYPE, NUM)));
-        assertFalse(mList.equals(GvDataMocker.getData(GvUrlList.GvUrl.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvCriterion.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvTag.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvLocation.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvComment.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvFact.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvImage.TYPE, NUM)));
+        assertFalse(mList.equals(GvDataMocker.getData(GvUrl.TYPE, NUM)));
 
         GvLocationList list = new GvLocationList();
         GvLocationList list2 = new GvLocationList(mList);

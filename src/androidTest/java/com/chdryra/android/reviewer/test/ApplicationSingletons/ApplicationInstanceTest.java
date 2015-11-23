@@ -19,9 +19,10 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProvider;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.TestDatabase;
 import com.chdryra.android.testutils.RandomString;
@@ -64,7 +65,7 @@ public class ApplicationInstanceTest extends InstrumentationTestCase {
     @SmallTest
     @UiThreadTest
     public void testPublishReviewBuilder() {
-        ReviewsProvider repo = mAdmin.getReviewsRepository();
+        ReviewsFeed repo = mAdmin.getReviewsRepository();
         assertNotNull(repo);
         int numReviews = repo.getReviews().size();
         ReviewerDb db = TestDatabase.getDatabase(getInstrumentation());
@@ -74,9 +75,9 @@ public class ApplicationInstanceTest extends InstrumentationTestCase {
         assertNotNull(builder);
         builder.setSubject(RandomString.nextWord());
         GvTagList tags = GvDataMocker.newTagList(3, false);
-        DataBuilderAdapter<GvTagList.GvTag> tagBuilder
-                = builder.getDataBuilderAdapter(GvTagList.GvTag.TYPE);
-        for (GvTagList.GvTag tag : tags) {
+        DataBuilderAdapter<GvTag> tagBuilder
+                = builder.getDataBuilderAdapter(GvTag.TYPE);
+        for (GvTag tag : tags) {
             tagBuilder.add(tag);
         }
         tagBuilder.setData();

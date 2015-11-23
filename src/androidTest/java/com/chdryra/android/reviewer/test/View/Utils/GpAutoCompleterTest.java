@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.Utils;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 public class GpAutoCompleterTest extends TestCase {
     private static final LatLng TAYYABS_LL = new LatLng(51.517264, -0.063484);
     private static final String TAYYABS_NAME = "Tayyabs";
-    private static final GvLocationList.GvLocation TAYYABS = new GvLocationList.GvLocation
+    private static final GvLocation TAYYABS = new GvLocation
             (TAYYABS_LL, TAYYABS_NAME);
 
     @SmallTest

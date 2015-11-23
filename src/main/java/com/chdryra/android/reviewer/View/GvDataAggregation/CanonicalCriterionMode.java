@@ -1,33 +1,33 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 29/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCriterionMode implements CanonicalDatumMaker<GvCriterionList.GvCriterion> {
+public class CanonicalCriterionMode implements CanonicalDatumMaker<GvCriterion> {
     //Overridden
     @Override
-    public GvCriterionList.GvCriterion getCanonical(GvDataList<GvCriterionList.GvCriterion> data) {
-        if (data.size() == 0) return new GvCriterionList.GvCriterion(data.getGvReviewId(), "", 0f);
+    public GvCriterion getCanonical(GvDataList<GvCriterion> data) {
+        if (data.size() == 0) return new GvCriterion(data.getGvReviewId(), "", 0f);
 
-        DatumCounter<GvCriterionList.GvCriterion, String> subjectCounter = new DatumCounter<>(data,
-                new DataGetter<GvCriterionList.GvCriterion, String>() {
+        DatumCounter<GvCriterion, String> subjectCounter = new DatumCounter<>(data,
+                new DataGetter<GvCriterion, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvCriterionList.GvCriterion datum) {
+                    public String getData(GvCriterion datum) {
                         return datum.getSubject();
                     }
                 });
 
-        DatumCounter<GvCriterionList.GvCriterion, Float> ratingCounter = new DatumCounter<>(data,
-                new DataGetter<GvCriterionList.GvCriterion, Float>() {
+        DatumCounter<GvCriterion, Float> ratingCounter = new DatumCounter<>(data,
+                new DataGetter<GvCriterion, Float>() {
 //Overridden
                     @Override
-                    public Float getData(GvCriterionList.GvCriterion datum) {
+                    public Float getData(GvCriterion datum) {
                         return datum.getRating();
                     }
                 });
@@ -36,6 +36,6 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<GvCriterionLi
         int nonMax = subjectCounter.getNonMaxCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         float maxRating = ratingCounter.getMaxItem();
-        return new GvCriterionList.GvCriterion(data.getGvReviewId(), maxSubject, maxRating);
+        return new GvCriterion(data.getGvReviewId(), maxSubject, maxRating);
     }
 }

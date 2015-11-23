@@ -25,8 +25,8 @@ import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ImageChooser;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
@@ -120,13 +120,13 @@ public class ImageChooserImpl implements ImageChooser {
                     ExifInterface exif = ImageHelper.getExif(mCaptureFile);
                     LatLng ll = ImageHelper.getLatLngFromExif(exif);
                     Date date = ImageHelper.getDateTimeFromEXIF(exif);
-                    GvDateList.GvDate gvDate;
+                    GvDate gvDate;
                     if(date == null) {
-                        gvDate = new GvDateList.GvDate();
+                        gvDate = new GvDate();
                     } else {
-                        gvDate = new GvDateList.GvDate(date.getTime());
+                        gvDate = new GvDate(date.getTime());
                     }
-                    GvImageList.GvImage image = new GvImageList.GvImage(bitmap, gvDate, ll, null, false);
+                    GvImage image = new GvImage(bitmap, gvDate, ll, null, false);
                     listener.onChosenImage(image);
                 }
             };

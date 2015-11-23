@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvTag;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 import junit.framework.TestCase;
 
@@ -34,14 +34,14 @@ public class ComparitorGvTagTest extends TestCase {
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvTagList.GvTag lhs = new GvTagList.GvTag(kitten);
-        GvTagList.GvTag rhs = new GvTagList.GvTag(kitten);
+        GvTag lhs = new GvTag(kitten);
+        GvTag rhs = new GvTag(kitten);
         DifferencePercentage difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvTagList.GvTag(sitting);
+        rhs = new GvTag(sitting);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -49,7 +49,7 @@ public class ComparitorGvTagTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvTagList.GvTag(empty);
+        rhs = new GvTag(empty);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));

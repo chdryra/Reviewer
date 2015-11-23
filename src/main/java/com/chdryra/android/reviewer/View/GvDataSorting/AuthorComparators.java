@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
 
 import java.util.Comparator;
 
@@ -9,7 +9,7 @@ import java.util.Comparator;
  * On: 03/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorComparators extends ComparatorCollection<GvAuthorList.GvAuthor> {
+public class AuthorComparators extends ComparatorCollection<GvAuthor> {
     private static AuthorComparators sComparators = new AuthorComparators();
 
     private AuthorComparators() {
@@ -21,10 +21,10 @@ public class AuthorComparators extends ComparatorCollection<GvAuthorList.GvAutho
         return sComparators;
     }
 
-    private static class AlphabeticalIgnoreCase implements Comparator<GvAuthorList.GvAuthor> {
+    private static class AlphabeticalIgnoreCase implements Comparator<GvAuthor> {
         //Overridden
         @Override
-        public int compare(GvAuthorList.GvAuthor lhs, GvAuthorList.GvAuthor rhs) {
+        public int compare(GvAuthor lhs, GvAuthor rhs) {
             return lhs.getName().compareToIgnoreCase(rhs.getName());
         }
     }

@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.View.Configs;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -28,7 +28,7 @@ import java.util.Arrays;
  */
 public class ClassesAddEditViewTest extends TestCase {
     private static final ArrayList<GvDataType> TYPES = GvDataMocker.TYPES;
-    private static final GvDataType[] NULLADDS = {GvImageList.GvImage.TYPE};
+    private static final GvDataType[] NULLADDS = {GvImage.TYPE};
 
     @SmallTest
     public void testGetAddClass() {

@@ -4,9 +4,10 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,7 +17,7 @@ import java.net.URL;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFactList.GvFact, GvFactList> {
+public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFact, GvFactList> {
     private GvConverterUrls mUrlConverter;
 
     public GvConverterFacts(GvConverterUrls urlConverter) {
@@ -25,17 +26,17 @@ public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFactList
     }
 
     @Override
-    public GvFactList.GvFact convert(DataFact datum) {
+    public GvFact convert(DataFact datum) {
         GvReviewId id = newId(datum.getReviewId());
-        GvFactList.GvFact fact = null;
+        GvFact fact = null;
         if (datum.isUrl()) fact = getGvUrl(datum);
 
-        if(fact == null) fact = new GvFactList.GvFact(id, datum.getLabel(), datum.getValue());
+        if(fact == null) fact = new GvFact(id, datum.getLabel(), datum.getValue());
 
         return fact;
     }
 
-    private GvUrlList.GvUrl getGvUrl(DataFact datum) {
+    private GvUrl getGvUrl(DataFact datum) {
         GvReviewId id = newId(datum.getReviewId());
         try {
             DataUrl urlDatum = (DataUrl) datum;
@@ -44,7 +45,7 @@ public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFactList
             String urlGuess = URLUtil.guessUrl(datum.getValue());
             try {
                 URL url = new URL(urlGuess);
-                return new GvUrlList.GvUrl(id, datum.getLabel(), url);
+                return new GvUrl(id, datum.getLabel(), url);
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
             }

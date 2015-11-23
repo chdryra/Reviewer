@@ -15,7 +15,8 @@ import android.view.KeyEvent;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -23,23 +24,23 @@ import com.chdryra.android.testutils.RandomString;
  * On: 09/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImageList.GvImage> {
+public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImage> {
 
     //Constructors
     public ActivityEditImagesTest() {
-        super(GvImageList.GvImage.TYPE);
+        super(GvImage.TYPE);
     }
 
     @SmallTest
     public void testSetAsCover() {
         setUp(true);
         GvImageList images = (GvImageList) mData;
-        for (GvImageList.GvImage image : images) {
+        for (GvImage image : images) {
             image.setIsCover(false);
         }
         images.getItem(0).setIsCover(true);
 
-        GvImageList.GvImage oldCover = getGridItem(0);
+        GvImage oldCover = getGridItem(0);
         assertNotNull(oldCover);
         assertTrue(oldCover.isCover());
         for (int i = 0; i < images.size(); ++i) {
@@ -73,7 +74,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImageList.G
         mSolo.waitForDialogToClose(TIMEOUT);
         assertFalse(mSolo.searchText(alert));
 
-        GvImageList.GvImage newCover = getGridItem(0);
+        GvImage newCover = getGridItem(0);
         assertNotNull(newCover);
         assertTrue(newCover.isCover());
         assertFalse(oldCover.isCover());
@@ -96,7 +97,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImageList.G
         clickDeleteConfirm();
         waitForLaunchableToClose();
 
-        GvImageList.GvImage newnewCover = getGridItem(0);
+        GvImage newnewCover = getGridItem(0);
         assertNotNull(newnewCover);
         assertTrue(newnewCover.isCover());
         assertFalse(newCover.equals(newnewCover));
@@ -114,7 +115,7 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImageList.G
     public void testBannerButtonAddDone() {
         setUp(false);
 
-        mSolo.clickOnButton("Add " + GvImageList.GvImage.TYPE.getDatumName());
+        mSolo.clickOnButton("Add " + GvImage.TYPE.getDatumName());
         getInstrumentation().waitForIdleSync();
 
         assertTrue(mSolo.searchText("Select Source"));
@@ -129,8 +130,8 @@ public class ActivityEditImagesTest extends ActivityEditScreenTest<GvImageList.G
     }
 
     @Override
-    protected GvImageList.GvImage newEditDatum(GvImageList.GvImage current) {
-        return new GvImageList.GvImage(current.getBitmap(), current.getDate(),
+    protected GvImage newEditDatum(GvImage current) {
+        return new GvImage(current.getBitmap(), current.getDate(),
                 current.getLatLng(), RandomString.nextSentence(), current.isCover());
     }
 }

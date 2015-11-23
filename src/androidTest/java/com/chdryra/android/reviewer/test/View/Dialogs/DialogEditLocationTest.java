@@ -9,16 +9,16 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.GvLocation> {
-    private GvLocationList.GvLocation mCurrent;
+public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocation> {
+    private GvLocation mCurrent;
 
     //Constructors
     public DialogEditLocationTest() {
@@ -27,18 +27,18 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.
 
     //protected methods
     @Override
-    protected GvLocationList.GvLocation getDataShown() {
+    protected GvLocation getDataShown() {
         String name = mSolo.getEditText(0).getText().toString().trim();
-        mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), name);
+        mCurrent = new GvLocation(mCurrent.getLatLng(), name);
 
         return mCurrent;
     }
 
     @Override
     protected GvData getEditDatum() {
-        GvLocationList.GvLocation child = (GvLocationList.GvLocation) super.getEditDatum();
+        GvLocation child = (GvLocation) super.getEditDatum();
 
-        mCurrent = new GvLocationList.GvLocation(mCurrent.getLatLng(), child.getName());
+        mCurrent = new GvLocation(mCurrent.getLatLng(), child.getName());
 
         return mCurrent;
     }
@@ -46,13 +46,13 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocationList.
 //Overridden
     @Override
     protected GvData newDatum() {
-        mCurrent = (GvLocationList.GvLocation) super.newDatum();
+        mCurrent = (GvLocation) super.newDatum();
         return mCurrent;
     }
 
     @Override
     protected GvData launchDialogAndTestShowing() {
-        mCurrent = (GvLocationList.GvLocation) super.launchDialogAndTestShowing();
+        mCurrent = (GvLocation) super.launchDialogAndTestShowing();
         return mCurrent;
     }
 }

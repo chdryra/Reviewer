@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.View.Dialogs;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
@@ -26,6 +25,9 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * @param <T>: {@link GvData} type
  */
 public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
+    private static final String INSTANTIATION_ERR = "Constructor not found: ";
+    private static final String ILLEGAL_ACCESS_ERR = "Access not allowed to this constructor: ";
+
     private final GvDataEditManager<T> mViewManager;
     private final T mNullingItem;
     private final int mEditTextId;
@@ -64,7 +66,7 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
         super(layoutId, viewIds);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerAdd(adder);
-        mNullingItem = FactoryGvData.newNull(gvDataClass);
+        mNullingItem = newNull(gvDataClass);
     }
 
     public AddEditLayout(Class<T> gvDataClass, int layoutId, int[] viewIds,
@@ -72,7 +74,7 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
         super(layoutId, viewIds);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerEdit(editor);
-        mNullingItem = FactoryGvData.newNull(gvDataClass);
+        mNullingItem = newNull(gvDataClass);
     }
 
     //public methods
@@ -94,7 +96,7 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
         mViewManager.initialise(data);
     }
 
-    public class GvDataViewManagerAdd implements AddEditLayout.GvDataEditManager<T> {
+    private class GvDataViewManagerAdd implements AddEditLayout.GvDataEditManager<T> {
         private final GvDataAdder mAdder;
 
         private GvDataViewManagerAdd(GvDataAdder adder) {
@@ -131,6 +133,16 @@ public abstract class AddEditLayout<T extends GvData> extends DialogLayout<T> {
 
         @Override
         public void onAddEdit(T data) {
+        }
+    }
+
+    private T newNull(Class<T> dataClass) {
+        try {
+            return dataClass.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + dataClass.getName());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + dataClass.getName());
         }
     }
 }

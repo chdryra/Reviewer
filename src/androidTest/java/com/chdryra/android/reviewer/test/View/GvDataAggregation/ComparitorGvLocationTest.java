@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvLocationN
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceFloat;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceLocation;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
@@ -26,16 +26,16 @@ public class ComparitorGvLocationTest extends TestCase {
     private static final LatLng TAYYABS_LL2 = new LatLng(51.518072, -0.063291);
     private static final LatLng LKH_LL = new LatLng(51.514764, -0.063143);
 
-    private static final GvLocationList.GvLocation TAYYABS_LOC
-            = new GvLocationList.GvLocation(TAYYABS_LL1, TAYYABS);
-    private static final GvLocationList.GvLocation TAYYBBS_LOC
-            = new GvLocationList.GvLocation(TAYYABS_LL1, TAYYBBS);
-    private static final GvLocationList.GvLocation TAYYABS_LOC2
-            = new GvLocationList.GvLocation(TAYYABS_LL2, TAYYABS);
-    private static final GvLocationList.GvLocation TAYYBBS_LOC2
-            = new GvLocationList.GvLocation(TAYYABS_LL2, TAYYBBS);
-    private static final GvLocationList.GvLocation LKH_LOC
-            = new GvLocationList.GvLocation(LKH_LL, LKH);
+    private static final GvLocation TAYYABS_LOC
+            = new GvLocation(TAYYABS_LL1, TAYYABS);
+    private static final GvLocation TAYYBBS_LOC
+            = new GvLocation(TAYYABS_LL1, TAYYBBS);
+    private static final GvLocation TAYYABS_LOC2
+            = new GvLocation(TAYYABS_LL2, TAYYABS);
+    private static final GvLocation TAYYBBS_LOC2
+            = new GvLocation(TAYYABS_LL2, TAYYBBS);
+    private static final GvLocation LKH_LOC
+            = new GvLocation(LKH_LL, LKH);
     private static final DifferencePercentage ZERO_NAME = new DifferencePercentage(0.0);
     private static final DifferenceFloat ZERO_DIST = new DifferenceFloat(0f);
     private ComparitorGvLocation mLocationComparitor;

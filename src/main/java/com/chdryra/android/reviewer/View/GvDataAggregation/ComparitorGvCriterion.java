@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 
 /**
  * Created by: Rizwan Choudrey
@@ -8,10 +8,10 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorGvCriterion implements
-        DifferenceComparitor<GvCriterionList.GvCriterion, DifferenceBoolean> {
+        DifferenceComparitor<GvCriterion, DifferenceBoolean> {
     //Overridden
     @Override
-    public DifferenceBoolean compare(GvCriterionList.GvCriterion lhs, GvCriterionList.GvCriterion
+    public DifferenceBoolean compare(GvCriterion lhs, GvCriterion
             rhs) {
         boolean sameSubject = lhs.getSubject().equalsIgnoreCase(rhs.getSubject());
         boolean sameRating = lhs.getRating() == rhs.getRating();

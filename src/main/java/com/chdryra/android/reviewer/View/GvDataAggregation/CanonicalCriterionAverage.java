@@ -8,26 +8,26 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterionList.GvCriterion> {
+public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterion> {
     //Overridden
     @Override
-    public GvCriterionList.GvCriterion getCanonical(GvDataList<GvCriterionList.GvCriterion> data) {
+    public GvCriterion getCanonical(GvDataList<GvCriterion> data) {
         if (data.size() == 0)
-            return new GvCriterionList.GvCriterion(data.getGvReviewId(), "", 0f);
+            return new GvCriterion(data.getGvReviewId(), "", 0f);
 
-        DatumCounter<GvCriterionList.GvCriterion, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvCriterionList.GvCriterion, String>() {
+        DatumCounter<GvCriterion, String> counter = new DatumCounter<>(data,
+                new DataGetter<GvCriterion, String>() {
                     //Overridden
                     @Override
-                    public String getData(GvCriterionList.GvCriterion datum) {
+                    public String getData(GvCriterion datum) {
                         return datum.getSubject();
                     }
                 });
@@ -36,9 +36,9 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<GvCriterio
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         float average = 0f;
-        for (GvCriterionList.GvCriterion child : data) {
+        for (GvCriterion child : data) {
             average += child.getRating() / (float) data.size();
         }
-        return new GvCriterionList.GvCriterion(data.getGvReviewId(), maxSubject, average);
+        return new GvCriterion(data.getGvReviewId(), maxSubject, average);
     }
 }

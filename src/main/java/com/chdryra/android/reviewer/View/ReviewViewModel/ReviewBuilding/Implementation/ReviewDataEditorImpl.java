@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Impleme
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentReviewView;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewDefault;
@@ -79,7 +79,7 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
     }
 
     @Override
-    public GvImageList.GvImage getCover() {
+    public GvImage getCover() {
         return mBuilder.getCovers().getItem(0);
     }
 

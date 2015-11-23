@@ -3,22 +3,26 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 import android.content.Context;
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
-
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .InputHandler;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation
+        .ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -62,7 +66,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
 
     @Override
     public float getAverageRating() {
-        if (mType.equals(GvCriterionList.GvCriterion.TYPE)) {
+        if (mType.equals(GvCriterion.TYPE)) {
             return ((GvCriterionList) getGridData()).getAverageRating();
         } else {
             return mBuilder.getAverageRating();
@@ -134,6 +138,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
         return getParentBuilder().getSubject();
     }
 
+    @Override
     public void setSubject(String subject) {
         getParentBuilder().setSubject(subject);
     }
@@ -150,7 +155,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
 
     @Override
     public GvImageList getCovers() {
-        return mType.equals(GvImageList.GvImage.TYPE) ? (GvImageList) getGridData()
+        return mType.equals(GvImage.TYPE) ? (GvImageList) getGridData()
                 : getParentBuilder().getCovers();
     }
 

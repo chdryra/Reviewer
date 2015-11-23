@@ -10,12 +10,16 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.F
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.InputHandlerImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.InputHandler;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,20 +31,20 @@ public class FactoryInputHandler {
     public static <T extends GvData> InputHandler<T> newHandler
     (GvDataList<T> data) {
         GvDataType<T> dataType = data.getGvDataType();
-        if (dataType.equals(GvImageList.GvImage.TYPE)) {
+        if (dataType.equals(GvImage.TYPE)) {
             return new InputHandlerImpl<>(data, new InputHandlerImpl.AddConstraintImpl<T>() {
                 //Overridden
                 @Override
                 public InputHandler.ConstraintResult passes(GvDataList<T> data, T datum) {
-                    return imageAdd(data, (GvImageList.GvImage) datum);
+                    return imageAdd(data, (GvImage) datum);
                 }
             });
-        } else if (dataType.equals(GvCriterionList.GvCriterion.TYPE)) {
+        } else if (dataType.equals(GvCriterion.TYPE)) {
             InputHandler.AddConstraint<T> add = new InputHandler.AddConstraint<T>() {
                 //Overridden
                 @Override
                 public InputHandler.ConstraintResult passes(GvDataList<T> data, T datum) {
-                    return childAdd(data, (GvCriterionList.GvCriterion) datum);
+                    return childAdd(data, (GvCriterion) datum);
                 }
             };
 
@@ -49,13 +53,13 @@ public class FactoryInputHandler {
                 @Override
                 public InputHandler.ConstraintResult passes(GvDataList<T> data, T oldDatum, T newDatum) {
                     return childReplace(data,
-                            (GvCriterionList.GvCriterion) oldDatum,
-                            (GvCriterionList.GvCriterion) newDatum);
+                            (GvCriterion) oldDatum,
+                            (GvCriterion) newDatum);
                 }
             };
 
             return new InputHandlerImpl<>(data, add, replace);
-        } else if (dataType.equals(GvCommentList.GvComment.TYPE)) {
+        } else if (dataType.equals(GvComment.TYPE)) {
             //TODO make type safe
             return (InputHandler) new GvCommentHandler(data);
         } else {
@@ -63,7 +67,7 @@ public class FactoryInputHandler {
         }
     }
 
-    private static InputHandler.ConstraintResult imageAdd(GvDataList list, GvImageList.GvImage image) {
+    private static InputHandler.ConstraintResult imageAdd(GvDataList list, GvImage image) {
         GvImageList images = (GvImageList) list;
         InputHandler.ConstraintResult res;
         if(images == null) {
@@ -79,7 +83,7 @@ public class FactoryInputHandler {
     }
 
     private static InputHandler.ConstraintResult childAdd(GvDataList list,
-                                                           GvCriterionList.GvCriterion child) {
+                                                           GvCriterion child) {
         GvCriterionList children = (GvCriterionList) list;
         InputHandler.ConstraintResult res;
         if(children == null) {
@@ -94,8 +98,8 @@ public class FactoryInputHandler {
     }
 
     private static InputHandler.ConstraintResult childReplace(GvDataList list,
-                                        GvCriterionList.GvCriterion oldChild,
-                                        GvCriterionList.GvCriterion newChild) {
+                                        GvCriterion oldChild,
+                                        GvCriterion newChild) {
         GvCriterionList children = (GvCriterionList) list;
         InputHandler.ConstraintResult res;
         if(children == null) {
@@ -112,7 +116,7 @@ public class FactoryInputHandler {
         return res;
     }
 
-    private static class GvCommentHandler extends InputHandlerImpl<GvCommentList.GvComment> {
+    private static class GvCommentHandler extends InputHandlerImpl<GvComment> {
         //Constructors
         public GvCommentHandler(GvDataList data) {
             super((GvCommentList) data);
@@ -120,20 +124,20 @@ public class FactoryInputHandler {
 
         //Overridden
         @Override
-        public ConstraintResult add(GvCommentList.GvComment newDatum) {
+        public ConstraintResult add(GvComment newDatum) {
             if (getData().size() == 0) newDatum.setIsHeadline(true);
             return super.add(newDatum);
         }
 
         @Override
-        public ConstraintResult replace(GvCommentList.GvComment oldDatum,
-                                        GvCommentList.GvComment newDatum) {
+        public ConstraintResult replace(GvComment oldDatum,
+                                        GvComment newDatum) {
             newDatum.setIsHeadline(oldDatum.isHeadline());
             return super.replace(oldDatum, newDatum);
         }
 
         @Override
-        public void delete(GvCommentList.GvComment data) {
+        public void delete(GvComment data) {
             super.delete(data);
             if (data.isHeadline()) {
                 data.setIsHeadline(false);

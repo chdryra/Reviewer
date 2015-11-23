@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataSorting.FactComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
@@ -13,7 +13,7 @@ import java.util.Comparator;
  * On: 05/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactComparatorsTest extends ComparatorCollectionTest<GvFactList.GvFact> {
+public class FactComparatorsTest extends ComparatorCollectionTest<GvFact> {
 
     //Constructors
     public FactComparatorsTest() {
@@ -22,18 +22,18 @@ public class FactComparatorsTest extends ComparatorCollectionTest<GvFactList.GvF
 
     @SmallTest
     public void testGetDefaultComparator() {
-        Comparator<GvFactList.GvFact> comparator = mComparators.getDefault();
+        Comparator<GvFact> comparator = mComparators.getDefault();
 
-        GvFactList.GvFact AA = new GvFactList.GvFact("A", "A");
-        GvFactList.GvFact AA2 = new GvFactList.GvFact("A", "A");
-        GvFactList.GvFact Aa = new GvFactList.GvFact("A", "a");
-        GvFactList.GvFact aA = new GvFactList.GvFact("a", "A");
-        GvFactList.GvFact aa = new GvFactList.GvFact("a", "a");
-        GvFactList.GvFact AZ = new GvFactList.GvFact("A", "Z");
-        GvFactList.GvFact BC = new GvFactList.GvFact("B", "C");
-        GvFactList.GvFact CA = new GvFactList.GvFact("C", "A");
+        GvFact AA = new GvFact("A", "A");
+        GvFact AA2 = new GvFact("A", "A");
+        GvFact Aa = new GvFact("A", "a");
+        GvFact aA = new GvFact("a", "A");
+        GvFact aa = new GvFact("a", "a");
+        GvFact AZ = new GvFact("A", "Z");
+        GvFact BC = new GvFact("B", "C");
+        GvFact CA = new GvFact("C", "A");
 
-        ComparatorTester<GvFactList.GvFact> tester = new ComparatorTester<>(comparator);
+        ComparatorTester<GvFact> tester = new ComparatorTester<>(comparator);
         tester.testEquals(AA, AA);
         tester.testEquals(AA, AA2);
         tester.testEquals(AA, Aa);

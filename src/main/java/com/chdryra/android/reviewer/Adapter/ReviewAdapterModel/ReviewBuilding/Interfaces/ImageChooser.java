@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
 public interface ImageChooser {
 
     interface ImageChooserListener {
-        void onChosenImage(GvImageList.GvImage image);
+        void onChosenImage(GvImage image);
     }
 
     Intent getChooserIntents();

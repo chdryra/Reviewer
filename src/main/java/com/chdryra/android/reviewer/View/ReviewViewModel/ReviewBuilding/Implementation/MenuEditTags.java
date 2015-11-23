@@ -1,15 +1,15 @@
 package com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuEditTags extends MenuDataEdit<GvTagList.GvTag> {
-    private static final GvDataType<GvTagList.GvTag> TYPE = GvTagList.GvTag.TYPE;
+public class MenuEditTags extends MenuDataEdit<GvTag> {
+    private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
     private TagAdjuster mTagAdjuster;
 
 

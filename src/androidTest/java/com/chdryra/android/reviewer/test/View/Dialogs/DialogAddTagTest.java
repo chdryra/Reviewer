@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
 /**
  * More of a black-box behaviour (integration) test than unit test
  */
-public class DialogAddTagTest extends DialogGvDataAddTest<GvTagList.GvTag> {
+public class DialogAddTagTest extends DialogGvDataAddTest<GvTag> {
 
     //Constructors
     public DialogAddTagTest() {

@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvSubject;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
 
 import junit.framework.TestCase;
 
@@ -34,14 +34,14 @@ public class ComparitorGvSubjectTest extends TestCase {
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvSubjectList.GvSubject lhs = new GvSubjectList.GvSubject(kitten);
-        GvSubjectList.GvSubject rhs = new GvSubjectList.GvSubject(kitten);
+        GvSubject lhs = new GvSubject(kitten);
+        GvSubject rhs = new GvSubject(kitten);
         DifferencePercentage difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvSubjectList.GvSubject(sitting);
+        rhs = new GvSubject(sitting);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
@@ -49,7 +49,7 @@ public class ComparitorGvSubjectTest extends TestCase {
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        rhs = new GvSubjectList.GvSubject(empty);
+        rhs = new GvSubject(empty);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));

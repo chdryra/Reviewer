@@ -1,20 +1,20 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.GvAuthorList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.GvDateList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSocialPlatformList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvSubjectList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvText;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvText;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -32,20 +32,20 @@ public class GvDataComparators {
     private GvDataComparators() {
         mMap = new ComparatorMappings();
         mMap.put(GvText.TYPE, TextComparators.getComparators());
-        mMap.put(GvSubjectList.GvSubject.TYPE, SubjectComparators.getComparators());
-        mMap.put(GvAuthorList.GvAuthor.TYPE, AuthorComparators.getComparators());
-        mMap.put(GvCriterionList.GvCriterion.TYPE, ChildReviewComparators.getComparators());
-        mMap.put(GvCommentList.GvComment.TYPE, CommentComparators.getComparators());
-        mMap.put(GvDateList.GvDate.TYPE, DateComparators.getComparators());
-        mMap.put(GvFactList.GvFact.TYPE, FactComparators.getComparators());
-        mMap.put(GvImageList.GvImage.TYPE, ImageComparators.getComparators());
-        mMap.put(GvLocationList.GvLocation.TYPE, LocationComparators.getComparators());
-        mMap.put(GvReviewOverviewList.GvReviewOverview.TYPE, ReviewOverviewComparators
+        mMap.put(GvSubject.TYPE, SubjectComparators.getComparators());
+        mMap.put(GvAuthor.TYPE, AuthorComparators.getComparators());
+        mMap.put(GvCriterion.TYPE, ChildReviewComparators.getComparators());
+        mMap.put(GvComment.TYPE, CommentComparators.getComparators());
+        mMap.put(GvDate.TYPE, DateComparators.getComparators());
+        mMap.put(GvFact.TYPE, FactComparators.getComparators());
+        mMap.put(GvImage.TYPE, ImageComparators.getComparators());
+        mMap.put(GvLocation.TYPE, LocationComparators.getComparators());
+        mMap.put(GvReviewOverview.TYPE, ReviewOverviewComparators
                 .getComparators());
-        mMap.put(GvSocialPlatformList.GvSocialPlatform.TYPE, SocialPlatformComparators
+        mMap.put(GvSocialPlatform.TYPE, SocialPlatformComparators
                 .getComparators());
-        mMap.put(GvTagList.GvTag.TYPE, TagComparators.getComparators());
-        mMap.put(GvUrlList.GvUrl.TYPE, UrlComparators.getComparators());
+        mMap.put(GvTag.TYPE, TagComparators.getComparators());
+        mMap.put(GvUrl.TYPE, UrlComparators.getComparators());
     }
 
     //Static methods

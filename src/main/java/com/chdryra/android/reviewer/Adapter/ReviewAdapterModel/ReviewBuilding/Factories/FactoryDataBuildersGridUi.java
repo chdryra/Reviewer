@@ -5,12 +5,13 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Im
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.BuildScreenGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryVhDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
+
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,12 +23,12 @@ public class FactoryDataBuildersGridUi implements FactoryGridUi<DataBuilderGridC
     public BuildScreenGridUi<DataBuilderGridCell>
     newGridUiWrapper(FactoryVhDataCollection vhFactory) {
         BuildScreenGridUiImpl ui = new BuildScreenGridUiImpl(vhFactory);
-        ui.addGridCell(GvTagList.GvTag.TYPE);
-        ui.addGridCell(GvCriterionList.GvCriterion.TYPE);
-        ui.addGridCell(GvImageList.GvImage.TYPE);
-        ui.addGridCell(GvCommentList.GvComment.TYPE);
-        ui.addGridCell(GvLocationList.GvLocation.TYPE);
-        ui.addGridCell(GvFactList.GvFact.TYPE);
+        ui.addGridCell(GvTag.TYPE);
+        ui.addGridCell(GvCriterion.TYPE);
+        ui.addGridCell(GvImage.TYPE);
+        ui.addGridCell(GvComment.TYPE);
+        ui.addGridCell(GvLocation.TYPE);
+        ui.addGridCell(GvFact.TYPE);
 
         return ui;
     }

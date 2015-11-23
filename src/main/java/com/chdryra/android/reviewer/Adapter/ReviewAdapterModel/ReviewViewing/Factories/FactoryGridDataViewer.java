@@ -20,9 +20,9 @@ import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 
@@ -74,8 +74,8 @@ public class FactoryGridDataViewer {
     public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
                                                                                    GvDataAggregater aggregateFactory) {
         GridDataViewer<GvCanonical> viewer;
-        if (data.getGvDataType().equals(GvCriterionList.GvCriterion.TYPE)) {
-            viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterionList.GvCriterion>) data,
+        if (data.getGvDataType().equals(GvCriterion.TYPE)) {
+            viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterion>) data,
                     this, mAdapterFactory, aggregateFactory);
         } else {
             viewer = new ViewerAggregateToData<>(data, this, mAdapterFactory);

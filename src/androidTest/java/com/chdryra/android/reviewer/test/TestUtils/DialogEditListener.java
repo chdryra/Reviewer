@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DialogEditListener<T extends GvData> extends Fragment implements
-        DialogGvDataEdit.GvDataEditListener<T> {
+        DialogGvDataEdit.EditListener<T> {
 
     private T mDataOld;
     private T mDataNew;
@@ -35,12 +35,12 @@ public class DialogEditListener<T extends GvData> extends Fragment implements
 
     //Overridden
     @Override
-    public void onGvDataDelete(T data, int requestCode) {
+    public void onDelete(T data, int requestCode) {
         mDataOld = data;
     }
 
     @Override
-    public void onGvDataEdit(T oldDatum, T newDatum, int requestCode) {
+    public void onEdit(T oldDatum, T newDatum, int requestCode) {
         mDataOld = oldDatum;
         mDataNew = newDatum;
     }

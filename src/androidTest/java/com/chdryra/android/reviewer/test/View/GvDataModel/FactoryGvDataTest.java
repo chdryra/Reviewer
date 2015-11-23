@@ -11,12 +11,12 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.GvUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
 import junit.framework.TestCase;
 
@@ -29,22 +29,22 @@ public class FactoryGvDataTest extends TestCase {
 
     @SmallTest
     public void testNewList() {
-        assertNotNull(FactoryGvData.newDataList(GvImageList.GvImage.TYPE));
-        assertNotNull(FactoryGvData.newDataList(GvTagList.GvTag.TYPE));
-        assertNotNull(FactoryGvData.newDataList(GvCriterionList.GvCriterion.TYPE));
-        assertNotNull(FactoryGvData.newDataList(GvCommentList.GvComment.TYPE));
-        assertNotNull(FactoryGvData.newDataList(GvLocationList.GvLocation.TYPE));
-        assertNotNull(FactoryGvData.newDataList(GvUrlList.GvUrl.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvImage.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvTag.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvCriterion.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvComment.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvLocation.TYPE));
+        assertNotNull(FactoryGvData.newDataList(GvUrl.TYPE));
     }
 
     @SmallTest
     public void testNewNull() {
-        assertFalse(FactoryGvData.newNull(GvImageList.GvImage.class).isValidForDisplay());
-        assertFalse(FactoryGvData.newNull(GvTagList.GvTag.class).isValidForDisplay());
-        assertFalse(FactoryGvData.newNull(GvCriterionList.GvCriterion.class)
+        assertFalse(FactoryGvData.newNull(GvImage.class).isValidForDisplay());
+        assertFalse(FactoryGvData.newNull(GvTag.class).isValidForDisplay());
+        assertFalse(FactoryGvData.newNull(GvCriterion.class)
                 .isValidForDisplay());
-        assertFalse(FactoryGvData.newNull(GvCommentList.GvComment.class).isValidForDisplay());
-        assertFalse(FactoryGvData.newNull(GvLocationList.GvLocation.class).isValidForDisplay());
-        assertFalse(FactoryGvData.newNull(GvUrlList.GvUrl.class).isValidForDisplay());
+        assertFalse(FactoryGvData.newNull(GvComment.class).isValidForDisplay());
+        assertFalse(FactoryGvData.newNull(GvLocation.class).isValidForDisplay());
+        assertFalse(FactoryGvData.newNull(GvUrl.class).isValidForDisplay());
     }
 }
