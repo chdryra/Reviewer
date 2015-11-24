@@ -2,13 +2,15 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuildScreenBuilder;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.BuildScreen;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewEditor;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Factories
+        .FactoryReviewEditor;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
 
 /**
@@ -23,13 +25,21 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
+        mBuildScreen = newBuildScreen(app, getAdapter(app));
+        return mBuildScreen.getEditor();
+    }
+
+    private ReviewBuilderAdapter<?> getAdapter(ApplicationInstance app) {
         ReviewBuilderAdapter<?> adapter = app.getReviewBuilderAdapter();
-        if(adapter == null) adapter = app.newReviewBuilderAdapter();
+        if (adapter == null) adapter = app.newReviewBuilderAdapter();
+        return adapter;
+    }
+
+    private BuildScreen newBuildScreen(ApplicationInstance app, ReviewBuilderAdapter<?> adapter) {
         FactoryReviewEditor editorFactory = new FactoryReviewEditor();
         BuildScreenBuilder builder = new BuildScreenBuilder();
-        mBuildScreen = builder.newScreen(this, app.getConfigDataUi(), adapter,
+        return builder.newScreen(this, app.getConfigDataUi(), adapter,
                 app.getLaunchableFactory(), editorFactory);
-        return mBuildScreen.getEditor();
     }
 
     @Override

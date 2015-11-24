@@ -16,11 +16,12 @@ public class ActivityShareReview extends ActivityReviewView {
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
+
         String title = getResources().getString(R.string.button_social);
         SocialPlatformList socialPlatforms = app.getSocialPlatformList();
-        ReviewBuilderAdapter builder = app.getReviewBuilderAdapter();
-        if(builder == null) throw new RuntimeException("Builder is null!");
-        BuilderShareScreen shareScreen = new BuilderShareScreen();
-        return shareScreen.buildView(title, socialPlatforms, builder);
+        ReviewBuilderAdapter reviewInProgress = app.getReviewBuilderAdapter();
+        if(reviewInProgress == null) throw new RuntimeException("Builder is null!");
+
+        return new BuilderShareScreen().buildView(title, socialPlatforms, reviewInProgress);
     }
 }

@@ -40,6 +40,7 @@ public class ActivityFeed extends ActivityReviewView
 
         BuilderAuthorsScreen feedScreenBuilder = getScreenBuilder(app);
         feedScreenBuilder.buildScreen(mAuthorsFeed, app.getBuilderChildListScreen(), this);
+
         mScreen = feedScreenBuilder.getFeedScreen();
         return feedScreenBuilder.getView();
     }

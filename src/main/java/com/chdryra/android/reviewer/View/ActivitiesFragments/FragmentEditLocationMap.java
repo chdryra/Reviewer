@@ -10,12 +10,14 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.database.MatrixCursor;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -75,234 +77,46 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
         PlaceSuggester.SuggestionsListener,
         GpPlaceSearcher.SearchListener, OnMapReadyCallback {
-    private final static String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentEditLocationMap.location";
-    private final static String TAG = "FragmentEditLocationMap";
+
+    private static final String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments" +
+            ".FragmentEditLocationMap.location";
+    private static final String TAG = "FragmentEditLocationMap";
+
     private static final String NO_LOCATION = "no suggestions found...";
     private static final float DEFAULT_ZOOM = 15;
     private static final int NUMBER_DEFAULT_NAMES = 5;
 
+    private static final int NAME_LOCATION_HINT = R.string.edit_text_name_location_hint;
+    private static final int SEARCH_HINT = R.string.search_view_location_hint;
+    private static final int TOAST_SEARCH_FAILED = R.string.toast_map_search_failed;
+    private static final int TOAST_ENTER_LOCATION = R.string.toast_enter_location;
+
+    private static final int LAYOUT = R.layout.fragment_review_location_map_edit;
+    private static final int LOCATION_NAME_EDIT_TEXT = R.id.edit_text_name_location;
+    private static final int REVERT_TO_PASSED_LOCATION_BUTTON = R.id.revert_location_image_button;
+    private static final int MAP_VIEW = R.id.mapView;
+
+    private static final int MENU = R.menu.menu_search_delete_done;
+    private static final int MENU_ITEM_DELETE = R.id.menu_item_delete;
+    private static final int MENU_ITEM_DONE = R.id.menu_item_done;
+    private static final int MENU_ITEM_SEARCH = R.id.menu_item_search;
+
     private GvLocation mCurrentLocation;
     private GoogleMap mGoogleMap;
     private MapView mMapView;
-
     private SearchView mSearchView;
     private MenuItem mSearchViewMenuItem;
-    private StringFilterAdapter mSearchAdapter;
-
     private ClearableAutoCompleteTextView mLocationName;
     private ImageButton mRevertButton;
-
     private LatLng mNewLatLng;
-
     private LocationClientConnector mLocationClient;
     private String mSearchLocationName;
-
     private PlaceAutoCompleteSuggester mAutoCompleter;
-
+    private StringFilterAdapter mSearchAdapter;
     private GvDataPacker<GvLocation> mDataPacker;
 
     public static FragmentEditLocationMap newInstance(GvLocation location) {
         return FactoryFragment.newFragment(FragmentEditLocationMap.class, LOCATION, location);
-    }
-
-    public void handleSearch() {
-        Intent intent = getActivity().getIntent();
-        String query;
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
-        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
-            query = intent.getData().getLastPathSegment();
-        } else {
-            return;
-        }
-
-        searchLocation(query);
-    }
-
-    //private methods
-    private CursorAdapter getSuggestionsCursorAdapter() {
-        //TODO More efficient way of constructing an appropriate Suggestions Cursor Adapter.
-        //For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
-        //Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
-        //This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a
-        // CursorAdapter.
-        String[] columnNames = {"_id", SearchManager.SUGGEST_COLUMN_INTENT_DATA};
-        String[] suggestion_row = new String[columnNames.length];
-        MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
-        for (int i = 0; i < mSearchAdapter.getCount(); ++i) {
-            suggestion_row[0] = String.valueOf(mSearchAdapter.getItemId(i));
-            suggestion_row[1] = mSearchAdapter.getItem(i);
-            suggestions_cursor.addRow(suggestion_row);
-            Log.i(TAG, suggestion_row[0] + ", " + suggestion_row[1]);
-        }
-
-        String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
-        int[] to = {android.R.id.text1};
-        return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
-                suggestions_cursor, from, to, 0);
-    }
-
-    private GvLocation createGvData() {
-        String name = mLocationName.getText().toString().trim();
-        return new GvLocation(mNewLatLng, name);
-    }
-
-    private void invalidateSuggestions() {
-        mSearchView.setSuggestionsAdapter(null);
-    }
-
-    private void initUI() {
-        initLocationNameUI();
-        initGoogleMapUI();
-        initRevertButtonUI();
-    }
-
-    private void initGoogleMapUI() {
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap
-                .OnMyLocationButtonClickListener() {
-            //Overridden
-            @Override
-            public boolean onMyLocationButtonClick() {
-                mLocationClient.locate();
-                return false;
-            }
-        });
-        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-
-            //Overridden
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        });
-        mGoogleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-
-            //Overridden
-            @Override
-            public void onMarkerDragStart(Marker marker) {
-            }
-
-            @Override
-            public void onMarkerDrag(Marker arg0) {
-            }
-
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                setLatLng(marker.getPosition());
-            }
-        });
-    }
-
-    private void initLocationNameUI() {
-        mLocationName.addTextChangedListener(new TextWatcher() {
-
-            //Overridden
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateMapMarker();
-            }
-        });
-    }
-
-    private void initRevertButtonUI() {
-        if (mCurrentLocation != null) {
-            mRevertButton.setOnClickListener(new View.OnClickListener() {
-                //Overridden
-                @Override
-                public void onClick(View v) {
-                    mSearchLocationName = null;
-                    setLatLng(mCurrentLocation.getLatLng());
-                    mLocationName.setText(mCurrentLocation.getName());
-                    mLocationName.hideChrome();
-                }
-            });
-            mRevertButton.performClick();
-        } else {
-            mRevertButton.setVisibility(View.GONE);
-        }
-    }
-
-    private void searchLocation(String query) {
-        mSearchLocationName = query;
-        mSearchView.setQuery(null, false);
-        mSearchViewMenuItem.collapseActionView();
-        mLocationName.setHint(getResources().getString(R.string
-                .progress_bar_search_location_title));
-        GpPlaceSearcher searcher = new GpPlaceSearcher(query, this);
-        searcher.fetchResults();
-    }
-
-    private void setLatLng(LatLng latlang) {
-        mNewLatLng = latlang;
-        updateSuggestionAdapters();
-        zoomToLatLng();
-    }
-
-    private void updateSuggestionAdapters() {
-        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
-        PlaceSuggester suggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
-
-        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
-        mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
-
-        mLocationName.setText(null);
-        suggestions.getSuggestions(NUMBER_DEFAULT_NAMES);
-    }
-
-    private void zoomToLatLng() {
-        if (mNewLatLng == null) return;
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, DEFAULT_ZOOM));
-        updateMapMarker();
-    }
-
-    private void updateMapMarker() {
-        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
-        markerOptions.title(mLocationName.getText().toString());
-        markerOptions.draggable(true);
-        mGoogleMap.clear();
-        Marker marker = mGoogleMap.addMarker(markerOptions);
-        marker.showInfoWindow();
-    }
-
-    //Overridden
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        initUI();
-    }
-
-    @Override
-    protected boolean hasDataToDelete() {
-        return mCurrentLocation != null;
-    }
-
-    @Override
-    protected void onDeleteSelected() {
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation, getNewReturnData());
-    }
-
-    @Override
-    protected void onDoneSelected() {
-        if (mLocationName.length() == 0) {
-            Toast.makeText(getActivity(), R.string.toast_enter_location, Toast.LENGTH_SHORT).show();
-            setDismissOnDone(false);
-            return;
-        } else {
-            setDismissOnDone(true);
-        }
-
-        Intent i = getNewReturnData();
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation, i);
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGvData(), i);
     }
 
     @Override
@@ -321,12 +135,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(R.layout.fragment_review_location_map_edit, container, false);
+        View v = inflater.inflate(LAYOUT, container, false);
 
-        mLocationName = (ClearableAutoCompleteTextView) v.findViewById(R.id
-                .edit_text_name_location);
-        mRevertButton = (ImageButton) v.findViewById(R.id.revert_location_image_button);
-        mMapView = (MapView) v.findViewById(R.id.mapView);
+        mLocationName = (ClearableAutoCompleteTextView) v.findViewById(LOCATION_NAME_EDIT_TEXT);
+        mRevertButton = (ImageButton) v.findViewById(REVERT_TO_PASSED_LOCATION_BUTTON);
+        mMapView = (MapView) v.findViewById(MAP_VIEW);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
 
@@ -334,22 +147,279 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        initUi();
+    }
+
+    @Override
+    public void onLocated(Location location) {
+        setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+    }
+
+    @Override
+    public void onLocationClientConnected(Location location) {
+        if (mNewLatLng == null) onLocated(location);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_search_delete_done, menu);
+        inflater.inflate(MENU, menu);
 
-        final MenuItem deleteIcon = menu.findItem(R.id.menu_item_delete);
-        final MenuItem doneIcon = menu.findItem(R.id.menu_item_done);
-        mSearchViewMenuItem = menu.findItem(R.id.menu_item_search);
+        final MenuItem deleteIcon = menu.findItem(MENU_ITEM_DELETE);
+        final MenuItem doneIcon = menu.findItem(MENU_ITEM_DONE);
+        mSearchViewMenuItem = menu.findItem(MENU_ITEM_SEARCH);
+        mSearchView = (SearchView) mSearchViewMenuItem.getActionView();
 
+        setupSearchView(deleteIcon, doneIcon);
+    }
+
+    private void setupSearchView(MenuItem deleteIcon, MenuItem doneIcon) {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context
                 .SEARCH_SERVICE);
 
-        mSearchView = (SearchView) mSearchViewMenuItem.getActionView();
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity()
-                .getComponentName()));
+        SearchableInfo info = searchManager.getSearchableInfo(getActivity().getComponentName());
+        mSearchView.setSearchableInfo(info);
         mSearchView.setIconifiedByDefault(false);
-        mSearchView.setQueryHint(getResources().getString(R.string.search_view_location_hint));
-        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        mSearchView.setQueryHint(getResources().getString(SEARCH_HINT));
+        mSearchView.setOnQueryTextFocusChangeListener(newIconsOrSearchViewListener(deleteIcon,
+                doneIcon));
+        mSearchView.setOnQueryTextListener(newFilterOnTextChangeListener());
+    }
+
+    private void initUi() {
+        initLocationNameUi();
+        initGoogleMapUi();
+        initRevertButtonUi();
+    }
+
+    private void initGoogleMapUi() {
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
+        mGoogleMap.setOnInfoWindowClickListener(newOnInfoWindowClickListener());
+        mGoogleMap.setOnMarkerDragListener(newOnMarkerDragListener());
+    }
+
+    private void initLocationNameUi() {
+        mLocationName.addTextChangedListener(newLocationNameTextWatcher());
+    }
+
+    private void initRevertButtonUi() {
+        if (mCurrentLocation != null) {
+            mRevertButton.setOnClickListener(newRevertButtonClickListener());
+            mRevertButton.performClick();
+        } else {
+            mRevertButton.setVisibility(View.GONE);
+        }
+    }
+
+    @NonNull
+    private GoogleMap.OnMarkerDragListener newOnMarkerDragListener() {
+        return new GoogleMap.OnMarkerDragListener() {
+
+            //Overridden
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDrag(Marker arg0) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                setLatLng(marker.getPosition());
+            }
+        };
+    }
+
+    @NonNull
+    private GoogleMap.OnInfoWindowClickListener newOnInfoWindowClickListener() {
+        return new GoogleMap.OnInfoWindowClickListener() {
+
+            //Overridden
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                marker.hideInfoWindow();
+            }
+        };
+    }
+
+    @NonNull
+    private GoogleMap.OnMyLocationButtonClickListener newOnMyLocationButtonClickListener() {
+        return new GoogleMap.OnMyLocationButtonClickListener() {
+            //Overridden
+            @Override
+            public boolean onMyLocationButtonClick() {
+                mLocationClient.locate();
+                return false;
+            }
+        };
+    }
+
+    @NonNull
+    private TextWatcher newLocationNameTextWatcher() {
+        return new TextWatcher() {
+
+            //Overridden
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateMapMarker();
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener newRevertButtonClickListener() {
+        return new View.OnClickListener() {
+            //Overridden
+            @Override
+            public void onClick(View v) {
+                mSearchLocationName = null;
+                setLatLng(mCurrentLocation.getLatLng());
+                mLocationName.setText(mCurrentLocation.getName());
+                mLocationName.hideChrome();
+            }
+        };
+    }
+
+    private GvLocation createGvDataFromLocationName() {
+        return new GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
+    }
+
+    private void setLatLng(LatLng latlang) {
+        mNewLatLng = latlang;
+        updateSuggestionAdapters();
+        zoomToLatLng();
+    }
+
+    private void zoomToLatLng() {
+        if (mNewLatLng == null) return;
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, DEFAULT_ZOOM));
+        updateMapMarker();
+    }
+
+    private void updateMapMarker() {
+        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
+        markerOptions.title(mLocationName.getText().toString());
+        markerOptions.draggable(true);
+        mGoogleMap.clear();
+        Marker marker = mGoogleMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+    }
+
+    @Override
+    protected boolean hasDataToDelete() {
+        return mCurrentLocation != null;
+    }
+
+    @Override
+    protected void onDeleteSelected() {
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation,
+                getNewReturnData());
+    }
+
+    @Override
+    protected void onDoneSelected() {
+        if (mLocationName == null || mLocationName.length() == 0) {
+            makeToast(TOAST_ENTER_LOCATION);
+            setDismissOnDone(false);
+            return;
+        }
+
+        setDismissOnDone(true);
+        Intent i = getNewReturnData();
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation, i);
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGvDataFromLocationName(), i);
+    }
+
+    //Searching
+    public void handleSearch() {
+        String query = getQuery();
+        if(query == null || query.length() == 0) return;
+        searchLocation(query);
+    }
+
+    private String getQuery() {
+        Intent intent = getActivity().getIntent();
+        String query = null;
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
+            query = intent.getData().getLastPathSegment();
+        }
+
+        return query;
+    }
+
+    private void searchLocation(String query) {
+        mSearchLocationName = query;
+        new GpPlaceSearcher(query, this).fetchResults();
+        setSearchViewToSearching();
+    }
+
+    private void setSearchViewToSearching() {
+        mSearchView.setQuery(null, false);
+        mSearchViewMenuItem.collapseActionView();
+        mLocationName.setHint(getResources().getString(R.string
+                .progress_bar_search_location_title));
+    }
+
+    @Override
+    public void onSearchResultsFound(GpPlaceSearchResults results) {
+        ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(results);
+        if (places.size() == 0) {
+            makeToast(TOAST_SEARCH_FAILED);
+        } else {
+            setLatLng(places.get(0).getLatLng());
+        }
+
+        mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
+    }
+
+    //Search suggestions
+    private void invalidateSuggestions() {
+        mSearchView.setSuggestionsAdapter(null);
+    }
+    private void updateSuggestionAdapters() {
+        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
+        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
+        mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
+        mLocationName.setText(null);
+
+        PlaceSuggester suggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
+        suggestions.getSuggestions(NUMBER_DEFAULT_NAMES);
+    }
+
+    @Override
+    public void onSuggestionsFound(ArrayList<String> addresses) {
+        if (addresses == null) addresses = new ArrayList<>();
+
+        if (addresses.size() == 0) {
+            addresses.add(NO_LOCATION);
+        } else if (mSearchLocationName != null) {
+            addresses.add(0, mSearchLocationName);
+        }
+
+        //If done pressed and activity finished whilst this is being done.
+        if (getActivity() != null) {
+            mLocationName.setAdapter(new StringFilterAdapter(getActivity(), addresses,
+                    mAutoCompleter));
+        }
+    }
+
+    @NonNull
+    private View.OnFocusChangeListener newIconsOrSearchViewListener(final MenuItem deleteIcon,
+                                                                    final MenuItem doneIcon) {
+        return new View.OnFocusChangeListener() {
             //Overridden
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -362,9 +432,12 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                     mSearchViewMenuItem.collapseActionView();
                 }
             }
-        });
+        };
+    }
 
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    @NonNull
+    private SearchView.OnQueryTextListener newFilterOnTextChangeListener() {
+        return new SearchView.OnQueryTextListener() {
             //Overridden
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -381,14 +454,19 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
                 return false;
             }
-        });
+        };
     }
 
+    private void makeToast(int messageId) {
+        Toast.makeText(getActivity(), getResources().getString(messageId), Toast.LENGTH_SHORT).show();
+    }
+
+    //Lifecycle methods
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof Activity) {
-            mLocationClient = new LocationClientConnector((Activity)context, this);
+        if (context instanceof Activity) {
+            mLocationClient = new LocationClientConnector((Activity) context, this);
             mLocationClient.connect();
         }
     }
@@ -446,45 +524,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
     }
 
-    @Override
-    public void onLocated(Location location) {
-        setLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-    }
-
-    @Override
-    public void onLocationClientConnected(Location location) {
-        if (mNewLatLng == null) onLocated(location);
-    }
-
-    @Override
-    public void onSuggestionsFound(ArrayList<String> addresses) {
-        if (addresses == null) addresses = new ArrayList<>();
-
-        if (addresses.size() == 0) {
-            addresses.add(NO_LOCATION);
-        } else if (mSearchLocationName != null) {
-            addresses.add(0, mSearchLocationName);
-        }
-
-        //If done pressed and activity finished whilst this is being done.
-        if (getActivity() != null) {
-            mLocationName.setAdapter(new StringFilterAdapter(getActivity(), addresses,
-                    mAutoCompleter));
-        }
-    }
-
-    @Override
-    public void onSearchResultsFound(GpPlaceSearchResults results) {
-        ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(results);
-        if (places.size() == 0) {
-            Toast.makeText(getActivity(), getResources().getString(R.string
-                    .toast_map_search_failed), Toast.LENGTH_SHORT).show();
-        } else {
-            setLatLng(places.get(0).getLatLng());
-        }
-        mLocationName.setHint(getResources().getString(R.string.edit_text_name_location_hint));
-    }
-
     private class LocationSuggestionsObserver extends DataSetObserver {
         @Override
         public void onChanged() {
@@ -496,5 +535,26 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             invalidateSuggestions();
         }
 
+        private CursorAdapter getSuggestionsCursorAdapter() {
+            //TODO More efficient way of constructing an appropriate Suggestions Cursor Adapter.
+            //For some inexplicable reason SearchView only accepts CursorAdapters for suggestions.
+            //Place name suggestions are fetched using the ArrayAdapter LocationNameAdapter.
+            //This is a (clunky) way of taking suggestions from LocationNameAdapter and putting in a
+            // CursorAdapter.
+            String[] columnNames = {"_id", SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+            String[] suggestion_row = new String[columnNames.length];
+            MatrixCursor suggestions_cursor = new MatrixCursor(columnNames);
+            for (int i = 0; i < mSearchAdapter.getCount(); ++i) {
+                suggestion_row[0] = String.valueOf(mSearchAdapter.getItemId(i));
+                suggestion_row[1] = mSearchAdapter.getItem(i);
+                suggestions_cursor.addRow(suggestion_row);
+                Log.i(TAG, suggestion_row[0] + ", " + suggestion_row[1]);
+            }
+
+            String[] from = {SearchManager.SUGGEST_COLUMN_INTENT_DATA};
+            int[] to = {android.R.id.text1};
+            return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
+                    suggestions_cursor, from, to, 0);
+        }
     }
 }

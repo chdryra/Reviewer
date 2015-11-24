@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.View.ActivitiesFragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -56,17 +57,31 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @Override
     protected ReviewView createReviewView() {
-        mScreen = newEditScreenFactory().newScreen(mDataType);
+        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        mScreen = newEditScreen(app);
         return mScreen.getEditor();
     }
 
-    private FactoryEditScreen newEditScreenFactory() {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
+    private ReviewDataEditScreen<T> newEditScreen(ApplicationInstance app) {
         ReviewBuilderAdapter parentBuilder = app.getReviewBuilderAdapter();
-        FactoryEditActions actionsFactory = new FactoryEditActions(this, app.getConfigDataUi(),
-                app.getLaunchableFactory(), app.getGvDataFactory(), parentBuilder.getImageChooser());
-        FactoryReviewDataEditor editorFactory = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
-        return new FactoryEditScreen(this, parentBuilder, editorFactory);
+
+        FactoryEditActions actionsFactory = newActionsFactory(app, parentBuilder);
+        FactoryReviewDataEditor editorFactory = newEditorFactory(app, actionsFactory);
+
+        return new FactoryEditScreen(this, parentBuilder, editorFactory).newScreen(mDataType);
+    }
+
+    @NonNull
+    private FactoryReviewDataEditor newEditorFactory(ApplicationInstance app, FactoryEditActions
+            actionsFactory) {
+        return new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
+    }
+
+    @NonNull
+    private FactoryEditActions newActionsFactory(ApplicationInstance app, ReviewBuilderAdapter
+            parentBuilder) {
+        return new FactoryEditActions(this, app.getConfigDataUi(),
+                    app.getLaunchableFactory(), app.getGvDataFactory(), parentBuilder.getImageChooser());
     }
 
     @Override
