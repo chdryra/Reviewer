@@ -6,7 +6,7 @@
  * Date: 17 June, 2015
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,14 +19,14 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewChildReview extends DialogLayout<GvCriterion> {
+public class ViewLayoutCriterion extends DialogLayoutBasic<GvCriterion> {
     public static final int LAYOUT = R.layout.dialog_criterion_view;
     public static final int SUBJECT = R.id.child_name_text_view;
     public static final int RATING = R.id.child_rating_bar;
     public static final int[] VIEWS = new int[]{SUBJECT, RATING};
 
     //Constructors
-    public ViewChildReview() {
+    public ViewLayoutCriterion() {
         super(LAYOUT, VIEWS);
     }
 

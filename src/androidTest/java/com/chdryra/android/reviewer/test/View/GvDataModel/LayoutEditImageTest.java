@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.Dialogs.ImageEdit;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.LayoutEditImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 /**
@@ -21,12 +21,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
  * On: 23/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ImageEditTest extends AddEditLayoutTest<GvImage> {
+public class LayoutEditImageTest extends AddEditLayoutTest<GvImage> {
     private ImageView mImageView;
 
     //Constructors
-    public ImageEditTest() {
-        super(GvImage.TYPE, new ImageEdit(new ClassesAddEditViewDefault.EditImage()));
+    public LayoutEditImageTest() {
+        super(GvImage.TYPE, new LayoutEditImage(new ClassesAddEditViewDefault.EditImage()));
     }
 
     //Overridden
@@ -45,8 +45,8 @@ public class ImageEditTest extends AddEditLayoutTest<GvImage> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mEditText = (EditText) getView(ImageEdit.CAPTION);
-        mImageView = (ImageView) getView(ImageEdit.IMAGE);
+        mEditText = (EditText) getView(LayoutEditImage.CAPTION);
+        mImageView = (ImageView) getView(LayoutEditImage.IMAGE);
         assertNotNull(mEditText);
         assertNotNull(mImageView);
     }

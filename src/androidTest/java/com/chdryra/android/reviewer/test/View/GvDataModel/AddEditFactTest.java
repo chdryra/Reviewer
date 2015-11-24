@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.Dialogs.AddEditFact;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 

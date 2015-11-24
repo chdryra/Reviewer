@@ -6,13 +6,16 @@
  * Date: 17 June, 2015
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.View.Dialogs.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.View.Dialogs.Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
@@ -62,24 +65,40 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setDialogParameters();
+        unpackDatum();
+        setLayout();
+        setDialogTitle();
+    }
 
-        setRightButtonAction(DONE_ACTION);
-        dismissDialogOnLeftClick();
-        dismissDialogOnRightClick();
-        hideKeyboardOnLaunch();
-
-        Bundle args = getArguments();
-        GvDataPacker<T> unpacker = new GvDataPacker<>();
-        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
-        mLayout = FactoryGvDataViewLayout.newLayout(mDatum.getGvDataType());
-        mLayout.onActivityAttached(getActivity(), args);
-
+    private void setDialogTitle() {
         GvDataType dataType = mDatum.getGvDataType();
         if (dataType.equals(GvImage.TYPE)) {
             setDialogTitle(null);
         } else {
             setDialogTitle(dataType.getDatumName());
         }
+    }
+
+    private void setLayout() {
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(app.getConfigDataUi());
+        //TODO make type safe
+        mLayout = (DialogLayout<T>) layoutFactory.newLayout(mDatum.getGvDataType());
+        mLayout.onActivityAttached(getActivity(), getArguments());
+    }
+
+    private void unpackDatum() {
+        Bundle args = getArguments();
+        GvDataPacker<T> unpacker = new GvDataPacker<>();
+        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+    }
+
+    private void setDialogParameters() {
+        setRightButtonAction(DONE_ACTION);
+        dismissDialogOnLeftClick();
+        dismissDialogOnRightClick();
+        hideKeyboardOnLaunch();
     }
 }
 

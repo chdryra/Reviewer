@@ -20,12 +20,12 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
  * On: 08/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogEditChildTest extends
+public class DialogEditCriterionTest extends
         DialogGvDataEditTest<GvCriterion> {
 
     //Constructors
-    public DialogEditChildTest() {
-        super(ClassesAddEditViewDefault.EditChild.class);
+    public DialogEditCriterionTest() {
+        super(ClassesAddEditViewDefault.EditCriterion.class);
     }
 
     //protected methods

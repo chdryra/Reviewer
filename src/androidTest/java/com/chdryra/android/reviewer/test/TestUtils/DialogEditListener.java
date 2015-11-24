@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.app.Fragment;
 
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**

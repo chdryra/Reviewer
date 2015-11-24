@@ -11,11 +11,25 @@ package com.chdryra.android.reviewer.View.Configs.Implementation;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityViewLocation;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataView;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogGvDataEdit;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogGvDataView;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditComment;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditCriterion;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditFact;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditTag;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.LayoutEditImage;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.LayoutEditLocation;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutComment;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutCriterion;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutDate;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutFact;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutImage;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutSubject;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.ViewLayoutTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
@@ -24,7 +38,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 
 import java.util.HashMap;
 
@@ -38,40 +51,61 @@ import java.util.HashMap;
  * Defines the adder, editor and display UIs to use with each data type.
  */
 public final class ClassesAddEditViewDefault implements ClassesAddEditView {
-    private final HashMap<GvDataType, ClassesHolder> mMap = new HashMap<>();
+    private final HashMap<GvDataType<?>, ClassesHolder<? extends GvData>> mMap = new HashMap<>();
 
     public ClassesAddEditViewDefault() {
         mMap.put(GvTag.TYPE,
-                new ClassesHolder(AddTag.class, EditTag.class, ViewTag.class));
+                new ClassesHolder<>(GvTag.TYPE,
+                        AddTag.class, EditTag.class, ViewTag.class,
+                        ViewLayoutTag.class, AddEditTag.class));
+
         mMap.put(GvCriterion.TYPE,
-                new ClassesHolder(AddChild.class, EditChild.class, ViewChild.class));
+                new ClassesHolder<>(GvCriterion.TYPE,
+                        AddCriterion.class, EditCriterion.class, ViewCriterion.class,
+                        ViewLayoutCriterion.class, AddEditCriterion.class));
+
         mMap.put(GvComment.TYPE,
-                new ClassesHolder(AddComment.class, EditComment.class, ViewComment.class));
+                new ClassesHolder<>(GvComment.TYPE,
+                        AddComment.class, EditComment.class, ViewComment.class,
+                        ViewLayoutComment.class, AddEditComment.class));
+
         mMap.put(GvImage.TYPE,
-                new ClassesHolder(null, EditImage.class, ViewImage.class));
+                new ClassesHolder<>(GvImage.TYPE,
+                        null, EditImage.class, ViewImage.class,
+                        ViewLayoutImage.class, LayoutEditImage.class));
+
         mMap.put(GvFact.TYPE,
-                new ClassesHolder(AddFact.class, EditFact.class, ViewFact.class));
+                new ClassesHolder<>(GvFact.TYPE,
+                        AddFact.class, EditFact.class, ViewFact.class,
+                        ViewLayoutFact.class, AddEditFact.class));
+
         mMap.put(GvLocation.TYPE,
-                new ClassesHolder(AddLocation.class, EditLocation.class,
-                        ActivityViewLocation.class));
+                new ClassesHolder<>(GvLocation.TYPE,
+                        AddLocation.class, EditLocation.class,
+                        ActivityViewLocation.class, null, LayoutEditLocation.class));
+
         mMap.put(GvUrl.TYPE,
-                new ClassesHolder(ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
-                        ActivityEditUrlBrowser.class));
+                new ClassesHolder<>(GvUrl.TYPE,
+                        ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class,
+                        ActivityEditUrlBrowser.class, null, null));
+
         mMap.put(GvSubject.TYPE,
-                new ClassesHolder(null, null, ViewSubject.class));
+                new ClassesHolder<>(GvSubject.TYPE,
+                        null, null, ViewSubject.class, ViewLayoutSubject.class, null));
+
         mMap.put(GvDate.TYPE,
-                new ClassesHolder(null, null, ViewDate.class));
+                new ClassesHolder<>(GvDate.TYPE,
+                        null, null, ViewDate.class, ViewLayoutDate.class, null));
     }
 
     @Override
-    public ClassesHolder getUiClasses(GvDataType<? extends GvData> dataType) {
-        return mMap.get(dataType);
+    public <T extends GvData> ClassesHolder<T> getUiClasses(GvDataType<T> dataType) {
+        //TODO make type safe
+        return (ClassesHolder<T>) mMap.get(dataType);
     }
 
     //Adders
     //Need these subclasses as can't programmatically instantiate classes that utilise generics.
-
-    //Classes
     //Tag
     public static class AddTag extends DialogGvDataAdd<GvTag> {
         //Constructors
@@ -81,10 +115,10 @@ public final class ClassesAddEditViewDefault implements ClassesAddEditView {
     }
 
     //Child
-    public static class AddChild extends
+    public static class AddCriterion extends
             DialogGvDataAdd<GvCriterion> {
         //Constructors
-        public AddChild() {
+        public AddCriterion() {
             super(GvCriterion.TYPE);
         }
     }
@@ -123,9 +157,9 @@ public final class ClassesAddEditViewDefault implements ClassesAddEditView {
     }
 
     //Child
-    public static class EditChild extends DialogGvDataEdit<GvCriterion> {
+    public static class EditCriterion extends DialogGvDataEdit<GvCriterion> {
         //Constructors
-        public EditChild() {
+        public EditCriterion() {
             super(GvCriterion.TYPE);
         }
     }
@@ -172,9 +206,9 @@ public final class ClassesAddEditViewDefault implements ClassesAddEditView {
     }
 
     //Child
-    public static class ViewChild extends DialogGvDataView<GvCriterion> {
+    public static class ViewCriterion extends DialogGvDataView<GvCriterion> {
         //Constructors
-        public ViewChild() {
+        public ViewCriterion() {
             super(GvCriterion.TYPE);
         }
     }

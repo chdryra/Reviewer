@@ -10,5 +10,5 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ClassesAddEditView {
-    ClassesHolder getUiClasses(GvDataType<? extends GvData> dataType);
+    <T extends GvData> ClassesHolder<T> getUiClasses(GvDataType<T> dataType);
 }

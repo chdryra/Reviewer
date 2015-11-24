@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,13 +14,14 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
-
+import com.chdryra.android.reviewer.View.Dialogs.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.View.Dialogs.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
@@ -33,7 +34,7 @@ import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implemen
  * other functionality is outsourced to the appropriate classes:
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
- * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
+ * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link GvDataAddListener}: commissioning fragment.
  * <li>{@link DataBuilder}: input validation when QUICK_SET = true.
  * </ul>
@@ -71,7 +72,6 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     }
 
     //Constructors
-    //Use Class<T2> instead of sending type for extra type safety...
     public DialogGvDataAdd(GvDataType<T> dataType) {
         mDataType = dataType;
     }
@@ -132,20 +132,31 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        setLayout(app);
+        setIsQuickSet(app);
+        setDialogTitle();
+    }
 
+    private void setIsQuickSet(ApplicationInstance app) {
         Bundle args = getArguments();
-        mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
-        mLayout.onActivityAttached(getActivity(), args);
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
-
-        mBuilder = ApplicationInstance.getInstance(getActivity()).getReviewBuilderAdapter().getDataBuilderAdapter(mDataType);
-
-        //TODO make type safe
-        if (!isQuickSet()) {
+        if (!mQuickSet) {
+            //TODO make type safe
             mAddListener = getTargetListener(GvDataAddListener.class);
+        } else {
+            mBuilder = app.getDataBuilderAdapter(mDataType);
         }
+    }
 
+    private void setDialogTitle() {
         setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumName());
+    }
+
+    private void setLayout(ApplicationInstance app) {
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(app.getConfigDataUi());
+        mLayout = layoutFactory.newLayout(mDataType, this);
+        mLayout.onActivityAttached(getActivity(), getArguments());
     }
 
     @Override

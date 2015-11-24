@@ -6,11 +6,12 @@
  * Date: 17 June, 2015
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.widget.TextView;
 
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogLayoutBasic;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 /**
@@ -18,13 +19,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewComment extends DialogLayout<GvComment> {
+public class ViewLayoutComment extends DialogLayoutBasic<GvComment> {
     public static final int LAYOUT = R.layout.dialog_text_view;
     public static final int COMMENT = R.id.medium_text_view;
     public static final int[] VIEWS = new int[]{COMMENT};
 
     //Constructors
-    public ViewComment() {
+    public ViewLayoutComment() {
         super(LAYOUT, VIEWS);
     }
 

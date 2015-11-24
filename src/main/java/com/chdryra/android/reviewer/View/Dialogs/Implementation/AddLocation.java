@@ -6,7 +6,7 @@
  * Date: 4 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
  * On: 04/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddLocation extends AddEditLayout<GvLocation>
+public class AddLocation extends AddEditLayoutBasic<GvLocation>
         implements LocationClientConnector.Locatable,
         GpNearestNamesSuggester.SuggestionsListener,
         GpPlaceDetailsFetcher.DetailsListener {

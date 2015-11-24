@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.Dialogs.DialogGvDataEdit;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ActivityResultListener;
 

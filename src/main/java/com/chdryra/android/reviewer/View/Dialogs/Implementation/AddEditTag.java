@@ -6,7 +6,7 @@
  * Date: 18 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.widget.EditText;
 
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditTag extends AddEditLayout<GvTag> {
+public class AddEditTag extends AddEditLayoutBasic<GvTag> {
     public static final int LAYOUT = R.layout.dialog_tag_add_edit;
     public static final int TAG = R.id.tag_edit_text;
     public static final int[] VIEWS = new int[]{TAG};

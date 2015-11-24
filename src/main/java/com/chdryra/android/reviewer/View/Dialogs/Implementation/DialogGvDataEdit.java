@@ -6,7 +6,7 @@
  * Date: 16 October, 2014
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,13 +14,17 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.Dialogs.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogLayoutBasic;
+import com.chdryra.android.reviewer.View.Dialogs.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +40,7 @@ import com.chdryra.android.reviewer.View.Launcher.Interfaces.LauncherUi;
  * other functionality is outsourced to the appropriate classes:
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
- * <li>{@link LayoutHolder}: UI updates and user input extraction</li>
+ * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link EditListener}: commissioning fragment.
  * </ul>
  * </p>
@@ -121,7 +125,9 @@ public abstract class DialogGvDataEdit<T extends GvData>
     }
 
     private void setLayout() {
-        mLayout = FactoryGvDataViewLayout.newLayout(mDataType, this);
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(app.getConfigDataUi());
+        mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }
 

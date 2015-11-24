@@ -6,13 +6,14 @@
  * Date: 18 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.webkit.URLUtil;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditLayoutBasic;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
 
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  * On: 18/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditFact extends AddEditLayout<GvFact> {
+public class AddEditFact extends AddEditLayoutBasic<GvFact> {
     public static final int LAYOUT = R.layout.dialog_fact_add_edit;
     public static final int LABEL = R.id.fact_label_edit_text;
     public static final int VALUE = R.id.fact_value_edit_text;

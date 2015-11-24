@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.Dialogs.AddEditComment;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
 
 /**

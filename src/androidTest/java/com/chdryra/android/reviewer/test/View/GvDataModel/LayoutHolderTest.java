@@ -12,7 +12,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
-import com.chdryra.android.reviewer.View.Dialogs.LayoutHolder;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.DialogLayoutBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +24,7 @@ public class LayoutHolderTest extends AndroidTestCase {
     private static final int[] VIEWIDS = {com.chdryra.android.reviewer.R.id.edit_text1,
             com.chdryra.android.reviewer.R.id.edit_text2};
 
-    private LayoutHolder mHolder;
+    private DialogLayoutBasic.LayoutHolder mHolder;
 
     @SmallTest
     public void testInflateAndGetView() {
@@ -38,8 +38,8 @@ public class LayoutHolderTest extends AndroidTestCase {
     }
 
     //private methods
-    private LayoutHolder getHolder() {
-        return new LayoutHolder(LAYOUT, VIEWIDS);
+    private DialogLayoutBasic.LayoutHolder getHolder() {
+        return new DialogLayoutBasic.LayoutHolder(LAYOUT, VIEWIDS);
     }
 
     //Overridden

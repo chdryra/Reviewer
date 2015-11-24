@@ -6,7 +6,7 @@
  * Date: 17 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.widget.EditText;
 
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditComment extends AddEditLayout<GvComment> {
+public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     public static final int LAYOUT = R.layout.dialog_comment_add_edit;
     public static final int COMMENT = R.id.comment_edit_text;
     public static final int[] VIEWS = new int[]{COMMENT};

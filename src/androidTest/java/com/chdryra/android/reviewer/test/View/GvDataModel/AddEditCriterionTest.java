@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.Dialogs.AddEditChildReview;
+import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 
 /**
@@ -20,13 +20,13 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
  * On: 15/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditChildReviewTest extends AddEditLayoutTest<GvCriterion> {
+public class AddEditCriterionTest extends AddEditLayoutTest<GvCriterion> {
     private RatingBar mRatingBar;
 
     //Constructors
-    public AddEditChildReviewTest() {
+    public AddEditCriterionTest() {
         super(GvCriterion.TYPE,
-                new AddEditChildReview(new ClassesAddEditViewDefault.AddChild()));
+                new AddEditCriterion(new ClassesAddEditViewDefault.AddCriterion()));
     }
 
     //Overridden
@@ -45,8 +45,8 @@ public class AddEditChildReviewTest extends AddEditLayoutTest<GvCriterion> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        mEditText = (EditText) getView(AddEditChildReview.SUBJECT);
-        mRatingBar = (RatingBar) getView(AddEditChildReview.RATING);
+        mEditText = (EditText) getView(AddEditCriterion.SUBJECT);
+        mRatingBar = (RatingBar) getView(AddEditCriterion.RATING);
         assertNotNull(mEditText);
         assertNotNull(mRatingBar);
     }

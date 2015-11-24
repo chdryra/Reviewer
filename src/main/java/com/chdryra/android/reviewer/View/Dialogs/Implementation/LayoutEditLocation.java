@@ -6,7 +6,7 @@
  * Date: 13 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.widget.EditText;
 
@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 13/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class EditLocation extends AddEditLayout<GvLocation> {
+public class LayoutEditLocation extends AddEditLayoutBasic<GvLocation> {
     public static final int LAYOUT = R.layout.dialog_location_edit;
     public static final int LOCATION = R.id.location_edit_edit_text;
     public static final int[] VIEWS = new int[]{LOCATION};
@@ -27,7 +27,7 @@ public class EditLocation extends AddEditLayout<GvLocation> {
     private LatLng mLatLng;
 
     //Constructors
-    public EditLocation(GvDataEditor editor) {
+    public LayoutEditLocation(GvDataEditor editor) {
         super(GvLocation.class, LAYOUT, VIEWS, LOCATION, editor);
     }
 

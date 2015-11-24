@@ -6,7 +6,7 @@
  * Date: 17 December, 2014
  */
 
-package com.chdryra.android.reviewer.View.Dialogs;
+package com.chdryra.android.reviewer.View.Dialogs.Implementation;
 
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -19,18 +19,18 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
  * On: 17/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddEditChildReview extends AddEditLayout<GvCriterion> {
+public class AddEditCriterion extends AddEditLayoutBasic<GvCriterion> {
     public static final int LAYOUT = R.layout.dialog_criterion_add_edit;
     public static final int SUBJECT = R.id.child_name_edit_text;
     public static final int RATING = R.id.child_rating_bar;
     public static final int[] VIEWS = new int[]{SUBJECT, RATING};
 
     //Constructors
-    public AddEditChildReview(GvDataAdder adder) {
+    public AddEditCriterion(GvDataAdder adder) {
         super(GvCriterion.class, LAYOUT, VIEWS, SUBJECT, adder);
     }
 
-    public AddEditChildReview(GvDataEditor editor) {
+    public AddEditCriterion(GvDataEditor editor) {
         super(GvCriterion.class, LAYOUT, VIEWS, SUBJECT, editor);
     }
 
