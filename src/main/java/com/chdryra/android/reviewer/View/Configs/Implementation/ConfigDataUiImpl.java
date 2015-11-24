@@ -1,13 +1,10 @@
 package com.chdryra.android.reviewer.View.Configs.Implementation;
 
-import com.chdryra.android.reviewer.View.Configs.Factories.FactoryLaunchableConfigs;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,11 +23,10 @@ import java.util.Map;
 public final class ConfigDataUiImpl implements ConfigDataUi {
     private final Map<GvDataType<? extends GvData>, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
 
-    public ConfigDataUiImpl(ClassesAddEditView dataClasses,
-                            FactoryLaunchableConfigs configsFactory) {
+    public ConfigDataUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs) {
         mConfigsMap = new HashMap<>();
-        for (GvDataType<? extends GvData> type : GvDataTypesList.ALL_TYPES) {
-            mConfigsMap.put(type, configsFactory.newConfig(type, dataClasses.getUiClasses(type)));
+        for (LaunchableConfigsHolder<?> config : configs) {
+            mConfigsMap.put(config.getGvDataType(), config);
         }
     }
 
