@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,14 +37,11 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryGridCellAdapter;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
 import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.RatingBarAction;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Implementation.ReviewViewParams;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.SubjectAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -68,6 +66,8 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     private GridView mGridView;
 
     private ReviewView mReviewView;
+    private ReviewViewActions mActions;
+    private ReviewViewParams mParams;
 
     private int mMaxGridCellWidth;
     private int mMaxGridCellHeight;
@@ -77,6 +77,68 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     private boolean mIsModified = false;
 
     //public methods
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActivityReviewView activity;
+        try {
+            activity = (ActivityReviewView) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "Activity must be an ActivityReviewView");
+            throw new RuntimeException("Activity must be an ActivityReviewView", e);
+        }
+
+        mReviewView = activity.getReviewView();
+        if(mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
+        mReviewView.attachFragment(this);
+        mActions = mReviewView.getActions();
+        mParams = mReviewView.getParams();
+
+        setGridCellDimension(mParams.getGridViewParams().getCellWidth(),
+                mParams.getGridViewParams().getCellHeight());
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View v = inflater.inflate(LAYOUT, container, false);
+
+        mLinearLayout = (LinearLayout) v.findViewById(LINEAR_LAYOUT);
+        mSubjectView = (ClearableEditText) v.findViewById(SUBJECT);
+        mRatingBar = (RatingBar) v.findViewById(RATING);
+        mBannerButton = (Button) v.findViewById(BUTTON);
+        mGridView = (GridView) v.findViewById(GRID);
+        mGridView.setDrawSelectorOnTop(true);
+
+        initGridCellDimensions();
+        initUi();
+
+        return mReviewView.modifyIfNeccesary(v, inflater, container, savedInstanceState);
+    }
+
+    private void initGridCellDimensions() {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
+        //noinspection SuspiciousNameCombination
+        mMaxGridCellHeight = mMaxGridCellWidth;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        mActions.getMenuAction().inflateMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        return mActions.getMenuAction().onItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
     public String getSubject() {
         return mSubjectView.getText().toString().trim();
     }
@@ -112,14 +174,12 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             } else {
                 mLinearLayout.setBackgroundDrawable(bitmap);
             }
-            ReviewViewParams params = mReviewView.getParams();
-            mGridView.getBackground().setAlpha(params.getGridViewParams().getGridAlpha());
+            mGridView.getBackground().setAlpha(mParams.getGridViewParams().getGridAlpha());
         } else {
             removeCover();
         }
     }
 
-    //private methods
     private boolean isEditable() {
         return mReviewView.isEditable();
     }
@@ -134,6 +194,149 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     private int getNumberColumns() {
         return mCellWidthDivider;
+    }
+
+    private void initUi() {
+        initSubjectUi();
+        initRatingBarUi();
+        initBannerButtonUi();
+        initGridDataUi();
+    }
+
+    private void initSubjectUi() {
+        if (!mReviewView.getParams().isSubjectVisible()) {
+            mSubjectView.setVisibility(View.GONE);
+            return;
+        }
+
+        mSubjectView.setFocusable(isEditable());
+        ((ClearableEditText) mSubjectView).makeClearable(isEditable());
+        if (isEditable()) {
+            mSubjectView.setOnEditorActionListener(newSubjectActionListener());
+        }
+
+        updateSubjectUi();
+    }
+
+    @NonNull
+    private TextView.OnEditorActionListener newSubjectActionListener() {
+        return new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE ||
+                        event.getAction() == KeyEvent.ACTION_DOWN &&
+                                event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    mActions.getSubjectAction().onKeyboardDone(v.getText());
+                    return true;
+                }
+                return false;
+            }
+        };
+    }
+
+    private void initRatingBarUi() {
+        if (!mParams.isRatingVisible()) {
+            mRatingBar.setVisibility(View.GONE);
+            return;
+        }
+
+        mRatingBar.setIsIndicator(!isEditable());
+        mRatingBar.setOnTouchListener(newRatingBarTouchListener());
+        if (isEditable()) {
+            mRatingBar.setOnRatingBarChangeListener(newRatingBarChangeListener());
+        }
+
+        updateRatingBarUi();
+    }
+
+    @NonNull
+    private View.OnTouchListener newRatingBarTouchListener() {
+        return new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mActions.getRatingBarAction().onClick(v);
+                return false;
+            }
+        };
+    }
+
+    @NonNull
+    private RatingBar.OnRatingBarChangeListener newRatingBarChangeListener() {
+        return new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                mActions.getRatingBarAction().onRatingChanged(ratingBar, rating, fromUser);
+            }
+        };
+    }
+
+    private void initBannerButtonUi() {
+        if (!mParams.isBannerButtonVisible()) {
+            mBannerButton.setVisibility(View.GONE);
+            return;
+        }
+
+        mBannerButton.setText(mActions.getBannerButtonAction().getButtonTitle());
+        mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
+        mBannerButton.setOnClickListener(newBannerButtonClickListener());
+        mBannerButton.setOnLongClickListener(newBannerButtonLongClickListener());
+
+        updateBannerButtonUi();
+    }
+
+    @NonNull
+    private View.OnLongClickListener newBannerButtonLongClickListener() {
+        return new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return mActions.getBannerButtonAction().onLongClick(v);
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener newBannerButtonClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActions.getBannerButtonAction().onClick(v);
+            }
+        };
+    }
+
+    private void initGridDataUi() {
+        ViewHolderAdapter adapter = FactoryGridCellAdapter.newAdapter(getActivity(),
+                mReviewView.getGridViewData(), getGridCellWidth(), getGridCellHeight());
+        mGridView.setAdapter(adapter);
+        mGridView.setColumnWidth(getGridCellWidth());
+        mGridView.setNumColumns(getNumberColumns());
+        mGridView.setOnItemClickListener(newGridItemClickListener());
+        mGridView.setOnItemLongClickListener(newGridItemLongClickListener());
+    }
+
+    @NonNull
+    private AdapterView.OnItemLongClickListener newGridItemLongClickListener() {
+        return new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
+                GvData item = (GvData) parent.getItemAtPosition(position);
+                //TODO make type safe
+                mActions.getGridItemAction().onGridItemLongClick(item, position, v);
+                return true;
+            }
+        };
+    }
+
+    @NonNull
+    private AdapterView.OnItemClickListener newGridItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                GvData item = (GvData) parent.getItemAtPosition(position);
+                //TODO make type safe
+                mActions.getGridItemAction().onGridItemClick(item, position, v);
+            }
+        };
     }
 
     private void updateUi() {
@@ -153,137 +356,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mGridView.getBackground().setAlpha(ReviewViewParams.GridViewAlpha.OPAQUE.getAlpha());
     }
 
-    private void initUi() {
-        initSubjectUi();
-        initRatingBarUi();
-        initBannerButtonUi();
-        initGridDataUi();
-    }
-
-    private void initSubjectUi() {
-        ReviewViewParams params = mReviewView.getParams();
-        if (!params.isSubjectVisible()) {
-            mSubjectView.setVisibility(View.GONE);
-            return;
-        }
-
-        if (isEditable()) {
-            mSubjectView.setFocusable(true);
-            ((ClearableEditText) mSubjectView).makeClearable(true);
-            mSubjectView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                final SubjectAction action
-                        = mReviewView.getActions().getSubjectAction();
-
-                //Overridden
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_DONE ||
-                            event.getAction() == KeyEvent.ACTION_DOWN &&
-                                    event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-
-                        action.onKeyboardDone(v.getText());
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        } else {
-            mSubjectView.setFocusable(false);
-            ((ClearableEditText) mSubjectView).makeClearable(false);
-        }
-
-        updateSubjectUi();
-    }
-
-    private void initRatingBarUi() {
-        ReviewViewParams params = mReviewView.getParams();
-        if (!params.isRatingVisible()) {
-            mRatingBar.setVisibility(View.GONE);
-            return;
-        }
-
-        final RatingBarAction ratingBarAction
-                = mReviewView.getActions().getRatingBarAction();
-        if (isEditable()) {
-            mRatingBar.setIsIndicator(false);
-            mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                //Overridden
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    ratingBarAction.onRatingChanged(ratingBar, rating, fromUser);
-                }
-            });
-        } else {
-            mRatingBar.setIsIndicator(true);
-        }
-
-        mRatingBar.setOnTouchListener(new View.OnTouchListener() {
-            //Overridden
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ratingBarAction.onClick(v);
-                return false;
-            }
-        });
-
-        updateRatingBarUi();
-    }
-
-    private void initBannerButtonUi() {
-        ReviewViewParams params = mReviewView.getParams();
-        if (!params.isBannerButtonVisible()) {
-            mBannerButton.setVisibility(View.GONE);
-            return;
-        }
-
-        final BannerButtonAction action
-                = mReviewView.getActions().getBannerButtonAction();
-        mBannerButton.setText(action.getButtonTitle());
-        mBannerButton.setTextColor(mSubjectView.getTextColors().getDefaultColor());
-        mBannerButton.setOnClickListener(new View.OnClickListener() {
-            //Overridden
-            @Override
-            public void onClick(View v) {
-                action.onClick(v);
-            }
-        });
-        mBannerButton.setOnLongClickListener(new View.OnLongClickListener() {
-            //Overridden
-            @Override
-            public boolean onLongClick(View v) {
-                return action.onLongClick(v);
-            }
-        });
-
-        updateBannerButtonUi();
-    }
-
-    private void initGridDataUi() {
-        ViewHolderAdapter adapter = FactoryGridCellAdapter.newAdapter(getActivity(),
-                mReviewView.getGridViewData(), getGridCellWidth(), getGridCellHeight());
-        mGridView.setAdapter(adapter);
-        mGridView.setColumnWidth(getGridCellWidth());
-        mGridView.setNumColumns(getNumberColumns());
-
-        final GridItemAction action = mReviewView.getActions().getGridItemAction();
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                //TODO make type safe
-                action.onGridItemClick((GvData)parent.getItemAtPosition(position), position, v);
-            }
-        });
-
-        mGridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View v, int position, long id) {
-                //TODO make type safe
-                action.onGridItemLongClick((GvData)parent.getItemAtPosition(position), position, v);
-                return true;
-            }
-        });
-    }
-
     private void updateSubjectUi() {
         mSubjectView.setText(mReviewView.getSubject());
     }
@@ -301,86 +373,14 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     private void setGridCellDimension(ReviewViewParams.CellDimension width,
                                       ReviewViewParams.CellDimension height) {
-        mCellWidthDivider = 1;
-        mCellHeightDivider = 1;
-
-        if (width == ReviewViewParams.CellDimension.HALF) {
-            mCellWidthDivider = 2;
-        } else if (width == ReviewViewParams.CellDimension.QUARTER) {
-            mCellWidthDivider = 4;
-        }
-
-        if (height == ReviewViewParams.CellDimension.HALF) {
-            mCellHeightDivider = 2;
-        } else if (height == ReviewViewParams.CellDimension.QUARTER) {
-            mCellHeightDivider = 4;
-        }
-    }
-
-    //Overridden
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ActivityReviewView activity;
-        try {
-            activity = (ActivityReviewView) getActivity();
-        } catch (ClassCastException e) {
-            Log.e(TAG, "Activity must be an ActivityReviewView");
-            return;
-        }
-
-        mReviewView = activity.getReviewView();
-        if(mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
-        mReviewView.attachFragment(this);
-
-        ReviewViewParams params = mReviewView.getParams();
-        setGridCellDimension(params.getGridViewParams().getCellWidth(),
-                params.getGridViewParams().getCellHeight());
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        View v = inflater.inflate(LAYOUT, container, false);
-
-        mLinearLayout = (LinearLayout) v.findViewById(LINEAR_LAYOUT);
-        mSubjectView = (ClearableEditText) v.findViewById(SUBJECT);
-        mRatingBar = (RatingBar) v.findViewById(RATING);
-        mBannerButton = (Button) v.findViewById(BUTTON);
-        mGridView = (GridView) v.findViewById(GRID);
-
-        mGridView.setDrawSelectorOnTop(true);
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
-        //noinspection SuspiciousNameCombination
-        mMaxGridCellHeight = mMaxGridCellWidth;
-
-        initUi();
-
-        return mReviewView.modifyIfNeccesary(v, inflater, container, savedInstanceState);
+        mCellWidthDivider = width.getDivider();
+        mCellHeightDivider = height.getDivider();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         updateUi();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        mReviewView.getActions().getMenuAction().inflateMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        return mReviewView.getActions().getMenuAction().onItemSelected(item)
-                || super.onOptionsItemSelected(item);
     }
 
     @Override

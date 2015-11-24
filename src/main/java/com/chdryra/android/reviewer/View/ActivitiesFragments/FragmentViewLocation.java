@@ -8,9 +8,12 @@
 
 package com.chdryra.android.reviewer.View.ActivitiesFragments;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,17 +66,35 @@ public class FragmentViewLocation extends Fragment implements
         return FactoryFragment.newFragment(FragmentViewLocation.class, LOCATION, location);
     }
 
-    private void onDoneSelected() {
-        getActivity().finish();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if(args != null) mCurrent = args.getParcelable(LOCATION);
+        MapsInitializer.initialize(getActivity());
     }
 
-    private void onGotoMapsSelected() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
-    }
+        View v = inflater.inflate(R.layout.fragment_review_location_map_view, container, false);
 
-    private void onGotoReviewSelected() {
-        ApplicationInstance admin = ApplicationInstance.getInstance(getActivity());
-        admin.launchReview(getActivity(), mCurrent.getReviewId());
+        mMapView = (MapView) v.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+        mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
+        mGotoReviewButton = (Button) v.findViewById(R.id.button_left);
+        mGotoMapsButton = (Button) v.findViewById(R.id.button_middle);
+        mDoneButton = (Button) v.findViewById(R.id.button_right);
+
+        mGotoReviewButton.setText(getResources().getString(R.string.button_goto_review));
+        mGotoMapsButton.setText(getResources().getString(R.string.button_goto_google_maps));
+        mDoneButton.setText(getResources().getString(R.string.gl_action_done_text));
+
+        initUI();
+
+        return v;
     }
 
     private void initUI() {
@@ -83,24 +104,31 @@ public class FragmentViewLocation extends Fragment implements
 
     private void initGoogleMapUI() {
         mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap
+        mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
+        mGoogleMap.setOnInfoWindowClickListener(newHideMarkerInfoListener());
+        zoomToLatLng();
+    }
+
+    @NonNull
+    private OnInfoWindowClickListener newHideMarkerInfoListener() {
+        return new OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                marker.hideInfoWindow();
+            }
+        };
+    }
+
+    @NonNull
+    private GoogleMap.OnMyLocationButtonClickListener newLocateMeListener() {
+        return new GoogleMap
                 .OnMyLocationButtonClickListener() {
-            //Overridden
             @Override
             public boolean onMyLocationButtonClick() {
                 mLocationClient.locate();
                 return false;
             }
-        });
-        mGoogleMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
-
-            //Overridden
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        });
-        zoomToLatLng();
+        };
     }
 
     private void initButtonUI() {
@@ -112,19 +140,32 @@ public class FragmentViewLocation extends Fragment implements
             }
         });
         mGotoMapsButton.setOnClickListener(new View.OnClickListener() {
-//Overridden
+            //Overridden
             @Override
             public void onClick(View v) {
                 onGotoMapsSelected();
             }
         });
         mDoneButton.setOnClickListener(new View.OnClickListener() {
-//Overridden
+            //Overridden
             @Override
             public void onClick(View v) {
                 onDoneSelected();
             }
         });
+    }
+
+    private void onDoneSelected() {
+        getActivity().finish();
+    }
+
+    private void onGotoMapsSelected() {
+
+    }
+
+    private void onGotoReviewSelected() {
+        ApplicationInstance admin = ApplicationInstance.getInstance(getActivity());
+        admin.launchReview(getActivity(), mCurrent.getReviewId());
     }
 
     private void zoomToLatLng() {
@@ -153,37 +194,14 @@ public class FragmentViewLocation extends Fragment implements
 
     }
 
+    //Lifecycle methods
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mLocationClient = new LocationClientConnector(getActivity(), this);
-        mLocationClient.connect();
-        Bundle args = getArguments();
-        if(args != null) mCurrent = args.getParcelable(LOCATION);
-        MapsInitializer.initialize(getActivity());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        View v = inflater.inflate(R.layout.fragment_review_location_map_view, container, false);
-
-        mMapView = (MapView) v.findViewById(R.id.mapView);
-        mMapView.onCreate(savedInstanceState);
-        mGoogleMap = ((MapView) v.findViewById(R.id.mapView)).getMap();
-        mGotoReviewButton = (Button) v.findViewById(R.id.button_left);
-        mGotoMapsButton = (Button) v.findViewById(R.id.button_middle);
-        mDoneButton = (Button) v.findViewById(R.id.button_right);
-
-        mGotoReviewButton.setText(getResources().getString(R.string.button_goto_review));
-        mGotoMapsButton.setText(getResources().getString(R.string.button_goto_google_maps));
-        mDoneButton.setText(getResources().getString(R.string.gl_action_done_text));
-
-        initUI();
-
-        return v;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Activity) {
+            mLocationClient = new LocationClientConnector((Activity) context, this);
+            mLocationClient.connect();
+        }
     }
 
     @Override

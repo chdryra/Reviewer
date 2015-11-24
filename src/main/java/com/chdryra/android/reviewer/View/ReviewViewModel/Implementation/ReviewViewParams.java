@@ -37,7 +37,20 @@ public class ReviewViewParams {
         }
     }
 
-    public enum CellDimension {FULL, HALF, QUARTER}
+    public enum CellDimension {
+        FULL(1),
+        HALF(2),
+        QUARTER(4);
+
+        private int mDivider;
+        CellDimension(int divider) {
+            mDivider = divider;
+        }
+
+        public int getDivider() {
+            return mDivider;
+        }
+    }
 
     //public methods
     public GridViewParams getGridViewParams() {
