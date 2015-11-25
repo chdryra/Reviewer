@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.Dialogs;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
@@ -25,7 +25,7 @@ public class DialogEditCriterionTest extends
 
     //Constructors
     public DialogEditCriterionTest() {
-        super(ClassesAddEditViewDefault.EditCriterion.class);
+        super(DefaultLaunchables.EditCriterion.class);
     }
 
     //protected methods

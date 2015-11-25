@@ -12,8 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.Dialogs.Implementation.LayoutEditImage;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.LayoutEditImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 
 /**
@@ -26,7 +26,7 @@ public class LayoutEditImageTest extends AddEditLayoutTest<GvImage> {
 
     //Constructors
     public LayoutEditImageTest() {
-        super(GvImage.TYPE, new LayoutEditImage(new ClassesAddEditViewDefault.EditImage()));
+        super(GvImage.TYPE, new LayoutEditImage(new DefaultLaunchables.EditImage()));
     }
 
     //Overridden

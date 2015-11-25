@@ -21,8 +21,8 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using

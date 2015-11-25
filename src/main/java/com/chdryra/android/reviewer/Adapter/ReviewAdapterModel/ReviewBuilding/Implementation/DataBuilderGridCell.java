@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridDataObservable;
 
 /**
  * Created by: Rizwan Choudrey

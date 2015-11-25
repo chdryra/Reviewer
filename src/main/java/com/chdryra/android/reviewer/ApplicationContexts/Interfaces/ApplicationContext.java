@@ -8,10 +8,10 @@ import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.Revie
 import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey

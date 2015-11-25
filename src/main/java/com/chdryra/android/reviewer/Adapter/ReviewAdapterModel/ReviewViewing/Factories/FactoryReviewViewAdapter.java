@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOver
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
 
 /**
  * Created by: Rizwan Choudrey

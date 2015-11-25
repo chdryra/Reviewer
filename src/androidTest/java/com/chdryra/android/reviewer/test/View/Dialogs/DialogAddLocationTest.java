@@ -12,7 +12,7 @@ import android.location.Location;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
@@ -52,7 +52,7 @@ public class DialogAddLocationTest extends DialogGvDataAddTest<GvLocation>
 
     //Constructors
     public DialogAddLocationTest() {
-        super(ClassesAddEditViewDefault.AddLocation.class);
+        super(DefaultLaunchables.AddLocation.class);
     }
 
     private GvData enterDataAndTest(int index) {

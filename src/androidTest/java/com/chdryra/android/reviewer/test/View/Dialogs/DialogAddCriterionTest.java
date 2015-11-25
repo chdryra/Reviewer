@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import android.widget.RatingBar;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
 
 /**
@@ -23,7 +23,7 @@ public class DialogAddCriterionTest extends
 
     //Constructors
     public DialogAddCriterionTest() {
-        super(ClassesAddEditViewDefault.AddCriterion.class);
+        super(DefaultLaunchables.AddCriterion.class);
     }
 
     //protected methods

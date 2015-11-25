@@ -4,7 +4,6 @@ import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
 
 /**
  * Encapsulates add, edit, view configs for a given
@@ -20,16 +19,13 @@ public class LaunchableConfigsHolder<T extends GvData> {
     private final LaunchableConfig<T> mEditConfig;
     private final LaunchableConfig<T> mViewConfig;
 
-    public LaunchableConfigsHolder(GvDataType<T> dataType,
-                                   Class<? extends LaunchableUi> addClass,
-                                   Class<? extends LaunchableUi> editClass,
-                                   Class<? extends LaunchableUi> viewClass) {
-        mDataType = dataType;
-        mAddConfig = new LaunchableConfigImpl<>(mDataType, addClass,
+    public LaunchableConfigsHolder(LaunchableClasses<T> launchables) {
+        mDataType = launchables.getGvDataType();
+        mAddConfig = new LaunchableConfigImpl<>(mDataType, launchables.getAddClass(),
                 DATA_ADD, mDataType.getDatumName().toUpperCase() + "_ADD_TAG");
-        mEditConfig = new LaunchableConfigImpl<>(mDataType, editClass,
+        mEditConfig = new LaunchableConfigImpl<>(mDataType, launchables.getEditClass(),
                 DATA_EDIT, mDataType.getDatumName().toUpperCase() + "_EDIT_TAG");
-        mViewConfig = new LaunchableConfigImpl<>(mDataType, viewClass,
+        mViewConfig = new LaunchableConfigImpl<>(mDataType, launchables.getViewClass(),
                 DATA_VIEW, mDataType.getDatumName().toUpperCase() + "_VIEW_TAG");
     }
 

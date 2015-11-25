@@ -16,7 +16,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
+import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityEditUrlBrowser;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;

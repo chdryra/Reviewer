@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Int
         .GridDataViewer;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.GridDataObservable;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 import java.util.ArrayList;
 

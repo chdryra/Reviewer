@@ -1,9 +1,7 @@
 package com.chdryra.android.reviewer.View.Configs.Interfaces;
 
-import com.chdryra.android.reviewer.View.Dialogs.Interfaces.AddEditLayout;
-import com.chdryra.android.reviewer.View.Dialogs.Interfaces.DialogLayout;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,8 +14,4 @@ public interface ConfigDataUi {
     <T extends GvData> LaunchableConfig<T> getEditorConfig(GvDataType<T> dataType);
 
     <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType);
-
-    <T extends GvData> Class<? extends DialogLayout<T>> getViewLayout(GvDataType<T> dataType);
-
-    <T extends GvData> Class<? extends AddEditLayout<T>> getAddEditLayout(GvDataType<T> dataType);
 }

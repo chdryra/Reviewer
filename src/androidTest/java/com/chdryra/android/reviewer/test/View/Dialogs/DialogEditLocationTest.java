@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
@@ -22,7 +22,7 @@ public class DialogEditLocationTest extends DialogGvDataEditTest<GvLocation> {
 
     //Constructors
     public DialogEditLocationTest() {
-        super(ClassesAddEditViewDefault.EditLocation.class);
+        super(DefaultLaunchables.EditLocation.class);
     }
 
     //protected methods

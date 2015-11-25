@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
-import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditTag;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditTag;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 
 /**
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
 public class AddEditTagTest extends AddEditLayoutTest<GvTag> {
     //Constructors
     public AddEditTagTest() {
-        super(GvTag.TYPE, new AddEditTag(new ClassesAddEditViewDefault.AddTag()));
+        super(GvTag.TYPE, new AddEditTag(new DefaultLaunchables.AddTag()));
     }
 
     //Overridden

@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Dialogs.Implementation.AddEditLayoutBasic;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditLayoutBasic;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;

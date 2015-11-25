@@ -48,11 +48,11 @@ import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
-import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Launcher.Factories.FactoryLauncherUi;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Builders.BuilderChildListView;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.View.ReviewViewModel.Factories.FactoryReviewsListScreen;
+import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
 
 import java.io.File;
 

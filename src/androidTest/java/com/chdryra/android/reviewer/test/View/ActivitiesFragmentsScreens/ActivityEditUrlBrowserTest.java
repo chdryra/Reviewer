@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditUrlBrowser;
+import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityEditUrlBrowser;
 
 /**
  * Created by: Rizwan Choudrey

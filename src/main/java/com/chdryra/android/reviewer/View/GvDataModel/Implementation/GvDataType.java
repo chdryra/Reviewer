@@ -80,6 +80,11 @@ public class GvDataType<T extends GvData> implements Parcelable {
         return mDataClass.cast(datum);
     }
 
+    @Override
+    public String toString() {
+        return mDataClass.getCanonicalName();
+    }
+
     //Overridden
     @Override
     public boolean equals(Object o) {

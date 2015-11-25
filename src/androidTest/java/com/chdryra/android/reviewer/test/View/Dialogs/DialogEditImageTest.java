@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.ClassesAddEditViewDefault;
+import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
@@ -22,7 +22,7 @@ public class DialogEditImageTest extends DialogGvDataEditTest<GvImage> {
 
     //Constructors
     public DialogEditImageTest() {
-        super(ClassesAddEditViewDefault.EditImage.class);
+        super(DefaultLaunchables.EditImage.class);
     }
 
     //protected methods

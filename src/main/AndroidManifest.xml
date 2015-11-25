@@ -40,7 +40,7 @@
 
         <!-- Main -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityFeed"
+            android:name=".View.Implementation.LaunchableActivities.ActivityFeed"
             android:label="@string/activity_title_feed"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -52,7 +52,7 @@
 
         <!-- General grid view -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityReviewView"
+            android:name=".View.Implementation.LaunchableActivities.ActivityReviewView"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -61,7 +61,7 @@
 
         <!-- Build review -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityBuildReview"
+            android:name=".View.Implementation.LaunchableActivities.ActivityBuildReview"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -70,7 +70,7 @@
 
         <!-- Share review -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityShareReview"
+            android:name=".View.Implementation.LaunchableActivities.ActivityShareReview"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -79,7 +79,7 @@
 
         <!-- Edit review data-->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityEditData"
+            android:name=".View.Implementation.LaunchableActivities.ActivityEditData"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -88,7 +88,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityEditUrlBrowser"
+            android:name=".View.Implementation.LaunchableActivities.ActivityEditUrlBrowser"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_url"
@@ -97,12 +97,12 @@
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".View.ActivitiesFragments.ActivityReviewView"/>
+                android:value=".View.Implementation.LaunchableActivities.ActivityReviewView"/>
         </activity>
 
         <!-- Map choose location -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityEditLocationMap"
+            android:name=".View.Implementation.LaunchableActivities.ActivityEditLocationMap"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_location"
@@ -116,7 +116,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".View.ActivitiesFragments.ActivityReviewView"/>
+                android:value=".View.Implementation.LaunchableActivities.ActivityReviewView"/>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_location_map"/>
@@ -124,7 +124,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".View.ActivitiesFragments.ActivityViewLocation"
+            android:name=".View.Implementation.LaunchableActivities.ActivityViewLocation"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_location"
@@ -132,7 +132,7 @@
             android:theme="@style/Theme.Reviewer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".View.ActivitiesFragments.ActivityReviewView"/>
+                android:value=".View.Implementation.LaunchableActivities.ActivityReviewView"/>
         </activity>
 
         <!-- Key for GMaps and setting up Google Play -->

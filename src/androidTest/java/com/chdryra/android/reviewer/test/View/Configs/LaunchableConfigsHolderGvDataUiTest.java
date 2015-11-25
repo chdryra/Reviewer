@@ -12,12 +12,12 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.ClassesAddEditView;
+import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchablesList;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.Launcher.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class LaunchableConfigsHolderGvDataUiTest extends AndroidTestCase {
             } else {
                 LaunchableUi ui = uiConfig.getLaunchable();
                 assertNotNull(ui);
-                assertEquals(ClassesAddEditView.getAddClass(dataType).getName(),
+                assertEquals(LaunchablesList.getAddClass(dataType).getName(),
                         ui.getClass().getName());
             }
 
@@ -89,7 +89,7 @@ public class LaunchableConfigsHolderGvDataUiTest extends AndroidTestCase {
 
             LaunchableUi ui = uiConfig.getLaunchable();
             assertNotNull(ui);
-            assertEquals(ClassesAddEditView.getEditClass(dataType).getName(),
+            assertEquals(LaunchablesList.getEditClass(dataType).getName(),
                     ui.getClass().getName());
 
             requestCodes.add(uiConfig.getRequestCode());
