@@ -5,18 +5,18 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Models.TreeMethods.Implementation.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
 
 import java.util.ArrayList;
 

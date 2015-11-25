@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewTreeNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewTreeComparer;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeComparer;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;

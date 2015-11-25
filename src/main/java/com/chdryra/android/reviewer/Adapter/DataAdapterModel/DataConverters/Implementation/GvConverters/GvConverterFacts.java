@@ -4,10 +4,10 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewB
 
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 
 /**

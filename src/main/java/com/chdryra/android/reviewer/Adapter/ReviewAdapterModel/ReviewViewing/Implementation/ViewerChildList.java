@@ -14,11 +14,11 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
         .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
         .GridDataViewer;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 /**

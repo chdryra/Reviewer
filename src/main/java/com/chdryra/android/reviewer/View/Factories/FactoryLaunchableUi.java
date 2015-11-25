@@ -14,12 +14,13 @@ import android.util.Log;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
@@ -49,18 +50,24 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  */
 public class FactoryLaunchableUi {
     private static final String TAG = "FactoryLaunchable";
+    private static final String REVIEW_BUILD_TAG = "ReviewBuilderScreen";
+    private static final int REVIEW_CREATE = RequestCodeGenerator.getCode(REVIEW_BUILD_TAG);
+
     private ConfigDataUi mConfig;
     private FactoryReviewViewParams mParamsFactory;
     private FactoryLauncherUi mLauncherFactory;
     private FactoryReviewsListScreen mListScreenFactory;
+    private Class<? extends LaunchableUi> mCreateReviewActivity;
 
     public FactoryLaunchableUi(ConfigDataUi config,
                                FactoryReviewViewParams paramsFactory,
-                               BuilderChildListView childListBuilder) {
+                               BuilderChildListView childListBuilder,
+                               Class<? extends LaunchableUi> createReviewActivity) {
         mConfig = config;
         mParamsFactory = paramsFactory;
         mLauncherFactory = new FactoryLauncherUi();
         mListScreenFactory = new FactoryReviewsListScreen(this, childListBuilder);
+        mCreateReviewActivity = createReviewActivity;
     }
 
     public FactoryReviewsListScreen getListScreenFactory() {
@@ -105,6 +112,11 @@ public class FactoryLaunchableUi {
 
     public void launch(LaunchableUi ui, Activity commissioner, int requestCode, String tag){
         ui.launch(mLauncherFactory.newLauncher(commissioner, requestCode, tag));
+    }
+
+    public void launchReviewBuilderScreen(Activity commissioner) {
+        LaunchableUi ui = newLaunchable(mCreateReviewActivity);
+        ui.launch(mLauncherFactory.newLauncher(commissioner, REVIEW_CREATE, "ReviewBuilderScreen"));
     }
 
     private <T extends GvData> ReviewViewActions<T> newActions(GvDataType<T> dataType) {

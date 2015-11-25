@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
 
 /**
  * Created by: Rizwan Choudrey

@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builder
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreen;
@@ -47,7 +47,7 @@ public class BuilderAuthorsScreen {
         SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory);
         BannerButtonAction<GvReviewOverview> bba = new BannerButtonActionNone<>();
-        FeedScreenMenu ma = new FeedScreenMenu();
+        FeedScreenMenu ma = new FeedScreenMenu(mLaunchableFactory);
 
         feed.registerObserver(mMutableFeedScreen);
         mView = mMutableFeedScreen.createView(childListBuilder, mAdapterFactory, sa, rb, bba, gi, ma);

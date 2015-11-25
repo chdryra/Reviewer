@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvLocationN
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceFloat;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceLocation;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;

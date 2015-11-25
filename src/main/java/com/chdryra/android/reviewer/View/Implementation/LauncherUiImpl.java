@@ -14,8 +14,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityReviewView;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.DialogShower;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;

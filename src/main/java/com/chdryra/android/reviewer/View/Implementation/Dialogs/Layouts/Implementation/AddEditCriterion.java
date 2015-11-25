@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
 
 /**
  * Created by: Rizwan Choudrey

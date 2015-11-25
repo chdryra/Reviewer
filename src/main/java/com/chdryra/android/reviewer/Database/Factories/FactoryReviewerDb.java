@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbImpl;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

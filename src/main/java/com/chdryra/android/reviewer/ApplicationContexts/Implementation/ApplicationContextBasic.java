@@ -4,15 +4,14 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +28,6 @@ public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
     private ConfigDataUi mConfigDataUi;
     private FactoryLaunchableUi mFactoryLaunchable;
-    private FactoryLauncherUi mFactoryLauncher;
     private FactoryReviewViewParams mParamsFactory;
     private FactoryGvData mFactoryGvData;
 
@@ -51,10 +49,6 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     public void setFactoryLaunchable(FactoryLaunchableUi factoryLaunchable) {
         mFactoryLaunchable = factoryLaunchable;
-    }
-
-    public void setFactoryLauncher(FactoryLauncherUi factoryLauncher) {
-        mFactoryLauncher = factoryLauncher;
     }
 
     public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter factoryBuilderAdapter) {
@@ -128,11 +122,6 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public FactoryLaunchableUi getLaunchableFactory() {
         return mFactoryLaunchable;
-    }
-
-    @Override
-    public FactoryLauncherUi getLauncherFactory() {
-        return mFactoryLauncher;
     }
 
     @Override

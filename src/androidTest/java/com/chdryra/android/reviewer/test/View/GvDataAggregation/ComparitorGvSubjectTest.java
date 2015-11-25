@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvSubject;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSubject;
 
 import junit.framework.TestCase;
 

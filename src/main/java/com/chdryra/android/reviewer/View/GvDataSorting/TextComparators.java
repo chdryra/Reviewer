@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvText;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvText;
 
 import java.util.Comparator;
 

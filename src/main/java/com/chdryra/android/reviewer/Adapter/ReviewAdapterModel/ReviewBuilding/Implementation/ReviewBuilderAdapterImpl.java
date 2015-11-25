@@ -11,14 +11,14 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataTypesList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataTypesList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.util.ArrayList;

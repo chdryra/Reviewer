@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.GvDataAggregation;
 
 import android.location.Location;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

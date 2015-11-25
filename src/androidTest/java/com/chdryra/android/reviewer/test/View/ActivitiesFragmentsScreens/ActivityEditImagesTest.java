@@ -15,8 +15,8 @@ import android.view.KeyEvent;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
 import com.chdryra.android.testutils.RandomString;
 
 /**

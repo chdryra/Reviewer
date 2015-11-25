@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.Models.UserModel.UserId;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
 import com.chdryra.android.testutils.RandomString;
 
 /**

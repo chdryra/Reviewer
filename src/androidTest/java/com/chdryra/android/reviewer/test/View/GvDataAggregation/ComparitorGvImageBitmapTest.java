@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvImageBitmap;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;

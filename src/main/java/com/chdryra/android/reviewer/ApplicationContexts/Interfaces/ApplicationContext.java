@@ -3,15 +3,14 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +25,6 @@ public interface ApplicationContext {
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();
     BuilderChildListView getBuilderChildListView();
     FactoryReviews getReviewsFactory();
-    FactoryLauncherUi getLauncherFactory();
     FactoryLaunchableUi getLaunchableFactory();
     ConfigDataUi getUiConfig();
     FactoryReviewViewParams getParamsFactory();

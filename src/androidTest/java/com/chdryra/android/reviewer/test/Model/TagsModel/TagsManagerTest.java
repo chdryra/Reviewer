@@ -10,12 +10,12 @@ package com.chdryra.android.reviewer.test.Model.TagsModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTagList;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
+import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 

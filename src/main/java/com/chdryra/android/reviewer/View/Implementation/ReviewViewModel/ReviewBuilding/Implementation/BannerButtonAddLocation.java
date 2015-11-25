@@ -5,11 +5,11 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityEditLocationMap;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.SpecialisedActivities.ActivityEditLocationMap;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 

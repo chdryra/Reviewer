@@ -15,22 +15,22 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Imp
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerChildList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerDataToReviews;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Models.TreeMethods.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
 
 /**

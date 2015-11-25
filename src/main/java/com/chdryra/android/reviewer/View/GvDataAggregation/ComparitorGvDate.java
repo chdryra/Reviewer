@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
 
 import java.util.Calendar;
 import java.util.Date;

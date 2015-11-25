@@ -8,19 +8,19 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrl;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;

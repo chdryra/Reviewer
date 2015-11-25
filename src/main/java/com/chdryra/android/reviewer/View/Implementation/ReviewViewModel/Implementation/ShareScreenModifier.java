@@ -11,7 +11,9 @@ import android.widget.Button;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityFeed;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityFeed;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
+        .FragmentReviewView;
 
 /**
  * Created by: Rizwan Choudrey

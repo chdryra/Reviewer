@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.VhDataCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.ViewHolders.VhDataCollection;
 
 /**
  * Created by: Rizwan Choudrey

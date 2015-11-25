@@ -13,7 +13,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.VhdLocatedPlace;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

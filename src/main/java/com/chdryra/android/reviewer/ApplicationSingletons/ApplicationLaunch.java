@@ -6,8 +6,8 @@ import android.os.Environment;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation
         .ReleaseApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.Models.UserModel.Author;
-import com.chdryra.android.reviewer.Models.UserModel.UserId;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
 
 import java.io.File;
 

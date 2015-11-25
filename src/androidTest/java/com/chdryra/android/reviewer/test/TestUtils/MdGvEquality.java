@@ -8,18 +8,18 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvUrlList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFactList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrlList;
 
 import junit.framework.Assert;
 

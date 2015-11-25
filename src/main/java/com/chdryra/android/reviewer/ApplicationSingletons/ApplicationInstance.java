@@ -10,34 +10,27 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
-        .FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Models.Social.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Configs.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.GvDataModel.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -138,7 +131,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         LaunchableUi ui = getLaunchableFactory().newReviewsListScreen(reviewNode, adapterFactory);
         String tag = review.getSubject().getSubject();
         int requestCode = RequestCodeGenerator.getCode(tag);
-        ui.launch(newLauncher(activity, requestCode, tag));
+        getLaunchableFactory().launch(ui, activity, requestCode, tag);
     }
 
     public ConfigDataUi getConfigDataUi() {
@@ -149,23 +142,11 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mApplicationContext.getLaunchableFactory();
     }
 
-    public FactoryLauncherUi getLauncherFactory() {
-        return mApplicationContext.getLauncherFactory();
-    }
-
     public FactoryReviewViewParams getParamsFactory() {
         return mApplicationContext.getParamsFactory();
     }
 
     public FactoryGvData getGvDataFactory() {
         return mApplicationContext.getGvDataFactory();
-    }
-
-    public LauncherUi newLauncher(Activity activity, int requestCode, String tag, Bundle args) {
-        return getLauncherFactory().newLauncher(activity, requestCode, tag, args);
-    }
-
-    private LauncherUi newLauncher(Activity activity, int requestCode, String tag) {
-        return getLauncherFactory().newLauncher(activity, requestCode, tag);
     }
 }

@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Configs.Implementation.DefaultLaunchables;
+import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
 
 /**
  * Created by: Rizwan Choudrey

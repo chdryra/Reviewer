@@ -5,7 +5,7 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
 
 import java.util.ArrayList;
 import java.util.Arrays;

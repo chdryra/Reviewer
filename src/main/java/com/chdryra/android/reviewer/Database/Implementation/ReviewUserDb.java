@@ -15,13 +15,13 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataRow;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 
 import java.util.ArrayList;
 
@@ -39,11 +39,11 @@ public class ReviewUserDb implements Review {
     //Constructors
     public ReviewUserDb(RowReview row,
                         ReviewerDb database,
-                        FactoryReviewNodeComponent reviewFactory) {
+                        FactoryReviews reviewsFactory) {
         mDatabase = database;
         mReviewId = row.getReviewId();
         mRow = row;
-        mNode = reviewFactory.createReviewNodeComponent(this, false).makeTree();
+        mNode = reviewsFactory.createReviewNodeComponent(this, false).makeTree();
     }
 
     private <T extends DbTableRow> T getRowWhere(DbTable<T> table, String

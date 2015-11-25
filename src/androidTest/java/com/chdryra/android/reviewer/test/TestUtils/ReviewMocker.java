@@ -8,16 +8,16 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewTreeNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewStructure.ReviewTreeNode;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.ReviewStructure.ReviewUser;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewStructure.ReviewTreeNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewStructure.ReviewUser;
 import com.chdryra.android.testutils.RandomString;
 
 /**

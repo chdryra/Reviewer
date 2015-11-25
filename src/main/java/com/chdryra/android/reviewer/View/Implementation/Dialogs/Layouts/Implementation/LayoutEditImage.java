@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
 
 /**
  * Created by: Rizwan Choudrey

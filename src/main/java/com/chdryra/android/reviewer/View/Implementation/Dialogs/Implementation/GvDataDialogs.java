@@ -1,13 +1,13 @@
 package com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
 
 /**
  * Created by: Rizwan Choudrey

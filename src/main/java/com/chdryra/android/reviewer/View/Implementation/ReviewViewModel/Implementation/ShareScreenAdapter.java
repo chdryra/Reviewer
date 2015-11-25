@@ -4,11 +4,11 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataListImpl;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataListImpl;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey

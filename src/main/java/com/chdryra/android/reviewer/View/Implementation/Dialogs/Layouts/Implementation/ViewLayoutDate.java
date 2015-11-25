@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
 
 /**
  * Created by: Rizwan Choudrey

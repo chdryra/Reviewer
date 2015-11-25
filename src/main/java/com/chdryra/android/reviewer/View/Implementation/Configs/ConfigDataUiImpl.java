@@ -1,0 +1,51 @@
+package com.chdryra.android.reviewer.View.Implementation.Configs;
+
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Encapsulates the range of dialogs and activities available to return to the user when the user
+ * chooses to add, edit or display the data.
+ * <p/>
+ * <p>
+ * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
+ * .GVReviewDataList.GVType} from {@link DefaultLaunchables}
+ * and packages them with request codes and tags so that they can be appropriately launched
+ * by whichever UI needs them in response to a user interaction.
+ * </p>
+ */
+public final class ConfigDataUiImpl implements ConfigDataUi {
+    private final Map<GvDataType<? extends GvData>, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
+
+    public ConfigDataUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs) {
+        mConfigsMap = new HashMap<>();
+        for (LaunchableConfigsHolder<?> config : configs) {
+            mConfigsMap.put(config.getGvDataType(), config);
+        }
+    }
+
+    @Override
+    public <T extends GvData> LaunchableConfig<T> getViewerConfig(GvDataType<T> dataType) {
+        return getConfigs(dataType).getViewerConfig();
+    }
+
+    @Override
+    public <T extends GvData> LaunchableConfig<T> getEditorConfig(GvDataType<T> dataType) {
+        return getConfigs(dataType).getEditorConfig();
+    }
+
+    @Override
+    public <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType) {
+        return getConfigs(dataType).getAdderConfig();
+    }
+
+    private <T extends GvData> LaunchableConfigsHolder<T> getConfigs(GvDataType<T> dataType) {
+        //TODO make type safe
+        return (LaunchableConfigsHolder<T>) mConfigsMap.get(dataType);
+    }
+}

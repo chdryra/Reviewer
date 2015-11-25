@@ -10,10 +10,11 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Models.TreeMethods.Implementation.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorReviewsGetterImpl;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -27,7 +28,7 @@ public class VisitorReviewsGetterTest extends TestCase {
     @SmallTest
     public void testVisit() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        VisitorReviewsGetter visitor = new VisitorReviewsGetter();
+        VisitorReviewsGetter visitor = new VisitorReviewsGetterImpl();
         node.acceptVisitor(visitor);
 
         MdIdableCollection<Review> nodes = visitor.getReviews();

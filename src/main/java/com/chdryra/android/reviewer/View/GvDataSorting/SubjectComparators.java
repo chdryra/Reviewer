@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataSorting;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSubject;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSubject;
 
 /**
  * Created by: Rizwan Choudrey

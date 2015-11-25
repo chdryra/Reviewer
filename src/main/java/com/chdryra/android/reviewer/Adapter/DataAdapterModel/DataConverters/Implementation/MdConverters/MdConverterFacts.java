@@ -4,9 +4,9 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdUrlList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Imp
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
         .DataConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.MdData;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

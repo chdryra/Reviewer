@@ -5,17 +5,17 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
         .GvReviewConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvAuthor;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDate;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverviewList;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvAuthor;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocationList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverviewList;
 
 import java.util.ArrayList;
 

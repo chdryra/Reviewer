@@ -6,10 +6,10 @@ import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCommentMode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregator;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import junit.framework.TestCase;

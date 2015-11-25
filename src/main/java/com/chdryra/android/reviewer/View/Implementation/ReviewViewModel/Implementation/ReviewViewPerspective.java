@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
+        .FragmentReviewView;
 
 /**
  * Created by: Rizwan Choudrey

@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityShareReview;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FragmentReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities.ActivityShareReview;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewPerspective;
 
 /**

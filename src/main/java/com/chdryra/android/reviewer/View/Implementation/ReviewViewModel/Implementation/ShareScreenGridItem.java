@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Impleme
 
 import android.view.View;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatform;
 
 /**
  * Created by: Rizwan Choudrey

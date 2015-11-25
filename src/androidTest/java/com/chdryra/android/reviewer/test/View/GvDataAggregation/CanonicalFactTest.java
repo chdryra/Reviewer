@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvFact;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
 import com.chdryra.android.testutils.RandomString;
 
 /**

@@ -6,7 +6,7 @@ import android.database.Cursor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey

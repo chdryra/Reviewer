@@ -2,13 +2,13 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Im
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.GvImageConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryGridDataViewer;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewId;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey

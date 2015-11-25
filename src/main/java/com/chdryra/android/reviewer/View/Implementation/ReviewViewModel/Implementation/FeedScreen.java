@@ -5,13 +5,12 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Models.ReviewsProviderModel.Interfaces.ReviewsProviderObserver;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsProviderObserver;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.MenuAction;
@@ -29,19 +28,19 @@ public class FeedScreen implements
         ReviewsProviderObserver{
     private ReviewsFeed mFeed;
     private ReviewNodeComponent mNode;
-    private FactoryReviewNodeComponent mNodeFactory;
+    private FactoryReviews mReviewsFactory;
     private ReviewView mReviewView;
     private GridItemAuthorsScreen mGridItem;
 
     public FeedScreen(ReviewsFeed feed,
                       String title,
-                      FactoryReviews reviewFactory) {
+                      FactoryReviews reviewsFactory) {
         mFeed = feed;
-        Review root = reviewFactory.createUserReview(title, 0f);
-        mNodeFactory = reviewFactory.getComponentFactory();
-        mNode = mNodeFactory.createReviewNodeComponent(root, true);
+        Review root = reviewsFactory.createUserReview(title, 0f);
+        mReviewsFactory = reviewsFactory;
+        mNode = mReviewsFactory.createReviewNodeComponent(root, true);
         for (Review review : feed.getReviews()) {
-            mNode.addChild(mNodeFactory.createReviewNodeComponent(review, false));
+            mNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
         }
 
         feed.registerObserver(this);
@@ -74,7 +73,7 @@ public class FeedScreen implements
 
     //private methods
     private void addReviewToNode(Review review) {
-        mNode.addChild(mNodeFactory.createReviewNodeComponent(review, false));
+        mNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
     }
 
     private void removeReviewFromNode(String reviewId) {

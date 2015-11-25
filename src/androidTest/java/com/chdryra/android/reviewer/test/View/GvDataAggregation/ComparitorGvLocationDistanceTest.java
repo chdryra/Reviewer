@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvLocationDistance;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceFloat;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 

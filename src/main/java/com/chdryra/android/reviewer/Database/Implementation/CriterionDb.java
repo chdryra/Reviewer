@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey

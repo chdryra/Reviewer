@@ -1,13 +1,11 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Implementation.LaunchableActivities.ActivityBuildReview;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOverview;
+import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,9 +15,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvReviewOver
 public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
     public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
+    private FactoryLaunchableUi mUiLauncher;
 
-    public FeedScreenMenu() {
+    public FeedScreenMenu(FactoryLaunchableUi uiLauncher) {
         super(MENU, null, false);
+        mUiLauncher = uiLauncher;
     }
 
     //Overridden
@@ -29,8 +29,7 @@ public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
             //Overridden
             @Override
             public void doAction(Context context, MenuItem item) {
-                Activity activity = getActivity();
-                activity.startActivity(new Intent(activity, ActivityBuildReview.class));
+                mUiLauncher.launchReviewBuilderScreen(getActivity());
             }
         }, MENU_NEW_REVIEW_ID, false);
     }

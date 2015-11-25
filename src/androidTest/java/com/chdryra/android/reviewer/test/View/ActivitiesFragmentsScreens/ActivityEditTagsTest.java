@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvTag;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
 
 /**
  * Created by: Rizwan Choudrey

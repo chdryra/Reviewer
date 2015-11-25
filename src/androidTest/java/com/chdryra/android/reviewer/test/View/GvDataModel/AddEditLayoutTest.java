@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditLayoutBasic;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvDataType;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**

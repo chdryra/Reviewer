@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
-import com.chdryra.android.reviewer.Models.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

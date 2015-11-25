@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.test.TestUtils.SoloDataEntry;
 
 /**

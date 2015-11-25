@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvComment;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.GvDataSorting.CommentComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 

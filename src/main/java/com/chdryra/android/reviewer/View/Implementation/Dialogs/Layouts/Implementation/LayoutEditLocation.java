@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Impleme
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvLocation;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

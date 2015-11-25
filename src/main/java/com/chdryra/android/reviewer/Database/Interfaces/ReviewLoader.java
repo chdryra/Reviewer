@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.Models.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey

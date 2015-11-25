@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.GvCriterion;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
 
 /**
  * Created by: Rizwan Choudrey
