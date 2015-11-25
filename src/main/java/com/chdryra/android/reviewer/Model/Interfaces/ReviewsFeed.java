@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Interfaces;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 
 /**
  * Created by: Rizwan Choudrey
@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsFeed extends ReviewsRepository{
-    Author getAuthor();
+    DataAuthor getAuthor();
 
     ItemTagCollection getTags(String reviewId);
 

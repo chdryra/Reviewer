@@ -48,7 +48,7 @@ public class ActivityFeed extends ActivityReviewView
     @NonNull
     private BuilderAuthorsScreen getScreenBuilder(ApplicationInstance app) {
         return new BuilderAuthorsScreen(app.getReviewViewAdapterFactory(),
-        app.getLaunchableFactory(), app.getReviewsFactory());
+        app.getLaunchableFactory(), app.getReviewsFactory(), app.getConfigDataUi().getBuildReviewConfig());
     }
 
     //Overridden

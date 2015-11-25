@@ -24,8 +24,10 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  */
 public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityEditLocationMap";
+    private static final String KEY = "com.chdryra.android.reviewer.View.Implementation." +
+            "SpecialisedActivities.ActivityEditLocationMap.location";
+
     private FragmentEditLocationMap mFragment;
-    private GvLocation mLocation;
 
     //Overridden
     @Override
@@ -35,13 +37,12 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
 
     @Override
     public void launch(LauncherUi launcher) {
-        getBundledLocation(launcher);
-        launcher.launch(this);
+        launcher.launch(getClass(), KEY);
     }
 
     @Override
     protected Fragment createFragment() {
-        mFragment = FragmentEditLocationMap.newInstance(mLocation);
+        mFragment = FragmentEditLocationMap.newInstance(getBundledLocation());
         return mFragment;
     }
 
@@ -52,11 +53,10 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
         mFragment.handleSearch();
     }
 
-    private void getBundledLocation(LauncherUi launcher) {
+    private GvLocation getBundledLocation() {
         GvDataPacker<GvLocation> packer = new GvDataPacker<>();
-        Bundle args = launcher.getArguments();
-        if (args != null) {
-            mLocation = packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
-        }
+        Bundle args = getIntent().getBundleExtra(KEY);
+        return args != null ?
+                packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
     }
 }

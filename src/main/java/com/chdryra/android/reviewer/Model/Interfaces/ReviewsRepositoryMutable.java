@@ -6,9 +6,9 @@ package com.chdryra.android.reviewer.Model.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepositoryMutable extends ReviewsRepository{
-    public void addReview(Review review);
+    void addReview(Review review);
 
-    public void deleteReview(String reviewId);
+    void deleteReview(String reviewId);
 
     @Override
     Review getReview(String id);

@@ -23,6 +23,8 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  */
 public class ActivityEditUrlBrowser extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityEditUrlMap";
+    private static final String KEY = "com.chdryra.android.reviewer.View.Implementation." +
+            "SpecialisedActivities.ActivityEditUrlBrowser.location";
     private GvUrl mUrl;
 
     //Overridden
@@ -33,18 +35,17 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
 
     @Override
     public void launch(LauncherUi launcher) {
-        getBundledLocation(launcher);
-        launcher.launch(this);
+        launcher.launch(getClass(), KEY);
     }
 
     @Override
     protected Fragment createFragment() {
-        return FragmentEditUrlBrowser.newInstance(mUrl);
+        return FragmentEditUrlBrowser.newInstance(getBundledUrl());
     }
 
-    private void getBundledLocation(LauncherUi launcher) {
+    private GvUrl getBundledUrl() {
         GvDataPacker<GvUrl> packer = new GvDataPacker<>();
-        Bundle args = launcher.getArguments();
-        if (args != null) mUrl = packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        Bundle args = getIntent().getBundleExtra(KEY);
+        return args != null? packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvUrl();
     }
 }

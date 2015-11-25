@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataListImpl;
@@ -18,11 +17,11 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocia
 public class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
     private static final GvDataType<GvSocialPlatform> TYPE = GvSocialPlatform.TYPE;
     private GvSocialPlatformList mSocialPlatforms;
-    private ReviewBuilderAdapter mBuilder;
+    private ReviewViewAdapter<?> mReviewViewAdapter;
 
-    public ShareScreenAdapter(GvSocialPlatformList socialPlatforms, ReviewBuilderAdapter builder) {
+    public ShareScreenAdapter(GvSocialPlatformList socialPlatforms, ReviewViewAdapter<?> reviewViewAdapter) {
         mSocialPlatforms = socialPlatforms;
-        mBuilder = builder;
+        mReviewViewAdapter = reviewViewAdapter;
         setViewer(new ShareScreenViewer());
     }
 
@@ -35,17 +34,17 @@ public class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform>
 
     @Override
     public String getSubject() {
-        return mBuilder.getSubject();
+        return mReviewViewAdapter.getSubject();
     }
 
     @Override
     public float getRating() {
-        return mBuilder.getRating();
+        return mReviewViewAdapter.getRating();
     }
 
     @Override
     public GvImageList getCovers() {
-        return mBuilder.getCovers();
+        return mReviewViewAdapter.getCovers();
     }
 
     private class ShareScreenViewer implements GridDataViewer<GvSocialPlatform> {

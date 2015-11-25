@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
 public class GridItemComments extends GridItemConfigLauncher<GvComment> {
-    public GridItemComments(LaunchableConfig<GvComment> launchableConfig,
+    public GridItemComments(LaunchableConfig launchableConfig,
                             FactoryLaunchableUi launchableFactory,
                             GvDataPacker<GvData> packer) {
         super(launchableConfig, launchableFactory, packer);

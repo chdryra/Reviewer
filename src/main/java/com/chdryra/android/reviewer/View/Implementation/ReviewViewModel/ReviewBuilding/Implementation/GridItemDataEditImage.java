@@ -19,7 +19,7 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
     private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
     //Constructors
-    public GridItemDataEditImage(LaunchableConfig<GvImage> editorConfig,
+    public GridItemDataEditImage(LaunchableConfig editorConfig,
                                  FactoryLaunchableUi launchableFactory,
                                  GvDataPacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);

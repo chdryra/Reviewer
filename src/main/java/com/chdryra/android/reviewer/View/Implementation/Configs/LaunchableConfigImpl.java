@@ -1,11 +1,10 @@
 package com.chdryra.android.reviewer.View.Implementation.Configs;
 
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.LauncherUiImpl;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
 /**
  * Encapsulates a configuration for a UI that can add, edit, view review data of a certain
@@ -19,16 +18,13 @@ import com.chdryra.android.reviewer.View.Implementation.LauncherUiImpl;
  * The {@link LaunchableUi} is launched using a
  * {@link LauncherUiImpl}
  */
-public class LaunchableConfigImpl<T extends GvData> implements LaunchableConfig<T> {
-    private final GvDataType<T> mDataType;
+public class LaunchableConfigImpl implements LaunchableConfig {
     private final Class<? extends LaunchableUi> mUiClass;
     private final int mRequestCode;
     private final String mTag;
 
-    public LaunchableConfigImpl(GvDataType<T> dataType,
-                                Class<? extends LaunchableUi> UiClass,
+    public LaunchableConfigImpl(Class<? extends LaunchableUi> UiClass,
                                 int requestCode, String tag) {
-        mDataType = dataType;
         mUiClass = UiClass;
         mRequestCode = requestCode;
         mTag = tag;
@@ -36,11 +32,6 @@ public class LaunchableConfigImpl<T extends GvData> implements LaunchableConfig<
 
 
     //public methods
-    @Override
-    public GvDataType<T> getGvDataType() {
-        return mDataType;
-    }
-
     @Override
     public LaunchableUi getLaunchable(FactoryLaunchableUi launchableFactory) {
         return launchableFactory.newLaunchable(mUiClass);

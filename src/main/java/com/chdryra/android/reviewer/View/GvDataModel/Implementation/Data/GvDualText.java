@@ -45,7 +45,7 @@ public class GvDualText extends VHDDualString implements GvData {
         super("", "");
     }
 
-    GvDualText(String upper, String lower) {
+    public GvDualText(String upper, String lower) {
         super(upper, lower);
     }
 

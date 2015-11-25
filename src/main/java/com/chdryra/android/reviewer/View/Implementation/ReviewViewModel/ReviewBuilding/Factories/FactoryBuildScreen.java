@@ -1,35 +1,28 @@
-package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders;
+package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewParams;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories
-        .FactoryReviewEditor;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.BuildScreen;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation
-        .BuildScreenModifier;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.BuildScreenModifier;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GridItemClickObserved;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation
-        .MenuBuildScreen;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation
-        .RatingBarBuildScreen;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation
-        .SubjectEditBuildScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.MenuBuildScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.RatingBarBuildScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuilderCreateReviewScreen {
+public class FactoryBuildScreen {
     public BuildScreen newScreen(Context context,
                                  ConfigDataUi uiConfig,
                                  ReviewBuilderAdapter<?> builder,

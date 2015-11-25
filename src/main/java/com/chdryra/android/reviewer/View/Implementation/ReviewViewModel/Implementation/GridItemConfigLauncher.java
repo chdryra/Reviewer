@@ -17,10 +17,10 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
-    private LaunchableConfig<T> mLaunchableConfig;
+    private LaunchableConfig mLaunchableConfig;
     private GvDataPacker<GvData> mPacker;
 
-    public GridItemConfigLauncher(LaunchableConfig<T> launchableConfig,
+    public GridItemConfigLauncher(LaunchableConfig launchableConfig,
                                   FactoryLaunchableUi launchableFactory,
                                   GvDataPacker<GvData> packer) {
         super(launchableFactory);

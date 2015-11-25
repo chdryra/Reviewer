@@ -6,15 +6,19 @@
  * Date: 19 March, 2015
  */
 
-package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Builders;
+package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatform;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.RatingBarActionNone;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewDefault;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewParams;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ShareScreenAdapter;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ShareScreenGridItem;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ShareScreenModifier;
@@ -24,22 +28,18 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.RatingBarAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.SubjectAction;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewDefault;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewParams;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuilderShareScreen {
+public class BuilderShareScreenView {
 
     public ReviewView buildView(String title, SocialPlatformList socialPlatforms,
-                                ReviewBuilderAdapter builder) {
+                                ReviewViewAdapter<?> reviewViewAdapter) {
         GvSocialPlatformList platforms = new GvSocialPlatformList(socialPlatforms);
-        ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, builder);
+        ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, reviewViewAdapter);
 
         SubjectAction<GvSocialPlatform> subjectAction = new SubjectActionNone<>();
         RatingBarAction<GvSocialPlatform> rb = new RatingBarActionNone<>();

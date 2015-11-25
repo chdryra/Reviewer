@@ -34,11 +34,11 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
     private final GvDataType<T> mDataType;
     private final FactoryGvData mDataFactory;
     private final GvDataPacker<T> mDataPacker;
-    private final LaunchableConfig<T> mConfig;
+    private final LaunchableConfig mConfig;
     private final FactoryLaunchableUi mLaunchableFactory;
     private GvDataList<T> mAdded;
 
-    public BannerButtonAdd(LaunchableConfig<T> adderConfig,
+    public BannerButtonAdd(LaunchableConfig adderConfig,
                            String title,
                            GvDataType<T> dataType,
                            FactoryGvData dataFactory,
@@ -73,7 +73,7 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
         mAdded = mDataFactory.newDataList(mDataType);
     }
 
-    protected void launchConfig(LaunchableConfig<? extends T> config) {
+    protected void launchConfig(LaunchableConfig config) {
         LaunchableUi ui = config.getLaunchable(mLaunchableFactory);
         mLaunchableFactory.launch(ui, getActivity(), config.getRequestCode(), config.getTag());
     }

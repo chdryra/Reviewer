@@ -6,14 +6,13 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.reviewer.Utils.DialogShower;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,12 +25,12 @@ public class GridItemDataEdit<T extends GvData> extends ReviewDataEditorActionBa
         DialogGvDataEdit.EditListener<T>,
         ActivityResultListener {
 
-    private final LaunchableConfig<T> mConfig;
+    private final LaunchableConfig mConfig;
     private int mAlertDialogRequestCode;
     private final FactoryLaunchableUi mLaunchableFactory;
     private final GvDataPacker<T> mDataPacker;
 
-    public GridItemDataEdit(LaunchableConfig<T> editorConfig,
+    public GridItemDataEdit(LaunchableConfig editorConfig,
                             FactoryLaunchableUi launchableFactory,
                             GvDataPacker<T> dataPacker) {
         mConfig = editorConfig;
@@ -118,9 +117,7 @@ public class GridItemDataEdit<T extends GvData> extends ReviewDataEditorActionBa
         }
     }
 
-    protected void launch(LaunchableConfig<? extends T> config, Bundle args) {
-        LaunchableUi ui = mConfig.getLaunchable(mLaunchableFactory);
-        mLaunchableFactory.launch(ui, getActivity(), getLaunchableRequestCode(), config.getTag(),
-                args);
+    protected void launch(LaunchableConfig config, Bundle args) {
+        mLaunchableFactory.launch(config, getActivity(), args);
     }
 }

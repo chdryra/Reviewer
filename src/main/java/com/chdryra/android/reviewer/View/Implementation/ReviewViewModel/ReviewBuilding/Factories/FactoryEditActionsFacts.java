@@ -34,15 +34,14 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
 
     @Override
     protected BannerButtonAction<GvFact> newBannerButtonAdd() {
-        LaunchableConfig<GvUrl> urlConfig = getConfig().getAdderConfig(GvUrl
-                .TYPE);
+        LaunchableConfig urlConfig = getConfig().getAdderConfig(GvUrl.TYPE.getDatumName());
         return new BannerButtonAddFacts(getBannerButtonTitle(), getAdderConfig(), urlConfig,
                 getDataFactory(), getPacker(), getLaunchableFactory());
     }
 
     @Override
     protected GridItemAction<GvFact> newGridItemEdit() {
-        LaunchableConfig<GvUrl> urlConfig = getConfig().getEditorConfig(GvUrl.TYPE);
+        LaunchableConfig urlConfig = getConfig().getEditorConfig(GvUrl.TYPE.getDatumName());
         return new GridItemDataEditFact(getEditorConfig(), urlConfig, getLaunchableFactory(), getPacker());
     }
 

@@ -17,20 +17,19 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities.ActivityEditData;
-import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddLocation;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Interfaces.ReviewEditor;
+import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -42,7 +41,7 @@ public class BuildScreen implements
         ImageChooser.ImageChooserListener,
         LocationClientConnector.Locatable,
         ReviewViewActions.ReviewViewAttachedObserver,
-        GridItemClickObserved.ClickObserver{
+        GridItemClickObserved.ClickObserver {
     private ReviewEditor mEditor;
     private final ConfigDataUi mUiConfig;
     private final FactoryLaunchableUi mLaunchableFactory;
@@ -100,8 +99,8 @@ public class BuildScreen implements
     }
 
     //private methods
-    private <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType) {
-        return mUiConfig.getAdderConfig(dataType);
+    private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
+        return mUiConfig.getAdderConfig(dataType.getDatumName());
     }
 
     private int getImageRequestCode() {
@@ -139,26 +138,26 @@ public class BuildScreen implements
     public void executeIntent(GvDataList<? extends GvData> gridCell, boolean quickDialog) {
         GvDataType<? extends GvData> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
-            showQuickDialog(getAdderConfig(type));
+            if (type.equals(GvImage.TYPE)) {
+                launchImageChooser();
+            } else {
+                showQuickDialog(getAdderConfig(type));
+            }
         } else {
             ActivityEditData.start(getActivity(), type);
         }
     }
 
-    private <T extends GvData> void showQuickDialog(LaunchableConfig<T> adderConfig) {
-        if (adderConfig.getGvDataType().equals(GvImage.TYPE)) {
-            getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
-                    getImageRequestCode());
-            return;
-        }
+    private void launchImageChooser() {
+        getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
+                getImageRequestCode());
+    }
 
+    private void showQuickDialog(LaunchableConfig adderConfig) {
         Bundle args = new Bundle();
         args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
         packLatLng(args);
-
-        LaunchableUi ui = adderConfig.getLaunchable(mLaunchableFactory);
-        mLaunchableFactory.launch(ui, getActivity(), adderConfig.getRequestCode(),
-                adderConfig.getTag(), args);
+        mLaunchableFactory.launch(adderConfig, getActivity(), args);
     }
 
     private void packLatLng(Bundle args) {
@@ -182,5 +181,4 @@ public class BuildScreen implements
         mLocationClient = new LocationClientConnector(getActivity(), BuildScreen.this);
         mLocationClient.connect();
     }
-
 }

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Activiti
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatform;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Builders.BuilderShareScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities.BuilderShareScreenView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -84,7 +84,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     //protected methods
     @Override
     protected ReviewView getView() {
-        BuilderShareScreen builder = new BuilderShareScreen();
+        BuilderShareScreenView builder = new BuilderShareScreenView();
         return builder.buildView("ShareScreen", mList, (ReviewBuilderAdapter) mAdapter);
     }
 

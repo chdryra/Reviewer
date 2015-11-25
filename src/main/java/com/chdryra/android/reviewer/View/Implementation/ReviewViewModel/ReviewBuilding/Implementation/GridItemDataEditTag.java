@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 public class GridItemDataEditTag extends GridItemDataEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
-    public GridItemDataEditTag(LaunchableConfig<GvTag> editorConfig,
+    public GridItemDataEditTag(LaunchableConfig editorConfig,
                                FactoryLaunchableUi launchableFactory,
                                GvDataPacker<GvTag> dataPacker,
                                TagAdjuster tagAdjuster) {

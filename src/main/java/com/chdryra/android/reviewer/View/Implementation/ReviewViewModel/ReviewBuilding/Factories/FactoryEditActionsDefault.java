@@ -63,16 +63,16 @@ public class FactoryEditActionsDefault<T extends GvData> {
         return mDataType;
     }
 
-    protected LaunchableConfig<T> getAdderConfig() {
-        return mConfig.getAdderConfig(mDataType);
+    protected LaunchableConfig getAdderConfig() {
+        return mConfig.getAdderConfig(mDataType.getDatumName());
     }
 
     public ConfigDataUi getConfig() {
         return mConfig;
     }
 
-    protected LaunchableConfig<T> getEditorConfig() {
-        return mConfig.getEditorConfig(mDataType);
+    protected LaunchableConfig getEditorConfig() {
+        return mConfig.getEditorConfig(mDataType.getDatumName());
     }
 
     protected FactoryGvData getDataFactory() {

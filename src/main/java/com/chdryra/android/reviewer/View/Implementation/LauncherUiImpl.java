@@ -13,12 +13,9 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,7 +28,6 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  * it is a Dialog or Activity underneath.
  */
 public class LauncherUiImpl implements LauncherUi {
-    private static final String LAUNCHER_ARGS = "com.chdryra.android.review.args_key";
     private final Activity mCommissioner;
     private final int mRequestCode;
     private final String mTag;
@@ -45,8 +41,8 @@ public class LauncherUiImpl implements LauncherUi {
     }
 
     @Override
-    public Bundle getArguments() {
-        return mArgs;
+    public Activity getCommissioner(){
+        return mCommissioner;
     }
 
     @Override
@@ -55,17 +51,9 @@ public class LauncherUiImpl implements LauncherUi {
     }
 
     @Override
-    public void launch(Activity launchableUI) {
-        Intent i = new Intent(mCommissioner, launchableUI.getClass());
-        i.putExtra(LAUNCHER_ARGS, mArgs);
+    public void launch(Class<? extends Activity> activityClass, String argsKey) {
+        Intent i = new Intent(mCommissioner, activityClass);
+        i.putExtra(argsKey, mArgs);
         mCommissioner.startActivityForResult(i, mRequestCode);
-    }
-
-    @Override
-    public void launch(ReviewView reviewView) {
-        Activity activity = mCommissioner;
-        Intent i = new Intent(activity, ActivityReviewView.class);
-        ReviewViewPacker.packView(activity, reviewView, i);
-        activity.startActivityForResult(i, mRequestCode);
     }
 }

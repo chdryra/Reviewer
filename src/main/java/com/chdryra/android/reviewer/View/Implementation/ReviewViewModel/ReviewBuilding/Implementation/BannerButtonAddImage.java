@@ -23,7 +23,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     private ImageChooser mImageChooser;
 
     //Constructors
-    public BannerButtonAddImage(LaunchableConfig<GvImage> adderConfig,
+    public BannerButtonAddImage(LaunchableConfig adderConfig,
                                 String title,
                                 FactoryGvData dataFactory,
                                 GvDataPacker<GvImage> dataPacker,

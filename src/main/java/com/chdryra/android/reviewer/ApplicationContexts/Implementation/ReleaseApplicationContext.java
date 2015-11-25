@@ -51,9 +51,6 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
-
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities
-        .ActivityBuildReview;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 import java.io.File;
@@ -82,8 +79,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setFactoryGvData(dataFactory);
 
         //FactoryLaunchable
-        FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config, paramsFactory,
-                builder, ActivityBuildReview.class);
+        FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config, paramsFactory, builder);
         setFactoryLaunchable(factoryLaunchable);
 
         //DataValidator

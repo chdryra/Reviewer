@@ -42,7 +42,7 @@ public class VhReviewOverview extends ViewHolderBasic {
     private TextView mTags;
     private TextView mPublishDate;
 
-    VhReviewOverview() {
+    public VhReviewOverview() {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
     }
 

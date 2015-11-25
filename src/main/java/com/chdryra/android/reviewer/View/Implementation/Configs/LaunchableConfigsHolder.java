@@ -15,17 +15,17 @@ public class LaunchableConfigsHolder<T extends GvData> {
     private static final int DATA_VIEW = RequestCodeGenerator.getCode("DataView");
 
     private final GvDataType<T> mDataType;
-    private final LaunchableConfig<T> mAddConfig;
-    private final LaunchableConfig<T> mEditConfig;
-    private final LaunchableConfig<T> mViewConfig;
+    private final LaunchableConfig mAddConfig;
+    private final LaunchableConfig mEditConfig;
+    private final LaunchableConfig mViewConfig;
 
-    public LaunchableConfigsHolder(LaunchableClasses<T> launchables) {
+    public LaunchableConfigsHolder(AddEditViewClasses<T> launchables) {
         mDataType = launchables.getGvDataType();
-        mAddConfig = new LaunchableConfigImpl<>(mDataType, launchables.getAddClass(),
+        mAddConfig = new LaunchableConfigImpl(launchables.getAddClass(),
                 DATA_ADD, mDataType.getDatumName().toUpperCase() + "_ADD_TAG");
-        mEditConfig = new LaunchableConfigImpl<>(mDataType, launchables.getEditClass(),
+        mEditConfig = new LaunchableConfigImpl(launchables.getEditClass(),
                 DATA_EDIT, mDataType.getDatumName().toUpperCase() + "_EDIT_TAG");
-        mViewConfig = new LaunchableConfigImpl<>(mDataType, launchables.getViewClass(),
+        mViewConfig = new LaunchableConfigImpl(launchables.getViewClass(),
                 DATA_VIEW, mDataType.getDatumName().toUpperCase() + "_VIEW_TAG");
     }
 
@@ -33,15 +33,15 @@ public class LaunchableConfigsHolder<T extends GvData> {
         return mDataType;
     }
 
-    public LaunchableConfig<T> getAdderConfig() {
+    public LaunchableConfig getAdderConfig() {
         return mAddConfig;
     }
 
-    public LaunchableConfig<T> getEditorConfig() {
+    public LaunchableConfig getEditorConfig() {
         return mEditConfig;
     }
 
-    public LaunchableConfig<T> getViewerConfig() {
+    public LaunchableConfig getViewerConfig() {
         return mViewConfig;
     }
 }

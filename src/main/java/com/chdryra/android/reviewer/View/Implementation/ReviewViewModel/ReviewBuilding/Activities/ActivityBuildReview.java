@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
         .ActivityReviewView;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderCreateReviewScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryBuildScreen;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.BuildScreen;
@@ -37,7 +37,7 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
 
     private BuildScreen newBuildScreen(ApplicationInstance app, ReviewBuilderAdapter<?> adapter) {
         FactoryReviewEditor editorFactory = new FactoryReviewEditor();
-        BuilderCreateReviewScreen builder = new BuilderCreateReviewScreen();
+        FactoryBuildScreen builder = new FactoryBuildScreen();
         return builder.newScreen(this, app.getConfigDataUi(), adapter,
                 app.getLaunchableFactory(), editorFactory);
     }
@@ -54,6 +54,6 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
 
     @Override
     public void launch(LauncherUi launcher) {
-        launcher.launch(this);
+        launcher.launch(getClass(), );
     }
 }

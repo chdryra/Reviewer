@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Interfaces;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
  */
 public interface ReviewsFeedMutable extends ReviewsRepositoryMutable, ReviewsFeed {
     @Override
-    Author getAuthor();
+    DataAuthor getAuthor();
 
     @Override
     ItemTagCollection getTags(String reviewId);

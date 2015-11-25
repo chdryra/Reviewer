@@ -5,12 +5,11 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,11 +19,11 @@ import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
 public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
     private static final GvDataType<GvFact> TYPE = GvFact.TYPE;
     private static final int ADD_ON_BROWSER = RequestCodeGenerator.getCode("AddOnBrowser");
-    private LaunchableConfig<GvUrl> mUrlAdder;
+    private LaunchableConfig mUrlAdder;
 
     //Constructors
-    public BannerButtonAddFacts(String title, LaunchableConfig<GvFact> factAdder,
-                                LaunchableConfig<GvUrl> urlAdder,
+    public BannerButtonAddFacts(String title, LaunchableConfig factAdder,
+                                LaunchableConfig urlAdder,
                                 FactoryGvData dataFactory,
                                 GvDataPacker<GvFact> dataPacker,
                                 FactoryLaunchableUi launchableFactory) {

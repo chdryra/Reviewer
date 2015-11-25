@@ -1,9 +1,8 @@
 package com.chdryra.android.reviewer.View.Implementation.Configs;
 
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,32 +19,47 @@ import java.util.Map;
  * </p>
  */
 public final class ConfigDataUiImpl implements ConfigDataUi {
-    private final Map<GvDataType<? extends GvData>, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
+    private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
+    private LaunchableConfig mBuildReviewConfig;
+    private LaunchableConfig mEditOnMapConfig;
 
-    public ConfigDataUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs) {
+    public ConfigDataUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
+                            LaunchableConfig buildReviewConfig,
+                            LaunchableConfig editOnMapConfig) {
         mConfigsMap = new HashMap<>();
         for (LaunchableConfigsHolder<?> config : configs) {
-            mConfigsMap.put(config.getGvDataType(), config);
+            mConfigsMap.put(config.getGvDataType().getDatumName(), config);
         }
+        mBuildReviewConfig = buildReviewConfig;
+        mEditOnMapConfig = editOnMapConfig;
     }
 
     @Override
-    public <T extends GvData> LaunchableConfig<T> getViewerConfig(GvDataType<T> dataType) {
-        return getConfigs(dataType).getViewerConfig();
+    public LaunchableConfig getViewerConfig(String datumName) {
+        return getConfigs(datumName).getViewerConfig();
     }
 
     @Override
-    public <T extends GvData> LaunchableConfig<T> getEditorConfig(GvDataType<T> dataType) {
-        return getConfigs(dataType).getEditorConfig();
+    public LaunchableConfig getEditorConfig(String datumName) {
+        return getConfigs(datumName).getEditorConfig();
     }
 
     @Override
-    public <T extends GvData> LaunchableConfig<T> getAdderConfig(GvDataType<T> dataType) {
-        return getConfigs(dataType).getAdderConfig();
+    public LaunchableConfig getAdderConfig(String datumName) {
+        return getConfigs(datumName).getAdderConfig();
     }
 
-    private <T extends GvData> LaunchableConfigsHolder<T> getConfigs(GvDataType<T> dataType) {
-        //TODO make type safe
-        return (LaunchableConfigsHolder<T>) mConfigsMap.get(dataType);
+    @Override
+    public LaunchableConfig getBuildReviewConfig() {
+        return mBuildReviewConfig;
+    }
+
+    @Override
+    public LaunchableConfig getMapEditorConfig() {
+        return mEditOnMapConfig;
+    }
+
+    private LaunchableConfigsHolder<?> getConfigs(String datumName) {
+        return mConfigsMap.get(datumName);
     }
 }

@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  */
 public class ActivityViewLocation extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityViewReviewLocation";
-    private GvLocation mLocation;
+    private static final String KEY = "com.chdryra.android.reviewer.View.Implementation.SpecialisedActivities.ActivityViewLocation.location";
 
     //Overridden
     @Override
@@ -33,20 +33,18 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
 
     @Override
     public void launch(LauncherUi launcher) {
-        getBundledLocation(launcher);
-        launcher.launch(this);
+        launcher.launch(getClass(), KEY);
     }
 
     @Override
     protected Fragment createFragment() {
-        return FragmentViewLocation.newInstance(mLocation);
+        return FragmentViewLocation.newInstance(getBundledLocation());
     }
 
-    private void getBundledLocation(LauncherUi launcher) {
+    private GvLocation getBundledLocation() {
         GvDataPacker<GvLocation> packer = new GvDataPacker<>();
-        Bundle args = launcher.getArguments();
-        if (args != null) {
-            mLocation = packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
-        }
+        Bundle args = getIntent().getBundleExtra(KEY);
+        return args != null ?
+                packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
     }
 }

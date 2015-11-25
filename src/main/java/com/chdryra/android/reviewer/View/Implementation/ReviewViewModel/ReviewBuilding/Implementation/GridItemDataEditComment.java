@@ -20,7 +20,7 @@ public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
             = RequestCodeGenerator.getCode("CommentAsHeadline");
 
     //Constructors
-    public GridItemDataEditComment(LaunchableConfig<GvComment> editorConfig,
+    public GridItemDataEditComment(LaunchableConfig editorConfig,
                                    FactoryLaunchableUi launchableFactory,
                                    GvDataPacker<GvComment> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);

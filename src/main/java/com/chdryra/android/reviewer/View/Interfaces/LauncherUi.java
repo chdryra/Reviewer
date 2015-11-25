@@ -2,9 +2,6 @@ package com.chdryra.android.reviewer.View.Interfaces;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.os.Bundle;
-
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -12,11 +9,9 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LauncherUi {
-    Bundle getArguments();
+    Activity getCommissioner();
 
     void launch(DialogFragment launchableUI);
 
-    void launch(Activity launchableUI);
-
-    void launch(ReviewView reviewView);
+    void launch(Class<? extends Activity> activityClass, String argsKey);
 }

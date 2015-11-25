@@ -15,11 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewParams;
 
@@ -28,7 +26,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implemen
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewView<T extends GvData> extends GridDataObservable.GridDataObserver, LaunchableUi {
+public interface ReviewView<T extends GvData> extends GridDataObservable.GridDataObserver{
     String getSubject();
 
     float getRating();
@@ -72,10 +70,4 @@ public interface ReviewView<T extends GvData> extends GridDataObservable.GridDat
 
     @Override
     void onGridDataChanged();
-
-    @Override
-    String getLaunchTag();
-
-    @Override
-    void launch(LauncherUi launcher);
 }

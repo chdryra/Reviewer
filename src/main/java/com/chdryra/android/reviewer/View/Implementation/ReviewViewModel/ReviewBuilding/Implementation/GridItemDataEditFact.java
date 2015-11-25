@@ -5,10 +5,9 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
 import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,11 +16,11 @@ import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
  */
 public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
     private static final int EDIT_ON_BROWSER = RequestCodeGenerator.getCode("EditOnBrowser");
-    private LaunchableConfig<GvUrl> mUrlConfig;
+    private LaunchableConfig mUrlConfig;
 
     //Constructors
-    public GridItemDataEditFact(LaunchableConfig<GvFact> factConfig,
-                                LaunchableConfig<GvUrl> urlConfig,
+    public GridItemDataEditFact(LaunchableConfig factConfig,
+                                LaunchableConfig urlConfig,
                                 FactoryLaunchableUi launchableFactory,
                                 GvDataPacker<GvFact> dataPacker) {
         super(factConfig, launchableFactory, dataPacker);
