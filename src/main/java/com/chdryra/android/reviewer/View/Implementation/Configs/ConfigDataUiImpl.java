@@ -22,16 +22,19 @@ public final class ConfigDataUiImpl implements ConfigDataUi {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
     private LaunchableConfig mBuildReviewConfig;
     private LaunchableConfig mEditOnMapConfig;
+    private LaunchableConfig mShareReviewConfig;
 
     public ConfigDataUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
                             LaunchableConfig buildReviewConfig,
-                            LaunchableConfig editOnMapConfig) {
+                            LaunchableConfig editOnMapConfig,
+                            LaunchableConfig shareReviewConfig) {
         mConfigsMap = new HashMap<>();
         for (LaunchableConfigsHolder<?> config : configs) {
             mConfigsMap.put(config.getGvDataType().getDatumName(), config);
         }
         mBuildReviewConfig = buildReviewConfig;
         mEditOnMapConfig = editOnMapConfig;
+        mShareReviewConfig = shareReviewConfig;
     }
 
     @Override
@@ -57,6 +60,11 @@ public final class ConfigDataUiImpl implements ConfigDataUi {
     @Override
     public LaunchableConfig getMapEditorConfig() {
         return mEditOnMapConfig;
+    }
+
+    @Override
+    public LaunchableConfig getShareReviewConfig() {
+        return mShareReviewConfig;
     }
 
     private LaunchableConfigsHolder<?> getConfigs(String datumName) {

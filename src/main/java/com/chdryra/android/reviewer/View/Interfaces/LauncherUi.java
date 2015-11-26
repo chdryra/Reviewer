@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.View.Interfaces;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.os.Bundle;
 
 /**
  * Created by: Rizwan Choudrey
@@ -9,6 +10,10 @@ import android.app.DialogFragment;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LauncherUi {
+    int getRequestCode();
+
+    Bundle getArguments();
+
     Activity getCommissioner();
 
     void launch(DialogFragment launchableUI);

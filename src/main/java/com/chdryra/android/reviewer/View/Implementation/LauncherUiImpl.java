@@ -41,6 +41,16 @@ public class LauncherUiImpl implements LauncherUi {
     }
 
     @Override
+    public int getRequestCode() {
+        return mRequestCode;
+    }
+
+    @Override
+    public Bundle getArguments() {
+        return mArgs;
+    }
+
+    @Override
     public Activity getCommissioner(){
         return mCommissioner;
     }

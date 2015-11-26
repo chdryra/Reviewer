@@ -24,6 +24,8 @@ public class FactoryConfigDataUi {
     private static final int REVIEW_BUILD = RequestCodeGenerator.getCode(REVIEW_BUILD_TAG);
     private static final String EDIT_ON_MAP_TAG = "EditOnMap";
     private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode(EDIT_ON_MAP_TAG);
+    private static final String SHARE_REVIEW_TAG = "ShareReview";
+    private static final int SHARE_REVIEW = RequestCodeGenerator.getCode(SHARE_REVIEW_TAG);
 
     public ConfigDataUi getDefaultConfig() {
         LaunchablesList defaultlaunchables = new DefaultLaunchables();
@@ -32,22 +34,27 @@ public class FactoryConfigDataUi {
 
     @NonNull
     private ConfigDataUi getConfigDataUi(LaunchablesList classes) {
-        ArrayList<LaunchableConfigsHolder<?>> configs = new ArrayList<>();
+        ArrayList<LaunchableConfigsHolder<?>> dataConfigs = new ArrayList<>();
 
-        for (AddEditViewClasses<?> uiClasses : classes) {
-            configs.add(new LaunchableConfigsHolder<>(uiClasses));
+        for (AddEditViewClasses<?> uiClasses : classes.getDataLaunchables()) {
+            dataConfigs.add(new LaunchableConfigsHolder<>(uiClasses));
         }
 
         LaunchableConfig builder = getReviewBuilderConfig(classes);
         LaunchableConfig mapper = getEditOnMapConfig(classes);
-        return new ConfigDataUiImpl(configs, builder, mapper);
+        LaunchableConfig sharer = getShareReviewConfig(classes);
+        return new ConfigDataUiImpl(dataConfigs, builder, mapper, sharer);
     }
 
     private LaunchableConfig getReviewBuilderConfig(LaunchablesList classes) {
-        return new LaunchableConfigImpl(classes.getReviewBuilderLaunchable(), REVIEW_BUILD, REVIEW_BUILD_TAG);
+        return new LaunchableConfigImpl(classes.getReviewBuilderConfig(), REVIEW_BUILD, REVIEW_BUILD_TAG);
     }
 
     private LaunchableConfig getEditOnMapConfig(LaunchablesList classes) {
-        return new LaunchableConfigImpl(classes.getMapEditorLaunchable(), EDIT_ON_MAP, EDIT_ON_MAP_TAG);
+        return new LaunchableConfigImpl(classes.getMapEditorConfig(), EDIT_ON_MAP, EDIT_ON_MAP_TAG);
+    }
+
+    private LaunchableConfig getShareReviewConfig(LaunchablesList classes) {
+        return new LaunchableConfigImpl(classes.getShareConfig(), EDIT_ON_MAP, EDIT_ON_MAP_TAG);
     }
 }

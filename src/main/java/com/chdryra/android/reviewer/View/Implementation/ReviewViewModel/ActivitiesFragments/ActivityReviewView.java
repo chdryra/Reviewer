@@ -12,15 +12,17 @@ import android.app.Fragment;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityReviewView extends ActivitySingleFragment {
+public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi {
+    private static final String TAG = "ActivityReviewView";
     private FragmentReviewView mFragment;
     private ReviewView mView;
 
@@ -42,5 +44,15 @@ public class ActivityReviewView extends ActivitySingleFragment {
         if(mView == null) throw new RuntimeException("View is null!");
         mFragment = new FragmentReviewView();
         return mFragment;
+    }
+
+    @Override
+    public String getLaunchTag() {
+        return TAG;
+    }
+
+    @Override
+    public void launch(LauncherUi launcher) {
+        launcher.launch(getClass(), getLaunchTag());
     }
 }

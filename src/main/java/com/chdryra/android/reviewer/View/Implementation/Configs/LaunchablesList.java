@@ -4,38 +4,42 @@ import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 25/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class LaunchablesList implements Iterable<AddEditViewClasses<?>> {
-    private final ArrayList<AddEditViewClasses<?>> mClasses = new ArrayList<>();
+public abstract class LaunchablesList {
+    private final ArrayList<AddEditViewClasses<?>> mDataLaunchables = new ArrayList<>();
     private final Class<? extends LaunchableUi> mReviewBuilderLaunchable;
     private final Class<? extends LaunchableUi> mMapEditorLaunchable;
+    private final Class<? extends LaunchableUi> mShareLaunchable;
 
-    protected LaunchablesList(Class<? extends LaunchableUi> reviewBuilderLaunchable,
-                            Class<? extends LaunchableUi> mapEditorLaunchable) {
+    public LaunchablesList(Class<? extends LaunchableUi> reviewBuilderLaunchable, Class<? extends
+            LaunchableUi> mapEditorLaunchable, Class<? extends LaunchableUi> shareLaunchable) {
         mReviewBuilderLaunchable = reviewBuilderLaunchable;
         mMapEditorLaunchable = mapEditorLaunchable;
+        mShareLaunchable = shareLaunchable;
     }
 
-    protected <T extends GvData> void add(AddEditViewClasses<T> classes) {
-        mClasses.add(classes);
+    protected <T extends GvData> void addDataClasses(AddEditViewClasses<T> classes) {
+        mDataLaunchables.add(classes);
     }
 
-    public Class<? extends LaunchableUi> getReviewBuilderLaunchable() {
+    public Class<? extends LaunchableUi> getReviewBuilderConfig() {
         return mReviewBuilderLaunchable;
     }
 
-    public Class<? extends LaunchableUi> getMapEditorLaunchable() {
+    public Class<? extends LaunchableUi> getMapEditorConfig() {
         return mMapEditorLaunchable;
     }
 
-    @Override
-    public Iterator<AddEditViewClasses<?>> iterator() {
-        return mClasses.iterator();
+    public Class<? extends LaunchableUi> getShareConfig() {
+        return mShareLaunchable;
+    }
+
+    public ArrayList<AddEditViewClasses<?>> getDataLaunchables() {
+        return mDataLaunchables;
     }
 }

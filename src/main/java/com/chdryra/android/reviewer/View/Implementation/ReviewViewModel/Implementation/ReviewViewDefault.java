@@ -9,18 +9,25 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
+        .ActivityReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
+        .FragmentReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces
+        .GridDataObservable;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
 
 import java.util.ArrayList;
 
@@ -30,6 +37,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
+    private static final String TAG = "ReviewViewDefault";
     private ReviewViewPerspective<T> mPerspective;
     private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
     private FragmentReviewView mFragment;
@@ -94,7 +102,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public ReviewViewActions getActions() {
+    public ReviewViewActions<T> getActions() {
         return mPerspective.getActions();
     }
 
@@ -169,5 +177,18 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     public void onGridDataChanged() {
         resetGridViewData();
         notifyObservers();
+    }
+
+    @Override
+    public String getLaunchTag() {
+        return getSubject() + " " + TAG;
+    }
+
+    @Override
+    public void launch(LauncherUi launcher) {
+        Activity commissioner = launcher.getCommissioner();
+        Intent i = new Intent(commissioner, ActivityReviewView.class);
+        ReviewViewPacker.packView(commissioner, this, i);
+        commissioner.startActivityForResult(i, launcher.getRequestCode());
     }
 }

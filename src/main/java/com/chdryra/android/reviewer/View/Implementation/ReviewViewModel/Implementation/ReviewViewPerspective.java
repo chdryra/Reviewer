@@ -53,7 +53,7 @@ public class ReviewViewPerspective<T extends GvData> {
         return mParams;
     }
 
-    public ReviewViewActions getActions() {
+    public ReviewViewActions<T> getActions() {
         return mActions;
     }
 

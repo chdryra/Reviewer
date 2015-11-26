@@ -15,4 +15,6 @@ public interface ConfigDataUi {
     LaunchableConfig getBuildReviewConfig();
 
     LaunchableConfig getMapEditorConfig();
+
+    LaunchableConfig getShareReviewConfig();
 }

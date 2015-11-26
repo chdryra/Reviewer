@@ -4,21 +4,18 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
-        .ActivityReviewView;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryBuildScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryBuildScreen;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.BuildScreen;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityBuildReview extends ActivityReviewView implements LaunchableUi {
+public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = "BuildScreen";
     private BuildScreen mBuildScreen;
 
@@ -50,10 +47,5 @@ public class ActivityBuildReview extends ActivityReviewView implements Launchabl
     @Override
     public String getLaunchTag() {
         return TAG;
-    }
-
-    @Override
-    public void launch(LauncherUi launcher) {
-        launcher.launch(getClass(), );
     }
 }

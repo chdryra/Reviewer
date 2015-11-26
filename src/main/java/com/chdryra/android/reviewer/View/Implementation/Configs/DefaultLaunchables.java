@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.View.Implementation.Configs;
 
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities
         .ActivityBuildReview;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities
+        .ActivityShareReview;
 import com.chdryra.android.reviewer.View.Implementation.SpecialisedActivities
         .ActivityEditLocationMap;
 import com.chdryra.android.reviewer.View.Implementation.SpecialisedActivities.ActivityEditUrlBrowser;
@@ -37,34 +39,35 @@ import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
 public final class DefaultLaunchables extends LaunchablesList {
 
     public DefaultLaunchables() {
-        super(ActivityBuildReview.class, ActivityEditLocationMap.class);
+        super(ActivityBuildReview.class, ActivityEditLocationMap.class, ActivityShareReview.class);
 
-        add(new AddEditViewClasses<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
+        addDataClasses(new AddEditViewClasses<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
                 GvDataDialogs.EditTag
-                .class, GvDataDialogs.ViewTag.class));
+                        .class, GvDataDialogs.ViewTag.class));
 
-        add(new AddEditViewClasses<>(GvCriterion.TYPE,
+        addDataClasses(new AddEditViewClasses<>(GvCriterion.TYPE,
                 GvDataDialogs.AddCriterion.class, GvDataDialogs.EditCriterion.class,
                 GvDataDialogs.ViewCriterion.class));
 
-        add(new AddEditViewClasses<>(GvComment.TYPE, GvDataDialogs.AddComment
+        addDataClasses(new AddEditViewClasses<>(GvComment.TYPE, GvDataDialogs.AddComment
                 .class, GvDataDialogs
                 .EditComment.class, GvDataDialogs.ViewComment.class));
 
-        add(new AddEditViewClasses<>(GvImage.TYPE, null,
+        addDataClasses(new AddEditViewClasses<>(GvImage.TYPE, null,
                 GvDataDialogs.EditImage.class, GvDataDialogs.ViewImage.class));
 
-        add(new AddEditViewClasses<>(GvFact.TYPE, GvDataDialogs.AddFact.class, GvDataDialogs
+        addDataClasses(new AddEditViewClasses<>(GvFact.TYPE, GvDataDialogs.AddFact.class,
+                GvDataDialogs
                 .EditFact.class, GvDataDialogs.ViewFact.class));
 
-        add(new AddEditViewClasses<>(GvLocation.TYPE, GvDataDialogs.AddLocation.class,
+        addDataClasses(new AddEditViewClasses<>(GvLocation.TYPE, GvDataDialogs.AddLocation.class,
                 GvDataDialogs.EditLocation.class, ActivityViewLocation.class));
 
-        add(new AddEditViewClasses<>(GvUrl.TYPE, ActivityEditUrlBrowser.class,
+        addDataClasses(new AddEditViewClasses<>(GvUrl.TYPE, ActivityEditUrlBrowser.class,
                 ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));
 
-        add(new AddEditViewClasses<>(GvSubject.TYPE, null, null, GvDataDialogs.ViewSubject.class));
+        addDataClasses(new AddEditViewClasses<>(GvSubject.TYPE, null, null, GvDataDialogs.ViewSubject.class));
 
-        add(new AddEditViewClasses<>(GvDate.TYPE, null, null, GvDataDialogs.ViewDate.class));
+        addDataClasses(new AddEditViewClasses<>(GvDate.TYPE, null, null, GvDataDialogs.ViewDate.class));
     }
 }
