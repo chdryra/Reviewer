@@ -6,7 +6,7 @@ import android.view.View;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
 /**
@@ -18,9 +18,9 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode
             ("GiLaunchReviewDataScreen");
 
-    private FactoryLaunchableUi mLaunchableFactory;
+    private LaunchableUiLauncher mLaunchableFactory;
 
-    public GridItemLauncher(FactoryLaunchableUi launchableFactory) {
+    public GridItemLauncher(LaunchableUiLauncher launchableFactory) {
         mLaunchableFactory = launchableFactory;
     }
 
@@ -33,7 +33,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
         launch(screen, REQUEST_CODE, screen.getLaunchTag(), new Bundle());
     }
 
-    protected FactoryLaunchableUi getLaunchableFactory() {
+    protected LaunchableUiLauncher getLaunchableFactory() {
         return mLaunchableFactory;
     }
 

@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreen;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreenMenu;
@@ -27,12 +27,12 @@ public class BuilderAuthorsScreen {
     private FeedScreen mMutableFeedScreen;
     private ReviewView mView;
     private FactoryReviewViewAdapter mAdapterFactory;
-    private FactoryLaunchableUi mLaunchableFactory;
+    private LaunchableUiLauncher mLaunchableFactory;
     private FactoryReviews mReviewFactory;
     private LaunchableConfig mReviewBuildScreenConfig;
 
     public BuilderAuthorsScreen(FactoryReviewViewAdapter adapterFactory,
-                                FactoryLaunchableUi launchableFactory,
+                                LaunchableUiLauncher launchableFactory,
                                 FactoryReviews reviewFactory,
                                 LaunchableConfig reviewBuildScreenConfig) {
         mAdapterFactory = adapterFactory;

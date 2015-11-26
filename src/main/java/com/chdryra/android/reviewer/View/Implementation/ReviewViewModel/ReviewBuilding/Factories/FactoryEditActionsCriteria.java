@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.MenuDataEditCriteria;
@@ -21,7 +21,7 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
             = GvCriterion.TYPE;
 
     public FactoryEditActionsCriteria(Context context, ConfigDataUi config,
-                                      FactoryLaunchableUi launchableFactory,
+                                      LaunchableUiLauncher launchableFactory,
                                       FactoryGvData dataFactory,
                                       GvDataPacker<GvCriterion> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);

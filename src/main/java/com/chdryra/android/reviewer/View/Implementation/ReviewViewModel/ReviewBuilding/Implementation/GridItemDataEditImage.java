@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
 
 /**
@@ -20,7 +20,7 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
 
     //Constructors
     public GridItemDataEditImage(LaunchableConfig editorConfig,
-                                 FactoryLaunchableUi launchableFactory,
+                                 LaunchableUiLauncher launchableFactory,
                                  GvDataPacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }

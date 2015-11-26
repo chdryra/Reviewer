@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +21,7 @@ public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
 
     //Constructors
     public GridItemDataEditComment(LaunchableConfig editorConfig,
-                                   FactoryLaunchableUi launchableFactory,
+                                   LaunchableUiLauncher launchableFactory,
                                    GvDataPacker<GvComment> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }

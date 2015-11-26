@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.GridItemLauncher;
@@ -27,9 +27,9 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  */
 public class FactoryReviewsListScreen {
     private BuilderChildListView mBuilder;
-    private FactoryLaunchableUi mLaunchableFactory;
+    private LaunchableUiLauncher mLaunchableFactory;
 
-    public FactoryReviewsListScreen(FactoryLaunchableUi launchableFactory,
+    public FactoryReviewsListScreen(LaunchableUiLauncher launchableFactory,
                                     BuilderChildListView childListBuilder) {
         mLaunchableFactory = launchableFactory;
         mBuilder = childListBuilder;

@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.BannerButtonAddImage;
@@ -23,7 +23,7 @@ public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage>
     private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
     private ImageChooser mImageChooser;
 
-    public FactoryEditActionsImages(Context context, ConfigDataUi config, FactoryLaunchableUi launchableFactory,
+    public FactoryEditActionsImages(Context context, ConfigDataUi config, LaunchableUiLauncher launchableFactory,
                                     FactoryGvData dataFactory,
                                     GvDataPacker<GvImage> packer,
                                     ImageChooser imageChooser) {

@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation
@@ -26,7 +26,7 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
 
 
     public FactoryEditActionsFacts(Context context, ConfigDataUi config,
-                                   FactoryLaunchableUi launchableFactory,
+                                   LaunchableUiLauncher launchableFactory,
                                    FactoryGvData dataFactory,
                                    GvDataPacker<GvFact> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);

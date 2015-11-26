@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.MenuAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.SubjectAction;
@@ -26,7 +26,7 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     private TagAdjuster mTagAdjuster;
 
     public FactoryEditActionsTags(Context context, ConfigDataUi config,
-                                  FactoryLaunchableUi launchableFactory,
+                                  LaunchableUiLauncher launchableFactory,
                                   FactoryGvData dataFactory,
                                   GvDataPacker<GvTag> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);

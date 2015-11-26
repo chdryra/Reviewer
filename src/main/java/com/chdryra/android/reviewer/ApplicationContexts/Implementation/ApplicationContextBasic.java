@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationCo
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
@@ -27,7 +27,7 @@ public class ApplicationContextBasic implements ApplicationContext {
     private DataValidator mDataValidator;
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
     private ConfigDataUi mConfigDataUi;
-    private FactoryLaunchableUi mFactoryLaunchable;
+    private LaunchableUiLauncher mFactoryLaunchable;
     private FactoryReviewViewParams mParamsFactory;
     private FactoryGvData mFactoryGvData;
 
@@ -47,7 +47,7 @@ public class ApplicationContextBasic implements ApplicationContext {
         mFactoryReviews = factoryReviews;
     }
 
-    public void setFactoryLaunchable(FactoryLaunchableUi factoryLaunchable) {
+    public void setFactoryLaunchable(LaunchableUiLauncher factoryLaunchable) {
         mFactoryLaunchable = factoryLaunchable;
     }
 
@@ -120,7 +120,7 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     @Override
-    public FactoryLaunchableUi getLaunchableFactory() {
+    public LaunchableUiLauncher getLaunchableFactory() {
         return mFactoryLaunchable;
     }
 

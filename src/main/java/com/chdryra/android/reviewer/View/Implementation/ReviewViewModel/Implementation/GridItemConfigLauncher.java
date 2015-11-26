@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonical;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +20,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     private GvDataPacker<GvData> mPacker;
 
     public GridItemConfigLauncher(LaunchableConfig launchableConfig,
-                                  FactoryLaunchableUi launchableFactory,
+                                  LaunchableUiLauncher launchableFactory,
                                   GvDataPacker<GvData> packer) {
         super(launchableFactory);
         mLaunchableConfig = launchableConfig;
@@ -55,7 +54,6 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         if (item.isVerboseCollection() || mLaunchableConfig == null) return;
         Bundle args = new Bundle();
         mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        LaunchableUi launchable = mLaunchableConfig.getLaunchable(getLaunchableFactory());
-        launch(launchable, mLaunchableConfig.getRequestCode(), mLaunchableConfig.getTag(), args);
+        getLaunchableFactory().launch(mLaunchableConfig, getActivity(), args);
     }
 }

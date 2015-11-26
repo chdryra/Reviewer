@@ -4,7 +4,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -15,7 +15,7 @@ public class GridItemDataEditTag extends GridItemDataEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
     public GridItemDataEditTag(LaunchableConfig editorConfig,
-                               FactoryLaunchableUi launchableFactory,
+                               LaunchableUiLauncher launchableFactory,
                                GvDataPacker<GvTag> dataPacker,
                                TagAdjuster tagAdjuster) {
         super(editorConfig, launchableFactory, dataPacker);

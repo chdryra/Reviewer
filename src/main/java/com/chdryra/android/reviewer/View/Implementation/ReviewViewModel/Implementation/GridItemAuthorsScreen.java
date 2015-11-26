@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +26,7 @@ public class GridItemAuthorsScreen extends GridItemLauncher<GvReviewOverview>
         void onDeleteRequested(String reviewId);
     }
 
-    public GridItemAuthorsScreen(FactoryLaunchableUi launchableFactory,
+    public GridItemAuthorsScreen(LaunchableUiLauncher launchableFactory,
                                  DeleteRequestListener deleteRequestListener) {
         super(launchableFactory);
         mDeleteRequestListener = deleteRequestListener;

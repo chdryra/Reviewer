@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
@@ -17,10 +17,10 @@ import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
     public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
-    private FactoryLaunchableUi mUiLauncher;
+    private LaunchableUiLauncher mUiLauncher;
     private LaunchableConfig mBuildScreenConfig;
 
-    public FeedScreenMenu(FactoryLaunchableUi uiLauncher, LaunchableConfig buildScreenConfig) {
+    public FeedScreenMenu(LaunchableUiLauncher uiLauncher, LaunchableConfig buildScreenConfig) {
         super(MENU, null, false);
         mUiLauncher = uiLauncher;
         mBuildScreenConfig = buildScreenConfig;

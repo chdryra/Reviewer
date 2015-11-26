@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
@@ -25,7 +25,7 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
                                    String title,
                                    FactoryGvData dataFactory,
                                    GvDataPacker<GvLocation> dataPacker,
-                                   FactoryLaunchableUi launchableFactory) {
+                                   LaunchableUiLauncher launchableFactory) {
         super(adderConfig, title, TYPE, dataFactory, dataPacker, launchableFactory);
         mMapScreenConfig = mapScreenConfig;
     }

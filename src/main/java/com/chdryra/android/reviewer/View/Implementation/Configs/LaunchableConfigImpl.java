@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.View.Implementation.Configs;
 
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import android.util.Log;
+
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
@@ -19,6 +21,7 @@ import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
  * {@link LauncherUiImpl}
  */
 public class LaunchableConfigImpl implements LaunchableConfig {
+    private static final String TAG = "LaunchableConfigImpl";
     private final Class<? extends LaunchableUi> mUiClass;
     private final int mRequestCode;
     private final String mTag;
@@ -33,17 +36,23 @@ public class LaunchableConfigImpl implements LaunchableConfig {
 
     //public methods
     @Override
-    public LaunchableUi getLaunchable(FactoryLaunchableUi launchableFactory) {
-        return launchableFactory.newLaunchable(mUiClass);
+    public LaunchableUi getLaunchable(LaunchableUiLauncher launchableFactory) throws RuntimeException {
+        if (mUiClass == null) return null;
+        try {
+            return mUiClass.newInstance();
+        } catch (java.lang.InstantiationException e) {
+            //If this happens not good so throwing runtime exception
+            Log.e(TAG, "Couldn't create UI for " + mUiClass.getName(), e);
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            //If this happens not good so throwing runtime exception
+            Log.e(TAG, "IllegalAccessException: trying to create " + mUiClass.getName(), e);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public int getRequestCode() {
         return mRequestCode;
-    }
-
-    @Override
-    public String getTag() {
-        return mTag;
     }
 }

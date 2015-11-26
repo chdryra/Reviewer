@@ -6,17 +6,16 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.Utils.DialogShower;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
+import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,7 +34,7 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
     private final FactoryGvData mDataFactory;
     private final GvDataPacker<T> mDataPacker;
     private final LaunchableConfig mConfig;
-    private final FactoryLaunchableUi mLaunchableFactory;
+    private final LaunchableUiLauncher mLaunchableFactory;
     private GvDataList<T> mAdded;
 
     public BannerButtonAdd(LaunchableConfig adderConfig,
@@ -43,7 +42,7 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
                            GvDataType<T> dataType,
                            FactoryGvData dataFactory,
                            GvDataPacker<T> dataPacker,
-                           FactoryLaunchableUi launchableFactory) {
+                           LaunchableUiLauncher launchableFactory) {
         mTitle = title;
         mDataType = dataType;
         mDataFactory = dataFactory;
@@ -53,7 +52,7 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
         initDataList();
     }
 
-    public FactoryLaunchableUi getLaunchableFactory() {
+    public LaunchableUiLauncher getLaunchableFactory() {
         return mLaunchableFactory;
     }
 
@@ -74,8 +73,7 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
     }
 
     protected void launchConfig(LaunchableConfig config) {
-        LaunchableUi ui = config.getLaunchable(mLaunchableFactory);
-        mLaunchableFactory.launch(ui, getActivity(), config.getRequestCode(), config.getTag());
+        mLaunchableFactory.launch(config, getActivity(), new Bundle());
     }
 
     //Overridden

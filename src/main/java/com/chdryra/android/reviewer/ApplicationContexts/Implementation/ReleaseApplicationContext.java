@@ -44,7 +44,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Factories.FactoryConfigDataUi;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
@@ -79,7 +80,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setFactoryGvData(dataFactory);
 
         //FactoryLaunchable
-        FactoryLaunchableUi factoryLaunchable = new FactoryLaunchableUi(config, paramsFactory, builder);
+        LaunchableUiLauncher factoryLaunchable = new LaunchableUiLauncher(new FactoryLauncherUi());
         setFactoryLaunchable(factoryLaunchable);
 
         //DataValidator

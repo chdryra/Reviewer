@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
@@ -26,7 +26,7 @@ public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
                                 LaunchableConfig urlAdder,
                                 FactoryGvData dataFactory,
                                 GvDataPacker<GvFact> dataPacker,
-                                FactoryLaunchableUi launchableFactory) {
+                                LaunchableUiLauncher launchableFactory) {
         super(factAdder, title, TYPE, dataFactory, dataPacker, launchableFactory);
         mUrlAdder = urlAdder;
     }

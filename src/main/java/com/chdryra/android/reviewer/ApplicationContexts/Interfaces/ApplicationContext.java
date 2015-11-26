@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
@@ -25,7 +25,7 @@ public interface ApplicationContext {
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();
     BuilderChildListView getBuilderChildListView();
     FactoryReviews getReviewsFactory();
-    FactoryLaunchableUi getLaunchableFactory();
+    LaunchableUiLauncher getLaunchableFactory();
     ConfigDataUi getUiConfig();
     FactoryReviewViewParams getParamsFactory();
     FactoryGvData getGvDataFactory();

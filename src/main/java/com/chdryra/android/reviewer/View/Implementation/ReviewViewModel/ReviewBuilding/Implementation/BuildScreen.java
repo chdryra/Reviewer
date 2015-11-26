@@ -17,7 +17,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ImageChooser;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
@@ -44,7 +44,7 @@ public class BuildScreen implements
         GridItemClickObserved.ClickObserver {
     private ReviewEditor mEditor;
     private final ConfigDataUi mUiConfig;
-    private final FactoryLaunchableUi mLaunchableFactory;
+    private final LaunchableUiLauncher mLaunchableFactory;
 
     private LocationClientConnector mLocationClient;
     private ImageChooser mImageChooser;
@@ -53,15 +53,15 @@ public class BuildScreen implements
 //Constructors
     public BuildScreen(ReviewEditor<?> editor,
                        ConfigDataUi uiConfig,
-                       FactoryLaunchableUi launchableFactory) {
+                       LaunchableUiLauncher launchableFactory) {
         mEditor = editor;
         mUiConfig = uiConfig;
         mLaunchableFactory = launchableFactory;
 
-        setObservation();
+        setGridItemObservation();
     }
 
-    private void setObservation() {
+    private void setGridItemObservation() {
         ReviewViewActions<?> actions = mEditor.getActions();
         actions.registerObserver(this);
         GridItemClickObserved<?> gridItem = (GridItemClickObserved<?>) actions.getGridItemAction();
@@ -69,7 +69,6 @@ public class BuildScreen implements
     }
 
     //public methods
-
     public ReviewEditor getEditor() {
         return mEditor;
     }
@@ -138,13 +137,17 @@ public class BuildScreen implements
     public void executeIntent(GvDataList<? extends GvData> gridCell, boolean quickDialog) {
         GvDataType<? extends GvData> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
-            if (type.equals(GvImage.TYPE)) {
-                launchImageChooser();
-            } else {
-                showQuickDialog(getAdderConfig(type));
-            }
+            launchAdder(type);
         } else {
             ActivityEditData.start(getActivity(), type);
+        }
+    }
+
+    private void launchAdder(GvDataType<? extends GvData> type) {
+        if (type.equals(GvImage.TYPE)) {
+            launchImageChooser();
+        } else {
+            showQuickDialog(getAdderConfig(type));
         }
     }
 

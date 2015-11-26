@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
@@ -19,7 +19,7 @@ public class GridItemDataEditLocation extends GridItemDataEdit<GvLocation> {
     //Constructors
     public GridItemDataEditLocation(LaunchableConfig editorConfig,
                                     LaunchableConfig maoEditorConfig,
-                                    FactoryLaunchableUi launchableFactory,
+                                    LaunchableUiLauncher launchableFactory,
                                     GvDataPacker<GvLocation> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
         mMapEditorConfig = editorConfig;

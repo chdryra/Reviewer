@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewPerspective;
 
@@ -29,12 +29,12 @@ public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModi
     private static final int SHARE_BUTTON = R.string.button_share;
     private static final int TOAST_ENTER_SUBJECT = R.string.toast_enter_subject;
 
-    private FactoryLaunchableUi mFactoryLaunchableUi;
+    private LaunchableUiLauncher mLaunchableUiLauncher;
     private LaunchableConfig mShareScreenConfig;
 
-    public BuildScreenModifier(FactoryLaunchableUi factoryLaunchableUi,
+    public BuildScreenModifier(LaunchableUiLauncher launchableUiLauncher,
                                LaunchableConfig shareScreenConfig) {
-        mFactoryLaunchableUi = factoryLaunchableUi;
+        mLaunchableUiLauncher = launchableUiLauncher;
         mShareScreenConfig = shareScreenConfig;
     }
 
@@ -81,6 +81,6 @@ public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModi
             return;
         }
 
-        mFactoryLaunchableUi.launch(mShareScreenConfig, activity, new Bundle());
+        mLaunchableUiLauncher.launch(mShareScreenConfig, activity, new Bundle());
     }
 }

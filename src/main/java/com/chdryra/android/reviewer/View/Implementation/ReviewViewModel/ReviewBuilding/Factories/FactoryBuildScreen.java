@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewParams;
@@ -30,7 +30,7 @@ public class FactoryBuildScreen {
     public BuildScreen newScreen(Context context,
                                  ConfigDataUi uiConfig,
                                  ReviewBuilderAdapter<?> builder,
-                                 FactoryLaunchableUi launchablefactory,
+                                 LaunchableUiLauncher launchablefactory,
                                  FactoryReviewEditor editorFactory) {
         ReviewEditor<?> editor = editorFactory.newEditor(builder,
                 getReviewViewParams(),
@@ -48,7 +48,7 @@ public class FactoryBuildScreen {
     }
 
     @NonNull
-    private BuildScreenModifier getModifier(FactoryLaunchableUi launchablefactory,
+    private BuildScreenModifier getModifier(LaunchableUiLauncher launchablefactory,
                                             LaunchableConfig shareScreenConfig) {
         return new BuildScreenModifier(launchablefactory, shareScreenConfig);
     }

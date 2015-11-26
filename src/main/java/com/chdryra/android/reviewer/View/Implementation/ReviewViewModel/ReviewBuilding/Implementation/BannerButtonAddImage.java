@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +27,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
                                 String title,
                                 FactoryGvData dataFactory,
                                 GvDataPacker<GvImage> dataPacker,
-                                FactoryLaunchableUi launchableFactory,
+                                LaunchableUiLauncher launchableFactory,
                                 ImageChooser imageChooser) {
         super(adderConfig, title, TYPE, dataFactory, dataPacker, launchableFactory);
         mImageChooser = imageChooser;

@@ -7,7 +7,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Utils.DialogShower;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ActivityResultListener;
@@ -27,11 +27,11 @@ public class GridItemDataEdit<T extends GvData> extends ReviewDataEditorActionBa
 
     private final LaunchableConfig mConfig;
     private int mAlertDialogRequestCode;
-    private final FactoryLaunchableUi mLaunchableFactory;
+    private final LaunchableUiLauncher mLaunchableFactory;
     private final GvDataPacker<T> mDataPacker;
 
     public GridItemDataEdit(LaunchableConfig editorConfig,
-                            FactoryLaunchableUi launchableFactory,
+                            LaunchableUiLauncher launchableFactory,
                             GvDataPacker<T> dataPacker) {
         mConfig = editorConfig;
         mLaunchableFactory = launchableFactory;
@@ -47,7 +47,7 @@ public class GridItemDataEdit<T extends GvData> extends ReviewDataEditorActionBa
     }
 
     //protected methods
-    protected FactoryLaunchableUi getLaunchableFactory() {
+    protected LaunchableUiLauncher getLaunchableFactory() {
         return mLaunchableFactory;
     }
 

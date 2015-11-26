@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
@@ -32,14 +32,14 @@ public class FactoryEditActionsDefault<T extends GvData> {
     private Context mContext;
     private GvDataType<T> mDataType;
     private ConfigDataUi mConfig;
-    private FactoryLaunchableUi mLaunchableFactory;
+    private LaunchableUiLauncher mLaunchableFactory;
     private FactoryGvData mDataFactory;
     private GvDataPacker<T> mPacker;
 
     public FactoryEditActionsDefault(Context context,
                                      GvDataType<T> dataType,
                                      ConfigDataUi config,
-                                     FactoryLaunchableUi launchableFactory,
+                                     LaunchableUiLauncher launchableFactory,
                                      FactoryGvData dataFactory,
                                      GvDataPacker<T> packer) {
         mContext = context;
@@ -79,7 +79,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
         return mDataFactory;
     }
 
-    protected FactoryLaunchableUi getLaunchableFactory() {
+    protected LaunchableUiLauncher getLaunchableFactory() {
         return mLaunchableFactory;
     }
 

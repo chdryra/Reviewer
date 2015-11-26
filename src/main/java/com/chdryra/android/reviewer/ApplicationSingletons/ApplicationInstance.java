@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
@@ -138,7 +138,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mApplicationContext.getUiConfig();
     }
 
-    public FactoryLaunchableUi getLaunchableFactory() {
+    public LaunchableUiLauncher getLaunchableFactory() {
         return mApplicationContext.getLaunchableFactory();
     }
 

@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Factories.FactoryLaunchableUi;
+import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
@@ -15,9 +15,9 @@ import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
  */
 public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("RbTreePerspective");
-    FactoryLaunchableUi mLaunchableFactory;
+    LaunchableUiLauncher mLaunchableFactory;
 
-    public RatingBarExpandGrid(FactoryLaunchableUi launchableFactory) {
+    public RatingBarExpandGrid(LaunchableUiLauncher launchableFactory) {
         mLaunchableFactory = launchableFactory;
     }
 
