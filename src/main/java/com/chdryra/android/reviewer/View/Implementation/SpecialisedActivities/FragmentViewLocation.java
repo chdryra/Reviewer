@@ -22,7 +22,7 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;

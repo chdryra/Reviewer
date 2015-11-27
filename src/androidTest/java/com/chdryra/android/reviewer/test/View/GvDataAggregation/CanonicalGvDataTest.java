@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataListImpl;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
 import junit.framework.TestCase;
 

@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataListImpl;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.ParcelableTester;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.RandomString;

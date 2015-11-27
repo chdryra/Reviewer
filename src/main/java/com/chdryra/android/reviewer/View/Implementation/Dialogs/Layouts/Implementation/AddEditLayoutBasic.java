@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Impleme
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey

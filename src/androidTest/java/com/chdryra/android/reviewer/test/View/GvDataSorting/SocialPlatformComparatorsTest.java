@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatform;
-import com.chdryra.android.reviewer.View.GvDataSorting.SocialPlatformComparators;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.DataSorting.SocialPlatformComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
 import java.util.Comparator;

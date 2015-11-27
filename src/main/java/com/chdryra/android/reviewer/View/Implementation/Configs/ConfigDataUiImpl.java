@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Implementation.Configs;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 

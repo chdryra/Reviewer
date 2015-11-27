@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocationList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey

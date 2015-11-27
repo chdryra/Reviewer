@@ -14,8 +14,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 

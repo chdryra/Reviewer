@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSubject;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSubject;
 
 /**
  * Created by: Rizwan Choudrey

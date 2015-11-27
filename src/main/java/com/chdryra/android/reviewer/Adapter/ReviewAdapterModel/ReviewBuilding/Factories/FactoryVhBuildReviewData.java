@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.F
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .FactoryVhDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.ViewHolders.VhBuildReviewData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.ViewHolders.VhDataCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhBuildReviewData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhDataCollection;
 
 /**
  * Created by: Rizwan Choudrey

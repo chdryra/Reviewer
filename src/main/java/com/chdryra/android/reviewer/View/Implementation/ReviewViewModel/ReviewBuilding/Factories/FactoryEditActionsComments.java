@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewB
 import android.content.Context;
 
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.MenuAction;

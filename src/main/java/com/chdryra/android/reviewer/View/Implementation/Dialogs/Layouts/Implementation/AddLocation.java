@@ -32,8 +32,8 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.ViewHolders.VhdLocatedPlace;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.test.View.GvDataSorting;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataSorting.ComparatorCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.DataSorting.ComparatorCollection;
 
 import junit.framework.TestCase;
 

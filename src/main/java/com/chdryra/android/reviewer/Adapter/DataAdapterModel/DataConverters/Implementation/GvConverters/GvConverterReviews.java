@@ -7,15 +7,15 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Inte
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvAuthor;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocationList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverviewList;
 
 import java.util.ArrayList;
 

@@ -30,11 +30,11 @@ public class LaunchableUiLauncher {
         ui.launch(mLauncherFactory.newLauncher(commissioner, requestCode, ui.getLaunchTag(), args));
     }
 
-    public void launch(LaunchableUi ui, Activity commissioner, int requestCode, String tag){
-        ui.launch(mLauncherFactory.newLauncher(commissioner, requestCode, tag));
+    public void launch(LaunchableUi ui, Activity commissioner, int requestCode){
+        launch(ui, commissioner, requestCode, new Bundle());
     }
 
     public void launch(LaunchableConfig config, Activity commissioner, Bundle args) {
-        launch(config.getLaunchable(this), commissioner, config.getRequestCode(), args);
+        launch(config.getLaunchable(), commissioner, config.getRequestCode(), args);
     }
 }

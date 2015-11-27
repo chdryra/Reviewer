@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 

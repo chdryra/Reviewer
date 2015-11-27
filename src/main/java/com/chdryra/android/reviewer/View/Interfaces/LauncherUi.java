@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.View.Interfaces;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.os.Bundle;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,8 +10,6 @@ import android.os.Bundle;
  */
 public interface LauncherUi {
     int getRequestCode();
-
-    Bundle getArguments();
 
     Activity getCommissioner();
 

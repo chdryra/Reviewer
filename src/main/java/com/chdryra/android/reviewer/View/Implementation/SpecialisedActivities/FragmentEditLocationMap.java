@@ -44,7 +44,7 @@ import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

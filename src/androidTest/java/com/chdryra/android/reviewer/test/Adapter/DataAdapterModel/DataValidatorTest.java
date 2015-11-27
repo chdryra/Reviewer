@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;

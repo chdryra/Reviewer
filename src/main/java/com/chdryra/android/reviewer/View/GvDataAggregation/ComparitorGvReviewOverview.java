@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 
 /**
  * Created by: Rizwan Choudrey

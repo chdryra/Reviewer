@@ -27,13 +27,13 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.StaticReviewsRepository;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.Assert;

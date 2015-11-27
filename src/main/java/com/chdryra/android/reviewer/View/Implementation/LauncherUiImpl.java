@@ -46,11 +46,6 @@ public class LauncherUiImpl implements LauncherUi {
     }
 
     @Override
-    public Bundle getArguments() {
-        return mArgs;
-    }
-
-    @Override
     public Activity getCommissioner(){
         return mCommissioner;
     }

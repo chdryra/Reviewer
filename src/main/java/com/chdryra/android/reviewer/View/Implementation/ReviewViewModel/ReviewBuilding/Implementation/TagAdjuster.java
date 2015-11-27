@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Interfaces.ReviewDataEditor;
 
 /**

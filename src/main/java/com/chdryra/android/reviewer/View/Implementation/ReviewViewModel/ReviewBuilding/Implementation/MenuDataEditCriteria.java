@@ -4,9 +4,9 @@ import android.content.Context;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterionList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridDataObservable;
 
 /**

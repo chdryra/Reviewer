@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
         .ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 
 /**
  * Created by: Rizwan Choudrey

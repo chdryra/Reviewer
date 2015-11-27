@@ -13,7 +13,7 @@ import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditCriterion;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 
 /**
  * Created by: Rizwan Choudrey

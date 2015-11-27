@@ -6,8 +6,8 @@ import android.view.View;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 
 /**

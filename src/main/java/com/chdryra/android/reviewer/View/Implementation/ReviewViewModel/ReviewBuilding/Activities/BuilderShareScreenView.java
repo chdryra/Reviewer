@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewB
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatform;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvSocialPlatformList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatform;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.MenuActionNone;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.RatingBarActionNone;

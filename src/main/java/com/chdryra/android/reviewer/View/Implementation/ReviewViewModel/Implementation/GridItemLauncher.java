@@ -5,8 +5,10 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
 /**
@@ -18,26 +20,32 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode
             ("GiLaunchReviewDataScreen");
 
-    private LaunchableUiLauncher mLaunchableFactory;
+    private FactoryReviewViewLaunchable mLaunchableFactory;
+    private LaunchableUiLauncher mLauncher;
 
-    public GridItemLauncher(LaunchableUiLauncher launchableFactory) {
+    public GridItemLauncher(FactoryReviewViewLaunchable launchableFactory,
+                            LaunchableUiLauncher launcher) {
+        mLauncher = launcher;
         mLaunchableFactory = launchableFactory;
     }
 
     //Overridden
     @Override
-    public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?>
-            expanded) {
+    public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
+        launch(getLaunchableUi(expanded), REQUEST_CODE, new Bundle());
+    }
+
+    private LaunchableUi getLaunchableUi(ReviewViewAdapter<?> expanded) {
         LaunchableUi screen = expanded.getReviewView();
         if (screen == null) screen = mLaunchableFactory.newViewScreen(expanded);
-        launch(screen, REQUEST_CODE, screen.getLaunchTag(), new Bundle());
+        return screen;
     }
 
-    protected LaunchableUiLauncher getLaunchableFactory() {
-        return mLaunchableFactory;
+    protected LaunchableUiLauncher getLauncher() {
+        return mLauncher;
     }
 
-    protected void launch(LaunchableUi ui, int requestCode, String tag, Bundle args) {
-        mLaunchableFactory.launch(ui, getActivity(), requestCode, tag, args);
+    protected void launch(LaunchableUi ui, int requestCode, Bundle args) {
+        mLauncher.launch(ui, getActivity(), requestCode, args);
     }
 }

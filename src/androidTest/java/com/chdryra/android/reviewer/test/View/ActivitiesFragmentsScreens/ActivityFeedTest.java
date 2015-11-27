@@ -49,15 +49,15 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.Re
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverviewList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreen;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.GridItemAuthorsScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.GridItemDeleteRequester;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreenMenu;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
@@ -166,7 +166,7 @@ public class ActivityFeedTest extends
         GvDataAggregater aggregator = new GvDataAggregater();
         ReviewsFeed feed = createFeed(converterGv, tagsManager, reviewFactory);
         FactoryReviewViewAdapter adapterFactory = new FactoryReviewViewAdapter(builder, viewerFactory, aggregator, feed, converterGv);
-        FeedScreen screen = new FeedScreen(new GridItemAuthorsScreen());
+        FeedScreen screen = new FeedScreen(new GridItemDeleteRequester());
         ReviewView feedScreen = screen.createView(feed, publishDate, reviewFactory, converterGv, builder, adapterFactory, new FeedScreenMenu());
         mAdapter = feedScreen.getAdapter();
 

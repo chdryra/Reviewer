@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Configs
 
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
 import java.util.HashMap;
 import java.util.Map;

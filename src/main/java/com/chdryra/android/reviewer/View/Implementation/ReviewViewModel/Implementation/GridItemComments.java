@@ -2,9 +2,11 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Impleme
 
 import android.view.View;
 
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 
@@ -14,10 +16,11 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
 public class GridItemComments extends GridItemConfigLauncher<GvComment> {
-    public GridItemComments(LaunchableConfig launchableConfig,
-                            LaunchableUiLauncher launchableFactory,
+    public GridItemComments(LaunchableConfig commentsViewConfig,
+                            FactoryReviewViewLaunchable launchableFactory,
+                            LaunchableUiLauncher launcher,
                             GvDataPacker<GvData> packer) {
-        super(launchableConfig, launchableFactory, packer);
+        super(commentsViewConfig, launchableFactory, launcher, packer);
     }
 
     @Override

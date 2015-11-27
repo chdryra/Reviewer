@@ -25,8 +25,8 @@ import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .ImageChooser;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;

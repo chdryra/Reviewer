@@ -5,7 +5,9 @@ import android.view.View;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 
 /**
@@ -15,10 +17,13 @@ import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
  */
 public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("RbTreePerspective");
-    LaunchableUiLauncher mLaunchableFactory;
+    FactoryReviewViewLaunchable mLaunchableFactory;
+    LaunchableUiLauncher mLauncher;
 
-    public RatingBarExpandGrid(LaunchableUiLauncher launchableFactory) {
+    public RatingBarExpandGrid(FactoryReviewViewLaunchable launchableFactory,
+                               LaunchableUiLauncher launcher) {
         mLaunchableFactory = launchableFactory;
+        mLauncher = launcher;
     }
 
     //Overridden
@@ -26,8 +31,12 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();
         if (expanded == null) return;
+        mLauncher.launch(getLaunchableUi(expanded), getActivity(), REQUEST_CODE);
+    }
+
+    private LaunchableUi getLaunchableUi(ReviewViewAdapter<?> expanded) {
         LaunchableUi ui = expanded.getReviewView();
         if (ui == null) ui = mLaunchableFactory.newViewScreen(expanded);
-        mLaunchableFactory.launch(ui, getActivity(), REQUEST_CODE, ui.getLaunchTag());
+        return ui;
     }
 }

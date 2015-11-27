@@ -8,14 +8,14 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCommentList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterionList;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocationList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvTagList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrlList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterionList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFactList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocationList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrlList;
 
 import java.util.ArrayList;
 import java.util.Iterator;

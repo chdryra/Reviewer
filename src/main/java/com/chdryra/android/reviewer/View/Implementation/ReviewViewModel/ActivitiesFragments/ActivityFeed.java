@@ -15,9 +15,11 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderAuthorsScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderAuthorsFeedScreen;
+
+
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreen;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.GridItemAuthorsScreen;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.GridItemDeleteRequester;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 /**
@@ -25,7 +27,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  */
 public class ActivityFeed extends ActivityReviewView
         implements DialogAlertFragment.DialogAlertListener,
-        GridItemAuthorsScreen.DeleteRequestListener{
+        GridItemDeleteRequester.DeleteRequestListener{
     private FeedScreen mScreen;
     private ReviewsFeedMutable mAuthorsFeed;
 
@@ -38,17 +40,17 @@ public class ActivityFeed extends ActivityReviewView
 
         mAuthorsFeed = app.getAuthorsFeed();
 
-        BuilderAuthorsScreen feedScreenBuilder = getScreenBuilder(app);
-        feedScreenBuilder.buildScreen(mAuthorsFeed, app.getBuilderChildListScreen(), this);
+        BuilderAuthorsFeedScreen feedScreenBuilder = getScreenBuilder(app);
+        feedScreenBuilder.buildScreen(mAuthorsFeed, this);
 
         mScreen = feedScreenBuilder.getFeedScreen();
         return feedScreenBuilder.getView();
     }
 
     @NonNull
-    private BuilderAuthorsScreen getScreenBuilder(ApplicationInstance app) {
-        return new BuilderAuthorsScreen(app.getReviewViewAdapterFactory(),
-        app.getLaunchableFactory(), app.getReviewsFactory(), app.getConfigDataUi().getBuildReviewConfig());
+    private BuilderAuthorsFeedScreen getScreenBuilder(ApplicationInstance app) {
+        return new BuilderAuthorsFeedScreen(app.getReviewViewAdapterFactory(), app.getLaunchableFactory(),
+        app.getUiLauncher(), app.getReviewsFactory(), app.getConfigDataUi().getBuildReviewConfig());
     }
 
     //Overridden

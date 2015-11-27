@@ -47,11 +47,12 @@ import com.chdryra.android.reviewer.View.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
+
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 import java.io.File;
@@ -68,26 +69,15 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         //UI config
         ConfigDataUi config = setUiConfig();
 
-        //ReviewViewParams
-        FactoryReviewViewParams paramsFactory = new FactoryReviewViewParams();
-        setParamsFactory(paramsFactory);
-
-        //BuilderChildListScreen
-        BuilderChildListView builder = setBuilderChildListScreen();
-
-        //FactoryGvData
-        FactoryGvData dataFactory = new FactoryGvData();
-        setFactoryGvData(dataFactory);
-
         //FactoryLaunchable
-        LaunchableUiLauncher factoryLaunchable = new LaunchableUiLauncher(new FactoryLauncherUi());
-        setFactoryLaunchable(factoryLaunchable);
+        LaunchableUiLauncher launcher = new LaunchableUiLauncher(new FactoryLauncherUi());
+        setLauncher(launcher);
 
         //DataValidator
         DataValidator dataValidator = new DataValidator();
         setDataValidator(dataValidator);
 
-        //MdGvConverter
+        //DataConverters
         FactoryTagsManager factory = new FactoryTagsManager();
         TagsManager tagsManager = factory.newTagsManager();
         DataConverters converters = getDataConverters(tagsManager);
@@ -105,11 +95,20 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         FactoryVisitorReviewNode factoryVisitor = new FactoryVisitorReviewNode();
         ReviewsFeed provider = setAuthorFeed(publisherFactory, factoryVisitor, reviewsFactory, db);
 
+        //FactoryReviewViewLaunchable
+        FactoryReviewViewLaunchable launchableFactory
+                = new FactoryReviewViewLaunchable(config, new FactoryReviewViewParams(), launcher);
+        setFactoryReviewViewLaunchable(launchableFactory);
+
+        //FactoryGvData
+        FactoryGvData dataFactory = new FactoryGvData();
+        setFactoryGvData(dataFactory);
+
         //FactoryReviewViewAdapter
-        setFactoryReviewViewAdapter(dataFactory, factoryLaunchable.getListScreenFactory(), provider,
+        setFactoryReviewViewAdapter(dataFactory, launchableFactory, provider,
                 converters.getGvConverter(), factoryVisitor);
 
-        //ReviewBuilderAdapter
+        //FactoryReviewBuilderAdapter
         setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
                 reviewsFactory, dataFactory, dataValidator, extDir, imageDir, author.getName());
     }
@@ -190,20 +189,14 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     }
 
     private void setFactoryReviewViewAdapter(FactoryGvData dataFactory,
-                                             FactoryReviewsListScreen listScreenFactory,
+                                             FactoryReviewViewLaunchable launchableFactory,
                                              ReviewsFeed provider,
                                              ConverterGv converter,
                                              FactoryVisitorReviewNode visitorFactory) {
         GvDataAggregater aggregater = new GvDataAggregater(dataFactory);
-        FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(listScreenFactory,
+        FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(launchableFactory,
                 visitorFactory, aggregater, provider, converter);
         setFactoryReviewViewAdapter(factory);
-    }
-
-    private BuilderChildListView setBuilderChildListScreen() {
-        BuilderChildListView builderChildListView = new BuilderChildListView();
-        setBuilderChildListView(builderChildListView);
-        return builderChildListView;
     }
 
     private void setSocialPlatforms(Context context) {

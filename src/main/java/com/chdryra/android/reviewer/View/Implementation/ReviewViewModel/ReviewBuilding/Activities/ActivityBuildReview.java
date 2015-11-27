@@ -36,7 +36,7 @@ public class ActivityBuildReview extends ActivityReviewView {
         FactoryReviewEditor editorFactory = new FactoryReviewEditor();
         FactoryBuildScreen builder = new FactoryBuildScreen();
         return builder.newScreen(this, app.getConfigDataUi(), adapter,
-                app.getLaunchableFactory(), editorFactory);
+                app.getUiLauncher(), editorFactory);
     }
 
     @Override

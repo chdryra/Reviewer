@@ -15,7 +15,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey

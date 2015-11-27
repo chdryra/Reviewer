@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.LayoutEditImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 
 /**
  * Created by: Rizwan Choudrey

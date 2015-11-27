@@ -17,11 +17,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Implementation.SpecialisedActivities.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataListImpl;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFactList;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFactList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;

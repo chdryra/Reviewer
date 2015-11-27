@@ -12,7 +12,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;

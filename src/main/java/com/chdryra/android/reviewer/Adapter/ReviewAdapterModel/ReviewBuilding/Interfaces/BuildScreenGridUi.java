@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey

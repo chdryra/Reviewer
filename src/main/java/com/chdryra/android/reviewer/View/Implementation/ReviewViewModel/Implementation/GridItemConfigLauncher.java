@@ -5,8 +5,10 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 
@@ -16,14 +18,15 @@ import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
-    private LaunchableConfig mLaunchableConfig;
+    private LaunchableConfig mDataConfig;
     private GvDataPacker<GvData> mPacker;
 
-    public GridItemConfigLauncher(LaunchableConfig launchableConfig,
-                                  LaunchableUiLauncher launchableFactory,
+    public GridItemConfigLauncher(LaunchableConfig dataConfig,
+                                  FactoryReviewViewLaunchable launchableFactory,
+                                  LaunchableUiLauncher launcher,
                                   GvDataPacker<GvData> packer) {
-        super(launchableFactory);
-        mLaunchableConfig = launchableConfig;
+        super(launchableFactory, launcher);
+        mDataConfig = dataConfig;
         mPacker = packer;
     }
 
@@ -51,9 +54,9 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     }
 
     private void launchViewer(GvData item) {
-        if (item.isVerboseCollection() || mLaunchableConfig == null) return;
+        if (item.isVerboseCollection() || mDataConfig == null) return;
         Bundle args = new Bundle();
         mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        getLaunchableFactory().launch(mLaunchableConfig, getActivity(), args);
+        getLauncher().launch(mDataConfig, getActivity(), args);
     }
 }

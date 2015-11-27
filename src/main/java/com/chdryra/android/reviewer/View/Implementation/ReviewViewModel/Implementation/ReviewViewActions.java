@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation;
 
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridItemAction;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.MenuAction;

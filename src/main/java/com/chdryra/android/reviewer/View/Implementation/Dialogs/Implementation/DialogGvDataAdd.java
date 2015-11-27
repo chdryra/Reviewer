@@ -22,8 +22,8 @@ import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Factorie
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.DialogLayoutBasic;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.Interfaces.LauncherUi;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;

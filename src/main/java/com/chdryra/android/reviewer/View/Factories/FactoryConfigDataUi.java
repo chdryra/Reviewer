@@ -55,6 +55,6 @@ public class FactoryConfigDataUi {
     }
 
     private LaunchableConfig getShareReviewConfig(LaunchablesList classes) {
-        return new LaunchableConfigImpl(classes.getShareConfig(), EDIT_ON_MAP, EDIT_ON_MAP_TAG);
+        return new LaunchableConfigImpl(classes.getShareConfig(), SHARE_REVIEW, SHARE_REVIEW_TAG);
     }
 }

@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImageList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;
 
 /**
  * Created by: Rizwan Choudrey

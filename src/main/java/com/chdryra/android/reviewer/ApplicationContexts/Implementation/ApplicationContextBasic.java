@@ -8,9 +8,9 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderChildListView;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 /**
@@ -20,35 +20,37 @@ import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
  */
 public class ApplicationContextBasic implements ApplicationContext {
     private FactoryReviews mFactoryReviews;
-    private ReviewsFeedMutable mAuthordFeed;
+    private ReviewsFeedMutable mAuthorsFeed;
     private SocialPlatformList mSocialPlatforms;
-    private BuilderChildListView mBuilderChildListView;
-    private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private DataValidator mDataValidator;
-    private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
+
     private ConfigDataUi mConfigDataUi;
-    private LaunchableUiLauncher mFactoryLaunchable;
-    private FactoryReviewViewParams mParamsFactory;
+    private LaunchableUiLauncher mLauncher;
+
     private FactoryGvData mFactoryGvData;
+    private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
+    private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
+    private FactoryReviewViewLaunchable mFactoryReviewViewLaunchable;
 
     protected ApplicationContextBasic() {
 
+    }
+
+    public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
+                                                       factoryReviewViewLaunchable) {
+        mFactoryReviewViewLaunchable = factoryReviewViewLaunchable;
     }
 
     public void setFactoryGvData(FactoryGvData factoryGvData) {
         mFactoryGvData = factoryGvData;
     }
 
-    public void setParamsFactory(FactoryReviewViewParams paramsFactory) {
-        mParamsFactory = paramsFactory;
-    }
-
     public void setFactoryReviews(FactoryReviews factoryReviews) {
         mFactoryReviews = factoryReviews;
     }
 
-    public void setFactoryLaunchable(LaunchableUiLauncher factoryLaunchable) {
-        mFactoryLaunchable = factoryLaunchable;
+    public void setLauncher(LaunchableUiLauncher launcher) {
+        mLauncher = launcher;
     }
 
     public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter factoryBuilderAdapter) {
@@ -56,15 +58,11 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     public void setAuthorsFeed(ReviewsFeedMutable authorsFeed) {
-        mAuthordFeed = authorsFeed;
+        mAuthorsFeed = authorsFeed;
     }
 
     public void setSocialPlatforms(SocialPlatformList socialPlatforms) {
         mSocialPlatforms = socialPlatforms;
-    }
-
-    public void setBuilderChildListView(BuilderChildListView builderChildListView) {
-        mBuilderChildListView = builderChildListView;
     }
 
     public void setFactoryReviewViewAdapter(FactoryReviewViewAdapter factoryReviewViewAdapter) {
@@ -81,7 +79,7 @@ public class ApplicationContextBasic implements ApplicationContext {
 
     @Override
     public ReviewsFeedMutable getAuthorsFeed() {
-        return mAuthordFeed;
+        return mAuthorsFeed;
     }
 
     @Override
@@ -92,11 +90,6 @@ public class ApplicationContextBasic implements ApplicationContext {
     @Override
     public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
         return mFactoryReviewViewAdapter;
-    }
-
-    @Override
-    public BuilderChildListView getBuilderChildListView() {
-        return mBuilderChildListView;
     }
 
     @Override
@@ -120,17 +113,17 @@ public class ApplicationContextBasic implements ApplicationContext {
     }
 
     @Override
-    public LaunchableUiLauncher getLaunchableFactory() {
-        return mFactoryLaunchable;
-    }
-
-    @Override
-    public FactoryReviewViewParams getParamsFactory() {
-        return mParamsFactory;
+    public LaunchableUiLauncher getUiLauncher() {
+        return mLauncher;
     }
 
     @Override
     public FactoryGvData getGvDataFactory() {
         return mFactoryGvData;
+    }
+
+    @Override
+    public FactoryReviewViewLaunchable getReviewViewLaunchableFactory() {
+        return mFactoryReviewViewLaunchable;
     }
 }

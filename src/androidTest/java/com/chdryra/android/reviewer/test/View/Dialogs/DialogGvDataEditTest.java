@@ -20,7 +20,7 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityFeed;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.View.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.test.TestUtils.DialogEditListener;

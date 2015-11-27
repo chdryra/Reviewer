@@ -2,8 +2,7 @@ package com.chdryra.android.reviewer.View.Implementation.Configs;
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.LauncherUiImpl;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
@@ -35,8 +34,14 @@ public class LaunchableConfigImpl implements LaunchableConfig {
 
 
     //public methods
+
     @Override
-    public LaunchableUi getLaunchable(LaunchableUiLauncher launchableFactory) throws RuntimeException {
+    public String getTag() {
+        return mTag;
+    }
+
+    @Override
+    public LaunchableUi getLaunchable() throws RuntimeException {
         if (mUiClass == null) return null;
         try {
             return mUiClass.newInstance();

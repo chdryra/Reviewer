@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvDate;
 import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceDate;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
 
 import junit.framework.TestCase;
 

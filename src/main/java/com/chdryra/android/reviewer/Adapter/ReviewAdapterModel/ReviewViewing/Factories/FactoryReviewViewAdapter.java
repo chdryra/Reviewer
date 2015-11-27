@@ -21,17 +21,19 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonical;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvCriterion;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataCollection;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewsListScreen;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,7 +41,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factorie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewViewAdapter {
-    private FactoryReviewsListScreen mListScreenFactory;
+    private FactoryReviewViewLaunchable mLaunchableFactory;
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
     private GvDataAggregater mAggregater;
@@ -47,13 +49,13 @@ public class FactoryReviewViewAdapter {
     private ReviewsFeed mProvider;
 
     //Constructors
-    public FactoryReviewViewAdapter(FactoryReviewsListScreen listScreenFactory,
+    public FactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                     FactoryVisitorReviewNode visitorFactory,
                                     GvDataAggregater aggregater,
                                     ReviewsFeed provider,
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);
-        mListScreenFactory = listScreenFactory;
+        mLaunchableFactory = launchableFactory;
         mAggregater = aggregater;
         mProvider = provider;
         mConverter = converter;
@@ -65,7 +67,7 @@ public class FactoryReviewViewAdapter {
     }
 
     public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
-        return mListScreenFactory.newReviewsListScreen(node, this).getAdapter();
+        return ((ReviewView<?>)mLaunchableFactory.newReviewsListScreen(node, this)).getAdapter();
     }
 
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(T datum) {

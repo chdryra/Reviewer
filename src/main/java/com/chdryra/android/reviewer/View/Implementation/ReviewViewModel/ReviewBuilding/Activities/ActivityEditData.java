@@ -8,12 +8,12 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataEdit;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
-        .ActivityReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryEditActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Factories.FactoryEditScreen;
@@ -68,22 +68,22 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         ReviewBuilderAdapter parentBuilder = app.getReviewBuilderAdapter();
 
         FactoryEditActions actionsFactory = newActionsFactory(app, parentBuilder);
-        FactoryReviewDataEditor editorFactory = newEditorFactory(app, actionsFactory);
+        FactoryReviewDataEditor editorFactory = newEditorFactory(app.getParamsFactory(), actionsFactory);
 
         return new FactoryEditScreen(this, parentBuilder, editorFactory).newScreen(mDataType);
     }
 
     @NonNull
-    private FactoryReviewDataEditor newEditorFactory(ApplicationInstance app, FactoryEditActions
-            actionsFactory) {
-        return new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
+    private FactoryReviewDataEditor newEditorFactory(FactoryReviewViewParams paramsFactory,
+                                                     FactoryEditActions actionsFactory) {
+        return new FactoryReviewDataEditor(paramsFactory, actionsFactory);
     }
 
     @NonNull
     private FactoryEditActions newActionsFactory(ApplicationInstance app, ReviewBuilderAdapter
             parentBuilder) {
         return new FactoryEditActions(this, app.getConfigDataUi(),
-                    app.getLaunchableFactory(), app.getGvDataFactory(), parentBuilder.getImageChooser());
+                    app.getUiLauncher(), app.getGvDataFactory(), parentBuilder.getImageChooser());
     }
 
     @Override

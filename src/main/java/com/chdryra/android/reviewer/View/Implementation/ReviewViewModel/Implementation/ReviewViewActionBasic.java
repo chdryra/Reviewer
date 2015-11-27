@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Impleme
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewViewAction;
 

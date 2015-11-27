@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.View.Interfaces;
 
-import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
@@ -12,5 +10,5 @@ public interface LaunchableConfig {
 
     int getRequestCode();
 
-    LaunchableUi getLaunchable(LaunchableUiLauncher launchableFactory);
+    LaunchableUi getLaunchable();
 }

@@ -13,8 +13,8 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
 import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
