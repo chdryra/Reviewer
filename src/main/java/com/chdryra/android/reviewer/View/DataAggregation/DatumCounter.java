@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 

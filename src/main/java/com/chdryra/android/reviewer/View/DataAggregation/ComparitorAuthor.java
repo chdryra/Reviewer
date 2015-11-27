@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.View.DataAggregation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
 
 /**
  * Created by: Rizwan Choudrey

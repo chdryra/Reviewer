@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey

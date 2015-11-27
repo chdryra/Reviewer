@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvLocationDistance;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorLocationDistance;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferenceFloat;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -24,7 +24,7 @@ import junit.framework.TestCase;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvLocationDistanceTest extends TestCase {
+public class ComparitorLocationDistanceTest extends TestCase {
     @SmallTest
     public void testCompare() {
         GvLocation loc1 = GvDataMocker.newLocation(null);
@@ -49,7 +49,7 @@ public class ComparitorGvLocationDistanceTest extends TestCase {
         assertTrue(midDistance.lessThanOrEqualTo(maxDistance));
         assertTrue(zeroDistance.lessThanOrEqualTo(midDistance));
 
-        ComparitorGvLocationDistance comparitor = new ComparitorGvLocationDistance();
+        ComparitorLocationDistance comparitor = new ComparitorLocationDistance();
 
         //Check same location = zero distance
         GvLocation lhs = new GvLocation(loc1);

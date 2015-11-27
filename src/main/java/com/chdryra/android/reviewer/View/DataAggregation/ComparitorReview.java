@@ -8,17 +8,17 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewSummary;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvReviewOverview implements DifferenceComparitor<GvReviewOverview, DifferenceBoolean> {
-    //Overridden
+public class ComparitorReview implements DifferenceComparitor<DataReviewSummary, DifferenceBoolean> {
     @Override
-    public DifferenceBoolean compare(GvReviewOverview lhs, GvReviewOverview rhs) {
+    public DifferenceBoolean compare(DataReviewSummary lhs, DataReviewSummary rhs) {
         boolean sameId = lhs.getId().equals(rhs.getId());
         boolean diff = lhs.getAuthor() != rhs.getAuthor() || !lhs.getHeadline().equals(rhs
                 .getHeadline()) || lhs.getPublishDate() != rhs.getPublishDate() || !lhs

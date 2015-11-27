@@ -8,32 +8,43 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalTagMode implements CanonicalDatumMaker<GvTag> {
+public class CanonicalTagMode implements CanonicalDatumMaker<DataTag> {
     //Overridden
     @Override
-    public GvTag getCanonical(GvDataList<GvTag> data) {
-        if (data.size() == 0) return new GvTag(data.getGvReviewId(), "");
+    public DataTag getCanonical(IdableList<DataTag> data) {
+        String id = data.getReviewId();
+        if (data.size() == 0) return new DatumTag(id, "");
+        return new DatumTag(id, getTagMode(getTagCounter(data)));
+    }
 
-        DatumCounter<GvTag, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvTag, String>() {
-                    //Overridden
-                    @Override
-                    public String getData(GvTag datum) {
-                        return datum.getString();
-                    }
-                });
-
+    private String getTagMode(DatumCounter<DataTag, String> counter) {
         String maxTag = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxTag += " + " + String.valueOf(nonMax);
-        return new GvTag(data.getGvReviewId(), maxTag);
+        return maxTag;
+    }
+
+    @NonNull
+    private DatumCounter<DataTag, String> getTagCounter(IdableList<DataTag> data) {
+        return new DatumCounter<>(data,
+                    new DataGetter<DataTag, String>() {
+                        //Overridden
+                        @Override
+                        public String getData(DataTag datum) {
+                            return datum.getTag();
+                        }
+                    });
     }
 }

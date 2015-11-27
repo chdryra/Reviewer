@@ -8,32 +8,43 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSubject;
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalSubjectMode implements CanonicalDatumMaker<GvSubject> {
+public class CanonicalSubjectMode implements CanonicalDatumMaker<DataSubject> {
     //Overridden
     @Override
-    public GvSubject getCanonical(GvDataList<GvSubject> data) {
-        if (data.size() == 0) return new GvSubject(data.getGvReviewId(), "");
+    public DataSubject getCanonical(IdableList<DataSubject> data) {
+        String id = data.getReviewId();
+        if (data.size() == 0) return new DatumSubject(id, "");
+        return new DatumSubject(id, getSubjectMode(getSubjectCounter(data)));
+    }
 
-        DatumCounter<GvSubject, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvSubject, String>() {
-                    //Overridden
-                    @Override
-                    public String getData(GvSubject datum) {
-                        return datum.getString();
-                    }
-                });
-
+    private String getSubjectMode(DatumCounter<DataSubject, String> counter) {
         String maxSubject = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
-        return new GvSubject(data.getGvReviewId(), maxSubject);
+        return maxSubject;
     }
+
+    @NonNull
+    private DatumCounter<DataSubject, String> getSubjectCounter(IdableList<DataSubject> data) {
+        return new DatumCounter<>(data,
+                    new DataGetter<DataSubject, String>() {
+                        @Override
+                        public String getData(DataSubject datum) {
+                            return datum.getSubject();
+                        }
+                    });
+    }
+
 }

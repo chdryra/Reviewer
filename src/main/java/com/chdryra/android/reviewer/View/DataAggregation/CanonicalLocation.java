@@ -8,9 +8,13 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -18,33 +22,44 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalLocation implements CanonicalDatumMaker<GvLocation> {
+public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
     //Overridden
     @Override
-    public GvLocation getCanonical(GvDataList<GvLocation> data) {
-        if (data.size() == 0) return new GvLocation(data.getGvReviewId(), null, "");
+    public DataLocation getCanonical(IdableList<DataLocation> data) {
+        String id = data.getReviewId();
+        if (data.size() == 0) return new DatumLocation(id, null, "");
 
+        LatLng mid = getMidLatLng(data);
+        String maxLocation = getLocationNameMode(getNameCounter(data));
+
+        return new DatumLocation(id, mid, maxLocation);
+    }
+
+    private LatLng getMidLatLng(IdableList<DataLocation> data) {
         LatLng[] latLngs = new LatLng[data.size()];
         for (int i = 0; i < data.size(); ++i) {
             latLngs[i] = data.getItem(i).getLatLng();
         }
 
         LatLngMidpoint midpoint = new LatLngMidpoint(latLngs);
-        LatLng mid = midpoint.getGeoMidpoint();
+        return midpoint.getGeoMidpoint();
+    }
 
-        DatumCounter<GvLocation, String> counter = new DatumCounter<>(data,
-                new DataGetter<GvLocation, String>() {
-                    //Overridden
-                    @Override
-                    public String getData(GvLocation datum) {
-                        return datum.getName();
-                    }
-                });
-
+    private String getLocationNameMode(DatumCounter<DataLocation, String> counter) {
         String maxLocation = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
+        return maxLocation;
+    }
 
-        return new GvLocation(data.getGvReviewId(), mid, maxLocation);
+    @NonNull
+    private DatumCounter<DataLocation, String> getNameCounter(IdableList<DataLocation> data) {
+        return new DatumCounter<>(data,
+                    new DataGetter<DataLocation, String>() {
+                        @Override
+                        public String getData(DataLocation datum) {
+                            return datum.getName();
+                        }
+                    });
     }
 }

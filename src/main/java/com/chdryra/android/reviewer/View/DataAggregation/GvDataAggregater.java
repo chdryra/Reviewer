@@ -1,5 +1,8 @@
 package com.chdryra.android.reviewer.View.DataAggregation;
 
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceLevel;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthorList;
@@ -43,46 +46,46 @@ public class GvDataAggregater {
     }
 
     public GvCanonicalCollection<GvAuthor> getAggregate(GvAuthorList data) {
-        return newAggregate(data, new ComparitorAuthor(), SAME_BOOL, new CanonicalAuthorMaker()).get();
+        return newAggregate(data, new ComparitorAuthor(), SAME_BOOL, new CanonicalAuthor()).get();
     }
 
     public GvCanonicalCollection<GvSubject> getAggregate(GvSubjectList data) {
-        return newAggregate(data, new ComparitorGvSubject(), SAME_PCNT, new CanonicalSubjectMode()).get();
+        return newAggregate(data, new ComparitorSubject(), SAME_PCNT, new CanonicalSubjectMode()).get();
     }
 
     public GvCanonicalCollection<GvTag> getAggregate(GvTagList data) {
-        return newAggregate(data, new ComparitorGvTag(), SAME_PCNT, new CanonicalTagMode()).get();
+        return newAggregate(data, new ComparitorTag(), SAME_PCNT, new CanonicalTagMode()).get();
     }
 
     public GvCanonicalCollection<GvComment> getAggregate(GvCommentList data) {
-        return newAggregate(data, new ComparitorGvComment(), SAME_PCNT, new CanonicalCommentMode()).get();
+        return newAggregate(data, new ComparitorComment(), SAME_PCNT, new CanonicalCommentMode()).get();
     }
 
     public GvCanonicalCollection<GvDate> getAggregate(GvDateList data) {
-        return newAggregate(data, new ComparitorGvDate(), SAME_DAY, new CanonicalDate()).get();
+        return newAggregate(data, new ComparitorDate(), SAME_DAY, new CanonicalDate()).get();
     }
 
     public GvCanonicalCollection<GvImage> getAggregate(GvImageList data) {
-        return newAggregate(data, new ComparitorGvImageBitmap(), SAME_BOOL, new CanonicalImage()).get();
+        return newAggregate(data, new ComparitorImageBitmap(), SAME_BOOL, new CanonicalImage()).get();
     }
 
     public GvCanonicalCollection<GvLocation> getAggregate(GvLocationList data) {
-        return newAggregate(data, new ComparitorGvLocation(), SAME_LOC, new CanonicalLocation()).get();
+        return newAggregate(data, new ComparitorLocation(), SAME_LOC, new CanonicalLocation()).get();
     }
 
     public GvCanonicalCollection<GvCriterion> getAggregate(GvCriterionList data, boolean mode) {
         if(mode) {
-            return newAggregate(data, new ComparitorGvCriterion(), SAME_BOOL,
+            return newAggregate(data, new ComparitorCriterion(), SAME_BOOL,
                     new CanonicalCriterionMode()).get();
         } else {
-            return newAggregate(data, new ComparitorGvCriterionSubject(), SAME_PCNT, new
+            return newAggregate(data, new ComparitorCriterionSubject(), SAME_PCNT, new
                     CanonicalCriterionAverage()).get();
         }
 
     }
 
     public GvCanonicalCollection<GvFact> getAggregate(GvFactList data) {
-        return newAggregate(data, new ComparitorGvFactLabel(), SAME_PCNT, new CanonicalFact()).get();
+        return newAggregate(data, new ComparitorFactLabel(), SAME_PCNT, new CanonicalFact()).get();
     }
 
     private <T extends GvData, D1, D2 extends DifferenceLevel<D1>> GvDataAggregate<T>

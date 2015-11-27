@@ -6,7 +6,7 @@
  * Date: 3 July, 2015
  */
 
-package com.chdryra.android.reviewer.View.DataAggregation;
+package com.chdryra.android.reviewer.View.DataAggregation.Interfaces;
 
 import org.jetbrains.annotations.NotNull;
 

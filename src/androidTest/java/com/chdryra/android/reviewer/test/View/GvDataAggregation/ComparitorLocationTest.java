@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvLocation;
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvLocationDistance;
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvLocationName;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorLocation;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorLocationDistance;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorLocationName;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferenceFloat;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferenceLocation;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
@@ -18,7 +18,7 @@ import junit.framework.TestCase;
  * On: 16/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvLocationTest extends TestCase {
+public class ComparitorLocationTest extends TestCase {
     private static final String TAYYABS = "Tayyabs";
     private static final String TAYYBBS = "Tayybbs";
     private static final String LKH = "Lahore Kebab House";
@@ -38,7 +38,7 @@ public class ComparitorGvLocationTest extends TestCase {
             = new GvLocation(LKH_LL, LKH);
     private static final DifferencePercentage ZERO_NAME = new DifferencePercentage(0.0);
     private static final DifferenceFloat ZERO_DIST = new DifferenceFloat(0f);
-    private ComparitorGvLocation mLocationComparitor;
+    private ComparitorLocation mLocationComparitor;
     private DifferencePercentage mTypoDiff;
     private DifferencePercentage mTayyabsLkhNameDiff;
     private DifferenceFloat mDistDiff;
@@ -129,9 +129,9 @@ public class ComparitorGvLocationTest extends TestCase {
     //Overridden
     @Override
     protected void setUp() throws Exception {
-        mLocationComparitor = new ComparitorGvLocation();
-        ComparitorGvLocationName nameComparitor = new ComparitorGvLocationName();
-        ComparitorGvLocationDistance distanceComparitor = new ComparitorGvLocationDistance();
+        mLocationComparitor = new ComparitorLocation();
+        ComparitorLocationName nameComparitor = new ComparitorLocationName();
+        ComparitorLocationDistance distanceComparitor = new ComparitorLocationDistance();
         mTypoDiff = nameComparitor.compare(TAYYABS_LOC, TAYYBBS_LOC);
         mDistDiff = distanceComparitor.compare(TAYYABS_LOC, TAYYABS_LOC2);
         mTayyabsLkhNameDiff = nameComparitor.compare(TAYYABS_LOC, LKH_LOC);

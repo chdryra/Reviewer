@@ -48,7 +48,6 @@ public class MdImageList extends MdDataList<MdImageList.MdImage> {
      * </p>
      */
     public static class MdImage implements MdData, DataImage {
-
         private final Bitmap mBitmap;
         private final MdDate mDate;
         private final String mCaption;

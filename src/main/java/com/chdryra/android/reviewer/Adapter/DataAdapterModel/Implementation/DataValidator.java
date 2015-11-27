@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 
 /**
@@ -30,6 +32,14 @@ public class DataValidator {
 
     public boolean validate(DataComment comment) {
         return NotNull(comment) && validateString(comment.getComment());
+    }
+
+    public boolean validate(DataSubject subject) {
+        return NotNull(subject) && validateString(subject.getSubject());
+    }
+
+    public boolean validate(DataTag tag) {
+        return NotNull(tag) && validateString(tag.getTag());
     }
 
     public boolean validate(DataFact fact) {

@@ -3,16 +3,16 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 8 July, 2015
+ * Date: 25 June, 2015
  */
 
-package com.chdryra.android.reviewer.View.DataAggregation;
+package com.chdryra.android.reviewer.View.DataAggregation.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 08/07/2015
+ * On: 25/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataGetter<T, D> {
-    D getData(T datum);
+public interface DifferenceComparitor<T, S extends DifferenceLevel> {
+    S compare(T lhs, T rhs);
 }

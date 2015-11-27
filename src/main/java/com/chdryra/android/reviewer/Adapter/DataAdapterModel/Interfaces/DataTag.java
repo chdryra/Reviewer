@@ -5,6 +5,9 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataTag {
+public interface DataTag extends DataReviewIdable, Validatable{
     String getTag();
+
+    @Override
+    String getReviewId();
 }

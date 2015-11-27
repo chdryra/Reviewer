@@ -3,56 +3,57 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited
  * Proprietary and confidential
  * Author: Rizwan Choudrey
- * Date: 7 July, 2015
+ * Date: 6 July, 2015
  */
 
 package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvComment;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorTag;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
 
 import junit.framework.TestCase;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 07/07/2015
+ * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvCommentTest extends TestCase {
+public class ComparitorTagTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        GvComment kitten = new GvComment("kitten");
-        GvComment sitting = new GvComment("sitting");
-        GvComment empty = new GvComment("");
+        String kitten = "kitten";
+        String sitting = "sitting";
+        String empty = "";
 
-        ComparitorGvComment comparitor = new ComparitorGvComment();
+        ComparitorTag comparitor = new ComparitorTag();
         DifferencePercentage none = new DifferencePercentage(0.0);
         DifferencePercentage all = new DifferencePercentage(1.0);
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        DifferencePercentage difference = comparitor.compare(kitten, kitten);
+        GvTag lhs = new GvTag(kitten);
+        GvTag rhs = new GvTag(kitten);
+        DifferencePercentage difference = comparitor.compare(lhs, rhs);
+        assertTrue(difference.lessThanOrEqualTo(none));
+        difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        difference = comparitor.compare(sitting, sitting);
-        assertTrue(difference.lessThanOrEqualTo(none));
-
-        difference = comparitor.compare(kitten, sitting);
+        rhs = new GvTag(sitting);
+        difference = comparitor.compare(lhs, rhs);
+        assertTrue(difference.lessThanOrEqualTo(expected));
+        assertFalse(difference.lessThanOrEqualTo(expectedDelta));
+        difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
 
-        difference = comparitor.compare(sitting, kitten);
-        assertTrue(difference.lessThanOrEqualTo(expected));
-        assertFalse(difference.lessThanOrEqualTo(expectedDelta));
-
-        difference = comparitor.compare(kitten, empty);
+        rhs = new GvTag(empty);
+        difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));
-
-        difference = comparitor.compare(sitting, empty);
+        difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(all));
         assertFalse(difference.lessThanOrEqualTo(none));
     }

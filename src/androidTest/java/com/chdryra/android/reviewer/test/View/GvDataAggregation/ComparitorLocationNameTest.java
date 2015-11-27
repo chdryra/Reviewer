@@ -10,9 +10,11 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvTag;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorLocationName;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.testutils.RandomLatLng;
+import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.TestCase;
 
@@ -21,40 +23,40 @@ import junit.framework.TestCase;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvTagTest extends TestCase {
+public class ComparitorLocationNameTest extends TestCase {
     @SmallTest
     public void testCompare() {
-        String kitten = "kitten";
-        String sitting = "sitting";
-        String empty = "";
+        LatLng lhsLatLng = RandomLatLng.nextLatLng();
+        LatLng rhsLatLng = RandomLatLng.nextLatLng();
+        String lhsName = "kitten";
+        String rhsName = "sitting";
 
-        ComparitorGvTag comparitor = new ComparitorGvTag();
+        ComparitorLocationName comparitor = new ComparitorLocationName();
         DifferencePercentage none = new DifferencePercentage(0.0);
-        DifferencePercentage all = new DifferencePercentage(1.0);
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);
         DifferencePercentage expectedDelta = new DifferencePercentage(3.0 / 7.0 - 0.01);
 
-        GvTag lhs = new GvTag(kitten);
-        GvTag rhs = new GvTag(kitten);
-        DifferencePercentage difference = comparitor.compare(lhs, rhs);
+        GvLocation lhs = new GvLocation(lhsLatLng, lhsName);
+        GvLocation rhs = new GvLocation(lhsLatLng, lhsName);
+        DifferencePercentage difference = comparitor.compare(lhs, lhs);
+        assertTrue(difference.lessThanOrEqualTo(none));
+        difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(none));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(none));
 
-        rhs = new GvTag(sitting);
+        rhs = new GvLocation(rhsLatLng, lhsName);
+        difference = comparitor.compare(lhs, rhs);
+        assertTrue(difference.lessThanOrEqualTo(none));
+        difference = comparitor.compare(rhs, lhs);
+        assertTrue(difference.lessThanOrEqualTo(none));
+
+        rhs = new GvLocation(rhsLatLng, rhsName);
         difference = comparitor.compare(lhs, rhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
         difference = comparitor.compare(rhs, lhs);
         assertTrue(difference.lessThanOrEqualTo(expected));
         assertFalse(difference.lessThanOrEqualTo(expectedDelta));
-
-        rhs = new GvTag(empty);
-        difference = comparitor.compare(lhs, rhs);
-        assertTrue(difference.lessThanOrEqualTo(all));
-        assertFalse(difference.lessThanOrEqualTo(none));
-        difference = comparitor.compare(rhs, lhs);
-        assertTrue(difference.lessThanOrEqualTo(all));
-        assertFalse(difference.lessThanOrEqualTo(none));
     }
 }

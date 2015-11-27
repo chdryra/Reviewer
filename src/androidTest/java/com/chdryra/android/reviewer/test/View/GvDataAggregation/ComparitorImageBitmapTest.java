@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvImageBitmap;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorImageBitmap;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -22,13 +22,13 @@ import junit.framework.TestCase;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvImageBitmapTest extends TestCase {
+public class ComparitorImageBitmapTest extends TestCase {
     @SmallTest
     public void testCompare() {
         GvImage lhsImage = GvDataMocker.newImage(null);
         GvImage rhsImage = GvDataMocker.newImage(null);
 
-        ComparitorGvImageBitmap comparitor = new ComparitorGvImageBitmap();
+        ComparitorImageBitmap comparitor = new ComparitorImageBitmap();
         DifferenceBoolean same = new DifferenceBoolean(false);
         DifferenceBoolean notSame = new DifferenceBoolean(true);
 

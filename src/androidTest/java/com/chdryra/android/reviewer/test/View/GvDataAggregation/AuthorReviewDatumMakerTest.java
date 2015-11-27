@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.DataAggregation.CanonicalAuthorMaker;
-import com.chdryra.android.reviewer.View.DataAggregation.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.CanonicalAuthor;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -36,7 +36,7 @@ public class AuthorReviewDatumMakerTest extends CanonicalGvDataTest<GvAuthor> {
 
     @Override
     protected CanonicalDatumMaker<GvAuthor> getCanonicalMaker() {
-        return new CanonicalAuthorMaker();
+        return new CanonicalAuthor();
     }
 
     private void checkDifferentAuthorsNotValid() {

@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.View.DataAggregation;
 
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceLevel;
+
 import org.jetbrains.annotations.NotNull;
 
 /**

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvDate;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorDate;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferenceDate;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
 
@@ -23,7 +23,7 @@ import java.util.Calendar;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvDateTest extends TestCase {
+public class ComparitorDateTest extends TestCase {
     @SmallTest
     public void testCompare() {
         Calendar cal1 = Calendar.getInstance();
@@ -42,7 +42,7 @@ public class ComparitorGvDateTest extends TestCase {
         DifferenceDate year = new DifferenceDate(DifferenceDate.DateBucket.YEAR);
         DifferenceDate none = new DifferenceDate(DifferenceDate.DateBucket.MORE_THAN_YEAR);
 
-        ComparitorGvDate comparitor = new ComparitorGvDate();
+        ComparitorDate comparitor = new ComparitorDate();
 
         GvDate lhs = new GvDate(cal1.getTime());
         GvDate rhs = new GvDate(cal1.getTime());

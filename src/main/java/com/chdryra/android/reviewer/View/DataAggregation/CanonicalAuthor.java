@@ -10,13 +10,14 @@ package com.chdryra.android.reviewer.View.DataAggregation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalAuthorMaker implements CanonicalDatumMaker<DataAuthorReview> {
+public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
     @Override
     public DataAuthorReview getCanonical(IdableList<DataAuthorReview> data) {
         DatumAuthorReview nullAuthor = new DatumAuthorReview(data.getReviewId(), "", "");

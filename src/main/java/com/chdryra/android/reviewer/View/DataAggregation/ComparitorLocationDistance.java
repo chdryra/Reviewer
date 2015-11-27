@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.View.DataAggregation;
 
 import android.location.Location;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -18,12 +19,9 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvLocationDistance implements DifferenceComparitor<GvLocation, DifferenceFloat> {
-
-    //Overridden
+public class ComparitorLocationDistance implements DifferenceComparitor<DataLocation, DifferenceFloat> {
     @Override
-    public DifferenceFloat compare(GvLocation lhs, GvLocation
-            rhs) {
+    public DifferenceFloat compare(DataLocation lhs, DataLocation rhs) {
         float[] res = new float[1];
         LatLng ll1 = lhs.getLatLng();
         LatLng ll2 = rhs.getLatLng();

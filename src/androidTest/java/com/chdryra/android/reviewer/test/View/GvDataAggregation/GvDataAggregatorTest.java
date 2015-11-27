@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.DataAggregation.CanonicalCommentMode;
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvComment;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorComment;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregator;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
@@ -26,7 +26,7 @@ public class GvDataAggregatorTest extends TestCase {
     public void testAggregate() {
         GvCommentList data = GvDataMocker.newCommentList(NUM, true);
 
-        ComparitorGvComment comparitor = new ComparitorGvComment();
+        ComparitorComment comparitor = new ComparitorComment();
         DifferencePercentage minDiff = new DifferencePercentage(0.85);
         CanonicalCommentMode canonical = new CanonicalCommentMode();
 

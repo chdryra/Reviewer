@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 07/07/2015

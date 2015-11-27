@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvReviewOverview;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorReview;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
@@ -25,13 +25,13 @@ import java.util.ArrayList;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvReviewOverviewTest extends TestCase {
+public class ComparitorReviewTest extends TestCase {
     @SmallTest
     public void testCompare() {
         GvReviewOverview lhsReview = GvDataMocker.newReviewOverview(null);
         GvReviewOverview rhsReview = GvDataMocker.newReviewOverview(null);
 
-        ComparitorGvReviewOverview comparitor = new ComparitorGvReviewOverview();
+        ComparitorReview comparitor = new ComparitorReview();
         DifferenceBoolean same = new DifferenceBoolean(true);
         DifferenceBoolean notSame = new DifferenceBoolean(false);
 

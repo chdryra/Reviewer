@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvCriterionSubject;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorCriterionSubject;
 import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
  * On: 06/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvCriterionTest extends TestCase {
+public class ComparitorCriterionTest extends TestCase {
     @SmallTest
     public void testCompare() {
         String lhsSubject = "kitten";
@@ -31,7 +31,7 @@ public class ComparitorGvCriterionTest extends TestCase {
         float lhsRating = RandomRating.nextRating();
         float rhsRating = 5f - lhsRating;
 
-        ComparitorGvCriterionSubject comparitor = new ComparitorGvCriterionSubject();
+        ComparitorCriterionSubject comparitor = new ComparitorCriterionSubject();
         DifferencePercentage none = new DifferencePercentage(0.0);
         DifferencePercentage all = new DifferencePercentage(1.0);
         DifferencePercentage expected = new DifferencePercentage(3.0 / 7.0);

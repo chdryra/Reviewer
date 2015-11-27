@@ -8,7 +8,8 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,11 +19,9 @@ import java.util.Date;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvDate implements DifferenceComparitor<GvDate, DifferenceDate> {
-
-    //Overridden
+public class ComparitorDate implements DifferenceComparitor<DataDate, DifferenceDate> {
     @Override
-    public DifferenceDate compare(GvDate lhs, GvDate rhs) {
+    public DifferenceDate compare(DataDate lhs, DataDate rhs) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(new Date(lhs.getTime()));

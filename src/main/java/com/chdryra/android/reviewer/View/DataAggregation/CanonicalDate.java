@@ -8,9 +8,12 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
 import java.util.Date;
 
@@ -19,31 +22,41 @@ import java.util.Date;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalDate implements CanonicalDatumMaker<GvDate> {
+public class CanonicalDate implements CanonicalDatumMaker<DataDateReview> {
     //Overridden
     @Override
-    public GvDate getCanonical(GvDataList<GvDate> data) {
-        GvReviewId id = new GvReviewId(data.getReviewId());
-        if (data.size() == 0) return new GvDate(id, 0);
+    public DatumDateReview getCanonical(IdableList<DataDateReview> data) {
+        String id = data.getReviewId();
+        if (data.size() == 0) return new DatumDateReview(id, 0);
 
-        DatumCounter<GvDate, Date> counter = new DatumCounter<>(data,
-                new DataGetter<GvDate, Date>() {
-                    //Overridden
-                    @Override
-                    public Date getData(GvDate datum) {
-                        return new Date(datum.getTime());
-                    }
-                });
+        DatumCounter<DataDateReview, Date> counter = getCounter(data);
 
+        return new DatumDateReview(id, getCanonicalTime(data, counter));
+    }
+
+    private long getCanonicalTime(IdableList<DataDateReview> data, DatumCounter<DataDateReview,
+                Date> counter) {
         Date canon = counter.getMaxItem();
         int nonMax = counter.getNonMaxCount();
         if (nonMax > 0) {
-            for (GvDate date : data) {
+            for (DataDateReview date : data) {
                 Date candidate = new Date(date.getTime());
                 if (candidate.after(canon)) canon = candidate;
             }
         }
 
-        return new GvDate(id, canon.getTime());
+        return  canon.getTime();
     }
+
+    @NonNull
+    private DatumCounter<DataDateReview, Date> getCounter(IdableList<DataDateReview> data) {
+        return new DatumCounter<>(data,
+                    new DataGetter<DataDateReview, Date>() {
+                        @Override
+                        public Date getData(DataDateReview datum) {
+                            return new Date(datum.getTime());
+                        }
+                    });
+    }
+
 }

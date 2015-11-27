@@ -8,21 +8,20 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorGvFactLabel extends ComparitorStringable<GvFact> {
-    //Constructors
-    public ComparitorGvFactLabel() {
-        super(new DataGetter<GvFact, String>() {
-            //Overridden
+public class ComparitorTag extends ComparitorStringable<DataTag> {
+    public ComparitorTag() {
+        super(new DataGetter<DataTag, String>() {
             @Override
-            public String getData(GvFact datum) {
-                return datum.getLabel().toLowerCase();
+            public String getData(DataTag datum) {
+                return datum.getTag().toLowerCase();
             }
         });
     }

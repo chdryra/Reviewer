@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import com.chdryra.android.reviewer.View.DataAggregation.CanonicalDate;
-import com.chdryra.android.reviewer.View.DataAggregation.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
 import com.chdryra.android.testutils.RandomDate;
 

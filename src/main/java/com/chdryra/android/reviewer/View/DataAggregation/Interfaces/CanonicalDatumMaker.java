@@ -6,7 +6,7 @@
  * Date: 8 July, 2015
  */
 
-package com.chdryra.android.reviewer.View.DataAggregation;
+package com.chdryra.android.reviewer.View.DataAggregation.Interfaces;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;

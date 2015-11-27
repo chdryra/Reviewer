@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation;
 
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
