@@ -4,8 +4,6 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDat
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceLevel;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvList;
