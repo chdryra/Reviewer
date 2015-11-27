@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterCriteria extends MdConverterDataReview<DataCriterion,
+public class MdConverterCriteria extends MdConverterDataReview<DataCriterionReview,
         MdCriterionList.MdCriterion, MdCriterionList> {
 
     public MdConverterCriteria() {
@@ -18,7 +18,7 @@ public class MdConverterCriteria extends MdConverterDataReview<DataCriterion,
     }
 
     @Override
-    public MdCriterionList.MdCriterion convert(DataCriterion datum) {
+    public MdCriterionList.MdCriterion convert(DataCriterionReview datum) {
         MdReviewId id = new MdReviewId(datum.getReviewId());
         return new MdCriterionList.MdCriterion(id, datum.getReview());
     }

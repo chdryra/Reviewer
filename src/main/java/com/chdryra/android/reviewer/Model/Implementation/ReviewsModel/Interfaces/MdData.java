@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.Validatable;
 
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.Validata
  * </p>
  */
 
-public interface MdData extends DataReview, Validatable{
+public interface MdData extends DataReviewIdable, Validatable{
     @Override
     String getReviewId();
 

@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.Review;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CriterionDb implements DataCriterion{
+public class CriterionDb implements DataCriterionReview {
     private String mParentId;
     private Review mReview;
 

@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.DataSorting.ImageComparators;
+import com.chdryra.android.reviewer.DataSorting.ImageComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomLatLng;

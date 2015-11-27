@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
 /**
@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdIdableList<T extends DataReview> extends MdIdableCollection<T> implements IdableList<T>{
+public class MdIdableList<T extends DataReviewIdable> extends MdIdableCollection<T> implements IdableList<T>{
     private MdReviewId mReviewId;
 
     public MdIdableList(MdReviewId reviewId) {

@@ -46,7 +46,7 @@ import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 

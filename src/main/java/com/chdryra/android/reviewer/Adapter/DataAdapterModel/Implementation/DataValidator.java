@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
@@ -40,6 +41,10 @@ public class DataValidator {
             return validateString(fact.getLabel()) && validateString(fact.getValue());
 
         }
+    }
+
+    public boolean validate(DataCriterion criterion) {
+        return NotNull(criterion) && validateString(criterion.getSubject());
     }
 
     public boolean validate(DataImage image) {

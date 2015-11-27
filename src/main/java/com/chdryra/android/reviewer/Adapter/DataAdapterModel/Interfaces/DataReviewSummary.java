@@ -2,9 +2,6 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
-
 import java.util.ArrayList;
 
 /**
@@ -13,9 +10,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataReviewSummary {
-    GvDate getPublishDate();
+    DataDate getPublishDate();
 
-    GvAuthor getAuthor();
+    DataAuthor getAuthor();
 
     String getHeadline();
 

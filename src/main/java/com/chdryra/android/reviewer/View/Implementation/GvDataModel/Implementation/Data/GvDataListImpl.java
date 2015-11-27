@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhDataCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.DataSorting.GvDataComparators;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -92,8 +91,9 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         return mReviewId;
     }
 
+
     @Override
-    protected Comparator<T> getDefaultComparator() {
+    protected Comparator<? super T> getDefaultComparator() {
         return GvDataComparators.getDefaultComparator(mType);
     }
 

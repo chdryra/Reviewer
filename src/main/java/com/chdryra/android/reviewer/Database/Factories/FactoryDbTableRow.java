@@ -12,7 +12,7 @@ import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
@@ -67,7 +67,7 @@ public class FactoryDbTableRow {
         return new RowReviewImpl(review);
     }
 
-    public DbTableRow newRow(DataCriterion criterion) {
+    public DbTableRow newRow(DataCriterionReview criterion) {
         return new RowReviewImpl(criterion);
     }
 

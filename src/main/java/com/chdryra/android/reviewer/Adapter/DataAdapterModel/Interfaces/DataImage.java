@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataImage extends DataReview, Validatable{
+public interface DataImage extends DataReviewIdable, Validatable{
     //abstract
     Bitmap getBitmap();
 

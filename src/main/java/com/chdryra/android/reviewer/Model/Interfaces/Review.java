@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeNode;
@@ -52,7 +52,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * @see ReviewNode
  */
 
-public interface Review extends DataReview {
+public interface Review extends DataReviewIdable {
     //abstract
     DataSubject getSubject();
 

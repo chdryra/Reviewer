@@ -9,7 +9,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCo
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhDataCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataCollection;
-import com.chdryra.android.reviewer.View.DataSorting.GvDataComparators;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -80,7 +79,7 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     private void setComparator() {
-        final Comparator<T> comparator = GvDataComparators.getDefaultComparator(mType);
+        final Comparator<? super T> comparator = GvDataComparators.getDefaultComparator(mType);
         mComparator = new Comparator<GvCanonical>() {
             //Overridden
             @Override

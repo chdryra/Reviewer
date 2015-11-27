@@ -33,11 +33,12 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     public static final GvDataType<GvText> TYPE = new GvDataType<>(GvText.class, "text");
     public static final Parcelable.Creator<GvText> CREATOR = new Parcelable
             .Creator<GvText>() {
-        //Overridden
+        @Override
         public GvText createFromParcel(Parcel in) {
             return new GvText(in);
         }
 
+        @Override
         public GvText[] newArray(int size) {
             return new GvText[size];
         }
@@ -69,11 +70,11 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
+    @Override
     public GvReviewId getGvReviewId() {
         return mId;
     }
 
-    //Overridden
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;

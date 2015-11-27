@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsProviderObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerDbObserver {
     private ReviewerDb mDatabase;
-    private ArrayList<ReviewsProviderObserver> mObservers;
+    private ArrayList<ReviewsRepositoryObserver> mObservers;
 
     //Constructors
     public ReviewerDbRepository(ReviewerDb database) {
@@ -52,25 +52,25 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerD
     }
 
     @Override
-    public void registerObserver(ReviewsProviderObserver observer) {
+    public void registerObserver(ReviewsRepositoryObserver observer) {
         mObservers.add(observer);
     }
 
     @Override
-    public void unregisterObserver(ReviewsProviderObserver observer) {
+    public void unregisterObserver(ReviewsRepositoryObserver observer) {
         mObservers.remove(observer);
     }
 
     @Override
     public void onReviewAdded(Review review) {
-        for (ReviewsProviderObserver observer : mObservers) {
+        for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewAdded(review);
         }
     }
 
     @Override
     public void onReviewDeleted(String reviewId) {
-        for (ReviewsProviderObserver observer : mObservers) {
+        for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewRemoved(reviewId);
         }
     }

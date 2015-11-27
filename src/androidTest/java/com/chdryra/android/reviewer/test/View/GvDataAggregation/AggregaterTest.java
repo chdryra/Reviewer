@@ -4,7 +4,7 @@ import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
-import com.chdryra.android.reviewer.View.GvDataAggregation.Aggregater;
+import com.chdryra.android.reviewer.View.DataAggregation.Aggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthorList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;

@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
@@ -34,7 +34,7 @@ public class RowReviewImpl implements RowReview {
         mRatingIsAverage = review.isRatingAverageOfCriteria();
     }
 
-    public RowReviewImpl(DataCriterion criterion) {
+    public RowReviewImpl(DataCriterionReview criterion) {
         this(criterion.getReview());
         mParentId = criterion.getReviewId();
     }

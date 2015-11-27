@@ -44,8 +44,8 @@ public interface ReviewsFeedMutable extends ReviewsRepositoryMutable, ReviewsFee
     TagsManager getTagsManager();
 
     @Override
-    void registerObserver(ReviewsProviderObserver observer);
+    void registerObserver(ReviewsRepositoryObserver observer);
 
     @Override
-    void unregisterObserver(ReviewsProviderObserver observer);
+    void unregisterObserver(ReviewsRepositoryObserver observer);
 }

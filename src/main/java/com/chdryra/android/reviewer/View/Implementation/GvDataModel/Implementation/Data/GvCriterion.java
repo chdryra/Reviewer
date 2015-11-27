@@ -4,8 +4,10 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhChild;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders
+        .VhChild;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
 /**
@@ -13,7 +15,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.G
  * for review children (sub-reviews).
  * {@link ViewHolder}: {@link VhChild}
  */
-public class GvCriterion extends GvDataBasic<GvCriterion> {
+public class GvCriterion extends GvDataBasic<GvCriterion> implements DataCriterion {
     public static final GvDataType<GvCriterion> TYPE =
             new GvDataType<>(GvCriterion.class, "criterion", "criteria");
     public static final Creator<GvCriterion> CREATOR = new Creator<GvCriterion>() {
@@ -46,8 +48,8 @@ public class GvCriterion extends GvDataBasic<GvCriterion> {
         mRating = rating;
     }
 
-    public GvCriterion(GvCriterion child) {
-        this(child.getGvReviewId(), child.getSubject(), child.getRating());
+    public GvCriterion(GvCriterion criterion) {
+        this(criterion.getGvReviewId(), criterion.getSubject(), criterion.getRating());
     }
 
     GvCriterion(Parcel in) {
@@ -56,11 +58,12 @@ public class GvCriterion extends GvDataBasic<GvCriterion> {
         mRating = in.readFloat();
     }
 
-    //public methods
+    @Override
     public String getSubject() {
         return mSubject;
     }
 
+    @Override
     public float getRating() {
         return mRating;
     }

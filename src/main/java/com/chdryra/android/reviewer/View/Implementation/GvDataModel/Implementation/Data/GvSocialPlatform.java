@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhSocialPlatform;
 
@@ -13,7 +14,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
  *
  * @see SocialPlatformList
  */
-public class GvSocialPlatform extends GvDualText {
+public class GvSocialPlatform extends GvDualText implements DataSocialPlatform{
     public static final GvDataType<GvSocialPlatform> TYPE =
             new GvDataType<>(GvSocialPlatform.class, "share", "share");
     public static final Creator<GvSocialPlatform> CREATOR = new Creator<GvSocialPlatform>() {
@@ -47,11 +48,12 @@ public class GvSocialPlatform extends GvDualText {
         mIsChosen = in.readByte() != 0;
     }
 
-    //public methods
+    @Override
     public String getName() {
         return getUpper();
     }
 
+    @Override
     public int getFollowers() {
         return mFollowers;
     }

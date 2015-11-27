@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface VerboseDataReview extends DataReview, VerboseData {
+public interface VerboseDataReview extends DataReviewIdable, VerboseData {
     @Override
     String getReviewId();
 

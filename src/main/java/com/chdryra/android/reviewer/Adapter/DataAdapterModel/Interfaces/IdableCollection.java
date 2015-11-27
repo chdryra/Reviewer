@@ -7,7 +7,7 @@ import java.util.Iterator;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface IdableCollection<T extends DataReview> extends Iterable<T> {
+public interface IdableCollection<T extends DataReviewIdable> extends Iterable<T> {
     int size();
 
     T getItem(int position);

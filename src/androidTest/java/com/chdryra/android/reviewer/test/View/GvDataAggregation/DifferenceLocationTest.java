@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceFloat;
-import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceLocation;
-import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
+import com.chdryra.android.reviewer.View.DataAggregation.DifferenceFloat;
+import com.chdryra.android.reviewer.View.DataAggregation.DifferenceLocation;
+import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
 
 import junit.framework.TestCase;
 

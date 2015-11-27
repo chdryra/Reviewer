@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
         .FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;

@@ -3,8 +3,10 @@ package com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementat
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders
+        .VhTag;
 
 /**
  * {@link } version of: {@link ItemTag}
@@ -14,7 +16,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
  * Ignores case when comparing tags.
  * </p>
  */
-public class GvTag extends GvText<GvTag> {
+public class GvTag extends GvText<GvTag> implements DataTag {
     public static final GvDataType<GvTag> TYPE = new GvDataType<>(GvTag.class, "tag");
     public static final Creator<GvTag> CREATOR = new Creator<GvTag>() {
         @Override
@@ -53,6 +55,11 @@ public class GvTag extends GvText<GvTag> {
     @Override
     public GvDataType<GvTag> getGvDataType() {
         return GvTag.TYPE;
+    }
+
+    @Override
+    public String getTag() {
+        return getString();
     }
 
     @Override

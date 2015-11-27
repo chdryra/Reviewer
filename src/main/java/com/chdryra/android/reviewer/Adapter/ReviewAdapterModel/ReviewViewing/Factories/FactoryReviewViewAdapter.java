@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;

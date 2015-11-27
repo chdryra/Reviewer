@@ -17,7 +17,7 @@ import android.util.Log;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
@@ -399,7 +399,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void addCriteriaToReviewsTable(Review review, SQLiteDatabase db) {
-        for (DataCriterion criterion : review.getCriteria()) {
+        for (DataCriterionReview criterion : review.getCriteria()) {
             insertRow(mRowFactory.newRow(criterion), getReviewsTable(), db);
         }
     }

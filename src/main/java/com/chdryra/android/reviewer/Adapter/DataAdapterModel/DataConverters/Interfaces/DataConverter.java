@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
 /**
@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
  */
 
 //Really want T2 extends DataReview & T1 but can't do this with generics...
-public interface DataConverter<T1, T2 extends DataReview, T3 extends IdableList<T2>> {
+public interface DataConverter<T1, T2 extends DataReviewIdable, T3 extends IdableList<T2>> {
     T2 convert(T1 datum);
 
     T2 convert(T1 datum, String reviewId);

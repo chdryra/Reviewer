@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataAuthorReview extends DataReview, DataAuthor {
+public interface DataAuthorReview extends DataReviewIdable, DataAuthor {
     @Override
     String getName();
 

@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsProviderObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
@@ -109,12 +109,12 @@ public class ReviewsSource implements ReviewsFeed {
     }
 
     @Override
-    public void registerObserver(ReviewsProviderObserver observer) {
+    public void registerObserver(ReviewsRepositoryObserver observer) {
         mRepository.registerObserver(observer);
     }
 
     @Override
-    public void unregisterObserver(ReviewsProviderObserver observer) {
+    public void unregisterObserver(ReviewsRepositoryObserver observer) {
         mRepository.unregisterObserver(observer);
     }
 }

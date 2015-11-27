@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataFact extends DataReview, Validatable{
+public interface DataFact extends DataReviewIdable, Validatable{
     //abstract
     String getLabel();
 

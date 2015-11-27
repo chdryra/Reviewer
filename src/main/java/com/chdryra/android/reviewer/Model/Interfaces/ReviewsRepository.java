@@ -13,7 +13,7 @@ public interface ReviewsRepository {
 
     TagsManager getTagsManager();
 
-    void registerObserver(ReviewsProviderObserver observer);
+    void registerObserver(ReviewsRepositoryObserver observer);
 
-    void unregisterObserver(ReviewsProviderObserver observer);
+    void unregisterObserver(ReviewsRepositoryObserver observer);
 }

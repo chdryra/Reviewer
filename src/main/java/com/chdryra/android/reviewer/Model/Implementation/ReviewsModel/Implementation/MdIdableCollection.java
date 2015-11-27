@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
  * such as {@link Review}s and {@link MdData}.
  *
  */
-public class MdIdableCollection<T extends DataReview> implements IdableCollection<T> {
+public class MdIdableCollection<T extends DataReviewIdable> implements IdableCollection<T> {
     public static final String NO_ELEMENT = "No more elements left";
     public static final String ILLEGAL_STATE = "Have to do at least one next() before " +
             "you can delete";

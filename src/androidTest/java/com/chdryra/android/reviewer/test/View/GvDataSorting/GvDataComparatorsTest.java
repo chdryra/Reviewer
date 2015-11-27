@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSubject;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
-import com.chdryra.android.reviewer.View.DataSorting.GvDataComparators;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataComparators;
 
 import junit.framework.TestCase;
 

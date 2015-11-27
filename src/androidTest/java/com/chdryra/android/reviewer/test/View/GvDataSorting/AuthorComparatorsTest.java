@@ -4,7 +4,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
-import com.chdryra.android.reviewer.View.DataSorting.AuthorComparators;
+import com.chdryra.android.reviewer.DataSorting.AuthorComparators;
 import com.chdryra.android.reviewer.test.TestUtils.ComparatorTester;
 
 import java.util.Comparator;

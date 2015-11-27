@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsProviderObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
 
 /**
@@ -45,12 +45,12 @@ public class StaticReviewsRepository implements ReviewsRepository {
 
     //static list so unnecessary
     @Override
-    public void registerObserver(ReviewsProviderObserver observer) {
+    public void registerObserver(ReviewsRepositoryObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(ReviewsProviderObserver observer) {
+    public void unregisterObserver(ReviewsRepositoryObserver observer) {
 
     }
 }

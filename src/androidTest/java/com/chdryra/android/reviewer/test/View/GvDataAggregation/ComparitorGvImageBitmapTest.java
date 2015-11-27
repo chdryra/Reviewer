@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvImageBitmap;
-import com.chdryra.android.reviewer.View.GvDataAggregation.DifferenceBoolean;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvImageBitmap;
+import com.chdryra.android.reviewer.View.DataAggregation.DifferenceBoolean;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 

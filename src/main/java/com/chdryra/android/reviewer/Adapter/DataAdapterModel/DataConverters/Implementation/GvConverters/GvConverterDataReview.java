@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.G
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvConverterDataReview <T1 extends DataReview, T2 extends GvData, T3 extends GvDataListImpl<T2>>
+public abstract class GvConverterDataReview <T1 extends DataReviewIdable, T2 extends GvData, T3 extends GvDataListImpl<T2>>
         extends GvConverterBasic<T1, T2, T3>{
 
     public GvConverterDataReview(Class<T3> listClass) {

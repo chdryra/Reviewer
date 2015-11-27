@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataDateReview extends DataReview, DataDate {
+public interface DataDateReview extends DataReviewIdable, DataDate {
     @Override
     long getTime();
 

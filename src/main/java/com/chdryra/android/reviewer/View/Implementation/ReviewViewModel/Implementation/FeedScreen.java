@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsProviderObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  */
 public class FeedScreen implements
         DialogAlertFragment.DialogAlertListener,
-        ReviewsProviderObserver{
+        ReviewsRepositoryObserver {
     private ReviewNodeComponent mNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;

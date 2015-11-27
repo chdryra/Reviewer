@@ -12,8 +12,12 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
+
+import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,14 +25,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdableList<T> {
-    //abstract
-    @Override
-    int size();
-
     void sort();
-
-    @Override
-    T getItem(int position);
 
     GvDataList<T> toList();
 
@@ -38,16 +35,19 @@ public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdabl
     GvDataType<? extends GvData> getGvDataType();
 
     @Override
-    String getStringSummary();
+    GvReviewId getGvReviewId();
 
     @Override
-    String getReviewId();
+    String getStringSummary();
 
     @Override
     boolean hasElements();
 
     @Override
     boolean isVerboseCollection();
+
+    @Override
+    String getReviewId();
 
     @Override
     int describeContents();
@@ -69,4 +69,19 @@ public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdabl
 
     @Override
     int hashCode();
+
+    @Override
+    int size();
+
+    @Override
+    T getItem(int position);
+
+    @Override
+    void add(T datum);
+
+    @Override
+    void addCollection(IdableCollection<T> data);
+
+    @Override
+    Iterator<T> iterator();
 }

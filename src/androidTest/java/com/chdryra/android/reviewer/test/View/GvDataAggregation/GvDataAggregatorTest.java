@@ -2,10 +2,10 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.GvDataAggregation.CanonicalCommentMode;
-import com.chdryra.android.reviewer.View.GvDataAggregation.ComparitorGvComment;
-import com.chdryra.android.reviewer.View.GvDataAggregation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.GvDataAggregation.GvDataAggregator;
+import com.chdryra.android.reviewer.View.DataAggregation.CanonicalCommentMode;
+import com.chdryra.android.reviewer.View.DataAggregation.ComparitorGvComment;
+import com.chdryra.android.reviewer.View.DataAggregation.DifferencePercentage;
+import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregator;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
