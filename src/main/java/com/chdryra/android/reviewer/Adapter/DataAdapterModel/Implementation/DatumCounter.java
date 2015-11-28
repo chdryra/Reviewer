@@ -6,7 +6,7 @@
  * Date: 8 July, 2015
  */
 
-package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
@@ -25,7 +25,7 @@ public class DatumCounter<T, D> {
     private int mNonMaxCount;
 
     //Constructors
-    public DatumCounter(Iterable<T> data, DataGetter<T, D> getter) {
+    public DatumCounter(Iterable<? extends T> data, DataGetter<T, D> getter) {
         mCountMap = new LinkedHashMap<>();
         for (T datum : data) {
             D item = getter.getData(datum);
@@ -49,10 +49,6 @@ public class DatumCounter<T, D> {
     }
 
     //public methods
-    public Map<D, Integer> getCountMap() {
-        return mCountMap;
-    }
-
     public D getMaxItem() {
         return mMaxItem;
     }

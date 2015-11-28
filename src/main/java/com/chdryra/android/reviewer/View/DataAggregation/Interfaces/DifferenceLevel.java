@@ -18,7 +18,5 @@ import org.jetbrains.annotations.NotNull;
 
 //More similar, lower level should be. 'Zero' means exactly the same.
 public interface DifferenceLevel<T> {
-    //abstract methods
-    //abstract
     boolean lessThanOrEqualTo(@NotNull T differenceThreshold);
 }

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
@@ -19,8 +20,9 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDat
  */
 public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
     @Override
-    public DataAuthorReview getCanonical(IdableList<DataAuthorReview> data) {
-        DatumAuthorReview nullAuthor = new DatumAuthorReview(data.getReviewId(), "", "");
+    public DataAuthorReview getCanonical(IdableList<? extends DataAuthorReview> data) {
+        String id = data.getReviewId();
+        DatumAuthorReview nullAuthor = new DatumAuthorReview(id, "", "");
         if (data.size() == 0) return nullAuthor;
 
         DataAuthorReview reference = data.getItem(0);
@@ -30,6 +32,6 @@ public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
             if (!comparitor.compare(reference, author).lessThanOrEqualTo(none)) return nullAuthor;
         }
 
-        return new DatumAuthorReview(data.getReviewId(), reference.getName(), reference.getUserId());
+        return new DatumAuthorReview(id, reference.getName(), reference.getUserId());
     }
 }

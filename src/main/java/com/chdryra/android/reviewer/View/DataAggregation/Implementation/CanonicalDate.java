@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumCounter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;

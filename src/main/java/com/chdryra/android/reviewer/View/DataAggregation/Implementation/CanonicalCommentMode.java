@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumCounter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
@@ -23,7 +25,7 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
     //Overridden
     @Override
-    public DataComment getCanonical(IdableList<DataComment> data) {
+    public DataComment getCanonical(IdableList<? extends DataComment> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumComment(id, "", false);
 
@@ -39,7 +41,7 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
     }
 
     @NonNull
-    private DatumCounter<DataComment, String> getCounter(IdableList<DataComment> data) {
+    private DatumCounter<DataComment, String> getCounter(IdableList<? extends DataComment> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataComment, String>() {
                         @Override

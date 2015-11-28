@@ -17,5 +17,5 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
  * Email: rizwan.choudrey@gmail.com
  */
 public interface CanonicalDatumMaker<T extends DataReviewIdable> {
-    T getCanonical(IdableList<T> data);
+    T getCanonical(IdableList<? extends T> data);
 }

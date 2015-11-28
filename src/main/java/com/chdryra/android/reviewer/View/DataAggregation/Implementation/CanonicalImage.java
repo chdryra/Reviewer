@@ -11,6 +11,9 @@ package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumCounter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;

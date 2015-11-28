@@ -4,8 +4,9 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhAuthor;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders
+        .VhAuthor;
 
 /**
  * {@link } version of: {@link com.chdryra.android.reviewer.Model.Implementation.UserModel.Author}
@@ -15,7 +16,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
  * Ignores case when comparing authors.
  * </p>
  */
-public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthor {
+public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview {
     public static final GvDataType<GvAuthor> TYPE =
             new GvDataType<>(GvAuthor.class, "author");
     public static final Creator<GvAuthor> CREATOR = new Creator<GvAuthor>() {

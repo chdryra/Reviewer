@@ -1,25 +1,25 @@
-package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumDateReview implements DataDateReview {
-    private String mReviewId;
-    private long mTime;
+public class DatumSubject implements DataSubject {
+    private final String mReviewId;
+    private final String mSubject;
 
-    public DatumDateReview(String reviewId, long time) {
+    public DatumSubject(String reviewId, String subject) {
         mReviewId = reviewId;
-        mTime = time;
+        mSubject = subject;
     }
 
     @Override
-    public long getTime() {
-        return mTime;
+    public String getSubject() {
+        return mSubject;
     }
 
     @Override

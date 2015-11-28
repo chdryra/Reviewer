@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data
-        .GvDataListImpl;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhCanonical;
@@ -57,7 +55,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     public GvCanonical(Parcel in) {
         mType = in.readParcelable(GvDataType.class.getClassLoader());
         mCanonical = in.readParcelable(mType.getDataClass().getClassLoader());
-        mData = in.readParcelable(GvDataListImpl.class.getClassLoader());
+        mData = in.readParcelable(GvDataList.class.getClassLoader());
     }
 
     //public methods

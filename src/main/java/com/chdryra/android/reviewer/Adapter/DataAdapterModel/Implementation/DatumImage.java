@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
 import android.graphics.Bitmap;
 

@@ -4,8 +4,9 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhDate;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders
+        .VhDate;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,7 @@ import java.util.Date;
  * Ignores case when comparing dates.
  * </p>
  */
-public class GvDate extends GvDataBasic<GvDate> implements DataDate {
+public class GvDate extends GvDataBasic<GvDate> implements DataDateReview {
     public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
     public static final Creator<GvDate> CREATOR = new Creator<GvDate>() {
         @Override

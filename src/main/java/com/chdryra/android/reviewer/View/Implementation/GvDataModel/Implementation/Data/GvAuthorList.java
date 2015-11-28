@@ -19,11 +19,12 @@ import android.os.Parcelable;
 public class GvAuthorList extends GvDataListImpl<GvAuthor> {
     public static final Parcelable.Creator<GvAuthorList> CREATOR = new Parcelable
             .Creator<GvAuthorList>() {
-        //Overridden
+        @Override
         public GvAuthorList createFromParcel(Parcel in) {
             return new GvAuthorList(in);
         }
 
+        @Override
         public GvAuthorList[] newArray(int size) {
             return new GvAuthorList[size];
         }

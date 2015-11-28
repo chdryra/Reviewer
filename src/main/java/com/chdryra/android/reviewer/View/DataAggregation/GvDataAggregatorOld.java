@@ -14,17 +14,17 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.G
  * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataAggregator<T extends GvData, D1, D2 extends DifferenceLevel<D1>> {
+public class GvDataAggregatorOld<T extends GvData, D1, D2 extends DifferenceLevel<D1>> {
     private DifferenceComparitor<T, D2> mComparitor;
     private D1 mMinimumDifference;
     private CanonicalDatumMaker<T> mCanonical;
     private FactoryGvData mDataFactory;
 
     //Constructors
-    public GvDataAggregator(DifferenceComparitor<T, D2> comparitor,
-                            D1 minimumDifference,
-                            CanonicalDatumMaker<T> canonical,
-                            FactoryGvData dataFactory) {
+    public GvDataAggregatorOld(DifferenceComparitor<T, D2> comparitor,
+                               D1 minimumDifference,
+                               CanonicalDatumMaker<T> canonical,
+                               FactoryGvData dataFactory) {
         mComparitor = comparitor;
         mMinimumDifference = minimumDifference;
         mCanonical = canonical;
