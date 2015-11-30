@@ -76,7 +76,7 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     @Override
-    public void addCollection(IdableCollection<T> data) {
+    public void addCollection(IdableCollection<? extends T> data) {
         throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
     }
 

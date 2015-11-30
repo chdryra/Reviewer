@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 public class CanonicalCriterionMode implements CanonicalDatumMaker<DataCriterion> {
     //Overridden
     @Override
-    public DataCriterion getCanonical(IdableList<DataCriterion> data) {
+    public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumCriterion(id, "", 0f);
 
@@ -28,18 +28,18 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<DataCriterion
     }
 
     private float getModeRating(DatumCounter<DataCriterion, Float> ratingCounter) {
-        return ratingCounter.getMaxItem();
+        return ratingCounter.getModeItem();
     }
 
     private String getModeSubject(DatumCounter<DataCriterion, String> subjectCounter) {
-        String maxSubject = subjectCounter.getMaxItem();
-        int nonMax = subjectCounter.getNonMaxCount();
+        String maxSubject = subjectCounter.getModeItem();
+        int nonMax = subjectCounter.getNonModeCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         return maxSubject;
     }
 
     @NonNull
-    private DatumCounter<DataCriterion, Float> getRatingCounter(IdableList<DataCriterion> data) {
+    private DatumCounter<DataCriterion, Float> getRatingCounter(IdableList<? extends DataCriterion> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataCriterion, Float>() {
                         @Override
@@ -50,7 +50,7 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<DataCriterion
     }
 
     @NonNull
-    private DatumCounter<DataCriterion, String> getSubjectCounter(IdableList<DataCriterion> data) {
+    private DatumCounter<DataCriterion, String> getSubjectCounter(IdableList<? extends DataCriterion> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataCriterion, String>() {
                         @Override

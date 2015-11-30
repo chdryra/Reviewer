@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
 /**
@@ -9,16 +9,10 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterLocations extends
-        MdConverterDataReview<DataLocation, MdLocationList.MdLocation, MdLocationList> {
-
-    public MdConverterLocations() {
-        super(MdLocationList.class);
-    }
-
+public class MdConverterLocations extends MdConverterDataReview<DataLocation, MdLocation> {
     @Override
-    public MdLocationList.MdLocation convert(DataLocation datum) {
+    public MdLocation convert(DataLocation datum) {
         MdReviewId id = new MdReviewId(datum.getReviewId());
-        return new MdLocationList.MdLocation(id, datum.getLatLng(), datum.getName());
+        return new MdLocation(id, datum.getLatLng(), datum.getName());
     }
 }

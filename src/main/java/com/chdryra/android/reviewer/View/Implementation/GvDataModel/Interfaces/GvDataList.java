@@ -1,17 +1,7 @@
 package com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces;
 
-import android.os.Parcel;
-
-import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,74 +12,11 @@ public interface GvDataList<T extends GvData> extends Iterable<T>, ViewHolderDat
     boolean hasData();
 
     @Override
-    GvDataList<T> toList();
-
-    @Override
     GvDataType<T> getGvDataType();
-
-    @Override
-    String getStringSummary();
-
-    @Override
-    String getReviewId();
-
-    @Override
-    boolean hasElements();
-
-    @Override
-    boolean isVerboseCollection();
-
-    @Override
-    int describeContents();
-
-    @Override
-    void writeToParcel(Parcel dest, int flags);
-
-    @Override
-    boolean hasData(DataValidator dataValidator);
-
-    @Override
-    ViewHolder getViewHolder();
-
-    @Override
-    boolean isValidForDisplay();
-
-    @Override
-    GvReviewId getGvReviewId();
-
-    @Override
-    void addCollection(IdableCollection<T> data);
 
     @Override
     void add(T item);
 
     @Override
     boolean contains(T item);
-
-    @Override
-    void remove(T item);
-
-    @Override
-    void removeAll();
-
-    @Override
-    int size();
-
-    @Override
-    T getItem(int position);
-
-    @Override
-    void sort();
-
-    @Override
-    void sort(Comparator<? super T> comparator);
-
-    @Override
-    void addList(Iterable<T> list);
-
-    @Override
-    ArrayList<T> toArrayList();
-
-    @Override
-    Iterator<T> iterator();
 }

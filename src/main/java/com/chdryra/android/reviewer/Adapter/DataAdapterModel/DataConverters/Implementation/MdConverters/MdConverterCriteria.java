@@ -1,9 +1,11 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters;
 
+
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,23 +13,19 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdConverterCriteria extends MdConverterDataReview<DataCriterionReview,
-        MdCriterionList.MdCriterion, MdCriterionList> {
-
-    public MdConverterCriteria() {
-        super(MdCriterionList.class);
-    }
+        MdCriterion> {
 
     @Override
-    public MdCriterionList.MdCriterion convert(DataCriterionReview datum) {
+    public MdCriterion convert(DataCriterionReview datum) {
         MdReviewId id = new MdReviewId(datum.getReviewId());
-        return new MdCriterionList.MdCriterion(id, datum.getReview());
+        return new MdCriterion(id, datum.getReview());
     }
 
-    public MdCriterionList convertReviews(Iterable<? extends Review> reviews, String parentId) {
+    public MdDataList<MdCriterion> convertReviews(Iterable<? extends Review> reviews, String parentId) {
         MdReviewId id = new MdReviewId(parentId);
-        MdCriterionList list = new MdCriterionList(id);
+        MdDataList<MdCriterion> list = new MdDataList<>(id);
         for(Review review : reviews) {
-            list.add(new MdCriterionList.MdCriterion(id, review));
+            list.add(new MdCriterion(id, review));
         }
         return list;
     }

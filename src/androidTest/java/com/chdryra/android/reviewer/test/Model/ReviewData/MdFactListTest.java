@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -31,19 +31,19 @@ public class MdFactListTest extends TestCase {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
 
-        MdFactList.MdFact fact = new MdFactList.MdFact(ID, null, null);
+        MdFact fact = new MdFact(ID, null, null);
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(ID, "", null);
+        fact = new MdFact(ID, "", null);
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(ID, null, "");
+        fact = new MdFact(ID, null, "");
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(ID, "", "");
+        fact = new MdFact(ID, "", "");
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(ID, label, "");
+        fact = new MdFact(ID, label, "");
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(ID, "", value);
+        fact = new MdFact(ID, "", value);
         assertFalse(fact.hasData());
-        fact = new MdFactList.MdFact(ID, label, value);
+        fact = new MdFact(ID, label, value);
         assertTrue(fact.hasData());
     }
 
@@ -51,7 +51,7 @@ public class MdFactListTest extends TestCase {
     public void testMdFactGetters() {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
-        MdFactList.MdFact fact = new MdFactList.MdFact(ID, label, value);
+        MdFact fact = new MdFact(ID, label, value);
         assertEquals(label, fact.getLabel());
         assertEquals(value, fact.getValue());
         assertEquals(ID, fact.getReviewId());
@@ -61,7 +61,7 @@ public class MdFactListTest extends TestCase {
     public void testIsUrl() {
         String label = RandomString.nextWord();
         String value = RandomString.nextWord();
-        MdFactList.MdFact fact = new MdFactList.MdFact(ID, label, value);
+        MdFact fact = new MdFact(ID, label, value);
         assertFalse(fact.isUrl());
     }
 
@@ -73,11 +73,11 @@ public class MdFactListTest extends TestCase {
         String value2 = RandomString.nextWord();
         MdReviewId id2 = RandomReviewId.nextId();
 
-        MdFactList.MdFact fact1 = new MdFactList.MdFact(ID, label1, value1);
+        MdFact fact1 = new MdFact(ID, label1, value1);
 
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(ID, label1, value2), false);
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(ID, label2, value1), false);
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(id2, label1, value1), false);
-        MdDataUtils.testEqualsHash(fact1, new MdFactList.MdFact(ID, label1, value1), true);
+        MdDataUtils.testEqualsHash(fact1, new MdFact(ID, label1, value2), false);
+        MdDataUtils.testEqualsHash(fact1, new MdFact(ID, label2, value1), false);
+        MdDataUtils.testEqualsHash(fact1, new MdFact(id2, label1, value1), false);
+        MdDataUtils.testEqualsHash(fact1, new MdFact(ID, label1, value1), true);
     }
 }

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewStructure;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdRating;
@@ -117,7 +118,7 @@ public class ReviewUserTest extends TestCase {
         assertEquals(mReview.getMdReviewId(), criteria.getReviewId());
         assertEquals(mCriteria.size(), criteria.size());
         for (int i = 0; i < criteria.size(); ++i) {
-            MdCriterionList.MdCriterion criterion = criteria.getItem(i);
+            MdCriterion criterion = criteria.getItem(i);
             Review criterionReview = mCriteria.getItem(i);
             assertEquals(mReview.getMdReviewId(), criterion.getReviewId());
             assertEquals(criterionReview, criterion.getReview());

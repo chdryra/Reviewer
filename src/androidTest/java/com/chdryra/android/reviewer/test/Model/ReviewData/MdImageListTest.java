@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
@@ -40,7 +41,7 @@ public class MdImageListTest extends TestCase {
         MdImageList data = new MdImageList(ID);
         while (!covers.hasData()) {
             data = mocker.newImageList(10);
-            for (MdImageList.MdImage image : data) {
+            for (MdImage image : data) {
                 if (image.isCover()) covers.add(image);
             }
         }
@@ -55,9 +56,9 @@ public class MdImageListTest extends TestCase {
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
 
-        MdImageList.MdImage image = new MdImageList.MdImage(ID, null, date, caption, false);
+        MdImage image = new MdImage(ID, null, date, caption, false);
         assertFalse(image.hasData());
-        image = new MdImageList.MdImage(ID, bitmap, date, caption, false);
+        image = new MdImage(ID, bitmap, date, caption, false);
         assertTrue(image.hasData());
     }
 
@@ -67,7 +68,7 @@ public class MdImageListTest extends TestCase {
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
 
-        MdImageList.MdImage image = new MdImageList.MdImage(ID, bitmap, date, caption, false);
+        MdImage image = new MdImage(ID, bitmap, date, caption, false);
 
         assertTrue(bitmap.sameAs(image.getBitmap()));
         assertEquals(date, image.getDate());
@@ -81,9 +82,9 @@ public class MdImageListTest extends TestCase {
         Date date = RandomDate.nextDate();
         String caption = RandomString.nextSentence();
 
-        MdImageList.MdImage image = new MdImageList.MdImage(ID, bitmap, date, caption, false);
+        MdImage image = new MdImage(ID, bitmap, date, caption, false);
         assertFalse(image.isCover());
-        image = new MdImageList.MdImage(ID, bitmap, date, caption, true);
+        image = new MdImage(ID, bitmap, date, caption, true);
         assertTrue(image.isCover());
     }
 
@@ -97,20 +98,20 @@ public class MdImageListTest extends TestCase {
         String caption2 = RandomString.nextSentence();
         MdReviewId id2 = RandomReviewId.nextId();
 
-        MdImageList.MdImage image1 = new MdImageList.MdImage(ID, bitmap1, date1, caption1, false);
+        MdImage image1 = new MdImage(ID, bitmap1, date1, caption1, false);
 
-        MdImageList.MdImage image2;
-        image2 = new MdImageList.MdImage(ID, bitmap2, date1, caption1, false);
+        MdImage image2;
+        image2 = new MdImage(ID, bitmap2, date1, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(ID, bitmap1, date2, caption1, false);
+        image2 = new MdImage(ID, bitmap1, date2, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(ID, bitmap1, date1, caption2, false);
+        image2 = new MdImage(ID, bitmap1, date1, caption2, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(ID, bitmap1, date1, caption1, true);
+        image2 = new MdImage(ID, bitmap1, date1, caption1, true);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(id2, bitmap1, date1, caption1, false);
+        image2 = new MdImage(id2, bitmap1, date1, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, false);
-        image2 = new MdImageList.MdImage(ID, bitmap1, date1, caption1, false);
+        image2 = new MdImage(ID, bitmap1, date1, caption1, false);
         MdDataUtils.testEqualsHash(image1, image2, true);
     }
 }

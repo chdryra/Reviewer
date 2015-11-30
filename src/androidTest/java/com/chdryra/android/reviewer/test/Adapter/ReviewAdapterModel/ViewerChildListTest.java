@@ -15,6 +15,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerChildList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
+
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
@@ -64,7 +66,7 @@ public class ViewerChildListTest extends AndroidTestCase {
             if (covers.size() > 0) {
                 boolean isCover = false;
                 Bitmap cover = item.getCoverImage();
-                for (MdImageList.MdImage image : covers) {
+                for (MdImage image : covers) {
                     if (cover.sameAs(image.getBitmap())) {
                         isCover = true;
                         break;

@@ -15,6 +15,8 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
  */
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
+
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
@@ -71,7 +73,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
         ConstraintResult res;
         if (isValid(newDatum)) {
             res = mAddConstraint.passes(mData, newDatum);
-            if (res == ConstraintResult.PASSED) mData.add(newDatum);
+            if (res == ConstraintResult.PASSED) ((GvDataCollection<T>)mData).add(newDatum);
         } else {
             res = ConstraintResult.INVALID_DATUM;
         }
@@ -90,7 +92,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
             res = mReplaceConstraint.passes(mData, oldDatum, newDatum);
             if (res == ConstraintResult.PASSED) {
                 mData.remove(oldDatum);
-                mData.add(newDatum);
+                ((GvDataCollection<T>)mData).add(newDatum);
             }
         }
 

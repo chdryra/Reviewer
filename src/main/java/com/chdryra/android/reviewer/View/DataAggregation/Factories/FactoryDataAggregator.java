@@ -55,7 +55,7 @@ public class FactoryDataAggregator {
 
     public DataAggregator<DataAuthorReview> newAuthorsAggregator() {
 
-        return new DataAggregatorImpl<>(new ComparitorAuthor(), SAME_BOOL, new CanonicalAuthor());
+        return new DataAggregatorImpl<>(new ComparitorAuthor(), SAME_BOOL, new CanonicalAuthor(new ComparitorAuthor()));
     }
 
     public DataAggregator<DataSubject> newSubjectsAggreegator() {

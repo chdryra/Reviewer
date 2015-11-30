@@ -9,16 +9,20 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.TreeDataGetter;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorRatingCalculator;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewNode;
 
@@ -36,7 +40,6 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     private final MdReviewId mId;
     private final Review mReview;
-    private final TreeDataGetter mGetter;
     private final MdIdableList<ReviewNode> mChildren;
     private ReviewNodeComponent mParent;
     private boolean mRatingIsAverage = false;
@@ -46,7 +49,6 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     //Constructors
     public ReviewTreeNode(MdReviewId nodeId, Review review,
                           boolean ratingIsAverage,
-                          TreeDataGetter treeDataGetter,
                           FactoryVisitorReviewNode visitorFactory,
                           FactoryReviewNode nodeFactory) {
         mId = nodeId;
@@ -54,8 +56,6 @@ public class ReviewTreeNode implements ReviewNodeComponent {
         mChildren = new MdIdableList<>(nodeId);
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
-        mGetter = treeDataGetter;
-        mGetter.setRoot(this);
         mVisitorFactory = visitorFactory;
         mNodeFactory = nodeFactory;
     }
@@ -193,33 +193,33 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     }
 
     @Override
-    public MdCriterionList getCriteria() {
-        return mGetter.getCriteria();
+    public IdableList<? extends DataCriterionReview> getCriteria() {
+        return mReview.getCriteria();
     }
 
     @Override
-    public MdCommentList getComments() {
-        return mGetter.getComments();
+    public IdableList<? extends DataComment> getComments() {
+        return mReview.getComments();
     }
 
     @Override
-    public MdFactList getFacts() {
-        return mGetter.getFacts();
+    public IdableList<? extends DataFact> getFacts() {
+        return mReview.getFacts();
     }
 
     @Override
-    public MdImageList getImages() {
-        return mGetter.getImages();
+    public IdableList<? extends DataImage> getImages() {
+        return mReview.getImages();
     }
 
     @Override
-    public MdImageList getCovers() {
-        return getImages().getCovers();
+    public IdableList<? extends DataImage> getCovers() {
+        return mReview.getCovers();
     }
 
     @Override
-    public MdLocationList getLocations() {
-        return mGetter.getLocations();
+    public IdableList<? extends DataLocation> getLocations() {
+        return mReview.getLocations();
     }
 
     //Review methods

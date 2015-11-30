@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Datu
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DifferenceComparitor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,6 +20,12 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDat
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
+    private DifferenceComparitor<? super DataAuthorReview, DifferenceBoolean> mComparitor;
+
+    public CanonicalAuthor(DifferenceComparitor<? super DataAuthorReview, DifferenceBoolean> comparitor) {
+        mComparitor = comparitor;
+    }
+
     @Override
     public DataAuthorReview getCanonical(IdableList<? extends DataAuthorReview> data) {
         String id = data.getReviewId();
@@ -26,10 +33,9 @@ public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
         if (data.size() == 0) return nullAuthor;
 
         DataAuthorReview reference = data.getItem(0);
-        ComparitorAuthor comparitor = new ComparitorAuthor();
         DifferenceBoolean none = new DifferenceBoolean(false);
         for (DataAuthorReview author : data) {
-            if (!comparitor.compare(reference, author).lessThanOrEqualTo(none)) return nullAuthor;
+            if (!mComparitor.compare(reference, author).lessThanOrEqualTo(none)) return nullAuthor;
         }
 
         return new DatumAuthorReview(id, reference.getName(), reference.getUserId());

@@ -30,22 +30,22 @@ public class ReviewUser implements Review {
     private final MdDate mPublishDate;
     private final MdSubject mSubject;
     private final MdRating mRating;
-    private final MdCriterionList mCriteria;
-    private final MdCommentList mComments;
-    private final MdImageList mImages;
-    private final MdFactList mFacts;
-    private final MdLocationList mLocations;
+    private final MdDataList<MdCriterion> mCriteria;
+    private final MdDataList<MdComment> mComments;
+    private final MdDataList<MdImage> mImages;
+    private final MdDataList<MdFact> mFacts;
+    private final MdDataList<MdLocation> mLocations;
     private final boolean mRatingIsAverage;
 
     private ReviewNode mNode;
 
     //Constructors
     public ReviewUser(MdReviewId id, MdAuthor author, MdDate publishDate, MdSubject subject,
-                      MdRating rating, MdCommentList comments,
-                      MdImageList images,
-                      MdFactList facts,
-                      MdLocationList locations,
-                      MdCriterionList criteria,
+                      MdRating rating, MdDataList<MdComment> comments,
+                      MdDataList<MdImage>  images,
+                      MdDataList<MdFact> facts,
+                      MdDataList<MdLocation> locations,
+                      MdDataList<MdCriterion> criteria,
                       boolean ratingIsAverage,
                       FactoryReviewNodeComponent componentFactory) {
         mId = id;
@@ -107,32 +107,37 @@ public class ReviewUser implements Review {
     }
 
     @Override
-    public MdCriterionList getCriteria() {
+    public MdDataList<MdCriterion> getCriteria() {
         return mCriteria;
     }
 
     @Override
-    public MdCommentList getComments() {
+    public MdDataList<MdComment> getComments() {
         return mComments;
     }
 
     @Override
-    public MdFactList getFacts() {
+    public MdDataList<MdFact> getFacts() {
         return mFacts;
     }
 
     @Override
-    public MdImageList getImages() {
+    public MdDataList<MdImage> getImages() {
         return mImages;
     }
 
     @Override
-    public MdImageList getCovers() {
-        return mImages.getCovers();
+    public MdDataList<MdImage> getCovers() {
+        MdDataList<MdImage> covers = new MdDataList<>(mId);
+        for (MdImage image : getImages()) {
+            if (image.isCover()) covers.add(image);
+        }
+
+        return covers;
     }
 
     @Override
-    public MdLocationList getLocations() {
+    public MdDataList<MdLocation> getLocations() {
         return mLocations;
     }
 

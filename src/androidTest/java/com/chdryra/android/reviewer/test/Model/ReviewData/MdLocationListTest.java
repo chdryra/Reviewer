@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -33,15 +33,15 @@ public class MdLocationListTest extends TestCase {
         LatLng latLng = RandomLatLng.nextLatLng();
         String name = RandomString.nextWord();
 
-        MdLocationList.MdLocation location = new MdLocationList.MdLocation(ID, null, null);
+        MdLocation location = new MdLocation(ID, null, null);
         assertFalse(location.hasData());
-        location = new MdLocationList.MdLocation(ID, null, "");
+        location = new MdLocation(ID, null, "");
         assertFalse(location.hasData());
-        location = new MdLocationList.MdLocation(ID, null, "");
+        location = new MdLocation(ID, null, "");
         assertFalse(location.hasData());
-        location = new MdLocationList.MdLocation(ID, latLng, "");
+        location = new MdLocation(ID, latLng, "");
         assertFalse(location.hasData());
-        location = new MdLocationList.MdLocation(ID, latLng, name);
+        location = new MdLocation(ID, latLng, name);
         assertTrue(location.hasData());
     }
 
@@ -49,7 +49,7 @@ public class MdLocationListTest extends TestCase {
     public void testMdLocationGetters() {
         LatLng latLng = RandomLatLng.nextLatLng();
         String name = RandomString.nextWord();
-        MdLocationList.MdLocation location = new MdLocationList.MdLocation(ID, latLng, name);
+        MdLocation location = new MdLocation(ID, latLng, name);
         assertEquals(latLng, location.getLatLng());
         assertEquals(name, location.getName());
         assertEquals(ID, location.getReviewId());
@@ -63,16 +63,16 @@ public class MdLocationListTest extends TestCase {
         String name2 = RandomString.nextWord();
         MdReviewId id2 = RandomReviewId.nextId();
 
-        MdLocationList.MdLocation location1 = new MdLocationList.MdLocation(ID, latLng1, name1);
+        MdLocation location1 = new MdLocation(ID, latLng1, name1);
 
-        MdLocationList.MdLocation location2;
-        location2 = new MdLocationList.MdLocation(ID, latLng1, name2);
+        MdLocation location2;
+        location2 = new MdLocation(ID, latLng1, name2);
         MdDataUtils.testEqualsHash(location1, location2, false);
-        location2 = new MdLocationList.MdLocation(ID, latLng2, name1);
+        location2 = new MdLocation(ID, latLng2, name1);
         MdDataUtils.testEqualsHash(location1, location2, false);
-        location2 = new MdLocationList.MdLocation(id2, latLng1, name1);
+        location2 = new MdLocation(id2, latLng1, name1);
         MdDataUtils.testEqualsHash(location1, location2, false);
-        location2 = new MdLocationList.MdLocation(ID, latLng1, name1);
+        location2 = new MdLocation(ID, latLng1, name1);
         MdDataUtils.testEqualsHash(location1, location2, true);
     }
 }

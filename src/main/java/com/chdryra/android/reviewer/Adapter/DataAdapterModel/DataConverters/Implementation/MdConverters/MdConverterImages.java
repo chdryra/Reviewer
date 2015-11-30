@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Imp
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
 /**
@@ -10,17 +10,12 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterImages extends MdConverterDataReview<DataImage, MdImageList.MdImage, MdImageList> {
-
-    public MdConverterImages() {
-        super(MdImageList.class);
-    }
-
+public class MdConverterImages extends MdConverterDataReview<DataImage, MdImage> {
     @Override
-    public MdImageList.MdImage convert(DataImage datum) {
+    public MdImage convert(DataImage datum) {
         MdReviewId id = new MdReviewId(datum.getReviewId());
         MdDate date = new MdDate(id, datum.getDate().getTime());
-        return new MdImageList.MdImage(id, datum.getBitmap(), date,
+        return new MdImage(id, datum.getBitmap(), date,
                 datum.getCaption(), datum.isCover());
     }
 }

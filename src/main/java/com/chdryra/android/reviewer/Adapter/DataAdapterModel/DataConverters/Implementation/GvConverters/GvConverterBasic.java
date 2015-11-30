@@ -1,8 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters;
 
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;

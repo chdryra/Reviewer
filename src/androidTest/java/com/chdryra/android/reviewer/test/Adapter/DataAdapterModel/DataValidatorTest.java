@@ -12,11 +12,11 @@ import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
@@ -73,12 +73,12 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(GvDataMocker.newComment(null)));
 
         MdReviewId r = ReviewMocker.newReview().getMdReviewId();
-        assertFalse(DataValidator.validate(new MdCommentList.MdComment(r, null, false)));
-        assertFalse(DataValidator.validate(new MdCommentList.MdComment(r, null, true)));
-        assertFalse(DataValidator.validate(new MdCommentList.MdComment(r, "", false)));
-        assertFalse(DataValidator.validate(new MdCommentList.MdComment(r, "", true)));
-        assertTrue(DataValidator.validate(new MdCommentList.MdComment(r, comment, false)));
-        assertTrue(DataValidator.validate(new MdCommentList.MdComment(r, comment, true)));
+        assertFalse(DataValidator.validate(new MdComment(r, null, false)));
+        assertFalse(DataValidator.validate(new MdComment(r, null, true)));
+        assertFalse(DataValidator.validate(new MdComment(r, "", false)));
+        assertFalse(DataValidator.validate(new MdComment(r, "", true)));
+        assertTrue(DataValidator.validate(new MdComment(r, comment, false)));
+        assertTrue(DataValidator.validate(new MdComment(r, comment, true)));
         assertTrue(DataValidator.validate(mMdMocker.newComment()));
     }
 
@@ -96,13 +96,13 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(new GvFact(label, value)));
         assertTrue(DataValidator.validate(GvDataMocker.newFact(null)));
 
-        assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, null, null)));
-        assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, "", null)));
-        assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, null, "")));
-        assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, "", "")));
-        assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, "", value)));
-        assertFalse(DataValidator.validate(new MdFactList.MdFact(mR, label, "")));
-        assertTrue(DataValidator.validate(new MdFactList.MdFact(mR, label, value)));
+        assertFalse(DataValidator.validate(new MdFact(mR, null, null)));
+        assertFalse(DataValidator.validate(new MdFact(mR, "", null)));
+        assertFalse(DataValidator.validate(new MdFact(mR, null, "")));
+        assertFalse(DataValidator.validate(new MdFact(mR, "", "")));
+        assertFalse(DataValidator.validate(new MdFact(mR, "", value)));
+        assertFalse(DataValidator.validate(new MdFact(mR, label, "")));
+        assertTrue(DataValidator.validate(new MdFact(mR, label, value)));
         assertTrue(DataValidator.validate(mMdMocker.newFact()));
     }
 
@@ -152,32 +152,32 @@ public class DataValidatorTest extends TestCase {
                 false)));
         assertTrue(DataValidator.validate(GvDataMocker.newImage(null)));
 
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, null, null, true
+        assertFalse(DataValidator.validate(new MdImage(mR, null, null, null, true
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, null, null, false
+        assertFalse(DataValidator.validate(new MdImage(mR, null, null, null, false
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, date, null, true
+        assertFalse(DataValidator.validate(new MdImage(mR, null, date, null, true
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, date, null, false
+        assertFalse(DataValidator.validate(new MdImage(mR, null, date, null, false
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, null, caption, true
+        assertFalse(DataValidator.validate(new MdImage(mR, null, null, caption, true
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, null, caption, false
+        assertFalse(DataValidator.validate(new MdImage(mR, null, null, caption, false
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, date, caption, true
+        assertFalse(DataValidator.validate(new MdImage(mR, null, date, caption, true
         )));
-        assertFalse(DataValidator.validate(new MdImageList.MdImage(mR, null, date, caption, false
+        assertFalse(DataValidator.validate(new MdImage(mR, null, date, caption, false
         )));
 
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, null, null, true)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, null, null, false)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, date, null, true)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, date, null, false)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, null, caption, true)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, null, caption, false)));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, date, caption, true
+        assertTrue(DataValidator.validate(new MdImage(mR, b, null, null, true)));
+        assertTrue(DataValidator.validate(new MdImage(mR, b, null, null, false)));
+        assertTrue(DataValidator.validate(new MdImage(mR, b, date, null, true)));
+        assertTrue(DataValidator.validate(new MdImage(mR, b, date, null, false)));
+        assertTrue(DataValidator.validate(new MdImage(mR, b, null, caption, true)));
+        assertTrue(DataValidator.validate(new MdImage(mR, b, null, caption, false)));
+        assertTrue(DataValidator.validate(new MdImage(mR, b, date, caption, true
         )));
-        assertTrue(DataValidator.validate(new MdImageList.MdImage(mR, b, date, caption, false
+        assertTrue(DataValidator.validate(new MdImage(mR, b, date, caption, false
         )));
         assertTrue(DataValidator.validate(mMdMocker.newImage()));
     }
@@ -194,11 +194,11 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(new GvLocation(latLng, name)));
         assertTrue(DataValidator.validate(GvDataMocker.newLocation(null)));
 
-        assertFalse(DataValidator.validate(new MdLocationList.MdLocation(mR, null, null)));
-        assertFalse(DataValidator.validate(new MdLocationList.MdLocation(mR, latLng, null)));
-        assertFalse(DataValidator.validate(new MdLocationList.MdLocation(mR, null, "")));
-        assertFalse(DataValidator.validate(new MdLocationList.MdLocation(mR, latLng, "")));
-        assertTrue(DataValidator.validate(new MdLocationList.MdLocation(mR, latLng, name)));
+        assertFalse(DataValidator.validate(new MdLocation(mR, null, null)));
+        assertFalse(DataValidator.validate(new MdLocation(mR, latLng, null)));
+        assertFalse(DataValidator.validate(new MdLocation(mR, null, "")));
+        assertFalse(DataValidator.validate(new MdLocation(mR, latLng, "")));
+        assertTrue(DataValidator.validate(new MdLocation(mR, latLng, name)));
         assertTrue(DataValidator.validate(mMdMocker.newLocation()));
     }
 
@@ -214,7 +214,7 @@ public class DataValidatorTest extends TestCase {
         assertTrue(DataValidator.validate(GvDataMocker.newUrl(null)));
 
         MdReviewId r = ReviewMocker.newReview().getMdReviewId();
-        assertTrue(DataValidator.validate(new MdUrlList.MdUrl(r, RandomString.nextWord(), url)));
+        assertTrue(DataValidator.validate(new MdUrl(r, RandomString.nextWord(), url)));
         assertTrue(DataValidator.validate(mMdMocker.newUrl()));
     }
 

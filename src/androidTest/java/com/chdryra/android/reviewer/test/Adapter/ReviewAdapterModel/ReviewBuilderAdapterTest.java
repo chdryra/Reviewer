@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.WrapperGridData;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
@@ -131,7 +133,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         MdCriterionList criteria = published.getCriteria();
         assertEquals(children.size(), criteria.size());
         for (int i = 0; i < children.size(); ++i) {
-            MdCriterionList.MdCriterion criterion = criteria.getItem(i);
+            MdCriterion criterion = criteria.getItem(i);
             assertEquals(published.getMdReviewId(), criterion.getReviewId());
             Review childReview = criterion.getReview();
 

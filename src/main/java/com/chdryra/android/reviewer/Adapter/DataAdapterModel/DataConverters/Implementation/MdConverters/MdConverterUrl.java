@@ -1,22 +1,18 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterUrl extends MdConverterDataReview<DataUrl, MdUrlList.MdUrl, MdUrlList> {
-    public MdConverterUrl() {
-        super(MdUrlList.class);
-    }
-
+public class MdConverterUrl extends MdConverterDataReview<DataUrl, MdUrl> {
     @Override
-    public MdUrlList.MdUrl convert(DataUrl datum) {
+    public MdUrl convert(DataUrl datum) {
         MdReviewId id = new MdReviewId(datum.getReviewId());
-        return new MdUrlList.MdUrl(id, datum.getLabel(), datum.getUrl());
+        return new MdUrl(id, datum.getLabel(), datum.getUrl());
     }
 }

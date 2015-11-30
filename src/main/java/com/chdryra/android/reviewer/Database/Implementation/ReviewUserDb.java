@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
@@ -111,7 +111,7 @@ public class ReviewUserDb implements Review {
     }
 
     @Override
-    public IdableList<? extends DataCriterion> getCriteria() {
+    public IdableList<? extends DataCriterionReview> getCriteria() {
         SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
         ArrayList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
                 .COLUMN_PARENT_ID, mReviewId);

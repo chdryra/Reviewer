@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.webkit.URLUtil;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -35,18 +35,18 @@ public class MdUrlListTest extends TestCase {
     public void testMdUrlHasData() {
         String label = RandomString.nextWord();
 
-        MdUrlList.MdUrl url = new MdUrlList.MdUrl(ID, null, mUrl);
+        MdUrl url = new MdUrl(ID, null, mUrl);
         assertFalse(url.hasData());
-        url = new MdUrlList.MdUrl(ID, "", mUrl);
+        url = new MdUrl(ID, "", mUrl);
         assertFalse(url.hasData());
-        url = new MdUrlList.MdUrl(ID, label, mUrl);
+        url = new MdUrl(ID, label, mUrl);
         assertTrue(url.hasData());
     }
 
     @SmallTest
     public void testMdUrlGetters() {
         String label = RandomString.nextWord();
-        MdUrlList.MdUrl url = new MdUrlList.MdUrl(ID, label, mUrl);
+        MdUrl url = new MdUrl(ID, label, mUrl);
         assertEquals(label, url.getLabel());
         assertEquals(mUrl, url.getUrl());
         assertEquals(mUrl.toExternalForm(), url.getValue());
@@ -56,7 +56,7 @@ public class MdUrlListTest extends TestCase {
     @SmallTest
     public void testIsUrl() {
         String label = RandomString.nextWord();
-        MdUrlList.MdUrl url = new MdUrlList.MdUrl(ID, label, mUrl);
+        MdUrl url = new MdUrl(ID, label, mUrl);
         assertTrue(url.isUrl());
     }
 
@@ -75,12 +75,12 @@ public class MdUrlListTest extends TestCase {
 
         MdReviewId id2 = RandomReviewId.nextId();
 
-        MdUrlList.MdUrl url1 = new MdUrlList.MdUrl(ID, label1, link1);
+        MdUrl url1 = new MdUrl(ID, label1, link1);
 
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(ID, label1, link2), false);
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(ID, label2, link1), false);
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(id2, label1, link1), false);
-        MdDataUtils.testEqualsHash(url1, new MdUrlList.MdUrl(ID, label1, link1), true);
+        MdDataUtils.testEqualsHash(url1, new MdUrl(ID, label1, link2), false);
+        MdDataUtils.testEqualsHash(url1, new MdUrl(ID, label2, link1), false);
+        MdDataUtils.testEqualsHash(url1, new MdUrl(id2, label1, link1), false);
+        MdDataUtils.testEqualsHash(url1, new MdUrl(ID, label1, link1), true);
     }
 
     //Overridden

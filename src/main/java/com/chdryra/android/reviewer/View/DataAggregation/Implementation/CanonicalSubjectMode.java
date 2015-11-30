@@ -25,21 +25,21 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 public class CanonicalSubjectMode implements CanonicalDatumMaker<DataSubject> {
     //Overridden
     @Override
-    public DataSubject getCanonical(IdableList<DataSubject> data) {
+    public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumSubject(id, "");
         return new DatumSubject(id, getSubjectMode(getSubjectCounter(data)));
     }
 
-    private String getSubjectMode(DatumCounter<DataSubject, String> counter) {
-        String maxSubject = counter.getMaxItem();
-        int nonMax = counter.getNonMaxCount();
+    private String getSubjectMode(DatumCounter<? extends DataSubject, String> counter) {
+        String maxSubject = counter.getModeItem();
+        int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         return maxSubject;
     }
 
     @NonNull
-    private DatumCounter<DataSubject, String> getSubjectCounter(IdableList<DataSubject> data) {
+    private DatumCounter<DataSubject, String> getSubjectCounter(IdableList<? extends DataSubject> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataSubject, String>() {
                         @Override

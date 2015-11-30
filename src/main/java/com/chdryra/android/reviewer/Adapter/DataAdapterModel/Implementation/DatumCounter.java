@@ -49,15 +49,15 @@ public class DatumCounter<T, D> {
     }
 
     //public methods
-    public D getMaxItem() {
+    public D getModeItem() {
         return mMaxItem;
     }
 
-    public int getMaxCount() {
+    public int getModeCount() {
         return mMaxCount;
     }
 
-    public int getNonMaxCount() {
+    public int getNonModeCount() {
         return mNonMaxCount;
     }
 

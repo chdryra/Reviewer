@@ -12,9 +12,9 @@ import java.util.Iterator;
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableDataList<D extends DataReviewIdable> implements IdableList<D> {
+public class IdableDataList<T extends DataReviewIdable> implements IdableList<T> {
     private String mReviewId;
-    private ArrayList<D> mData;
+    private ArrayList<T> mData;
 
     public IdableDataList(String reviewId) {
         mReviewId = reviewId;
@@ -32,24 +32,24 @@ public class IdableDataList<D extends DataReviewIdable> implements IdableList<D>
     }
 
     @Override
-    public D getItem(int position) {
+    public T getItem(int position) {
         return mData.get(position);
     }
 
     @Override
-    public void add(D datum) {
+    public void add(T datum) {
         mData.add(datum);
     }
 
     @Override
-    public void addCollection(IdableCollection<D> data) {
-        for (D datum : data) {
+    public void addCollection(IdableCollection<? extends T> data) {
+        for (T datum : data) {
             mData.add(datum);
         }
     }
 
     @Override
-    public Iterator<D> iterator() {
+    public Iterator<T> iterator() {
         return mData.iterator();
     }
 }

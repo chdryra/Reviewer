@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
@@ -162,7 +162,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     }
 
     private Review assembleReview() {
-        IdableCollection<Review> criteria = new MdIdableCollection<>();
+        IdableCollection<Review> criteria = new MdIdableList<>(null);
         for (ReviewBuilderImpl child : mChildren) {
             criteria.add(child.assembleReview());
         }

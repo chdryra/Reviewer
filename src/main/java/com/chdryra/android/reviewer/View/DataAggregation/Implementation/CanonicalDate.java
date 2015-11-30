@@ -8,14 +8,10 @@
 
 package com.chdryra.android.reviewer.View.DataAggregation.Implementation;
 
-import android.support.annotation.NonNull;
-
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumCounter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 
 import java.util.Date;
 
@@ -27,38 +23,20 @@ import java.util.Date;
 public class CanonicalDate implements CanonicalDatumMaker<DataDateReview> {
     //Overridden
     @Override
-    public DatumDateReview getCanonical(IdableList<DataDateReview> data) {
+    public DatumDateReview getCanonical(IdableList<? extends DataDateReview> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumDateReview(id, 0);
 
-        DatumCounter<DataDateReview, Date> counter = getCounter(data);
-
-        return new DatumDateReview(id, getCanonicalTime(data, counter));
+        return new DatumDateReview(id, getMostRecent(data));
     }
 
-    private long getCanonicalTime(IdableList<DataDateReview> data, DatumCounter<DataDateReview,
-                Date> counter) {
-        Date canon = counter.getMaxItem();
-        int nonMax = counter.getNonMaxCount();
-        if (nonMax > 0) {
-            for (DataDateReview date : data) {
-                Date candidate = new Date(date.getTime());
-                if (candidate.after(canon)) canon = candidate;
-            }
+    private long getMostRecent(IdableList<? extends DataDateReview> data) {
+        Date canon = new Date(data.getItem(0).getTime());
+        for (DataDateReview date : data) {
+            Date candidate = new Date(date.getTime());
+            if (candidate.after(canon)) canon = candidate;
         }
 
         return  canon.getTime();
     }
-
-    @NonNull
-    private DatumCounter<DataDateReview, Date> getCounter(IdableList<DataDateReview> data) {
-        return new DatumCounter<>(data,
-                    new DataGetter<DataDateReview, Date>() {
-                        @Override
-                        public Date getData(DataDateReview datum) {
-                            return new Date(datum.getTime());
-                        }
-                    });
-    }
-
 }

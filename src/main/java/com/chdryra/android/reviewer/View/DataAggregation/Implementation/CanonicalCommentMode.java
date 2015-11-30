@@ -29,19 +29,20 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumComment(id, "", false);
 
-        DatumCounter<DataComment, String> counter = getCounter(data);
-        return new DatumComment(id, formatComment(counter), false);
+        DatumCounter<DataComment, String> counter = getCommentCounter(data);
+        return new DatumComment(id, getModeComment(counter), false);
     }
 
-    private String formatComment(DatumCounter<DataComment, String> counter) {
-        String maxComment = counter.getMaxItem();
-        int nonMax = counter.getNonMaxCount();
+    private String getModeComment(DatumCounter<DataComment, String> counter) {
+        String maxComment = counter.getModeItem();
+        int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxComment += " + " + String.valueOf(nonMax);
         return maxComment;
     }
 
     @NonNull
-    private DatumCounter<DataComment, String> getCounter(IdableList<? extends DataComment> data) {
+    private DatumCounter<DataComment, String> getCommentCounter(IdableList<? extends DataComment>
+                                                                            data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataComment, String>() {
                         @Override

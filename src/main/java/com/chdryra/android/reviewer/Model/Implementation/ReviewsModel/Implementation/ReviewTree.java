@@ -16,7 +16,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
@@ -130,7 +130,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public IdableList<? extends DataCriterion> getCriteria() {
+    public IdableList<? extends DataCriterionReview> getCriteria() {
         return mNode.getCriteria();
     }
 

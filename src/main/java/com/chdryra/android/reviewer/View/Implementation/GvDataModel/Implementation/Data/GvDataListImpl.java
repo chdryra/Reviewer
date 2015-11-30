@@ -116,7 +116,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     }
 
     @Override
-    public void addCollection(IdableCollection<T> data) {
+    public void addCollection(IdableCollection<? extends T> data) {
         super.addList(data);
     }
 

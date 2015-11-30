@@ -31,14 +31,17 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
+
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
+
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
@@ -219,7 +222,7 @@ public class ReviewerDbTest extends AndroidTestCase {
     private void testReviewInReviewsTable(Review review, boolean hasData) {
         testReviewsRow(review, null, hasData);
         MdCriterionList criteria = review.getCriteria();
-        for (MdCriterionList.MdCriterion criterion : criteria) {
+        for (MdCriterion criterion : criteria) {
             testReviewsRow(criterion.getReview(), criterion.getReviewId().toString(), hasData);
         }
     }
@@ -329,16 +332,16 @@ public class ReviewerDbTest extends AndroidTestCase {
     private void testRow(ConfigDb.DbData dataType, MdData datum, int index, boolean hasData) {
         switch (dataType) {
             case COMMENTS:
-                testCommentsRow((MdCommentList.MdComment) datum, index, hasData);
+                testCommentsRow((MdComment) datum, index, hasData);
                 break;
             case FACTS:
-                testFactsRow((MdFactList.MdFact) datum, index, hasData);
+                testFactsRow((MdFact) datum, index, hasData);
                 break;
             case IMAGES:
-                testImagesRow((MdImageList.MdImage) datum, index, hasData);
+                testImagesRow((MdImage) datum, index, hasData);
                 break;
             case LOCATIONS:
-                testLocationsRow((MdLocationList.MdLocation) datum, index, hasData);
+                testLocationsRow((MdLocation) datum, index, hasData);
                 break;
             default:
                 fail();
@@ -365,7 +368,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertNull(vals.get(ConfigDb.getConfig(dataType).getPkColumn()));
     }
 
-    private void testLocationsRow(MdLocationList.MdLocation location, int index, boolean hasData) {
+    private void testLocationsRow(MdLocation location, int index, boolean hasData) {
         String id = FactoryDbTableRow.newRow(location, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.LOCATIONS, id);
         if (!hasData) {
@@ -381,7 +384,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(location.getName(), vals.get(RowLocation.NAME));
     }
 
-    private void testImagesRow(MdImageList.MdImage image, int index, boolean hasData) {
+    private void testImagesRow(MdImage image, int index, boolean hasData) {
         String id = FactoryDbTableRow.newRow(image, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.IMAGES, id);
         if (!hasData) {
@@ -401,7 +404,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(image.isCover(), vals.get(RowImage.IS_COVER));
     }
 
-    private void testFactsRow(MdFactList.MdFact fact, int index, boolean hasData) {
+    private void testFactsRow(MdFact fact, int index, boolean hasData) {
         String id = FactoryDbTableRow.newRow(fact, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.FACTS, id);
         if (!hasData) {
@@ -416,7 +419,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         assertEquals(fact.isUrl(), vals.get(RowFact.IS_URL));
     }
 
-    private void testCommentsRow(MdCommentList.MdComment comment, int index, boolean hasData) {
+    private void testCommentsRow(MdComment comment, int index, boolean hasData) {
         String id = FactoryDbTableRow.newRow(comment, index).getRowId();
         ContentValues vals = getRowVals(ConfigDb.DbData.COMMENTS, id);
         if (!hasData) {

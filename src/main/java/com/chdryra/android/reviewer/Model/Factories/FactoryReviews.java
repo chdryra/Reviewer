@@ -20,21 +20,22 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
 
 import java.util.ArrayList;
 
@@ -64,10 +65,6 @@ public class FactoryReviews implements BuilderReview {
         return mPublisherFactory.getAuthor();
     }
 
-    public FactoryReviewNodeComponent getComponentFactory() {
-        return mComponentFactory;
-    }
-
     public Review createUserReview(String subject,
                                    float rating,
                                    Iterable<? extends DataComment> comments,
@@ -84,7 +81,7 @@ public class FactoryReviews implements BuilderReview {
     }
 
     public Review createMetaReview(Review review) {
-        MdIdableCollection<Review> single = new MdIdableCollection<>();
+        MdIdableList<Review> single = new MdIdableList<>(null);
         single.add(review);
 
         return createMetaReview(single, review.getSubject().getSubject());
@@ -118,11 +115,11 @@ public class FactoryReviews implements BuilderReview {
         MdDate mdDate = new MdDate(id, publishDate.getTime());
         MdSubject mdSubject = new MdSubject(id, subject);
         MdRating mdRating = new MdRating(id, rating, 1);
-        MdCommentList mdComments = mConverter.toMdCommentList(comments, id.toString());
-        MdImageList mdImages = mConverter.toMdImageList(images, id.toString());
-        MdFactList mdFacts = mConverter.toMdFactList(facts, id.toString());
-        MdLocationList mdLocations = mConverter.toMdLocationList(locations, id.toString());
-        MdCriterionList mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id.toString());
+        MdDataList<MdComment> mdComments = mConverter.toMdCommentList(comments, id.toString());
+        MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id.toString());
+        MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id.toString());
+        MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id.toString());
+        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id.toString());
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
                 mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mComponentFactory);
@@ -131,11 +128,11 @@ public class FactoryReviews implements BuilderReview {
     private Review newReviewUser(String subject, float
             rating) {
         return newReviewUser(subject, rating,
-                new ArrayList<MdCommentList.MdComment>(),
-                new ArrayList<MdImageList.MdImage>(),
-                new ArrayList<MdFactList.MdFact>(),
-                new ArrayList<MdLocationList.MdLocation>(),
-                new MdIdableCollection<Review>(), false);
+                new ArrayList<MdComment>(),
+                new ArrayList<MdImage>(),
+                new ArrayList<MdFact>(),
+                new ArrayList<MdLocation>(),
+                new MdIdableList<Review>(null), false);
     }
 
     private Review newReviewUser(String subject, float rating,

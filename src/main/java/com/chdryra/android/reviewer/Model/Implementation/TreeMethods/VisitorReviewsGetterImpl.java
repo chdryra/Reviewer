@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
@@ -21,7 +22,10 @@ import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VisitorReviewsGetterImpl implements VisitorReviewsGetter {
-    IdableCollection<Review> mReviews = new MdIdableCollection<>();
+    IdableCollection<Review> mReviews;
+
+    public VisitorReviewsGetterImpl() {
+    }
 
     //public methods
     @Override
@@ -32,18 +36,32 @@ public class VisitorReviewsGetterImpl implements VisitorReviewsGetter {
     //Overridden
     @Override
     public void visit(ReviewNode node) {
-        IdableList<ReviewNode> children = node.getChildren();
-        ReviewNode expanded = node.expand();
-        if (children.size() == 0) {
-            if (expanded.getReview() == node.getReview()) {
-                mReviews.add(node.getReview());
-            } else {
-                expanded.acceptVisitor(this);
-            }
+        if(mReviews == null) newList(node);
+
+        if (isLeafNode(node)) {
+            mReviews.add(node.getReview());
         } else {
-            for (ReviewNode child : children) {
-                child.acceptVisitor(this);
-            }
+            expandAndVisit(node);
+            getDescendentReviews(node.getChildren());
+        }
+    }
+
+    private void expandAndVisit(ReviewNode node) {
+        node.expand().acceptVisitor(this);
+    }
+
+    private boolean isLeafNode(ReviewNode node) {
+        return node.getChildren().size() == 0 && node.expand().getReview() == node.getReview();
+    }
+
+    private void newList(ReviewNode node) {
+        MdReviewId id = new MdReviewId(node.getReviewId());
+        mReviews = new MdIdableList<>(id);
+    }
+
+    private void getDescendentReviews(IdableList<ReviewNode> children) {
+        for (ReviewNode child : children) {
+            child.acceptVisitor(this);
         }
     }
 }

@@ -8,11 +8,16 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
@@ -115,30 +120,30 @@ public class MdDataMocker {
         return list;
     }
 
-    public MdCommentList.MdComment newComment() {
-        return new MdCommentList.MdComment(mMdReviewId, STRING_GENERATOR.nextParagraph(), RAND.nextBoolean()
+    public MdComment newComment() {
+        return new MdComment(mMdReviewId, STRING_GENERATOR.nextParagraph(), RAND.nextBoolean()
 
         );
     }
 
-    public MdImageList.MdImage newImage() {
-        return new MdImageList.MdImage(mMdReviewId, BitmapMocker.nextBitmap(RAND.nextBoolean()),
+    public MdImage newImage() {
+        return new MdImage(mMdReviewId, BitmapMocker.nextBitmap(RAND.nextBoolean()),
                 RandomDate.nextDate(), RandomString.nextSentence(),
                 RAND.nextBoolean());
     }
 
-    public MdLocationList.MdLocation newLocation() {
-        return new MdLocationList.MdLocation(mMdReviewId, RandomLatLng.nextLatLng(),
+    public MdLocation newLocation() {
+        return new MdLocation(mMdReviewId, RandomLatLng.nextLatLng(),
                 RandomString.nextWord());
     }
 
-    public MdFactList.MdFact newFact() {
-        return new MdFactList.MdFact(mMdReviewId, RandomString.nextWord(),
+    public MdFact newFact() {
+        return new MdFact(mMdReviewId, RandomString.nextWord(),
                 RandomString.nextWord()
         );
     }
 
-    public MdUrlList.MdUrl newUrl() {
+    public MdUrl newUrl() {
         if (sUrl == null) {
             try {
                 sUrl = new URL(URL);
@@ -147,6 +152,6 @@ public class MdDataMocker {
             }
         }
 
-        return new MdUrlList.MdUrl(mMdReviewId, URL_LABEL, sUrl);
+        return new MdUrl(mMdReviewId, URL_LABEL, sUrl);
     }
 }

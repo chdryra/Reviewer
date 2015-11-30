@@ -37,7 +37,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryTreeDataGetter;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
@@ -46,7 +45,6 @@ import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 
@@ -208,9 +206,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
     private FactoryReviews setFactoryReviews(FactoryReviewPublisher publisherFactory,
                                              ConverterMd converter) {
         FactoryVisitorReviewNode visitorFactory = new FactoryVisitorReviewNode();
-        FactoryTreeDataGetter getterFactory = new FactoryTreeDataGetter();
-        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent(visitorFactory,
-                getterFactory);
+        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent(visitorFactory);
 
         FactoryReviews reviewsFactory = new FactoryReviews(publisherFactory, factory, converter);
         setFactoryReviews(reviewsFactory);

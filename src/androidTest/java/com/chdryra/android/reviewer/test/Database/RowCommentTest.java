@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  */
 public class RowCommentTest extends TestCase {
     private static final int INDEX = 314;
-    private MdCommentList.MdComment mComment;
+    private MdComment mComment;
 
     @SmallTest
     public void testDataConstructor() {

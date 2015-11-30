@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  */
 public class RowLocationTest extends TestCase {
     private static final int INDEX = 314;
-    private MdLocationList.MdLocation mLocation;
+    private MdLocation mLocation;
 
     @SmallTest
     public void testLocationConstructor() {

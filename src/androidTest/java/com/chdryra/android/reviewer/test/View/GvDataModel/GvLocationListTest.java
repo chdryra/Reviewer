@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
@@ -101,7 +101,7 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testGvLocationGetShortenedName() {
-        String delimiters = MdLocationList.MdLocation.LOCATION_DELIMITER;
+        String delimiters = MdLocation.LOCATION_DELIMITER;
         String firstBit = RandomString.nextWord();
         String name = firstBit;
         Random rand = new Random();

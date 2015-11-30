@@ -14,8 +14,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;
@@ -27,8 +27,8 @@ import junit.framework.TestCase;
  */
 public class RowFactTest extends TestCase {
     private static final int INDEX = 314;
-    private MdFactList.MdFact mFact;
-    private MdUrlList.MdUrl mUrl;
+    private MdFact mFact;
+    private MdUrl mUrl;
 
     @SmallTest
     public void testDataConstructor() {
@@ -63,7 +63,7 @@ public class RowFactTest extends TestCase {
     }
 
     private void testRow(RowFact row, boolean isUrl) {
-        MdFactList.MdFact fact = isUrl ? mUrl : mFact;
+        MdFact fact = isUrl ? mUrl : mFact;
         ContentValues values = row.getContentValues();
         assertEquals(getDatumId(), values.getAsString(RowFact.FACT_ID));
         assertEquals(fact.getReviewId().toString(), values.getAsString(RowFact.REVIEW_ID));

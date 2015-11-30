@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     //Overridden
     @Override
-    public DataFact getCanonical(IdableList<DataFact> data) {
+    public DataFact getCanonical(IdableList<? extends DataFact> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumFact(id, "", "");
 
@@ -37,21 +37,21 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
 
     private String getValueMode(DatumCounter<DataFact, String> valueCounter) {
         int nonMax;
-        String maxValue = valueCounter.getMaxItem();
-        nonMax = valueCounter.getNonMaxCount();
+        String maxValue = valueCounter.getModeItem();
+        nonMax = valueCounter.getNonModeCount();
         if (nonMax > 0) maxValue = String.valueOf(nonMax + 1) + " values";
         return maxValue;
     }
 
     private String getLabelMode(DatumCounter<DataFact, String> labelCounter) {
-        String maxLabel = labelCounter.getMaxItem();
-        int nonMax = labelCounter.getNonMaxCount();
+        String maxLabel = labelCounter.getModeItem();
+        int nonMax = labelCounter.getNonModeCount();
         if (nonMax > 0) maxLabel += " + " + String.valueOf(nonMax);
         return maxLabel;
     }
 
     @NonNull
-    private DatumCounter<DataFact, String> getValueCounter(IdableList<DataFact> data) {
+    private DatumCounter<DataFact, String> getValueCounter(IdableList<? extends DataFact> data) {
         DatumCounter<DataFact, String> counter;
         counter = new DatumCounter<>(data,
                 new DataGetter<DataFact, String>() {
@@ -64,7 +64,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     }
 
     @NonNull
-    private DatumCounter<DataFact, String> getLabelCounter(IdableList<DataFact> data) {
+    private DatumCounter<DataFact, String> getLabelCounter(IdableList<? extends DataFact> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataFact, String>() {
                         //Overridden

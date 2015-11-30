@@ -25,21 +25,21 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 public class CanonicalTagMode implements CanonicalDatumMaker<DataTag> {
     //Overridden
     @Override
-    public DataTag getCanonical(IdableList<DataTag> data) {
+    public DataTag getCanonical(IdableList<? extends DataTag> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumTag(id, "");
         return new DatumTag(id, getTagMode(getTagCounter(data)));
     }
 
-    private String getTagMode(DatumCounter<DataTag, String> counter) {
-        String maxTag = counter.getMaxItem();
-        int nonMax = counter.getNonMaxCount();
+    private String getTagMode(DatumCounter<? extends DataTag, String> counter) {
+        String maxTag = counter.getModeItem();
+        int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxTag += " + " + String.valueOf(nonMax);
         return maxTag;
     }
 
     @NonNull
-    private DatumCounter<DataTag, String> getTagCounter(IdableList<DataTag> data) {
+    private DatumCounter<DataTag, String> getTagCounter(IdableList<? extends DataTag> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataTag, String>() {
                         //Overridden

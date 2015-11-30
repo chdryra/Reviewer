@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
     //Overridden
     @Override
-    public DataLocation getCanonical(IdableList<DataLocation> data) {
+    public DataLocation getCanonical(IdableList<? extends DataLocation> data) {
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumLocation(id, null, "");
 
@@ -37,7 +37,7 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
         return new DatumLocation(id, mid, maxLocation);
     }
 
-    private LatLng getMidLatLng(IdableList<DataLocation> data) {
+    private LatLng getMidLatLng(IdableList<? extends DataLocation> data) {
         LatLng[] latLngs = new LatLng[data.size()];
         for (int i = 0; i < data.size(); ++i) {
             latLngs[i] = data.getItem(i).getLatLng();
@@ -47,15 +47,15 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
         return midpoint.getGeoMidpoint();
     }
 
-    private String getLocationNameMode(DatumCounter<DataLocation, String> counter) {
-        String maxLocation = counter.getMaxItem();
-        int nonMax = counter.getNonMaxCount();
+    private String getLocationNameMode(DatumCounter<? extends DataLocation, String> counter) {
+        String maxLocation = counter.getModeItem();
+        int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
         return maxLocation;
     }
 
     @NonNull
-    private DatumCounter<DataLocation, String> getNameCounter(IdableList<DataLocation> data) {
+    private DatumCounter<DataLocation, String> getNameCounter(IdableList<? extends DataLocation> data) {
         return new DatumCounter<>(data,
                     new DataGetter<DataLocation, String>() {
                         @Override

@@ -15,11 +15,14 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
@@ -63,7 +66,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         MdCriterionList criteria = review.getCriteria();
         assertEquals(3, tags.size());
 
-        MdCriterionList.MdCriterion criterion = criteria.getItem(0);
+        MdCriterion criterion = criteria.getItem(0);
         assertEquals(review, criterion.getReviewId());
         Review child = criterion.getReview();
         assertEquals("Food", child.getSubject().getSubject());
@@ -95,7 +98,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         //Locations
         MdLocationList locations = review.getLocations();
         assertEquals(1, locations.size());
-        MdLocationList.MdLocation location = locations.getItem(0);
+        MdLocation location = locations.getItem(0);
         assertEquals("Tayyabs", location.getName());
         assertEquals(51.517972, location.getLatLng().latitude);
         assertEquals(-0.063291, location.getLatLng().longitude);
@@ -117,7 +120,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         MdImageList images = review.getImages();
         assertEquals(2, images.size());
 
-        MdImageList.MdImage image = images.getItem(0);
+        MdImage image = images.getItem(0);
         assertEquals("Lovely lamb chops!", image.getCaption());
         GregorianCalendar cal = new GregorianCalendar(2015, 1, 25, 19, 15);
         assertEquals(cal.getTime(), image.getDate());
@@ -147,7 +150,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         MdCriterionList children = review.getCriteria();
         assertEquals(3, children.size());
 
-        MdCriterionList.MdCriterion criterion = children.getItem(0);
+        MdCriterion criterion = children.getItem(0);
         Review child = criterion.getReview();
         assertEquals(review.getMdReviewId(), criterion.getReviewId());
         assertEquals("Friday", child.getSubject().getSubject());
@@ -184,7 +187,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         MdLocationList locations = review.getLocations();
         assertEquals(4, locations.size());
 
-        MdLocationList.MdLocation location = locations.getItem(0);
+        MdLocation location = locations.getItem(0);
         assertEquals("Home", location.getName());
         assertEquals(51.453149, location.getLatLng().latitude);
         assertEquals(-1.058555, location.getLatLng().longitude);
@@ -225,7 +228,7 @@ public class TestReviewsTest extends InstrumentationTestCase {
         MdImageList images = review.getImages();
         assertEquals(3, images.size());
 
-        MdImageList.MdImage image = images.getItem(0);
+        MdImage image = images.getItem(0);
         assertEquals("Selfie in Kew!", image.getCaption());
         GregorianCalendar cal = new GregorianCalendar(2015, 4, 25, 14, 15);
         assertEquals(cal.getTime(), image.getDate());

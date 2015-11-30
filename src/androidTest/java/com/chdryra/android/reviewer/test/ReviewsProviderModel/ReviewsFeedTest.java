@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
@@ -37,7 +38,7 @@ public class ReviewsFeedTest extends InstrumentationTestCase {
         MdCommentList allComments = getComments();
         assertTrue(allComments.size() > 1);
         ArrayList<MdReviewId> numReviewsWithComments = new ArrayList<>();
-        for (MdCommentList.MdComment comment : allComments) {
+        for (MdComment comment : allComments) {
             MdReviewId id = comment.getReviewId();
             if (!numReviewsWithComments.contains(id)) numReviewsWithComments.add(id);
         }
@@ -63,7 +64,7 @@ public class ReviewsFeedTest extends InstrumentationTestCase {
         MdCommentList commentsOfInterest = new MdCommentList(null);
         MdReviewId initial = allComments.getItem(0).getReviewId();
         ArrayList<String> ids = new ArrayList<>();
-        for (MdCommentList.MdComment comment : allComments) {
+        for (MdComment comment : allComments) {
             MdReviewId id = comment.getReviewId();
             if (!ids.contains(id.toString())) ids.add(id.toString());
             commentsOfInterest.add(comment);

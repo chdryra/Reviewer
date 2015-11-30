@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
 public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     //Overridden
     @Override
-    public DataImage getCanonical(IdableList<DataImage> data) {
+    public DataImage getCanonical(IdableList<? extends DataImage> data) {
         String id = data.getReviewId();
         DatumImage nullImage = new DatumImage(id, null, null, "", false);
         if (data.size() == 0) return nullImage;
@@ -43,7 +43,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption, true);
     }
 
-    private DataImage getLastImage(IdableList<DataImage> data, DatumImage nullImage) {
+    private DataImage getLastImage(IdableList<? extends DataImage> data, DatumImage nullImage) {
         DataImage reference = data.getItem(0);
         ComparitorImageBitmap comparitor = new ComparitorImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);
@@ -60,19 +60,19 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     }
 
     @Nullable
-    private String getCaption(DatumCounter<DataImage, String> captionCounter) {
+    private String getCaption(DatumCounter<? extends DataImage, String> captionCounter) {
         int num = captionCounter.getCount();
         String caption = String.valueOf(num) + " captions";
         if (num == 0) {
             caption = null;
         } else if (num == 1) {
-            caption = captionCounter.getMaxItem();
+            caption = captionCounter.getModeItem();
         }
         return caption;
     }
 
     @NonNull
-    private DatumCounter<DataImage, String> getCaptionCounter(IdableList<DataImage> data) {
+    private DatumCounter<DataImage, String> getCaptionCounter(IdableList<? extends DataImage> data) {
         return new DatumCounter<>(data, new DataGetter<DataImage, String>() {
             @Override
             public String getData(DataImage datum) {

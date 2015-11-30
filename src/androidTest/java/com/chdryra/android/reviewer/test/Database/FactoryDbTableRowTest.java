@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
@@ -73,8 +73,8 @@ public class FactoryDbTableRowTest extends TestCase {
 
     @SmallTest
     public void testNewRowCriterion() {
-        MdCriterionList.MdCriterion criterion =
-                new MdCriterionList.MdCriterion(RandomReviewId.nextId(), ReviewMocker.newReview());
+        MdCriterion criterion =
+                new MdCriterion(RandomReviewId.nextId(), ReviewMocker.newReview());
         assertNotNull(FactoryDbTableRow.newRow(criterion));
     }
 

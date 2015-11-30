@@ -29,7 +29,7 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriter
         String id = data.getReviewId();
         if (data.size() == 0) return new DatumCriterion(id, "", 0f);
 
-        DatumCounter<DataCriterion, String> counter = getCounter(data);
+        DatumCounter<DataCriterion, String> counter = getSubjectCounter(data);
 
         return new DatumCriterion(id, getModeSubject(counter), getAverage(data));
     }
@@ -43,14 +43,15 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriter
     }
 
     private String getModeSubject(DatumCounter<DataCriterion, String> counter) {
-        String maxSubject = counter.getMaxItem();
-        int nonMax = counter.getNonMaxCount();
+        String maxSubject = counter.getModeItem();
+        int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         return maxSubject;
     }
 
     @NonNull
-    private DatumCounter<DataCriterion, String> getCounter(IdableList<? extends DataCriterion> data) {
+    private DatumCounter<DataCriterion, String> getSubjectCounter(IdableList<? extends
+            DataCriterion> data) {
         return new DatumCounter<>(data, new DataGetter<DataCriterion, String>() {
                 @Override
                 public String getData(DataCriterion datum) {

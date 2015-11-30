@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
 /**
@@ -9,17 +9,12 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterComments extends MdConverterDataReview<DataComment, MdCommentList.MdComment, MdCommentList> {
-
-    public MdConverterComments() {
-        super(MdCommentList.class);
-    }
-
+public class MdConverterComments extends MdConverterDataReview<DataComment, MdComment> {
     @Override
-    public MdCommentList.MdComment convert(DataComment datum) {
+    public MdComment convert(DataComment datum) {
         String comment = datum.getComment();
         boolean isHeadline = datum.isHeadline();
         String reviewId = datum.getReviewId();
-        return new MdCommentList.MdComment(new MdReviewId(reviewId), comment, isHeadline);
+        return new MdComment(new MdReviewId(reviewId), comment, isHeadline);
     }
 }
