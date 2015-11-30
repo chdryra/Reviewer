@@ -18,7 +18,7 @@ public class FactoryReviewsFeed {
                                FactoryReviewPublisher publisherFactory,
                                FactoryReviews reviewFactory,
                                FactoryVisitorReviewNode visitorFactory) {
-        return new ReviewsSource(repository, publisherFactory, reviewFactory, visitorFactory);
+        return new ReviewsSource(repository, publisherFactory, reviewFactory, visitorFactory, );
     }
 
     public ReviewsFeedMutable newMutableFeed(ReviewsRepositoryMutable repository,

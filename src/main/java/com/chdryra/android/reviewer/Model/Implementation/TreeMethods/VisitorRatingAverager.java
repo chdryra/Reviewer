@@ -9,35 +9,27 @@
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorRatingCalculator;
 
 /**
  * For calculating the average rating of the children of a node.
  */
-public class VisitorRatingAverageOfChildren implements VisitorRatingCalculator {
+public class VisitorRatingAverager implements VisitorRatingCalculator {
     private float mRating = 0;
     private int mWeight = 0;
 
     //Overridden
     @Override
     public void visit(ReviewNode node) {
-        IdableCollection<ReviewNode> children = node.getChildren();
-        if (children.size() == 0) mWeight = 1;
-        for (ReviewNode child : children) {
-            DataRating rating = child.getRating();
-            int weight = rating.getRatingWeight();
-            mRating += rating.getRating() * weight;
-            mWeight += rating.getRatingWeight();
-        }
-
-        mRating /= mWeight;
+        DataRating rating = node.getRating();
+        mWeight += rating.getRatingWeight();
+        mRating += rating.getRating() * rating.getRatingWeight();
     }
 
     @Override
     public float getRating() {
-        return mRating;
+        return mWeight > 0 ? mRating / mWeight : mRating;
     }
 
     @Override

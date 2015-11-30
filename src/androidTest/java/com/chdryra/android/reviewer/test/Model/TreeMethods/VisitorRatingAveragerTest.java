@@ -12,7 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverageOfChildren;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverager;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;
@@ -22,11 +22,11 @@ import junit.framework.TestCase;
  * On: 16/02/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorRatingAverageOfChildrenTest extends TestCase {
+public class VisitorRatingAveragerTest extends TestCase {
     @SmallTest
     public void testGetRating() {
         ReviewNode node = ReviewMocker.newReviewNode(false);
-        VisitorRatingAverageOfChildren visitor = new VisitorRatingAverageOfChildren();
+        VisitorRatingAverager visitor = new VisitorRatingAverager();
         node.acceptVisitor(visitor);
 
         float nodeAverage = 0;

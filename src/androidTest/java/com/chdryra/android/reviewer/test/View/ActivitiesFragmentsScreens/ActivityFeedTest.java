@@ -209,6 +209,6 @@ public class ActivityFeedTest extends
         }
 
         ReviewsRepository provider = new StaticReviewsRepository(reviews, tagsManager);
-        return new ReviewsSource(provider, publisherFactory, reviewFactory, );
+        return new ReviewsSource(provider, publisherFactory, reviewFactory, , );
     }
 }

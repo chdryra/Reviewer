@@ -20,7 +20,7 @@ public class ReviewsSourceMutable extends ReviewsSource implements ReviewsFeedMu
                                 FactoryReviewPublisher publisherFactory,
                                 FactoryReviews reviewFactory,
                                 FactoryVisitorReviewNode visitorFactory) {
-        super(repository, publisherFactory, reviewFactory, visitorFactory);
+        super(repository, publisherFactory, reviewFactory, visitorFactory, );
         mRepository = repository;
     }
 

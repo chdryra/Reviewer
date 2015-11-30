@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
@@ -18,12 +20,10 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLoca
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorRatingCalculator;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewNode;
 
 /**
@@ -43,20 +43,17 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     private final MdIdableList<ReviewNode> mChildren;
     private ReviewNodeComponent mParent;
     private boolean mRatingIsAverage = false;
-    private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryReviewNode mNodeFactory;
 
     //Constructors
     public ReviewTreeNode(MdReviewId nodeId, Review review,
                           boolean ratingIsAverage,
-                          FactoryVisitorReviewNode visitorFactory,
                           FactoryReviewNode nodeFactory) {
         mId = nodeId;
         mReview = review;
         mChildren = new MdIdableList<>(nodeId);
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
-        mVisitorFactory = visitorFactory;
         mNodeFactory = nodeFactory;
     }
 
@@ -160,16 +157,20 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     @Override
     public DataRating getRating() {
-        DataRating rating;
-        if (mRatingIsAverage) {
-            VisitorRatingCalculator visitor = mVisitorFactory.newRatingsAverager();
-            acceptVisitor(visitor);
-            rating = new MdRating(mId, visitor.getRating(), visitor.getWeight());
-        } else {
-            rating = mReview.getRating();
-        }
+        return mRatingIsAverage ? getAverageRating() : mReview.getRating();
+    }
 
-        return rating;
+    @NonNull
+    private DataRating getAverageRating() {
+        float rating = 0f;
+        int weight = 0;
+        for(ReviewNode child : getChildren()) {
+            DataRating childRating = child.getRating();
+            rating += childRating.getRating() * childRating.getRatingWeight();
+            weight += childRating.getRatingWeight();
+        }
+        if(weight > 0) rating /= weight;
+        return new MdRating(mId, rating, weight);
     }
 
     @Override

@@ -82,7 +82,7 @@ public class ViewerTreeData extends ViewerReviewData {
     private GvTagList collectTags() {
         ReviewNode node = getReviewNode();
         String nodeId = node.getReviewId();
-        VisitorReviewsGetter visitor = mVisitorFactory.newReviewsGetter();
+        VisitorReviewsGetter visitor = mVisitorFactory.newReviewsCollector();
         visitor.visit(node);
         ArrayList<String> ids = new ArrayList<>();
         for (Review review : visitor.getReviews()) {

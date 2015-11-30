@@ -66,6 +66,7 @@ public class ReviewUser implements Review {
         mFacts = facts;
         mLocations = locations;
         mCriteria = criteria;
+
         mNode = componentFactory.createReviewNodeComponent(this, false).makeTree();
     }
 

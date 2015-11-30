@@ -122,7 +122,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
                                              FactoryVisitorReviewNode visitorFactory,
                                              FactoryReviews reviewsFactory,
                                              ReviewerDb db) {
-        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository(visitorFactory);
+        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
         FactoryReviewsFeed feedFactory = new FactoryReviewsFeed();
 
         ReviewsFeedMutable reviewsFeed
@@ -205,8 +205,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
 
     private FactoryReviews setFactoryReviews(FactoryReviewPublisher publisherFactory,
                                              ConverterMd converter) {
-        FactoryVisitorReviewNode visitorFactory = new FactoryVisitorReviewNode();
-        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent(visitorFactory);
+        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent();
 
         FactoryReviews reviewsFactory = new FactoryReviews(publisherFactory, factory, converter);
         setFactoryReviews(reviewsFactory);
