@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewTreeIterator;
 
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 /**
@@ -12,32 +13,27 @@ import java.util.Stack;
  */
 public class DepthFirstPreIterator implements ReviewTreeIterator {
     private Stack<ReviewNode> mStack;
-    private ReviewNode mRoot;
 
     public DepthFirstPreIterator(ReviewNode root) {
-        mRoot = root;
         mStack = new Stack<>();
-        pushChildrenToStack(mRoot);
-    }
-
-    private void pushChildrenToStack(ReviewNode node) {
-        for(ReviewNode child : node.getChildren()) {
-            mStack.push(child);
-        }
+        mStack.push(root);
     }
 
     @Override
     public boolean hasNext() {
-        return false;
+        return !mStack.isEmpty();
     }
 
     @Override
     public ReviewNode next() {
-        return null;
+        if(!hasNext()) throw new NoSuchElementException("No nodes left");
+        ReviewNode next = mStack.pop();
+        mStack.addAll(next.getChildren());
+        return next;
     }
 
     @Override
     public void remove() {
-
+        throw new UnsupportedOperationException("Remove is not supported");
     }
 }
