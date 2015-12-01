@@ -10,12 +10,11 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Review Data: rating
  */
-public class MdRating implements MdData, DataRating {
+public class MdRating implements DataRating {
     private final float mRating;
     private final int mWeight;
     private final MdReviewId mReviewId;

@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
-        .MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
@@ -20,6 +18,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
@@ -42,19 +41,18 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     private final MdReviewId mId;
     private final Review mReview;
-    private final MdIdableList<ReviewNode> mChildren;
+    private final MdDataList<ReviewNode> mChildren;
     private ReviewNodeComponent mParent;
     private boolean mRatingIsAverage = false;
     private FactoryReviewNode mNodeFactory;
-    private ConverterMd mConverter;
-    
+
     //Constructors
     public ReviewTreeNode(MdReviewId nodeId, Review review,
                           boolean ratingIsAverage,
                           FactoryReviewNode nodeFactory) {
         mId = nodeId;
         mReview = review;
-        mChildren = new MdIdableList<>(nodeId);
+        mChildren = new MdDataList<>(nodeId);
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
         mNodeFactory = nodeFactory;
@@ -198,44 +196,72 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     @Override
     public IdableList<? extends DataCriterionReview> getCriteria() {
-        MdDataList<MdCriterion> criteria = new MdDataList<>(mId);
-        criteria.addCollection(mConverter.toMdCriterionList(mReview.getCriteria()));
-        for(ReviewNode child : getChildren()) {
-            criteria.addCollection(mConverter.toMdCriterionList(child.getCriteria()));
-        }
-        
-        return criteria;
+        return getReviewData(new DataGetter<DataCriterionReview>() {
+            @Override
+            IdableList<? extends DataCriterionReview> getData(Review review) {
+                return review.getCriteria();
+            }
+        });
     }
 
     @Override
     public IdableList<? extends DataComment> getComments() {
-        MdDataList<MdComment> comments = new MdDataList<>(mId);
-        comments.addCollection(mConverter.toMdCommentList(mReview.getComments()));
-        for(ReviewNode child : getChildren()) {
-            comments.addCollection(mConverter.toMdCommentList(child.getComments()));
-        }
-
-        return comments;
+        return getReviewData(new DataGetter<DataComment>() {
+            @Override
+            IdableList<? extends DataComment> getData(Review review) {
+                return review.getComments();
+            }
+        });
     }
 
     @Override
     public IdableList<? extends DataFact> getFacts() {
-        return mReview.getFacts();
+        return getReviewData(new DataGetter<DataFact>() {
+            @Override
+            IdableList<? extends DataFact> getData(Review review) {
+                return review.getFacts();
+            }
+        });
     }
 
     @Override
     public IdableList<? extends DataImage> getImages() {
-        return mReview.getImages();
+        return getReviewData(new DataGetter<DataImage>() {
+            @Override
+            IdableList<? extends DataImage> getData(Review review) {
+                return review.getImages();
+            }
+        });
     }
 
     @Override
     public IdableList<? extends DataImage> getCovers() {
-        return mReview.getCovers();
+        return getReviewData(new DataGetter<DataImage>() {
+            @Override
+            IdableList<? extends DataImage> getData(Review review) {
+                return review.getCovers();
+            }
+        });
     }
 
     @Override
     public IdableList<? extends DataLocation> getLocations() {
-        return mReview.getLocations();
+        return getReviewData(new DataGetter<DataLocation>() {
+            @Override
+            IdableList<? extends DataLocation> getData(Review review) {
+                return review.getLocations();
+            }
+        });
+    }
+
+    private <T extends DataReviewIdable> IdableList<T> getReviewData(DataGetter<T> getter) {
+        MdDataList<T> data = new MdDataList<>(mId);
+        data.addCollection(getter.getData(mReview));
+        for(ReviewNode child : getChildren()) {
+            data.addCollection(getter.getData(child));
+        }
+
+        return data;
     }
 
     //Review methods
@@ -256,5 +282,9 @@ public class ReviewTreeNode implements ReviewNodeComponent {
         result = 31 * result + (mParent != null ? mParent.hashCode() : 0);
         result = 31 * result + (mRatingIsAverage ? 1 : 0);
         return result;
+    }
+
+    private abstract class DataGetter<T extends DataReviewIdable> {
+        abstract IdableList<? extends T> getData(Review review);
     }
 }

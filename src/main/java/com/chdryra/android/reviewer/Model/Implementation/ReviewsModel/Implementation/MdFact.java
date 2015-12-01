@@ -2,12 +2,11 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Review Data: fact
  */
-public class MdFact implements MdData, DataFact {
+public class MdFact implements DataFact {
 
     private final String mLabel;
     private final String mValue;

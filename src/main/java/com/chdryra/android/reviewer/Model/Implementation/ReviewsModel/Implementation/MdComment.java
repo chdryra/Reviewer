@@ -2,12 +2,11 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Review Data: comment
  */
-public class MdComment implements MdData, DataComment {
+public class MdComment implements DataComment {
     private final String mComment;
     private final boolean mIsHeadline;
     private final MdReviewId mReviewId;

@@ -2,13 +2,12 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Review Data: location
  */
-public class MdLocation implements MdData, DataLocation {
+public class MdLocation implements DataLocation {
     private final LatLng mLatLng;
     private final String mName;
     private final MdReviewId mReviewId;

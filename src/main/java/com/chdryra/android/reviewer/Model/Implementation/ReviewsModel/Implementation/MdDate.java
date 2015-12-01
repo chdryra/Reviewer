@@ -2,14 +2,13 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdDate implements MdData, DataDateReview {
+public class MdDate implements DataDateReview {
     private long mTime;
     private MdReviewId mReviewId;
 

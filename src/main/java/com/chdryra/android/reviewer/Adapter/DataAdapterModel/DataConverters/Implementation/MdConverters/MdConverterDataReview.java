@@ -1,14 +1,13 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class MdConverterDataReview<T1 extends DataReviewIdable, T2 extends MdData>
+public abstract class MdConverterDataReview<T1 extends DataReviewIdable, T2 extends DataReviewIdable>
         extends MdConverterBasic<T1, T2>{
 
     @Override

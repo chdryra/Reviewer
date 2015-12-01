@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdRating;
@@ -81,7 +80,7 @@ public class FactoryReviews implements BuilderReview {
     }
 
     public Review createMetaReview(Review review) {
-        MdIdableList<Review> single = new MdIdableList<>(null);
+        MdDataList<Review> single = new MdDataList<>(null);
         single.add(review);
 
         return createMetaReview(single, review.getSubject().getSubject());
@@ -132,7 +131,7 @@ public class FactoryReviews implements BuilderReview {
                 new ArrayList<MdImage>(),
                 new ArrayList<MdFact>(),
                 new ArrayList<MdLocation>(),
-                new MdIdableList<Review>(null), false);
+                new MdDataList<Review>(null), false);
     }
 
     private Review newReviewUser(String subject, float rating,

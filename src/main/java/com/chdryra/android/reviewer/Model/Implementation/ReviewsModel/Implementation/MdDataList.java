@@ -1,29 +1,53 @@
-/*
- * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 23 September, 2014
- */
-
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.mygenerallibrary.SortableListImpl;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
- * Review Data: Sortable collection of {@link MdData} objects that itself is considered Review Data
- *
- * @param <T>: {@link MdData} type in collection.
+ * Created by: Rizwan Choudrey
+ * On: 10/11/2015
+ * Email: rizwan.choudrey@gmail.com
  */
-public class MdDataList<T extends MdData> extends MdIdableList<T> implements MdData, IdableList<T> {
+public class MdDataList<T extends DataReviewIdable> extends SortableListImpl<T> implements IdableList<T>{
+    private MdReviewId mReviewId;
+
     public MdDataList(MdReviewId reviewId) {
-        super(reviewId);
+        mReviewId = reviewId;
     }
 
     @Override
-    public boolean hasData(DataValidator dataValidator) {
-        return mData.size() > 0;
+    public String getReviewId() {
+        return mReviewId.toString();
+    }
+
+    @Override
+    public void addCollection(IdableCollection<? extends T> items) {
+        super.addList(items);
+    }
+
+    public boolean containsId(String id) {
+        for (T datum : this) {
+            if(datum.getReviewId().equals(id)) return true;
+        }
+
+        return false;
+    }
+
+    public T get(String id) {
+        for (T datum : this) {
+            if(datum.getReviewId().equals(id)) return datum;
+        }
+
+        return null;
+    }
+
+    public void remove(String reviewId) {
+        mData.remove(get(reviewId));
+    }
+
+    protected MdReviewId getMdReviewId() {
+        return mReviewId;
     }
 }

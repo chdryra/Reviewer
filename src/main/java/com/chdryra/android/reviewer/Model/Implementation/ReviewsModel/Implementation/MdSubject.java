@@ -10,12 +10,11 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Review Data: subject
  */
-public class MdSubject implements MdData, DataSubject {
+public class MdSubject implements DataSubject {
     private final String mSubject;
     private final MdReviewId mReviewId;
 

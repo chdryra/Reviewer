@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
@@ -69,7 +69,7 @@ public class ReviewsSource implements ReviewsFeed {
 
     @Override
     public Review createMetaReview(VerboseIdableCollection data, String subject) {
-        IdableCollection<Review> reviews = new MdIdableList<>(null);
+        IdableCollection<Review> reviews = new MdDataList<>(null);
         for (int i = 0; i < data.size(); ++i) {
             reviews.add(getReview(data.getItem(i).getReviewId()));
         }

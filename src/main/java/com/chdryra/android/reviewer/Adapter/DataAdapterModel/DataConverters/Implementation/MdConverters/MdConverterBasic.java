@@ -3,17 +3,18 @@ package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Imp
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverter;
+
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class MdConverterBasic<T1, T2 extends MdData>
+public abstract class MdConverterBasic<T1, T2 extends DataReviewIdable>
         implements DataConverter<T1, T2, MdDataList<T2>> {
 
     @Override

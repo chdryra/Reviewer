@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 
 import junit.framework.Assert;
 
@@ -15,7 +14,7 @@ import junit.framework.Assert;
  * Consists of bitmap and optionally caption, LatLng. Also knows whether a cover image.
  * </p>
  */
-public class MdImage implements MdData, DataImage {
+public class MdImage implements DataImage {
     private final Bitmap mBitmap;
     private final MdDate mDate;
     private final String mCaption;

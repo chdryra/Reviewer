@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
@@ -10,7 +9,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.Review;
  * On: 30/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MdCriterion implements MdData, DataCriterionReview {
+public class MdCriterion implements DataCriterionReview {
     private MdReviewId mParentId;
     private Review mCriterion;
 

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
-
 import junit.framework.Assert;
 
 /**

@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces.MdData;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 
 /**
  * Review Data: Wrapper for a UUID
@@ -20,7 +19,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Interfaces
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-public class MdReviewId implements MdData {
+public class MdReviewId implements DataReviewIdable{
     private static final String SPLITTER = ":";
     private final String mUserId;
     private long mTime;
@@ -47,11 +46,6 @@ public class MdReviewId implements MdData {
     @Override
     public String getReviewId() {
         return mString;
-    }
-
-    @Override
-    public boolean hasData(DataValidator validator) {
-        return validator.validateReviewId(mString);
     }
 
     @Override
