@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
+        .MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
@@ -44,7 +46,8 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     private ReviewNodeComponent mParent;
     private boolean mRatingIsAverage = false;
     private FactoryReviewNode mNodeFactory;
-
+    private ConverterMd mConverter;
+    
     //Constructors
     public ReviewTreeNode(MdReviewId nodeId, Review review,
                           boolean ratingIsAverage,
@@ -195,12 +198,24 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     @Override
     public IdableList<? extends DataCriterionReview> getCriteria() {
-        return mReview.getCriteria();
+        MdDataList<MdCriterion> criteria = new MdDataList<>(mId);
+        criteria.addCollection(mConverter.toMdCriterionList(mReview.getCriteria()));
+        for(ReviewNode child : getChildren()) {
+            criteria.addCollection(mConverter.toMdCriterionList(child.getCriteria()));
+        }
+        
+        return criteria;
     }
 
     @Override
     public IdableList<? extends DataComment> getComments() {
-        return mReview.getComments();
+        MdDataList<MdComment> comments = new MdDataList<>(mId);
+        comments.addCollection(mConverter.toMdCommentList(mReview.getComments()));
+        for(ReviewNode child : getChildren()) {
+            comments.addCollection(mConverter.toMdCommentList(child.getComments()));
+        }
+
+        return comments;
     }
 
     @Override

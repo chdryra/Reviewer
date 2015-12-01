@@ -8,6 +8,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
@@ -48,6 +49,10 @@ public class ConverterMd {
         return mConverterComments.convert(comments, reviewId);
     }
 
+    public MdDataList<MdComment> toMdCommentList(IdableList<? extends DataComment> comments) {
+        return mConverterComments.convert(comments);
+    }
+
     //Facts
     public MdDataList<MdFact> toMdFactList(Iterable<? extends DataFact> facts, String reviewId) {
         return mConverterFacts.convert(facts, reviewId);
@@ -71,8 +76,8 @@ public class ConverterMd {
     }
 
     //Criteria
-    public MdDataList<MdCriterion> toMdCriterionList(Iterable<? extends DataCriterionReview> criteria, String reviewId) {
-        return mConverterCriteria.convert(criteria, reviewId);
+    public MdDataList<MdCriterion> toMdCriterionList(IdableList<? extends DataCriterionReview> criteria) {
+        return mConverterCriteria.convert(criteria);
     }
 
     public MdDataList<MdCriterion> reviewsToMdCriterionList(Iterable<? extends Review> criteria, String reviewId) {
