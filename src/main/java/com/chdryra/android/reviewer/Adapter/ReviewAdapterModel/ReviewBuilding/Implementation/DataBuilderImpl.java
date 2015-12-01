@@ -106,7 +106,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
 
     @Override
     public void deleteAll() {
-        mData.removeAll();
+        mData.clear();
     }
 
     @Override

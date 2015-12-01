@@ -51,7 +51,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
         GvCommentList allComments = new GvCommentList(new GvReviewId(mComments.getReviewId()));
         for (int i = 0; i < mComments.size(); ++i) {
             GvCanonical<GvComment> canonical = mComments.getItem(i);
-            allComments.addList(canonical.toList());
+            allComments.addAll(canonical.toList());
         }
         GvCommentList split = allComments.getSplitComments();
         mCommentsSplit = mAggregater.getAggregate(split);

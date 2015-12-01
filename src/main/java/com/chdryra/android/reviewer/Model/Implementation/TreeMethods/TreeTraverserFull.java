@@ -42,12 +42,9 @@ public class TreeTraverserFull implements TreeTraverser {
     }
 
     private void expandAndVisit(ReviewNode node) {
-        if(isExpandable(node)) traverse(node.expand());
+        if(node.isExpandable()) traverse(node.expand());
     }
 
-    protected boolean isExpandable(ReviewNode node) {
-        return node.expand().getReview() == node.getReview();
-    }
 
     private void visitDescendents(ReviewNode node) {
         for (ReviewNode child : node.getChildren()) {

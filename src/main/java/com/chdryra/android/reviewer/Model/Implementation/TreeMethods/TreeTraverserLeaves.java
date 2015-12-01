@@ -15,6 +15,6 @@ public class TreeTraverserLeaves extends TreeTraverserFull{
         super(root, visitors);
     }
     private void visit(ReviewNode node, VisitorReviewNode visitor) {
-        if(!isExpandable(node) && node.getChildren().size() == 0) node.acceptVisitor(visitor);
+        if(!node.isExpandable() && node.getChildren().size() == 0) node.acceptVisitor(visitor);
     }
 }

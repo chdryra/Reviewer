@@ -49,7 +49,7 @@ public class GvCommentList extends GvDataListImpl<GvComment> {
     public GvCommentList getSplitComments() {
         GvCommentList splitComments = new GvCommentList(getGvReviewId());
         for (GvComment comment : this) {
-            splitComments.addList(comment.getSplitComments());
+            splitComments.addAll(comment.getSplitComments());
         }
 
         return splitComments;

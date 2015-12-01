@@ -5,9 +5,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data
-        .GvDataComparators;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataComparators;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
@@ -15,6 +13,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataCollection;
 
+import java.util.AbstractCollection;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -23,7 +22,8 @@ import java.util.Iterator;
  * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvCanonicalCollection<T extends GvData> implements GvDataCollection<GvCanonical>,
+public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<GvCanonical>
+        implements GvDataCollection<GvCanonical>,
         Iterable<GvCanonical> {
     public static final Parcelable.Creator<GvCanonicalCollection> CREATOR = new Parcelable
             .Creator<GvCanonicalCollection>() {
@@ -60,8 +60,8 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
         setComparator();
     }
 
-    public void addCanonnical(GvCanonical<T> canonical) {
-        mData.add(canonical);
+    public boolean addCanonnical(GvCanonical<T> canonical) {
+        return mData.add(canonical);
     }
 
     @Override
@@ -70,17 +70,9 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     }
 
     @Override
-    public void add(GvCanonical datum) {
+    public boolean add(GvCanonical datum) {
         //TODO make type safe
-        if(datum.getGvDataType().equals(mType)) addCanonnical(datum);
-    }
-
-    @Override
-    public void addCollection(IdableCollection<? extends GvCanonical> data) {
-        //TODO make type safe
-        for(GvCanonical datum : data) {
-            if(datum.getGvDataType().equals(mType)) addCanonnical(datum);
-        }
+        return datum.getGvDataType().equals(mType) && addCanonnical(datum);
     }
 
     private void setComparator() {
@@ -119,11 +111,6 @@ public class GvCanonicalCollection<T extends GvData> implements GvDataCollection
     @Override
     public GvDataListImpl<GvCanonical> toList() {
         return mData;
-    }
-
-    @Override
-    public boolean contains(GvCanonical item) {
-        return mData.contains(item);
     }
 
     @Override

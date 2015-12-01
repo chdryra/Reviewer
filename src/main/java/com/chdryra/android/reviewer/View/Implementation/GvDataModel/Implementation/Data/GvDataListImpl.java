@@ -15,7 +15,6 @@ import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhDataCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
@@ -116,13 +115,8 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     }
 
     @Override
-    public void addCollection(IdableCollection<? extends T> data) {
-        super.addList(data);
-    }
-
-    @Override
     public boolean hasElements() {
-        return size() > 0;
+        return !isEmpty();
     }
 
     @Override
@@ -131,13 +125,8 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
     }
 
     @Override
-    public GvDataListImpl<T> toList() {
+    public GvDataList<T> toList() {
         return this;
-    }
-
-    @Override
-    public boolean contains(T datum) {
-        return super.contains(mType.cast(datum));
     }
 
     @Override
@@ -165,7 +154,7 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
 
     @Override
     public boolean hasData() {
-        return mData.size() > 0;
+        return !isEmpty();
     }
 
     @Override

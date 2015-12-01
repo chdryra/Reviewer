@@ -542,7 +542,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
         checkFragmentSubjectRatingAsExpected();
         checkBuildersSubjectRatingAsExpected();
 
-        if (!confirm) data.removeAll();
+        if (!confirm) data.clear();
         GvDataList<T> testData = getAddDataToTestAgainst(data);
 
         checkInGrid(testData, true);

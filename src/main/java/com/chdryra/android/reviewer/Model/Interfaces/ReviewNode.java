@@ -36,6 +36,8 @@ public interface ReviewNode extends Review {
 
     ReviewNode getRoot();
 
+    boolean isExpandable();
+
     ReviewNode expand();
 
     IdableList<ReviewNode> getChildren();

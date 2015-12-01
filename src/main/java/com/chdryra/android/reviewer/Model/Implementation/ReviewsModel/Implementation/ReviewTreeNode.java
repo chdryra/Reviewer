@@ -87,7 +87,7 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     @Override
     public void removeChild(String reviewId) {
-        removeChild((ReviewTreeNode) mChildren.get(reviewId));
+        removeChild((ReviewTreeNode) mChildren.getItem(reviewId));
     }
 
     @Override
@@ -122,13 +122,18 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     }
 
     @Override
+    public boolean isExpandable() {
+        return expand().getReview() != getReview();
+    }
+
+    @Override
     public ReviewNode expand() {
         return getReview().getTreeRepresentation();
     }
 
     @Override
     public ReviewNode getChild(String reviewId) {
-        return mChildren.get(reviewId);
+        return mChildren.getItem(reviewId);
     }
 
     @Override
@@ -256,9 +261,9 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     private <T extends DataReviewIdable> IdableList<T> getReviewData(DataGetter<T> getter) {
         MdDataList<T> data = new MdDataList<>(mId);
-        data.addCollection(getter.getData(mReview));
+        data.addAll(getter.getData(mReview));
         for(ReviewNode child : getChildren()) {
-            data.addCollection(getter.getData(child));
+            data.addAll(getter.getData(child));
         }
 
         return data;

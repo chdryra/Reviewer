@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
+
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
@@ -19,8 +21,9 @@ public class ReviewsSourceMutable extends ReviewsSource implements ReviewsFeedMu
     public ReviewsSourceMutable(ReviewsRepositoryMutable repository,
                                 FactoryReviewPublisher publisherFactory,
                                 FactoryReviews reviewFactory,
-                                FactoryVisitorReviewNode visitorFactory) {
-        super(repository, publisherFactory, reviewFactory, visitorFactory, );
+                                FactoryVisitorReviewNode visitorFactory,
+                                FactoryReviewTreeTraverser traverserFactory) {
+        super(repository, publisherFactory, reviewFactory, visitorFactory, traverserFactory);
         mRepository = repository;
     }
 

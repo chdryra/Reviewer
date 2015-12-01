@@ -38,6 +38,6 @@ public class VisitorReviewDataGetterImpl<T extends DataReviewIdable>
     @Override
     public void visit(ReviewNode node) {
         if(mData == null) mData = new IdableDataList<>(node.getReviewId());
-        mData.addCollection(mGetter.getData(node));
+        mData.addAll(mGetter.getData(node));
     }
 }

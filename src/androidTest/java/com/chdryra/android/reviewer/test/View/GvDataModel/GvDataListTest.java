@@ -37,7 +37,7 @@ public class GvDataListTest extends TestCase {
 
     @SmallTest
     public void testNoReviewIdConstructor() {
-        mList.addList(newData(null));
+        mList.addAll(newData(null));
 
         testAdd(null, mList);
         testAddIterable(null, mList);
@@ -49,7 +49,7 @@ public class GvDataListTest extends TestCase {
     @SmallTest
     public void testReviewIdConstructor() {
         GvReviewId id = RandomReviewId.nextGvReviewId();
-        mList.addList(newData(id));
+        mList.addAll(newData(id));
         GvDataListImpl<GvComment> idList = new GvDataListImpl<>(id, mList);
 
         testAdd(id, idList);
@@ -61,12 +61,12 @@ public class GvDataListTest extends TestCase {
 
     @SmallTest
     public void testParcelable() {
-        mList.addList(newData(null));
+        mList.addAll(newData(null));
         ParcelableTester.testParcelable(mList);
 
         GvReviewId id = RandomReviewId.nextGvReviewId();
-        mList.removeAll();
-        mList.addList(newData(id));
+        mList.clear();
+        mList.addAll(newData(id));
         GvDataList<GvComment> idList = new GvDataListImpl<>(id, mList);
         ParcelableTester.testParcelable(idList);
     }
@@ -92,7 +92,7 @@ public class GvDataListTest extends TestCase {
 
         ArrayList<GvComment> current = list.toArrayList();
         ArrayList<GvComment> comments = newData(id);
-        list.addList(comments);
+        list.addAll(comments);
 
         assertEquals(size + NUM, list.size());
         for (int i = 0; i < list.size(); ++i) {
@@ -118,7 +118,7 @@ public class GvDataListTest extends TestCase {
 
     private void testRemoveAll(GvDataListImpl<GvComment> list) {
         assertTrue(list.size() > 0);
-        list.removeAll();
+        list.clear();
         assertEquals(0, list.size());
     }
 

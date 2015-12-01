@@ -51,10 +51,4 @@ public class GvList extends GvDataListImpl<GvData> {
     public GvList(GvList data) {
         super(data);
     }
-
-    //Overridden
-    @Override
-    public boolean contains(GvData datum) {
-        return mData.contains(datum);
-    }
 }

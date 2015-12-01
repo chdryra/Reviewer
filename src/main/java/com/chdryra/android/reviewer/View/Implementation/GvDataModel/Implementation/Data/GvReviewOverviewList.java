@@ -31,6 +31,7 @@ public class GvReviewOverviewList extends GvDataListImpl<GvReviewOverview> {
             return new GvReviewOverviewList[size];
         }
     };
+
     //Constructors
     public GvReviewOverviewList() {
         super(GvReviewOverview.TYPE, null);
@@ -56,14 +57,18 @@ public class GvReviewOverviewList extends GvDataListImpl<GvReviewOverview> {
         return false;
     }
 
-    //Overridden
-    public void add(GvReviewOverview overview) {
-        if (!contains(overview.getId())) super.add(overview);
+    @Override
+    public boolean add(GvReviewOverview overview) {
+        return !contains(overview.getId()) && super.add(overview);
     }
 
     @Override
-    public boolean contains(GvReviewOverview item) {
-        return contains(item.getId());
+    public boolean contains(Object object) {
+        try {
+            GvReviewOverview item = (GvReviewOverview) object;
+            return contains(item.getId());
+        } catch (ClassCastException e) {
+            return false;
+        }
     }
-
 }

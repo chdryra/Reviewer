@@ -1,9 +1,9 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -12,7 +12,7 @@ import java.util.Iterator;
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableDataList<T extends DataReviewIdable> implements IdableList<T> {
+public class IdableDataList<T extends DataReviewIdable> extends AbstractCollection<T> implements IdableList<T> {
     private String mReviewId;
     private ArrayList<T> mData;
 
@@ -37,16 +37,10 @@ public class IdableDataList<T extends DataReviewIdable> implements IdableList<T>
     }
 
     @Override
-    public void add(T datum) {
-        mData.add(datum);
+    public boolean add(T datum) {
+        return mData.add(datum);
     }
 
-    @Override
-    public void addCollection(IdableCollection<? extends T> data) {
-        for (T datum : data) {
-            mData.add(datum);
-        }
-    }
 
     @Override
     public Iterator<T> iterator() {

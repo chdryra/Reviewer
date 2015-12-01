@@ -70,6 +70,11 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
+    public boolean isExpandable() {
+        return mNode.isExpandable();
+    }
+
+    @Override
     public ReviewNode expand() {
         return mNode.expand();
     }

@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
 /**
@@ -22,11 +21,6 @@ public class MdDataList<T extends DataReviewIdable> extends SortableListImpl<T> 
         return mReviewId.toString();
     }
 
-    @Override
-    public void addCollection(IdableCollection<? extends T> items) {
-        super.addList(items);
-    }
-
     public boolean containsId(String id) {
         for (T datum : this) {
             if(datum.getReviewId().equals(id)) return true;
@@ -35,7 +29,7 @@ public class MdDataList<T extends DataReviewIdable> extends SortableListImpl<T> 
         return false;
     }
 
-    public T get(String id) {
+    public T getItem(String id) {
         for (T datum : this) {
             if(datum.getReviewId().equals(id)) return datum;
         }
@@ -44,7 +38,7 @@ public class MdDataList<T extends DataReviewIdable> extends SortableListImpl<T> 
     }
 
     public void remove(String reviewId) {
-        mData.remove(get(reviewId));
+        mData.remove(getItem(reviewId));
     }
 
     protected MdReviewId getMdReviewId() {

@@ -119,7 +119,7 @@ public class GvLocationListTest extends TestCase {
 
     @SmallTest
     public void testEquals() {
-        mList.addList(GvDataMocker.newLocationList(NUM, false));
+        mList.addAll(GvDataMocker.newLocationList(NUM, false));
         assertEquals(NUM, mList.size());
 
         assertFalse(mList.equals(GvDataMocker.getData(GvCriterion.TYPE, NUM)));
@@ -140,8 +140,8 @@ public class GvLocationListTest extends TestCase {
 
         assertTrue(mList.equals(list));
         assertTrue(mList.equals(list2));
-        list.addList(mList);
-        list2.addList(mList);
+        list.addAll(mList);
+        list2.addAll(mList);
         assertFalse(mList.equals(list));
         assertFalse(mList.equals(list2));
     }

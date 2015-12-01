@@ -15,8 +15,8 @@ public interface GvDataList<T extends GvData> extends Iterable<T>, ViewHolderDat
     GvDataType<T> getGvDataType();
 
     @Override
-    void add(T item);
+    boolean add(T item);
 
     @Override
-    boolean contains(T item);
+    boolean contains(Object item);
 }

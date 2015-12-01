@@ -35,10 +35,19 @@ public interface ReviewNodeComponent extends ReviewNode {
     ReviewNode getRoot();
 
     @Override
+    boolean isExpandable();
+
+    @Override
     ReviewNode expand();
 
     @Override
     IdableList<ReviewNode> getChildren();
+
+    @Override
+    ReviewNode getChild(String reviewId);
+
+    @Override
+    boolean hasChild(String reviewId);
 
     @Override
     void acceptVisitor(VisitorReviewNode visitor);

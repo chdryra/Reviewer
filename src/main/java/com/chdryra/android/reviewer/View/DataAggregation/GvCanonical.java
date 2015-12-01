@@ -2,10 +2,10 @@ package com.chdryra.android.reviewer.View.DataAggregation;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhCanonical;
@@ -13,6 +13,8 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.G
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 
+import java.util.AbstractCollection;
+import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -20,7 +22,7 @@ import java.util.Iterator;
  * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Iterable<T> {
+public class GvCanonical<T extends GvData> extends AbstractCollection<T> implements GvDataCollection<T> {
     public static final Parcelable.Creator<GvCanonical> CREATOR = new Parcelable
             .Creator<GvCanonical>() {
         @Override
@@ -71,12 +73,12 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     }
 
     @Override
-    public void add(T datum) {
+    public boolean add(T datum) {
         throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
     }
 
     @Override
-    public void addCollection(IdableCollection<? extends T> data) {
+    public boolean addAll(@NonNull Collection<? extends T> collection) {
         throw new UnsupportedOperationException("GvCanonical does not support adding data. Use constructor");
     }
 
@@ -98,11 +100,6 @@ public class GvCanonical<T extends GvData> implements GvDataCollection<T>, Itera
     @Override
     public GvDataList<T> toList() {
         return mData;
-    }
-
-    @Override
-    public boolean contains(T item) {
-        return mData.contains(item);
     }
 
     @Override

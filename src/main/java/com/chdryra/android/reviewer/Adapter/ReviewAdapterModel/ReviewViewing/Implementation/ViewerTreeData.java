@@ -9,8 +9,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
-import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
 import com.chdryra.android.reviewer.View.DataAggregation.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
@@ -91,7 +89,7 @@ public class ViewerTreeData extends ViewerReviewData {
 
         GvTagList gvTags = new GvTagList(new GvReviewId(nodeId));
         for (String id : ids) {
-            gvTags.addList(getConverter().toGvTagList(getTagsManager().getTags(id), nodeId));
+            gvTags.addAll(getConverter().toGvTagList(getTagsManager().getTags(id), nodeId));
         }
 
         return gvTags;

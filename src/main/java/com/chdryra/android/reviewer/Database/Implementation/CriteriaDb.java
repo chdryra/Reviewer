@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,7 +11,7 @@ import java.util.Iterator;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CriteriaDb implements IdableList<CriterionDb> {
+public class CriteriaDb extends AbstractCollection<CriterionDb> implements IdableList<CriterionDb> {
     private String mReviewId;
     private ArrayList<CriterionDb> mCriteria;
 
@@ -36,15 +36,8 @@ public class CriteriaDb implements IdableList<CriterionDb> {
     }
 
     @Override
-    public void add(CriterionDb datum) {
-        mCriteria.add(datum);
-    }
-
-    @Override
-    public void addCollection(IdableCollection<? extends CriterionDb> data) {
-        for(CriterionDb datum : data) {
-            add(datum);
-        }
+    public boolean add(CriterionDb datum) {
+        return mCriteria.add(datum);
     }
 
     @Override

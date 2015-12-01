@@ -20,7 +20,8 @@ public interface GvDataCollection<T extends GvData> extends GvData, VerboseIdabl
 
     GvDataList<T> toList();
 
-    boolean contains(T item);
+    @Override
+    boolean contains(Object item);
 
     @Override
     T getItem(int position);

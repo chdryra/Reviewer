@@ -36,8 +36,8 @@ public class ReviewsSource implements ReviewsFeed {
     public ReviewsSource(ReviewsRepository repository,
                          FactoryReviewPublisher publisherFactory,
                          FactoryReviews reviewFactory,
-                         FactoryVisitorReviewNode visitorFactory, FactoryReviewTreeTraverser
-                                 traverserFactory) {
+                         FactoryVisitorReviewNode visitorFactory,
+                         FactoryReviewTreeTraverser traverserFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
         mPublisherFactory = publisherFactory;
