@@ -28,6 +28,7 @@ public interface ApplicationContext {
     LaunchableUiLauncher getUiLauncher();
     ConfigDataUi getUiConfig();
 
+    //Presenter
     FactoryReviewViewLaunchable getReviewViewLaunchableFactory();
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();

@@ -10,11 +10,9 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterionList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
@@ -23,6 +21,7 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementati
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +44,6 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     private final TagsManager mTagsManager;
     private final FactoryReviews mReviewFactory;
     private final FactoryDataBuilder mDataBuilderFactory;
-    private final FactoryGvData mDataFactory;
     private final DataValidator mDataValidator;
 
     //Constructors
@@ -53,7 +51,6 @@ public class ReviewBuilderImpl implements ReviewBuilder {
                              TagsManager tagsManager,
                              FactoryReviews reviewFactory,
                              FactoryDataBuilder dataBuilderFactory,
-                             FactoryGvData dataFactory,
                              DataValidator dataValidator) {
         mConverter = converter;
         mTagsManager = tagsManager;
@@ -63,7 +60,6 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mChildren = new ArrayList<>();
         mDataBuilders = new HashMap<>();
         mDataBuilderFactory = dataBuilderFactory;
-        mDataFactory = dataFactory;
 
         mSubject = "";
         mRating = 0f;
@@ -151,7 +147,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
     //private methods
     private <T extends GvData> DataBuilder<T> createDataBuilder(GvDataType<T> dataType) {
-        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(mDataFactory.newDataList(dataType));
+        DataBuilder<T> db = mDataBuilderFactory.newDataBuilder(dataType);
         db.registerObserver(this);
         mDataBuilders.put(dataType, db);
         return db;
@@ -179,7 +175,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
         mChildren = new ArrayList<>();
         for (GvCriterion child : (GvCriterionList) children) {
             ReviewBuilderImpl childBuilder = new ReviewBuilderImpl(mConverter, mTagsManager,
-                    mReviewFactory, mDataBuilderFactory, mDataFactory, mDataValidator);
+                    mReviewFactory, mDataBuilderFactory, mDataValidator);
             childBuilder.setSubject(child.getSubject());
             childBuilder.setRating(child.getRating());
             mChildren.add(childBuilder);

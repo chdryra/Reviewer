@@ -24,15 +24,22 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  */
 public class FeedScreen implements
         DialogAlertFragment.DialogAlertListener,
-        ReviewsRepositoryObserver {
+        ReviewsRepositoryObserver,
+        GridItemDeleteRequester.DeleteRequestListener{
     private ReviewNodeComponent mNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemDeleteRequester mGridItem;
+    private DeleteRequestListener mListener;
+
+    public interface DeleteRequestListener {
+        void onDeleteRequested(String reviewId);
+    }
 
     public FeedScreen(ReviewsFeed feed,
                       String title,
-                      FactoryReviews reviewsFactory) {
+                      FactoryReviews reviewsFactory,
+                      DeleteRequestListener listener) {
         Review root = reviewsFactory.createUserReview(title, 0f);
         mReviewsFactory = reviewsFactory;
         mNode = mReviewsFactory.createReviewNodeComponent(root, true);
@@ -41,6 +48,7 @@ public class FeedScreen implements
         }
 
         feed.registerObserver(this);
+        mListener = listener;
     }
 
     public ReviewView<GvReviewOverview> createView(FactoryReviewViewLaunchable launchableFactory,
@@ -68,7 +76,6 @@ public class FeedScreen implements
         mGridItem.onAlertPositive(requestCode, args);
     }
 
-    //private methods
     private void addReviewToNode(Review review) {
         mNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
     }
@@ -77,7 +84,6 @@ public class FeedScreen implements
         mNode.removeChild(reviewId);
     }
 
-    //Overridden
     @Override
     public void onReviewAdded(Review review) {
         addReviewToNode(review);
@@ -88,5 +94,10 @@ public class FeedScreen implements
     public void onReviewRemoved(String reviewId) {
         removeReviewFromNode(reviewId);
         if(mReviewView != null) mReviewView.onGridDataChanged();
+    }
+
+    @Override
+    public void onDeleteRequested(String reviewId) {
+        mListener.onDeleteRequested(reviewId);
     }
 }

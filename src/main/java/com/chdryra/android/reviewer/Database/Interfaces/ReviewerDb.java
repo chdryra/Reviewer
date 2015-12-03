@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 public interface ReviewerDb extends ReviewerDbContract {
     String getDatabaseName();
 
-    SQLiteOpenHelper getHelper();
+    SQLiteDatabase getReadableDatabase();
 
     TagsManager getTagsManager();
 
@@ -41,13 +40,13 @@ public interface ReviewerDb extends ReviewerDbContract {
 
     void deleteReviewFromDb(String reviewId);
 
+    //For ReviewLoader to use
     <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, String val);
 
     ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val);
 
     <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table, String col, String val);
 
-    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(SQLiteDatabase db,
-                                                            DbTable<T1> table, String reviewId);
+    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId);
 
 }

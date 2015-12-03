@@ -6,7 +6,7 @@
  * Date: 8 July, 2015
  */
 
-package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
+package com.chdryra.android.reviewer.DataAggregation.Implementation;
 
 import com.chdryra.android.reviewer.DataAggregation.Interfaces.DataGetter;
 

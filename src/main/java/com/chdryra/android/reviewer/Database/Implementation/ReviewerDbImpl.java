@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
@@ -38,9 +37,9 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     private static final String TAG = "ReviewerDb";
 
     private final ReviewerDbContract mTables;
-    private final SQLiteOpenHelper mHelper;
+    private final DbHelper<ReviewerDbContract> mHelper;
     private final TagsManager mTagsManager;
     private final ReviewLoader mReviewLoader;
     private final FactoryDbTableRow mRowFactory;
@@ -82,8 +81,8 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public SQLiteOpenHelper getHelper() {
-        return mHelper;
+    public SQLiteDatabase getReadableDatabase() {
+        return mHelper.getReadableDatabase();
     }
 
     @Override
@@ -233,7 +232,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     @Override
     public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col,
                                                 String val) {
-        SQLiteDatabase db = getHelper().getReadableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
 
         db.beginTransaction();
         TableRowList<T> rowList = getRowsWhere(db, table, col, val);

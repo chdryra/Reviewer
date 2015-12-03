@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
@@ -67,7 +68,7 @@ public class RowImageImpl implements RowImage {
 
     @Override
     public DataDate getDate() {
-        return new DateDb(mDate);
+        return new DatumDateReview(mReviewId, mDate);
     }
 
     @Override

@@ -8,18 +8,18 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.DataBuilderImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterionList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,18 +27,17 @@ import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.G
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDataBuilder {
-    private ConverterGv mConverter;
+    private FactoryGvData mDataFactory;
 
-    public FactoryDataBuilder(ConverterGv converter) {
-        mConverter = converter;
+    public FactoryDataBuilder(FactoryGvData dataFactory) {
+        mDataFactory = dataFactory;
     }
 
     public <T extends GvData> DataBuilder<T> newDataBuilder
-    (GvDataList<T> data) {
-        GvDataType<T> dataType = data.getGvDataType();
-        GvDataList<T> copied = mConverter.copy(data);
+    (GvDataType<T> dataType) {
+        GvDataList<T> data = mDataFactory.newDataList(dataType);
         if (dataType.equals(GvImage.TYPE)) {
-            return new DataBuilderImpl<>(copied,
+            return new DataBuilderImpl<>(data,
                     new DataBuilderImpl.AddConstraintImpl<T>() {
                 //Overridden
                 @Override
@@ -68,9 +67,9 @@ public class FactoryDataBuilder {
             return new DataBuilderImpl<>(data, add, replace);
         } else if (dataType.equals(GvComment.TYPE)) {
             //TODO make type safe
-            return (DataBuilder) new GvCommentHandler((GvDataList<GvComment>) copied);
+            return (DataBuilder) new GvCommentHandler((GvDataList<GvComment>) data);
         } else {
-            return new DataBuilderImpl<>(copied);
+            return new DataBuilderImpl<>(data);
         }
     }
 

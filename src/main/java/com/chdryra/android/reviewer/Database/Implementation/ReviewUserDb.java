@@ -1,7 +1,11 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumCriterionReview;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
@@ -48,30 +52,33 @@ public class ReviewUserDb implements Review {
 
     private <T extends DbTableRow> T getRowWhere(DbTable<T> table, String
             col, String val) {
-        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-
-        db.beginTransaction();
+        SQLiteDatabase db = startDatabaseTransaction();
         T row = mDatabase.getRowWhere(db, table, col, val);
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
+        endDatabaseTransaction(db);
 
         return row;
     }
 
-    private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table) {
-        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-
+    @NonNull
+    private SQLiteDatabase startDatabaseTransaction() {
+        SQLiteDatabase db = mDatabase.getReadableDatabase();
         db.beginTransaction();
-        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId);
+        return db;
+    }
+
+    private void endDatabaseTransaction(SQLiteDatabase db) {
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
+    }
+
+    private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table) {
+        SQLiteDatabase db = startDatabaseTransaction();
+        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId);
+        endDatabaseTransaction(db);
 
         return data;
     }
-
-    //Overridden
 
     @Override
     public String getReviewId() {
@@ -92,7 +99,7 @@ public class ReviewUserDb implements Review {
     public DataAuthorReview getAuthor() {
         RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.COLUMN_USER_ID,
                 mRow.getAuthorId());
-        return new AuthorDb(mReviewId, row.getName(), row.getUserId());
+        return new DatumAuthorReview(mReviewId, row.getName(), row.getUserId());
     }
 
     @Override
@@ -112,15 +119,21 @@ public class ReviewUserDb implements Review {
 
     @Override
     public IdableList<? extends DataCriterionReview> getCriteria() {
-        SQLiteDatabase db = mDatabase.getHelper().getReadableDatabase();
-        ArrayList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db, RowReview
-                .COLUMN_PARENT_ID, mReviewId);
-        CriteriaDb criteriaDb = new CriteriaDb(mReviewId);
+        ArrayList<Review> criteria = loadCriteria();
+        IdableList<DataCriterionReview> criteriaDb = new IdableDataList<>(mReviewId);
         for(Review criterion : criteria) {
-            criteriaDb.add(new CriterionDb(mReviewId, criterion));
+            criteriaDb.add(new DatumCriterionReview(mReviewId, criterion));
         }
 
         return criteriaDb;
+    }
+
+    private ArrayList<Review> loadCriteria() {
+        SQLiteDatabase db = startDatabaseTransaction();
+        ArrayList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db,
+                RowReview.COLUMN_PARENT_ID, mReviewId);
+        endDatabaseTransaction(db);
+        return criteria;
     }
 
     @Override

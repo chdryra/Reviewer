@@ -16,10 +16,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builders.BuilderAuthorsFeedScreen;
-
-
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.FeedScreen;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.GridItemDeleteRequester;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
 
 /**
@@ -27,7 +24,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
  */
 public class ActivityFeed extends ActivityReviewView
         implements DialogAlertFragment.DialogAlertListener,
-        GridItemDeleteRequester.DeleteRequestListener{
+        FeedScreen.DeleteRequestListener{
     private FeedScreen mScreen;
     private ReviewsFeedMutable mAuthorsFeed;
 
@@ -42,8 +39,8 @@ public class ActivityFeed extends ActivityReviewView
 
         BuilderAuthorsFeedScreen feedScreenBuilder = getScreenBuilder(app);
         feedScreenBuilder.buildScreen(mAuthorsFeed, this);
-
         mScreen = feedScreenBuilder.getFeedScreen();
+
         return feedScreenBuilder.getView();
     }
 
@@ -53,7 +50,7 @@ public class ActivityFeed extends ActivityReviewView
         app.getUiLauncher(), app.getReviewsFactory(), app.getConfigDataUi().getBuildReviewConfig());
     }
 
-    //Overridden
+    //Dialogs send results to host activity
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
         mScreen.onAlertNegative(requestCode, args);

@@ -1,14 +1,10 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.ConvertersMdGv;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterAuthors;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterCriteria;
-
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
-        .GvConverters.GvConverterDataTags;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterDataTags;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterDateReviews;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterDates;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterFacts;
@@ -18,12 +14,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Impl
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterReviews;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterSubjects;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterUrls;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverters;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters
-        .ConverterMd;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters
-        .MdConverterComments;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterComments;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterCriteria;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterFacts;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterImages;
@@ -43,11 +35,7 @@ public class FactoryDataConverters {
         mTagsManager = tagsManager;
     }
 
-    public DataConverters newDataConverters() {
-        return new ConvertersMdGv(newMdConverter(), newGvConverter());
-    }
-    
-    private ConverterMd newMdConverter() {
+    public ConverterMd newMdConverter() {
         MdConverterComments converterComments = new MdConverterComments();
         MdConverterUrl converterUrl = new MdConverterUrl();
         MdConverterFacts converterFacts = new MdConverterFacts(converterUrl);
@@ -59,7 +47,7 @@ public class FactoryDataConverters {
                 converterLocations, converterUrl, converterCriteria);
     }
     
-    private ConverterGv newGvConverter() {
+    public ConverterGv newGvConverter() {
         GvConverterComments converterComments = new GvConverterComments();
         GvConverterUrls converterUrl = new GvConverterUrls();
         GvConverterFacts converterFacts = new GvConverterFacts(converterUrl);

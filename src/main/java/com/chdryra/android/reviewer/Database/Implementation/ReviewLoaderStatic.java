@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
@@ -39,39 +40,59 @@ public class ReviewLoaderStatic implements ReviewLoader {
     @Override
     public Review loadReview(RowReview reviewRow, ReviewerDb database, SQLiteDatabase db) {
         if (!reviewRow.hasData(mValidator)) return null;
-        
-        String reviewId = reviewRow.getReviewId();
 
-        String userId = reviewRow.getAuthorId();
-        String column = RowAuthor.COLUMN_USER_ID;
-        RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
-        Author author = new Author(authorRow.getName(), UserId.fromString(authorRow.getUserId()));
-        
-        PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
-        
         String subject = reviewRow.getSubject();
         float rating = reviewRow.getRating();
         int ratingWeight = reviewRow.getRatingWeight();
         boolean isAverage = reviewRow.isRatingIsAverage();
-        
-        DbTable<RowComment> commentsTable = database.getCommentsTable();
-        ArrayList<RowComment> comments = database.loadFromDataTable(db, commentsTable, reviewId);
+        PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
 
-        DbTable<RowFact> factsTable = database.getFactsTable();
-        ArrayList<RowFact> facts = database.loadFromDataTable(db, factsTable, reviewId);
+        String reviewId = reviewRow.getReviewId();
 
-        DbTable<RowLocation> locationsTable = database.getLocationsTable();
-        ArrayList<RowLocation> locations = database.loadFromDataTable(db, locationsTable, reviewId);
-
-        DbTable<RowImage> imagesTable = database.getImagesTable();
-        ArrayList<RowImage> images = database.loadFromDataTable(db, imagesTable, reviewId);
-
-        ArrayList<Review> critList = database.loadReviewsFromDbWhere(db,
-                RowReview.COLUMN_PARENT_ID, reviewId);
+        ArrayList<RowComment> comments = loadComments(database, db, reviewId);
+        ArrayList<RowFact> facts = loadFacts(database, db, reviewId);
+        ArrayList<RowLocation> locations = loadLocations(database, db, reviewId);
+        ArrayList<RowImage> images = loadImages(database, db, reviewId);
+        ArrayList<Review> critList = loadCriteria(database, db, reviewId);
+        Author author = loadAuthor(database, db, reviewRow.getAuthorId());
 
         ReviewDataHolder reviewDb = new ReviewDataHolderImpl(reviewId, author, publishDate, subject, rating,
                 ratingWeight, comments, images, facts, locations, critList, isAverage);
 
         return mBuilder.createReview(reviewDb);
+    }
+
+    private ArrayList<Review> loadCriteria(ReviewerDb database, SQLiteDatabase db, String
+            reviewId) {
+        return database.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
+    }
+
+    private ArrayList<RowImage> loadImages(ReviewerDb database, SQLiteDatabase db, String reviewId) {
+        DbTable<RowImage> imagesTable = database.getImagesTable();
+        return database.loadFromDataTable(db, imagesTable, reviewId);
+    }
+
+    private ArrayList<RowLocation> loadLocations(ReviewerDb database, SQLiteDatabase db, String
+            reviewId) {
+        DbTable<RowLocation> locationsTable = database.getLocationsTable();
+        return database.loadFromDataTable(db, locationsTable, reviewId);
+    }
+
+    private ArrayList<RowFact> loadFacts(ReviewerDb database, SQLiteDatabase db, String reviewId) {
+        DbTable<RowFact> factsTable = database.getFactsTable();
+        return database.loadFromDataTable(db, factsTable, reviewId);
+    }
+
+    private ArrayList<RowComment> loadComments(ReviewerDb database, SQLiteDatabase db, String
+            reviewId) {
+        DbTable<RowComment> commentsTable = database.getCommentsTable();
+        return database.loadFromDataTable(db, commentsTable, reviewId);
+    }
+
+    @NonNull
+    private Author loadAuthor(ReviewerDb database, SQLiteDatabase db, String userId) {
+        String column = RowAuthor.COLUMN_USER_ID;
+        RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
+        return new Author(authorRow.getName(), UserId.fromString(authorRow.getUserId()));
     }
 }

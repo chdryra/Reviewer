@@ -47,11 +47,11 @@ public class BuilderAuthorsFeedScreen {
     }
 
     public void buildScreen(ReviewsFeedMutable feed,
-                            GridItemDeleteRequester.DeleteRequestListener listener) {
+                            FeedScreen.DeleteRequestListener listener) {
         String title = feed.getAuthor().getName() + "'s feed";
-        mMutableFeedScreen = new FeedScreen(feed, title, mReviewFactory);
+        mMutableFeedScreen = new FeedScreen(feed, title, mReviewFactory, listener);
 
-        GridItemDeleteRequester gi = new GridItemDeleteRequester(mLaunchableFactory, mLauncher, listener);
+        GridItemDeleteRequester gi = new GridItemDeleteRequester(mLaunchableFactory, mLauncher, mMutableFeedScreen);
         SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory, mLauncher);
         BannerButtonAction<GvReviewOverview> bba = new BannerButtonActionNone<>();

@@ -1,20 +1,19 @@
-package com.chdryra.android.reviewer.Database.Implementation;
+package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 13/11/2015
+ * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CriterionDb implements DataCriterionReview {
-    private String mParentId;
+public class DatumCriterionReview implements DataCriterionReview {
+    private String mReviewId;
     private Review mReview;
 
-    public CriterionDb(String parentId, Review review) {
-        mParentId = parentId;
+    public DatumCriterionReview(String reviewId, Review review) {
+        mReviewId = reviewId;
         mReview = review;
     }
 
@@ -35,11 +34,11 @@ public class CriterionDb implements DataCriterionReview {
 
     @Override
     public String getReviewId() {
-        return mParentId;
+        return mReviewId;
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return false;
+        return validator.validate(this);
     }
 }
