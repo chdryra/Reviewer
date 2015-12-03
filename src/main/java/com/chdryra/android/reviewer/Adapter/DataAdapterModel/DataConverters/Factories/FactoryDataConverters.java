@@ -6,6 +6,9 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Impl
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterAuthors;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterCriteria;
+
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
+        .GvConverters.GvConverterDataTags;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterDateReviews;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterDates;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.GvConverterFacts;
@@ -68,10 +71,12 @@ public class FactoryDataConverters {
         GvConverterDateReviews converterDates = new GvConverterDateReviews();
         GvConverterReviews converterReview = new GvConverterReviews(mTagsManager, converterImages,
                 converterComments, converterLocations, converterDates, converterAuthors);
-        GvConverterItemTags converterTags = new GvConverterItemTags();
+        GvConverterDataTags converterTags = new GvConverterDataTags();
+        GvConverterItemTags converterItemTags = new GvConverterItemTags();
 
         return new ConverterGv(converterComments, converterFacts, converterImages,
                 converterLocations, converterUrl, converterCriteria, converterReview,
-                converterSubjects, converterAuthors, converterDates, converterTags);
+                converterSubjects, converterAuthors, converterDates, converterTags,
+                converterItemTags);
     }
 }

@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
-        .DataConverter;
+
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterion;
@@ -10,35 +10,36 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthorList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterionList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDateList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFactList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocationList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverviewList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSubject;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSubjectList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrlList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDateList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFactList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocationList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverviewList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSubjectList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrlList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,14 +52,20 @@ import java.util.Map;
  */
 public class ConverterGv {
     private ConvertersMap mMap;
+    private GvConverterItemTags mItemTagsConverter;
 
-    public ConverterGv(GvConverterComments converterComments, GvConverterFacts converterFacts,
-                       GvConverterImages converterImages, GvConverterLocations
-                               converterLocations, GvConverterUrls converterUrl,
-                       GvConverterCriteria converterCriteria, GvConverterReviews converterReview,
-                       GvConverterSubjects converterSubjects, GvConverterAuthors
-                               converterAuthors, GvConverterDateReviews converterDates,
-                       GvConverterItemTags converterTags) {
+    public ConverterGv(GvConverterComments converterComments,
+                       GvConverterFacts converterFacts,
+                       GvConverterImages converterImages,
+                       GvConverterLocations converterLocations,
+                       GvConverterUrls converterUrl,
+                       GvConverterCriteria converterCriteria,
+                       GvConverterReviews converterReview,
+                       GvConverterSubjects converterSubjects,
+                       GvConverterAuthors converterAuthors,
+                       GvConverterDateReviews converterDates,
+                       GvConverterDataTags converterTags,
+                       GvConverterItemTags converterItemTags) {
         mMap = new ConvertersMap();
         mMap.add(converterComments.getDataType(), converterComments);
         mMap.add(converterFacts.getDataType(), converterFacts);
@@ -71,6 +78,7 @@ public class ConverterGv {
         mMap.add(converterAuthors.getDataType(), converterAuthors);
         mMap.add(converterDates.getDataType(), converterDates);
         mMap.add(converterTags.getDataType(), converterTags);
+        mItemTagsConverter = converterItemTags;
     }
 
     public <T extends GvData> DataConverter<?, T, ? extends GvDataList<T>>
@@ -124,8 +132,12 @@ public class ConverterGv {
         return (GvConverterDateReviews) getConverter(GvDate.TYPE);
     }
 
-    public GvConverterItemTags getConverterTags() {
-        return (GvConverterItemTags) getConverter(GvTag.TYPE);
+    public GvConverterItemTags getConverterItemTags() {
+        return mItemTagsConverter;
+    }
+
+    public GvConverterDataTags getConverterTags() {
+        return (GvConverterDataTags) getConverter(GvTag.TYPE);
     }
 
     //Comments
@@ -191,7 +203,11 @@ public class ConverterGv {
 
     //Tags
     public GvTagList toGvTagList(ItemTagCollection tags, String reviewId) {
-        return getConverterTags().convert(tags, reviewId);
+        return getConverterItemTags().convert(tags, reviewId);
+    }
+
+    public GvTagList toGvTagList(IdableList<? extends DataTag> tags) {
+        return getConverterTags().convert(tags, tags.getReviewId());
     }
 
     //Copy

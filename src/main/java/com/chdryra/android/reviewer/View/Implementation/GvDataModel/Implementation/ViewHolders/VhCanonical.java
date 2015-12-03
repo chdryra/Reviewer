@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
 
 /**
  * Created by: Rizwan Choudrey

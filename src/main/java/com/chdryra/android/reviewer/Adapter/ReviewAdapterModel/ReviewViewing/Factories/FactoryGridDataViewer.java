@@ -16,12 +16,13 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Imp
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
         .GridDataViewer;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonical;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataCollection;
@@ -42,14 +43,14 @@ public class FactoryGridDataViewer {
                                                     ConverterGv converter,
                                                     TagsManager tagsManager,
                                                     FactoryVisitorReviewNode visitorFactory,
+                                                    FactoryReviewTreeTraverser traverserFactory,
                                                     GvDataAggregater aggregateFactory) {
         GridDataViewer<GvData> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
             viewer = new ViewerTreeData(node, converter, tagsManager, mAdapterFactory,
-                    visitorFactory,
-                    aggregateFactory);
+                    visitorFactory, traverserFactory, aggregateFactory);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
@@ -59,7 +60,7 @@ public class FactoryGridDataViewer {
             } else {
                 //expand next layer of tree
                 viewer = newNodeDataViewer(expanded, converter, tagsManager,
-                        visitorFactory, aggregateFactory);
+                        visitorFactory, traverserFactory, aggregateFactory);
             }
         }
 

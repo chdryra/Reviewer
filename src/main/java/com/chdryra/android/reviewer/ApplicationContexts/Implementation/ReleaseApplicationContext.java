@@ -2,21 +2,35 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories.FactoryDataConverters;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.DataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Factories
+        .FactoryDataConverters;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
+        .GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation
+        .MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
+        .DataConverters;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryImageChooser;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryVhBuildReviewData;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.FactoryGridUi;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryDataBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryDataBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryDataBuildersGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryImageChooser;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryReviewBuilder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
+        .FactoryVhBuildReviewData;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
+        .FactoryGridUi;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDb;
@@ -30,27 +44,31 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecificatio
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Model.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories
+        .FactoryReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.DataAggregation.Factories.FactoryDataAggregator;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
         .FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
+        .FactoryReviewViewParams;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 import java.io.File;
@@ -91,7 +109,9 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         ReviewerDb db = makeReviewerDb(context, databaseName, databaseVersion, reviewsFactory,
                 dataValidator, tagsManager);
         FactoryVisitorReviewNode factoryVisitor = new FactoryVisitorReviewNode();
-        ReviewsFeed provider = setAuthorFeed(publisherFactory, factoryVisitor, reviewsFactory, db);
+        FactoryReviewTreeTraverser factoryTraverser = new FactoryReviewTreeTraverser();
+        ReviewsFeed provider = setAuthorFeed(publisherFactory, factoryVisitor, factoryTraverser,
+                reviewsFactory, db);
 
         //FactoryReviewViewLaunchable
         FactoryReviewViewLaunchable launchableFactory
@@ -103,8 +123,8 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         setFactoryGvData(dataFactory);
 
         //FactoryReviewViewAdapter
-        setFactoryReviewViewAdapter(dataFactory, launchableFactory, provider,
-                converters.getGvConverter(), factoryVisitor);
+        setFactoryReviewViewAdapter(launchableFactory, provider,
+                converters.getGvConverter(), factoryVisitor, factoryTraverser);
 
         //FactoryReviewBuilderAdapter
         setReviewBuilderAdapterFactory(context, converters.getGvConverter(), tagsManager,
@@ -120,6 +140,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
 
     private ReviewsFeedMutable setAuthorFeed(FactoryReviewPublisher publisherFactory,
                                              FactoryVisitorReviewNode visitorFactory,
+                                             FactoryReviewTreeTraverser traverserFactory,
                                              FactoryReviews reviewsFactory,
                                              ReviewerDb db) {
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
@@ -127,9 +148,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
 
         ReviewsFeedMutable reviewsFeed
                 = feedFactory.newMutableFeed(repoFactory.newDatabaseRepository(db),
-                publisherFactory,
-                reviewsFactory,
-                visitorFactory);
+                publisherFactory, reviewsFactory, visitorFactory, traverserFactory);
 
         setAuthorsFeed(reviewsFeed);
 
@@ -186,14 +205,14 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
         return dbFactory.newDatabase(dbHelper, loader, tagsManager, validator);
     }
 
-    private void setFactoryReviewViewAdapter(FactoryGvData dataFactory,
-                                             FactoryReviewViewLaunchable launchableFactory,
+    private void setFactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                              ReviewsFeed provider,
                                              ConverterGv converter,
-                                             FactoryVisitorReviewNode visitorFactory) {
-        GvDataAggregater aggregater = new GvDataAggregater(dataFactory);
+                                             FactoryVisitorReviewNode visitorFactory,
+                                             FactoryReviewTreeTraverser traverserFactory) {
+        GvDataAggregater aggregater = new GvDataAggregater(new FactoryDataAggregator(), converter);
         FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(launchableFactory,
-                visitorFactory, aggregater, provider, converter);
+                visitorFactory, traverserFactory, aggregater, provider, converter);
         setFactoryReviewViewAdapter(factory);
     }
 

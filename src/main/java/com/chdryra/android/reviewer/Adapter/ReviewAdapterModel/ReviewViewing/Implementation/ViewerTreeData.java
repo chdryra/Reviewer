@@ -1,22 +1,23 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonicalCollection;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeTraverser;
+import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,16 +26,20 @@ import java.util.ArrayList;
  */
 public class ViewerTreeData extends ViewerReviewData {
     private FactoryVisitorReviewNode mVisitorFactory;
+    private FactoryReviewTreeTraverser mTraverserFactory;
     private GvDataAggregater mAggregater;
 
     public ViewerTreeData(ReviewNode node,
                    ConverterGv converter,
                    TagsManager tagsManager,
-                   FactoryReviewViewAdapter adapterFactory, FactoryVisitorReviewNode visitorFactory,
+                   FactoryReviewViewAdapter adapterFactory,
+                   FactoryVisitorReviewNode visitorFactory,
+                   FactoryReviewTreeTraverser traverserFactory,
                    GvDataAggregater aggregater) {
         super(node, converter, tagsManager, adapterFactory);
         mAggregater = aggregater;
         mVisitorFactory = visitorFactory;
+        mTraverserFactory = traverserFactory;
     }
 
     //Overridden
@@ -47,15 +52,15 @@ public class ViewerTreeData extends ViewerReviewData {
         ConverterGv converter = getConverter();
         GvList data = new GvList(new GvReviewId(id));
         data.add(converter.toGvReviewOverviewList(nodes));
-        data.add(mAggregater.getAggregate(converter.toGvAuthorList(nodes, id)));
-        data.add(mAggregater.getAggregate(converter.toGvSubjectList(nodes, id)));
-        data.add(mAggregater.getAggregate(converter.toGvDateList(nodes, id)));
-        data.add(mAggregater.getAggregate(collectTags()));
-        data.add(mAggregater.getAggregate(converter.toGvCriterionList(node.getCriteria()), false));
-        data.add(mAggregater.getAggregate(converter.toGvImageList(node.getImages())));
-        data.add(mAggregater.getAggregate(converter.toGvCommentList(node.getComments())));
-        data.add(mAggregater.getAggregate(converter.toGvLocationList(node.getLocations())));
-        data.add(mAggregater.getAggregate(converter.toGvFactList(node.getFacts())));
+        data.add(mAggregater.aggregateAuthors(converter.toGvAuthorList(nodes, id)));
+        data.add(mAggregater.aggregateSubjects(converter.toGvSubjectList(nodes, id)));
+        data.add(mAggregater.aggregateDates(converter.toGvDateList(nodes, id)));
+        data.add(mAggregater.aggregateTags(collectTags()));
+        data.add(mAggregater.aggregateCriteria(node.getCriteria(), GvDataAggregater.CriterionAggregation.SUBJECT));
+        data.add(mAggregater.aggregateImages(node.getImages()));
+        data.add(mAggregater.aggregateComments(node.getComments()));
+        data.add(mAggregater.aggregateLocations(node.getLocations()));
+        data.add(mAggregater.aggregateFacts(node.getFacts()));
 
         return data;
     }
@@ -78,20 +83,9 @@ public class ViewerTreeData extends ViewerReviewData {
     }
 
     private GvTagList collectTags() {
-        ReviewNode node = getReviewNode();
-        String nodeId = node.getReviewId();
-        VisitorReviewsGetter visitor = mVisitorFactory.newReviewsCollector();
-        visitor.visit(node);
-        ArrayList<String> ids = new ArrayList<>();
-        for (Review review : visitor.getReviews()) {
-            ids.add(review.getReviewId());
-        }
-
-        GvTagList gvTags = new GvTagList(new GvReviewId(nodeId));
-        for (String id : ids) {
-            gvTags.addAll(getConverter().toGvTagList(getTagsManager().getTags(id), nodeId));
-        }
-
-        return gvTags;
+        VisitorReviewDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(getTagsManager());
+        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(getReviewNode());
+        traverser.traverse();
+        return getConverter().toGvTagList(visitor.getData());
     }
 }

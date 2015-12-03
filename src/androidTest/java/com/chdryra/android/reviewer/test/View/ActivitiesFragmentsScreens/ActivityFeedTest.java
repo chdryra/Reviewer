@@ -48,7 +48,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
-import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;

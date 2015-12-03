@@ -21,19 +21,4 @@ public interface ReviewsFeed extends ReviewsRepository{
     Review asMetaReview(VerboseDataReview datum, String subject);
 
     Review createFlattenedMetaReview(VerboseIdableCollection data, String subject);
-
-    @Override
-    Review getReview(String reviewId);
-
-    @Override
-    Iterable<Review> getReviews();
-
-    @Override
-    TagsManager getTagsManager();
-
-    @Override
-    void registerObserver(ReviewsRepositoryObserver observer);
-
-    @Override
-    void unregisterObserver(ReviewsRepositoryObserver observer);
 }

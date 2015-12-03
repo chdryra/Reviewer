@@ -1,9 +1,13 @@
 package com.chdryra.android.reviewer.Model.Implementation.TagsModel;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -12,7 +16,7 @@ import java.util.NoSuchElementException;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ItemTagList<T extends ItemTag> implements ItemTagCollection {
+public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> implements ItemTagCollection {
     private final ArrayList<T> mTags;
 
     ItemTagList() {
@@ -57,6 +61,19 @@ public class ItemTagList<T extends ItemTag> implements ItemTagCollection {
         if (!mTags.contains(tag)) {
             mTags.add(tag);
         }
+    }
+
+    @Override
+    public boolean addAll(@NonNull Collection<? extends ItemTag> collection) {
+        boolean added = false;
+        for(ItemTag tag : collection) {
+            if(!contains(tag)) {
+                add(tag);
+                added = true;
+            }
+        }
+
+        return added;
     }
 
     void remove(T tag) {

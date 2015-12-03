@@ -29,7 +29,6 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
  * </p>
  */
 public interface ReviewNode extends Review {
-    //abstract
     Review getReview();
 
     ReviewNode getParent();

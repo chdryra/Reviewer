@@ -17,7 +17,7 @@ public class GvConverterItemTags extends GvConverterBasic<ItemTag, GvTag, GvTagL
     @Override
     public GvTag convert(ItemTag datum, String reviewId) {
         if(!datum.tagsItem(reviewId)) {
-            throw new IllegalArgumentException("ItemTag does not tage id: " + reviewId);
+            throw new IllegalArgumentException("ItemTag does not tag id: " + reviewId);
         }
         return new GvTag(newId(reviewId), datum.getTag());
     }

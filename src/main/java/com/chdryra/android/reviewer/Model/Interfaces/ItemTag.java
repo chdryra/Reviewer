@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * another ReviewTag alphabetically.
  */
 public interface ItemTag extends Comparable<ItemTag> {
-    //public methods
     ArrayList<String> getItemIds();
 
     String getTag();

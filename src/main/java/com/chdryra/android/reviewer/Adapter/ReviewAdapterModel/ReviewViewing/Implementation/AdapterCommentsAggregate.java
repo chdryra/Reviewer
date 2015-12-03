@@ -1,13 +1,16 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces.GvImageConverter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryGridDataViewer;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
+        .GvImageConverter;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
+        .FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonical;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data
+        .GvCommentList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewId;
 
 /**
@@ -54,6 +57,6 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
             allComments.addAll(canonical.toList());
         }
         GvCommentList split = allComments.getSplitComments();
-        mCommentsSplit = mAggregater.getAggregate(split);
+        mCommentsSplit = mAggregater.aggregateComments(split);
     }
 }

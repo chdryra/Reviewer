@@ -12,7 +12,7 @@ public interface ReviewsRepository {
     Iterable<Review> getReviews();
 
     TagsManager getTagsManager();
-
+    
     void registerObserver(ReviewsRepositoryObserver observer);
 
     void unregisterObserver(ReviewsRepositoryObserver observer);

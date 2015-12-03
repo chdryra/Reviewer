@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation;
 
-import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAggregation.Interfaces.DataGetter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

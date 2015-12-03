@@ -35,6 +35,16 @@ public class TagsManagerImpl implements TagsManager {
     }
 
     @Override
+    public ItemTagCollection getTags(ArrayList<String> ids) {
+        ItemTagList<ItemTagImpl> allTags = new ItemTagList<>();
+        for (String id : ids) {
+            allTags.addAll(getTags(id));
+        }
+
+        return allTags;
+    }
+
+    @Override
     public ArrayList<String> getTagsArray(String id) {
         return mTags.toStringArray();
     }

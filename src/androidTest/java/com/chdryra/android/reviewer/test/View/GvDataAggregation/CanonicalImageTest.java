@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.DataAggregation.Implementation.CanonicalImage;
+import com.chdryra.android.reviewer.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAggregation.Implementation.CanonicalImage;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;

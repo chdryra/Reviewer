@@ -1,9 +1,12 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.ReviewGetter;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.TagsGetter;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverager;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorReviewDataGetterImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorRatingCalculator;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewDataGetter;
 
@@ -15,6 +18,10 @@ import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewDataGetter;
 public class FactoryVisitorReviewNode {
     public VisitorReviewDataGetter<Review> newReviewsCollector() {
         return new VisitorReviewDataGetterImpl<>(new ReviewGetter());
+    }
+
+    public VisitorReviewDataGetter<DataTag> newTagsCollector(TagsManager tagsManager) {
+        return new VisitorReviewDataGetterImpl<>(new TagsGetter(tagsManager));
     }
 
     public VisitorRatingCalculator newRatingsAverager() {

@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
         .FactoryReviewViewLaunchable;

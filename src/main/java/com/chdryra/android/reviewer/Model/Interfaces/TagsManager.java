@@ -20,6 +20,8 @@ public interface TagsManager {
 
     ItemTagCollection getTags(String id);
 
+    ItemTagCollection getTags(ArrayList<String> ids);
+
     ArrayList<String> getTagsArray(String id);
 
     void tagItem(String id, String tag);

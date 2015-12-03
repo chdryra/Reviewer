@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.View.DataAggregation.Implementation.CanonicalCommentMode;
-import com.chdryra.android.reviewer.View.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAggregation.Implementation.CanonicalCommentMode;
+import com.chdryra.android.reviewer.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.testutils.RandomString;
 

@@ -15,14 +15,16 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Imp
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerChildList;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Implementation.ViewerDataToReviews;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces.GridDataViewer;
+
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.View.DataAggregation.GvDataAggregater;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonical;
-import com.chdryra.android.reviewer.View.DataAggregation.GvCanonicalCollection;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonical;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
@@ -44,6 +46,7 @@ public class FactoryReviewViewAdapter {
     private FactoryReviewViewLaunchable mLaunchableFactory;
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
+    private FactoryReviewTreeTraverser mTraverserFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
     private ReviewsFeed mProvider;
@@ -51,6 +54,7 @@ public class FactoryReviewViewAdapter {
     //Constructors
     public FactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                     FactoryVisitorReviewNode visitorFactory,
+                                    FactoryReviewTreeTraverser traverserFactory,
                                     GvDataAggregater aggregater,
                                     ReviewsFeed provider,
                                     ConverterGv converter) {
@@ -60,6 +64,7 @@ public class FactoryReviewViewAdapter {
         mProvider = provider;
         mConverter = converter;
         mVisitorFactory = visitorFactory;
+        mTraverserFactory = traverserFactory;
     }
 
     private TagsManager getTagsManager() {
@@ -88,7 +93,7 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter<GvData> newNodeDataAdapter(ReviewNode node) {
         GridDataViewer<GvData> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
-                getTagsManager(), mVisitorFactory, mAggregater);
+                getTagsManager(), mVisitorFactory, mTraverserFactory, mAggregater);
         return newAdapterReviewNode(node, viewer);
     }
 

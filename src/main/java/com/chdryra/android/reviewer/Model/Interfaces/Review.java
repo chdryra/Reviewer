@@ -53,7 +53,6 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  */
 
 public interface Review extends DataReviewIdable {
-    //abstract
     DataSubject getSubject();
 
     DataRating getRating();
@@ -66,7 +65,6 @@ public interface Review extends DataReviewIdable {
 
     boolean isRatingAverageOfCriteria();
 
-    //Optional data
     IdableList<? extends DataCriterionReview> getCriteria();
 
     IdableList<? extends DataComment> getComments();
@@ -79,8 +77,6 @@ public interface Review extends DataReviewIdable {
 
     IdableList<? extends DataLocation> getLocations();
 
-    //Overridden
-    //Core data
     @Override
     String getReviewId();
 
