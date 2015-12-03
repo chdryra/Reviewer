@@ -28,8 +28,22 @@ public class DepthFirstPreIterator implements ReviewTreeIterator {
     public ReviewNode next() {
         if(!hasNext()) throw new NoSuchElementException("No nodes left");
         ReviewNode next = mStack.pop();
-        mStack.addAll(next.getChildren());
+        pushNeighboursToStack(next);
         return next;
+    }
+
+    private void pushChildrenToStack(ReviewNode node) {
+        for(ReviewNode child : node.getChildren()) {
+            push(child);
+        }
+    }
+
+    protected void push(ReviewNode node) {
+        mStack.push(node);
+    }
+
+    protected void pushNeighboursToStack(ReviewNode node) {
+        pushChildrenToStack(node);
     }
 
     @Override

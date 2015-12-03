@@ -90,8 +90,9 @@ public class ReviewsSource implements ReviewsFeed {
     @Override
     public Review createFlattenedMetaReview(VerboseIdableCollection data, String subject) {
         Review meta = createMetaReview(data, subject);
+        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(meta.getTreeRepresentation());
         VisitorReviewDataGetter<Review> getter = mVisitorFactory.newReviewsCollector();
-        TreeTraverser traverser = mTraverserFactory.newLeavesTraverser(meta.getTreeRepresentation(), getter);
+        traverser.addVisitor(getter);
         traverser.traverse();
         IdableList<Review> flattened = getter.getData();
 

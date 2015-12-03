@@ -7,4 +7,6 @@ package com.chdryra.android.reviewer.Model.Interfaces;
  */
 public interface TreeTraverser {
     void traverse();
+
+    void addVisitor(VisitorReviewNode visitor);
 }

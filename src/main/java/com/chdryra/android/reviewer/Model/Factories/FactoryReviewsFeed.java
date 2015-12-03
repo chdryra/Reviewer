@@ -25,7 +25,8 @@ public class FactoryReviewsFeed {
     public ReviewsFeedMutable newMutableFeed(ReviewsRepositoryMutable repository,
                                              FactoryReviewPublisher publisherFactory,
                                              FactoryReviews reviewFactory,
-                                             FactoryVisitorReviewNode visitorFactory) {
-        return new ReviewsSourceMutable(repository, publisherFactory, reviewFactory, visitorFactory);
+                                             FactoryVisitorReviewNode visitorFactory,
+                                             FactoryReviewTreeTraverser traverserFactory) {
+        return new ReviewsSourceMutable(repository, publisherFactory, reviewFactory, visitorFactory, traverserFactory);
     }
 }
