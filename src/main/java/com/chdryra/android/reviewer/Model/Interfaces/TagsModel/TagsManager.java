@@ -6,7 +6,7 @@
  * Date: 10 October, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.TagsModel;
 
 //import org.apache.commons.lang3.text.WordUtils;
 

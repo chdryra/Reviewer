@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.ReviewBuilderImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.TagsModel;
 
-import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
 

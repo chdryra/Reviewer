@@ -14,21 +14,22 @@ public class ReviewPublisherImpl implements ReviewPublisher {
     private final DataDate mDate;
     private int mIndex;
 
-    //Constructors
     public ReviewPublisherImpl(DataAuthor author, DataDate date) {
         mAuthor = author;
         mDate = date;
     }
 
-    //public methods
+    @Override
     public DataAuthor getAuthor() {
         return mAuthor;
     }
 
+    @Override
     public DataDate getDate() {
         return mDate;
     }
 
+    @Override
     public int getPublishedIndex() {
         return mIndex++;
     }

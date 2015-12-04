@@ -26,9 +26,8 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
 
     //Constructors
     public ReviewDataEditorImpl(DataBuilderAdapter<T> builder,
-                                ReviewViewParams params,
-                                ReviewViewActions<T> actions) {
-        super(new ReviewViewPerspective<>(builder, params, actions));
+                                ReviewViewActions<T> actions, ReviewViewParams params) {
+        super(new ReviewViewPerspective<>(builder, actions, params));
         mBuilder = builder;
         mSubject = builder.getSubject();
         mRating = builder.getRating();

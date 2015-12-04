@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builder
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewActions;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.ReviewViewDefault;
@@ -29,7 +29,7 @@ public class BuilderChildListView {
         adapter = adapterFactory.newChildListAdapter(node);
 
         ReviewViewPerspective<GvReviewOverview> perspective;
-        perspective = new ReviewViewPerspective<>(adapter, params, actions);
+        perspective = new ReviewViewPerspective<>(adapter, actions, params);
 
         return new ReviewViewDefault<>(perspective);
     }

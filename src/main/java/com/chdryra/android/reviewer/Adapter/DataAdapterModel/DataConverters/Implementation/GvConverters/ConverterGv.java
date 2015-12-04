@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubj
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthorList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;

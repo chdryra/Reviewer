@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
 

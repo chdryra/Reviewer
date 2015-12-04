@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatform;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Implementation.BannerButtonActionNone;
@@ -56,7 +56,7 @@ public class BuilderShareScreenView {
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
         ReviewViewPerspective<GvSocialPlatform> perspective =
-                new ReviewViewPerspective<>(adapter, params, actions, new ShareScreenModifier());
+                new ReviewViewPerspective<>(adapter, actions, params, new ShareScreenModifier());
 
         return new ReviewViewDefault<>(perspective);
     }

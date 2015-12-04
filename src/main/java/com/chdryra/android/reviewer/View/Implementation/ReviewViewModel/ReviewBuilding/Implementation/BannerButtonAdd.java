@@ -8,11 +8,9 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
 import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
@@ -30,30 +28,25 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
         ActivityResultListener {
 
     private final String mTitle;
-    private final GvDataType<T> mDataType;
-    private final FactoryGvData mDataFactory;
     private final GvDataPacker<T> mDataPacker;
     private final LaunchableConfig mConfig;
-    private final LaunchableUiLauncher mLaunchableFactory;
+    private final LaunchableUiLauncher mLauncher;
     private GvDataList<T> mAdded;
 
     public BannerButtonAdd(LaunchableConfig adderConfig,
-                           String title,
-                           GvDataType<T> dataType,
-                           FactoryGvData dataFactory,
-                           GvDataPacker<T> dataPacker,
-                           LaunchableUiLauncher launchableFactory) {
+                           LaunchableUiLauncher launcher, String title,
+                           GvDataList<T> emptyListToAddTo,
+                           GvDataPacker<T> dataPacker) {
         mTitle = title;
-        mDataType = dataType;
-        mDataFactory = dataFactory;
+        mAdded = emptyListToAddTo;
         mDataPacker = dataPacker;
         mConfig = adderConfig;
-        mLaunchableFactory = launchableFactory;
+        mLauncher = launcher;
         initDataList();
     }
 
-    public LaunchableUiLauncher getLaunchableFactory() {
-        return mLaunchableFactory;
+    protected LaunchableUiLauncher getLauncher() {
+        return mLauncher;
     }
 
     protected int getLaunchableRequestCode() {
@@ -69,11 +62,11 @@ public class BannerButtonAdd<T extends GvData> extends ReviewDataEditorActionBas
     }
 
     private void initDataList() {
-        mAdded = mDataFactory.newDataList(mDataType);
+        mAdded.clear();
     }
 
     protected void launchConfig(LaunchableConfig config) {
-        mLaunchableFactory.launch(config, getActivity(), new Bundle());
+        mLauncher.launch(config, getActivity(), new Bundle());
     }
 
     //Overridden

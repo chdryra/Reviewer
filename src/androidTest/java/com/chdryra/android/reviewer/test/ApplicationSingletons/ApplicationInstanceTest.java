@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatformList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTagList;

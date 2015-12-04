@@ -2,14 +2,14 @@ package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.I
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterionList;
@@ -158,7 +158,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     }
 
     private Review assembleReview() {
-        IdableCollection<Review> criteria = new MdDataList<>(null);
+        IdableCollection<Review> criteria = new IdableDataList<>(null);
         for (ReviewBuilderImpl child : mChildren) {
             criteria.add(child.assembleReview());
         }

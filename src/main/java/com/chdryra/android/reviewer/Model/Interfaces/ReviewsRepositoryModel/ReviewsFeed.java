@@ -1,8 +1,11 @@
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,9 +19,9 @@ public interface ReviewsFeed extends ReviewsRepository{
 
     Review getReview(VerboseDataReview datum);
 
-    Review createMetaReview(VerboseIdableCollection data, String subject);
+    ReviewNode getMetaReview(VerboseIdableCollection data, String subject);
 
-    Review asMetaReview(VerboseDataReview datum, String subject);
+    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
-    Review createFlattenedMetaReview(VerboseIdableCollection data, String subject);
+    ReviewNode getFlattenedMetaReview(VerboseIdableCollection data, String subject);
 }

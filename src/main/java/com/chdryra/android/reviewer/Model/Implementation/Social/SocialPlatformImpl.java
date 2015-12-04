@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Implementation.Social;
 
-import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatform;
 
 /**
  * Holds the name and number of followers for a social platform. Placeholder to update the

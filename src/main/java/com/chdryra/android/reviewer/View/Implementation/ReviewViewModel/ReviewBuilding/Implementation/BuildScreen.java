@@ -37,34 +37,33 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 19/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreen implements
+public class BuildScreen<GC extends GvDataList<?>> implements
         ImageChooser.ImageChooserListener,
         LocationClientConnector.Locatable,
         ReviewViewActions.ReviewViewAttachedObserver,
-        GridItemClickObserved.ClickObserver {
-    private ReviewEditor mEditor;
+        GridItemClickObserved.ClickObserver<GC> {
+    private ReviewEditor<GC> mEditor;
     private final ConfigDataUi mUiConfig;
-    private final LaunchableUiLauncher mLaunchableFactory;
+    private final LaunchableUiLauncher mLauncher;
 
     private LocationClientConnector mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
 
-//Constructors
-    public BuildScreen(ReviewEditor<?> editor,
+    public BuildScreen(ReviewEditor<GC> editor,
                        ConfigDataUi uiConfig,
-                       LaunchableUiLauncher launchableFactory) {
+                       LaunchableUiLauncher launcher) {
         mEditor = editor;
         mUiConfig = uiConfig;
-        mLaunchableFactory = launchableFactory;
+        mLauncher = launcher;
 
         setGridItemObservation();
     }
 
     private void setGridItemObservation() {
-        ReviewViewActions<?> actions = mEditor.getActions();
+        ReviewViewActions<GC> actions = mEditor.getActions();
         actions.registerObserver(this);
-        GridItemClickObserved<?> gridItem = (GridItemClickObserved<?>) actions.getGridItemAction();
+        GridItemClickObserved<GC> gridItem = (GridItemClickObserved<GC>) actions.getGridItemAction();
         gridItem.registerObserver(this);
     }
 
@@ -78,13 +77,13 @@ public class BuildScreen implements
     }
 
     @Override
-    public void onGridItemClick(GvData item, int position, View v) {
-        executeIntent((GvDataList<? extends GvData>) item, true);
+    public void onGridItemClick(GC item, int position, View v) {
+        executeIntent(item, true);
     }
 
     @Override
-    public void onGridItemLongClick(GvData item, int position, View v) {
-        executeIntent((GvDataList<? extends GvData>) item, false);
+    public void onGridItemLongClick(GC item, int position, View v) {
+        executeIntent(item, false);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -160,7 +159,7 @@ public class BuildScreen implements
         Bundle args = new Bundle();
         args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
         packLatLng(args);
-        mLaunchableFactory.launch(adderConfig, getActivity(), args);
+        mLauncher.launch(adderConfig, getActivity(), args);
     }
 
     private void packLatLng(Bundle args) {

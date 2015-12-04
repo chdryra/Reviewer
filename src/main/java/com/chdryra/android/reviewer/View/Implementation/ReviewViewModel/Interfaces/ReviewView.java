@@ -48,8 +48,6 @@ public interface ReviewView<T extends GvData> extends GridDataObservable.GridDat
 
     ReviewViewActions<T> getActions();
 
-    FragmentReviewView getParentFragment();
-
     Activity getActivity();
 
     boolean isEditable();

@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewB
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments
         .ActivityReviewView;

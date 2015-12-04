@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
@@ -88,7 +88,7 @@ public class FactoryReviewViewLaunchable {
 
         ReviewViewParams params = mParamsFactory.getParams(dataType);
         ReviewViewActions<T> actions = newViewScreenActions(dataType);
-        ReviewViewPerspective<T> perspective = new ReviewViewPerspective<>(adapter, params, actions);
+        ReviewViewPerspective<T> perspective = new ReviewViewPerspective<>(adapter, actions, params);
 
         return new ReviewViewDefault<>(perspective);
     }

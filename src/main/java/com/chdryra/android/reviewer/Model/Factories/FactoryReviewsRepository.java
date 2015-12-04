@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.ReviewerDbRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 
 /**
  * Created by: Rizwan Choudrey

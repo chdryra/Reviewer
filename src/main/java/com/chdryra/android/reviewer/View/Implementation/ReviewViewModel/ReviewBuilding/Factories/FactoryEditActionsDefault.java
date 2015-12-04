@@ -96,8 +96,8 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected BannerButtonAction<T> newBannerButtonAdd() {
-        return new BannerButtonAdd<>(getAdderConfig(), getBannerButtonTitle(), mDataType,
-                mDataFactory, mPacker, mLaunchableFactory);
+        return new BannerButtonAdd<>(getAdderConfig(), mLaunchableFactory, getBannerButtonTitle(),
+                mDataFactory.newDataList(mDataType), mPacker);
     }
 
     protected GridItemAction<T> newGridItemEdit() {

@@ -66,11 +66,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public FragmentReviewView getParentFragment() {
-        return mFragment;
-    }
-
-    @Override
     public Activity getActivity() {
         return mFragment.getActivity();
     }

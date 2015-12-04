@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;

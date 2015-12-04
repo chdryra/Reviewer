@@ -26,7 +26,7 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
                                    FactoryGvData dataFactory,
                                    GvDataPacker<GvLocation> dataPacker,
                                    LaunchableUiLauncher launchableFactory) {
-        super(adderConfig, title, TYPE, dataFactory, dataPacker, launchableFactory);
+        super(adderConfig, launchableFactory, title, TYPE, dataFactory, dataPacker);
         mMapScreenConfig = mapScreenConfig;
     }
 
@@ -37,11 +37,10 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
         return true;
     }
 
-    //TODO move launch class to config somehow...
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == mMapScreenConfig.getRequestCode()) {
-            getLaunchableFactory().launch(mMapScreenConfig, getActivity(), new Bundle());
+            getLauncher().launch(mMapScreenConfig, getActivity(), new Bundle());
         }
     }
 }

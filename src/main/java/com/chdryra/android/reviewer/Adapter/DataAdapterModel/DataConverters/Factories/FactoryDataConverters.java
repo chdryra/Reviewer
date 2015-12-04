@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Impl
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterImages;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterLocations;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Implementation.MdConverters.MdConverterUrl;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories;
 
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation
+        .AddConstraintDefault;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation.DataBuilderImpl;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
@@ -38,7 +40,7 @@ public class FactoryDataBuilder {
         GvDataList<T> data = mDataFactory.newDataList(dataType);
         if (dataType.equals(GvImage.TYPE)) {
             return new DataBuilderImpl<>(data,
-                    new DataBuilderImpl.AddConstraintImpl<T>() {
+                    new AddConstraintDefault<T>() {
                 //Overridden
                 @Override
                 public DataBuilder.ConstraintResult passes(GvDataList<T> data, T datum) {

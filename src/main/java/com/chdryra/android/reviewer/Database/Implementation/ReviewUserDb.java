@@ -24,8 +24,8 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class ReviewUserDb implements Review {
         mDatabase = database;
         mReviewId = row.getReviewId();
         mRow = row;
-        mNode = reviewsFactory.createReviewNodeComponent(this, false).makeTree();
+        mNode = reviewsFactory.createReviewNode(this, false);
     }
 
     private <T extends DbTableRow> T getRowWhere(DbTable<T> table, String

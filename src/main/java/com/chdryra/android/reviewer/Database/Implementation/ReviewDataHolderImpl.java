@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 import java.util.ArrayList;
 

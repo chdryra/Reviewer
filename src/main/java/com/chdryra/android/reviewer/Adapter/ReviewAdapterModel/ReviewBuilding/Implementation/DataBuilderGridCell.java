@@ -1,17 +1,20 @@
 package com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Implementation;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .DataBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
         .FactoryVhDataCollection;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataListImpl;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data
+        .GvDataListImpl;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.GridDataObservable;
+import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces
+        .GridDataObservable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,8 +24,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfac
 public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
         implements GridDataObservable.GridDataObserver {
 
-    public static final Creator<DataBuilderGridCell> CREATOR = new Creator<DataBuilderGridCell>() {
-        //Overridden
+    public static final Parcelable.Creator<DataBuilderGridCell> CREATOR = new Parcelable.Creator<DataBuilderGridCell>() {
         @Override
         public DataBuilderGridCell createFromParcel(Parcel in) {
             return new DataBuilderGridCell(in);

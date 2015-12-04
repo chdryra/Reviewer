@@ -7,7 +7,7 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewSummary;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.ViewHolders.VhReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;

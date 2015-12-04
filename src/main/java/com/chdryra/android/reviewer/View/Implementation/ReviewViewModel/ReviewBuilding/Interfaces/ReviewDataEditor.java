@@ -51,9 +51,6 @@ public interface ReviewDataEditor<T extends GvData> extends ReviewView<T> {
     ReviewViewParams getParams();
 
     @Override
-    FragmentReviewView getParentFragment();
-
-    @Override
     Activity getActivity();
 
     @Override

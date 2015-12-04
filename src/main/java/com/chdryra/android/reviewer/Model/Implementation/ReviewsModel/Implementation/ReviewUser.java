@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 import junit.framework.Assert;
 
@@ -47,7 +47,7 @@ public class ReviewUser implements Review {
                       MdDataList<MdLocation> locations,
                       MdDataList<MdCriterion> criteria,
                       boolean ratingIsAverage,
-                      FactoryReviewNodeComponent componentFactory) {
+                      FactoryReviews reviewsFactory) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -67,7 +67,7 @@ public class ReviewUser implements Review {
         mLocations = locations;
         mCriteria = criteria;
 
-        mNode = componentFactory.createReviewNodeComponent(this, false).makeTree();
+        mNode = reviewsFactory.createReviewNode(this, false);
     }
 
     //Overridden

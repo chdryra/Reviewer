@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverager;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 

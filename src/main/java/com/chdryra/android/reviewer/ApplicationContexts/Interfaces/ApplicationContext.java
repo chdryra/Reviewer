@@ -4,12 +4,11 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Data
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
-        .FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
 
 /**
@@ -21,7 +20,6 @@ public interface ApplicationContext {
     //Model
     ReviewsFeedMutable getAuthorsFeed();
     SocialPlatformList getSocialPlatformList();
-    DataValidator getDataValidator();
     FactoryReviews getReviewsFactory();
 
     //View
@@ -29,6 +27,7 @@ public interface ApplicationContext {
     ConfigDataUi getUiConfig();
 
     //Presenter
+    DataValidator getDataValidator();
     FactoryReviewViewLaunchable getReviewViewLaunchableFactory();
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();

@@ -14,8 +14,8 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.In
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewStructure.ReviewTreeNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewStructure.ReviewUser;
 import com.chdryra.android.testutils.RandomString;

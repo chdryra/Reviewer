@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Inte
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Interfaces
         .GridDataViewer;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImageList;

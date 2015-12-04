@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey

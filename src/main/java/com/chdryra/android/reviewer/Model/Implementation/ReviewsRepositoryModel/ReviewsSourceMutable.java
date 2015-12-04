@@ -1,12 +1,12 @@
-package com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
 
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 
 /**
@@ -33,7 +33,7 @@ public class ReviewsSourceMutable extends ReviewsSource implements ReviewsFeedMu
     }
 
     @Override
-    public void deleteReview(String reviewId) {
-        mRepository.deleteReview(reviewId);
+    public void removeReview(String reviewId) {
+        mRepository.removeReview(reviewId);
     }
 }

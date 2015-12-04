@@ -24,9 +24,9 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLoca
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
 
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
@@ -42,12 +42,9 @@ public class ReviewTree implements ReviewNode {
     private final ReviewNode mNode;
     private static final ReviewTreeComparer COMPARER = new ReviewTreeComparer();
 
-    //Constructors
     public ReviewTree(ReviewNode node) {
         mNode = node;
     }
-
-    //Overridden
 
     @Override
     public String getReviewId() {

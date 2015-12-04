@@ -19,13 +19,13 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.StaticReviewsRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.StaticReviewsRepository;
 
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;

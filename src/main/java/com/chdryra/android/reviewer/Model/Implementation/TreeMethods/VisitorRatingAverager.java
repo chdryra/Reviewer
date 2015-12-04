@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorRatingCalculator;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorRatingCalculator;
 
 /**
  * For calculating the average rating of the children of a node.

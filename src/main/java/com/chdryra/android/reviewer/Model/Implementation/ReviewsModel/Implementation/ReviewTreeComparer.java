@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey

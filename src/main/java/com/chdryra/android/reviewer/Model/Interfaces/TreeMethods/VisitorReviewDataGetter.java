@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.TreeMethods;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
@@ -9,6 +9,5 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableLi
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VisitorReviewDataGetter<T extends DataReviewIdable> extends VisitorReviewNode{
-
     IdableList<T> getData();
 }

@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Builder
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
         .FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories

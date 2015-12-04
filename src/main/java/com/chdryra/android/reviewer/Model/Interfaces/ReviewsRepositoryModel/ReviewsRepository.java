@@ -1,4 +1,7 @@
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
+
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -6,7 +9,6 @@ package com.chdryra.android.reviewer.Model.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository {
-    //abstract
     Review getReview(String id);
 
     Iterable<Review> getReviews();

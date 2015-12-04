@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey

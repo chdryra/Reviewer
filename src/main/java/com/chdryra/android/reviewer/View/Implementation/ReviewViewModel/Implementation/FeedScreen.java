@@ -5,10 +5,10 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvReviewOverview;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.BannerButtonAction;
@@ -40,13 +40,8 @@ public class FeedScreen implements
                       String title,
                       FactoryReviews reviewsFactory,
                       DeleteRequestListener listener) {
-        Review root = reviewsFactory.createUserReview(title, 0f);
         mReviewsFactory = reviewsFactory;
-        mNode = mReviewsFactory.createReviewNodeComponent(root, true);
-        for (Review review : feed.getReviews()) {
-            mNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
-        }
-
+        mNode = mReviewsFactory.createMetaReviewMutable(feed.getReviews(), title);
         feed.registerObserver(this);
         mListener = listener;
     }

@@ -6,15 +6,16 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.TreeMethods;
 
+
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
  * Visitor pattern for {@link ReviewNode}s specifically
  * targeted towards rating calculations.
  */
 public interface VisitorRatingCalculator extends VisitorReviewNode {
-    //abstract
     float getRating();
 
     int getWeight();

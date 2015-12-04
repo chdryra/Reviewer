@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Activiti
 public class ReviewViewPerspective<T extends GvData> {
     private ReviewViewAdapter<T> mAdapter;
     private ReviewViewParams mParams;
-    private ReviewViewActions mActions;
+    private ReviewViewActions<T> mActions;
     private ReviewViewModifier mModifier;
 
     public interface ReviewViewModifier {
@@ -29,14 +29,12 @@ public class ReviewViewPerspective<T extends GvData> {
 
     //Constructors
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
-                                 ReviewViewParams params,
-                                 ReviewViewActions actions) {
-        this(adapter, params, actions, null);
+                                 ReviewViewActions<T> actions, ReviewViewParams params) {
+        this(adapter, actions, params, null);
     }
 
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
-                                 ReviewViewParams params,
-                                 ReviewViewActions actions,
+                                 ReviewViewActions<T> actions, ReviewViewParams params,
                                  ReviewViewModifier modifier) {
         mAdapter = adapter;
         mParams = params;

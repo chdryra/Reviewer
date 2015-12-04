@@ -1,12 +1,12 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories.FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.ReviewsSource;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.ReviewsSourceMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSource;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceMutable;
 
 /**
  * Created by: Rizwan Choudrey

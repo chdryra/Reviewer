@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.Social;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSocialPlatform;
 

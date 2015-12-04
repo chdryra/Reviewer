@@ -12,9 +12,9 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.Datu
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

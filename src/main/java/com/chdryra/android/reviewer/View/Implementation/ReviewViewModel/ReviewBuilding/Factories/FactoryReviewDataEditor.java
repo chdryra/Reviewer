@@ -26,6 +26,6 @@ public class FactoryReviewDataEditor {
     public <T extends GvData> ReviewDataEditor<T> newEditor(DataBuilderAdapter<T> adapter) {
         ReviewViewParams params = mParamsFactory.getParams(adapter.getGvDataType());
         ReviewViewActions<T> actions = mActionsFactory.newActions(adapter.getGvDataType());
-        return new ReviewDataEditorImpl<>(adapter, params, actions);
+        return new ReviewDataEditorImpl<>(adapter, actions, params);
     }
 }

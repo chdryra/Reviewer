@@ -7,10 +7,10 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.Interfaces.Review
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeTraverser;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCanonicalCollection;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvList;

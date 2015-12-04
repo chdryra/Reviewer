@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.Social;
 
 import java.util.Iterator;
 

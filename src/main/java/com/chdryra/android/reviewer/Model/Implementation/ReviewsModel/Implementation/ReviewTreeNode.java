@@ -21,11 +21,10 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRati
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
 
 /**
  * Creates a new unique {@link MdReviewId} if required so can represent a new review structure even
@@ -43,19 +42,16 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     private final Review mReview;
     private final MdDataList<ReviewNode> mChildren;
     private ReviewNodeComponent mParent;
+
     private boolean mRatingIsAverage = false;
-    private FactoryReviewNode mNodeFactory;
 
     //Constructors
-    public ReviewTreeNode(MdReviewId nodeId, Review review,
-                          boolean ratingIsAverage,
-                          FactoryReviewNode nodeFactory) {
+    public ReviewTreeNode(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
         mId = nodeId;
         mReview = review;
         mChildren = new MdDataList<>(nodeId);
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
-        mNodeFactory = nodeFactory;
     }
 
     private void removeChild(ReviewNodeComponent childNode) {
@@ -66,9 +62,6 @@ public class ReviewTreeNode implements ReviewNodeComponent {
         childNode.setParent(null);
     }
 
-    //Overridden
-    //ReviewNode methods
-    
     @Override
     public String getReviewId() {
         return mId.toString();
@@ -88,11 +81,6 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     @Override
     public void removeChild(String reviewId) {
         removeChild((ReviewTreeNode) mChildren.getItem(reviewId));
-    }
-
-    @Override
-    public ReviewNode makeTree() {
-        return mNodeFactory.createReviewNode(this);
     }
 
     @Override
@@ -269,7 +257,6 @@ public class ReviewTreeNode implements ReviewNodeComponent {
         return data;
     }
 
-    //Review methods
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.TagsModel;
 
 import java.util.Collection;
 

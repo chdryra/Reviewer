@@ -5,10 +5,10 @@ import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.ReviewGette
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.TagsGetter;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverager;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorReviewDataGetterImpl;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorRatingCalculator;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorRatingCalculator;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 
 /**
  * Created by: Rizwan Choudrey

@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Implementation.TagsModel;
 
-import com.chdryra.android.reviewer.Model.Interfaces.ItemTag;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 
 import org.jetbrains.annotations.NotNull;
 

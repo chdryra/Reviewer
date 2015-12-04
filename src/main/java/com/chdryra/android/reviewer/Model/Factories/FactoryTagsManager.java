@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey

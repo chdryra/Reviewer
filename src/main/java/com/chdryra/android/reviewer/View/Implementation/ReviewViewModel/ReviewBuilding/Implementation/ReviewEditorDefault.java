@@ -20,16 +20,15 @@ import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBu
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewEditorDefault extends ReviewViewDefault implements ReviewEditor {
+public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDefault<GC>
+        implements ReviewEditor<GC> {
     private FragmentReviewView mParent;
     private ReviewBuilderAdapter<?> mBuilder;
 
-    //Constructors
-    public ReviewEditorDefault(ReviewBuilderAdapter<? extends GvDataList> builder,
-                               ReviewViewParams params,
-                               ReviewViewActions<?> actions,
+    public ReviewEditorDefault(ReviewBuilderAdapter<GC> builder,
+                               ReviewViewActions<GC> actions, ReviewViewParams params,
                                ReviewViewPerspective.ReviewViewModifier modifier) {
-        super(new ReviewViewPerspective<>(builder, params, actions, modifier));
+        super(new ReviewViewPerspective<>(builder, actions, params, modifier));
         mBuilder = builder;
     }
 

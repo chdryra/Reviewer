@@ -1,10 +1,10 @@
 package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.Implementation.ReviewNodeRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.Implementation.ReviewNodeRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 
 /**
  * Created by: Rizwan Choudrey

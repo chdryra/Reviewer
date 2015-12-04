@@ -37,11 +37,11 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Model.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.View.Factories.FactoryConfigDataUi;
 import com.chdryra.android.reviewer.View.Factories.FactoryLauncherUi;
@@ -208,7 +208,7 @@ public class ReleaseApplicationContext extends ApplicationContextBasic {
 
     private FactoryReviews setFactoryReviews(FactoryReviewPublisher publisherFactory,
                                              ConverterMd converter) {
-        FactoryReviewNodeComponent factory = new FactoryReviewNodeComponent();
+        FactoryReviewNode factory = new FactoryReviewNode();
 
         FactoryReviews reviewsFactory = new FactoryReviews(publisherFactory, factory, converter);
         setFactoryReviews(reviewsFactory);

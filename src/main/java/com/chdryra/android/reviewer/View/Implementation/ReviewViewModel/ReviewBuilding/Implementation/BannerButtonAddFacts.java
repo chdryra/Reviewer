@@ -27,7 +27,7 @@ public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
                                 FactoryGvData dataFactory,
                                 GvDataPacker<GvFact> dataPacker,
                                 LaunchableUiLauncher launchableFactory) {
-        super(factAdder, title, TYPE, dataFactory, dataPacker, launchableFactory);
+        super(factAdder, launchableFactory, title, TYPE, dataFactory, dataPacker);
         mUrlAdder = urlAdder;
     }
 

@@ -36,17 +36,17 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Fac
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.ReviewsSource;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel.StaticReviewsRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSource;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.StaticReviewsRepository;
 import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityReviewView;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataAggregater;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
@@ -155,7 +155,7 @@ public class ActivityFeedTest extends
         Context context = getInstrumentation().getTargetContext();
 
         PublishDate publishDate = new PublishDate(new Date().getTime());
-        FactoryReviewNodeComponent nodeFactory = new FactoryReviewNodeComponent();
+        FactoryReviewNode nodeFactory = new FactoryReviewNode();
         TagsManager tagsManager = new TagsManagerImpl();
         DataConverters converters = new FactoryDataConverters(tagsManager).newDataConverters();
         ConverterGv converterGv = converters.getGvConverter();

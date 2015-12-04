@@ -6,12 +6,13 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.TreeMethods;
+
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
  * Visitor pattern for {@link ReviewNode}s
  */
 public interface VisitorReviewNode {
-    //abstract
     void visit(ReviewNode reviewNode);
 }

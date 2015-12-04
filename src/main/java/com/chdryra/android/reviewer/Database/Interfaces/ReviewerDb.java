@@ -13,8 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.TableRowList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
 

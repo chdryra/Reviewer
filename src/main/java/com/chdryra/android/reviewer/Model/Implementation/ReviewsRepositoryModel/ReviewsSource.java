@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Implementation.ReviewsProviderModel;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableCollection;
@@ -11,14 +11,16 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeTraverser;
-import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -60,7 +62,7 @@ public class ReviewsSource implements ReviewsFeed {
         String id = datum.getReviewId();
         Review review = getReview(id);
         if (review == null && datum.hasElements()) {
-            review = createMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
+            review = getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
                     datum.getStringSummary());
         }
 
@@ -68,7 +70,7 @@ public class ReviewsSource implements ReviewsFeed {
     }
 
     @Override
-    public Review createMetaReview(VerboseIdableCollection data, String subject) {
+    public ReviewNode getMetaReview(VerboseIdableCollection data, String subject) {
         IdableCollection<Review> reviews = new MdDataList<>(null);
         for (int i = 0; i < data.size(); ++i) {
             reviews.add(getReview(data.getItem(i).getReviewId()));
@@ -78,9 +80,9 @@ public class ReviewsSource implements ReviewsFeed {
     }
 
     @Override
-    public Review asMetaReview(VerboseDataReview datum, String subject) {
+    public ReviewNode asMetaReview(VerboseDataReview datum, String subject) {
         if (datum.isVerboseCollection()) {
-            return createMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
+            return getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
                     subject);
         }
 
@@ -88,9 +90,8 @@ public class ReviewsSource implements ReviewsFeed {
     }
 
     @Override
-    public Review createFlattenedMetaReview(VerboseIdableCollection data, String subject) {
-        Review meta = createMetaReview(data, subject);
-        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(meta.getTreeRepresentation());
+    public ReviewNode getFlattenedMetaReview(VerboseIdableCollection data, String subject) {
+        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(getMetaReview(data, subject));
         VisitorReviewDataGetter<Review> getter = mVisitorFactory.newReviewsCollector();
         traverser.addVisitor(getter);
         traverser.traverse();

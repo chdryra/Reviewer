@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
@@ -10,6 +10,7 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLoca
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,8 +23,6 @@ public interface ReviewNodeComponent extends ReviewNode {
     void removeChild(String reviewId);
 
     void setParent(ReviewNodeComponent parent);
-
-    ReviewNode makeTree();
 
     @Override
     Review getReview();

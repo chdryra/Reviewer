@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Interfaces;
+package com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel;
 
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
@@ -16,78 +16,71 @@ import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
+import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeNode;
 
 /**
- * Tree representation of a review.
+ * The fundamental interface for all review classes.
  * <p/>
- * <p>
- * Can have other reviews as children or as a parent allowing a structured representation of how
- * reviews may relate to each other, for example a user review with sub-criteria as children
- * or a meta review with other reviews as children.
- * </p>
+ * All reviews are primarily data holders that are expected to have 3 items of core data:
+ * <ul>
+ * <li>A unique identifier</li>
+ * <li>A subject </li>
+ * <li>A rating</li>
+ * </ul>
+ * <p/>
+ * In addition, reviews may have some optional data:
+ * <ul>
+ * <li>Comments</li>
+ * <li>Images</li>
+ * <li>Locations</li>
+ * <li>Facts</li>
+ * <li>URLs</li>
+ * </ul>
+ * <p/>
+ * Reviews can be nodes in a review tree with children sub-reviews and/or be a sub-review of a
+ * parent review. They can be represented as a ReviewNode with zero or more children and/or a
+ * parent if necessary.
+ * <p/>
+ * Reviews may or may not be published (have non-null Author and Publish Date). Published reviews
+ * should not be editable reviews or expandable nodes themselves. They may, however, be passed to a
+ * {@link ReviewTreeNode} as the root review for a different
+ * review structure that may be expanded.
+ *
+ * @see ReviewNode
  */
-public interface ReviewNode extends Review {
-    Review getReview();
 
-    ReviewNode getParent();
-
-    ReviewNode getRoot();
-
-    boolean isExpandable();
-
-    ReviewNode expand();
-
-    IdableList<ReviewNode> getChildren();
-
-    ReviewNode getChild(String reviewId);
-
-    boolean hasChild(String reviewId);
-
-    void acceptVisitor(VisitorReviewNode visitor);
-
-    boolean isRatingAverageOfChildren();
-
-    @Override
+public interface Review extends DataReviewIdable {
     DataSubject getSubject();
 
-    @Override
     DataRating getRating();
 
-    @Override
     DataAuthorReview getAuthor();
 
-    @Override
     DataDateReview getPublishDate();
 
-    @Override
     ReviewNode getTreeRepresentation();
 
-    @Override
     boolean isRatingAverageOfCriteria();
 
-    @Override
     IdableList<? extends DataCriterionReview> getCriteria();
 
-    @Override
     IdableList<? extends DataComment> getComments();
 
-    @Override
     IdableList<? extends DataFact> getFacts();
 
-    @Override
     IdableList<? extends DataImage> getImages();
 
-    @Override
     IdableList<? extends DataImage> getCovers();
 
-    @Override
     IdableList<? extends DataLocation> getLocations();
 
     @Override
     String getReviewId();
 
+    //For speed and comparison
     @Override
     boolean equals(Object o);
 

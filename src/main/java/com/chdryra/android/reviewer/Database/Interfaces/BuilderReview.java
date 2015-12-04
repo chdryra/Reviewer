@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 /**
  * Created by: Rizwan Choudrey

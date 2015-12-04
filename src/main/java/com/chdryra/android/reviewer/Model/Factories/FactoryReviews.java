@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Fa
 import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
@@ -33,8 +33,9 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 
 import java.util.ArrayList;
 
@@ -48,20 +49,15 @@ import java.util.ArrayList;
  */
 public class FactoryReviews implements BuilderReview {
     private FactoryReviewPublisher mPublisherFactory;
-    private FactoryReviewNodeComponent mComponentFactory;
+    private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
 
-    //Constructors
     public FactoryReviews(FactoryReviewPublisher publisherFactory,
-                          FactoryReviewNodeComponent componentFactory,
+                          FactoryReviewNode nodeFactory,
                           ConverterMd converter) {
         mPublisherFactory = publisherFactory;
-        mComponentFactory = componentFactory;
+        mNodeFactory = nodeFactory;
         mConverter = converter;
-    }
-
-    public DataAuthor getAuthor() {
-        return mPublisherFactory.getAuthor();
     }
 
     public Review createUserReview(String subject,
@@ -79,23 +75,27 @@ public class FactoryReviews implements BuilderReview {
         return newReviewUser(subject, rating);
     }
 
-    public Review createMetaReview(Review review) {
+    public ReviewNode createMetaReview(Review review) {
         MdDataList<Review> single = new MdDataList<>(null);
         single.add(review);
 
         return createMetaReview(single, review.getSubject().getSubject());
     }
 
-    public Review createMetaReview(Iterable<Review> reviews,
+    public ReviewNode createMetaReview(Iterable<Review> reviews,
                                    String subject) {
+        return mNodeFactory.createReviewNode(createMetaReviewMutable(reviews, subject));
+    }
+
+    public ReviewNodeComponent createMetaReviewMutable(Iterable<Review> reviews, String subject) {
         Review meta = createUserReview(subject, 0f);
-        ReviewNodeComponent parent = mComponentFactory.createReviewNodeComponent(meta, true);
+        ReviewNodeComponent parent = mNodeFactory.createReviewNodeComponent(meta, true);
         for (Review review : reviews) {
-            ReviewNodeComponent child = mComponentFactory.createReviewNodeComponent(review, false);
+            ReviewNodeComponent child = mNodeFactory.createReviewNodeComponent(review, false);
             parent.addChild(child);
         }
 
-        return parent.makeTree();
+        return parent;
     }
 
     //private methods
@@ -118,10 +118,11 @@ public class FactoryReviews implements BuilderReview {
         MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id.toString());
         MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id.toString());
         MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id.toString());
-        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id.toString());
+        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id
+                .toString());
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mComponentFactory);
+                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, this);
     }
 
     private Review newReviewUser(String subject, float
@@ -159,7 +160,11 @@ public class FactoryReviews implements BuilderReview {
     }
 
     public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
-        return mComponentFactory.createReviewNodeComponent(review, isAverage);
+        return mNodeFactory.createReviewNodeComponent(review, isAverage);
+    }
+
+    public ReviewNode createReviewNode(Review review, boolean isAverage) {
+        return mNodeFactory.createReviewNode(review, isAverage);
     }
 
     //Overridden

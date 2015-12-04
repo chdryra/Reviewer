@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenGridUiImpl implements BuildScreenGridUi<DataBuilderGridCell> {
-
     private final ArrayList<GvDataType<?>> mCells;
     private final DataBuilderGridCellList mWrapper;
     private final FactoryVhDataCollection mVhFactory;

@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.DataConverters.Interfaces
         .GvReviewConverter;
 import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;

@@ -10,9 +10,9 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
 import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCommentList;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -108,7 +108,7 @@ public class ReviewsFeedTest extends InstrumentationTestCase {
         ofInterest.add(comments2.getItem(rand.nextInt(comments2.size())));
         GvCommentList comments = MdGvConverter.toGvDataList(ofInterest);
 
-        ReviewNode meta = mRepo.createMetaReview(comments, subject);
+        ReviewNode meta = mRepo.getMetaReview(comments, subject);
 
         float averageRating = 0.5f * (review1.getRating().getRating() + review2.getRating()
                 .getRating());

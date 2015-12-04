@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewTreeIterator;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.ReviewTreeIterator;
 
 import java.util.NoSuchElementException;
 import java.util.Stack;
