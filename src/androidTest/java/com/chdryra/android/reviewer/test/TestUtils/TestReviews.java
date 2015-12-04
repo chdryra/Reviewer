@@ -16,8 +16,8 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilder;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -27,13 +27,13 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.StaticReviewsRepository;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.google.android.gms.maps.model.LatLng;
 
 import junit.framework.Assert;

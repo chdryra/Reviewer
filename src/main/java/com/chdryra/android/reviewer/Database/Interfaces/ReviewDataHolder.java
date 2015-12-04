@@ -1,11 +1,11 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 /**

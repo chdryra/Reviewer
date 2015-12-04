@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 
 /**

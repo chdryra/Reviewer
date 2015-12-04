@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.UserModel;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 
 /**
  * Holds Author data. Currently only wraps a name and unique {@link UserId}.

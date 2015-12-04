@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 
 /**
  * Created by: Rizwan Choudrey

@@ -3,8 +3,7 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 import android.content.Context;
 import android.os.Environment;
 
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation
-        .ReleaseApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
@@ -20,8 +19,7 @@ public class ApplicationLaunch {
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
-    private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId
-            .generateId());
+    private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId.generateId());
     private static final String IMAGE_DIR = "Reviewer";
     private static final String DATABASE_NAME = "Reviewer.db";
     private static final String TEST_DATABASE_NAME = "TestReviewer.db";
@@ -38,7 +36,7 @@ public class ApplicationLaunch {
         mContext = context;
         mLaunchState = launchState;
         createApplicationContext();
-        intialiseSingeltons();
+        intialiseSingletons();
     }
 
     public static void intitialiseSingletons(Context context, LaunchState launchState) {
@@ -50,16 +48,14 @@ public class ApplicationLaunch {
     }
 
     private void createApplicationContext() {
-        String db = DATABASE_NAME;
-        if(mLaunchState == LaunchState.TEST) {
-            db = TEST_DATABASE_NAME;
-        }
+        String db = mLaunchState == LaunchState.TEST? TEST_DATABASE_NAME : DATABASE_NAME;
+        FactoryApplicationContext contextFactory = new FactoryApplicationContext();
 
-        mApplicationContext = new ReleaseApplicationContext(mContext, AUTHOR,
-                FILE_DIR_EXT, IMAGE_DIR, db, DATABASE_VER);
+        mApplicationContext = contextFactory.newReleaseContext(mContext, AUTHOR, db, DATABASE_VER,
+                FILE_DIR_EXT, IMAGE_DIR);
     }
 
-    private void intialiseSingeltons() {
+    private void intialiseSingletons() {
         ApplicationInstance.createWithApplicationContext(mContext, mApplicationContext);
     }
 }

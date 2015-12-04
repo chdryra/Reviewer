@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DatumTag;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;

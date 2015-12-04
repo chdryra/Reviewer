@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;

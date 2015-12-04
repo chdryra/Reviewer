@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 

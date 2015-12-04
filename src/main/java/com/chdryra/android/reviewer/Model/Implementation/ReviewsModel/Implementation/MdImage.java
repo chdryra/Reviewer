@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataDate;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 
 import junit.framework.Assert;
 

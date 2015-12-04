@@ -10,12 +10,12 @@ package com.chdryra.android.reviewer.Database.Factories;
 
 import android.database.Cursor;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataComment;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataCriterionReview;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataImage;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.RowAuthorImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowCommentImpl;

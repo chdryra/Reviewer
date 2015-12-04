@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataRow;
 
 import java.util.AbstractCollection;

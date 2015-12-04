@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 
 /**
  * Review Data: subject

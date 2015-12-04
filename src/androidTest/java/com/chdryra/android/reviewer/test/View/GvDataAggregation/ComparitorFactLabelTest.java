@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataAggregation.Implementation.ComparitorFactLabel;
-import com.chdryra.android.reviewer.DataAggregation.Implementation.DifferencePercentage;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.ComparitorFactLabel;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.testutils.RandomString;
 
 import junit.framework.TestCase;

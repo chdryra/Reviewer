@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 
 /**
  * Review Data: Wrapper for a UUID

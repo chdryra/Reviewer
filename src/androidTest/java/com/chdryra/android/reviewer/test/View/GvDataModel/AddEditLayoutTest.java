@@ -13,9 +13,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditLayoutBasic;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditLayoutBasic;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**

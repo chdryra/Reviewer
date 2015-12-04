@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorRatingCalculator;
 

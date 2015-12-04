@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.content.ContentValues;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 
 /**
  * Created by: Rizwan Choudrey

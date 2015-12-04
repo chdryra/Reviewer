@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.DefaultLaunchables;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
  * Created by: Rizwan Choudrey

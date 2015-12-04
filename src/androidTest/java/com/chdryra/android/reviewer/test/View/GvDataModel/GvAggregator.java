@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View.GvDataModel;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey

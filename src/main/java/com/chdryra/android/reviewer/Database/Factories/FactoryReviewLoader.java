@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewLoaderDynamic;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewLoaderStatic;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;

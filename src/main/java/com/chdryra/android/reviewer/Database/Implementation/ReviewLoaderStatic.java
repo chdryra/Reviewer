@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.PublishDate;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class ReviewLoaderStatic implements ReviewLoader {
     private DataValidator mValidator;
     private BuilderReview mBuilder;
-    
 
     public ReviewLoaderStatic(BuilderReview builder, DataValidator validator) {
         mBuilder = builder;

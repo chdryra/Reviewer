@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
 
 import android.content.ContentValues;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.Validatable;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.Validatable;
 
 /**
  * Created by: Rizwan Choudrey

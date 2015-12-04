@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.ReviewGetter;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.TagsGetter;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverager;

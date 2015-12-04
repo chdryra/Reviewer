@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataAggregation.Implementation.ComparitorDate;
-import com.chdryra.android.reviewer.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDate;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.ComparitorDate;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferenceDate;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 
 import junit.framework.TestCase;
 

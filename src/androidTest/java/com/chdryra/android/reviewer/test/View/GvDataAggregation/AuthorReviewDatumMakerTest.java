@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 
-import com.chdryra.android.reviewer.DataAggregation.Implementation.CanonicalAuthor;
-import com.chdryra.android.reviewer.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvAuthor;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalAuthor;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 /**

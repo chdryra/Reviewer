@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.DataAggregation.Implementation.ComparitorLocationDistance;
-import com.chdryra.android.reviewer.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.ComparitorLocationDistance;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferenceFloat;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 

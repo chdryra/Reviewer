@@ -12,20 +12,20 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.TestDatabaseApplicationContext;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatform;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.ActivityFeed;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ActivitiesFragments.FragmentReviewView;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvSocialPlatform;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.ReviewBuilding.Activities.BuilderShareScreenView;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Interfaces.ReviewView;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityFeed;
+import com.chdryra.android.reviewer.View.AndroidViews.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
 import com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens.ActivityReviewViewTest;
@@ -84,7 +84,7 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
     //protected methods
     @Override
     protected ReviewView getView() {
-        BuilderShareScreenView builder = new BuilderShareScreenView();
+        FactoryShareScreenView builder = new FactoryShareScreenView();
         return builder.buildView("ShareScreen", mList, (ReviewBuilderAdapter) mAdapter);
     }
 

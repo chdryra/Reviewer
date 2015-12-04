@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 
 import java.io.File;
 

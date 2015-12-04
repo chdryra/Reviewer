@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.ActivitiesFragmentsScreens;
 import android.test.SingleLaunchActivityTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.Implementation.SpecialisedActivities.ActivityEditLocationMap;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityEditLocationMap;
 
 /**
  * Created by: Rizwan Choudrey

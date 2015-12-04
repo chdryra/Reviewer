@@ -10,13 +10,13 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvUrl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 
 import junit.framework.TestCase;
 

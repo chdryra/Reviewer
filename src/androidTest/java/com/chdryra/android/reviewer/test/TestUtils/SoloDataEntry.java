@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvCriterion;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvFact;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.robotium.solo.Solo;
 
 /**

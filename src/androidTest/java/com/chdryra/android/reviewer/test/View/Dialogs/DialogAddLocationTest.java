@@ -12,10 +12,10 @@ import android.location.Location;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvLocation;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvDataList;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.DefaultLaunchables;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.test.TestUtils.DialogAddListener;
 import com.chdryra.android.testutils.CallBackSignaler;
 import com.google.android.gms.maps.model.LatLng;

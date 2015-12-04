@@ -12,12 +12,12 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.View.Implementation.Configs.Interfaces.LaunchablesList;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.Implementation.Configs.Interfaces.LaunchableConfigsHolder;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvImage;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.Interfaces.LaunchablesList;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.Interfaces.LaunchableConfigsHolder;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
 import java.util.ArrayList;

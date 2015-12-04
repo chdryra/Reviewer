@@ -11,32 +11,28 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 import android.app.Activity;
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Adapter.DataAdapterModel.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Factories
-        .FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .DataBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewBuilding.Interfaces
-        .ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Adapter.ReviewAdapterModel.ReviewViewing.Factories
-        .FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvDataType;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Interfaces.GvData;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
-        .FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.View.Implementation.ReviewViewModel.Factories
-        .FactoryReviewViewParams;
-import com.chdryra.android.reviewer.View.Interfaces.ConfigDataUi;
-import com.chdryra.android.reviewer.View.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -60,7 +56,10 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     private static ApplicationInstance sSingleton;
 
-    private final ApplicationContext mApplicationContext;
+    private final ModelContext mModelContext;
+    private final ViewContext mViewContext;
+    private final PresenterContext mPresenterContext;
+
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
 
     private ApplicationInstance(Context context) {
@@ -70,7 +69,9 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     private ApplicationInstance(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
-        mApplicationContext = applicationContext;
+        mModelContext = applicationContext.getModelContext();
+        mViewContext = applicationContext.getViewContext();
+        mPresenterContext = applicationContext.getPresenterContext();
     }
 
     //Static methods
@@ -85,10 +86,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     //public methods
-    public DataValidator getDataValidator() {
-        return mApplicationContext.getDataValidator();
-    }
-
     public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
         return mReviewBuilderAdapter;
     }
@@ -98,28 +95,27 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewsFeedMutable getAuthorsFeed() {
-        return mApplicationContext.getAuthorsFeed();
+        return mModelContext.getAuthorsFeed();
     }
 
     public FactoryReviews getReviewsFactory() {
-        return mApplicationContext.getReviewsFactory();
+        return mModelContext.getReviewsFactory();
     }
 
     public FactoryReviewViewLaunchable getLaunchableFactory() {
-        return mApplicationContext.getReviewViewLaunchableFactory();
+        return mPresenterContext.getReviewViewLaunchableFactory();
     }
 
     public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
-        return mApplicationContext.getReviewViewAdapterFactory();
+        return mPresenterContext.getReviewViewAdapterFactory();
     }
 
     public SocialPlatformList getSocialPlatformList() {
-        return mApplicationContext.getSocialPlatformList();
+        return mModelContext.getSocialPlatformList();
     }
 
     public ReviewBuilderAdapter<?> newReviewBuilderAdapter() {
-        FactoryReviewBuilderAdapter adapterfactory =
-                mApplicationContext.getReviewBuilderAdapterFactory();
+        FactoryReviewBuilderAdapter adapterfactory = mPresenterContext.getReviewBuilderAdapterFactory();
         mReviewBuilderAdapter = adapterfactory.newAdapter();
         return mReviewBuilderAdapter;
     }
@@ -133,7 +129,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     public void launchReview(Activity activity, String reviewId) {
         Review review = getAuthorsFeed().getReview(reviewId);
         ReviewNode reviewNode = getReviewsFactory().createMetaReview(review).getTreeRepresentation();
-        FactoryReviewViewAdapter adapterFactory = mApplicationContext.getReviewViewAdapterFactory();
+        FactoryReviewViewAdapter adapterFactory = mPresenterContext.getReviewViewAdapterFactory();
         LaunchableUi ui = getLaunchableFactory().newReviewsListScreen(reviewNode, adapterFactory);
         String tag = review.getSubject().getSubject();
         int requestCode = RequestCodeGenerator.getCode(tag);
@@ -141,11 +137,11 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ConfigDataUi getConfigDataUi() {
-        return mApplicationContext.getUiConfig();
+        return mViewContext.getUiConfig();
     }
 
     public LaunchableUiLauncher getUiLauncher() {
-        return mApplicationContext.getUiLauncher();
+        return mViewContext.getUiLauncher();
     }
 
     public FactoryReviewViewParams getParamsFactory() {
@@ -153,6 +149,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public FactoryGvData getGvDataFactory() {
-        return mApplicationContext.getGvDataFactory();
+        return mPresenterContext.getGvDataFactory();
     }
 }

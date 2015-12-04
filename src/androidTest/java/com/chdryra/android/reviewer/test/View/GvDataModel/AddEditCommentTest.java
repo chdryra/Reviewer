@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.test.View.GvDataModel;
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
-import com.chdryra.android.reviewer.View.Implementation.Dialogs.Layouts.Implementation.AddEditComment;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvComment;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.DefaultLaunchables;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 
 /**
  * Created by: Rizwan Choudrey

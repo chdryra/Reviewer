@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.test.View.Dialogs;
 
-import com.chdryra.android.reviewer.View.Implementation.Configs.DefaultLaunchables;
-import com.chdryra.android.reviewer.View.Implementation.GvDataModel.Implementation.Data.GvTag;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.DefaultLaunchables;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 
 /**
  * Created by: Rizwan Choudrey
