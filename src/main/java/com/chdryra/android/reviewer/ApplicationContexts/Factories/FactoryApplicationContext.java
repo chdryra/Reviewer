@@ -23,11 +23,11 @@ public class FactoryApplicationContext {
     public ApplicationContext newReleaseContext(Context context,
                                                 DataAuthor author,
                                                 String databaseName,
-                                                int databaseVesion,
+                                                int databaseVersion,
                                                 File externalStorageDirectory,
                                                 String imageDirectory) {
         ModelContext modelContext =
-                new ReleaseModelContext(context, author, databaseName, databaseVesion);
+                new ReleaseModelContext(context, author, databaseName, databaseVersion);
 
         ViewContext viewContext = new ReleaseViewContext();
 

@@ -40,8 +40,4 @@ public class MdDataList<T extends DataReviewIdable> extends SortableListImpl<T> 
     public void remove(String reviewId) {
         mData.remove(getItem(reviewId));
     }
-
-    protected MdReviewId getMdReviewId() {
-        return mReviewId;
-    }
 }

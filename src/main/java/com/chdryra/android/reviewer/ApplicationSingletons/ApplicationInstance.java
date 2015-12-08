@@ -75,8 +75,8 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     //Static methods
-    public static void createWithApplicationContext(Context context, ApplicationContext
-                                                                     applicationContext) {
+    public static void createWithApplicationContext(Context context,
+                                                    ApplicationContext applicationContext) {
         sSingleton = new ApplicationInstance(context, applicationContext);
     }
 

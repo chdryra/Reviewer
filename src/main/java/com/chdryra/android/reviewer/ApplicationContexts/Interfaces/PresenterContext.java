@@ -13,7 +13,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
  */
 public interface PresenterContext {
     FactoryReviewViewLaunchable getReviewViewLaunchableFactory();
+
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
+
     FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory();
+
     FactoryGvData getGvDataFactory();
 }

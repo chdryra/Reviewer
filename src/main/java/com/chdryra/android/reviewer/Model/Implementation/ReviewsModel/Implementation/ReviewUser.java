@@ -8,11 +8,10 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-
-import junit.framework.Assert;
 
 /**
  * Created by: Rizwan Choudrey
@@ -49,18 +48,20 @@ public class ReviewUser implements Review {
                       boolean ratingIsAverage,
                       FactoryReviews reviewsFactory) {
         mId = id;
+
+        checkId(subject);
+        checkId(rating);
+        checkId(comments);
+        checkId(images);
+        checkId(facts);
+        checkId(locations);
+
         mAuthor = author;
         mPublishDate = publishDate;
         mSubject = subject;
         mRatingIsAverage = ratingIsAverage;
 
         mRating = rating;
-        Assert.assertEquals(mId.toString(), subject.getReviewId());
-        Assert.assertEquals(mId.toString(), rating.getReviewId());
-        Assert.assertEquals(mId.toString(), comments.getReviewId());
-        Assert.assertEquals(mId.toString(), images.getReviewId());
-        Assert.assertEquals(mId.toString(), facts.getReviewId());
-        Assert.assertEquals(mId.toString(), locations.getReviewId());
         mComments = comments;
         mImages = images;
         mFacts = facts;
@@ -70,8 +71,12 @@ public class ReviewUser implements Review {
         mNode = reviewsFactory.createReviewNode(this, false);
     }
 
-    //Overridden
-
+    private void checkId(DataReviewIdable datum) {
+        if(!mId.toString().equals(datum.getReviewId())) {
+            throw new IllegalArgumentException("Datum should have same Id as review!");
+        }
+    }
+    
     @Override
     public String getReviewId() {
         return mId.toString();
@@ -159,7 +164,8 @@ public class ReviewUser implements Review {
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
-        return mLocations.equals(that.mLocations);
+        if (!mLocations.equals(that.mLocations)) return false;
+        return mNode.equals(that.mNode);
 
     }
 
@@ -176,6 +182,7 @@ public class ReviewUser implements Review {
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
         result = 31 * result + (mRatingIsAverage ? 1 : 0);
+        result = 31 * result + mNode.hashCode();
         return result;
     }
 }

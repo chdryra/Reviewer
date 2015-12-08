@@ -41,7 +41,7 @@ public class ApplicationLaunch {
 
     public static void intitialiseSingletons(Context context, LaunchState launchState) {
         if(sApplicationLaunch != null) {
-            throw new RuntimeException("Can only have 1 newInstance!");
+            throw new RuntimeException("Can only have 1 new Instance!");
         }
 
         sApplicationLaunch = new ApplicationLaunch(context, launchState);

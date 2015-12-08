@@ -8,7 +8,11 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Review Data: Wrapper for a UUID
@@ -21,12 +25,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
  */
 public class MdReviewId implements DataReviewIdable{
     private static final String SPLITTER = ":";
-    private final String mUserId;
+    private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time:Increment" +
+            " format!";
+    private String mUserId;
     private long mTime;
     private int mIncrement;
     private String mString;
 
-    public MdReviewId(String userId, long time, int increment) {
+    public MdReviewId(@NotNull String userId, long time, int increment) {
+        if(userId == null || userId.length() == 0) throwException();
         mUserId = userId;
         mTime = time;
         mIncrement = increment;
@@ -34,12 +41,35 @@ public class MdReviewId implements DataReviewIdable{
                 String.valueOf(mIncrement);
     }
 
-    public MdReviewId(String rdId) {
-        String[] split = rdId.split(SPLITTER);
-        mUserId = split[0];
-        mTime = Long.parseLong(split[1]);
-        mIncrement = Integer.parseInt(split[2]);
-        mString = rdId;
+    public MdReviewId(@NonNull String idString) {
+        String[] split = idString.split(SPLITTER);
+        if(split.length != 3) throwException(idString);
+        try {
+            mUserId = split[0];
+            mTime = Long.parseLong(split[1]);
+            mIncrement = Integer.parseInt(split[2]);
+            mString = idString;
+            check(mUserId, mTime, mIncrement, mString);
+        } catch (Exception e) {
+            throwException("On id: " + idString, e);
+        }
+    }
+
+    private void check(@NonNull String userId, long time, int increment, String idString) {
+        boolean correct = new MdReviewId(userId, time, increment).toString().equals(idString);
+        if(!correct) throwException(idString);
+    }
+
+    private void throwException(String id, Throwable cause) {
+        throw new IllegalArgumentException(id, cause);
+    }
+
+    private void throwException(String idString) {
+        throwException("On id: " + idString, new Throwable(ILLEGAL_FORMAT));
+    }
+
+    private void throwException() {
+        throw new IllegalArgumentException(ILLEGAL_FORMAT);
     }
 
     //Overridden

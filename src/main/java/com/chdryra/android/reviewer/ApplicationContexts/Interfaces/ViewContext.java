@@ -10,5 +10,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
  */
 public interface ViewContext {
     LaunchableUiLauncher getUiLauncher();
+
     ConfigDataUi getUiConfig();
 }
