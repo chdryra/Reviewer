@@ -122,11 +122,10 @@ public class FactoryReviews implements BuilderReview {
                 .toString());
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, this);
+                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mNodeFactory);
     }
 
-    private Review newReviewUser(String subject, float
-            rating) {
+    private Review newReviewUser(String subject, float rating) {
         return newReviewUser(subject, rating,
                 new ArrayList<MdComment>(),
                 new ArrayList<MdImage>(),
@@ -161,10 +160,6 @@ public class FactoryReviews implements BuilderReview {
 
     public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
         return mNodeFactory.createReviewNodeComponent(review, isAverage);
-    }
-
-    public ReviewNode createReviewNode(Review review, boolean isAverage) {
-        return mNodeFactory.createReviewNode(review, isAverage);
     }
 
     //Overridden

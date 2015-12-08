@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 /**
@@ -14,14 +14,14 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLoaderDynamic implements ReviewLoader {
-    private FactoryReviews mReviewsFactory;
+    private FactoryReviewNode mNodeFactory;
 
-    public ReviewLoaderDynamic(FactoryReviews reviewsFactory) {
-        mReviewsFactory = reviewsFactory;
+    public ReviewLoaderDynamic(FactoryReviewNode nodeFactory) {
+        mNodeFactory = nodeFactory;
     }
 
     @Override
     public Review loadReview(RowReview reviewRow, ReviewerDb database, SQLiteDatabase db) {
-        return new ReviewUserDb(reviewRow, database, mReviewsFactory);
+        return new ReviewUserDb(reviewRow, database, mNodeFactory);
     }
 }

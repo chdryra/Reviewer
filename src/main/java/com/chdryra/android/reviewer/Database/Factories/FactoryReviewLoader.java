@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.Database.Implementation.ReviewLoaderDynamic;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewLoaderStatic;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,7 +17,7 @@ public class FactoryReviewLoader {
         return new ReviewLoaderStatic(reviewBuilder, validator);
     }
 
-    public ReviewLoader newDynamicLoader(FactoryReviews reviewsFactory) {
-        return new ReviewLoaderDynamic(reviewsFactory);
+    public ReviewLoader newDynamicLoader(FactoryReviewNode nodeFactory) {
+        return new ReviewLoaderDynamic(nodeFactory);
     }
 }

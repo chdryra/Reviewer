@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer;
+package com.chdryra.android.reviewer.Model;
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;

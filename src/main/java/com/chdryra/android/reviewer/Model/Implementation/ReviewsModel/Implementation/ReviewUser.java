@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
@@ -46,15 +46,18 @@ public class ReviewUser implements Review {
                       MdDataList<MdLocation> locations,
                       MdDataList<MdCriterion> criteria,
                       boolean ratingIsAverage,
-                      FactoryReviews reviewsFactory) {
+                      FactoryReviewNode nodeFactory) {
         mId = id;
 
+        checkId(author);
+        checkId(publishDate);
         checkId(subject);
         checkId(rating);
         checkId(comments);
         checkId(images);
         checkId(facts);
         checkId(locations);
+        checkId(criteria);
 
         mAuthor = author;
         mPublishDate = publishDate;
@@ -68,7 +71,7 @@ public class ReviewUser implements Review {
         mLocations = locations;
         mCriteria = criteria;
 
-        mNode = reviewsFactory.createReviewNode(this, false);
+        mNode = nodeFactory.createReviewNode(this, false);
     }
 
     private void checkId(DataReviewIdable datum) {
