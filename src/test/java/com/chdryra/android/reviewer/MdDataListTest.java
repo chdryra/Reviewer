@@ -5,5 +5,5 @@ package com.chdryra.android.reviewer;
  * On: 08/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdDataListTest2 {
+public class MdDataListTest {
 }
