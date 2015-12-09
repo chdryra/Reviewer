@@ -35,7 +35,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNo
  * Wraps a {@link Review} object in a node structure with potential children and a parent.
  * </p>
  */
-public class ReviewTreeNode implements ReviewNodeComponent {
+public class ReviewTreeComponent implements ReviewNodeComponent {
     private static final ReviewTreeComparer COMPARER = new ReviewTreeComparer();
 
     private final MdReviewId mId;
@@ -46,7 +46,7 @@ public class ReviewTreeNode implements ReviewNodeComponent {
     private boolean mRatingIsAverage = false;
 
     //Constructors
-    public ReviewTreeNode(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
+    public ReviewTreeComponent(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
         mId = nodeId;
         mReview = review;
         mChildren = new MdDataList<>(nodeId);
@@ -80,7 +80,7 @@ public class ReviewTreeNode implements ReviewNodeComponent {
 
     @Override
     public void removeChild(String reviewId) {
-        removeChild((ReviewTreeNode) mChildren.getItem(reviewId));
+        removeChild((ReviewTreeComponent) mChildren.getItem(reviewId));
     }
 
     @Override

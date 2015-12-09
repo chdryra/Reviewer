@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.TestUtils.RandomAuthor;
 import com.chdryra.android.reviewer.TestUtils.RandomRating;
+import com.chdryra.android.reviewer.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
@@ -43,7 +44,7 @@ public class MdDataMocker {
 
     //Constructors
     public MdDataMocker() {
-        this(new MdReviewId("abc", 123l, 456));
+        this(RandomReviewId.nextMdReviewId());
     }
 
     public MdDataMocker(MdReviewId id) {

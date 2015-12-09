@@ -19,7 +19,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewUserTest {
     private MdReviewId mRightId;
-    private MdReviewId mWrongId;
     private MdDataMocker mWrongMocker;
     private MdDataMocker mRightMocker;
     private FactoryReviewNode mNodeFactory;
@@ -30,9 +29,9 @@ public class ReviewUserTest {
     @Before
     public void setup() {
         mRightId = new MdReviewId("abc", 123l, 456);
-        mWrongId = new MdReviewId("cde", 123l, 456);
+        MdReviewId wrongId = new MdReviewId("cde", 123l, 456);
         mRightMocker = new MdDataMocker(mRightId);
-        mWrongMocker = new MdDataMocker(mWrongId);
+        mWrongMocker = new MdDataMocker(wrongId);
         mNodeFactory = new FactoryReviewNode();
     }
 
