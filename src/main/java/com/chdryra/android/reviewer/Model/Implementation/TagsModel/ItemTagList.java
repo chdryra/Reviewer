@@ -1,13 +1,10 @@
 package com.chdryra.android.reviewer.Model.Implementation.TagsModel;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -16,14 +13,15 @@ import java.util.NoSuchElementException;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> implements ItemTagCollection {
-    private final ArrayList<T> mTags;
+public class ItemTagList extends AbstractCollection<ItemTag>
+        implements ItemTagCollection {
+    private final ArrayList<ItemTag> mTags;
 
-    ItemTagList() {
+    public ItemTagList() {
         mTags = new ArrayList<>();
     }
 
-    ItemTagList(ItemTagList<T> tags) {
+    ItemTagList(ItemTagList tags) {
         mTags = new ArrayList<>(tags.mTags);
     }
 
@@ -33,7 +31,7 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
     }
 
     @Override
-    public T getItemTag(int position) {
+    public ItemTag getItemTag(int position) {
         return mTags.get(position);
     }
 
@@ -45,9 +43,9 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         return tagArray;
     }
 
-    public T get(String tag) {
-        T rTag = null;
-        for (T itemTag : mTags) {
+    public ItemTag getItemTag(String tag) {
+        ItemTag rTag = null;
+        for (ItemTag itemTag : mTags) {
             if (itemTag.getTag().equals(tag)) {
                 rTag = itemTag;
                 break;
@@ -57,24 +55,17 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         return rTag;
     }
 
-    public void add(T tag) {
-        if (!mTags.contains(tag)) mTags.add(tag);
-    }
-
     @Override
-    public boolean addAll(@NonNull Collection<? extends ItemTag> collection) {
-        boolean added = false;
-        for(ItemTag tag : collection) {
-            if(!contains(tag)) {
-                add(tag);
-                added = true;
-            }
+    public boolean add(ItemTag tag) {
+        if (!mTags.contains(tag)) {
+            mTags.add(tag);
+            return true;
         }
 
-        return added;
+        return false;
     }
 
-    public void remove(T tag) {
+    public void remove(ItemTag tag) {
         mTags.remove(tag);
     }
 
@@ -101,6 +92,7 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
 
     private class ReviewTagIterator implements Iterator<ItemTag> {
         int position = 0;
+        boolean nextCalled = false;
 
         @Override
         public boolean hasNext() {
@@ -108,8 +100,9 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         }
 
         @Override
-        public T next() {
+        public ItemTag next() {
             if (hasNext()) {
+                nextCalled = true;
                 return getItemTag(position++);
             } else {
                 throw new NoSuchElementException("No more elements left");
@@ -118,11 +111,11 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
 
         @Override
         public void remove() {
-            if (position <= 0) {
-                throw new IllegalStateException("Have to do at least one next() before you " +
-                        "can delete");
-            } else {
-                ItemTagList.this.remove(getItemTag(position));
+            if (!nextCalled) {
+                throw new IllegalStateException("Have to call next() before remove()");
+            } else if(position > 0){
+                ItemTagList.this.remove(getItemTag(--position));
+                nextCalled = false;
             }
         }
     }

@@ -1,0 +1,159 @@
+package test.Model.TagsModel;
+
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagImpl;
+import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagList;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.testutils.RandomString;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.*;
+
+/**
+ * Created by: Rizwan Choudrey
+ * On: 09/12/2015
+ * Email: rizwan.choudrey@gmail.com
+ */
+public class ItemTagListTest {
+    @Test
+    public void testGetItemTag() {
+        ItemTagList list = new ItemTagList();
+
+        assertThat(list.size(), is(0));
+        ArrayList<ItemTag> tags = addTags(list);
+        assertThat(list.size(), is(3));
+
+        assertThat(list.getItemTag(1), is(tags.get(1)));
+        assertThat(list.getItemTag(0), is(tags.get(0)));
+        assertThat(list.getItemTag(2), is(tags.get(2)));
+    }
+
+    @NonNull
+    private ArrayList<ItemTag> addTags(ItemTagList list) {
+        ArrayList<ItemTag> tags = new ArrayList<>();
+        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        list.add(tags.get(0));
+        list.add(tags.get(1));
+        list.add(tags.get(2));
+        return tags;
+    }
+
+    @Test
+    public void doesNotAddTagsAlreadyHeldInList() {
+        ItemTagList list = new ItemTagList();
+        ArrayList<ItemTag> itemTags = addTags(list);
+        list.add(itemTags.get(2));
+        list.add(itemTags.get(2));
+        list.add(itemTags.get(1));
+
+        assertThat(list.size(), is(3));
+    }
+
+    @Test
+    public void testToStringArrayMatchesTagStrings() {
+        ItemTagList list = new ItemTagList();
+        ArrayList<ItemTag> itemTags = addTags(list);
+
+        ArrayList<String> tags = list.toStringArray();
+        assertThat(tags.size(), is(3));
+        assertThat(tags.get(0), is(itemTags.get(0).getTag()));
+        assertThat(tags.get(1), is(itemTags.get(1).getTag()));
+        assertThat(tags.get(2), is(itemTags.get(2).getTag()));
+    }
+
+    @Test
+    public void getItemTagReturnsCorrectTag() {
+        ItemTagList list = new ItemTagList();
+        ArrayList<ItemTag> itemTags = addTags(list);
+        assertThat(list.getItemTag(itemTags.get(1).getTag()), is(itemTags.get(1)));
+        assertThat(list.getItemTag(itemTags.get(0).getTag()), is(itemTags.get(0)));
+        assertThat(list.getItemTag(itemTags.get(2).getTag()), is(itemTags.get(2)));
+    }
+
+    @Test
+    public void testRemove() {
+        ItemTagList list = new ItemTagList();
+        ArrayList<ItemTag> itemTags = addTags(list);
+
+        assertThat(list.size(), is(3));
+        assertThat(list.contains(itemTags.get(0)), is(true));
+        assertThat(list.contains(itemTags.get(1)), is(true));
+        assertThat(list.contains(itemTags.get(2)), is(true));
+
+        list.remove(itemTags.get(1));
+        assertThat(list.size(), is(2));
+        assertThat(list.contains(itemTags.get(0)), is(true));
+        assertThat(list.contains(itemTags.get(1)), is(false));
+        assertThat(list.contains(itemTags.get(2)), is(true));
+    }
+
+    @Test
+    public void testIterator() {
+        ItemTagList list = new ItemTagList();
+        ArrayList<ItemTag> itemTags = addTags(list);
+        Iterator<ItemTag> iterator = list.iterator();
+        int i = 0;
+        while(iterator.hasNext()) {
+            assertThat(iterator.next(), is(itemTags.get(i++)));
+        }
+
+        iterator = list.iterator();
+        iterator.next();
+        iterator.next();
+        iterator.remove();
+        assertThat(list.size(), is(2));
+        assertThat(list.getItemTag(1), is(itemTags.get(2)));
+    }
+
+    @Test
+    public void testIteratorRemoveOnNext() {
+        ItemTagList list = new ItemTagList();
+        ArrayList<ItemTag> itemTags = addTags(list);
+        Iterator<ItemTag> iterator = list.iterator();
+        iterator.next();
+        iterator.next();
+        iterator.remove();
+        assertThat(list.size(), is(2));
+        assertThat(list.getItemTag(1), is(itemTags.get(2)));
+    }
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
+    @Test
+    public void testIteratorRemoveThrowsExceptionIfNoNextCalled() {
+        expectedException.expect(IllegalStateException.class);
+        expectedException.expectMessage("Have to call next() before remove()");
+        ItemTagList list = new ItemTagList();
+        addTags(list);
+        Iterator<ItemTag> iterator = list.iterator();
+        iterator.remove();
+    }
+
+    @Test
+    public void testIteratorThrowsExceptionIfNoElements() {
+        expectedException.expect(NoSuchElementException.class);
+        expectedException.expectMessage("No more elements left");
+        ItemTagList list = new ItemTagList();
+        addTags(list);
+        Iterator<ItemTag> iterator = list.iterator();
+        while(iterator.hasNext()) {
+            iterator.next();
+            iterator.remove();
+        }
+        assertThat(iterator.hasNext(), is(false));
+        iterator.next();
+    }
+
+}

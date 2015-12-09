@@ -12,23 +12,23 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TagsManagerImpl implements TagsManager {
-    private final ItemTagList<ItemTagImpl> mTags;
+    private final ItemTagList mTags;
 
     //Constructors
     public TagsManagerImpl() {
-        mTags = new ItemTagList<>();
+        mTags = new ItemTagList();
     }
 
     @Override
     public ItemTagCollection getTags() {
-        return new ItemTagList<>(mTags);
+        return new ItemTagList(mTags);
     }
 
     @Override
     public ItemTagCollection getTags(String id) {
-        ItemTagList<ItemTagImpl> tags = new ItemTagList<>();
+        ItemTagList tags = new ItemTagList();
         for (ItemTag tag : mTags) {
-            if (tag.tagsItem(id)) tags.add((ItemTagImpl) tag);
+            if (tag.tagsItem(id)) tags.add(tag);
         }
 
         return tags;
@@ -36,7 +36,7 @@ public class TagsManagerImpl implements TagsManager {
 
     @Override
     public ItemTagCollection getTags(ArrayList<String> ids) {
-        ItemTagList<ItemTagImpl> allTags = new ItemTagList<>();
+        ItemTagList allTags = new ItemTagList();
         for (String id : ids) {
             allTags.addAll(getTags(id));
         }
@@ -51,7 +51,7 @@ public class TagsManagerImpl implements TagsManager {
 
     @Override
     public void tagItem(String id, String tag) {
-        ItemTagImpl itemTag = mTags.get(tag);
+        ItemTagImpl itemTag = (ItemTagImpl) mTags.getItemTag(tag);
         if (itemTag == null) {
             mTags.add(new ItemTagImpl(tag, id));
         } else {
