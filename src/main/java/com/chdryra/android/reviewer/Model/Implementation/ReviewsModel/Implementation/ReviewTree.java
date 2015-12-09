@@ -28,6 +28,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
  * more editing or expanding of the node. Has the same {@link MdReviewId} as the wrapped node.
@@ -40,9 +42,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNo
  */
 public class ReviewTree implements ReviewNode {
     private final ReviewNode mNode;
-    private static final ReviewTreeComparer COMPARER = new ReviewTreeComparer();
 
-    public ReviewTree(ReviewNode node) {
+    public ReviewTree(@NotNull ReviewNode node) {
         mNode = node;
     }
 
@@ -164,10 +165,12 @@ public class ReviewTree implements ReviewNode {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewNode)) return false;
+        if (!(o instanceof ReviewTree)) return false;
 
-        ReviewNode that = (ReviewNode) o;
-        return COMPARER.compareTrees(this, that);
+        ReviewTree that = (ReviewTree) o;
+
+        return mNode.equals(that.mNode);
+
     }
 
     @Override

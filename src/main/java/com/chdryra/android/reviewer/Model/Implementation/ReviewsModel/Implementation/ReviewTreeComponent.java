@@ -36,8 +36,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNo
  * </p>
  */
 public class ReviewTreeComponent implements ReviewNodeComponent {
-    private static final ReviewTreeComparer COMPARER = new ReviewTreeComparer();
-
     private final MdReviewId mId;
     private final Review mReview;
     private final MdDataList<ReviewNode> mChildren;
@@ -256,10 +254,16 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewNode)) return false;
+        if (!(o instanceof ReviewTreeComponent)) return false;
 
-        ReviewNode that = (ReviewNode) o;
-        return COMPARER.compareNodes(this, that);
+        ReviewTreeComponent that = (ReviewTreeComponent) o;
+
+        if (mRatingIsAverage != that.mRatingIsAverage) return false;
+        if (!mId.equals(that.mId)) return false;
+        if (!mReview.equals(that.mReview)) return false;
+        if (!mChildren.equals(that.mChildren)) return false;
+        return !(mParent != null ? !mParent.equals(that.mParent) : that.mParent != null);
+
     }
 
     @Override
