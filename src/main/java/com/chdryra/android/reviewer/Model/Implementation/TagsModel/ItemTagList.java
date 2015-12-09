@@ -45,7 +45,7 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         return tagArray;
     }
 
-    T get(String tag) {
+    public T get(String tag) {
         T rTag = null;
         for (T itemTag : mTags) {
             if (itemTag.getTag().equals(tag)) {
@@ -57,10 +57,8 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         return rTag;
     }
 
-    void add(T tag) {
-        if (!mTags.contains(tag)) {
-            mTags.add(tag);
-        }
+    public void add(T tag) {
+        if (!mTags.contains(tag)) mTags.add(tag);
     }
 
     @Override
@@ -76,11 +74,10 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         return added;
     }
 
-    void remove(T tag) {
+    public void remove(T tag) {
         mTags.remove(tag);
     }
 
-    //Overridden
     @Override
     public Iterator<ItemTag> iterator() {
         return new ReviewTagIterator();
@@ -102,10 +99,9 @@ public class ItemTagList<T extends ItemTag> extends AbstractCollection<ItemTag> 
         return mTags.hashCode();
     }
 
-    public class ReviewTagIterator implements Iterator<ItemTag> {
+    private class ReviewTagIterator implements Iterator<ItemTag> {
         int position = 0;
 
-        //Overridden
         @Override
         public boolean hasNext() {
             return position < size() && getItemTag(position) != null;

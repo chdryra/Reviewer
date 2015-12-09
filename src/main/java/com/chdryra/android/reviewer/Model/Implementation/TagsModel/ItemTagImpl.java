@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Model.Implementation.TagsModel;
 
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -15,14 +16,12 @@ public class ItemTagImpl implements ItemTag {
     private final ArrayList<String> mItemIds;
     private final String mTag;
 
-    ItemTagImpl(String tag, String id) {
-        //mTag = WordUtils.capitalize(tag);
-        mTag = tag;
+    public ItemTagImpl(String tag, String id) {
+        mTag = WordUtils.capitalize(tag);
         mItemIds = new ArrayList<>();
         mItemIds.add(id);
     }
 
-    //public methods
     @Override
     public ArrayList<String> getItemIds() {
         return new ArrayList<>(mItemIds);
@@ -38,19 +37,14 @@ public class ItemTagImpl implements ItemTag {
         return mItemIds.contains(id);
     }
 
-    boolean equals(String tag) {
-        return mTag.equalsIgnoreCase(tag);
-    }
-
-    void addItem(String id) {
+    public void addItem(String id) {
         if (!mItemIds.contains(id)) mItemIds.add(id);
     }
 
-    void removeItem(String id) {
+    public void removeItem(String id) {
         mItemIds.remove(id);
     }
 
-    //Overridden
     @Override
     public int compareTo(@NotNull ItemTag another) {
         return mTag.compareToIgnoreCase(another.getTag());
@@ -67,7 +61,6 @@ public class ItemTagImpl implements ItemTag {
         return mTag.equals(itemTag.getTag());
 
     }
-
 
     @Override
     public int hashCode() {
