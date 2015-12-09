@@ -49,8 +49,7 @@ public class SocialPlatformListImpl implements SocialPlatformList {
 
     public SocialPlatformListImpl(Context context) {
         mPlatforms = new LinkedList<>();
-        Platform[] platforms = Platform.values();
-        for (Platform platform : platforms) {
+        for (Platform platform : Platform.values()) {
             mPlatforms.add(new SocialPlatformImpl(platform.toString(context)));
         }
     }

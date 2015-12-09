@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
+package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
