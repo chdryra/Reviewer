@@ -6,11 +6,12 @@
  * Date: 13 May, 2015
  */
 
-package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
+package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 

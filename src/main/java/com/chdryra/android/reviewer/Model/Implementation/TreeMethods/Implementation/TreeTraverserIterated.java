@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
+package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.ReviewTreeIterator;

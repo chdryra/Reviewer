@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Implementation.TreeMethods;
+package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;

@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.TestUtils;
+package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;

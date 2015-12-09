@@ -22,7 +22,7 @@ public class FactoryReviewNode {
         return createReviewNode(createReviewNodeComponent(review, isAverage));
     }
 
-    public ReviewNode createReviewNode(ReviewNode node) {
+    public ReviewNode createReviewNode(ReviewNodeComponent node) {
         return new ReviewTree(node);
     }
 }

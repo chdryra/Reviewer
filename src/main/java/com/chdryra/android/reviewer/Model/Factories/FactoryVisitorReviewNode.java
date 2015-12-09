@@ -1,10 +1,10 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.ReviewGetter;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.TagsGetter;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorRatingAverager;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.VisitorReviewDataGetterImpl;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.ReviewGetter;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TagsGetter;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.VisitorRatingAverager;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.VisitorReviewDataGetterImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorRatingCalculator;

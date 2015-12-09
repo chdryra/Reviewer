@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.TestUtils;
+package test.TestUtils;
 
 import java.util.Random;
 

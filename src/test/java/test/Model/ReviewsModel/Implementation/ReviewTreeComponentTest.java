@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model;
+package test.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.NonNull;
 
@@ -11,8 +11,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
-import com.chdryra.android.reviewer.TestUtils.RandomReview;
-import com.chdryra.android.reviewer.TestUtils.RandomReviewId;
+import test.TestUtils.RandomReview;
+import test.TestUtils.RandomReviewId;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

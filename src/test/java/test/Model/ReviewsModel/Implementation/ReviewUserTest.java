@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model;
+package test.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import test.Model.ReviewsModel.Utils.MdDataMocker;
 
 /**
  * Created by: Rizwan Choudrey
