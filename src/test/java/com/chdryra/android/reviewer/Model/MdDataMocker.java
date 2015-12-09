@@ -120,8 +120,7 @@ public class MdDataMocker {
     }
 
     public MdRating newRating() {
-
-        return new MdRating(mMdReviewId, RandomRating.nextRating(), RandomRating.nextWeight());
+        return new MdRating(mMdReviewId, RandomRating.nextRating(), 1);
     }
 
     public MdCriterion newCriterion() {

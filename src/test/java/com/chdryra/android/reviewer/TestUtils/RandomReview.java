@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.TestUtils;
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -35,9 +37,10 @@ public class RandomReview {
     }
 
     private static class MockReview extends ReviewUser{
+        //Need to ignore images as Bitmap.createBitmap(.) not mocked in Android unit testing framework
         private MockReview(MdReviewId id, MdDataMocker mocker, boolean ratingIsAverage) {
             super(id, mocker.newAuthor(), mocker.newDate(), mocker.newSubject(), mocker.newRating(),
-                    mocker.newCommentList(NUM), mocker.newImageList(NUM), mocker.newFactList(NUM),
+                    mocker.newCommentList(NUM), new MdDataList<MdImage>(id), mocker.newFactList(NUM),
                     mocker.newLocationList(NUM), mocker.newCriterionList(NUM), ratingIsAverage,
                     NODE_FACTORY);
         }

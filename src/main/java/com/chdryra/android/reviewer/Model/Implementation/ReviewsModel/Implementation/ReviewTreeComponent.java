@@ -54,14 +54,6 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
         mRatingIsAverage = ratingIsAverage;
     }
 
-    private void removeChild(ReviewNodeComponent childNode) {
-        if (!mChildren.containsId(childNode.getReviewId())) {
-            return;
-        }
-        mChildren.remove(childNode.getReviewId());
-        childNode.setParent(null);
-    }
-
     @Override
     public String getReviewId() {
         return mId.toString();
@@ -80,7 +72,10 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
 
     @Override
     public void removeChild(String reviewId) {
-        removeChild((ReviewTreeComponent) mChildren.getItem(reviewId));
+        if (!mChildren.containsId(reviewId)) return;
+        ReviewNodeComponent childNode = (ReviewNodeComponent) mChildren.getItem(reviewId);
+        mChildren.remove(reviewId);
+        childNode.setParent(null);
     }
 
     @Override
@@ -144,6 +139,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
         return mRatingIsAverage;
     }
 
+    //-------------Review methods--------------
     @Override
     public DataSubject getSubject() {
         return mReview.getSubject();
