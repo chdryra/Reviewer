@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorRatingCalculator;
@@ -19,9 +21,8 @@ public class VisitorRatingAverager implements VisitorRatingCalculator {
     private float mRating = 0;
     private int mWeight = 0;
 
-    //Overridden
     @Override
-    public void visit(ReviewNode node) {
+    public void visit(@NonNull ReviewNode node) {
         DataRating rating = node.getRating();
         mWeight += rating.getRatingWeight();
         mRating += rating.getRating() * rating.getRatingWeight();

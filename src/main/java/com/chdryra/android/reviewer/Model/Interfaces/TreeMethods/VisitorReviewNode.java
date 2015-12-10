@@ -8,11 +8,13 @@
 
 package com.chdryra.android.reviewer.Model.Interfaces.TreeMethods;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
  * Visitor pattern for {@link ReviewNode}s
  */
 public interface VisitorReviewNode {
-    void visit(ReviewNode reviewNode);
+    void visit(@NonNull ReviewNode reviewNode);
 }

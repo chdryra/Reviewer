@@ -8,8 +8,11 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
@@ -29,16 +32,14 @@ public class VisitorReviewDataGetterImpl<T extends DataReviewIdable>
         mGetter = getter;
     }
 
-    //public methods
     @Override
-    public IdableList<T> getData() {
+    public IdableCollection<T> getData() {
         return mData;
     }
 
-    //Overridden
     @Override
-    public void visit(ReviewNode node) {
-        if(mData == null) mData = new IdableDataList<>(node.getReviewId());
+    public void visit(@NonNull ReviewNode node) {
+        if (mData == null) mData = new IdableDataList<>(node.getReviewId());
         mData.addAll(mGetter.getData(node));
     }
 }

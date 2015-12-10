@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -24,7 +26,9 @@ public interface GridDataViewer<T extends GvData> {
 
     boolean isExpandable(T datum);
 
+    @Nullable
     ReviewViewAdapter<?> expandGridCell(T datum);
 
+    @Nullable
     ReviewViewAdapter<?> expandGridData();
 }

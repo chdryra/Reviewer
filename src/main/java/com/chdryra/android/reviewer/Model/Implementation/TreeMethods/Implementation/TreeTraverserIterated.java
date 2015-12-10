@@ -28,8 +28,8 @@ public class TreeTraverserIterated implements TreeTraverser {
 
     @Override
     public void traverse() {
-        while(mIterator.hasNext()) {
-            ReviewNode node = mIterator.next();
+        for(ReviewTreeIterator iterator = mIterator; iterator.hasNext();) {
+            ReviewNode node = iterator.next();
             for(VisitorReviewNode visitor : mVisitors) {
                 node.acceptVisitor(visitor);
             }

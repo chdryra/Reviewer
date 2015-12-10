@@ -66,9 +66,9 @@ public class ViewerTreeData extends ViewerReviewData {
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(GvData datum) {
+    public ReviewViewAdapter<?> expandGridCell(GvData datum) {
         FactoryReviewViewAdapter adapterFactory = getAdapterFactory();
-        ReviewViewAdapter adapter = null;
+        ReviewViewAdapter<?> adapter = null;
         if (isExpandable(datum)) {
             if (datum.getGvDataType().equals(GvReviewOverview.TYPE)) {
                 adapter = adapterFactory.newReviewsListAdapter(getReviewNode());
@@ -86,6 +86,6 @@ public class ViewerTreeData extends ViewerReviewData {
         VisitorReviewDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(getTagsManager());
         TreeTraverser traverser = mTraverserFactory.newTreeTraverser(getReviewNode());
         traverser.traverse();
-        return getConverter().toGvTagList(visitor.getData());
+        return getConverter().toGvTagList(visitor.getData(), getReviewNode().getReviewId());
     }
 }

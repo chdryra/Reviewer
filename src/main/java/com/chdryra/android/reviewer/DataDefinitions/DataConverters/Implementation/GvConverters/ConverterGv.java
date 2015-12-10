@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -206,8 +207,8 @@ public class ConverterGv {
         return getConverterItemTags().convert(tags, reviewId);
     }
 
-    public GvTagList toGvTagList(IdableList<? extends DataTag> tags) {
-        return getConverterTags().convert(tags, tags.getReviewId());
+    public GvTagList toGvTagList(IdableCollection<? extends DataTag> tags, String reviewId) {
+        return getConverterTags().convert(tags, reviewId);
     }
 
     //Copy

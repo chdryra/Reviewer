@@ -511,7 +511,7 @@ public class ReviewTreeComponentTest {
     private class VisitorForTest implements VisitorReviewNode {
         private boolean mVisited = false;
         @Override
-        public void visit(ReviewNode reviewNode) {
+        public void visit(@NonNull ReviewNode reviewNode) {
             mVisited = true;
         }
 
