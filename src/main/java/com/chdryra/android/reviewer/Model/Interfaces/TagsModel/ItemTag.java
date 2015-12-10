@@ -12,4 +12,6 @@ public interface ItemTag extends Comparable<ItemTag> {
     String getTag();
 
     boolean tagsItem(String itemId);
+
+    boolean isTag(String tag);
 }

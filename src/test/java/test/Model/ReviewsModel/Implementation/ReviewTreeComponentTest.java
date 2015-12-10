@@ -11,12 +11,13 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
-import test.TestUtils.RandomReview;
-import test.TestUtils.RandomReviewId;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import test.TestUtils.RandomReview;
+import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -166,7 +167,7 @@ public class ReviewTreeComponentTest {
     }
 
     @Test
-    public void setParentSetsParentsChild() {
+    public void setParentAddsChildToParent() {
         ReviewTreeComponent parent = newComponent();
         ReviewTreeComponent child = newComponent();
 
@@ -231,7 +232,7 @@ public class ReviewTreeComponentTest {
     }
 
     @Test
-    public void testHasChild() {
+    public void hasChildReturnsFalseIfNotChildOrTrueIfChild() {
         ReviewTreeComponent parent = newComponent();
         ReviewTreeComponent child = newComponent();
 
@@ -241,7 +242,7 @@ public class ReviewTreeComponentTest {
     }
 
     @Test
-    public void testGetChild() {
+    public void getChildGivenReviewIdReturnsCorrectChild() {
         ReviewTreeComponent parent = newComponent();
         ReviewTreeComponent child1 = newComponent();
         ReviewTreeComponent child2 = newComponent();
@@ -250,11 +251,11 @@ public class ReviewTreeComponentTest {
         parent.addChild(child1);
         parent.addChild(child2);
         assertThat(parent.getChild(child1.getReviewId()), is((ReviewNode) child1));
-        assertThat(parent.getChild(child2.getReviewId()), is((ReviewNode)child2));
+        assertThat(parent.getChild(child2.getReviewId()), is((ReviewNode) child2));
     }
 
     @Test
-    public void testGetChildren() {
+    public void getChildrenReturnsAllChildren() {
         ReviewTreeComponent parent = newComponent();
         ReviewTreeComponent child1 = newComponent();
         ReviewTreeComponent child2 = newComponent();
@@ -265,11 +266,11 @@ public class ReviewTreeComponentTest {
         IdableList<ReviewNode> children = parent.getChildren();
         assertThat(children.size(), is(2));
         assertThat(children.getItem(0), is((ReviewNode) child1));
-        assertThat(children.getItem(1), is((ReviewNode)child2));
+        assertThat(children.getItem(1), is((ReviewNode) child2));
     }
 
     @Test
-    public void testAcceptVisitor() {
+    public void acceptVisitorCallsVisitor() {
         ReviewNode node = newComponent();
         VisitorForTest visitor = new VisitorForTest();
         assertThat(visitor.isVisited(), is(false));
@@ -278,14 +279,14 @@ public class ReviewTreeComponentTest {
     }
 
     @Test
-    public void testGetReviewId() {
+    public void getReviewIdReturnsCorrectId() {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         ReviewNode node = newComponent(id);
         assertThat(node.getReviewId(), is(id.toString()));
     }
 
     @Test
-    public void getReview() {
+    public void getReviewReturnsCorrectReview() {
         Review review = RandomReview.nextReview();
         ReviewNode node = newComponent(RandomReviewId.nextMdReviewId(), review, false);
         assertThat(node.getReview(), is(review));

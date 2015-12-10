@@ -25,7 +25,7 @@ public class ItemTagImplTest {
     }
 
     @Test
-    public void testAddItemsAndGetItemIds() {
+    public void testAddItemIdAndGetItemIds() {
         String tagString = "tag";
         String id0 = "id0";
         ItemTagImpl tag = new ItemTagImpl(tagString, id0);
@@ -34,8 +34,8 @@ public class ItemTagImplTest {
 
         String id1 = "id1";
         String id2 = "id2";
-        tag.addItem(id1);
-        tag.addItem(id2);
+        tag.addItemId(id1);
+        tag.addItemId(id2);
 
         assertThat(tag.getItemIds().size(), is(3));
         assertThat(tag.getItemIds().get(0), is(id0));
@@ -51,7 +51,7 @@ public class ItemTagImplTest {
 
         String id1 = "id1";
         String id2 = "id2";
-        tag.addItem(id1);
+        tag.addItemId(id1);
 
         assertThat(tag.tagsItem(id0), is(true));
         assertThat(tag.tagsItem(id1), is(true));
@@ -66,15 +66,15 @@ public class ItemTagImplTest {
         String id2 = "id2";
 
         ItemTagImpl tag = new ItemTagImpl(tagString, id0);
-        tag.addItem(id1);
-        tag.addItem(id2);
+        tag.addItemId(id1);
+        tag.addItemId(id2);
 
         assertThat(tag.getItemIds().size(), is(3));
         assertThat(tag.tagsItem(id0), is(true));
         assertThat(tag.tagsItem(id1), is(true));
         assertThat(tag.tagsItem(id2), is(true));
 
-        tag.removeItem(id1);
+        tag.removeItemId(id1);
 
         assertThat(tag.getItemIds().size(), is(2));
         assertThat(tag.tagsItem(id0), is(true));

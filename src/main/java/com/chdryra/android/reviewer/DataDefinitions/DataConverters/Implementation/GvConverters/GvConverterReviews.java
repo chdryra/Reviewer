@@ -6,6 +6,7 @@ import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces
         .GvReviewConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
@@ -65,11 +66,12 @@ public class GvConverterReviews extends GvConverterBasic<Review,
             locationNames.add(location.getShortenedName());
         }
 
-        ArrayList<String> tags = mTagsManager.getTagsArray(review.getReviewId());
+        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId());
 
         return new GvReviewOverview(id, review.getReviewId(),
                 author, publishDate, review.getSubject().getSubject(),
-                review.getRating().getRating(), cover, headline, locationNames, tags);
+                review.getRating().getRating(), cover, headline, locationNames,
+                tags.toStringArray());
     }
 
     @Override

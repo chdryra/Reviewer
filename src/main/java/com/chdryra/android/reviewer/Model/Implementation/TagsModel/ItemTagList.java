@@ -35,6 +35,7 @@ public class ItemTagList extends AbstractCollection<ItemTag>
         return mTags.get(position);
     }
 
+    @Override
     public ArrayList<String> toStringArray() {
         ArrayList<String> tagArray = new ArrayList<>();
         for (ItemTag tag : mTags) {
@@ -46,7 +47,7 @@ public class ItemTagList extends AbstractCollection<ItemTag>
     public ItemTag getItemTag(String tag) {
         ItemTag rTag = null;
         for (ItemTag itemTag : mTags) {
-            if (itemTag.getTag().equals(tag)) {
+            if (itemTag.isTag(tag)) {
                 rTag = itemTag;
                 break;
             }

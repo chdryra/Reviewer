@@ -38,7 +38,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void noExceptionIfDataHasCorrectReviewId() {
+    public void constructorThrowsNoExceptionIfDataHasCorrectReviewId() {
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
                 mRightMocker.newImageList(0), mRightMocker.newFactList(0),
@@ -47,7 +47,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfAuthorHasWrongReviewId() {
+    public void constructorThrowsExceptionIfAuthorHasWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mWrongMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
@@ -57,7 +57,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfDateHasWrongReviewId() {
+    public void constructorThrowsExceptionIfDateHasWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mWrongMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
@@ -67,7 +67,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfSubjectHasWrongReviewId() {
+    public void constructorThrowsExceptionIfSubjectHasWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mWrongMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
@@ -77,7 +77,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfRatingHasWrongReviewId() {
+    public void constructorThrowsExceptionIfRatingHasWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mWrongMocker.newRating(), mRightMocker.newCommentList(0),
@@ -87,7 +87,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfCommentsHaveWrongReviewId() {
+    public void constructorThrowsExceptionIfCommentsHaveWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mWrongMocker.newCommentList(0),
@@ -97,7 +97,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfImagesHaveWrongReviewId() {
+    public void constructorThrowsExceptionIfImagesHaveWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
@@ -107,7 +107,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfFactsHaveWrongReviewId() {
+    public void constructorThrowsExceptionIfFactsHaveWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
@@ -117,7 +117,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfLocationsHaveWrongReviewId() {
+    public void constructorThrowsExceptionIfLocationsHaveWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),
@@ -127,7 +127,7 @@ public class ReviewUserTest {
     }
 
     @Test
-    public void throwExceptionIfCriteriaHaveWrongReviewId() {
+    public void constructorThrowsExceptionIfCriteriaHaveWrongReviewId() {
         expectedException.expect(IllegalArgumentException.class);
         new ReviewUser(mRightId, mRightMocker.newAuthor(), mRightMocker.newDate(),
                 mRightMocker.newSubject(), mRightMocker.newRating(), mRightMocker.newCommentList(0),

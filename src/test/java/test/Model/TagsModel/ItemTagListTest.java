@@ -32,21 +32,9 @@ public class ItemTagListTest {
         ArrayList<ItemTag> tags = addTags(list);
         assertThat(list.size(), is(3));
 
-        assertThat(list.getItemTag(1), is(tags.get(1)));
         assertThat(list.getItemTag(0), is(tags.get(0)));
+        assertThat(list.getItemTag(1), is(tags.get(1)));
         assertThat(list.getItemTag(2), is(tags.get(2)));
-    }
-
-    @NonNull
-    private ArrayList<ItemTag> addTags(ItemTagList list) {
-        ArrayList<ItemTag> tags = new ArrayList<>();
-        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
-        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
-        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
-        list.add(tags.get(0));
-        list.add(tags.get(1));
-        list.add(tags.get(2));
-        return tags;
     }
 
     @Test
@@ -61,7 +49,7 @@ public class ItemTagListTest {
     }
 
     @Test
-    public void testToStringArrayMatchesTagStrings() {
+    public void toStringArrayMatchesTagStrings() {
         ItemTagList list = new ItemTagList();
         ArrayList<ItemTag> itemTags = addTags(list);
 
@@ -82,7 +70,7 @@ public class ItemTagListTest {
     }
 
     @Test
-    public void testRemove() {
+    public void removeRemovesCorrectItemTag() {
         ItemTagList list = new ItemTagList();
         ArrayList<ItemTag> itemTags = addTags(list);
 
@@ -99,7 +87,7 @@ public class ItemTagListTest {
     }
 
     @Test
-    public void testIterator() {
+    public void testIteratorHasNextAndNext() {
         ItemTagList list = new ItemTagList();
         ArrayList<ItemTag> itemTags = addTags(list);
         Iterator<ItemTag> iterator = list.iterator();
@@ -107,17 +95,10 @@ public class ItemTagListTest {
         while(iterator.hasNext()) {
             assertThat(iterator.next(), is(itemTags.get(i++)));
         }
-
-        iterator = list.iterator();
-        iterator.next();
-        iterator.next();
-        iterator.remove();
-        assertThat(list.size(), is(2));
-        assertThat(list.getItemTag(1), is(itemTags.get(2)));
     }
 
     @Test
-    public void testIteratorRemoveOnNext() {
+    public void iteratorRemoveRemovesLastReturnedByOnNext() {
         ItemTagList list = new ItemTagList();
         ArrayList<ItemTag> itemTags = addTags(list);
         Iterator<ItemTag> iterator = list.iterator();
@@ -132,7 +113,7 @@ public class ItemTagListTest {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
-    public void testIteratorRemoveThrowsExceptionIfNoNextCalled() {
+    public void iteratorRemoveThrowsExceptionIfNoNextCalled() {
         expectedException.expect(IllegalStateException.class);
         expectedException.expectMessage("Have to call next() before remove()");
         ItemTagList list = new ItemTagList();
@@ -142,7 +123,7 @@ public class ItemTagListTest {
     }
 
     @Test
-    public void testIteratorThrowsExceptionIfNoElements() {
+    public void iteratorThrowsExceptionIfNoElements() {
         expectedException.expect(NoSuchElementException.class);
         expectedException.expectMessage("No more elements left");
         ItemTagList list = new ItemTagList();
@@ -156,4 +137,15 @@ public class ItemTagListTest {
         iterator.next();
     }
 
+    @NonNull
+    private ArrayList<ItemTag> addTags(ItemTagList list) {
+        ArrayList<ItemTag> tags = new ArrayList<>();
+        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        list.add(tags.get(0));
+        list.add(tags.get(1));
+        list.add(tags.get(2));
+        return tags;
+    }
 }

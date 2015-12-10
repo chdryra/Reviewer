@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.Model.Interfaces.TagsModel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -7,4 +8,6 @@ import java.util.Collection;
  */
 public interface ItemTagCollection extends Collection<ItemTag> {
     ItemTag getItemTag(int position);
+
+    ArrayList<String> toStringArray();
 }

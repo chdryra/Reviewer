@@ -4,9 +4,10 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
-import test.TestUtils.RandomReview;
 
 import org.junit.Test;
+
+import test.TestUtils.RandomReview;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -19,7 +20,7 @@ import static org.hamcrest.MatcherAssert.*;
  */
 public class FactoryReviewNodeTest {
     @Test
-    public void createReviewNodeComponentNotAverage() {
+    public void createReviewNodeComponentNotAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNodeComponent node = factory.createReviewNodeComponent(review, false);
@@ -29,7 +30,7 @@ public class FactoryReviewNodeTest {
     }
 
     @Test
-    public void createReviewNodeComponentAverage() {
+    public void createReviewNodeComponentAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNodeComponent node = factory.createReviewNodeComponent(review, true);
@@ -39,7 +40,7 @@ public class FactoryReviewNodeTest {
     }
 
     @Test
-    public void createReviewNodeNotAverage() {
+    public void createReviewNodeNotAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNode node = factory.createReviewNode(review, false);
@@ -49,7 +50,7 @@ public class FactoryReviewNodeTest {
     }
 
     @Test
-    public void createReviewNodeAverage() {
+    public void createReviewNodeAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNode node = factory.createReviewNode(review, true);
@@ -59,7 +60,7 @@ public class FactoryReviewNodeTest {
     }
 
     @Test
-    public void createReviewNode() {
+    public void createReviewNodeReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
         ReviewNodeComponent component = factory.createReviewNodeComponent(review, false);

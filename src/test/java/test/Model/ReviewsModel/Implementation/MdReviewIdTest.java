@@ -65,7 +65,7 @@ public class MdReviewIdTest {
     }
 
     @Test
-    public void testConstructorThrowsOnNullUserId() {
+    public void constructorThrowsOnNullUserId() {
         expectedException.expect(IllegalArgumentException.class);
         new MdReviewId(null, 123, 345);
     }

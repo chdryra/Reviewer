@@ -24,7 +24,7 @@ public class MdDataListTest {
     }
 
     @Test
-    public void testContainsIdReturnsTrueIfTrue() {
+    public void containsIdReturnsTrueIfTrue() {
         MdReviewId holderId = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(holderId);
         MdReviewId idDatum = new MdReviewId("cde", 123l, 1);
@@ -33,7 +33,7 @@ public class MdDataListTest {
     }
 
     @Test
-    public void testContainsIdReturnsFalseIfFalse() {
+    public void containsIdReturnsFalseIfFalse() {
         MdReviewId id = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(id);
         MdReviewId idDatum1 = new MdReviewId("cde", 123l, 1);
@@ -43,7 +43,7 @@ public class MdDataListTest {
     }
 
     @Test
-    public void testGetItemNotNullIfContains() {
+    public void getItemNotNullIfContains() {
         MdReviewId holderId = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(holderId);
         MdReviewId idDatum = new MdReviewId("cde", 123l, 1);
@@ -52,7 +52,7 @@ public class MdDataListTest {
     }
 
     @Test
-    public void testGetItemNullIfNotContains() {
+    public void getItemNullIfNotContains() {
         MdReviewId id = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(id);
         MdReviewId idDatum1 = new MdReviewId("cde", 123l, 1);
@@ -62,7 +62,7 @@ public class MdDataListTest {
     }
 
     @Test
-    public void testRemoveIfContains() {
+    public void removeIfContains() {
         MdReviewId holderId = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(holderId);
         MdReviewId idDatum = new MdReviewId("cde", 123l, 1);
@@ -74,7 +74,7 @@ public class MdDataListTest {
     }
 
     @Test
-    public void testDoesNotRemoveIfNotContains() {
+    public void doesNotRemoveIfNotContains() {
         MdReviewId holderId = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(holderId);
         MdReviewId idDatum1 = new MdReviewId("cde", 123l, 1);
