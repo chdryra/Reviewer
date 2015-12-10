@@ -243,10 +243,10 @@ public class TagsManagerImplTest {
     @NonNull
     private ArrayList<String> getTags() {
         ArrayList<String> tags = new ArrayList<>();
-        tags.add(RandomString.nextWord().toLowerCase());
-        tags.add(RandomString.nextWord().toLowerCase());
-        tags.add(RandomString.nextWord().toLowerCase());
-        tags.add(RandomString.nextWord().toLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
+        tags.add(RandomString.nextWordLowerCase());
         return tags;
     }
 }

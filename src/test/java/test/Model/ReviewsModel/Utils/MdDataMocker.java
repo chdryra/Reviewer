@@ -16,9 +16,6 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import test.TestUtils.RandomAuthor;
-import test.TestUtils.RandomRating;
-import test.TestUtils.RandomReviewId;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
@@ -26,6 +23,10 @@ import com.chdryra.android.testutils.RandomString;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
+
+import test.TestUtils.RandomAuthor;
+import test.TestUtils.RandomRating;
+import test.TestUtils.RandomReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -142,8 +143,7 @@ public class MdDataMocker {
     }
 
     public MdFact newFact() {
-        return new MdFact(mMdReviewId, RandomString.nextWord(),
-                RandomString.nextWord()
+        return new MdFact(mMdReviewId, RandomString.nextWord(), RandomString.nextWord()
         );
     }
 

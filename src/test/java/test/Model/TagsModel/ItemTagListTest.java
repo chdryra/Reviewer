@@ -140,9 +140,9 @@ public class ItemTagListTest {
     @NonNull
     private ArrayList<ItemTag> addTags(ItemTagList list) {
         ArrayList<ItemTag> tags = new ArrayList<>();
-        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
-        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
-        tags.add(new ItemTagImpl(RandomString.nextWord(), RandomString.nextWord()));
+        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase()));
+        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase()));
+        tags.add(new ItemTagImpl(RandomString.nextWordLowerCase(), RandomString.nextWordLowerCase()));
         list.add(tags.get(0));
         list.add(tags.get(1));
         list.add(tags.get(2));

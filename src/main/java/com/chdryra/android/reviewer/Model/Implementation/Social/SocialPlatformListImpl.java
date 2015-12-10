@@ -66,7 +66,6 @@ public class SocialPlatformListImpl implements SocialPlatformList {
         return mPlatforms.size();
     }
 
-    //Overridden
     @Override
     public Iterator<SocialPlatform> iterator() {
         return mPlatforms.iterator();

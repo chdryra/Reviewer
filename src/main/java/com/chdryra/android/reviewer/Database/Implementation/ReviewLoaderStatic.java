@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
@@ -16,9 +17,9 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
         ArrayList<RowLocation> locations = loadLocations(database, db, reviewId);
         ArrayList<RowImage> images = loadImages(database, db, reviewId);
         ArrayList<Review> critList = loadCriteria(database, db, reviewId);
-        Author author = loadAuthor(database, db, reviewRow.getAuthorId());
+        DataAuthor author = loadAuthor(database, db, reviewRow.getAuthorId());
 
         ReviewDataHolder reviewDb = new ReviewDataHolderImpl(reviewId, author, publishDate, subject, rating,
                 ratingWeight, comments, images, facts, locations, critList, isAverage);
@@ -89,7 +90,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
     }
 
     @NonNull
-    private Author loadAuthor(ReviewerDb database, SQLiteDatabase db, String userId) {
+    private DataAuthor loadAuthor(ReviewerDb database, SQLiteDatabase db, String userId) {
         String column = RowAuthor.COLUMN_USER_ID;
         RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
         return new Author(authorRow.getName(), UserId.fromString(authorRow.getUserId()));

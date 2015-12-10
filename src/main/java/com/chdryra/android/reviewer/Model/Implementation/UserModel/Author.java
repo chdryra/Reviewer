@@ -18,13 +18,11 @@ public class Author implements DataAuthor{
     private final UserId mId;
     private final String mName;
 
-    //Constructors
     public Author(String name, UserId id) {
         mName = name;
         mId = id;
     }
 
-    //Overridden
     @Override
     public String getName() {
         return mName;

@@ -31,10 +31,10 @@ public class TagsGetter implements NodeDataGetter<DataTag> {
 
     @Override
     public IdableList<DataTag> getData(ReviewNode node) {
-        IdableList<DataTag> reviews = new IdableDataList<>(node.getReviewId());
         String reviewId = node.getReviewId();
+        IdableList<DataTag> reviews = new IdableDataList<>(reviewId);
         for(ItemTag tag : mTagsManager.getTags(reviewId)) {
-            reviews.add(new DatumTag(tag.getTag(), reviewId));
+            reviews.add(new DatumTag(reviewId, tag.getTag()));
         }
 
         return reviews;
