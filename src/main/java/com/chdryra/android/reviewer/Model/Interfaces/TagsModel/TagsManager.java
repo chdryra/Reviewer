@@ -16,6 +16,12 @@ import java.util.ArrayList;
  * The singleton that manages the tagging and untagging of Reviews.
  */
 public interface TagsManager {
+    void tagItem(String id, String tag);
+
+    void tagItem(String id, ArrayList<String> tags);
+
+    boolean untagItem(String id, ItemTag tag);
+
     ItemTagCollection getTags();
 
     ItemTagCollection getTags(String id);
@@ -23,10 +29,4 @@ public interface TagsManager {
     ItemTagCollection getTags(ArrayList<String> ids);
 
     ArrayList<String> getTagsArray(String id);
-
-    void tagItem(String id, String tag);
-
-    void tagItem(String id, ArrayList<String> tags);
-
-    boolean untagItem(String id, ItemTag tag);
 }

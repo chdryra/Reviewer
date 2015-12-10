@@ -14,39 +14,8 @@ import java.util.ArrayList;
 public class TagsManagerImpl implements TagsManager {
     private final ItemTagList mTags;
 
-    //Constructors
     public TagsManagerImpl() {
         mTags = new ItemTagList();
-    }
-
-    @Override
-    public ItemTagCollection getTags() {
-        return new ItemTagList(mTags);
-    }
-
-    @Override
-    public ItemTagCollection getTags(String id) {
-        ItemTagList tags = new ItemTagList();
-        for (ItemTag tag : mTags) {
-            if (tag.tagsItem(id)) tags.add(tag);
-        }
-
-        return tags;
-    }
-
-    @Override
-    public ItemTagCollection getTags(ArrayList<String> ids) {
-        ItemTagList allTags = new ItemTagList();
-        for (String id : ids) {
-            allTags.addAll(getTags(id));
-        }
-
-        return allTags;
-    }
-
-    @Override
-    public ArrayList<String> getTagsArray(String id) {
-        return mTags.toStringArray();
     }
 
     @Override
@@ -78,5 +47,35 @@ public class TagsManagerImpl implements TagsManager {
         }
 
         return false;
+    }
+
+    @Override
+    public ItemTagCollection getTags() {
+        return new ItemTagList(mTags);
+    }
+
+    @Override
+    public ItemTagCollection getTags(String id) {
+        ItemTagList tags = new ItemTagList();
+        for (ItemTag tag : mTags) {
+            if (tag.tagsItem(id)) tags.add(tag);
+        }
+
+        return tags;
+    }
+
+    @Override
+    public ItemTagCollection getTags(ArrayList<String> ids) {
+        ItemTagList allTags = new ItemTagList();
+        for (String id : ids) {
+            allTags.addAll(getTags(id));
+        }
+
+        return allTags;
+    }
+
+    @Override
+    public ArrayList<String> getTagsArray(String id) {
+        return ((ItemTagList)getTags(id)).toStringArray();
     }
 }
