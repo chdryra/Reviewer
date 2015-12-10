@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -30,7 +32,7 @@ public class TagsGetter implements NodeDataGetter<DataTag> {
     }
 
     @Override
-    public IdableList<DataTag> getData(ReviewNode node) {
+    public IdableList<DataTag> getData(@NonNull ReviewNode node) {
         String reviewId = node.getReviewId();
         IdableList<DataTag> reviews = new IdableDataList<>(reviewId);
         for(ItemTag tag : mTagsManager.getTags(reviewId)) {

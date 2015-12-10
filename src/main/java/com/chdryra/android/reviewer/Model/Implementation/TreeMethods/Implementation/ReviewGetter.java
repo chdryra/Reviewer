@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.NodeDataGetter;
@@ -21,7 +23,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
  */
 public class ReviewGetter implements NodeDataGetter<Review> {
     @Override
-    public IdableList<Review> getData(ReviewNode node) {
+    public IdableList<Review> getData(@NonNull ReviewNode node) {
         IdableList<Review> reviews = new IdableDataList<>(node.getReviewId());
         reviews.add(node.getReview());
         return reviews;
