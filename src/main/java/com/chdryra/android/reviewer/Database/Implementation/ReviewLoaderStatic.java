@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
@@ -18,7 +19,7 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
         boolean isAverage = reviewRow.isRatingIsAverage();
         PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
 
-        String reviewId = reviewRow.getReviewId();
+        ReviewId reviewId = reviewRow.getReviewId();
 
         ArrayList<RowComment> comments = loadComments(database, db, reviewId);
         ArrayList<RowFact> facts = loadFacts(database, db, reviewId);
@@ -67,7 +68,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
         return database.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
     }
 
-    private ArrayList<RowImage> loadImages(ReviewerDb database, SQLiteDatabase db, String reviewId) {
+    private ArrayList<RowImage> loadImages(ReviewerDb database, SQLiteDatabase db, ReviewId reviewId) {
         DbTable<RowImage> imagesTable = database.getImagesTable();
         return database.loadFromDataTable(db, imagesTable, reviewId);
     }
@@ -78,7 +79,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
         return database.loadFromDataTable(db, locationsTable, reviewId);
     }
 
-    private ArrayList<RowFact> loadFacts(ReviewerDb database, SQLiteDatabase db, String reviewId) {
+    private ArrayList<RowFact> loadFacts(ReviewerDb database, SQLiteDatabase db, ReviewId reviewId) {
         DbTable<RowFact> factsTable = database.getFactsTable();
         return database.loadFromDataTable(db, factsTable, reviewId);
     }
@@ -93,6 +94,6 @@ public class ReviewLoaderStatic implements ReviewLoader {
     private DataAuthor loadAuthor(ReviewerDb database, SQLiteDatabase db, String userId) {
         String column = RowAuthor.COLUMN_USER_ID;
         RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
-        return new Author(authorRow.getName(), UserId.fromString(authorRow.getUserId()));
+        return new Author(authorRow.getName(), AuthorId.fromString(authorRow.getUserId()));
     }
 }

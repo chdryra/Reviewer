@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
@@ -24,7 +25,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GvData extends VerboseDataReview, ViewHolderData, Parcelable {
-    //abstract
     GvDataType<? extends GvData> getGvDataType();
 
     GvReviewId getGvReviewId();
@@ -39,9 +39,8 @@ public interface GvData extends VerboseDataReview, ViewHolderData, Parcelable {
     boolean isVerboseCollection();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
-    //Overridden
     @Override
     int describeContents();
 

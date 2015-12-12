@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataFact extends DataReviewIdable, Validatable{
+public interface DataFact extends HasReviewId, Validatable{
     //abstract
     String getLabel();
 
@@ -24,7 +24,7 @@ public interface DataFact extends DataReviewIdable, Validatable{
     boolean isUrl();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

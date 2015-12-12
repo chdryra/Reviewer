@@ -8,11 +8,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumFact implements DataFact {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mLabel;
     private String mValue;
 
-    public DatumFact(String reviewId, String label, String value) {
+    public DatumFact(ReviewId reviewId, String label, String value) {
         mReviewId = reviewId;
         mLabel = label;
         mValue = value;
@@ -34,7 +34,7 @@ public class DatumFact implements DataFact {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

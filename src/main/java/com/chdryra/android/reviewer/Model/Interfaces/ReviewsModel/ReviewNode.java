@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
 
 /**
@@ -42,9 +43,9 @@ public interface ReviewNode extends Review {
 
     IdableList<ReviewNode> getChildren();
 
-    ReviewNode getChild(String reviewId);
+    ReviewNode getChild(ReviewId reviewId);
 
-    boolean hasChild(String reviewId);
+    boolean hasChild(ReviewId reviewId);
 
     void acceptVisitor(VisitorReviewNode visitor);
 
@@ -87,7 +88,7 @@ public interface ReviewNode extends Review {
     IdableList<? extends DataLocation> getLocations();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     boolean equals(Object o);

@@ -35,7 +35,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUserDb implements Review {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private RowReview mRow;
     private ReviewerDb mDatabase;
     private ReviewNode mNode;
@@ -81,7 +81,7 @@ public class ReviewUserDb implements Review {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

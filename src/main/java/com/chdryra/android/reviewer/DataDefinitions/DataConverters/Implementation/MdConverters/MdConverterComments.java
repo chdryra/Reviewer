@@ -14,7 +14,7 @@ public class MdConverterComments extends MdConverterDataReview<DataComment, MdCo
     public MdComment convert(DataComment datum) {
         String comment = datum.getComment();
         boolean isHeadline = datum.isHeadline();
-        String reviewId = datum.getReviewId();
+        ReviewId reviewId = datum.getReviewId();
         return new MdComment(new MdReviewId(reviewId), comment, isHeadline);
     }
 }

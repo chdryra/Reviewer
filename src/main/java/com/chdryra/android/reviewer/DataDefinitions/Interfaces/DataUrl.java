@@ -18,10 +18,8 @@ import java.net.URL;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataUrl extends DataFact {
-    //abstract
     URL getUrl();
 
-    //Overridden
     @Override
     String getLabel();
 

@@ -1,12 +1,13 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewBuilderAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
+        .ReviewBuilderAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 
 /**
  * Created by: Rizwan Choudrey

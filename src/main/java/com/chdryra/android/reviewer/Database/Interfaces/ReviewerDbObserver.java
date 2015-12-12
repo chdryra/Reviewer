@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 /**
@@ -11,5 +12,5 @@ public interface ReviewerDbObserver {
     //abstract
     void onReviewAdded(Review review);
 
-    void onReviewDeleted(String reviewId);
+    void onReviewDeleted(ReviewId reviewId);
 }

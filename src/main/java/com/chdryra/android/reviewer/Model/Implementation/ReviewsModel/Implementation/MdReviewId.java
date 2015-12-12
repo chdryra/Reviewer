@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  * <p/>
  * //TODO There's a reason couldn't use holding review but can't remember. Find out.
  */
-public class MdReviewId implements DataReviewIdable{
+public class MdReviewId implements ReviewId {
     private static final String SPLITTER = ":";
     private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time:Increment" +
             " format!";
@@ -33,7 +33,7 @@ public class MdReviewId implements DataReviewIdable{
     private String mString;
 
     public MdReviewId(@NotNull String userId, long time, int increment) {
-        if(userId == null || userId.length() == 0) throwException();
+        if(userId.length() == 0) throwException();
         mUserId = userId;
         mTime = time;
         mIncrement = increment;
@@ -41,7 +41,8 @@ public class MdReviewId implements DataReviewIdable{
                 String.valueOf(mIncrement);
     }
 
-    public MdReviewId(@NonNull String idString) {
+    public MdReviewId(ReviewId id) {
+        String idString = id.toString();
         String[] split = idString.split(SPLITTER);
         if(split.length != 3) throwException(idString);
         try {
@@ -70,12 +71,6 @@ public class MdReviewId implements DataReviewIdable{
 
     private void throwException() {
         throw new IllegalArgumentException(ILLEGAL_FORMAT);
-    }
-
-    //Overridden
-    @Override
-    public String getReviewId() {
-        return mString;
     }
 
     @Override

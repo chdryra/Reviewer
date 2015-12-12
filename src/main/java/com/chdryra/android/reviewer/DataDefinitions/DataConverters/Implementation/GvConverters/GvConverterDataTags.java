@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementati
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
@@ -16,7 +17,7 @@ public class GvConverterDataTags extends GvConverterBasic<DataTag, GvTag, GvTagL
     }
 
     @Override
-    public GvTag convert(DataTag datum, String reviewId) {
+    public GvTag convert(DataTag datum, ReviewId reviewId) {
         return new GvTag(newId(reviewId), datum.getTag());
     }
 }

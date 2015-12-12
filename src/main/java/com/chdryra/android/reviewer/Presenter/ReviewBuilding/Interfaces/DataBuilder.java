@@ -14,9 +14,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
  * Handles user inputs of review data. Checks validity of data and compares user input to current

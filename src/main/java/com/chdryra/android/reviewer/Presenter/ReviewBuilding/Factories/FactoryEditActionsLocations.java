@@ -2,16 +2,17 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
+        .GridItemDataEditLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
 
 
 /**

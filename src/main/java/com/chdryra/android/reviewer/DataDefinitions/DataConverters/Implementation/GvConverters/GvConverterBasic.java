@@ -3,10 +3,11 @@ package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementati
 
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -35,12 +36,12 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         return mDataType;
     }
 
-    protected GvReviewId newId(String reviewId) {
+    protected GvReviewId newId(ReviewId reviewId) {
         return new GvReviewId(reviewId);
     }
 
     @Override
-    public abstract T2 convert(T1 datum, String reviewId);
+    public abstract T2 convert(T1 datum, ReviewId reviewId);
 
     @Override
     public T2 convert(T1 datum) {
@@ -48,7 +49,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
     }
 
     @Override
-    public T3 convert(Iterable<? extends T1> data, String reviewId) {
+    public T3 convert(Iterable<? extends T1> data, ReviewId reviewId) {
         T3 list = newList(reviewId);
         for(T1 datum : data) {
             list.add(convert(datum));
@@ -67,7 +68,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         return list;
     }
 
-    private T3 newList(String reviewId) {
+    private T3 newList(ReviewId reviewId) {
         GvReviewId id = new GvReviewId(reviewId);
         try {
             Constructor<T3> ctor = mListClass.getConstructor(GvReviewId.class);

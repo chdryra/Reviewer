@@ -8,11 +8,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumCriterion implements DataCriterion {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mSubject;
     private float mRating;
 
-    public DatumCriterion(String reviewId, String subject, float rating) {
+    public DatumCriterion(ReviewId reviewId, String subject, float rating) {
         mReviewId = reviewId;
         mSubject = subject;
         mRating = rating;
@@ -29,7 +29,7 @@ public class DatumCriterion implements DataCriterion {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

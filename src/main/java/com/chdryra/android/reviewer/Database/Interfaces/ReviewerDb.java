@@ -9,7 +9,9 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.TableRowList;
@@ -32,13 +34,14 @@ public interface ReviewerDb extends ReviewerDbContract {
 
     void registerObserver(ReviewerDbObserver observer);
 
-    Review loadReviewFromDb(String reviewId);
+    @Nullable
+    Review loadReviewFromDb(ReviewId reviewId);
 
     void addReviewToDb(Review review);
 
     ArrayList<Review> loadReviewsFromDb();
 
-    void deleteReviewFromDb(String reviewId);
+    void deleteReviewFromDb(ReviewId reviewId);
 
     //For ReviewLoader to use
     <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, String val);
@@ -47,6 +50,6 @@ public interface ReviewerDb extends ReviewerDbContract {
 
     <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table, String col, String val);
 
-    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId);
+    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, ReviewId reviewId);
 
 }

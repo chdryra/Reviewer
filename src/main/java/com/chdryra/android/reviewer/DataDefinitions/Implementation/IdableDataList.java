@@ -1,7 +1,8 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
@@ -12,17 +13,17 @@ import java.util.Iterator;
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableDataList<T extends DataReviewIdable> extends AbstractCollection<T> implements IdableList<T> {
-    private String mReviewId;
+public class IdableDataList<T extends HasReviewId> extends AbstractCollection<T> implements IdableList<T> {
+    private ReviewId mReviewId;
     private ArrayList<T> mData;
 
-    public IdableDataList(String reviewId) {
+    public IdableDataList(ReviewId reviewId) {
         mReviewId = reviewId;
         mData = new ArrayList<>();
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

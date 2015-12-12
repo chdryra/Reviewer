@@ -9,10 +9,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectDb implements DataSubject {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mSubject;
 
-    public SubjectDb(String reviewId, String subject) {
+    public SubjectDb(ReviewId reviewId, String subject) {
         mReviewId = reviewId;
         mSubject = subject;
     }
@@ -23,7 +23,7 @@ public class SubjectDb implements DataSubject {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

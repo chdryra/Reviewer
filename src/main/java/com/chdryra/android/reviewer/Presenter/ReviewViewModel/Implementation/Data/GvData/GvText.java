@@ -14,8 +14,10 @@ import android.os.Parcelable;
 import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,8 +88,8 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     }
 
     @Override
-    public String getReviewId() {
-        return mId.toString();
+    public ReviewId getReviewId() {
+        return mId;
     }
 
     @Override

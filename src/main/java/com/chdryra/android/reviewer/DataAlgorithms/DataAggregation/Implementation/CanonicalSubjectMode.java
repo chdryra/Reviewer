@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public class CanonicalSubjectMode implements CanonicalDatumMaker<DataSubject> {
     //Overridden
     @Override
     public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
-        String id = data.getReviewId();
+        ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumSubject(id, "");
         return new DatumSubject(id, getSubjectMode(getSubjectCounter(data)));
     }

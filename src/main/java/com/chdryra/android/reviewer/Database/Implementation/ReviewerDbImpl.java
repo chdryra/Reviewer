@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -20,6 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionRevi
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbHelper;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
@@ -37,9 +39,9 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
@@ -160,11 +162,11 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public Review loadReviewFromDb(String reviewId) {
+    public Review loadReviewFromDb(ReviewId reviewId) {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         db.beginTransaction();
-        RowReview row = getRowWhere(db, getReviewsTable(), RowReview.COLUMN_REVIEW_ID, reviewId);
+        RowReview row = getRowWhere(db, getReviewsTable(), RowReview.COLUMN_REVIEW_ID, reviewId.toString());
         Review review = loadReview(row, db);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -190,11 +192,11 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public void deleteReviewFromDb(String reviewId) {
+    public void deleteReviewFromDb(ReviewId reviewId) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
 
         db.beginTransaction();
-        boolean success = deleteReviewFromDb(reviewId, db);
+        boolean success = deleteReviewFromDb(reviewId.toString(), db);
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
@@ -203,7 +205,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, String val) {
+    public ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, @Nullable String val) {
         TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
 
         ArrayList<Review> reviews = new ArrayList<>();
@@ -215,12 +217,13 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <T extends DbTableRow> T getRowWhere(SQLiteDatabase db,
-                                                            DbTable<T> table, String col,
-                                                            String val) {
+    public <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table,
+                                                String col, String val) {
         Cursor cursor = getCursorWhere(db, table.getName(), col, val);
 
-        if (cursor.getCount() == 0) return mRowFactory.emptyRow(table.getRowClass());
+        if (cursor == null || cursor.getCount() == 0) {
+            return mRowFactory.emptyRow(table.getRowClass());
+        }
 
         cursor.moveToFirst();
         T row = mRowFactory.newRow(cursor, table.getRowClass());
@@ -245,8 +248,8 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public <T1 extends DbTableRow> ArrayList<T1>
-    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
-        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
+    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, ReviewId reviewId) {
+        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId.toString());
         ArrayList<T1> results = new ArrayList<>();
         for (T1 row : rows) {
             results.add(row);
@@ -271,16 +274,17 @@ public class ReviewerDbImpl implements ReviewerDb {
         }
     }
 
-    private void notifyOnDeleteReview(String reviewId) {
+    private void notifyOnDeleteReview(ReviewId reviewId) {
         for (ReviewerDbObserver observer : mObservers) {
             observer.onReviewDeleted(reviewId);
         }
     }
 
+    @Nullable
     private Review loadReview(RowReview reviewRow, SQLiteDatabase db) {
         if (!reviewRow.hasData(mDataValidator)) return null;
         Review review = mReviewLoader.loadReview(reviewRow, this, db);
-        setTags(reviewRow.getReviewId(), db);
+        setTags(reviewRow.getReviewId().toString(), db);
 
         return review;
     }
@@ -291,10 +295,9 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private <T extends DbTableRow> TableRowList<T> getRowsWhere(SQLiteDatabase db,
-                                                                            DbTable<T>
-                                                                                    table, String
-                                                                                    col, String
-                                                                                    val) {
+                                                                DbTable<T> table,
+                                                                @Nullable String col,
+                                                                @Nullable String val) {
         Cursor cursor = getFromTableWhere(db, table.getName(), col, val);
 
         TableRowList<T> list = new TableRowList<>();
@@ -306,6 +309,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return list;
     }
 
+    @Nullable
     private Cursor getCursorWhere(SQLiteDatabase db, String table, String pkColumn, String
             pkValue) {
         Cursor cursor = getFromTableWhere(db, table, pkColumn, pkValue);
@@ -317,7 +321,8 @@ public class ReviewerDbImpl implements ReviewerDb {
         return cursor;
     }
 
-    private Cursor getFromTableWhere(SQLiteDatabase db, String table, String column, String value) {
+    private Cursor getFromTableWhere(SQLiteDatabase db, String table,
+                                     @Nullable String column, @Nullable String value) {
         boolean isNull = value == null;
         String val = isNull ? SQL.SPACE + SQL.IS_NULL : SQL.SPACE + SQL.BIND_STRING;
         String whereClause = column != null ? " " + SQL.WHERE + column + val : "";
@@ -330,7 +335,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         if (isReviewInDb(review, db)) return false;
 
         DataAuthor author = review.getAuthor();
-        String userId = author.getUserId();
+        String userId = author.getUserId().toString();
         DbTable<RowAuthor> authorsTable = getAuthorsTable();
         if (!isIdInTable(userId, authorsTable.getColumn(RowAuthor.COLUMN_USER_ID), authorsTable, db)) {
             addToAuthorsTable(author, db);
@@ -383,7 +388,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void addToTagsTable(Review review, SQLiteDatabase db) {
-        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId());
+        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
         for (ItemTag tag : tags) {
             insertOrReplaceRow(mRowFactory.newRow(tag), getTagsTable(), db);
         }
@@ -510,7 +515,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     private boolean isReviewInDb(Review review, SQLiteDatabase db) {
         DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
-        return isIdInTable(review.getReviewId(), reviewIdCol, getReviewsTable(), db);
+        return isIdInTable(review.getReviewId().toString(), reviewIdCol, getReviewsTable(), db);
     }
 
     private boolean isIdInTable(String id, DbColumnDef idCol, DbTable table,

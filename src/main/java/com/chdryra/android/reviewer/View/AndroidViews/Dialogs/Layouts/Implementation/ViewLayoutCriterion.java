@@ -11,8 +11,9 @@ package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implement
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 
 /**
  * Created by: Rizwan Choudrey

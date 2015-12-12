@@ -1,5 +1,26 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Factories;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.AuthorAlphabetical;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .CommentHeadlineThenAlphabetical;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .ComparatorCollectionImpl;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .CriterionSubjectThenRating;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.DateMostRecentFirst;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.FactLabelThenValue;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .ImageCoversThenMostRecent;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .LocationNameAlphabetical;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .ReviewMostRecentPublished;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+        .SocialMostFollowersThenAlphabetical;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.SubjectAlphabetical;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.TagAlphabetical;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.UrlLabelComparator;
+import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Interfaces.ComparatorCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -12,20 +33,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatfor
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.AuthorAlphabetical;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.CommentHeadlineThenAlphabetical;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Interfaces.ComparatorCollection;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.ComparatorCollectionImpl;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.CriterionSubjectThenRating;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.DateMostRecentFirst;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.FactLabelThenValue;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.ImageCoversThenMostRecent;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.LocationNameAlphabetical;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.ReviewMostRecentPublished;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.SocialMostFollowersThenAlphabetical;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.SubjectAlphabetical;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.TagAlphabetical;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.UrlLabelComparator;
 
 /**
  * Created by: Rizwan Choudrey

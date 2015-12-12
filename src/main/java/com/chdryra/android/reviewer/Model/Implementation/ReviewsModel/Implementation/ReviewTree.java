@@ -48,7 +48,7 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mNode.getReviewId();
     }
 
@@ -78,12 +78,12 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
-    public ReviewNode getChild(String reviewId) {
+    public ReviewNode getChild(ReviewId reviewId) {
         return mNode.getChild(reviewId);
     }
 
     @Override
-    public boolean hasChild(String reviewId) {
+    public boolean hasChild(ReviewId reviewId) {
         return mNode.hasChild(reviewId);
     }
 

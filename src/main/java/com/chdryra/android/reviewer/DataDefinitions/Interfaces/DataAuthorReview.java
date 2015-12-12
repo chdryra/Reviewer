@@ -7,16 +7,16 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataAuthorReview extends DataReviewIdable, DataAuthor {
+public interface DataAuthorReview extends HasReviewId, DataAuthor {
     @Override
     String getName();
 
     @Override
-    String getUserId();
+    UserId getUserId();
 
     @Override
     boolean hasData(DataValidator dataValidator);
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 }

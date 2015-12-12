@@ -18,7 +18,7 @@ public interface DataCriterionReview extends DataCriterion {
     float getRating();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     boolean hasData(DataValidator validator);

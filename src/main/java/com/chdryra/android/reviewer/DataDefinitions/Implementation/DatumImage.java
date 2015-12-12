@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,10 +15,10 @@ public class DatumImage implements DataImage {
     private final Bitmap mBitmap;
     private final DataDate mDate;
     private final String mCaption;
-    private final String mReviewId;
+    private final ReviewId mReviewId;
     private boolean mIsCover = false;
 
-    public DatumImage(String reviewId, Bitmap bitmap, DataDate date, String caption,
+    public DatumImage(ReviewId reviewId, Bitmap bitmap, DataDate date, String caption,
                       boolean isCover) {
         mReviewId = reviewId;
         mBitmap = bitmap;
@@ -52,7 +53,7 @@ public class DatumImage implements DataImage {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return null;
     }
 }

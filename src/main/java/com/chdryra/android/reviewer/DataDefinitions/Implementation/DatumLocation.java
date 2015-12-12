@@ -13,7 +13,7 @@ public class DatumLocation implements DataLocation {
     private final LatLng mLatLng;
     private final String mName;
 
-    public DatumLocation(String reviewId, LatLng latLng, String name) {
+    public DatumLocation(ReviewId reviewId, LatLng latLng, String name) {
         mReviewId = reviewId;
         mLatLng = latLng;
         mName = name;
@@ -30,7 +30,7 @@ public class DatumLocation implements DataLocation {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

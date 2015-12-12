@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     //Overridden
     @Override
     public DataFact getCanonical(IdableList<? extends DataFact> data) {
-        String id = data.getReviewId();
+        ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumFact(id, "", "");
 
         DatumCounter<DataFact, String> labelCounter = getLabelCounter(data);

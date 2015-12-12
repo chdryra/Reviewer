@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.ApplicationContexts.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleasePresenterContext;
@@ -11,6 +10,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
 import java.io.File;
 

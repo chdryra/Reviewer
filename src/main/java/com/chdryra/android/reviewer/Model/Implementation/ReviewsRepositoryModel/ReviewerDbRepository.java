@@ -3,8 +3,10 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
@@ -32,12 +34,12 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerD
     }
 
     @Override
-    public void removeReview(String reviewId) {
+    public void removeReview(ReviewId reviewId) {
         mDatabase.deleteReviewFromDb(reviewId);
     }
 
     @Override
-    public Review getReview(String reviewId) {
+    public Review getReview(ReviewId reviewId) {
         return mDatabase.loadReviewFromDb(reviewId);
     }
 
@@ -69,7 +71,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerD
     }
 
     @Override
-    public void onReviewDeleted(String reviewId) {
+    public void onReviewDeleted(ReviewId reviewId) {
         for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewRemoved(reviewId);
         }

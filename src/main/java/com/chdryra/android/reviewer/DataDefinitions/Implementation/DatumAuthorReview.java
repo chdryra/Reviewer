@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -8,11 +10,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumAuthorReview implements DataAuthorReview {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mName;
-    private String mUserId;
+    private UserId mUserId;
 
-    public DatumAuthorReview(String reviewId, String name, String userId) {
+    public DatumAuthorReview(ReviewId reviewId, String name, UserId userId) {
         mReviewId = reviewId;
         mName = name;
         mUserId = userId;
@@ -24,7 +26,7 @@ public class DatumAuthorReview implements DataAuthorReview {
     }
 
     @Override
-    public String getUserId() {
+    public UserId getUserId() {
         return mUserId;
     }
 
@@ -34,7 +36,7 @@ public class DatumAuthorReview implements DataAuthorReview {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 }

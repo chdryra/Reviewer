@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementati
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
@@ -12,8 +13,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterCriteria extends MdConverterDataReview<DataCriterionReview,
-        MdCriterion> {
+public class MdConverterCriteria extends MdConverterDataReview<DataCriterionReview, MdCriterion> {
 
     @Override
     public MdCriterion convert(DataCriterionReview datum) {
@@ -21,7 +21,7 @@ public class MdConverterCriteria extends MdConverterDataReview<DataCriterionRevi
         return new MdCriterion(id, datum.getReview());
     }
 
-    public MdDataList<MdCriterion> convertReviews(Iterable<? extends Review> reviews, String parentId) {
+    public MdDataList<MdCriterion> convertReviews(Iterable<? extends Review> reviews, ReviewId parentId) {
         MdReviewId id = new MdReviewId(parentId);
         MdDataList<MdCriterion> list = new MdDataList<>(id);
         for(Review review : reviews) {

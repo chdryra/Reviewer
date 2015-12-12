@@ -3,7 +3,7 @@ package test.Model.ReviewsModel.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeComponent;
@@ -376,9 +376,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getCriteriaIsForWholeTree() {
-        getDataIsForWholeTree(new DataGetter<DataReviewIdable>() {
+        getDataIsForWholeTree(new DataGetter<HasReviewId>() {
             @Override
-            IdableList<? extends DataReviewIdable> getData(Review review) {
+            IdableList<? extends HasReviewId> getData(Review review) {
                 return review.getCriteria();
             }
         });
@@ -386,9 +386,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getCommentsIsForWholeTree() {
-        getDataIsForWholeTree(new DataGetter<DataReviewIdable>() {
+        getDataIsForWholeTree(new DataGetter<HasReviewId>() {
             @Override
-            IdableList<? extends DataReviewIdable> getData(Review review) {
+            IdableList<? extends HasReviewId> getData(Review review) {
                 return review.getComments();
             }
         });
@@ -396,9 +396,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getFactsIsForWholeTree() {
-        getDataIsForWholeTree(new DataGetter<DataReviewIdable>() {
+        getDataIsForWholeTree(new DataGetter<HasReviewId>() {
             @Override
-            IdableList<? extends DataReviewIdable> getData(Review review) {
+            IdableList<? extends HasReviewId> getData(Review review) {
                 return review.getFacts();
             }
         });
@@ -406,9 +406,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getImagesIsForWholeTree() {
-        getDataIsForWholeTree(new DataGetter<DataReviewIdable>() {
+        getDataIsForWholeTree(new DataGetter<HasReviewId>() {
             @Override
-            IdableList<? extends DataReviewIdable> getData(Review review) {
+            IdableList<? extends HasReviewId> getData(Review review) {
                 return review.getImages();
             }
         });
@@ -416,9 +416,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getCoversIsForWholeTree() {
-        getDataIsForWholeTree(new DataGetter<DataReviewIdable>() {
+        getDataIsForWholeTree(new DataGetter<HasReviewId>() {
             @Override
-            IdableList<? extends DataReviewIdable> getData(Review review) {
+            IdableList<? extends HasReviewId> getData(Review review) {
                 return review.getCovers();
             }
         });
@@ -426,15 +426,15 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getLocationsIsForWholeTree() {
-        getDataIsForWholeTree(new DataGetter<DataReviewIdable>() {
+        getDataIsForWholeTree(new DataGetter<HasReviewId>() {
             @Override
-            IdableList<? extends DataReviewIdable> getData(Review review) {
+            IdableList<? extends HasReviewId> getData(Review review) {
                 return review.getLocations();
             }
         });
     }
 
-    private <T extends DataReviewIdable> void getDataIsForWholeTree(DataGetter<T> getter) {
+    private <T extends HasReviewId> void getDataIsForWholeTree(DataGetter<T> getter) {
         ReviewNodeComponent node = newComponent(RandomReviewId.nextMdReviewId(), RandomReview.nextReview(), true);
         IdableList<Review> reviews = makeTree(node);
         IdableList<? extends T> dataNode = getter.getData(node);
@@ -520,7 +520,7 @@ public class ReviewTreeComponentTest {
         }
     }
 
-    private abstract class DataGetter<T extends DataReviewIdable> {
+    private abstract class DataGetter<T extends HasReviewId> {
         abstract IdableList<? extends T> getData(Review review);
     }
 }

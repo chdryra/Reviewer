@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
 
 /**
  * Created by: Rizwan Choudrey

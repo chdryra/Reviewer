@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowReviewImpl implements RowReview {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mParentId;
     private String mAuthorId;
     private long mPublishDate;
@@ -55,7 +55,7 @@ public class RowReviewImpl implements RowReview {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

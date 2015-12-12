@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Review Data: comment
@@ -20,8 +21,8 @@ public class MdComment implements DataComment {
 
     //Overridden
     @Override
-    public String getReviewId() {
-        return mReviewId.toString();
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override

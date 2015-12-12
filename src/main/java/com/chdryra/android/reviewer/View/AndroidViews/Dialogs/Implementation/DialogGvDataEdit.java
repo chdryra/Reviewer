@@ -14,17 +14,18 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
-import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Configs.DefaultLayoutConfig;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.DialogLayoutBasic;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Configs.DefaultLayoutConfig;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .DialogLayoutBasic;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 
 /**
  * Created by: Rizwan Choudrey

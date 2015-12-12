@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GvDataList<T extends GvData> extends Iterable<T>, ViewHolderDataList<T>, GvDataCollection<T> {
+public interface GvDataList<T extends GvData> extends ViewHolderDataList<T>, GvDataCollection<T> {
     boolean hasData();
 
     @Override

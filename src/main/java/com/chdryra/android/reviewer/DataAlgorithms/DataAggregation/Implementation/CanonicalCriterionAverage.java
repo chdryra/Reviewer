@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriter
     //Overridden
     @Override
     public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
-        String id = data.getReviewId();
+        ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumCriterion(id, "", 0f);
 
         DatumCounter<DataCriterion, String> counter = getSubjectCounter(data);

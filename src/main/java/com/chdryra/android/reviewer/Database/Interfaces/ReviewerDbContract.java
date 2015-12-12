@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 
 import java.util.ArrayList;

@@ -13,38 +13,37 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhText;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvReviewId implements GvData {
-    public static final GvReviewId NULL_ID = new GvReviewId();
+public class GvReviewId implements GvData, ReviewId {
     public static final GvDataType<GvReviewId> TYPE =
             new GvDataType<>(GvReviewId.class, "ReviewId");
 
     public static final Parcelable.Creator<GvReviewId> CREATOR = new Parcelable
             .Creator<GvReviewId>() {
-        //Overridden
+        @Override
         public GvReviewId createFromParcel(Parcel in) {
             return new GvReviewId(in);
         }
 
+        @Override
         public GvReviewId[] newArray(int size) {
             return new GvReviewId[size];
         }
     };
+
     private String mId;
 
-    //Constructors
-    private GvReviewId() {
-
-    }
-
-    public GvReviewId(GvReviewId id) {
-        this(id.getId());
+    public GvReviewId(ReviewId id) {
+        this(id.toString());
     }
 
     public GvReviewId(Parcel in) {
@@ -55,12 +54,10 @@ public class GvReviewId implements GvData {
         mId = id;
     }
 
-    //public methods
-    public String getId() {
+    @Override
+    public String toString() {
         return mId;
     }
-
-    //Overridden
 
     @Override
     public GvReviewId getGvReviewId() {
@@ -74,12 +71,12 @@ public class GvReviewId implements GvData {
 
     @Override
     public String getStringSummary() {
-        return getId();
+        return toString();
     }
 
     @Override
-    public String getReviewId() {
-        return toString();
+    public ReviewId getReviewId() {
+        return this;
     }
 
     @Override
@@ -94,7 +91,7 @@ public class GvReviewId implements GvData {
 
     @Override
     public ViewHolder getViewHolder() {
-        return null;
+        return new VhText();
     }
 
     @Override
@@ -131,6 +128,6 @@ public class GvReviewId implements GvData {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(getId());
+        parcel.writeString(toString());
     }
 }

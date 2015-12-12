@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
@@ -12,6 +12,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
  * On: 30/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NodeDataGetter<T extends DataReviewIdable> {
+public interface NodeDataGetter<T extends HasReviewId> {
     IdableList<T> getData(@NonNull ReviewNode node);
 }

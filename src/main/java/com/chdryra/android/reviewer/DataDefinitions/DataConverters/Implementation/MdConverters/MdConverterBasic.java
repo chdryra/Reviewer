@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
-
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
@@ -14,14 +14,14 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * On: 09/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class MdConverterBasic<T1, T2 extends DataReviewIdable>
+public abstract class MdConverterBasic<T1, T2 extends HasReviewId>
         implements DataConverter<T1, T2, MdDataList<T2>> {
 
     @Override
     public abstract T2 convert(T1 datum);
 
     @Override
-    public MdDataList<T2> convert(Iterable<? extends T1> data, String reviewId) {
+    public MdDataList<T2> convert(Iterable<? extends T1> data, ReviewId reviewId) {
         MdDataList<T2> list = new MdDataList<>(getMdReviewId(reviewId));
         for(T1 datum : data) {
             list.add(convert(datum));
@@ -41,7 +41,7 @@ public abstract class MdConverterBasic<T1, T2 extends DataReviewIdable>
     }
 
     @NonNull
-    private MdReviewId getMdReviewId(String reviewId) {
+    private MdReviewId getMdReviewId(ReviewId reviewId) {
         return new MdReviewId(reviewId);
     }
 }

@@ -7,6 +7,6 @@ import java.util.Collection;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface IdableCollection<T extends DataReviewIdable> extends Collection<T> {
+public interface IdableItems<T extends HasReviewId> extends Collection<T> {
     T getItem(int position);
 }

@@ -2,7 +2,7 @@ package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -12,6 +12,6 @@ import com.chdryra.android.testutils.RandomString;
  */
 public class RandomAuthor {
     public static DataAuthor nextAuthor() {
-        return new Author(RandomString.nextWord(), UserId.generateId());
+        return new Author(RandomString.nextWord(), AuthorId.generateId());
     }
 }

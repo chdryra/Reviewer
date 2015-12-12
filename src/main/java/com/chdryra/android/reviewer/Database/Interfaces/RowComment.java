@@ -4,6 +4,7 @@ import android.content.ContentValues;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +24,7 @@ public interface RowComment extends ReviewDataRow, DataComment {
     boolean isHeadline();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     String getRowId();

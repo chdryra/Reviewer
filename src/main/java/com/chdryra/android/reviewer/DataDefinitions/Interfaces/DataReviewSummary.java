@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataReviewSummary {
+public interface DataReviewSummary extends HasReviewId {
     DataDate getPublishDate();
 
     DataAuthor getAuthor();
@@ -26,5 +26,6 @@ public interface DataReviewSummary {
 
     String getSubject();
 
-    String getId();
+    @Override
+    ReviewId getReviewId();
 }

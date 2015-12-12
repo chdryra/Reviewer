@@ -5,9 +5,9 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataTag extends DataReviewIdable, Validatable{
+public interface DataTag extends HasReviewId, Validatable{
     String getTag();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 }

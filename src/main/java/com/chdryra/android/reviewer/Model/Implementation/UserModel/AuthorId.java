@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.UserModel;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+
 import java.util.UUID;
 
 /**
@@ -20,19 +22,19 @@ import java.util.UUID;
  * @see Author
  */
 
-public class UserId {
+public class AuthorId implements UserId {
     public final static String NULL_ID_STRING = "NULL";
     private final UUID mId;
 
-    private UserId() {
+    private AuthorId() {
         mId = null;
     }
 
-    private UserId(UUID id) {
+    private AuthorId(UUID id) {
         mId = id;
     }
 
-    private UserId(String rdId) {
+    private AuthorId(String rdId) {
         if (rdId.equals(NULL_ID_STRING)) {
             mId = null;
         } else {
@@ -41,18 +43,22 @@ public class UserId {
     }
 
     //Static methods
-    public static UserId generateId() {
-        return new UserId(UUID.randomUUID());
+    public static AuthorId generateId() {
+        return new AuthorId(UUID.randomUUID());
     }
 
-    public static UserId fromString(String rdId) {
-        return new UserId(rdId);
+    public static AuthorId fromString(String rdId) {
+        return new AuthorId(rdId);
     }
 
-    //Overridden
+    @Override
+    public String getId() {
+        return toString();
+    }
+
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj.getClass() == getClass() && this.mId.equals(((UserId) obj).mId);
+        return obj != null && obj.getClass() == getClass() && this.mId.equals(((AuthorId) obj).mId);
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataImage extends DataReviewIdable, Validatable{
+public interface DataImage extends HasReviewId, Validatable{
     //abstract
     Bitmap getBitmap();
 
@@ -26,6 +26,9 @@ public interface DataImage extends DataReviewIdable, Validatable{
     String getCaption();
 
     boolean isCover();
+
+    @Override
+    ReviewId getReviewId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

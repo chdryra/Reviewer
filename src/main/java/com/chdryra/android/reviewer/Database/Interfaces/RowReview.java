@@ -6,6 +6,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,7 +45,7 @@ public interface RowReview extends ReviewDataRow, DataDateReview,
     String getSubject();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     String getRowId();

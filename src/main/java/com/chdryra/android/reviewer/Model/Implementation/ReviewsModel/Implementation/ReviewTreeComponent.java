@@ -18,8 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
@@ -53,7 +53,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mId.toString();
     }
 
@@ -69,7 +69,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     }
 
     @Override
-    public void removeChild(String reviewId) {
+    public void removeChild(ReviewId reviewId) {
         if (!mChildren.containsId(reviewId)) return;
         ReviewNodeComponent childNode = (ReviewNodeComponent) mChildren.getItem(reviewId);
         mChildren.remove(reviewId);
@@ -113,12 +113,12 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     }
 
     @Override
-    public ReviewNode getChild(String reviewId) {
+    public ReviewNode getChild(ReviewId reviewId) {
         return mChildren.getItem(reviewId);
     }
 
     @Override
-    public boolean hasChild(String reviewId) {
+    public boolean hasChild(ReviewId reviewId) {
         return mChildren.containsId(reviewId);
     }
 
@@ -241,7 +241,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
         });
     }
 
-    private <T extends DataReviewIdable> IdableList<T> getReviewData(DataGetter<T> getter) {
+    private <T extends HasReviewId> IdableList<T> getReviewData(DataGetter<T> getter) {
         MdDataList<T> data = new MdDataList<>(mId);
         data.addAll(getter.getData(mReview));
         for(ReviewNode child : getChildren()) {
@@ -276,7 +276,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
         return result;
     }
 
-    private abstract class DataGetter<T extends DataReviewIdable> {
+    private abstract class DataGetter<T extends HasReviewId> {
         abstract IdableList<? extends T> getData(Review review);
     }
 }

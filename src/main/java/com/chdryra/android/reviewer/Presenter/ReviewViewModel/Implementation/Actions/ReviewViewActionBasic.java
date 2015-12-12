@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.app.Activity;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ReviewViewAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ReviewViewAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 
 /**
  * Created by: Rizwan Choudrey

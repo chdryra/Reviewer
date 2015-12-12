@@ -4,6 +4,7 @@ import android.content.ContentValues;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -25,7 +26,7 @@ public interface RowLocation extends ReviewDataRow, DataLocation {
     String getName();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     String getRowId();

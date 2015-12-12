@@ -16,7 +16,7 @@ public class GvConverterDates extends GvConverterBasic<DataDate, GvDate, GvDateL
     }
 
     @Override
-    public GvDate convert(DataDate datum, String reviewId) {
+    public GvDate convert(DataDate datum, ReviewId reviewId) {
         return new GvDate(newId(reviewId), datum.getTime());
     }
 }

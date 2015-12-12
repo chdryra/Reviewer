@@ -15,14 +15,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataComment extends DataReviewIdable, Validatable{
+public interface DataComment extends HasReviewId, Validatable{
     //abstract
     String getComment();
 
     boolean isHeadline();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

@@ -16,10 +16,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeComponent;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+        .ReviewTreeComponent;
 
 /**
  * The fundamental interface for all review classes.
@@ -52,7 +54,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  * @see ReviewNode
  */
 
-public interface Review extends DataReviewIdable {
+public interface Review extends HasReviewId {
     DataSubject getSubject();
 
     DataRating getRating();
@@ -78,7 +80,7 @@ public interface Review extends DataReviewIdable {
     IdableList<? extends DataLocation> getLocations();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     //For speed and comparison
     @Override

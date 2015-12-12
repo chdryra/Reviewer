@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +28,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     //Overridden
     @Override
     public DataImage getCanonical(IdableList<? extends DataImage> data) {
-        String id = data.getReviewId();
+        ReviewId id = data.getReviewId();
         DatumImage nullImage = new DatumImage(id, null, null, "", false);
         if (data.size() == 0) return nullImage;
 

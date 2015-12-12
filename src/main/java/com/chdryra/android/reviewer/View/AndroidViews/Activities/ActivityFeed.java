@@ -15,9 +15,9 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * UI Activity holding published reviews feed.
@@ -62,7 +62,7 @@ public class ActivityFeed extends ActivityReviewView
     }
 
     @Override
-    public void onDeleteRequested(String reviewId) {
+    public void onDeleteRequested(ReviewId reviewId) {
         mAuthorsFeed.removeReview(reviewId);
     }
 }

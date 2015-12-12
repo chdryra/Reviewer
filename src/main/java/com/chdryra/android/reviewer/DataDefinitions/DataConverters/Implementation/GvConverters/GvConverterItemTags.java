@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
@@ -15,8 +16,8 @@ public class GvConverterItemTags extends GvConverterBasic<ItemTag, GvTag, GvTagL
     }
 
     @Override
-    public GvTag convert(ItemTag datum, String reviewId) {
-        if(!datum.tagsItem(reviewId)) {
+    public GvTag convert(ItemTag datum, ReviewId reviewId) {
+        if(!datum.tagsItem(reviewId.toString())) {
             throw new IllegalArgumentException("ItemTag does not tag id: " + reviewId);
         }
         return new GvTag(newId(reviewId), datum.getTag());

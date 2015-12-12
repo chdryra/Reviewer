@@ -13,6 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -76,8 +77,8 @@ public class GvDualText extends VHDDualString implements GvData {
     }
 
     @Override
-    public String getReviewId() {
-        return mId.toString();
+    public ReviewId getReviewId() {
+        return mId;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 
 /**
  * Created by: Rizwan Choudrey

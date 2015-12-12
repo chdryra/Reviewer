@@ -1,26 +1,34 @@
 package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Configs;
 
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditComment;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditCriterion;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditFact;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditTag;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.LayoutEditImage;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.LayoutEditLocation;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutComment;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutCriterion;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutDate;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutFact;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutImage;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutSubject;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditComment;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .AddEditCriterion;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditFact;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddEditTag;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .LayoutEditImage;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .LayoutEditLocation;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .ViewLayoutComment;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .ViewLayoutCriterion;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutDate;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutFact;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .ViewLayoutImage;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
+        .ViewLayoutSubject;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.ViewLayoutTag;
 
 /**
  * Created by: Rizwan Choudrey

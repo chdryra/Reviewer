@@ -1,7 +1,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,8 +24,8 @@ public class MdDate implements DataDateReview {
     }
 
     @Override
-    public String getReviewId() {
-        return mReviewId.toString();
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override

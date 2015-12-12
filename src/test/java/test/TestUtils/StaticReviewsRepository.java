@@ -1,6 +1,6 @@
 package test.TestUtils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
@@ -12,16 +12,16 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StaticReviewsRepository implements ReviewsRepository {
-    private IdableCollection<Review> mReviews;
+    private IdableItems<Review> mReviews;
     private TagsManager mTagsManager;
 
-    public StaticReviewsRepository(IdableCollection<Review> reviews, TagsManager tagsManager) {
+    public StaticReviewsRepository(IdableItems<Review> reviews, TagsManager tagsManager) {
         mReviews = reviews;
         mTagsManager = tagsManager;
     }
 
     @Override
-    public Review getReview(String reviewId) {
+    public Review getReview(ReviewId reviewId) {
         Review result = null;
         for(Review review : mReviews) {
             if(review.getReviewId().equals(reviewId)) {
@@ -34,7 +34,7 @@ public class StaticReviewsRepository implements ReviewsRepository {
     }
 
     @Override
-    public IdableCollection<Review> getReviews() {
+    public IdableItems<Review> getReviews() {
         return mReviews;
     }
 

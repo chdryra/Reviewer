@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -21,8 +22,8 @@ public class MdLocation implements DataLocation {
 
     //Overridden
     @Override
-    public String getReviewId() {
-        return mReviewId.toString();
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override

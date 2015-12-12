@@ -6,17 +6,20 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import test.TestUtils.RandomReview;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
+@RunWith(RobolectricTestRunner.class)
 public class ReviewGetterTest {
 
     @Test

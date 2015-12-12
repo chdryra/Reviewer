@@ -5,11 +5,11 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataCriterion extends DataReviewIdable, Validatable {
+public interface DataCriterion extends HasReviewId, Validatable {
     String getSubject();
 
     float getRating();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 }

@@ -1,13 +1,13 @@
 package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces
-        .DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.GvImageConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**

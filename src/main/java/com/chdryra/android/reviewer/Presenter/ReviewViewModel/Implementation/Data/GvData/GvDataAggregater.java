@@ -1,9 +1,12 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation
-        .GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces
-        .DataConverter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedCollection;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters
+        .ConverterGv;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -11,14 +14,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedCollection;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 
@@ -99,7 +98,7 @@ public class GvDataAggregater {
         return aggregate(mConverter.getConverterFacts(), aggregated, GvFact.TYPE);
     }
     
-    public <T1 extends DataReviewIdable, T2 extends GvData> GvCanonicalCollection<T2>
+    public <T1 extends HasReviewId, T2 extends GvData> GvCanonicalCollection<T2>
     aggregate(DataConverter<? super T1, T2, ? extends GvDataList<T2>> converter,
               AggregatedCollection<T1> aggregated, GvDataType<T2> type) {
         GvReviewId id = new GvReviewId(aggregated.getReviewId());

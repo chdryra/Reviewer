@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters;
 
 
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -9,6 +8,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
@@ -45,7 +45,7 @@ public class ConverterMd {
 
     //Comments
     public MdDataList<MdComment> toMdCommentList(Iterable<? extends DataComment> comments,
-                                         String reviewId) {
+                                         ReviewId reviewId) {
         return mConverterComments.convert(comments, reviewId);
     }
 
@@ -54,24 +54,24 @@ public class ConverterMd {
     }
 
     //Facts
-    public MdDataList<MdFact> toMdFactList(Iterable<? extends DataFact> facts, String reviewId) {
+    public MdDataList<MdFact> toMdFactList(Iterable<? extends DataFact> facts, ReviewId reviewId) {
         return mConverterFacts.convert(facts, reviewId);
     }
 
     //Images
-    public MdDataList<MdImage> toMdImageList(Iterable<? extends DataImage> images, String reviewId) {
+    public MdDataList<MdImage> toMdImageList(Iterable<? extends DataImage> images, ReviewId reviewId) {
         return mConverterImages.convert(images, reviewId);
     }
 
     //Locations
     public MdDataList<MdLocation> toMdLocationList(Iterable<? extends DataLocation> locations,
-                                           String reviewId) {
+                                           ReviewId reviewId) {
 
         return mConverterLocations.convert(locations, reviewId);
     }
 
     //Urls
-    public MdDataList<MdUrl> toMdUrlList(Iterable<? extends DataUrl> urls, String reviewId) {
+    public MdDataList<MdUrl> toMdUrlList(Iterable<? extends DataUrl> urls, ReviewId reviewId) {
         return mConverterUrl.convert(urls, reviewId);
     }
 
@@ -80,7 +80,7 @@ public class ConverterMd {
         return mConverterCriteria.convert(criteria);
     }
 
-    public MdDataList<MdCriterion> reviewsToMdCriterionList(Iterable<? extends Review> criteria, String reviewId) {
+    public MdDataList<MdCriterion> reviewsToMdCriterionList(Iterable<? extends Review> criteria, ReviewId reviewId) {
         return mConverterCriteria.convertReviews(criteria, reviewId);
     }
 }

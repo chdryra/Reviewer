@@ -2,11 +2,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderAdapterImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces
-        .DataBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.DataBuilderAdapterImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**

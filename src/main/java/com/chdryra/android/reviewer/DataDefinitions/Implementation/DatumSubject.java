@@ -11,7 +11,7 @@ public class DatumSubject implements DataSubject {
     private final String mReviewId;
     private final String mSubject;
 
-    public DatumSubject(String reviewId, String subject) {
+    public DatumSubject(ReviewId reviewId, String subject) {
         mReviewId = reviewId;
         mSubject = subject;
     }
@@ -22,7 +22,7 @@ public class DatumSubject implements DataSubject {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

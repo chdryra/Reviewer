@@ -1,15 +1,16 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AggregatedListImpl<D extends DataReviewIdable> implements AggregatedList<D> {
+public class AggregatedListImpl<D extends HasReviewId> implements AggregatedList<D> {
     private D mCanonical;
     private IdableList<D> mAggregated;
 
@@ -29,7 +30,7 @@ public class AggregatedListImpl<D extends DataReviewIdable> implements Aggregate
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mCanonical.getReviewId();
     }
 }

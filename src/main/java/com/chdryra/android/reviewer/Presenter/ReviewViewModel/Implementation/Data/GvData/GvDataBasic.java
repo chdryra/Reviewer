@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 /**
@@ -48,8 +49,8 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
     }
 
     @Override
-    public String getReviewId() {
-        return mReviewId.toString();
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override

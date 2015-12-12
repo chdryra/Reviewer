@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -8,10 +9,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumDateReview implements DataDateReview {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private long mTime;
 
-    public DatumDateReview(String reviewId, long time) {
+    public DatumDateReview(ReviewId reviewId, long time) {
         mReviewId = reviewId;
         mTime = time;
     }
@@ -22,7 +23,7 @@ public class DatumDateReview implements DataDateReview {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

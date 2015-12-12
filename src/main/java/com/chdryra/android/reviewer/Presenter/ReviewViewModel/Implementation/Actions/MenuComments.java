@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey

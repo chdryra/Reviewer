@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.View.LauncherModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.LauncherModel.Configs.AddEditViewClasses;
 import com.chdryra.android.reviewer.View.LauncherModel.Configs.ConfigDataUiImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Configs.DefaultLaunchables;
-import com.chdryra.android.reviewer.View.LauncherModel.Configs.AddEditViewClasses;
 import com.chdryra.android.reviewer.View.LauncherModel.Configs.LaunchableConfigImpl;
 import com.chdryra.android.reviewer.View.LauncherModel.Configs.LaunchableConfigsHolder;
 import com.chdryra.android.reviewer.View.LauncherModel.Configs.LaunchablesList;

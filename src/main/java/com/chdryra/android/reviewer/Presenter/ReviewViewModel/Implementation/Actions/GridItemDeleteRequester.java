@@ -5,12 +5,13 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Utils.DialogShower;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverview;
+import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.DialogShower;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +25,7 @@ public class GridItemDeleteRequester extends GridItemLauncher<GvReviewOverview>
     private GvReviewOverview mToDelete;
 
     public interface DeleteRequestListener {
-        void onDeleteRequested(String reviewId);
+        void onDeleteRequested(ReviewId reviewId);
     }
 
     public GridItemDeleteRequester(FactoryReviewViewLaunchable launchableFactory,

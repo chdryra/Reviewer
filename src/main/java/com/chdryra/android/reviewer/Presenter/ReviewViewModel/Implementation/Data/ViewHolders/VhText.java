@@ -32,5 +32,4 @@ public class VhText extends VHString {
     public VhText(VHDataStringGetter getter) {
         super(LAYOUT, TEXTVIEW, getter);
     }
-
 }

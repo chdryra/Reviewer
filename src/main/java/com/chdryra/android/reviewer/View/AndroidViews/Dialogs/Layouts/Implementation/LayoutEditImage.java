@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implement
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey

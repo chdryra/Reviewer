@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,7 +34,7 @@ public interface RowImage extends ReviewDataRow, DataImage {
     boolean isCover();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     String getRowId();

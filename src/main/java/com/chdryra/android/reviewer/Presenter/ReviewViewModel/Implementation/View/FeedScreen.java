@@ -3,23 +3,25 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemDeleteRequester;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemDeleteRequester;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverview;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,7 +39,7 @@ public class FeedScreen implements
     private DeleteRequestListener mListener;
 
     public interface DeleteRequestListener {
-        void onDeleteRequested(String reviewId);
+        void onDeleteRequested(ReviewId reviewId);
     }
 
     public FeedScreen(ReviewsFeed feed,
@@ -79,7 +81,7 @@ public class FeedScreen implements
         mNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
     }
 
-    private void removeReviewFromNode(String reviewId) {
+    private void removeReviewFromNode(ReviewId reviewId) {
         mNode.removeChild(reviewId);
     }
 
@@ -90,13 +92,13 @@ public class FeedScreen implements
     }
 
     @Override
-    public void onReviewRemoved(String reviewId) {
+    public void onReviewRemoved(ReviewId reviewId) {
         removeReviewFromNode(reviewId);
         if(mReviewView != null) mReviewView.onGridDataChanged();
     }
 
     @Override
-    public void onDeleteRequested(String reviewId) {
+    public void onDeleteRequested(ReviewId reviewId) {
         mListener.onDeleteRequested(reviewId);
     }
 }

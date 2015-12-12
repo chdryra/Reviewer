@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewPerspective;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityFeed;
 import com.chdryra.android.reviewer.View.AndroidViews.Fragments.FragmentReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey

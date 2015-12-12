@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 /**
@@ -36,8 +37,8 @@ public class MdCriterion implements DataCriterionReview {
     }
 
     @Override
-    public String getReviewId() {
-        return mParentId.toString();
+    public ReviewId getReviewId() {
+        return mParentId;
     }
 
     @Override

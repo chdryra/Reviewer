@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implement
 
 import android.widget.EditText;
 
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

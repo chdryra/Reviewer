@@ -2,9 +2,9 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 09/11/2015
+ * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataReviewIdable {
-    String getReviewId();
+public interface VerboseIdableItems<T extends VerboseDataReview> extends
+        IdableItems<T>, VerboseData {
 }

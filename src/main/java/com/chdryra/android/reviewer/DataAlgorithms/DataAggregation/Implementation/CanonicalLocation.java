@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -27,7 +27,7 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
     //Overridden
     @Override
     public DataLocation getCanonical(IdableList<? extends DataLocation> data) {
-        String id = data.getReviewId();
+        ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumLocation(id, null, "");
 
         LatLng mid = getMidLatLng(data);

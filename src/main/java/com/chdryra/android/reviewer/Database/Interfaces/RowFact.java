@@ -4,6 +4,7 @@ import android.content.ContentValues;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +28,7 @@ public interface RowFact extends ReviewDataRow, DataFact {
     boolean isUrl();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     String getRowId();

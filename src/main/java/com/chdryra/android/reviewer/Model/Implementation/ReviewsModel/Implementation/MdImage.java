@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 import junit.framework.Assert;
 
@@ -28,17 +29,13 @@ public class MdImage implements DataImage {
         mCaption = caption;
         mIsCover = isCover;
         mReviewId = reviewId;
-        if(reviewId != null) {
-            Assert.assertEquals(reviewId.toString(), date.getReviewId());
-        } else {
-            Assert.assertNull(date.getReviewId());
-        }
+        Assert.assertEquals(reviewId, date.getReviewId());
     }
 
     //Overridden
     @Override
-    public String getReviewId() {
-        return mReviewId.toString();
+    public ReviewId getReviewId() {
+        return mReviewId;
     }
 
     @Override

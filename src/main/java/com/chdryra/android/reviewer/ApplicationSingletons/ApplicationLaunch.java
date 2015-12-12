@@ -6,7 +6,7 @@ import android.os.Environment;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.Author;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.UserId;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 
 import java.io.File;
 
@@ -19,7 +19,7 @@ public class ApplicationLaunch {
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
 
-    private static final Author AUTHOR = new Author("Rizwan Choudrey", UserId.generateId());
+    private static final Author AUTHOR = new Author("Rizwan Choudrey", AuthorId.generateId());
     private static final String IMAGE_DIR = "Reviewer";
     private static final String DATABASE_NAME = "Reviewer.db";
     private static final String TEST_DATABASE_NAME = "TestReviewer.db";

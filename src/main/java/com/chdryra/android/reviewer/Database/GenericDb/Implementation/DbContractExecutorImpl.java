@@ -13,11 +13,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContractExecutor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ForeignKeyConstraint;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ForeignKeyConstraint;
 
 import org.apache.commons.lang3.StringUtils;
 

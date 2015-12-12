@@ -5,11 +5,11 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataRating extends DataReviewIdable, Validatable {
+public interface DataRating extends HasReviewId, Validatable {
     float getRating();
 
     int getRatingWeight();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 }

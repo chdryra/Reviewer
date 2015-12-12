@@ -16,7 +16,7 @@ public class RowFactImpl implements RowFact {
     private static final String SEPARATOR = ":";
 
     private String mFactId;
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mLabel;
     private String mValue;
     private boolean mIsUrl;
@@ -45,7 +45,7 @@ public class RowFactImpl implements RowFact {
     //Overridden
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

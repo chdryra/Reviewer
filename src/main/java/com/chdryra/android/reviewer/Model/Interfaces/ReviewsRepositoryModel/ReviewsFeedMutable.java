@@ -1,8 +1,9 @@
 package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableItems;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
@@ -18,28 +19,28 @@ public interface ReviewsFeedMutable extends ReviewsRepositoryMutable, ReviewsFee
     DataAuthor getAuthor();
 
     @Override
-    ItemTagCollection getTags(String reviewId);
+    ItemTagCollection getTags(ReviewId reviewId);
 
     @Override
     Review getReview(VerboseDataReview datum);
 
     @Override
-    ReviewNode getMetaReview(VerboseIdableCollection data, String subject);
+    ReviewNode getMetaReview(VerboseIdableItems data, String subject);
 
     @Override
     ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     @Override
-    ReviewNode getFlattenedMetaReview(VerboseIdableCollection data, String subject);
+    ReviewNode getFlattenedMetaReview(VerboseIdableItems data, String subject);
 
     @Override
     void addReview(Review review);
 
     @Override
-    void removeReview(String reviewId);
+    void removeReview(ReviewId reviewId);
 
     @Override
-    Review getReview(String id);
+    Review getReview(ReviewId id);
 
     @Override
     Iterable<Review> getReviews();

@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 07/11/2015

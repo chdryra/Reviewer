@@ -17,7 +17,7 @@ public class RowLocationImpl implements RowLocation {
     private static final String SEPARATOR = ":";
 
     private String mLocationId;
-    private String mReviewId;
+    private ReviewId mReviewId;
     private double mLatitude;
     private double mLongitude;
     private String mName;
@@ -47,7 +47,7 @@ public class RowLocationImpl implements RowLocation {
     //Overridden
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

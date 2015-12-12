@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +28,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
  */
 public class DataValidator {
     public boolean validate(DataAuthor author) {
-        return NotNull(author) && validateString(author.getName()) && validateString(author.getUserId());
+        return NotNull(author) && validateString(author.getName())
+                && validateUserId(author.getUserId());
     }
 
     public boolean validate(DataComment comment) {
@@ -77,12 +80,12 @@ public class DataValidator {
         return NotNull(string) && string.length() > 0;
     }
 
-    public boolean validateReviewId(String reviewId) {
-        return validateString(reviewId);
+    public boolean validateReviewId(ReviewId reviewId) {
+        return validateString(reviewId.toString());
     }
 
-    public boolean validateUserId(String userId) {
-        return validateString(userId);
+    public boolean validateUserId(UserId userId) {
+        return !userId.getId().equals(UserId.NULL_ID);
     }
 
     public boolean NotNull(Object obj) {

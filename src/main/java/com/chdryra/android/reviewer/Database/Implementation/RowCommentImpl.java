@@ -16,7 +16,7 @@ public class RowCommentImpl implements RowComment {
     private static final String SEPARATOR = ":";
 
     private String mCommentId;
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mComment;
     private boolean mIsHeadline;
 
@@ -42,7 +42,7 @@ public class RowCommentImpl implements RowComment {
     //Overridden
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

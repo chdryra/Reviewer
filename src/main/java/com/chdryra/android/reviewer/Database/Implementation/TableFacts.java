@@ -3,9 +3,9 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 

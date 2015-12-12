@@ -22,7 +22,7 @@ public class RowImageImpl implements RowImage {
     private static final String SEPARATOR = ":";
 
     private String mImageId;
-    private String mReviewId;
+    private ReviewId mReviewId;
     private byte[] mBitmap;
     private long mDate;
     private String mCaption;
@@ -57,7 +57,7 @@ public class RowImageImpl implements RowImage {
     //Overridden
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

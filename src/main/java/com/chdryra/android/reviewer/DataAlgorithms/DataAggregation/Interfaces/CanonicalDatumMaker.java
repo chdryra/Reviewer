@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 
 /**
@@ -16,6 +16,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CanonicalDatumMaker<T extends DataReviewIdable> {
+public interface CanonicalDatumMaker<T extends HasReviewId> {
     T getCanonical(IdableList<? extends T> data);
 }

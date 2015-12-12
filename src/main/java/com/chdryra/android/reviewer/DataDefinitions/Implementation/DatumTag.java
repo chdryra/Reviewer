@@ -11,7 +11,7 @@ public class DatumTag implements DataTag {
     private final String mReviewId;
     private final String mTag;
 
-    public DatumTag(String reviewId, String tag) {
+    public DatumTag(ReviewId reviewId, String tag) {
         mReviewId = reviewId;
         mTag = tag;
     }
@@ -22,7 +22,7 @@ public class DatumTag implements DataTag {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

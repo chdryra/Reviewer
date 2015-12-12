@@ -9,10 +9,10 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumCriterionReview implements DataCriterionReview {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private Review mReview;
 
-    public DatumCriterionReview(String reviewId, Review review) {
+    public DatumCriterionReview(ReviewId reviewId, Review review) {
         mReviewId = reviewId;
         mReview = review;
     }
@@ -33,7 +33,7 @@ public class DatumCriterionReview implements DataCriterionReview {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

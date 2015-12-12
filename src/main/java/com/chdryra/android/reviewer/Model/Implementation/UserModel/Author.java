@@ -8,17 +8,18 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.UserModel;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
- * Holds Author data. Currently only wraps a name and unique {@link UserId}.
+ * Holds Author data. Currently only wraps a name and unique {@link AuthorId}.
  */
 public class Author implements DataAuthor{
-    private final UserId mId;
+    private final AuthorId mId;
     private final String mName;
 
-    public Author(String name, UserId id) {
+    public Author(String name, AuthorId id) {
         mName = name;
         mId = id;
     }
@@ -29,8 +30,8 @@ public class Author implements DataAuthor{
     }
 
     @Override
-    public String getUserId() {
-        return mId != null ? mId.toString() : "";
+    public UserId getUserId() {
+        return mId;
     }
 
     @Override

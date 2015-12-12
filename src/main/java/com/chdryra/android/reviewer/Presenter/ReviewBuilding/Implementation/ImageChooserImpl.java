@@ -22,11 +22,10 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.BitmapLoader;
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.ImageHelper;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces
-        .ImageChooser;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;

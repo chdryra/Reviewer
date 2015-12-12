@@ -3,8 +3,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.content.Context;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
-        .ImageChooserImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ImageChooserImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 
 /**

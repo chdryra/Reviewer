@@ -16,14 +16,13 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/12/2014
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataLocation extends DataReviewIdable, Validatable{
-    //abstract
+public interface DataLocation extends HasReviewId, Validatable{
     LatLng getLatLng();
 
     String getName();
 
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

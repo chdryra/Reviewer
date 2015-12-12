@@ -8,11 +8,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumComment implements DataComment {
-    private String mReviewId;
+    private ReviewId mReviewId;
     private String mComment;
     private boolean mIsHeadline;
 
-    public DatumComment(String reviewId, String comment, boolean isHeadline) {
+    public DatumComment(ReviewId reviewId, String comment, boolean isHeadline) {
         mReviewId = reviewId;
         mComment = comment;
         mIsHeadline = isHeadline;
@@ -29,7 +29,7 @@ public class DatumComment implements DataComment {
     }
 
     @Override
-    public String getReviewId() {
+    public ReviewId getReviewId() {
         return mReviewId;
     }
 

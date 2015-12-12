@@ -3,8 +3,6 @@ package com.chdryra.android.reviewer.Database.Factories;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbContractImpl;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Database.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.Database.Implementation.TableComments;
 import com.chdryra.android.reviewer.Database.Implementation.TableFacts;
@@ -12,6 +10,8 @@ import com.chdryra.android.reviewer.Database.Implementation.TableImages;
 import com.chdryra.android.reviewer.Database.Implementation.TableLocations;
 import com.chdryra.android.reviewer.Database.Implementation.TableReviews;
 import com.chdryra.android.reviewer.Database.Implementation.TableTags;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
 /**
  * Created by: Rizwan Choudrey

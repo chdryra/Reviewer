@@ -28,12 +28,13 @@ import com.chdryra.android.remoteapifetchers.GpNearestNamesSuggester;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

@@ -15,8 +15,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.NodeDataGetter;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
@@ -33,7 +33,7 @@ public class TagsGetter implements NodeDataGetter<DataTag> {
 
     @Override
     public IdableList<DataTag> getData(@NonNull ReviewNode node) {
-        String reviewId = node.getReviewId();
+        ReviewId reviewId = node.getReviewId();
         IdableList<DataTag> reviews = new IdableDataList<>(reviewId);
         for(ItemTag tag : mTagsManager.getTags(reviewId)) {
             reviews.add(new DatumTag(reviewId, tag.getTag()));

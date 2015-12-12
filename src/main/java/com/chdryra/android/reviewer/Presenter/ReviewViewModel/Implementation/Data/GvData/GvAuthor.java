@@ -5,8 +5,8 @@ import android.os.Parcel;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthor;
 
 /**
  * {@link } version of: {@link com.chdryra.android.reviewer.Model.Implementation.UserModel.Author}
@@ -32,31 +32,31 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
     };
 
     private String mName;
-    private String mUserId;
+    private GvUserId mUserId;
 
     //Constructors
     public GvAuthor() {
         this(null, null, null);
     }
 
-    public GvAuthor(String name, String userId) {
+    public GvAuthor(String name, GvUserId userId) {
         this(null, name, userId);
     }
 
-    public GvAuthor(GvReviewId id, String name, String userId) {
+    public GvAuthor(GvReviewId id, String name, GvUserId userId) {
         super(GvAuthor.TYPE, id);
         mName = name;
         mUserId = userId;
     }
 
     public GvAuthor(GvAuthor author) {
-        this(author.getGvReviewId(), author.getName(), author.getUserId());
+        this(author.getGvReviewId(), author.getName(), (GvUserId) author.getUserId());
     }
 
     GvAuthor(Parcel in) {
         super(in);
         mName = in.readString();
-        mUserId = in.readString();
+        mUserId = in.readParcelable(GvUserId.class.getClassLoader());
     }
 
     //Overridden
@@ -66,7 +66,7 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
     }
 
     @Override
-    public String getUserId() {
+    public UserId getUserId() {
         return mUserId;
     }
 
@@ -79,7 +79,7 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeString(mName);
-        parcel.writeString(mUserId);
+        parcel.writeParcelable(mUserId, i);
     }
 
     @Override

@@ -8,14 +8,9 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Configs;
 
-import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityBuildReview;
-import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityShareReview;
-import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityEditLocationMap;
-import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityEditUrlBrowser;
-import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityViewLocation;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Implementation.GvDataDialogs;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -23,6 +18,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityBuildReview;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityEditLocationMap;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityEditUrlBrowser;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityShareReview;
+import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityViewLocation;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Implementation.GvDataDialogs;
 
 /**
  * Created by: Rizwan Choudrey

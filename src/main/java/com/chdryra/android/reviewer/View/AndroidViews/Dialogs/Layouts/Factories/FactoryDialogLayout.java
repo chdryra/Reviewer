@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories
 
 import android.util.Log;
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Configs.ConfigDialogLayouts;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.DialogLayout;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

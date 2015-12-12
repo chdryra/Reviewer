@@ -1,11 +1,11 @@
 package com.chdryra.android.reviewer.View.AndroidViews.Activities;
 
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.R;
 
 /**
  * Created by: Rizwan Choudrey

@@ -10,8 +10,9 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.content.ContentValues;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewIdable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 
 /**
@@ -19,9 +20,9 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDataRow extends DataReviewIdable, DbTableRow {
+public interface ReviewDataRow extends HasReviewId, DbTableRow {
     @Override
-    String getReviewId();
+    ReviewId getReviewId();
 
     @Override
     String getRowId();
