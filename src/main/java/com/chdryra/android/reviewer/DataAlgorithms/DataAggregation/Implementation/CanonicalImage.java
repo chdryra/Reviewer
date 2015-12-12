@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +30,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     @Override
     public DataImage getCanonical(IdableList<? extends DataImage> data) {
         ReviewId id = data.getReviewId();
-        DatumImage nullImage = new DatumImage(id, null, null, "", false);
+        DatumImage nullImage = new DatumImage(id);
         if (data.size() == 0) return nullImage;
 
         DatumCounter<DataImage, String> captionCounter = getCaptionCounter(data);

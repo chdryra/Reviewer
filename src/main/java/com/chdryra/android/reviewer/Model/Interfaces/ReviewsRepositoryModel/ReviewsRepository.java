@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -10,6 +12,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository {
+    @Nullable
     Review getReview(ReviewId id);
 
     Iterable<Review> getReviews();

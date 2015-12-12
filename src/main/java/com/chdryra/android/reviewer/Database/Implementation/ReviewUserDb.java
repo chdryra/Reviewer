@@ -16,10 +16,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataRow;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoaderDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
@@ -37,12 +38,12 @@ import java.util.ArrayList;
 public class ReviewUserDb implements Review {
     private ReviewId mReviewId;
     private RowReview mRow;
-    private ReviewerDb mDatabase;
+    private ReviewLoaderDb mDatabase;
     private ReviewNode mNode;
 
     //Constructors
     public ReviewUserDb(RowReview row,
-                        ReviewerDb database,
+                        ReviewLoaderDb database,
                         FactoryReviewNode nodeFactory) {
         mDatabase = database;
         mReviewId = row.getReviewId();
@@ -74,7 +75,7 @@ public class ReviewUserDb implements Review {
 
     private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table) {
         SQLiteDatabase db = startDatabaseTransaction();
-        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId);
+        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId.toString());
         endDatabaseTransaction(db);
 
         return data;
@@ -131,7 +132,7 @@ public class ReviewUserDb implements Review {
     private ArrayList<Review> loadCriteria() {
         SQLiteDatabase db = startDatabaseTransaction();
         ArrayList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db,
-                RowReview.COLUMN_PARENT_ID, mReviewId);
+                RowReview.COLUMN_PARENT_ID, mReviewId.toString());
         endDatabaseTransaction(db);
         return criteria;
     }

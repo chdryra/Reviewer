@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey

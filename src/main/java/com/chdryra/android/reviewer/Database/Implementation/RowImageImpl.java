@@ -7,8 +7,10 @@ import android.graphics.BitmapFactory;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 
 import java.io.ByteArrayOutputStream;
@@ -22,7 +24,7 @@ public class RowImageImpl implements RowImage {
     private static final String SEPARATOR = ":";
 
     private String mImageId;
-    private ReviewId mReviewId;
+    private String mReviewId;
     private byte[] mBitmap;
     private long mDate;
     private String mCaption;
@@ -30,7 +32,7 @@ public class RowImageImpl implements RowImage {
 
     //Constructors
     public RowImageImpl(DataImage image, int index) {
-        mReviewId = image.getReviewId();
+        mReviewId = image.getReviewId().toString();
         mImageId = mReviewId + SEPARATOR + "i" + String.valueOf(index);
         mCaption = image.getCaption();
         mIsCover = image.isCover();
@@ -58,7 +60,7 @@ public class RowImageImpl implements RowImage {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId;
+        return new DatumReviewId(mReviewId);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class RowImageImpl implements RowImage {
 
     @Override
     public DataDate getDate() {
-        return new DatumDateReview(mReviewId, mDate);
+        return new DatumDateReview(getReviewId(), mDate);
     }
 
     @Override

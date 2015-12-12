@@ -6,6 +6,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 /**
@@ -14,7 +15,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewDataHolder {
-    String getId();
+    ReviewId getReviewId();
 
     DataAuthor getAuthor();
 

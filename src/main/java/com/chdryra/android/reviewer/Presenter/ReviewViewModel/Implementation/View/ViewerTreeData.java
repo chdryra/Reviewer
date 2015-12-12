@@ -4,6 +4,7 @@ import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementatio
         .ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
@@ -50,7 +51,7 @@ public class ViewerTreeData extends ViewerReviewData {
     @Override
     protected GvList makeGridData() {
         ReviewNode node = getReviewNode();
-        String id = node.getReviewId();
+        ReviewId id = node.getReviewId();
         IdableList<ReviewNode> nodes = node.getChildren();
 
         ConverterGv converter = getConverter();

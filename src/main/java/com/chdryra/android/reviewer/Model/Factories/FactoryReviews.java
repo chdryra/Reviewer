@@ -115,12 +115,11 @@ public class FactoryReviews implements BuilderReview {
         MdDate mdDate = new MdDate(id, publishDate.getTime());
         MdSubject mdSubject = new MdSubject(id, subject);
         MdRating mdRating = new MdRating(id, rating, 1);
-        MdDataList<MdComment> mdComments = mConverter.toMdCommentList(comments, id.toString());
-        MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id.toString());
-        MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id.toString());
-        MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id.toString());
-        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id
-                .toString());
+        MdDataList<MdComment> mdComments = mConverter.toMdCommentList(comments, id);
+        MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id);
+        MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id);
+        MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id);
+        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id);
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
                 mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mNodeFactory);
@@ -144,17 +143,18 @@ public class FactoryReviews implements BuilderReview {
         ReviewPublisher publisher = mPublisherFactory.newPublisher();
         DataAuthor author = publisher.getAuthor();
         DataDate date = publisher.getDate();
-        MdReviewId id = new MdReviewId(author.getUserId(), date.getTime(), publisher.getPublishedIndex());
+        MdReviewId id = new MdReviewId(author.getUserId().toString(),
+                date.getTime(), publisher.getPublishedIndex());
         if (ratingIsAverage) {
             Review meta = createMetaReview(criteria, "");
             rating = meta.getRating().getRating();
         }
 
         return newReviewUser(id, author, date, subject, rating,
-                mConverter.toMdCommentList(comments, id.toString()),
-                mConverter.toMdImageList(images, id.toString()),
-                mConverter.toMdFactList(facts, id.toString()),
-                mConverter.toMdLocationList(locations, id.toString()),
+                mConverter.toMdCommentList(comments, id),
+                mConverter.toMdImageList(images, id),
+                mConverter.toMdFactList(facts, id),
+                mConverter.toMdLocationList(locations, id),
                 criteria,
                 ratingIsAverage);
     }
@@ -166,7 +166,7 @@ public class FactoryReviews implements BuilderReview {
     //Overridden
     @Override
     public Review createReview(ReviewDataHolder review) {
-        return newReviewUser(new MdReviewId(review.getId()), review.getAuthor(), review.getPublishDate(),
+        return newReviewUser(new MdReviewId(review.getReviewId()), review.getAuthor(), review.getPublishDate(),
                 review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
                 review.getFacts(), review.getLocations(), review.getCriteria(), review.isAverage());
     }

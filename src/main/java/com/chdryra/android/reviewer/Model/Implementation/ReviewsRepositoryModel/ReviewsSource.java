@@ -53,7 +53,7 @@ public class ReviewsSource implements ReviewsFeed {
 
     @Override
     public ItemTagCollection getTags(ReviewId reviewId) {
-        return getTagsManager().getTags(reviewId.getId());
+        return getTagsManager().getTags(reviewId.toString());
     }
 
     @Override

@@ -6,10 +6,11 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthor;
 
 /**
- * {@link } version of: {@link com.chdryra.android.reviewer.Model.Implementation.UserModel.Author}
+ * {@link } version of: {@link DatumAuthor}
  * {@link ViewHolder}: {@link VhAuthor}
  * <p/>
  * <p>

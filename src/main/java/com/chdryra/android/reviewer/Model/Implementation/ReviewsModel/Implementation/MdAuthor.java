@@ -2,6 +2,8 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -9,11 +11,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MdAuthor implements DataAuthorReview {
-    private MdReviewId mReviewId;
+    private ReviewId mReviewId;
     private String mName;
-    private String mUserId;
+    private UserId mUserId;
 
-    public MdAuthor(MdReviewId reviewId, String name, String userId) {
+    public MdAuthor(ReviewId reviewId, String name, UserId userId) {
         mReviewId = reviewId;
         mName = name;
         mUserId = userId;
@@ -25,18 +27,19 @@ public class MdAuthor implements DataAuthorReview {
     }
 
     @Override
-    public String getUserId() {
+    public UserId getUserId() {
         return mUserId;
     }
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validateString(mName) && dataValidator.validateString(mUserId);
+        return dataValidator.validate(mReviewId) &&
+                dataValidator.validateString(mName) && dataValidator.validate(mUserId);
     }
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId.toString();
+        return mReviewId;
     }
 
     @Override

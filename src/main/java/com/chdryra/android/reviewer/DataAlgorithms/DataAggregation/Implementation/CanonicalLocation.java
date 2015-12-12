@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.Da
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -28,7 +29,7 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
     @Override
     public DataLocation getCanonical(IdableList<? extends DataLocation> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumLocation(id, null, "");
+        if (data.size() == 0) return new DatumLocation(id);
 
         LatLng mid = getMidLatLng(data);
         String maxLocation = getLocationNameMode(getNameCounter(data));

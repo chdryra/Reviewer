@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implement
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Review Data: rating
@@ -39,7 +40,7 @@ public class MdRating implements DataRating {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId.toString();
+        return mReviewId;
     }
 
     @Override

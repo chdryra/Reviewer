@@ -12,6 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Used for Review summaries in published feed
@@ -49,9 +50,9 @@ public class GvReviewOverviewList extends GvDataListImpl<GvReviewOverview> {
         super(data);
     }
 
-    private boolean contains(String id) {
+    private boolean contains(ReviewId id) {
         for (GvReviewOverview review : this) {
-            if (review.getId().equals(id)) return true;
+            if (review.getReviewId().equals(id)) return true;
         }
 
         return false;
@@ -59,14 +60,14 @@ public class GvReviewOverviewList extends GvDataListImpl<GvReviewOverview> {
 
     @Override
     public boolean add(GvReviewOverview overview) {
-        return !contains(overview.getId()) && super.add(overview);
+        return !contains(overview.getReviewId()) && super.add(overview);
     }
 
     @Override
     public boolean contains(Object object) {
         try {
             GvReviewOverview item = (GvReviewOverview) object;
-            return contains(item.getId());
+            return contains(item.getReviewId());
         } catch (ClassCastException e) {
             return false;
         }

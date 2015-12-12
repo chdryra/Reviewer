@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
@@ -54,7 +55,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
 
     @Override
     public ReviewId getReviewId() {
-        return mId.toString();
+        return mId;
     }
 
     @Override
@@ -92,7 +93,7 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
             return;
         }
 
-        if (mParent != null) mParent.removeChild(mId.getReviewId());
+        if (mParent != null) mParent.removeChild(mId);
         mParent = parentNode;
         if (mParent != null) mParent.addChild(this);
     }

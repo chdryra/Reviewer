@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -8,7 +9,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumTag implements DataTag {
-    private final String mReviewId;
+    private final ReviewId mReviewId;
     private final String mTag;
 
     public DatumTag(ReviewId reviewId, String tag) {

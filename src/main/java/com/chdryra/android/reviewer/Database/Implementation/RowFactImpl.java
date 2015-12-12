@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 
 /**
@@ -16,14 +18,14 @@ public class RowFactImpl implements RowFact {
     private static final String SEPARATOR = ":";
 
     private String mFactId;
-    private ReviewId mReviewId;
+    private String mReviewId;
     private String mLabel;
     private String mValue;
     private boolean mIsUrl;
 
     //Constructors
     public RowFactImpl(DataFact fact, int index) {
-        mReviewId = fact.getReviewId();
+        mReviewId = fact.getReviewId().toString();
         mFactId = mReviewId + SEPARATOR + "f" + String.valueOf(index);
         mLabel = fact.getLabel();
         mValue = fact.getValue();
@@ -46,7 +48,7 @@ public class RowFactImpl implements RowFact {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId;
+        return new DatumReviewId(mReviewId);
     }
 
     @Override

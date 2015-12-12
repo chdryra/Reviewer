@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
@@ -14,7 +16,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowReviewImpl implements RowReview {
-    private ReviewId mReviewId;
+    private String mReviewId;
     private String mParentId;
     private String mAuthorId;
     private long mPublishDate;
@@ -25,8 +27,8 @@ public class RowReviewImpl implements RowReview {
 
     //Constructors
     public RowReviewImpl(Review review) {
-        mReviewId = review.getReviewId();
-        mAuthorId = review.getAuthor().getUserId();
+        mReviewId = review.getReviewId().toString();
+        mAuthorId = review.getAuthor().getUserId().toString();
         mPublishDate = review.getPublishDate().getTime();
         mSubject = review.getSubject().getSubject();
         mRating = review.getRating().getRating();
@@ -36,7 +38,7 @@ public class RowReviewImpl implements RowReview {
 
     public RowReviewImpl(DataCriterionReview criterion) {
         this(criterion.getReview());
-        mParentId = criterion.getReviewId();
+        mParentId = criterion.getReviewId().toString();
     }
 
     //Via reflection
@@ -56,7 +58,7 @@ public class RowReviewImpl implements RowReview {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId;
+        return new DatumReviewId(mReviewId);
     }
 
     @Override

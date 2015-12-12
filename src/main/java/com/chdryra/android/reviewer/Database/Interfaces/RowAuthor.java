@@ -4,6 +4,7 @@ import android.content.ContentValues;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 
 /**
@@ -19,7 +20,7 @@ public interface RowAuthor extends DbTableRow, DataAuthor {
     String getName();
 
     @Override
-    String getUserId();
+    UserId getUserId();
 
     @Override
     String getRowId();

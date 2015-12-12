@@ -1,5 +1,6 @@
 package test.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
@@ -20,7 +21,7 @@ public class MdDataListTest {
     public void getReviewIdReturnsCorrectId() {
         MdReviewId correctId = new MdReviewId("abc", 123l, 1);
         MdDataList<MdReviewId> ids = new MdDataList<>(correctId);
-        assertThat(ids.getReviewId(), is(correctId.toString()));
+        assertThat(ids.getReviewId(), is((ReviewId) correctId));
     }
 
     @Test

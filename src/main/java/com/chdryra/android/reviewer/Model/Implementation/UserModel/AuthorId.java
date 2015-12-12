@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Implementation.UserModel;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 import java.util.UUID;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * Use static method <code>generateId()</code> to return a unique UserId.
  * </p>
  *
- * @see Author
+ * @see DatumAuthor
  */
 
 public class AuthorId implements UserId {
@@ -49,11 +50,6 @@ public class AuthorId implements UserId {
 
     public static AuthorId fromString(String rdId) {
         return new AuthorId(rdId);
-    }
-
-    @Override
-    public String getId() {
-        return toString();
     }
 
     @Override

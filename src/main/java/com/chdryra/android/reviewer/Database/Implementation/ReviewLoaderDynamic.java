@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoaderDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -21,7 +21,7 @@ public class ReviewLoaderDynamic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerDb database, SQLiteDatabase db) {
+    public Review loadReview(RowReview reviewRow, ReviewLoaderDb database, SQLiteDatabase db) {
         return new ReviewUserDb(reviewRow, database, mNodeFactory);
     }
 }

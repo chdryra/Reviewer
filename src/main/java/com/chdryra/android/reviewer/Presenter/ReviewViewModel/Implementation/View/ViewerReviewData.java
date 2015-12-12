@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters
         .ConverterGv;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -61,7 +62,7 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
         GvReviewId id = new GvReviewId(reviewId);
 
         GvList data = new GvList(id);
-        data.add(mConverter.toGvTagList(mTagsManager.getTags(reviewId), reviewId));
+        data.add(mConverter.toGvTagList(mTagsManager.getTags(reviewId.toString()), reviewId));
         data.add(mConverter.toGvCriterionList(review.getCriteria()));
         data.add(mConverter.toGvImageList(review.getImages()));
         data.add(mConverter.toGvCommentList(review.getComments()));

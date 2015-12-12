@@ -144,7 +144,7 @@ public class ReviewBuilderImpl implements ReviewBuilder {
 
         Review review = assembleReview();
         GvTagList tags = (GvTagList) getData(GvTag.TYPE);
-        mTagsManager.tagItem(review.getReviewId(), tags.toStringArray());
+        mTagsManager.tagItem(review.getReviewId().toString(), tags.toStringArray());
 
         return review;
     }

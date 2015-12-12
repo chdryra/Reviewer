@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -17,14 +19,14 @@ public class RowLocationImpl implements RowLocation {
     private static final String SEPARATOR = ":";
 
     private String mLocationId;
-    private ReviewId mReviewId;
+    private String mReviewId;
     private double mLatitude;
     private double mLongitude;
     private String mName;
 
     //Constructors
     public RowLocationImpl(DataLocation location, int index) {
-        mReviewId = location.getReviewId();
+        mReviewId = location.getReviewId().toString();
         mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
         mLatitude = location.getLatLng().latitude;
         mLongitude = location.getLatLng().longitude;
@@ -48,7 +50,7 @@ public class RowLocationImpl implements RowLocation {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId;
+        return new DatumReviewId(mReviewId);
     }
 
     @Override

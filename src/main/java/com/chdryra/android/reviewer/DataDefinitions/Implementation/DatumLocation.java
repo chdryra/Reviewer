@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -9,9 +10,15 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumLocation implements DataLocation {
-    private final String mReviewId;
+    private final ReviewId mReviewId;
     private final LatLng mLatLng;
     private final String mName;
+
+    public DatumLocation(ReviewId reviewId) {
+        mReviewId = reviewId;
+        mLatLng = null;
+        mName = "";
+    }
 
     public DatumLocation(ReviewId reviewId, LatLng latLng, String name) {
         mReviewId = reviewId;

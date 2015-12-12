@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 
 /**
@@ -18,7 +20,7 @@ public class RowAuthorImpl implements RowAuthor {
 
     //Constructors
     public RowAuthorImpl(DataAuthor author) {
-        mUserId = author.getUserId();
+        mUserId = author.getUserId().toString();
         mName = author.getName();
     }
 
@@ -39,8 +41,8 @@ public class RowAuthorImpl implements RowAuthor {
     }
 
     @Override
-    public String getUserId() {
-        return mUserId;
+    public UserId getUserId() {
+        return new DatumUserId(mUserId);
     }
 
     @Override

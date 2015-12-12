@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 
 /**
@@ -16,13 +18,13 @@ public class RowCommentImpl implements RowComment {
     private static final String SEPARATOR = ":";
 
     private String mCommentId;
-    private ReviewId mReviewId;
+    private String mReviewId;
     private String mComment;
     private boolean mIsHeadline;
 
     //Constructors
     public RowCommentImpl(DataComment comment, int index) {
-        mReviewId = comment.getReviewId();
+        mReviewId = comment.getReviewId().toString();
         mCommentId = mReviewId + SEPARATOR + "c" + String.valueOf(index);
         mComment = comment.getComment();
         mIsHeadline = comment.isHeadline();
@@ -43,7 +45,7 @@ public class RowCommentImpl implements RowComment {
 
     @Override
     public ReviewId getReviewId() {
-        return mReviewId;
+        return new DatumReviewId(mReviewId);
     }
 
     @Override

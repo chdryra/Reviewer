@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary
 public class ComparitorReview implements DifferenceComparitor<DataReviewSummary, DifferenceBoolean> {
     @Override
     public DifferenceBoolean compare(DataReviewSummary lhs, DataReviewSummary rhs) {
-        boolean sameId = lhs.getId().equals(rhs.getId());
+        boolean sameId = lhs.getReviewId().equals(rhs.getReviewId());
         boolean diff = lhs.getAuthor() != rhs.getAuthor() || !lhs.getHeadline().equals(rhs
                 .getHeadline()) || lhs.getPublishDate() != rhs.getPublishDate() || !lhs
                 .getLocationString().equals(rhs.getLocationString()) || lhs.getRating() != rhs

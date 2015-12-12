@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
@@ -75,14 +76,14 @@ public class ReviewUser implements Review {
     }
 
     private void checkId(HasReviewId datum) {
-        if(!mId.toString().equals(datum.getReviewId())) {
+        if(!mId.equals(datum.getReviewId())) {
             throw new IllegalArgumentException("Datum should have same Id as review!");
         }
     }
     
     @Override
     public ReviewId getReviewId() {
-        return mId.toString();
+        return mId;
     }
 
     @Override

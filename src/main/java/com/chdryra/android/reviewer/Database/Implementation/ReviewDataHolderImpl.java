@@ -6,6 +6,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewDataHolderImpl implements ReviewDataHolder{
-    private final String mId;
+    private final ReviewId mId;
     private final DataAuthor mAuthor;
     private final DataDate mPublishDate;
     private final String mSubject;
@@ -30,7 +31,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     private final ArrayList<Review> mCritList;
     private final boolean mIsAverage;
 
-    public ReviewDataHolderImpl(String id, DataAuthor author, DataDate publishDate,
+    public ReviewDataHolderImpl(ReviewId id, DataAuthor author, DataDate publishDate,
                                 String subject, float rating, int ratingWeight,
                                 Iterable<? extends DataComment> comments,
                                 Iterable<? extends DataImage> images,
@@ -52,7 +53,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     }
 
     @Override
-    public String getId() {
+    public ReviewId getReviewId() {
         return mId;
     }
 

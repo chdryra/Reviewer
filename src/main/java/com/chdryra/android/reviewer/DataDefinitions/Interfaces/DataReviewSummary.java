@@ -26,6 +26,5 @@ public interface DataReviewSummary extends HasReviewId {
 
     String getSubject();
 
-    @Override
-    ReviewId getReviewId();
+    ReviewId getParentId();
 }

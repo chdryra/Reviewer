@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.Da
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,6 +30,7 @@ public class CanonicalTagMode implements CanonicalDatumMaker<DataTag> {
         if (data.size() == 0) return new DatumTag(id, "");
         return new DatumTag(id, getTagMode(getTagCounter(data)));
     }
+
 
     private String getTagMode(DatumCounter<? extends DataTag, String> counter) {
         String maxTag = counter.getModeItem();

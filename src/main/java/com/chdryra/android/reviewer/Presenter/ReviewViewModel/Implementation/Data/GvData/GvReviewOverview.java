@@ -2,11 +2,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
@@ -36,7 +38,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
         }
     };
 
-    private String mId;
+    private GvReviewId mParentId;
     private String mSubject;
     private float mRating;
     private Bitmap mCoverImage;
@@ -51,21 +53,13 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
         super(GvReviewOverview.TYPE);
     }
 
-    public GvReviewOverview(String id, GvAuthor author,
-                            GvDate publishDate, String subject,
-                            float rating, Bitmap coverImage, String headline,
-                            ArrayList<String> locationNames,
-                            ArrayList<String> tags) {
-        this(null, id, author, publishDate, subject, rating, coverImage, headline,
-                locationNames, tags);
-    }
-
-    public GvReviewOverview(GvReviewId parentId, String id, GvAuthor author,
+    public GvReviewOverview(GvReviewId parentId, GvReviewId reviewId, GvAuthor author,
                             GvDate publishDate,
-                            String subject, float rating, Bitmap coverImage, String headline,
+                            String subject, float rating, @Nullable Bitmap coverImage, 
+                            @Nullable String headline,
                             ArrayList<String> locationNames, ArrayList<String> tags) {
-        super(GvReviewOverview.TYPE, parentId);
-        mId = id;
+        super(GvReviewOverview.TYPE, reviewId);
+        mParentId = parentId;
         mSubject = subject;
         mRating = rating;
         mCoverImage = coverImage;
@@ -77,14 +71,14 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
     }
 
     public GvReviewOverview(GvReviewOverview review) {
-        this(review.getGvReviewId(), review.getId(), review.getAuthor(), review.getPublishDate
+        this(review.getParentGvReviewId(), review.getGvReviewId(), review.getAuthor(), review.getPublishDate
                 (), review.getSubject(), review.getRating(), review.getCoverImage(), review
                 .getHeadline(), review.mLocationNames, review.mTags);
     }
 
     private GvReviewOverview(Parcel in) {
         super(in);
-        mId = in.readString();
+        mParentId = in.readParcelable(GvReviewId.class.getClassLoader());
         mSubject = in.readString();
         mRating = in.readFloat();
         mCoverImage = in.readParcelable(Bitmap.class.getClassLoader());
@@ -95,10 +89,14 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
         mPublishDate = in.readParcelable(GvDate.class.getClassLoader());
     }
 
-    //public methods
+    public GvReviewId getParentGvReviewId() {
+        return mParentId;
+    }
+
+
     @Override
-    public String getId() {
-        return mId;
+    public ReviewId getParentId() {
+        return new GvReviewId(mParentId);
     }
 
     @Override
@@ -118,7 +116,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
 
     @Override
     public String getLocationString() {
-        String location = null;
+        String location = "";
         int locs = mLocationNames.size();
         if (locs > 0) {
             location = mLocationNames.get(0);
@@ -166,7 +164,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validateString(mId) && dataValidator.validateString(mSubject)
+        return dataValidator.validate(getParentId()) && dataValidator.validateString(mSubject)
                 && dataValidator.validateString(mAuthor.getName()) && dataValidator.NotNull
                 (mPublishDate) && mTags != null && mTags.size() > 0;
     }
@@ -179,7 +177,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
-        parcel.writeString(mId);
+        parcel.writeParcelable(mParentId, i);
         parcel.writeString(mSubject);
         parcel.writeFloat(mRating);
         parcel.writeParcelable(mCoverImage, i);
@@ -201,7 +199,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
         GvReviewOverview that = (GvReviewOverview) o;
 
         if (Float.compare(that.mRating, mRating) != 0) return false;
-        if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
+        if (mParentId != null ? !mParentId.equals(that.mParentId) : that.mParentId != null) return false;
         if (mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null)
             return false;
         if (mHeadline != null ? !mHeadline.equals(that.mHeadline) : that.mHeadline != null)
@@ -222,7 +220,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (mId != null ? mId.hashCode() : 0);
+        result = 31 * result + (mParentId != null ? mParentId.hashCode() : 0);
         result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
         result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
         result = 31 * result + (mCoverImage != null ? mCoverImage.hashCode() : 0);

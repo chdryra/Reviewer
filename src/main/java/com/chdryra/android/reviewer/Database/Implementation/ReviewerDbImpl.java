@@ -29,6 +29,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoaderDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbObserver;
@@ -51,7 +52,7 @@ import java.util.ArrayList;
  * On: 01/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbImpl implements ReviewerDb {
+public class ReviewerDbImpl implements ReviewerDb, ReviewLoaderDb {
     private static final String TAG = "ReviewerDb";
 
     private final ReviewerDbContract mTables;
@@ -74,17 +75,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         mRowFactory = rowFactory;
         mDataValidator = dataValidator;
         mObservers = new ArrayList<>();
-    }
-
-    //public methods
-    @Override
-    public String getDatabaseName() {
-        return mHelper.getDatabaseName();
-    }
-
-    @Override
-    public SQLiteDatabase getReadableDatabase() {
-        return mHelper.getReadableDatabase();
     }
 
     @Override
@@ -142,7 +132,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         return mTables.getTableNames();
     }
 
-    //API
     @Override
     public void registerObserver(ReviewerDbObserver observer) {
         mObservers.add(observer);
@@ -166,7 +155,8 @@ public class ReviewerDbImpl implements ReviewerDb {
         SQLiteDatabase db = mHelper.getReadableDatabase();
 
         db.beginTransaction();
-        RowReview row = getRowWhere(db, getReviewsTable(), RowReview.COLUMN_REVIEW_ID, reviewId.toString());
+        RowReview row = getRowWhere(db, getReviewsTable(), RowReview.COLUMN_REVIEW_ID, reviewId
+                .toString());
         Review review = loadReview(row, db);
         db.setTransactionSuccessful();
         db.endTransaction();
@@ -202,6 +192,11 @@ public class ReviewerDbImpl implements ReviewerDb {
         db.close();
 
         if (success) notifyOnDeleteReview(reviewId);
+    }
+
+    @Override
+    public SQLiteDatabase getReadableDatabase() {
+        return mHelper.getReadableDatabase();
     }
 
     @Override
@@ -248,8 +243,8 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public <T1 extends DbTableRow> ArrayList<T1>
-    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, ReviewId reviewId) {
-        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId.toString());
+    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
+        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
         ArrayList<T1> results = new ArrayList<>();
         for (T1 row : rows) {
             results.add(row);

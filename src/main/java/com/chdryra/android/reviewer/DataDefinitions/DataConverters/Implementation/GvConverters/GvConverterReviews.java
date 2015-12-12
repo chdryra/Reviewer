@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.GvReviewConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -52,7 +53,7 @@ public class GvConverterReviews extends GvConverterBasic<Review,
     }
 
     @Override
-    public GvReviewOverview convert(Review review, String parentId) {
+    public GvReviewOverview convert(Review review, ReviewId parentId) {
         ReviewId reviewId = review.getReviewId();
         GvReviewId id = newId(parentId);
         GvImageList images = mConverterImages.convert(review.getImages(), reviewId);
@@ -70,9 +71,9 @@ public class GvConverterReviews extends GvConverterBasic<Review,
             locationNames.add(location.getShortenedName());
         }
 
-        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId());
+        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
 
-        return new GvReviewOverview(id, review.getReviewId(),
+        return new GvReviewOverview(id, newId(reviewId),
                 author, publishDate, review.getSubject().getSubject(),
                 review.getRating().getRating(), cover, headline, locationNames,
                 tags.toStringArray());

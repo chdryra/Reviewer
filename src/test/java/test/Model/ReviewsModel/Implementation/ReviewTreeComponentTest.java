@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -282,7 +283,7 @@ public class ReviewTreeComponentTest {
     public void getReviewIdReturnsCorrectId() {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         ReviewNode node = newComponent(id);
-        assertThat(node.getReviewId(), is(id.toString()));
+        assertThat(node.getReviewId(), is((ReviewId) id));
     }
 
     @Test

@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.Ca
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 import java.util.Date;
 

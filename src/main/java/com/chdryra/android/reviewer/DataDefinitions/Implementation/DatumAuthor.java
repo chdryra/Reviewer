@@ -6,20 +6,20 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Model.Implementation.UserModel;
+package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 
 /**
  * Holds Author data. Currently only wraps a name and unique {@link AuthorId}.
  */
-public class Author implements DataAuthor{
-    private final AuthorId mId;
+public class DatumAuthor implements DataAuthor{
+    private final UserId mId;
     private final String mName;
 
-    public Author(String name, AuthorId id) {
+    public DatumAuthor(String name, UserId id) {
         mName = name;
         mId = id;
     }
@@ -42,9 +42,9 @@ public class Author implements DataAuthor{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Author)) return false;
+        if (!(o instanceof DatumAuthor)) return false;
 
-        Author author = (Author) o;
+        DatumAuthor author = (DatumAuthor) o;
 
         return !(mId != null ? !mId.equals(author.mId) : author.mId != null)
                 && !(mName != null ? !mName.equals(author.mName) : author.mName != null);

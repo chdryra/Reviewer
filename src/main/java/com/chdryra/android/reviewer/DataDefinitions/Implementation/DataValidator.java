@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 public class DataValidator {
     public boolean validate(DataAuthor author) {
         return NotNull(author) && validateString(author.getName())
-                && validateUserId(author.getUserId());
+                && validate(author.getUserId());
     }
 
     public boolean validate(DataComment comment) {
@@ -80,12 +80,12 @@ public class DataValidator {
         return NotNull(string) && string.length() > 0;
     }
 
-    public boolean validateReviewId(ReviewId reviewId) {
+    public boolean validate(ReviewId reviewId) {
         return validateString(reviewId.toString());
     }
 
-    public boolean validateUserId(UserId userId) {
-        return !userId.getId().equals(UserId.NULL_ID);
+    public boolean validate(UserId userId) {
+        return !userId.toString().equals(UserId.NULL_ID_STRING);
     }
 
     public boolean NotNull(Object obj) {

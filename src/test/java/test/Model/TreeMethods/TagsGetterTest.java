@@ -41,7 +41,7 @@ public class TagsGetterTest {
     @Test
     public void getDataReturnsListOfTagsForReviewNode() {
         ReviewNode node = RandomReview.nextReviewNode(false);
-        mTagsManager.tagItem(node.getReviewId(), mTags);
+        mTagsManager.tagItem(node.getReviewId().toString(), mTags);
 
         TagsGetter getter = new TagsGetter(mTagsManager);
         IdableList<DataTag> tags = getter.getData(node);
