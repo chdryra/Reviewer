@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableItems;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
@@ -19,26 +17,12 @@ public interface ReviewsFeedMutable extends ReviewsRepositoryMutable, ReviewsFee
     DataAuthor getAuthor();
 
     @Override
-    ItemTagCollection getTags(ReviewId reviewId);
-
-    @Override
-    Review getReview(VerboseDataReview datum);
-
-    @Override
-    ReviewNode getMetaReview(VerboseIdableItems data, String subject);
-
-    @Override
-    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
-
-    @Override
-    ReviewNode getFlattenedMetaReview(VerboseIdableItems data, String subject);
-
-    @Override
     void addReview(Review review);
 
     @Override
     void removeReview(ReviewId reviewId);
 
+    @Nullable
     @Override
     Review getReview(ReviewId id);
 

@@ -1,9 +1,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
@@ -13,15 +12,13 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsSourceMutable extends ReviewsSource implements ReviewsFeedMutable {
+public class ReviewsSourceAuthoredMutable extends ReviewsSourceAuthored implements ReviewsFeedMutable {
     private ReviewsRepositoryMutable mRepository;
 
-    //Constructors
-    public ReviewsSourceMutable(ReviewsRepositoryMutable repository,
-                                FactoryReviews reviewFactory,
-                                FactoryVisitorReviewNode visitorFactory,
-                                FactoryReviewTreeTraverser traverserFactory) {
-        super(repository, reviewFactory, visitorFactory, traverserFactory);
+    public ReviewsSourceAuthoredMutable(ReviewsRepositoryMutable repository,
+                                        FactoryReviews reviewFactory,
+                                        TreeFlattener flattener) {
+        super(repository, reviewFactory, flattener);
         mRepository = repository;
     }
 

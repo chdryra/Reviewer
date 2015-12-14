@@ -128,13 +128,12 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
-        Review review = getAuthorsFeed().getReview(reviewId);
-        ReviewNode reviewNode = getReviewsFactory().createMetaReview(review).getTreeRepresentation();
+        ReviewNode reviewNode = mModelContext.getReviewsSource().asMetaReview(reviewId);
+        if(reviewNode == null) return;
         FactoryReviewViewAdapter adapterFactory = mPresenterContext.getReviewViewAdapterFactory();
         LaunchableUi ui = getLaunchableFactory().newReviewsListScreen(reviewNode, adapterFactory);
-        String tag = review.getSubject().getSubject();
-        int requestCode = RequestCodeGenerator.getCode(tag);
-        getUiLauncher().launch(ui, activity, requestCode);
+        String tag = reviewNode.getSubject().getSubject();
+        getUiLauncher().launch(ui, activity, RequestCodeGenerator.getCode(tag));
     }
 
     public ConfigDataUi getConfigDataUi() {

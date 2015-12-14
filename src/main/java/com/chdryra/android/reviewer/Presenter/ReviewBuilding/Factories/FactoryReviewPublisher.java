@@ -24,8 +24,7 @@ public class FactoryReviewPublisher {
     }
 
     public ReviewPublisher newPublisher() {
-        Date date = new Date();
-        PublishDate publishDate = new PublishDate(date.getTime());
+        PublishDate publishDate = new PublishDate(new Date().getTime());
         return new ReviewPublisherImpl(mAuthor, publishDate);
     }
 }

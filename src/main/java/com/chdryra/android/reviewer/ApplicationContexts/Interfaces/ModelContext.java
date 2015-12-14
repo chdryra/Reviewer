@@ -4,8 +4,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 public interface ModelContext {
     ReviewsFeedMutable getAuthorsFeed();
 
-    ReviewsFeed getReviewsProvider();
+    ReviewsSource getReviewsSource();
 
     SocialPlatformList getSocialPlatformList();
 

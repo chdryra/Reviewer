@@ -1,54 +1,38 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableItems;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsSource implements ReviewsFeed {
+public class ReviewsSourceImpl implements ReviewsSource {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
-    private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryReviewTreeTraverser mTraverserFactory;
+    private TreeFlattener mTreeFlattener;
 
     //Constructors
-    public ReviewsSource(ReviewsRepository repository,
-                         FactoryReviews reviewFactory,
-                         FactoryVisitorReviewNode visitorFactory,
-                         FactoryReviewTreeTraverser traverserFactory) {
+    public ReviewsSourceImpl(ReviewsRepository repository,
+                             FactoryReviews reviewFactory,
+                             TreeFlattener treeFlattener) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
-    }
-
-    @Override
-    public DataAuthor getAuthor() {
-        return mReviewFactory.getPublisherFactory().getAuthor();
-    }
-
-    @Override
-    public ItemTagCollection getTags(ReviewId reviewId) {
-        return getTagsManager().getTags(reviewId.toString());
+        mTreeFlattener = treeFlattener;
     }
 
     @Override
@@ -63,9 +47,16 @@ public class ReviewsSource implements ReviewsFeed {
         return review;
     }
 
+    @Nullable
+    @Override
+    public ReviewNode asMetaReview(ReviewId id) {
+        Review review = getReview(id);
+        return review != null ? mReviewFactory.createMetaReview(review) : null;
+    }
+
     @Override
     public ReviewNode getMetaReview(VerboseIdableItems data, String subject) {
-        IdableItems<Review> reviews = new MdDataList<>(null);
+        IdableItems<Review> reviews = new IdableDataList<>(null);
         for (int i = 0; i < data.size(); ++i) {
             reviews.add(getReview(data.getItem(i).getReviewId()));
         }
@@ -79,22 +70,17 @@ public class ReviewsSource implements ReviewsFeed {
             return getMetaReview((VerboseIdableItems<? extends VerboseDataReview>) datum,
                     subject);
         }
-
-        return mReviewFactory.createMetaReview(getReview(datum));
+        Review review = getReview(datum);
+        return review != null ? mReviewFactory.createMetaReview(review) : null;
     }
 
     @Override
     public ReviewNode getFlattenedMetaReview(VerboseIdableItems data, String subject) {
-        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(getMetaReview(data, subject));
-        VisitorReviewDataGetter<Review> getter = mVisitorFactory.newReviewsCollector();
-        traverser.addVisitor(getter);
-        traverser.traverse();
-        IdableItems<Review> flattened = getter.getData();
-
-        return mReviewFactory.createMetaReview(flattened, subject);
+        ReviewNode node = getMetaReview(data, subject);
+        if(node == null) return null;
+        return mReviewFactory.createMetaReview(mTreeFlattener.flatten(node), subject);
     }
 
-    //Overridden
     @Override
     public Review getReview(ReviewId reviewId) {
         return mRepository.getReview(reviewId);

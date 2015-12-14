@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -17,7 +19,7 @@ public class IdableDataList<T extends HasReviewId> extends AbstractCollection<T>
     private ReviewId mReviewId;
     private ArrayList<T> mData;
 
-    public IdableDataList(ReviewId reviewId) {
+    public IdableDataList(@Nullable ReviewId reviewId) {
         mReviewId = reviewId;
         mData = new ArrayList<>();
     }

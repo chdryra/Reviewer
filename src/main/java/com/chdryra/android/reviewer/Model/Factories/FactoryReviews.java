@@ -61,8 +61,8 @@ public class FactoryReviews implements BuilderReview {
         mConverter = converter;
     }
 
-    public FactoryReviewPublisher getPublisherFactory() {
-        return mPublisherFactory;
+    public DataAuthor getAuthor() {
+        return mPublisherFactory.getAuthor();
     }
 
     public Review createUserReview(String subject,

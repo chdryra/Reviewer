@@ -5,8 +5,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 public abstract class ModelContextBasic implements ModelContext {
     private FactoryReviews mFactoryReviews;
     private ReviewsFeedMutable mAuthorsFeed;
-    private ReviewsFeed mReviewsProvider;
+    private ReviewsSource mReviewsSource;
     private SocialPlatformList mSocialPlatforms;
     private TagsManager mTagsManager;
     private FactoryVisitorReviewNode mVisitorsFactory;
@@ -49,8 +49,8 @@ public abstract class ModelContextBasic implements ModelContext {
         mAuthorsFeed = authorsFeed;
     }
 
-    public void setReviewsProvider(ReviewsFeed reviewsProvider) {
-        mReviewsProvider = reviewsProvider;
+    public void setReviewsSource(ReviewsSource reviewsSource) {
+        mReviewsSource = reviewsSource;
     }
 
     public void setSocialPlatforms(SocialPlatformList socialPlatforms) {
@@ -63,8 +63,8 @@ public abstract class ModelContextBasic implements ModelContext {
     }
 
     @Override
-    public ReviewsFeed getReviewsProvider() {
-        return mReviewsProvider;
+    public ReviewsSource getReviewsSource() {
+        return mReviewsSource;
     }
 
     @Override

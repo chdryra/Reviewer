@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
@@ -70,7 +70,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private void setAdaptersFactory(ModelContext modelContext, ConverterGv gvConverter) {
-        setFactoryReviewViewAdapter(getReviewViewLaunchableFactory(), modelContext.getReviewsProvider(),
+        setFactoryReviewViewAdapter(getReviewViewLaunchableFactory(), modelContext.getReviewsSource(),
                 gvConverter, modelContext.getVisitorsFactory(), modelContext.getTreeTraversersFactory());
     }
 
@@ -116,7 +116,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
 
     private void setFactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
-                                             ReviewsFeed provider,
+                                             ReviewsSource provider,
                                              ConverterGv converter,
                                              FactoryVisitorReviewNode visitorFactory,
                                              FactoryReviewTreeTraverser traverserFactory) {

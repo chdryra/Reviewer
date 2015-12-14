@@ -1,7 +1,13 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerPersistence;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerPersistenceRepository;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
+
+
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceImpl;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattener;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 
 /**
@@ -10,9 +16,14 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewsRepository {
-    public ReviewsRepositoryMutable newPersistentRepository(ReviewerPersistence db) {
-        ReviewerPersistenceRepository repo = new ReviewerPersistenceRepository(db);
-        db.registerObserver(repo);
-        return repo;
+
+    public ReviewsRepositoryMutable newDatabaseRepository(ReviewerDb db) {
+        return new ReviewerDbRepository(db);
+    }
+
+    public ReviewsSource newReviewsSource(ReviewsRepository repository,
+                                          FactoryReviews reviewsFactory,
+                                          TreeFlattener flattener) {
+        return new ReviewsSourceImpl(repository, reviewsFactory, flattener);
     }
 }

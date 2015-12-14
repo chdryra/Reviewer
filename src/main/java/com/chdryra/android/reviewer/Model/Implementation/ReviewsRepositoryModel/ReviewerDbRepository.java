@@ -1,37 +1,27 @@
-/*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 1 April, 2015
- */
-
-package com.chdryra.android.reviewer.Database.Implementation;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerPersistence;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerPersistenceObserver;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 01/04/2015
+ * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbPersistence implements ReviewerPersistence {
-    private static final String TAG = "ReviewerDb";
-
+public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     private final ReviewerDb mDatabase;
-    private final ArrayList<ReviewerPersistenceObserver> mObservers;
+    private final ArrayList<ReviewsRepositoryObserver> mObservers;
 
-    public ReviewerDbPersistence(ReviewerDb database) {
+    public ReviewerDbRepository(ReviewerDb database) {
         mDatabase = database;
         mObservers = new ArrayList<>();
     }
@@ -42,8 +32,13 @@ public class ReviewerDbPersistence implements ReviewerPersistence {
     }
 
     @Override
-    public void registerObserver(ReviewerPersistenceObserver observer) {
+    public void registerObserver(ReviewsRepositoryObserver observer) {
         mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(ReviewsRepositoryObserver observer) {
+        mObservers.remove(observer);
     }
 
     @Override
@@ -89,13 +84,13 @@ public class ReviewerDbPersistence implements ReviewerPersistence {
 
 
     private void notifyOnAddReview(Review review) {
-        for (ReviewerPersistenceObserver observer : mObservers) {
+        for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewAdded(review);
         }
     }
 
     private void notifyOnDeleteReview(ReviewId reviewId) {
-        for (ReviewerPersistenceObserver observer : mObservers) {
+        for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewRemoved(reviewId);
         }
     }

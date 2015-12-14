@@ -1,7 +1,9 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSource;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceMutable;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceAuthored;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceAuthoredMutable;
+
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
@@ -13,17 +15,20 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewsFeed {
-    public ReviewsFeed newFeed(ReviewsRepository repository,
-                               FactoryReviews reviewFactory,
-                               FactoryVisitorReviewNode visitorFactory,
-                               FactoryReviewTreeTraverser traverserFactory) {
-        return new ReviewsSource(repository, reviewFactory, visitorFactory, traverserFactory);
+    FactoryReviews mReviewFactory;
+    TreeFlattener mFlattener;
+
+    public FactoryReviewsFeed(FactoryReviews reviewFactory,
+                              TreeFlattener flattener) {
+        mReviewFactory = reviewFactory;
+        mFlattener = flattener;
     }
 
-    public ReviewsFeedMutable newMutableFeed(ReviewsRepositoryMutable repository,
-                                             FactoryReviews reviewFactory,
-                                             FactoryVisitorReviewNode visitorFactory,
-                                             FactoryReviewTreeTraverser traverserFactory) {
-        return new ReviewsSourceMutable(repository, reviewFactory, visitorFactory, traverserFactory);
+    public ReviewsFeed newFeed(ReviewsRepository source) {
+        return new ReviewsSourceAuthored(source, mReviewFactory, mFlattener);
+    }
+
+    public ReviewsFeedMutable newMutableFeed(ReviewsRepositoryMutable sourceAndDestination) {
+        return new ReviewsSourceAuthoredMutable(sourceAndDestination, mReviewFactory, mFlattener);
     }
 }
