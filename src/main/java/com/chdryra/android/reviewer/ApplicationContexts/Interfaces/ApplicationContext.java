@@ -6,9 +6,5 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationContext {
-    ModelContext getModelContext();
-
-    ViewContext getViewContext();
-
-    PresenterContext getPresenterContext();
+    PresenterContext getContext();
 }

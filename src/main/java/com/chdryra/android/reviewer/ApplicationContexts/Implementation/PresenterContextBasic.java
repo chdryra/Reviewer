@@ -1,10 +1,28 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
+import android.app.Activity;
+
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,6 +34,14 @@ public abstract class PresenterContextBasic implements PresenterContext{
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private FactoryReviewViewLaunchable mFactoryReviewViewLaunchable;
+    private ModelContext mModelContext;
+    private ViewContext mViewContext;
+    private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
+
+    protected PresenterContextBasic(ModelContext modelContext, ViewContext viewContext) {
+        mModelContext = modelContext;
+        mViewContext = viewContext;
+    }
 
     public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
                                                        factoryReviewViewLaunchable) {
@@ -41,11 +67,6 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public FactoryReviewBuilderAdapter getReviewBuilderAdapterFactory() {
-        return mFactoryBuilderAdapter;
-    }
-
-    @Override
     public FactoryGvData getGvDataFactory() {
         return mFactoryGvData;
     }
@@ -53,5 +74,68 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public FactoryReviewViewLaunchable getReviewViewLaunchableFactory() {
         return mFactoryReviewViewLaunchable;
+    }
+
+    @Override
+    public ReviewsFeed getAuthorsFeed() {
+        return mModelContext.getAuthorsFeed();
+    }
+
+    @Override
+    public FactoryReviews getReviewsFactory() {
+        return mModelContext.getReviewsFactory();
+    }
+
+    @Override
+    public SocialPlatformList getSocialPlatformList() {
+        return mModelContext.getSocialPlatformList();
+    }
+
+    @Override
+    public ConfigDataUi getConfigDataUi() {
+        return mViewContext.getUiConfig();
+    }
+
+    @Override
+    public LaunchableUiLauncher getUiLauncher() {
+        return mViewContext.getUiLauncher();
+    }
+
+    @Override
+    public void deleteFromAuthorsFeed(ReviewId id) {
+        mModelContext.getAuthorsFeed().removeReview(id);
+    }
+
+    @Override
+    public void launchReview(Activity activity, ReviewId reviewId) {
+        ReviewNode reviewNode = mModelContext.getReviewsSource().asMetaReview(reviewId);
+        if(reviewNode == null) return;
+        LaunchableUi ui = mFactoryReviewViewLaunchable.newReviewsListScreen(reviewNode,
+                mFactoryReviewViewAdapter);
+        String tag = reviewNode.getSubject().getSubject();
+        getUiLauncher().launch(ui, activity, RequestCodeGenerator.getCode(tag));
+    }
+
+    @Override
+    public ReviewBuilderAdapter<?> newReviewBuilderAdapter() {
+        mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter();
+        return mReviewBuilderAdapter;
+    }
+
+    @Override
+    public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
+        return mReviewBuilderAdapter;
+    }
+
+    @Override
+    public void publishReviewBuilder() {
+        Review published = mReviewBuilderAdapter.publishReview();
+        mModelContext.getAuthorsFeed().addReview(published);
+        mReviewBuilderAdapter = null;
+    }
+
+    @Override
+    public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
+        return mReviewBuilderAdapter.getDataBuilderAdapter(dataType);
     }
 }

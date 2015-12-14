@@ -15,7 +15,6 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
@@ -27,28 +26,25 @@ public class ActivityFeed extends ActivityReviewView
         implements DialogAlertFragment.DialogAlertListener,
         FeedScreen.DeleteRequestListener{
     private FeedScreen mScreen;
-    private ReviewsFeedMutable mAuthorsFeed;
+    private ApplicationInstance mApp;
 
-    //Overridden
     @Override
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseSingletons(this, ApplicationLaunch.LaunchState.TEST);
 
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        mApp = ApplicationInstance.getInstance(this);
 
-        mAuthorsFeed = app.getAuthorsFeed();
-
-        FactoryFeedScreen feedScreenBuilder = getScreenBuilder(app);
-        feedScreenBuilder.buildScreen(mAuthorsFeed, this);
+        FactoryFeedScreen feedScreenBuilder = getScreenBuilder();
+        feedScreenBuilder.buildScreen(mApp.getAuthorsFeed(), this);
         mScreen = feedScreenBuilder.getFeedScreen();
 
         return feedScreenBuilder.getView();
     }
 
     @NonNull
-    private FactoryFeedScreen getScreenBuilder(ApplicationInstance app) {
-        return new FactoryFeedScreen(app.getReviewViewAdapterFactory(), app.getLaunchableFactory(),
-        app.getUiLauncher(), app.getReviewsFactory(), app.getConfigDataUi().getBuildReviewConfig());
+    private FactoryFeedScreen getScreenBuilder() {
+        return new FactoryFeedScreen(mApp.getReviewViewAdapterFactory(), mApp.getLaunchableFactory(),
+        mApp.getUiLauncher(), mApp.getReviewsFactory(), mApp.getConfigDataUi().getBuildReviewConfig());
     }
 
     //Dialogs send results to host activity
@@ -64,6 +60,6 @@ public class ActivityFeed extends ActivityReviewView
 
     @Override
     public void onDeleteRequested(ReviewId reviewId) {
-        mAuthorsFeed.removeReview(reviewId);
+        mApp.deleteFromAuthorsFeed(reviewId);
     }
 }

@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryFeedScreen {
-    private FeedScreen mMutableFeedScreen;
+    private FeedScreen mFeedScreen;
     private ReviewView mView;
     private FactoryReviewViewAdapter mAdapterFactory;
     private FactoryReviewViewLaunchable mLaunchableFactory;
@@ -47,24 +47,24 @@ public class FactoryFeedScreen {
         mReviewBuildScreenConfig = reviewBuildScreenConfig;
     }
 
-    public void buildScreen(ReviewsFeedMutable feed,
+    public void buildScreen(ReviewsFeed feed,
                             FeedScreen.DeleteRequestListener listener) {
         String title = feed.getAuthor().getName() + "'s feed";
-        mMutableFeedScreen = new FeedScreen(feed, title, mReviewFactory, listener);
+        mFeedScreen = new FeedScreen(feed, title, mReviewFactory, listener);
 
-        GridItemDeleteRequester gi = new GridItemDeleteRequester(mLaunchableFactory, mLauncher, mMutableFeedScreen);
+        GridItemDeleteRequester gi = new GridItemDeleteRequester(mLaunchableFactory, mLauncher, mFeedScreen);
         SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory, mLauncher);
         BannerButtonAction<GvReviewOverview> bba = new BannerButtonActionNone<>();
-        FeedScreenMenu ma = new FeedScreenMenu(mLauncher, mReviewBuildScreenConfig);
 
-        feed.registerObserver(mMutableFeedScreen);
-        mView = mMutableFeedScreen.createView(mLaunchableFactory,
-                mAdapterFactory, sa, rb, bba, gi, ma);
+        FeedScreenMenu ma = new FeedScreenMenu(mLauncher, mReviewBuildScreenConfig);
+        feed.registerObserver(mFeedScreen);
+
+        mView = mFeedScreen.createView(mLaunchableFactory, mAdapterFactory, sa, rb, bba, gi, ma);
     }
 
     public FeedScreen getFeedScreen() {
-        return mMutableFeedScreen;
+        return mFeedScreen;
     }
 
     public ReviewView getView() {

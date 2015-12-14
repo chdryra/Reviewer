@@ -6,8 +6,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryGvConverter;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
@@ -28,8 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataAggregater;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregater;
 import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 
 import java.io.File;
@@ -45,6 +43,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    ViewContext viewContext,
                                    DataAuthor author,
                                    File extDir, String imageDir) {
+        super(modelContext, viewContext);
 
         setLaunchablesFactory(viewContext);
 
@@ -112,8 +111,6 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setFactoryBuilderAdapter(builderAdapterFactory);
     }
-
-
 
     private void setFactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                              ReviewsSource provider,

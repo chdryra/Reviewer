@@ -35,6 +35,6 @@ public class FactoryApplicationContext {
                 new ReleasePresenterContext(context, modelContext, viewContext, author,
                         externalStorageDirectory, imageDirectory);
 
-        return new ApplicationContextImpl(modelContext, viewContext, presenterContext);
+        return new ApplicationContextImpl(presenterContext);
     }
 }
