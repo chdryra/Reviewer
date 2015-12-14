@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbObserver;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerPersistence;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerPersistenceObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
         .ReviewsRepositoryMutable;
@@ -17,36 +17,35 @@ import java.util.ArrayList;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerDbObserver {
-    private ReviewerDb mDatabase;
+public class ReviewerPersistenceRepository implements ReviewsRepositoryMutable,
+        ReviewerPersistenceObserver {
+    private ReviewerPersistence mDatabase;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
-    //Constructors
-    public ReviewerDbRepository(ReviewerDb database) {
+    public ReviewerPersistenceRepository(ReviewerPersistence database) {
         mDatabase = database;
+        mDatabase.registerObserver(this);
         mObservers = new ArrayList<>();
     }
 
-    //Overridden
-
     @Override
     public void addReview(Review review) {
-        mDatabase.addReviewToDb(review);
+        mDatabase.addReview(review);
     }
 
     @Override
     public void removeReview(ReviewId reviewId) {
-        mDatabase.deleteReviewFromDb(reviewId);
+        mDatabase.removeReview(reviewId);
     }
 
     @Override
     public Review getReview(ReviewId reviewId) {
-        return mDatabase.loadReviewFromDb(reviewId);
+        return mDatabase.getReview(reviewId);
     }
 
     @Override
     public Iterable<Review> getReviews() {
-        return mDatabase.loadReviewsFromDb();
+        return mDatabase.getReviews();
     }
 
     @Override
@@ -72,7 +71,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable, ReviewerD
     }
 
     @Override
-    public void onReviewDeleted(ReviewId reviewId) {
+    public void onReviewRemoved(ReviewId reviewId) {
         for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewRemoved(reviewId);
         }

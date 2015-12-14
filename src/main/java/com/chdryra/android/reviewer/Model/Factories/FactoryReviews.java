@@ -61,6 +61,10 @@ public class FactoryReviews implements BuilderReview {
         mConverter = converter;
     }
 
+    public FactoryReviewPublisher getPublisherFactory() {
+        return mPublisherFactory;
+    }
+
     public Review createUserReview(String subject,
                                    float rating,
                                    Iterable<? extends DataComment> comments,
@@ -100,31 +104,6 @@ public class FactoryReviews implements BuilderReview {
     }
 
     //private methods
-    private Review newReviewUser(MdReviewId id,
-                                 DataAuthor author,
-                                 DataDate publishDate,
-                                 String subject,
-                                 float rating,
-                                 Iterable<? extends DataComment> comments,
-                                 Iterable<? extends DataImage> images,
-                                 Iterable<? extends DataFact> facts,
-                                 Iterable<? extends DataLocation> locations,
-                                 Iterable<Review> criteria,
-                                 boolean ratingIsAverage) {
-        MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getUserId());
-        MdDate mdDate = new MdDate(id, publishDate.getTime());
-        MdSubject mdSubject = new MdSubject(id, subject);
-        MdRating mdRating = new MdRating(id, rating, 1);
-        MdDataList<MdComment> mdComments = mConverter.toMdCommentList(comments, id);
-        MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id);
-        MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id);
-        MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id);
-        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id);
-
-        return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mNodeFactory);
-    }
-
     private Review newReviewUser(String subject, float rating) {
         return newReviewUser(subject, rating,
                 new ArrayList<MdComment>(),
@@ -161,6 +140,31 @@ public class FactoryReviews implements BuilderReview {
 
     public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
         return mNodeFactory.createReviewNodeComponent(review, isAverage);
+    }
+
+    private Review newReviewUser(MdReviewId id,
+                                 DataAuthor author,
+                                 DataDate publishDate,
+                                 String subject,
+                                 float rating,
+                                 Iterable<? extends DataComment> comments,
+                                 Iterable<? extends DataImage> images,
+                                 Iterable<? extends DataFact> facts,
+                                 Iterable<? extends DataLocation> locations,
+                                 Iterable<Review> criteria,
+                                 boolean ratingIsAverage) {
+        MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getUserId());
+        MdDate mdDate = new MdDate(id, publishDate.getTime());
+        MdSubject mdSubject = new MdSubject(id, subject);
+        MdRating mdRating = new MdRating(id, rating, 1);
+        MdDataList<MdComment> mdComments = mConverter.toMdCommentList(comments, id);
+        MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id);
+        MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id);
+        MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id);
+        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id);
+
+        return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
+                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mNodeFactory);
     }
 
     //Overridden

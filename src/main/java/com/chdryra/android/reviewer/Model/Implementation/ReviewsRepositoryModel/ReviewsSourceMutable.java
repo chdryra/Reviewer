@@ -6,9 +6,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,11 +18,10 @@ public class ReviewsSourceMutable extends ReviewsSource implements ReviewsFeedMu
 
     //Constructors
     public ReviewsSourceMutable(ReviewsRepositoryMutable repository,
-                                FactoryReviewPublisher publisherFactory,
                                 FactoryReviews reviewFactory,
                                 FactoryVisitorReviewNode visitorFactory,
                                 FactoryReviewTreeTraverser traverserFactory) {
-        super(repository, publisherFactory, reviewFactory, visitorFactory, traverserFactory);
+        super(repository, reviewFactory, visitorFactory, traverserFactory);
         mRepository = repository;
     }
 

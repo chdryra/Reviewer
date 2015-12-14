@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoaderDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerReadableDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
@@ -37,7 +37,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewLoaderDb database, SQLiteDatabase db) {
+    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, SQLiteDatabase db) {
         if (!reviewRow.hasData(mValidator)) return null;
 
         String subject = reviewRow.getSubject();
@@ -62,35 +62,35 @@ public class ReviewLoaderStatic implements ReviewLoader {
         return mBuilder.createReview(reviewDb);
     }
 
-    private ArrayList<Review> loadCriteria(ReviewLoaderDb database, SQLiteDatabase db, String
+    private ArrayList<Review> loadCriteria(ReviewerReadableDb database, SQLiteDatabase db, String
             reviewId) {
         return database.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
     }
 
-    private ArrayList<RowImage> loadImages(ReviewLoaderDb database, SQLiteDatabase db, String reviewId) {
+    private ArrayList<RowImage> loadImages(ReviewerReadableDb database, SQLiteDatabase db, String reviewId) {
         DbTable<RowImage> imagesTable = database.getImagesTable();
         return database.loadFromDataTable(db, imagesTable, reviewId);
     }
 
-    private ArrayList<RowLocation> loadLocations(ReviewLoaderDb database, SQLiteDatabase db, String
+    private ArrayList<RowLocation> loadLocations(ReviewerReadableDb database, SQLiteDatabase db, String
             reviewId) {
         DbTable<RowLocation> locationsTable = database.getLocationsTable();
         return database.loadFromDataTable(db, locationsTable, reviewId);
     }
 
-    private ArrayList<RowFact> loadFacts(ReviewLoaderDb database, SQLiteDatabase db, String reviewId) {
+    private ArrayList<RowFact> loadFacts(ReviewerReadableDb database, SQLiteDatabase db, String reviewId) {
         DbTable<RowFact> factsTable = database.getFactsTable();
         return database.loadFromDataTable(db, factsTable, reviewId);
     }
 
-    private ArrayList<RowComment> loadComments(ReviewLoaderDb database, SQLiteDatabase db, String
+    private ArrayList<RowComment> loadComments(ReviewerReadableDb database, SQLiteDatabase db, String
             reviewId) {
         DbTable<RowComment> commentsTable = database.getCommentsTable();
         return database.loadFromDataTable(db, commentsTable, reviewId);
     }
 
     @NonNull
-    private DataAuthor loadAuthor(ReviewLoaderDb database, SQLiteDatabase db, String userId) {
+    private DataAuthor loadAuthor(ReviewerReadableDb database, SQLiteDatabase db, String userId) {
         String column = RowAuthor.COLUMN_USER_ID;
         RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());

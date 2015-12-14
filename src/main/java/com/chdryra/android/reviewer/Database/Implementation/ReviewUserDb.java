@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterionReview;
@@ -20,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataRow;
-import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoaderDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerReadableDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
@@ -38,12 +37,12 @@ import java.util.ArrayList;
 public class ReviewUserDb implements Review {
     private ReviewId mReviewId;
     private RowReview mRow;
-    private ReviewLoaderDb mDatabase;
+    private ReviewerReadableDb mDatabase;
     private ReviewNode mNode;
 
     //Constructors
     public ReviewUserDb(RowReview row,
-                        ReviewLoaderDb database,
+                        ReviewerReadableDb database,
                         FactoryReviewNode nodeFactory) {
         mDatabase = database;
         mReviewId = row.getReviewId();
@@ -53,30 +52,17 @@ public class ReviewUserDb implements Review {
 
     private <T extends DbTableRow> T getRowWhere(DbTable<T> table, String
             col, String val) {
-        SQLiteDatabase db = startDatabaseTransaction();
+        SQLiteDatabase db = mDatabase.beginReadTransaction();
         T row = mDatabase.getRowWhere(db, table, col, val);
-        endDatabaseTransaction(db);
+        mDatabase.endTransaction(db);
 
         return row;
     }
 
-    @NonNull
-    private SQLiteDatabase startDatabaseTransaction() {
-        SQLiteDatabase db = mDatabase.getReadableDatabase();
-        db.beginTransaction();
-        return db;
-    }
-
-    private void endDatabaseTransaction(SQLiteDatabase db) {
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
-    }
-
     private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table) {
-        SQLiteDatabase db = startDatabaseTransaction();
+        SQLiteDatabase db = mDatabase.beginReadTransaction();
         ArrayList<T> data = mDatabase.loadFromDataTable(db, table, mReviewId.toString());
-        endDatabaseTransaction(db);
+        mDatabase.endTransaction(db);
 
         return data;
     }
@@ -130,10 +116,10 @@ public class ReviewUserDb implements Review {
     }
 
     private ArrayList<Review> loadCriteria() {
-        SQLiteDatabase db = startDatabaseTransaction();
+        SQLiteDatabase db = mDatabase.beginReadTransaction();
         ArrayList<Review> criteria = mDatabase.loadReviewsFromDbWhere(db,
                 RowReview.COLUMN_PARENT_ID, mReviewId.toString());
-        endDatabaseTransaction(db);
+        mDatabase.endTransaction(db);
         return criteria;
     }
 

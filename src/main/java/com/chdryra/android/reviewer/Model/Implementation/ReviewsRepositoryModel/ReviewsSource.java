@@ -13,13 +13,11 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,26 +27,23 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
 public class ReviewsSource implements ReviewsFeed {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
-    private FactoryReviewPublisher mPublisherFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryReviewTreeTraverser mTraverserFactory;
 
     //Constructors
     public ReviewsSource(ReviewsRepository repository,
-                         FactoryReviewPublisher publisherFactory,
                          FactoryReviews reviewFactory,
                          FactoryVisitorReviewNode visitorFactory,
                          FactoryReviewTreeTraverser traverserFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
-        mPublisherFactory = publisherFactory;
         mVisitorFactory = visitorFactory;
         mTraverserFactory = traverserFactory;
     }
 
     @Override
     public DataAuthor getAuthor() {
-        return mPublisherFactory.getAuthor();
+        return mReviewFactory.getPublisherFactory().getAuthor();
     }
 
     @Override

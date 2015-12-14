@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 16/11/2015
+ * On: 14/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDb {
@@ -21,9 +21,9 @@ public class FactoryReviewerDb {
     }
 
     public ReviewerDb newDatabase(DbHelper<ReviewerDbContract> dbHelper,
-                                  ReviewLoader reviewLoader,
-                                  TagsManager tagsManager,
-                                  DataValidator dataValidator) {
+                                                      ReviewLoader reviewLoader,
+                                                      TagsManager tagsManager,
+                                                      DataValidator dataValidator) {
         return new ReviewerDbImpl(dbHelper, reviewLoader, mRowfactory, tagsManager, dataValidator);
     }
 }

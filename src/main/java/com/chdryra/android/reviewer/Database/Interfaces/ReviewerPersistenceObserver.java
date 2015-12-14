@@ -8,9 +8,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewerDbObserver {
-    //abstract
+public interface ReviewerPersistenceObserver {
     void onReviewAdded(Review review);
 
-    void onReviewDeleted(ReviewId reviewId);
+    void onReviewRemoved(ReviewId reviewId);
 }

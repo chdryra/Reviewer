@@ -10,6 +10,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDb;
+import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerPersistence;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbContractExecutor;
@@ -19,6 +20,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbHelper;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.Database.Interfaces.ReviewerPersistence;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -29,6 +31,8 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
 
@@ -41,55 +45,55 @@ public class ReleaseModelContext extends ModelContextBasic {
 
     public ReleaseModelContext(Context context, DataAuthor author, String databaseName,
                                int databaseVersion) {
-        FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(author);
-        setReviewsFactory(publisherFactory);
-
         setSocialPlatforms(context);
 
-        setTagsManager();
+        setReviewsFactory(author);
 
-        setDataValidator();
+        setTagsManager(new FactoryTagsManager().newTagsManager());
 
-        setAuthorsFeed(context, databaseName, databaseVersion, publisherFactory,
-                getReviewsFactory(), getTagsManager(), getDataValidator());
+        setDataValidator(new DataValidator());
+
+        setVisitorsFactory(new FactoryVisitorReviewNode());
+
+        ReviewerDb db = newDatabase(context, databaseName, databaseVersion);
+        ReviewerPersistence persistence = newReviewerPersistence(db);
+        setAuthorsFeed(getVisitorsFactory(), getReviewsFactory(), persistence);
 
         setReviewsProvider(getAuthorsFeed());
     }
 
-    private void setAuthorsFeed(Context context, String databaseName, int databaseVersion,
-                                FactoryReviewPublisher publisherFactory,
+    private ReviewerDb newDatabase(Context context, String databaseName, int databaseVersion) {
+        FactoryReviewLoader loaderFactory = new FactoryReviewLoader();
+        ReviewLoader loader = loaderFactory.newStaticLoader(getReviewsFactory(), getDataValidator());
+        return newReviewerDb(context, databaseName, databaseVersion, loader,
+                getDataValidator(), getTagsManager());
+    }
+
+    private void setAuthorsFeed(FactoryVisitorReviewNode factoryVisitor,
                                 FactoryReviews reviewsFactory,
-                                TagsManager tagsManager,
-                                DataValidator validator) {
-        ReviewerDb db = makeReviewerDb(context, databaseName, databaseVersion, reviewsFactory,
-                validator, tagsManager);
-        FactoryVisitorReviewNode factoryVisitor = new FactoryVisitorReviewNode();
-        setVisitorsFactory(factoryVisitor);
+                                ReviewerPersistence persistence) {
         FactoryReviewTreeTraverser factoryTraverser = new FactoryReviewTreeTraverser();
         setTreeTraversersFactory(factoryTraverser);
-        setAuthorFeed(publisherFactory, factoryVisitor, factoryTraverser, reviewsFactory, db);
+        setAuthorFeed(factoryVisitor, factoryTraverser, reviewsFactory, persistence);
     }
 
-    private void setDataValidator() {
-        setDataValidator(new DataValidator());
-    }
-
-    private void setTagsManager() {
-        FactoryTagsManager factory = new FactoryTagsManager();
-        setTagsManager(factory.newTagsManager());
-    }
-
-    private void setReviewsFactory(FactoryReviewPublisher publisherFactory) {
+    private void setReviewsFactory(DataAuthor author) {
+        FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(author);
         FactoryMdConverter convertersFactory = new FactoryMdConverter();
         ConverterMd mdConverter = convertersFactory.newMdConverter();
         FactoryReviewNode factory = new FactoryReviewNode();
         setFactoryReviews(new FactoryReviews(publisherFactory, factory, mdConverter));
     }
 
-    private ReviewerDb makeReviewerDb(Context context, String databaseName, int version,
-                                      FactoryReviews reviewsFactory,
-                                      DataValidator validator,
-                                      TagsManager tagsManager) {
+    private ReviewerPersistence newReviewerPersistence(ReviewerDb db) {
+        FactoryReviewerPersistence factory = new FactoryReviewerPersistence();
+        return factory.newDatabasePersistence(db);
+    }
+
+    private ReviewerDb newReviewerDb(Context context, String databaseName, int version,
+                                     ReviewLoader loader,
+                                     DataValidator validator,
+                                     TagsManager tagsManager) {
         FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
         FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
         FactoryReviewerDbContract factoryReviewerDbContract = new FactoryReviewerDbContract
@@ -101,25 +105,23 @@ public class ReleaseModelContext extends ModelContextBasic {
         DbHelper<ReviewerDbContract> dbHelper
                 = new DbHelper<>(context, spec, executorFactory.newExecutor());
 
-        FactoryReviewLoader loaderFactory = new FactoryReviewLoader();
-        ReviewLoader loader = loaderFactory.newStaticLoader(reviewsFactory, validator);
         FactoryDbTableRow rowFactory = new FactoryDbTableRow();
 
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
         return dbFactory.newDatabase(dbHelper, loader, tagsManager, validator);
     }
 
-    private void setAuthorFeed(FactoryReviewPublisher publisherFactory,
-                                             FactoryVisitorReviewNode visitorFactory,
+    private void setAuthorFeed(FactoryVisitorReviewNode visitorFactory,
                                              FactoryReviewTreeTraverser traverserFactory,
                                              FactoryReviews reviewsFactory,
-                                             ReviewerDb db) {
+                                             ReviewerPersistence persistence) {
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
         FactoryReviewsFeed feedFactory = new FactoryReviewsFeed();
 
+        ReviewsRepositoryMutable repository = repoFactory.newPersistentRepository(persistence);
         ReviewsFeedMutable reviewsFeed
-                = feedFactory.newMutableFeed(repoFactory.newDatabaseRepository(db),
-                publisherFactory, reviewsFactory, visitorFactory, traverserFactory);
+                = feedFactory.newMutableFeed(repository, reviewsFactory,
+                visitorFactory, traverserFactory);
 
         setAuthorsFeed(reviewsFeed);
     }

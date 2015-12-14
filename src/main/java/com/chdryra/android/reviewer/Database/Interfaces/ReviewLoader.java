@@ -12,5 +12,5 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  */
 public interface ReviewLoader {
     @Nullable
-    Review loadReview(RowReview reviewRow, ReviewLoaderDb database, SQLiteDatabase db);
+    Review loadReview(RowReview reviewRow, ReviewerReadableDb database, SQLiteDatabase db);
 }
