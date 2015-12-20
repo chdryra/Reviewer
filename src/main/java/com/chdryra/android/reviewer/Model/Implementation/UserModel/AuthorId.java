@@ -24,32 +24,14 @@ import java.util.UUID;
  */
 
 public class AuthorId implements UserId {
-    public final static String NULL_ID_STRING = "NULL";
     private final UUID mId;
-
-    private AuthorId() {
-        mId = null;
-    }
 
     private AuthorId(UUID id) {
         mId = id;
     }
 
-    private AuthorId(String rdId) {
-        if (rdId.equals(NULL_ID_STRING)) {
-            mId = null;
-        } else {
-            mId = UUID.fromString(rdId);
-        }
-    }
-
-    //Static methods
     public static AuthorId generateId() {
         return new AuthorId(UUID.randomUUID());
-    }
-
-    public static AuthorId fromString(String rdId) {
-        return new AuthorId(rdId);
     }
 
     @Override
@@ -64,6 +46,6 @@ public class AuthorId implements UserId {
 
     @Override
     public String toString() {
-        return mId != null ? mId.toString() : NULL_ID_STRING;
+        return mId.toString();
     }
 }
