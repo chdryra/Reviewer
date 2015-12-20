@@ -66,10 +66,10 @@ public class DepthFirstPreIteratorTest {
 
     @Test
     public void nextReturnsRootThenChildrenIfOnlyChildren() {
-        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent(false);
+        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
         root.addChild(child1);
         root.addChild(child2);
         root.addChild(child3);
@@ -83,10 +83,10 @@ public class DepthFirstPreIteratorTest {
 
     @Test
     public void nextReturnsRootThenChildThenGrandChildren() {
-        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent(false);
+        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
         root.addChild(child1);
         child1.addChild(child2);
         child2.addChild(child3);
@@ -100,18 +100,18 @@ public class DepthFirstPreIteratorTest {
 
     @Test
     public void nextGoesNodeFirstThenDescendantsThenSiblings() {
-        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent grandchild11 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent grandchild12 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent grandchild21 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent grandchild31 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent greatgrandchild111 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent greatgrandchild112 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent greatgrandchild211 = RandomReview.nextReviewNodeComponent(false);
-        ReviewNodeComponent greatgrandchild212 = RandomReview.nextReviewNodeComponent(false);
+        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild11 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild12 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild21 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild31 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild111 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild112 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild211 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild212 = RandomReview.nextReviewNodeComponent();
 
         root.addChild(child1);
         root.addChild(child2);

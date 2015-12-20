@@ -35,6 +35,10 @@ public class RandomReview {
         return NODE_FACTORY.createReviewNode(review, isAverage);
     }
 
+    public static ReviewNodeComponent nextReviewNodeComponent() {
+        return nextReviewNodeComponent(false);
+    }
+
     public static ReviewNodeComponent nextReviewNodeComponent(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);
