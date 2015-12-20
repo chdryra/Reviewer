@@ -220,14 +220,14 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void reviewTreeReviewIsExpandable() {
-        ReviewNode review = RandomReview.nextReviewNode(false);
+        ReviewNode review = RandomReview.nextReviewNode();
         ReviewNode node = new ReviewTreeComponent(new MdReviewId(review.getReviewId()), review, false);
         assertThat(node.isExpandable(), is(true));
     }
 
     @Test
     public void expandExpandsReview() {
-        ReviewNode review = RandomReview.nextReviewNode(false);
+        ReviewNode review = RandomReview.nextReviewNode();
         ReviewNode node = new ReviewTreeComponent(new MdReviewId(review.getReviewId()), review, false);
         assertThat(node.expand(), is(review.getTreeRepresentation()));
     }

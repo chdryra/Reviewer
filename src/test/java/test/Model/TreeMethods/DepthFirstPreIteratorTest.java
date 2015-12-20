@@ -24,21 +24,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class DepthFirstPreIteratorTest {
     @Test
     public void HasNextBeforePopIsTrue() {
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(node);
         assertThat(iterator.hasNext(), is(true));
     }
 
     @Test
     public void firstPopIsRoot() {
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(node);
         assertThat(iterator.next(), is(node));
     }
 
     @Test
     public void HasNextAfterPopIsFalse() {
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(node);
         iterator.next();
         assertThat(iterator.hasNext(), is(false));
@@ -50,7 +50,7 @@ public class DepthFirstPreIteratorTest {
     @Test
     public void nextOnHasNextIsFalseThrowsNoSuchElementException() {
         expectedException.expect(NoSuchElementException.class);
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(node);
         iterator.next();
         iterator.next();
@@ -59,7 +59,7 @@ public class DepthFirstPreIteratorTest {
     @Test
     public void removeThrowsUnsupportedOperationException() {
         expectedException.expect(UnsupportedOperationException.class);
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         DepthFirstPreIterator iterator = new DepthFirstPreIterator(node);
         iterator.remove();
     }

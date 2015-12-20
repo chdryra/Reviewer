@@ -40,7 +40,7 @@ public class TagsGetterTest {
 
     @Test
     public void getDataReturnsListOfTagsForReviewNode() {
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         mTagsManager.tagItem(node.getReviewId().toString(), mTags);
 
         TagsGetter getter = new TagsGetter(mTagsManager);
@@ -57,7 +57,7 @@ public class TagsGetterTest {
 
     @Test
     public void getDataReturnsEmptyListOfTagsForUntaggedReviewNode() {
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         TagsGetter getter = new TagsGetter(mTagsManager);
         IdableList<DataTag> tags = getter.getData(node);
         assertThat(tags.size(), is(0));

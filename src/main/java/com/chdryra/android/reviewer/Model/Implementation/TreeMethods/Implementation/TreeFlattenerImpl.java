@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.NodesTraverser;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 
 /**
@@ -26,7 +26,7 @@ public class TreeFlattenerImpl implements TreeFlattener {
 
     @Override
     public IdableItems<Review> flatten(ReviewNode node) {
-        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(node);
+        NodesTraverser traverser = mTraverserFactory.newTreeTraverser(node);
         VisitorReviewDataGetter<Review> getter = mVisitorFactory.newReviewsCollector();
         traverser.addVisitor(getter);
         traverser.traverse();

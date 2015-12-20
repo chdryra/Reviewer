@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementa
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.ReviewTreeIterator;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
@@ -13,7 +13,7 @@ import java.util.Stack;
  * On: 01/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DepthFirstPreIterator implements ReviewTreeIterator {
+public class DepthFirstPreIterator implements Iterator<ReviewNode> {
     private Stack<ReviewNode> mStack;
 
     public DepthFirstPreIterator(@NonNull ReviewNode root) {

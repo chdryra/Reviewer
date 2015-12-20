@@ -25,7 +25,7 @@ public class ReviewGetterTest {
     @Test
     public void reviewGetterReturnsNodeReview() {
         ReviewGetter getter = new ReviewGetter();
-        ReviewNode node = RandomReview.nextReviewNode(false);
+        ReviewNode node = RandomReview.nextReviewNode();
         IdableList<Review> reviews = getter.getData(node);
         assertThat(reviews.size(), is(1));
         assertThat(reviews.getItem(0), is(node.getReview()));

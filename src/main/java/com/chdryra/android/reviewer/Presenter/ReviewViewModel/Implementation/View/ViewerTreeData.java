@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.NodesTraverser;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -89,7 +89,7 @@ public class ViewerTreeData extends ViewerReviewData {
 
     private GvTagList collectTags() {
         VisitorReviewDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(getTagsManager());
-        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(getReviewNode());
+        NodesTraverser traverser = mTraverserFactory.newTreeTraverser(getReviewNode());
         traverser.traverse();
         return getConverter().toGvTagList(visitor.getData(), getReviewNode().getReviewId());
     }

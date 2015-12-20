@@ -25,6 +25,10 @@ public class RandomReview {
         return new MockReview(id, new MdDataMocker(id), false);
     }
 
+    public static ReviewNode nextReviewNode() {
+        return nextReviewNode(false);
+    }
+
     public static ReviewNode nextReviewNode(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);

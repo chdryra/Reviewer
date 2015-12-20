@@ -9,7 +9,7 @@ import java.util.Iterator;
  * On: 01/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewTreeIterator extends Iterator<ReviewNode> {
+public interface ReviewNodeIterator extends Iterator<ReviewNode> {
     @Override
     boolean hasNext();
 

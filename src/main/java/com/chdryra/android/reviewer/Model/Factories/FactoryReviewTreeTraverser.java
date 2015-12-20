@@ -1,11 +1,13 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.DepthFirstPreExpanderIterator;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.DepthFirstPreIterator;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeTraverserIterated;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
+        .DepthFirstPreIterator;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
+        .NodesTraverserIterated;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.ReviewTreeIterator;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
+import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.NodesTraverser;
+
+import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -13,15 +15,11 @@ import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewTreeTraverser {
-    public TreeTraverser newTreeTraverser(ReviewNode root) {
+    public NodesTraverser newTreeTraverser(ReviewNode root) {
         return newTraverser(new DepthFirstPreIterator(root));
     }
 
-    public TreeTraverser newExpandedTreeTraverser(ReviewNode root) {
-        return newTraverser(new DepthFirstPreExpanderIterator(root));
-    }
-
-    private TreeTraverser newTraverser(ReviewTreeIterator iterator) {
-        return new TreeTraverserIterated(iterator);
+    private NodesTraverser newTraverser(Iterator<ReviewNode> iterator) {
+        return new NodesTraverserIterated(iterator);
     }
 }
