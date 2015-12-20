@@ -5,7 +5,7 @@ import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementatio
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class ViewerTreeData extends ViewerReviewData {
     private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryReviewTreeTraverser mTraverserFactory;
+    private FactoryNodeTraverser mTraverserFactory;
     private GvDataAggregater mAggregater;
 
     public ViewerTreeData(ReviewNode node,
@@ -39,7 +39,7 @@ public class ViewerTreeData extends ViewerReviewData {
                    TagsManager tagsManager,
                    FactoryReviewViewAdapter adapterFactory,
                    FactoryVisitorReviewNode visitorFactory,
-                   FactoryReviewTreeTraverser traverserFactory,
+                   FactoryNodeTraverser traverserFactory,
                    GvDataAggregater aggregater) {
         super(node, converter, tagsManager, adapterFactory);
         mAggregater = aggregater;

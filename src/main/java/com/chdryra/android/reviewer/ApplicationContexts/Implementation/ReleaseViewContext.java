@@ -11,18 +11,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  */
 public class ReleaseViewContext extends ViewContextBasic{
     public ReleaseViewContext() {
-        setUiConfig();
-        setUiLauncher();
-
-    }
-
-    private void setUiConfig() {
-        FactoryConfigDataUi configBuilder = new FactoryConfigDataUi();
-        setConfigDataUi(configBuilder.getDefaultConfig());
-    }
-
-    private void setUiLauncher() {
-        LaunchableUiLauncher launcher = new LaunchableUiLauncher(new FactoryLauncherUi());
-        setLauncher(launcher);
+        setConfigDataUi(new FactoryConfigDataUi().getDefaultConfig());
+        setLauncher(new LaunchableUiLauncher(new FactoryLauncherUi()));
     }
 }

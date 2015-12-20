@@ -11,15 +11,15 @@ import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementat
  */
 public class FactoryTreeFlattener {
     FactoryVisitorReviewNode mFactoryVisitorReviewNode;
-    FactoryReviewTreeTraverser mFactoryReviewTreeTraverser;
+    FactoryNodeTraverser mFactoryNodeTraverser;
 
     public FactoryTreeFlattener(FactoryVisitorReviewNode factoryVisitorReviewNode,
-                                FactoryReviewTreeTraverser factoryReviewTreeTraverser) {
+                                FactoryNodeTraverser factoryNodeTraverser) {
         mFactoryVisitorReviewNode = factoryVisitorReviewNode;
-        mFactoryReviewTreeTraverser = factoryReviewTreeTraverser;
+        mFactoryNodeTraverser = factoryNodeTraverser;
     }
 
     public TreeFlattener newFlattener() {
-        return new TreeFlattenerImpl(mFactoryVisitorReviewNode, mFactoryReviewTreeTraverser);
+        return new TreeFlattenerImpl(mFactoryVisitorReviewNode, mFactoryNodeTraverser);
     }
 }

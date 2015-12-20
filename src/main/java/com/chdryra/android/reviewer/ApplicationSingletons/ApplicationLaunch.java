@@ -30,7 +30,7 @@ public class ApplicationLaunch {
     private ApplicationContext mApplicationContext;
     private static ApplicationLaunch sApplicationLaunch;
 
-    public enum LaunchState {RELEASE, TEST};
+    public enum LaunchState {RELEASE, TEST}
 
     private ApplicationLaunch(Context context, LaunchState launchState) {
         mContext = context;

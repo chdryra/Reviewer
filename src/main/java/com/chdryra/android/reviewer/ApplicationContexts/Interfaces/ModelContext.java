@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
@@ -27,7 +27,7 @@ public interface ModelContext {
 
     FactoryVisitorReviewNode getVisitorsFactory();
 
-    FactoryReviewTreeTraverser getTreeTraversersFactory();
+    FactoryNodeTraverser getNodeTraversersFactory();
 
     DataValidator getDataValidator();
 }

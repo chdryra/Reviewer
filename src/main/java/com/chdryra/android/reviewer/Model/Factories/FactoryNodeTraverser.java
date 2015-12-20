@@ -14,7 +14,7 @@ import java.util.Iterator;
  * On: 30/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewTreeTraverser {
+public class FactoryNodeTraverser {
     public NodesTraverser newTreeTraverser(ReviewNode root) {
         return newTraverser(new DepthFirstPreIterator(root));
     }

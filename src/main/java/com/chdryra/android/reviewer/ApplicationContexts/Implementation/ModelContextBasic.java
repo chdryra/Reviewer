@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
@@ -22,7 +22,7 @@ public abstract class ModelContextBasic implements ModelContext {
     private SocialPlatformList mSocialPlatforms;
     private TagsManager mTagsManager;
     private FactoryVisitorReviewNode mVisitorsFactory;
-    private FactoryReviewTreeTraverser mTreeTraversersFactory;
+    private FactoryNodeTraverser mTreeTraversersFactory;
     private DataValidator mDataValidator;
 
     public void setDataValidator(DataValidator dataValidator) {
@@ -37,7 +37,7 @@ public abstract class ModelContextBasic implements ModelContext {
         mVisitorsFactory = visitorsFactory;
     }
 
-    public void setTreeTraversersFactory(FactoryReviewTreeTraverser treeTraversersFactory) {
+    public void setTreeTraversersFactory(FactoryNodeTraverser treeTraversersFactory) {
         mTreeTraversersFactory = treeTraversersFactory;
     }
 
@@ -83,7 +83,7 @@ public abstract class ModelContextBasic implements ModelContext {
     }
 
     @Override
-    public FactoryReviewTreeTraverser getTreeTraversersFactory() {
+    public FactoryNodeTraverser getNodeTraversersFactory() {
         return mTreeTraversersFactory;
     }
 

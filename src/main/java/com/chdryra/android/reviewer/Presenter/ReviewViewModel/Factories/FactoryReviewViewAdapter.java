@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
@@ -43,7 +43,7 @@ public class FactoryReviewViewAdapter {
     private FactoryReviewViewLaunchable mLaunchableFactory;
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryReviewTreeTraverser mTraverserFactory;
+    private FactoryNodeTraverser mTraverserFactory;
     private GvDataAggregater mAggregater;
     private ConverterGv mConverter;
     private ReviewsSource mProvider;
@@ -51,7 +51,7 @@ public class FactoryReviewViewAdapter {
     //Constructors
     public FactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                     FactoryVisitorReviewNode visitorFactory,
-                                    FactoryReviewTreeTraverser traverserFactory,
+                                    FactoryNodeTraverser traverserFactory,
                                     GvDataAggregater aggregater,
                                     ReviewsSource provider,
                                     ConverterGv converter) {

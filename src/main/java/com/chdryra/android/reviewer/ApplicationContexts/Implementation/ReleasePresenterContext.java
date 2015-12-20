@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.Fac
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
@@ -47,12 +47,17 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setLaunchablesFactory(viewContext);
 
-        setGvDataFactory();
+        setFactoryGvData(new FactoryGvData());
 
         ConverterGv gvConverter = getConverterGv(modelContext.getTagsManager());
         setAdaptersFactory(modelContext, gvConverter);
 
-        setBuildersFactory(context, modelContext, gvConverter, author, extDir, imageDir);
+        setReviewBuilderAdapterFactory(context, gvConverter,
+                modelContext.getTagsManager(),
+                modelContext.getReviewsFactory(),
+                getGvDataFactory(),
+                modelContext.getDataValidator(),
+                extDir, imageDir, author.getName());
     }
 
     private ConverterGv getConverterGv(TagsManager tagsManager) {
@@ -60,21 +65,10 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         return converterFactory.newGvConverter();
     }
 
-    private void setBuildersFactory(Context context, ModelContext modelContext,
-                                    ConverterGv gvConverter, DataAuthor author,
-                                    File extDir, String imageDir) {
-        setReviewBuilderAdapterFactory(context, gvConverter, modelContext.getTagsManager(),
-                modelContext.getReviewsFactory(), getGvDataFactory(), modelContext.getDataValidator(),
-                extDir, imageDir, author.getName());
-    }
 
     private void setAdaptersFactory(ModelContext modelContext, ConverterGv gvConverter) {
         setFactoryReviewViewAdapter(getReviewViewLaunchableFactory(), modelContext.getReviewsSource(),
-                gvConverter, modelContext.getVisitorsFactory(), modelContext.getTreeTraversersFactory());
-    }
-
-    private void setGvDataFactory() {
-        setFactoryGvData(new FactoryGvData());
+                gvConverter, modelContext.getVisitorsFactory(), modelContext.getNodeTraversersFactory());
     }
 
     private void setLaunchablesFactory(ViewContext viewContext) {
@@ -116,7 +110,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                              ReviewsSource provider,
                                              ConverterGv converter,
                                              FactoryVisitorReviewNode visitorFactory,
-                                             FactoryReviewTreeTraverser traverserFactory) {
+                                             FactoryNodeTraverser traverserFactory) {
         GvDataAggregater aggregater = new GvDataAggregater(new FactoryDataAggregator(), converter);
         FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(launchableFactory,
                 visitorFactory, traverserFactory, aggregater, provider, converter);

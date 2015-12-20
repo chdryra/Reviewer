@@ -45,7 +45,7 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
-        throw new IllegalStateException("Need to call createWithApplicationContext first!");
+        throw new IllegalStateException("Need to call createWithApplicationContext!");
     }
 
     private ApplicationInstance(Context context, ApplicationContext applicationContext) {

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecificatio
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsRepository;
@@ -51,13 +51,14 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         setVisitorsFactory(new FactoryVisitorReviewNode());
 
-        setTreeTraversersFactory(new FactoryReviewTreeTraverser());
+        setTreeTraversersFactory(new FactoryNodeTraverser());
 
-        setSocialPlatforms(context);
+        setSocialPlatforms(new FactorySocialPlatformList().newList(context));
 
-        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getTreeTraversersFactory());
+        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory());
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
-        ReviewsRepositoryMutable persistence = getPersistentRepository(context, databaseName,
+        ReviewsRepositoryMutable persistence = getPersistentRepository(context,
+                databaseName,
                 databaseVersion,
                 getReviewsFactory(),
                 getTagsManager(),
@@ -81,7 +82,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         return repoFactory.newDatabaseRepository(db);
     }
 
-    private TreeFlattener getTreeFlattener(FactoryVisitorReviewNode visitorFactory, FactoryReviewTreeTraverser traverserFactory) {
+    private TreeFlattener getTreeFlattener(FactoryVisitorReviewNode visitorFactory, FactoryNodeTraverser traverserFactory) {
         FactoryTreeFlattener flattenerFactory = new FactoryTreeFlattener(visitorFactory, traverserFactory);
         return flattenerFactory.newFlattener();
     }
@@ -136,9 +137,4 @@ public class ReleaseModelContext extends ModelContextBasic {
         return dbFactory.newDatabase(dbHelper, loader, tagsManager, validator);
     }
 
-    private void setSocialPlatforms(Context context) {
-        FactorySocialPlatformList factory = new FactorySocialPlatformList();
-
-        setSocialPlatforms(factory.newList(context));
-    }
 }
