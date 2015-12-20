@@ -168,9 +168,7 @@ public class ReviewUser implements Review {
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
-        if (!mLocations.equals(that.mLocations)) return false;
-        return mNode.equals(that.mNode);
-
+        return (!mLocations.equals(that.mLocations));
     }
 
     @Override
@@ -186,7 +184,6 @@ public class ReviewUser implements Review {
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
         result = 31 * result + (mRatingIsAverage ? 1 : 0);
-        result = 31 * result + mNode.hashCode();
         return result;
     }
 }

@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementa
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewTreeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.TreeTraverser;

@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.ReviewTreeIterator;
 
@@ -14,7 +16,7 @@ import java.util.Stack;
 public class DepthFirstPreIterator implements ReviewTreeIterator {
     private Stack<ReviewNode> mStack;
 
-    public DepthFirstPreIterator(ReviewNode root) {
+    public DepthFirstPreIterator(@NonNull ReviewNode root) {
         mStack = new Stack<>();
         mStack.push(root);
     }
@@ -28,7 +30,8 @@ public class DepthFirstPreIterator implements ReviewTreeIterator {
     public ReviewNode next() {
         if(!hasNext()) throw new NoSuchElementException("No nodes left");
         ReviewNode next = mStack.pop();
-        pushNeighboursToStack(next);
+        pushChildrenToStack(next);
+        pushAnyAdditionalNodesToStack(next);
         return next;
     }
 
@@ -42,8 +45,8 @@ public class DepthFirstPreIterator implements ReviewTreeIterator {
         mStack.push(node);
     }
 
-    protected void pushNeighboursToStack(ReviewNode node) {
-        pushChildrenToStack(node);
+    protected void pushAnyAdditionalNodesToStack(ReviewNode node) {
+
     }
 
     @Override

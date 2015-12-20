@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation;
+package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;

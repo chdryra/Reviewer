@@ -20,12 +20,12 @@ public interface ReviewerReadableDb extends ReviewerDbContract {
 
     void endTransaction(SQLiteDatabase db);
 
-    <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);
-
     ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, @Nullable String val);
 
     <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table, String col, @Nullable String val);
 
     <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(SQLiteDatabase db, DbTable<T1> table,
                                                             String reviewId);
+
+    <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);
 }

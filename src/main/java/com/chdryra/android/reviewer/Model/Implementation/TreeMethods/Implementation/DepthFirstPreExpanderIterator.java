@@ -13,13 +13,7 @@ public class DepthFirstPreExpanderIterator extends DepthFirstPreIterator {
     }
 
     @Override
-    protected void pushNeighboursToStack(ReviewNode node) {
-        super.pushNeighboursToStack(node);
-        pushExpansionToStack(node);
-    }
-
-    private void pushExpansionToStack(ReviewNode node) {
-        ReviewNode expanded = node.expand();
-        if(expanded != node) push(expanded);
+    protected void pushAnyAdditionalNodesToStack(ReviewNode node) {
+        if(node.isExpandable()) push(node.expand());
     }
 }

@@ -40,7 +40,6 @@ public class ReviewUserDb implements Review {
     private ReviewerReadableDb mDatabase;
     private ReviewNode mNode;
 
-    //Constructors
     public ReviewUserDb(RowReview row,
                         ReviewerReadableDb database,
                         FactoryReviewNode nodeFactory) {

@@ -84,7 +84,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         return db;
     }
 
-
     @Override
     public SQLiteDatabase beginReadTransaction() {
         SQLiteDatabase db = mHelper.getReadableDatabase();
@@ -97,6 +96,56 @@ public class ReviewerDbImpl implements ReviewerDb {
         db.setTransactionSuccessful();
         db.endTransaction();
         db.close();
+    }
+    @Override
+    public ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, @Nullable
+    String val) {
+        TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
+
+        ArrayList<Review> reviews = new ArrayList<>();
+        for (RowReview reviewRow : reviewsList) {
+            reviews.add(loadReview(reviewRow, db));
+        }
+
+        return reviews;
+    }
+
+    @Override
+    public <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table,
+                                                String col, String val) {
+        Cursor cursor = getCursorWhere(db, table.getName(), col, val);
+
+        if (cursor == null || cursor.getCount() == 0) {
+            return mRowFactory.emptyRow(table.getRowClass());
+        }
+
+        cursor.moveToFirst();
+        T row = mRowFactory.newRow(cursor, table.getRowClass());
+        cursor.close();
+
+        return row;
+    }
+
+    @Override
+    public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col,
+                                                               String val) {
+        SQLiteDatabase db = beginReadTransaction();
+        TableRowList<T> rowList = getRowsWhere(db, table, col, val);
+        endTransaction(db);
+
+        return rowList;
+    }
+
+    @Override
+    public <T1 extends DbTableRow> ArrayList<T1>
+    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
+        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
+        ArrayList<T1> results = new ArrayList<>();
+        for (T1 row : rows) {
+            results.add(row);
+        }
+
+        return results;
     }
 
     @Override
@@ -148,57 +197,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         }
 
         return true;
-    }
-
-    @Override
-    public ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, @Nullable
-    String val) {
-        TableRowList<RowReview> reviewsList = getRowsWhere(db, getReviewsTable(), col, val);
-
-        ArrayList<Review> reviews = new ArrayList<>();
-        for (RowReview reviewRow : reviewsList) {
-            reviews.add(loadReview(reviewRow, db));
-        }
-
-        return reviews;
-    }
-
-    @Override
-    public <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table,
-                                                String col, String val) {
-        Cursor cursor = getCursorWhere(db, table.getName(), col, val);
-
-        if (cursor == null || cursor.getCount() == 0) {
-            return mRowFactory.emptyRow(table.getRowClass());
-        }
-
-        cursor.moveToFirst();
-        T row = mRowFactory.newRow(cursor, table.getRowClass());
-        cursor.close();
-
-        return row;
-    }
-
-    @Override
-    public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col,
-                                                               String val) {
-        SQLiteDatabase db = beginReadTransaction();
-        TableRowList<T> rowList = getRowsWhere(db, table, col, val);
-        endTransaction(db);
-
-        return rowList;
-    }
-
-    @Override
-    public <T1 extends DbTableRow> ArrayList<T1>
-    loadFromDataTable(SQLiteDatabase db, DbTable<T1> table, String reviewId) {
-        TableRowList<T1> rows = getRowsWhere(db, table, getColumnNameReviewId(), reviewId);
-        ArrayList<T1> results = new ArrayList<>();
-        for (T1 row : rows) {
-            results.add(row);
-        }
-
-        return results;
     }
 
     @Override

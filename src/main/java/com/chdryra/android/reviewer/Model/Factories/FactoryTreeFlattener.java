@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattener;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
         .TreeFlattenerImpl;
 
