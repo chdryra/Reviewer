@@ -37,8 +37,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public Review getReview(VerboseDataReview datum) {
-        ReviewId id = datum.getReviewId();
-        Review review = getReview(id);
+        Review review = getReview(datum.getReviewId());
         if (review == null && datum.hasElements()) {
             review = getMetaReview((VerboseIdableItems<? extends VerboseDataReview>) datum,
                     datum.getStringSummary());

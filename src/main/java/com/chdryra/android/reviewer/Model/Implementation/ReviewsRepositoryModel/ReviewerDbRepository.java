@@ -32,18 +32,8 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     }
 
     @Override
-    public void registerObserver(ReviewsRepositoryObserver observer) {
-        mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(ReviewsRepositoryObserver observer) {
-        mObservers.remove(observer);
-    }
-
-    @Override
     public void addReview(Review review) {
-        SQLiteDatabase db = mDatabase.beginReadTransaction();
+        SQLiteDatabase db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.addReviewToDb(review, db);
         mDatabase.endTransaction(db);
 
@@ -53,8 +43,8 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public Review getReview(ReviewId reviewId) {
         SQLiteDatabase db = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsFromDbWhere(db, RowReview.COLUMN_REVIEW_ID,
-                reviewId.toString());
+        ArrayList<Review> reviews = mDatabase.loadReviewsFromDbWhere(db,
+                RowReview.COLUMN_REVIEW_ID, reviewId.toString());
         mDatabase.endTransaction(db);
 
         if(reviews.size() > 1) {
@@ -82,6 +72,15 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         if (success) notifyOnDeleteReview(reviewId);
     }
 
+    @Override
+    public void registerObserver(ReviewsRepositoryObserver observer) {
+        mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(ReviewsRepositoryObserver observer) {
+        mObservers.remove(observer);
+    }
 
     private void notifyOnAddReview(Review review) {
         for (ReviewsRepositoryObserver observer : mObservers) {

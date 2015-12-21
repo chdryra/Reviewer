@@ -2,9 +2,6 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,10 +24,4 @@ public interface ReviewerDbContract extends DbContract {
     DbTable<RowAuthor> getAuthorsTable();
 
     DbTable<RowTag> getTagsTable();
-
-    @Override
-    ArrayList<DbTable<? extends DbTableRow>> getTables();
-
-    @Override
-    ArrayList<String> getTableNames();
 }

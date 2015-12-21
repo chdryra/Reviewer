@@ -1,5 +1,6 @@
 package test.TestUtils;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -14,7 +15,10 @@ import java.util.Random;
 public class RandomReviewId {
     private static final Random RAND = new Random();
 
-    //Static methods
+    public static ReviewId nextReviewId() {
+        return nextMdReviewId();
+    }
+
     public static MdReviewId nextMdReviewId() {
         return new MdReviewId(RandomString.nextWord(), RAND.nextLong(), RAND.nextInt());
     }
