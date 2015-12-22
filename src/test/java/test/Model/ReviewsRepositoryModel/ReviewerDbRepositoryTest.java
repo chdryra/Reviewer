@@ -37,9 +37,10 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewerDbRepositoryTest {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
     @Mock
     private ReviewerDb mDb;
-
     private ReviewerDbRepository mRepo;
 
     @Before
@@ -121,8 +122,6 @@ public class ReviewerDbRepositoryTest {
         assertThat(mRepo.getReview(id), is(review));
     }
 
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
     @Test
     public void getReviewThrowsExceptionIfMoreThanOneReviewFoundInDbWithId() {
         expectedException.expect(IllegalStateException.class);
@@ -153,7 +152,8 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
 
         SQLiteDatabase mockDb = mockReadTransaction();
-        when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null)).thenReturn(reviews);
+        when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null)).thenReturn
+                (reviews);
         assertThat(mRepo.getReviews(), is(reviews));
     }
 
@@ -200,7 +200,8 @@ public class ReviewerDbRepositoryTest {
 
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
         SQLiteDatabase mockDb = mockReadTransaction();
-        when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString())).thenReturn(reviews);
+        when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString()))
+                .thenReturn(reviews);
     }
 
     private SQLiteDatabase mockReadTransaction() {

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableItems;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
@@ -18,13 +17,10 @@ public interface ReviewsSource extends ReviewsRepository{
     ReviewNode asMetaReview(ReviewId id);
 
     @Nullable
-    Review getReview(VerboseDataReview datum);
+    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     @Nullable
     ReviewNode getMetaReview(VerboseIdableItems data, String subject);
-
-    @Nullable
-    ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     @Nullable
     ReviewNode getFlattenedMetaReview(VerboseIdableItems data, String subject);

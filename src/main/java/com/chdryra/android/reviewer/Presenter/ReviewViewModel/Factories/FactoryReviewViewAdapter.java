@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -73,13 +72,13 @@ public class FactoryReviewViewAdapter {
     }
 
     public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(T datum) {
-        Review meta = mProvider.asMetaReview(datum, datum.getStringSummary());
-        return newReviewsListAdapter(meta.getTreeRepresentation());
+        ReviewNode meta = mProvider.asMetaReview(datum, datum.getStringSummary());
+        return newReviewsListAdapter(meta);
     }
 
     public <T extends GvData> ReviewViewAdapter<?> newFlattenedReviewsListAdapter(GvDataCollection<T> data) {
-        Review meta = mProvider.getFlattenedMetaReview(data, data.getStringSummary());
-        return newReviewsListAdapter(meta.getTreeRepresentation());
+        ReviewNode meta = mProvider.getFlattenedMetaReview(data, data.getStringSummary());
+        return newReviewsListAdapter(meta);
     }
 
     public ReviewViewAdapter<GvReviewOverview> newChildListAdapter(ReviewNode node) {

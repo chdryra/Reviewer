@@ -23,6 +23,8 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+        .MdDataCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
@@ -77,18 +79,22 @@ public class FactoryReviews implements BuilderReview {
     }
 
     public Review createUserReview(String subject, float rating) {
-        return newReviewUser(subject, rating);
+        return newReviewUser(subject, rating,
+                new ArrayList<MdComment>(),
+                new ArrayList<MdImage>(),
+                new ArrayList<MdFact>(),
+                new ArrayList<MdLocation>(),
+                new MdDataCollection<Review>(), false);
     }
 
     public ReviewNode createMetaReview(Review review) {
-        MdDataList<Review> single = new MdDataList<>(null);
+        IdableItems<Review> single = new MdDataCollection<>();
         single.add(review);
 
         return createMetaReview(single, review.getSubject().getSubject());
     }
 
-    public ReviewNode createMetaReview(Iterable<Review> reviews,
-                                   String subject) {
+    public ReviewNode createMetaReview(Iterable<Review> reviews, String subject) {
         return mNodeFactory.createReviewNode(createMetaReviewMutable(reviews, subject));
     }
 
@@ -104,15 +110,6 @@ public class FactoryReviews implements BuilderReview {
     }
 
     //private methods
-    private Review newReviewUser(String subject, float rating) {
-        return newReviewUser(subject, rating,
-                new ArrayList<MdComment>(),
-                new ArrayList<MdImage>(),
-                new ArrayList<MdFact>(),
-                new ArrayList<MdLocation>(),
-                new MdDataList<Review>(null), false);
-    }
-
     private Review newReviewUser(String subject, float rating,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
