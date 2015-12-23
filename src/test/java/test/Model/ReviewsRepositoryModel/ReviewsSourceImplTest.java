@@ -5,13 +5,13 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
-        .ConverterMd;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableItems;
@@ -20,12 +20,13 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
-        .TreeFlattenerImpl;
+import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattenerImpl;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
@@ -47,6 +48,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,8 +58,8 @@ import static org.junit.Assert.assertNotNull;
  * Email: rizwan.choudrey@gmail.com
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ReviewsSourceTest {
-    private static final int NUM_REVIEWS = 5;
+public class ReviewsSourceImplTest {
+    private static final int NUM = 5;
     private static final DataAuthor AUTHOR = new DatumAuthor("Author", AuthorId.generateId());
     private static final Random RAND = new Random();
 
@@ -68,7 +72,7 @@ public class ReviewsSourceTest {
     @Before
     public void setUp() {
         mReviews = new IdableDataCollection<>();
-        for (int i = 0; i < NUM_REVIEWS; ++i) {
+        for (int i = 0; i < NUM; ++i) {
             mReviews.add(RandomReview.nextReview());
         }
         mRepo = new StaticReviewsRepository(mReviews, mMockManager);
@@ -81,15 +85,17 @@ public class ReviewsSourceTest {
     }
 
     @Test
-    public void asMetaReview_ReviewId_ReturnsMetaReviewWithOneDescendantOnly() {
+    public void asMetaReview_ReviewId_ReturnsMetaReviewWithOneChildOnly() {
         Review review = getRandomReview();
-        assertSingleDescendant(mSource.asMetaReview(review.getReviewId()));
+        assertNumChildren(mSource.asMetaReview(review.getReviewId()), 1);
     }
 
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithCorrectChildNode() {
         Review expectedReview = getRandomReview();
-        assertCorrectReview(mSource.asMetaReview(expectedReview.getReviewId()), expectedReview);
+        ReviewNode node = mSource.asMetaReview(expectedReview.getReviewId());
+        assertNotNull(node);
+        assertCorrectReview(node.getChildren().getItem(0), expectedReview);
     }
 
     @Test
@@ -99,31 +105,32 @@ public class ReviewsSourceTest {
     }
 
     @Test
-    public void asMetaReview_Data_ReturnsMetaReviewWithOneDescendantOnlyForDatum() {
+    public void asMetaReview_Data_ReturnsMetaReviewWithOneChildOnlyForDatum() {
         Review review = getRandomReview();
         VerboseDatum datum = new VerboseDatum(review.getReviewId());
-        assertSingleDescendant(mSource.asMetaReview(datum, ""));
+        assertNumChildren(mSource.asMetaReview(datum, ""), 1);
     }
 
     @Test
     public void asMetaReview_Data_ReturnsMetaReviewWithCorrectChildNodeForDatum() {
         Review expectedReview = getRandomReview();
         VerboseDatum datum = new VerboseDatum(expectedReview.getReviewId());
-        assertCorrectReview(mSource.asMetaReview(datum, ""), expectedReview);
+        ReviewNode node = mSource.asMetaReview(datum, "");
+        assertNotNull(node);
+        assertCorrectReview(node.getChildren().getItem(0), expectedReview);
     }
 
     @Test
     public void
-    asMetaReview_Data_ReturnsMetaReviewWithOneDescendantOnlyForDataCollectionWithReviewIdInSource
+    asMetaReview_Data_ReturnsMetaReviewWithOneChildOnlyForDataCollectionWithReviewIdInSource
             () {
         ReviewId id = getRandomReview().getReviewId();
         VerboseCollection collection = new VerboseCollection(id, RandomString.nextWord());
-        for (Review review : mReviews) {
-            collection.add(new VerboseDatum(RandomReviewId.nextReviewId(),
-                    review.getSubject().getSubject()));
+        for (int i = 0; i < NUM; ++i) {
+            collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
-        assertSingleDescendant(mSource.asMetaReview(collection, ""));
+        assertNumChildren(mSource.asMetaReview(collection, ""), 1);
     }
 
     @Test
@@ -132,12 +139,115 @@ public class ReviewsSourceTest {
         Review expectedReview = getRandomReview();
         ReviewId id = expectedReview.getReviewId();
         VerboseCollection collection = new VerboseCollection(id, RandomString.nextWord());
-        for (Review review : mReviews) {
-            collection.add(new VerboseDatum(RandomReviewId.nextReviewId(),
-                    review.getSubject().getSubject()));
+        for (int i = 0; i < NUM; ++i) {
+            collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
-        assertCorrectReview(mSource.asMetaReview(collection, ""), expectedReview);
+        ReviewNode node = mSource.asMetaReview(collection, RandomString.nextWord());
+        assertNotNull(node);
+        assertCorrectReview(node.getChildren().getItem(0), expectedReview);
+    }
+
+    @Test
+    public void
+    asMetaReview_Data_ReturnsMetaReviewWithCorrectNumberChildrenForDataCollectionWithReviewIdNotInSource
+            () {
+        VerboseCollection collection = getItemsDataCollection();
+        assertThat(collection.size(), is(mReviews.size() + 1));
+        assertNumChildren(mSource.asMetaReview(collection, ""), mReviews.size());
+    }
+
+    @Test
+    public void
+    asMetaReview_Data_ReturnsMetaReviewWithCorrectReviewForDataCollectionWithReviewIdNotInSource
+            () {
+        VerboseCollection collection = getItemsDataCollection();
+        String subject = RandomString.nextWord();
+
+        ReviewNode node = mSource.asMetaReview(collection, subject);
+
+        assertNotNull(node);
+        assertNodeHasCorrectData(subject, node);
+    }
+
+    @Test
+    public void
+    getMetaReviewReturnsNullIfDataDoesNotHaveReviewIdsInSource() {
+        VerboseCollection collection = new VerboseCollection(RandomReviewId.nextReviewId(), "");
+        for(int i = 0; i < NUM; ++i) {
+            collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
+        }
+
+        assertThat(mSource.getMetaReview(collection, ""), is(nullValue()));
+    }
+
+    @Test
+    public void
+    getMetaReviewReturnsMetaReviewWithCorrectNumberChildren() {
+        VerboseCollection collection = getItemsDataCollection();
+        assertThat(collection.size(), is(mReviews.size() + 1));
+        assertNumChildren(mSource.getMetaReview(collection, ""), mReviews.size());
+    }
+
+    @Test
+    public void
+    getMetaReviewReturnsMetaReviewWithCorrectReview() {
+        VerboseCollection collection = getItemsDataCollection();
+        String subject = RandomString.nextWord();
+
+        ReviewNode node = mSource.getMetaReview(collection, subject);
+
+        assertNotNull(node);
+        assertNodeHasCorrectData(subject, node);
+    }
+
+    @Test
+    public void getFlattenedMetaReview() {
+        fail(); //TODO write test when flattening strategy more concrete
+    }
+
+
+    @Test
+    public void getReviewReturnsNullIfReviewNotFound() {
+        assertThat(mSource.getReview(RandomReviewId.nextReviewId()), is(nullValue()));
+    }
+
+    @Test
+    public void getReviewReturnsCorrectReviewIfFound() {
+        Review review = getRandomReview();
+        assertThat(mSource.getReview(review.getReviewId()), is(review));
+    }
+
+    @Test
+    public void getReviewsReturnsReviewsInRepository() {
+        assertThat(mSource.getReviews(), is(mRepo.getReviews()));
+    }
+
+    @Test
+    public void getTagsManagerReturnsManager() {
+        assertThat(mSource.getTagsManager(), is(mMockManager));
+    }
+
+    @Test
+    public void registerUnregisterObserverDelegatesToRepository() {
+        ReviewsRepository repo = mock(ReviewsRepository.class);
+        ReviewsSource source = new ReviewsSourceImpl(repo, getReviewFactory(), getTreeFlattener());
+        ReviewsRepositoryObserver observer = mock(ReviewsRepositoryObserver.class);
+        source.registerObserver(observer);
+        verify(repo).registerObserver(observer);
+        source.unregisterObserver(observer);
+        verify(repo).unregisterObserver(observer);
+    }
+
+    @NonNull
+    private VerboseCollection getItemsDataCollection() {
+        ReviewId id = RandomReviewId.nextReviewId();
+        VerboseCollection collection = new VerboseCollection(id, RandomString.nextWord());
+        for (Review review : mReviews) {
+            collection.add(new VerboseDatum(review.getReviewId()));
+        }
+        collection.add(new VerboseDatum(getRandomReview().getReviewId()));
+        return collection;
     }
 
     @NonNull
@@ -153,24 +263,40 @@ public class ReviewsSourceTest {
     }
 
     private Review getRandomReview() {
-        int index = RAND.nextInt(NUM_REVIEWS);
+        int index = RAND.nextInt(mReviews.size());
         return mReviews.getItem(index);
     }
 
-    private void assertSingleDescendant(@Nullable ReviewNode node) {
+    private void assertNodeHasCorrectData(String subject, ReviewNode node) {
+        IdableList<ReviewNode> children = node.getChildren();
+        float averageRating = 0;
+        int numChildren = children.size();
+        for (int i = 0; i < numChildren; ++i) {
+            ReviewNode child = children.getItem(i);
+            assertCorrectReview(child, mReviews.getItem(i));
+            averageRating += child.getRating().getRating() / numChildren;
+        }
+
+        assertThat(node.getSubject().getSubject(), is(subject));
+        assertThat(node.getRating().getRating(), is(averageRating));
+        assertThat(node.getRating().getRatingWeight(), is(numChildren));
+    }
+
+    private void assertNumChildren(@Nullable ReviewNode node, int num) {
         assertNotNull(node);
         assertThat(node.getParent(), is(nullValue()));
-        assertThat(node.getChildren().size(), is(1));
-        ReviewNode child = node.getChildren().getItem(0);
-        assertThat(child.getChildren().size(), is(0));
+        assertThat(node.getChildren().size(), is(num));
+        for (int i = 0; i < num; ++i) {
+            ReviewNode child = node.getChildren().getItem(i);
+            assertThat(child.getChildren().size(), is(0));
+        }
     }
 
     private void assertCorrectReview(@Nullable ReviewNode node, Review expectedReview) {
         assertNotNull(node);
-        ReviewNode child = node.getChildren().getItem(0);
-        assertThat(child.getReview(), is(expectedReview));
-        assertThat(child.getSubject(), is(expectedReview.getSubject()));
-        assertThat(child.getRating(), is(expectedReview.getRating()));
+        assertThat(node.getReview(), is(expectedReview));
+        assertThat(node.getSubject(), is(expectedReview.getSubject()));
+        assertThat(node.getRating(), is(expectedReview.getRating()));
     }
 
     private class VerboseDatum implements VerboseDataReview {

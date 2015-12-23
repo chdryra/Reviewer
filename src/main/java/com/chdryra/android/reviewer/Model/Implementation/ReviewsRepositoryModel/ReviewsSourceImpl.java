@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -10,9 +12,12 @@ import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,12 +44,12 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReviewNode asMetaReview(VerboseDataReview datum, String subjectIfCollection) {
+    public ReviewNode asMetaReview(VerboseDataReview datum, String subjectIfMetaOfItems) {
         ReviewNode node = asMetaReview(datum.getReviewId());
 
         if (node == null && datum.isVerboseCollection()) {
             node = getMetaReview((VerboseIdableItems<? extends VerboseDataReview>) datum,
-                    subjectIfCollection);
+                    subjectIfMetaOfItems);
         }
 
         return node;
@@ -52,12 +57,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public ReviewNode getMetaReview(VerboseIdableItems data, String subject) {
-        IdableItems<Review> reviews = new IdableDataCollection<>();
-        for (int i = 0; i < data.size(); ++i) {
-            reviews.add(getReview(data.getItem(i).getReviewId()));
-        }
-
-        return mReviewFactory.createMetaReview(reviews, subject);
+        IdableItems<Review> reviews = getUniqueReviews(data);
+        return reviews.size() > 0 ? mReviewFactory.createMetaReview(reviews, subject) : null;
     }
 
     @Override
@@ -90,5 +91,20 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Override
     public void unregisterObserver(ReviewsRepositoryObserver observer) {
         mRepository.unregisterObserver(observer);
+    }
+
+    @NonNull
+    private IdableItems<Review> getUniqueReviews(VerboseIdableItems data) {
+        IdableItems<Review> reviews = new IdableDataCollection<>();
+        ArrayList<ReviewId> reviewsAdded = new ArrayList<>();
+        for (int i = 0; i < data.size(); ++i) {
+            ReviewId reviewId = data.getItem(i).getReviewId();
+            Review review = getReview(reviewId);
+            if (review != null && !reviewsAdded.contains(reviewId)) {
+                reviews.add(review);
+                reviewsAdded.add(reviewId);
+            }
+        }
+        return reviews;
     }
 }

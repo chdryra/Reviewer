@@ -17,13 +17,10 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     private GvDataCollection<T> mData;
     private FactoryReviewViewAdapter mAdapterFactory;
 
-    //Constructors
     public ViewerDataToReviews(GvDataCollection<T> data, FactoryReviewViewAdapter adapterFactory) {
         mData = data;
         mAdapterFactory = adapterFactory;
     }
-
-    //Overridden
 
     @Override
     public GvDataType<T> getGvDataType() {

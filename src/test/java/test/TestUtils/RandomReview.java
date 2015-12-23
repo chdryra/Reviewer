@@ -9,6 +9,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 
+import java.util.ArrayList;
+
 import test.Model.ReviewsModel.Utils.MdDataMocker;
 
 /**
@@ -43,6 +45,48 @@ public class RandomReview {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);
         return NODE_FACTORY.createReviewNodeComponent(review, isAverage);
+    }
+
+    public static ArrayList<Review> constructTreeAndGetReviews(ReviewNodeComponent root) {
+        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild11 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild12 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild21 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild31 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild111 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild112 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild211 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild212 = RandomReview.nextReviewNodeComponent();
+
+        root.addChild(child1);
+        root.addChild(child2);
+        root.addChild(child3);
+        child1.addChild(grandchild11);
+        child1.addChild(grandchild12);
+        child2.addChild(grandchild21);
+        child3.addChild(grandchild31);
+        grandchild11.addChild(greatgrandchild111);
+        grandchild11.addChild(greatgrandchild112);
+        grandchild21.addChild(greatgrandchild211);
+        grandchild21.addChild(greatgrandchild212);
+
+        ArrayList<Review> reviews = new ArrayList<>();
+        reviews.add(root.getReview());
+        reviews.add(child1.getReview());
+        reviews.add(child2.getReview());
+        reviews.add(child3.getReview());
+        reviews.add(grandchild11.getReview());
+        reviews.add(grandchild12.getReview());
+        reviews.add(grandchild21.getReview());
+        reviews.add(grandchild31.getReview());
+        reviews.add(greatgrandchild111.getReview());
+        reviews.add(greatgrandchild112.getReview());
+        reviews.add(greatgrandchild211.getReview());
+        reviews.add(greatgrandchild212.getReview());
+
+        return reviews;
     }
 
     private static class MockReview extends ReviewUser{
