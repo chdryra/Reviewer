@@ -22,6 +22,7 @@ import com.chdryra.android.testutils.RandomString;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Random;
 
 import test.TestUtils.RandomAuthor;
@@ -113,7 +114,7 @@ public class MdDataMocker {
     }
 
     public MdDate newDate() {
-        return new MdDate(mMdReviewId, RAND.nextLong());
+        return new MdDate(mMdReviewId, Math.min(new Date().getTime(), RAND.nextLong()));
     }
 
     public MdSubject newSubject() {
