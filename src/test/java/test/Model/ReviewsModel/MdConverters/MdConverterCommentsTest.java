@@ -9,10 +9,8 @@ import com.chdryra.android.testutils.RandomString;
 
 import java.util.Random;
 
+import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReviewId;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,10 +28,8 @@ public class MdConverterCommentsTest extends MdConverterBasicTest<DataComment, M
     }
 
     @Override
-    protected void checkDatumEquivalence(DataComment comment, MdComment mdComment) {
-        assertThat(mdComment.getReviewId().toString(), is(comment.getReviewId().toString()));
-        assertThat(mdComment.getComment(), is(comment.getComment()));
-        assertThat(mdComment.isHeadline(), is(comment.isHeadline()));
+    protected void checkDatumEquivalence(DataComment datum, MdComment mdDatum) {
+        DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     private static class Comment implements DataComment {

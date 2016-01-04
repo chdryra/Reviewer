@@ -10,11 +10,10 @@ import com.chdryra.android.testutils.RandomString;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReviewId;
 
 import static junit.framework.Assert.fail;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,11 +32,7 @@ public class MdConverterUrlTest extends MdConverterBasicTest<DataUrl, MdUrl> {
 
     @Override
     protected void checkDatumEquivalence(DataUrl datum, MdUrl mdDatum) {
-        //Don't test urls are equal as extremely slow. Value check good enough.
-        assertThat(mdDatum.getReviewId().toString(), is(datum.getReviewId().toString()));
-        assertThat(mdDatum.getLabel(), is(datum.getLabel()));
-        assertThat(mdDatum.getValue(), is(datum.getValue()));
-        assertThat(mdDatum.isUrl(), is(datum.isUrl()));
+        DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     private static class Url implements DataUrl {

@@ -15,6 +15,7 @@ import org.junit.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReviewId;
 
 import static junit.framework.Assert.fail;
@@ -63,10 +64,7 @@ public class MdConverterFactsTest extends MdConverterBasicTest<DataFact, MdFact>
 
     @Override
     protected void checkDatumEquivalence(DataFact datum, MdFact mdDatum) {
-        assertThat(mdDatum.getReviewId().toString(), is(datum.getReviewId().toString()));
-        assertThat(mdDatum.getLabel(), is(datum.getLabel()));
-        assertThat(mdDatum.getValue(), is(datum.getValue()));
-        assertThat(mdDatum.isUrl(), is(datum.isUrl()));
+        DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     private static class FactUrl extends Fact implements DataUrl {

@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReview;
 import test.TestUtils.RandomReviewId;
 
@@ -37,10 +38,7 @@ public class MdConverterCriteriaTest extends MdConverterBasicTest<DataCriterionR
 
     @Override
     protected void checkDatumEquivalence(DataCriterionReview datum, MdCriterion mdDatum) {
-        assertThat(mdDatum.getReviewId().toString(), is(datum.getReviewId().toString()));
-        assertThat(mdDatum.getSubject(), is(datum.getSubject()));
-        assertThat(mdDatum.getRating(), is(datum.getRating()));
-        assertThat(mdDatum.getReview(), is(datum.getReview()));
+        DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     @Test

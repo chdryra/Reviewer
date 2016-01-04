@@ -9,10 +9,8 @@ import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
 
+import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReviewId;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,9 +29,7 @@ public class MdConverterLocationsTest extends MdConverterBasicTest<DataLocation,
 
     @Override
     protected void checkDatumEquivalence(DataLocation datum, MdLocation mdDatum) {
-        assertThat(mdDatum.getReviewId().toString(), is(datum.getReviewId().toString()));
-        assertThat(mdDatum.getLatLng(), is(datum.getLatLng()));
-        assertThat(mdDatum.getName(), is(datum.getName()));
+        DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     private static class Location implements DataLocation {

@@ -18,10 +18,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Random;
 
+import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReviewId;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -41,11 +39,7 @@ public class MdConverterImageTest extends MdConverterBasicTest<DataImage, MdImag
 
     @Override
     protected void checkDatumEquivalence(DataImage datum, MdImage mdDatum) {
-        assertThat(mdDatum.getReviewId().toString(), is(datum.getReviewId().toString()));
-        assertThat(mdDatum.getBitmap(), is(datum.getBitmap()));
-        assertThat(mdDatum.getDate().getTime(), is(datum.getDate().getTime()));
-        assertThat(mdDatum.getCaption(), is(datum.getCaption()));
-        assertThat(mdDatum.isCover(), is(datum.isCover()));
+        DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     private static class Image implements DataImage {

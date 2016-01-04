@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
-        .ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -23,8 +21,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
-        .MdDataCollection;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
@@ -34,6 +31,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
@@ -72,7 +70,7 @@ public class FactoryReviews implements FactoryReviewFromDataHolder {
                                    Iterable<? extends DataImage> images,
                                    Iterable<? extends DataFact> facts,
                                    Iterable<? extends DataLocation> locations,
-                                   IdableItems<Review> criteria, boolean ratingIsAverage) {
+                                   Iterable<Review> criteria, boolean ratingIsAverage) {
         return newReviewUser(subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
     }
