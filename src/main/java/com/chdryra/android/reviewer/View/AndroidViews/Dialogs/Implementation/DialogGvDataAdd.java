@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories.
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
         .DialogLayoutBasic;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -52,7 +53,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * </p>
  */
 public abstract class DialogGvDataAdd<T extends GvData> extends
-        DialogCancelAddDoneFragment implements AddEditLayout.GvDataAdder, LaunchableUi {
+        DialogCancelAddDoneFragment implements GvDataAdder, LaunchableUi {
     public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
 
     private final GvDataType<T> mDataType;
@@ -119,7 +120,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     @Override
     protected void onAddButtonClick() {
-        T newDatum = mLayout.createGvData();
+        T newDatum = mLayout.createGvDataFromInputs();
 
         boolean added = isQuickSet() ? mBuilder.add(newDatum) :
                 newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum, getTargetRequestCode());

@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
 import android.support.annotation.NonNull;
 
@@ -22,7 +22,7 @@ public abstract class MdConverterBasic<T1, T2 extends HasReviewId>
 
     @Override
     public MdDataList<T2> convert(Iterable<? extends T1> data, ReviewId reviewId) {
-        MdDataList<T2> list = new MdDataList<>(getMdReviewId(reviewId));
+        MdDataList<T2> list = new MdDataList<>(newMdReviewId(reviewId));
         for(T1 datum : data) {
             list.add(convert(datum));
         }
@@ -32,7 +32,7 @@ public abstract class MdConverterBasic<T1, T2 extends HasReviewId>
 
     @Override
     public MdDataList<T2> convert(IdableList<? extends T1> data) {
-        MdDataList<T2> list = new MdDataList<>(getMdReviewId(data.getReviewId()));
+        MdDataList<T2> list = new MdDataList<>(newMdReviewId(data.getReviewId()));
         for(T1 datum : data) {
             list.add(convert(datum));
         }
@@ -40,8 +40,15 @@ public abstract class MdConverterBasic<T1, T2 extends HasReviewId>
         return list;
     }
 
+    public MdDataList<T2> convert(IdableList<? extends T1> data, ReviewId reviewId) {
+        if(!data.getReviewId().equals(reviewId)) {
+            throw new IllegalArgumentException("ReviewId must equal data's getReviewId!");
+        }
+        return convert(data);
+    }
+
     @NonNull
-    private MdReviewId getMdReviewId(ReviewId reviewId) {
+    protected MdReviewId newMdReviewId(ReviewId reviewId) {
         return new MdReviewId(reviewId);
     }
 }

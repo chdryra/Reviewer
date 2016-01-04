@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories.
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation
         .DialogLayoutBasic;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -48,7 +49,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public abstract class DialogGvDataEdit<T extends GvData>
         extends DialogCancelDeleteDoneFragment
-        implements AddEditLayout.GvDataEditor, LaunchableUi {
+        implements GvDataEditor, LaunchableUi {
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
@@ -143,6 +144,6 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mEditListener.onEdit(mDatum, mLayout.createGvData(), getTargetRequestCode());
+        mEditListener.onEdit(mDatum, mLayout.createGvDataFromInputs(), getTargetRequestCode());
     }
 }

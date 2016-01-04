@@ -21,7 +21,5 @@ public interface DialogLayout<T extends GvData> {
 
     void initialise(T data);
 
-    //abstract methods
-    //abstract
     void updateLayout(T data);
 }

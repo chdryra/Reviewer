@@ -1,9 +1,8 @@
-package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,6 +15,6 @@ public class MdConverterComments extends MdConverterDataReview<DataComment, MdCo
         String comment = datum.getComment();
         boolean isHeadline = datum.isHeadline();
         ReviewId reviewId = datum.getReviewId();
-        return new MdComment(new MdReviewId(reviewId), comment, isHeadline);
+        return new MdComment(newMdReviewId(reviewId), comment, isHeadline);
     }
 }

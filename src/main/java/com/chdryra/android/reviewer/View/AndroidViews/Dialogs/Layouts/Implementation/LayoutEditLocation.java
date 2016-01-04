@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -33,7 +34,7 @@ public class LayoutEditLocation extends AddEditLayoutBasic<GvLocation> {
 
     //Overridden
     @Override
-    public GvLocation createGvData() {
+    public GvLocation createGvDataFromInputs() {
         return new GvLocation(mLatLng, ((EditText) getView(LOCATION)).getText()
                 .toString().trim());
     }

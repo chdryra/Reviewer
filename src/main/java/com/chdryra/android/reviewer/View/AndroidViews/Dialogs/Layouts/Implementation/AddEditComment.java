@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +38,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     //Overridden
     @Override
-    public GvComment createGvData() {
+    public GvComment createGvDataFromInputs() {
         EditText commentET = (EditText) getView(COMMENT);
         boolean isHeadline = mCurrent != null && mCurrent.isHeadline();
         mCurrent = new GvComment(commentET.getText().toString().trim(), isHeadline);

@@ -14,6 +14,8 @@ import android.widget.RatingBar;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,7 +39,7 @@ public class AddEditCriterion extends AddEditLayoutBasic<GvCriterion> {
 
     //Overridden
     @Override
-    public GvCriterion createGvData() {
+    public GvCriterion createGvDataFromInputs() {
         String subject = ((EditText) getView(SUBJECT)).getText().toString().trim();
         float rating = ((RatingBar) getView(RATING)).getRating();
         return new GvCriterion(subject, rating);

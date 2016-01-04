@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters;
+package com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;

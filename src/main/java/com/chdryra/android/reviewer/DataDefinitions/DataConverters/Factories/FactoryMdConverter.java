@@ -1,18 +1,18 @@
 package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .ConverterMd;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .MdConverterComments;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .MdConverterCriteria;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .MdConverterFacts;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .MdConverterImages;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .MdConverterLocations;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .MdConverterUrl;
 
 /**

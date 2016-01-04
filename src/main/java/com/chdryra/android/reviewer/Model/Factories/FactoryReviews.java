@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters
         .ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
-import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
+import com.chdryra.android.reviewer.Database.Interfaces.FactoryReviewFromDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
@@ -50,7 +50,7 @@ import java.util.ArrayList;
  * put constructors so as to minimise the use of constructors in multiple places.
  * </p>
  */
-public class FactoryReviews implements BuilderReview {
+public class FactoryReviews implements FactoryReviewFromDataHolder {
     private FactoryReviewPublisher mPublisherFactory;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
@@ -67,8 +67,7 @@ public class FactoryReviews implements BuilderReview {
         return mPublisherFactory.getAuthor();
     }
 
-    public Review createUserReview(String subject,
-                                   float rating,
+    public Review createUserReview(String subject, float rating,
                                    Iterable<? extends DataComment> comments,
                                    Iterable<? extends DataImage> images,
                                    Iterable<? extends DataFact> facts,
@@ -76,15 +75,6 @@ public class FactoryReviews implements BuilderReview {
                                    IdableItems<Review> criteria, boolean ratingIsAverage) {
         return newReviewUser(subject, rating, comments,
                 images, facts, locations, criteria, ratingIsAverage);
-    }
-
-    public Review createUserReview(String subject, float rating) {
-        return newReviewUser(subject, rating,
-                new ArrayList<MdComment>(),
-                new ArrayList<MdImage>(),
-                new ArrayList<MdFact>(),
-                new ArrayList<MdLocation>(),
-                new MdDataCollection<Review>(), false);
     }
 
     public ReviewNode createMetaReview(Review review) {
@@ -102,14 +92,35 @@ public class FactoryReviews implements BuilderReview {
         Review meta = createUserReview(subject, 0f);
         ReviewNodeComponent parent = mNodeFactory.createReviewNodeComponent(meta, true);
         for (Review review : reviews) {
-            ReviewNodeComponent child = mNodeFactory.createReviewNodeComponent(review, false);
-            parent.addChild(child);
+            parent.addChild(createReviewNodeComponent(review, false));
         }
 
         return parent;
     }
 
+    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
+        return mNodeFactory.createReviewNodeComponent(review, isAverage);
+    }
+
+    @Override
+    public Review recreateReview(ReviewDataHolder review) {
+        return newReviewUser(new MdReviewId(review.getReviewId()), review.getAuthor(),
+                review.getPublishDate(), review.getSubject(), review.getRating(),
+                review.getComments(), review.getImages(), review.getFacts(), review.getLocations(),
+                review.getCriteria(), review.isAverage());
+    }
+
+    /********************************************************/
     //private methods
+    private Review createUserReview(String subject, float rating) {
+        return newReviewUser(subject, rating,
+                new ArrayList<MdComment>(),
+                new ArrayList<MdImage>(),
+                new ArrayList<MdFact>(),
+                new ArrayList<MdLocation>(),
+                new MdDataCollection<Review>(), false);
+    }
+
     private Review newReviewUser(String subject, float rating,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
@@ -135,10 +146,6 @@ public class FactoryReviews implements BuilderReview {
                 ratingIsAverage);
     }
 
-    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
-        return mNodeFactory.createReviewNodeComponent(review, isAverage);
-    }
-
     private Review newReviewUser(MdReviewId id,
                                  DataAuthor author,
                                  DataDate publishDate,
@@ -158,17 +165,9 @@ public class FactoryReviews implements BuilderReview {
         MdDataList<MdImage> mdImages = mConverter.toMdImageList(images, id);
         MdDataList<MdFact> mdFacts = mConverter.toMdFactList(facts, id);
         MdDataList<MdLocation> mdLocations = mConverter.toMdLocationList(locations, id);
-        MdDataList<MdCriterion> mdCriteria = mConverter.reviewsToMdCriterionList(criteria, id);
+        MdDataList<MdCriterion> mdCriteria = mConverter.toMdCriterionList(criteria, id);
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
                 mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mNodeFactory);
-    }
-
-    //Overridden
-    @Override
-    public Review createReview(ReviewDataHolder review) {
-        return newReviewUser(new MdReviewId(review.getReviewId()), review.getAuthor(), review.getPublishDate(),
-                review.getSubject(), review.getRating(), review.getComments(), review.getImages(),
-                review.getFacts(), review.getLocations(), review.getCriteria(), review.isAverage());
     }
 }

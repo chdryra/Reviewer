@@ -15,6 +15,8 @@ import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,7 +53,7 @@ public class AddEditFact extends AddEditLayoutBasic<GvFact> {
 
     //Overridden
     @Override
-    public GvFact createGvData() {
+    public GvFact createGvDataFromInputs() {
         String label = ((EditText) getView(LABEL)).getText().toString().trim();
         String value = ((EditText) getView(VALUE)).getText().toString().trim();
         ArrayList<String> urls = TextUtils.getLinks(value);

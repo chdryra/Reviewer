@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
@@ -17,12 +17,12 @@ public class MdConverterCriteria extends MdConverterDataReview<DataCriterionRevi
 
     @Override
     public MdCriterion convert(DataCriterionReview datum) {
-        MdReviewId id = new MdReviewId(datum.getReviewId());
+        MdReviewId id = newMdReviewId(datum.getReviewId());
         return new MdCriterion(id, datum.getReview());
     }
 
     public MdDataList<MdCriterion> convertReviews(Iterable<? extends Review> reviews, ReviewId parentId) {
-        MdReviewId id = new MdReviewId(parentId);
+        MdReviewId id = newMdReviewId(parentId);
         MdDataList<MdCriterion> list = new MdDataList<>(id);
         for(Review review : reviews) {
             list.add(new MdCriterion(id, review));

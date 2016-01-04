@@ -1,19 +1,19 @@
 package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterAuthors;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterCriteria;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterDataTags;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterDateReviews;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterDates;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterFacts;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterImages;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterItemTags;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterLocations;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterReviews;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterSubjects;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.GvConverterUrls;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterAuthors;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterComments;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterCriteria;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterDataTags;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterDateReviews;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterDates;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterFacts;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterImages;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterItemTags;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterLocations;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterReviews;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterSubjects;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.GvConverterUrls;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**

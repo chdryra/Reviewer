@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 
 /**
  * Created by: Rizwan Choudrey

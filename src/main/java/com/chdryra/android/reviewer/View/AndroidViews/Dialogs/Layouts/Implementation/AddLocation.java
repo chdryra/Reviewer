@@ -35,6 +35,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
 import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
 import com.chdryra.android.reviewer.Utils.LocatedPlace;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -122,7 +123,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     //Overridden
     @Override
-    public GvLocation createGvData() {
+    public GvLocation createGvDataFromInputs() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
         return new GvLocation(mSelectedLatLng, name);
     }

@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
@@ -13,9 +13,8 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 public class MdConverterImages extends MdConverterDataReview<DataImage, MdImage> {
     @Override
     public MdImage convert(DataImage datum) {
-        MdReviewId id = new MdReviewId(datum.getReviewId());
+        MdReviewId id = newMdReviewId(datum.getReviewId());
         MdDate date = new MdDate(id, datum.getDate().getTime());
-        return new MdImage(id, datum.getBitmap(), date,
-                datum.getCaption(), datum.isCover());
+        return new MdImage(id, datum.getBitmap(), date, datum.getCaption(), datum.isCover());
     }
 }

@@ -4,8 +4,7 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.Fac
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedCollection;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;

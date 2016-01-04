@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Configs.ConfigDialogLayouts;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -33,11 +35,11 @@ public class FactoryDialogLayout {
     }
 
     public <T extends GvData> AddEditLayout<T> newLayout
-    (GvDataType<T> dataType, AddEditLayout.GvDataAdder adder) {
+    (GvDataType<T> dataType, GvDataAdder adder) {
         try {
             Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
             Constructor<? extends AddEditLayout<T>> ctor
-                    = addEditLayout.getDeclaredConstructor(AddEditLayout.GvDataAdder.class);
+                    = addEditLayout.getDeclaredConstructor(GvDataAdder.class);
             try {
                 return ctor.newInstance(adder);
             } catch (InstantiationException e) {
@@ -58,11 +60,11 @@ public class FactoryDialogLayout {
     }
 
     public <T extends GvData> AddEditLayout<T> newLayout
-            (GvDataType<T> dataType, AddEditLayout.GvDataEditor editor) {
+            (GvDataType<T> dataType, GvDataEditor editor) {
         try {
             Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
             Constructor<? extends AddEditLayout<T>> ctor =
-                    addEditLayout.getDeclaredConstructor(AddEditLayout.GvDataEditor.class);
+                    addEditLayout.getDeclaredConstructor(GvDataEditor.class);
             try {
                 return ctor.newInstance(editor);
             } catch (InstantiationException e) {

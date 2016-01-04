@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;

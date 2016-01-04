@@ -1,5 +1,6 @@
-package com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters;
+package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
+import android.support.annotation.Nullable;
 import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -25,7 +26,7 @@ public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFact> {
 
     @Override
     public MdFact convert(DataFact datum) {
-        MdReviewId id = new MdReviewId(datum.getReviewId());
+        MdReviewId id = newMdReviewId(datum.getReviewId());
         MdFact fact = null;
         if (datum.isUrl()) fact = getMdUrl(datum);
 
@@ -34,8 +35,9 @@ public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFact> {
         return fact;
     }
 
+    @Nullable
     private MdUrl getMdUrl(DataFact datum) {
-        MdReviewId id = new MdReviewId(datum.getReviewId());
+        MdReviewId id = newMdReviewId(datum.getReviewId());
         try {
             DataUrl urlDatum = (DataUrl) datum;
             return mUrlConverter.convert(urlDatum);

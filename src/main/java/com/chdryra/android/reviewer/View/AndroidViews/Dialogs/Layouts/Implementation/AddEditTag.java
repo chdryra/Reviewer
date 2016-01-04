@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,7 +36,7 @@ public class AddEditTag extends AddEditLayoutBasic<GvTag> {
 
     //Overridden
     @Override
-    public GvTag createGvData() {
+    public GvTag createGvDataFromInputs() {
         return new GvTag(((EditText) getView(TAG)).getText().toString().trim());
     }
 

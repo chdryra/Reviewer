@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.GvConverters
-        .ConverterGv;
+import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;

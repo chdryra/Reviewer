@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
 import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Implementation.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;

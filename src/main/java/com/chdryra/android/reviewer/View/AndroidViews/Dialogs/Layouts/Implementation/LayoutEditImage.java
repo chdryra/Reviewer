@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataEditor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,7 +35,7 @@ public class LayoutEditImage extends AddEditLayoutBasic<GvImage> {
 
     //Overridden
     @Override
-    public GvImage createGvData() {
+    public GvImage createGvDataFromInputs() {
         String caption = ((EditText) getView(CAPTION)).getText().toString().trim();
         mCurrent = new GvImage(mCurrent.getBitmap(), mCurrent.getDate(),
                 mCurrent.getLatLng(), caption, mCurrent.isCover());

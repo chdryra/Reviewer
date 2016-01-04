@@ -14,21 +14,9 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AddEditLayout<T extends GvData> extends DialogLayout<T> {
-    interface GvDataEditor {
-        void setKeyboardAction(EditText editText);
-
-        void setDeleteConfirmTitle(String title);
-    }
-
-    interface GvDataAdder {
-        void setKeyboardAction(EditText editText);
-
-        void setTitle(String title);
-    }
-
     EditText getEditTextForKeyboardAction();
 
-    T createGvData();
+    T createGvDataFromInputs();
 
     void clearViews();
 

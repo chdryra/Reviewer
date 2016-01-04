@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.Interfaces.BuilderReview;
+import com.chdryra.android.reviewer.Database.Interfaces.FactoryReviewFromDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerReadableDb;
@@ -29,10 +29,10 @@ import java.util.ArrayList;
  */
 public class ReviewLoaderStatic implements ReviewLoader {
     private DataValidator mValidator;
-    private BuilderReview mBuilder;
+    private FactoryReviewFromDataHolder mFactory;
 
-    public ReviewLoaderStatic(BuilderReview builder, DataValidator validator) {
-        mBuilder = builder;
+    public ReviewLoaderStatic(FactoryReviewFromDataHolder factory, DataValidator validator) {
+        mFactory = factory;
         mValidator = validator;
     }
 
@@ -59,7 +59,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
                 publishDate, subject, rating, ratingWeight, comments, images, facts, locations,
                 critList, isAverage);
 
-        return mBuilder.createReview(reviewDb);
+        return mFactory.recreateReview(reviewDb);
     }
 
     private ArrayList<Review> loadCriteria(ReviewerReadableDb database, SQLiteDatabase db, String
