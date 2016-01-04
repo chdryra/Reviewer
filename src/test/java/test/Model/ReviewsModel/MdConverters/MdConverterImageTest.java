@@ -29,8 +29,8 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MdImagesConverterTest extends MdConverterBasicTest<DataImage, MdImage> {
-    public MdImagesConverterTest() {
+public class MdConverterImageTest extends MdConverterBasicTest<DataImage, MdImage> {
+    public MdConverterImageTest() {
         super(new MdConverterImages());
     }
 
