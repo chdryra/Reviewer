@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -25,16 +25,21 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
-    //Overridden
     @Override
     public DataLocation getCanonical(IdableList<? extends DataLocation> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumLocation(id);
 
-        LatLng mid = getMidLatLng(data);
-        String maxLocation = getLocationNameMode(getNameCounter(data));
+        return new DatumLocation(id, getMidLatLng(data), getLocationName(data));
+    }
 
-        return new DatumLocation(id, mid, maxLocation);
+    private String getLocationName(IdableList<? extends DataLocation> data) {
+        ItemCounter<DataLocation, String> nameCounter = getNameCounter();
+        nameCounter.performCount(data);
+        String maxLocation = nameCounter.getModeItem();
+        int nonMax = nameCounter.getNonModeCount();
+        if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
+        return maxLocation;
     }
 
     private LatLng getMidLatLng(IdableList<? extends DataLocation> data) {
@@ -47,17 +52,9 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
         return midpoint.getGeoMidpoint();
     }
 
-    private String getLocationNameMode(DatumCounter<? extends DataLocation, String> counter) {
-        String maxLocation = counter.getModeItem();
-        int nonMax = counter.getNonModeCount();
-        if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
-        return maxLocation;
-    }
-
     @NonNull
-    private DatumCounter<DataLocation, String> getNameCounter(IdableList<? extends DataLocation> data) {
-        return new DatumCounter<>(data,
-                    new DataGetter<DataLocation, String>() {
+    private ItemCounter<DataLocation, String> getNameCounter() {
+        return new ItemCounter<>(new ItemGetter<DataLocation, String>() {
                         @Override
                         public String getData(DataLocation datum) {
                             return datum.getName();

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
  */
 public class ComparitorLocationName extends ComparitorStringable<DataLocation> {
     public ComparitorLocationName() {
-        super(new DataGetter<DataLocation, String>() {
+        super(new ItemGetter<DataLocation, String>() {
             @Override
             public String getData(DataLocation datum) {
                 return datum.getName().toLowerCase();

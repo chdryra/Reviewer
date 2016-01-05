@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -23,17 +23,17 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
-    //Overridden
     @Override
     public DataComment getCanonical(IdableList<? extends DataComment> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumComment(id, "", false);
 
-        DatumCounter<DataComment, String> counter = getCommentCounter(data);
-        return new DatumComment(id, getModeComment(counter), false);
+        return new DatumComment(id, getComment(data), false);
     }
 
-    private String getModeComment(DatumCounter<DataComment, String> counter) {
+    private String getComment(IdableList<? extends DataComment> data) {
+        ItemCounter<DataComment, String> counter = getCommentCounter();
+        counter.performCount(data);
         String maxComment = counter.getModeItem();
         int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxComment += " + " + String.valueOf(nonMax);
@@ -41,10 +41,8 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
     }
 
     @NonNull
-    private DatumCounter<DataComment, String> getCommentCounter(IdableList<? extends DataComment>
-                                                                            data) {
-        return new DatumCounter<>(data,
-                    new DataGetter<DataComment, String>() {
+    private ItemCounter<DataComment, String> getCommentCounter() {
+        return new ItemCounter<>(new ItemGetter<DataComment, String>() {
                         @Override
                         public String getData(DataComment datum) {
                             return datum.getComment();

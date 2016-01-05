@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -23,25 +23,26 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalSubjectMode implements CanonicalDatumMaker<DataSubject> {
-    //Overridden
     @Override
     public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumSubject(id, "");
-        return new DatumSubject(id, getSubjectMode(getSubjectCounter(data)));
+
+        return new DatumSubject(id, getSubject(data));
     }
 
-    private String getSubjectMode(DatumCounter<? extends DataSubject, String> counter) {
-        String maxSubject = counter.getModeItem();
-        int nonMax = counter.getNonModeCount();
+    private String getSubject(IdableList<? extends DataSubject> data) {
+        ItemCounter<DataSubject, String> subjectCounter = getSubjectCounter();
+        subjectCounter.performCount(data);
+        String maxSubject = subjectCounter.getModeItem();
+        int nonMax = subjectCounter.getNonModeCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         return maxSubject;
     }
 
     @NonNull
-    private DatumCounter<DataSubject, String> getSubjectCounter(IdableList<? extends DataSubject> data) {
-        return new DatumCounter<>(data,
-                    new DataGetter<DataSubject, String>() {
+    private ItemCounter<DataSubject, String> getSubjectCounter() {
+        return new ItemCounter<>(new ItemGetter<DataSubject, String>() {
                         @Override
                         public String getData(DataSubject datum) {
                             return datum.getSubject();

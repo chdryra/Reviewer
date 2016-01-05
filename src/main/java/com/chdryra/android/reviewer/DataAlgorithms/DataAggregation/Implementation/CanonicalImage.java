@@ -9,10 +9,9 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -33,14 +32,26 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         DatumImage nullImage = new DatumImage(id);
         if (data.size() == 0) return nullImage;
 
-        DatumCounter<DataImage, String> captionCounter = getCaptionCounter(data);
-        String caption = getCaption(captionCounter);
+        String caption = getCaption(data);
         DataImage lastEquivalentBitmap = getLastImage(data, nullImage);
         if(lastEquivalentBitmap == nullImage) return nullImage;
-
         DataDate finalDate = new DatumDateReview(id, lastEquivalentBitmap.getDate().getTime());
 
         return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption, true);
+    }
+
+    private String getCaption(IdableList<? extends DataImage> data) {
+        ItemCounter<DataImage, String> captionCounter = getCaptionCounter();
+        captionCounter.performCount(data);
+        int num = captionCounter.getCount();
+
+        String caption = String.valueOf(num) + " captions";
+        if (num == 0) {
+            caption = "";
+        } else if (num == 1) {
+            caption = captionCounter.getModeItem();
+        }
+        return caption;
     }
 
     private DataImage getLastImage(IdableList<? extends DataImage> data, DatumImage nullImage) {
@@ -59,21 +70,9 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         return lastImage;
     }
 
-    @Nullable
-    private String getCaption(DatumCounter<? extends DataImage, String> captionCounter) {
-        int num = captionCounter.getCount();
-        String caption = String.valueOf(num) + " captions";
-        if (num == 0) {
-            caption = null;
-        } else if (num == 1) {
-            caption = captionCounter.getModeItem();
-        }
-        return caption;
-    }
-
     @NonNull
-    private DatumCounter<DataImage, String> getCaptionCounter(IdableList<? extends DataImage> data) {
-        return new DatumCounter<>(data, new DataGetter<DataImage, String>() {
+    private ItemCounter<DataImage, String> getCaptionCounter() {
+        return new ItemCounter<>(new ItemGetter<DataImage, String>() {
             @Override
             public String getData(DataImage datum) {
                 return datum.getCaption();

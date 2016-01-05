@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -23,15 +23,21 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriterion> {
-    //Overridden
     @Override
     public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumCriterion(id, "", 0f);
 
-        DatumCounter<DataCriterion, String> counter = getSubjectCounter(data);
+        return new DatumCriterion(id, getSubject(data), getAverage(data));
+    }
 
-        return new DatumCriterion(id, getModeSubject(counter), getAverage(data));
+    private String getSubject(IdableList<? extends DataCriterion> data) {
+        ItemCounter<DataCriterion, String> counter = getSubjectCounter();
+        counter.performCount(data);
+        String maxSubject = counter.getModeItem();
+        int nonMax = counter.getNonModeCount();
+        if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
+        return maxSubject;
     }
 
     private float getAverage(IdableList<? extends DataCriterion> data) {
@@ -42,17 +48,9 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriter
         return average;
     }
 
-    private String getModeSubject(DatumCounter<DataCriterion, String> counter) {
-        String maxSubject = counter.getModeItem();
-        int nonMax = counter.getNonModeCount();
-        if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
-        return maxSubject;
-    }
-
     @NonNull
-    private DatumCounter<DataCriterion, String> getSubjectCounter(IdableList<? extends
-            DataCriterion> data) {
-        return new DatumCounter<>(data, new DataGetter<DataCriterion, String>() {
+    private ItemCounter<DataCriterion, String> getSubjectCounter() {
+        return new ItemCounter<>(new ItemGetter<DataCriterion, String>() {
                 @Override
                 public String getData(DataCriterion datum) {
                     return datum.getSubject();

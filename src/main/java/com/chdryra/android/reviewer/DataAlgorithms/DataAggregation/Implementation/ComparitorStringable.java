@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
 
 /**
@@ -18,10 +18,10 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.Di
  */
 public class ComparitorStringable<T> implements DifferenceComparitor<T, DifferencePercentage> {
     private static final ComparitorString COMPARITOR = new ComparitorString();
-    private DataGetter<T, String> mGetter;
+    private ItemGetter<T, String> mGetter;
 
     //Constructors
-    public ComparitorStringable(DataGetter<T, String> getter) {
+    public ComparitorStringable(ItemGetter<T, String> getter) {
         mGetter = getter;
     }
 

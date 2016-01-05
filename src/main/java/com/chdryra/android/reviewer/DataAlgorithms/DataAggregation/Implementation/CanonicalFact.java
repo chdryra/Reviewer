@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -23,27 +23,26 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
-    //Overridden
     @Override
     public DataFact getCanonical(IdableList<? extends DataFact> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumFact(id, "", "");
 
-        DatumCounter<DataFact, String> labelCounter = getLabelCounter(data);
-        DatumCounter<DataFact, String> valueCounter = getValueCounter(data);
-
-        return new DatumFact(id, getLabelMode(labelCounter), getValueMode(valueCounter));
+        return new DatumFact(id, getLabel(data), getValue(data));
     }
 
-    private String getValueMode(DatumCounter<DataFact, String> valueCounter) {
-        int nonMax;
+    private String getValue(IdableList<? extends DataFact> data) {
+        ItemCounter<DataFact, String> valueCounter = getValueCounter();
+        valueCounter.performCount(data);
         String maxValue = valueCounter.getModeItem();
-        nonMax = valueCounter.getNonModeCount();
+        int nonMax = valueCounter.getNonModeCount();
         if (nonMax > 0) maxValue = String.valueOf(nonMax + 1) + " values";
         return maxValue;
     }
 
-    private String getLabelMode(DatumCounter<DataFact, String> labelCounter) {
+    private String getLabel(IdableList<? extends DataFact> data) {
+        ItemCounter<DataFact, String> labelCounter = getLabelCounter();
+        labelCounter.performCount(data);
         String maxLabel = labelCounter.getModeItem();
         int nonMax = labelCounter.getNonModeCount();
         if (nonMax > 0) maxLabel += " + " + String.valueOf(nonMax);
@@ -51,10 +50,9 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     }
 
     @NonNull
-    private DatumCounter<DataFact, String> getValueCounter(IdableList<? extends DataFact> data) {
-        DatumCounter<DataFact, String> counter;
-        counter = new DatumCounter<>(data,
-                new DataGetter<DataFact, String>() {
+    private ItemCounter<DataFact, String> getValueCounter() {
+        ItemCounter<DataFact, String> counter;
+        counter = new ItemCounter<>(new ItemGetter<DataFact, String>() {
                     @Override
                     public String getData(DataFact datum) {
                         return datum.getValue();
@@ -64,10 +62,8 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     }
 
     @NonNull
-    private DatumCounter<DataFact, String> getLabelCounter(IdableList<? extends DataFact> data) {
-        return new DatumCounter<>(data,
-                    new DataGetter<DataFact, String>() {
-                        //Overridden
+    private ItemCounter<DataFact, String> getLabelCounter() {
+        return new ItemCounter<>(new ItemGetter<DataFact, String>() {
                         @Override
                         public String getData(DataFact datum) {
                             return datum.getLabel();

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -23,26 +23,25 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalTagMode implements CanonicalDatumMaker<DataTag> {
-    //Overridden
     @Override
     public DataTag getCanonical(IdableList<? extends DataTag> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumTag(id, "");
-        return new DatumTag(id, getTagMode(getTagCounter(data)));
+        return new DatumTag(id, getTag(data));
     }
 
-
-    private String getTagMode(DatumCounter<? extends DataTag, String> counter) {
-        String maxTag = counter.getModeItem();
-        int nonMax = counter.getNonModeCount();
+    private String getTag(IdableList<? extends DataTag> data) {
+        ItemCounter<DataTag, String> tagCounter = getTagCounter();
+        tagCounter.performCount(data);
+        String maxTag = tagCounter.getModeItem();
+        int nonMax = tagCounter.getNonModeCount();
         if (nonMax > 0) maxTag += " + " + String.valueOf(nonMax);
         return maxTag;
     }
 
     @NonNull
-    private DatumCounter<DataTag, String> getTagCounter(IdableList<? extends DataTag> data) {
-        return new DatumCounter<>(data,
-                    new DataGetter<DataTag, String>() {
+    private ItemCounter<DataTag, String> getTagCounter() {
+        return new ItemCounter<>(new ItemGetter<DataTag, String>() {
                         //Overridden
                         @Override
                         public String getData(DataTag datum) {

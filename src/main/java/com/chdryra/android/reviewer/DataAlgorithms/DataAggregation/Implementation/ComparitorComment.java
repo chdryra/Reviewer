@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataGetter;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 
 /**
@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
  */
 public class ComparitorComment extends ComparitorStringable<DataComment> {
     public ComparitorComment() {
-        super(new DataGetter<DataComment, String>() {
+        super(new ItemGetter<DataComment, String>() {
             @Override
             public String getData(DataComment datum) {
                 return datum.getComment().toLowerCase();
