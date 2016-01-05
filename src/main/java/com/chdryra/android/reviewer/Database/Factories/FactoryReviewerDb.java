@@ -14,9 +14,9 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDb {
-    private FactoryDbTableRow mRowfactory;
+    private FactoryReviewerDbTableRow mRowfactory;
 
-    public FactoryReviewerDb(FactoryDbTableRow rowfactory) {
+    public FactoryReviewerDb(FactoryReviewerDbTableRow rowfactory) {
         mRowfactory = rowfactory;
     }
 

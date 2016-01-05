@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
@@ -10,5 +10,5 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface TreeFlattener {
-    IdableItems<Review> flatten(ReviewNode node);
+    IdableCollection<Review> flatten(ReviewNode node);
 }

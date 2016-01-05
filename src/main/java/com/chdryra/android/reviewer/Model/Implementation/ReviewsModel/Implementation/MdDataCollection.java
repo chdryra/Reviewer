@@ -4,7 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdDataCollection<T extends HasReviewId> extends SortableListImpl<T> implements IdableItems<T> {
+public class MdDataCollection<T extends HasReviewId> extends SortableListImpl<T> implements IdableCollection<T> {
 
     public boolean containsId(ReviewId id) {
         for (T datum : this) {

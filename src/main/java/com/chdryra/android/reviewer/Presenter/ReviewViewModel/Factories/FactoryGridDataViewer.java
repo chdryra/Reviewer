@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;

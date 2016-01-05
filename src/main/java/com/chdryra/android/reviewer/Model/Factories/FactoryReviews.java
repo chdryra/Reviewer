@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Database.Interfaces.FactoryReviewFromDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
@@ -76,7 +76,7 @@ public class FactoryReviews implements FactoryReviewFromDataHolder {
     }
 
     public ReviewNode createMetaReview(Review review) {
-        IdableItems<Review> single = new MdDataCollection<>();
+        IdableCollection<Review> single = new MdDataCollection<>();
         single.add(review);
 
         return createMetaReview(single, review.getSubject().getSubject());

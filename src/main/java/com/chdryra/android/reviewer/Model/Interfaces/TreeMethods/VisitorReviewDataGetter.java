@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Model.Interfaces.TreeMethods;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -9,5 +9,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VisitorReviewDataGetter<T extends HasReviewId> extends VisitorReviewNode{
-    IdableItems<T> getData();
+    IdableCollection<T> getData();
 }

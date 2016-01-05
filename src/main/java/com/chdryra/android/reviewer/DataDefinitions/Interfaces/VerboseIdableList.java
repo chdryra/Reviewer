@@ -6,5 +6,5 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface VerboseIdableList<T extends VerboseDataReview>
-        extends VerboseIdableItems<T>, IdableList<T>{
+        extends VerboseIdableCollection<T>, IdableList<T>{
 }

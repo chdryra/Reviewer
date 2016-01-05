@@ -1,6 +1,6 @@
 package test.Model.TreeMethods;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
@@ -35,7 +35,7 @@ public class TreeFlattenerImplTest {
         TreeFlattener flattener = new TreeFlattenerImpl(new FactoryVisitorReviewNode(),
                 new FactoryNodeTraverser());
 
-        IdableItems<Review> reviews = flattener.flatten(root);
+        IdableCollection<Review> reviews = flattener.flatten(root);
         assertThat(reviews.size(), is(expectedReviews.size()));
         for(Review review : reviews) {
             assertThat(expectedReviews.contains(review), is(true));

@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedCollection;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
@@ -32,9 +32,9 @@ public class DataAggregatorImpl<T extends HasReviewId, D2 extends DifferenceLeve
     }
 
     @Override
-    public AggregatedCollection<T> aggregate(IdableList<? extends T> data) {
+    public AggregatedList<T> aggregate(IdableList<? extends T> data) {
         ArrayList<T> allocated = new ArrayList<>();
-        AggregatedCollectionImpl<T> results = new AggregatedCollectionImpl<>(data.getReviewId());
+        AggregatedListImpl<T> results = new AggregatedListImpl<>(data.getReviewId());
         for (T reference : data) {
             if (allocated.contains(reference)) continue;
             IdableList<T> similar = new IdableDataList<>(data.getReviewId());
@@ -49,7 +49,7 @@ public class DataAggregatorImpl<T extends HasReviewId, D2 extends DifferenceLeve
                 }
             }
 
-            results.add(new AggregatedListImpl<>(mCanonical.getCanonical(similar), similar));
+            results.add(new AggregatedDataImpl<>(mCanonical.getCanonical(similar), similar));
         }
 
         return results;

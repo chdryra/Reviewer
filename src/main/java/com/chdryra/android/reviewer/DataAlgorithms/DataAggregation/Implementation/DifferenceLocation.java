@@ -13,14 +13,12 @@ public class DifferenceLocation implements DifferenceLevel<DifferenceLocation> {
     private DifferenceFloat mDistanceDifference;
     private DifferencePercentage mNameDifference;
 
-    //Constructors
     public DifferenceLocation(DifferenceFloat distanceDifference, DifferencePercentage
             nameDifference) {
         mDistanceDifference = distanceDifference;
         mNameDifference = nameDifference;
     }
 
-    //Overridden
     @Override
     public boolean lessThanOrEqualTo(@NotNull DifferenceLocation differenceThreshold) {
         return mDistanceDifference.lessThanOrEqualTo(differenceThreshold.mDistanceDifference) &&

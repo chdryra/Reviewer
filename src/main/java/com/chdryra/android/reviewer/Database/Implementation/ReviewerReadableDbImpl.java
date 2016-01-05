@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbHelper;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
@@ -36,14 +36,14 @@ public class ReviewerReadableDbImpl implements ReviewerReadableDb {
     private final DbHelper<ReviewerDbContract> mHelper;
     private final TagsManager mTagsManager;
     private final ReviewLoader mReviewLoader;
-    private final FactoryDbTableRow mRowFactory;
+    private final FactoryReviewerDbTableRow mRowFactory;
     private final DataValidator mDataValidator;
 
     public ReviewerReadableDbImpl(ReviewerDbContract tables,
                                   DbHelper<ReviewerDbContract> helper,
                                   TagsManager tagsManager,
                                   ReviewLoader reviewLoader,
-                                  FactoryDbTableRow rowFactory,
+                                  FactoryReviewerDbTableRow rowFactory,
                                   DataValidator dataValidator) {
         mTables = tables;
         mHelper = helper;

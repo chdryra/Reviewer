@@ -9,5 +9,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataAggregator<T extends HasReviewId> {
-    AggregatedCollection<T> aggregate(IdableList<? extends T> data);
+    AggregatedList<T> aggregate(IdableList<? extends T> data);
 }

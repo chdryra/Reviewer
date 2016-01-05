@@ -56,6 +56,6 @@ public class ApplicationLaunch {
     }
 
     private void intialiseSingletons() {
-        ApplicationInstance.createWithApplicationContext(mContext, mApplicationContext);
+        ApplicationInstance.newInstance(mContext, mApplicationContext);
     }
 }

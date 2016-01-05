@@ -25,7 +25,6 @@ public class DbHelper<T extends DbContract> extends SQLiteOpenHelper {
     private T mContract;
     private DbContractExecutor mDbContractExecutor;
 
-    //Constructors
     public DbHelper(Context context, DbSpecification<T> spec, DbContractExecutor dbContractExecutor) {
         super(context, spec.getDatabaseName(), null, spec.getVersionNumber());
         mContract = spec.getContract();
@@ -36,7 +35,6 @@ public class DbHelper<T extends DbContract> extends SQLiteOpenHelper {
         return mContract;
     }
 
-    //Overridden
     @Override
     public void onCreate(SQLiteDatabase db) {
         mDbContractExecutor.createDatabase(mContract, db);

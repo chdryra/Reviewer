@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.VisitorReviewDataGetterImpl;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.NodeDataGetter;
@@ -29,7 +29,7 @@ public class VisitorReviewDataGetterImplTest {
         ReviewNode node = RandomReview.nextReviewNode();
         VisitorReviewDataGetter<DataComment> visitor = new VisitorReviewDataGetterImpl<>(new CommentsGetter());
         visitor.visit(node);
-        IdableItems<DataComment> comments = visitor.getData();
+        IdableCollection<DataComment> comments = visitor.getData();
         IdableList<? extends DataComment> nodeComments = node.getComments();
         assertThat(comments.size(), is(nodeComments.size()));
         for(int i = 0; i < comments.size(); ++i) {

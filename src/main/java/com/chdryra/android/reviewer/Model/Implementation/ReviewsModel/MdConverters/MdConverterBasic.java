@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConvert
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;

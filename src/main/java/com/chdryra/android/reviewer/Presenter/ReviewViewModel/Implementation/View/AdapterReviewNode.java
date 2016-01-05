@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.GvImageConverter;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvImageConverter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;

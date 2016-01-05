@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
@@ -33,7 +33,7 @@ public class VisitorReviewDataGetterImpl<T extends HasReviewId>
     }
 
     @Override
-    public IdableItems<T> getData() {
+    public IdableCollection<T> getData() {
         return mData;
     }
 

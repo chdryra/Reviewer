@@ -20,12 +20,10 @@ import org.jetbrains.annotations.NotNull;
 public class DifferenceBoolean implements DifferenceLevel<DifferenceBoolean> {
     private boolean mValue;
 
-    //Constructors
     public DifferenceBoolean(boolean value) {
         mValue = value;
     }
 
-    //Overridden
     @Override
     public boolean lessThanOrEqualTo(@NotNull DifferenceBoolean differenceThreshold) {
         return mValue == differenceThreshold.mValue;

@@ -5,7 +5,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface IdableList<T extends HasReviewId> extends IdableItems<T>, HasReviewId {
+public interface IdableList<T extends HasReviewId> extends IdableCollection<T>, HasReviewId {
     @Override
     ReviewId getReviewId();
 }

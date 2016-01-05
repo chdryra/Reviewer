@@ -18,13 +18,17 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
  */
 public class ComparitorAuthor implements DifferenceComparitor<DataAuthorReview,
         DifferenceBoolean> {
-    //Overridden
     @Override
     public DifferenceBoolean compare(DataAuthorReview lhs, DataAuthorReview rhs) {
         boolean sameId = lhs.getUserId().equals(rhs.getUserId());
         boolean sameName = lhs.getName().equals(rhs.getName());
+
         if (sameId && !sameName) {
-            throw new RuntimeException("GvAuthors have same ID but different names!");
+            throw new RuntimeException("Authors have same ID but different names!");
+        }
+
+        if (!sameId && sameName) {
+            throw new RuntimeException("Authors have same name but different IDs!");
         }
 
         return new DifferenceBoolean(!sameId);

@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionRevi
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbHelper;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
@@ -56,12 +56,12 @@ public class ReviewerDbImpl implements ReviewerDb {
     private final DbHelper<ReviewerDbContract> mHelper;
     private final TagsManager mTagsManager;
     private final ReviewLoader mReviewLoader;
-    private final FactoryDbTableRow mRowFactory;
+    private final FactoryReviewerDbTableRow mRowFactory;
     private final DataValidator mDataValidator;
 
     public ReviewerDbImpl(DbHelper<ReviewerDbContract> dbHelper,
                           ReviewLoader reviewLoader,
-                          FactoryDbTableRow rowFactory,
+                          FactoryReviewerDbTableRow rowFactory,
                           TagsManager tagsManager,
                           DataValidator dataValidator) {
         mHelper = dbHelper;

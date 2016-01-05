@@ -9,7 +9,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableDataList<T extends HasReviewId> extends IdableDataCollection<T> implements IdableList<T>{
+public class IdableDataList<T extends HasReviewId> extends IdableDataCollection<T>
+        implements IdableList<T>{
     private ReviewId mReviewId;
 
     public IdableDataList(ReviewId reviewId) {

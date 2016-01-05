@@ -54,17 +54,16 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     //Static methods
-    public static void createWithApplicationContext(Context context,
-                                                    ApplicationContext applicationContext) {
+    public static void newInstance(Context context,
+                                   ApplicationContext applicationContext) {
         sSingleton = new ApplicationInstance(context, applicationContext);
     }
 
-    public static ApplicationInstance getInstance(Context c) {
-        sSingleton = getSingleton(sSingleton, ApplicationInstance.class, c);
+    public static ApplicationInstance getInstance(Context context) {
+        sSingleton = getSingleton(sSingleton, ApplicationInstance.class, context);
         return sSingleton;
     }
 
-    //public methods
     public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
         return mPresenterContext.getReviewBuilderAdapter();
     }

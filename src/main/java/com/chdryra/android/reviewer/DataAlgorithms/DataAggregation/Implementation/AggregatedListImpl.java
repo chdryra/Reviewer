@@ -1,36 +1,52 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AggregatedListImpl<D extends HasReviewId> implements AggregatedList<D> {
-    private D mCanonical;
-    private IdableList<D> mAggregated;
+public class AggregatedListImpl<T extends HasReviewId>
+        extends AbstractCollection<AggregatedData<T>> implements AggregatedList<T> {
+    private ReviewId mReviewId;
+    private ArrayList<AggregatedData<T>> mData;
 
-    public AggregatedListImpl(D canonical, IdableList<D> aggregated) {
-        mCanonical = canonical;
-        mAggregated = aggregated;
+    public AggregatedListImpl(ReviewId reviewId) {
+        mReviewId = reviewId;
+        mData = new ArrayList<>();
     }
 
     @Override
-    public D getCanonical() {
-        return mCanonical;
+    public int size() {
+        return mData.size();
     }
 
     @Override
-    public IdableList<D> getAggregated() {
-        return mAggregated;
+    public AggregatedData<T> getItem(int position) {
+        return mData.get(position);
+    }
+
+    @Override
+    public boolean add(AggregatedData<T> datum) {
+        return mData.add(datum);
+    }
+
+
+    @Override
+    public Iterator<AggregatedData<T>> iterator() {
+        return mData.iterator();
     }
 
     @Override
     public ReviewId getReviewId() {
-        return mCanonical.getReviewId();
+        return mReviewId;
     }
 }

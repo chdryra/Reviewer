@@ -4,17 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryMdConverter;
+import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableItems;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
@@ -65,7 +65,7 @@ public class ReviewsSourceImplTest {
 
     @Mock
     private TagsManager mMockManager;
-    private IdableItems<Review> mReviews;
+    private IdableCollection<Review> mReviews;
     private ReviewsRepository mRepo;
     private ReviewsSource mSource;
 
@@ -339,7 +339,7 @@ public class ReviewsSourceImplTest {
     }
 
     private class VerboseCollection extends SortableListImpl<VerboseDatum>
-            implements VerboseIdableItems<VerboseDatum>, VerboseDataReview {
+            implements VerboseIdableCollection<VerboseDatum>, VerboseDataReview {
         private ReviewId mId;
         private String mSummary;
 

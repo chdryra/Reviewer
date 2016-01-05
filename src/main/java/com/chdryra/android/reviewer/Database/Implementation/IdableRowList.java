@@ -13,7 +13,8 @@ import java.util.Iterator;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T> implements IdableList<T> {
+public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T>
+        implements IdableList<T> {
     ReviewId mReviewId;
     private ArrayList<T> mData;
 

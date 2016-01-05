@@ -2,11 +2,11 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryMdConverter;
+import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Database.Factories.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDb;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbContract;
@@ -41,8 +41,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
  */
 public class ReleaseModelContext extends ModelContextBasic {
 
-    public ReleaseModelContext(Context context, DataAuthor author, String databaseName,
-                               int databaseVersion) {
+    public ReleaseModelContext(Context context,
+                               DataAuthor author,
+                               String repositoryName,
+                               int repositoryVersion) {
         setReviewsFactory(author);
 
         setTagsManager(new FactoryTagsManager().newTagsManager());
@@ -57,9 +59,10 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory());
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
+
         ReviewsRepositoryMutable persistence = getPersistentRepository(context,
-                databaseName,
-                databaseVersion,
+                repositoryName,
+                repositoryVersion,
                 getReviewsFactory(),
                 getTagsManager(),
                 getDataValidator(),
@@ -71,13 +74,13 @@ public class ReleaseModelContext extends ModelContextBasic {
     }
 
     private ReviewsRepositoryMutable getPersistentRepository(Context context,
-                                                             String databaseName,
-                                                             int databaseVersion,
+                                                             String repositoryName,
+                                                             int repositoryVersion,
                                                              FactoryReviews reviewFactory,
                                                              TagsManager tagsManager,
                                                              DataValidator dataValidator,
                                                              FactoryReviewsRepository repoFactory) {
-        ReviewerDb db = newDatabase(context, databaseName, databaseVersion, reviewFactory,
+        ReviewerDb db = newDatabase(context, repositoryName, repositoryVersion, reviewFactory,
                 tagsManager, dataValidator);
         return repoFactory.newDatabaseRepository(db);
     }
@@ -131,7 +134,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         DbHelper<ReviewerDbContract> dbHelper
                 = new DbHelper<>(context, spec, executorFactory.newExecutor());
 
-        FactoryDbTableRow rowFactory = new FactoryDbTableRow();
+        FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
 
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
         return dbFactory.newDatabase(dbHelper, loader, tagsManager, validator);

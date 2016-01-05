@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;

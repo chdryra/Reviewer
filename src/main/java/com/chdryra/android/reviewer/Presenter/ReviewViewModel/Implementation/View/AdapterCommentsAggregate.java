@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Interfaces.GvImageConverter;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvImageConverter;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData

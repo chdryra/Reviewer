@@ -25,7 +25,6 @@ public class RowReviewImpl implements RowReview {
     private int mRatingWeight;
     private boolean mRatingIsAverage;
 
-    //Constructors
     public RowReviewImpl(Review review) {
         mReviewId = review.getReviewId().toString();
         mAuthorId = review.getAuthor().getUserId().toString();

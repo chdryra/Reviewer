@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvCanonical<T extends GvData> extends AbstractCollection<T>
-        implements GvDataCollection<T>, AggregatedList<T> {
+        implements GvDataCollection<T>, AggregatedData<T> {
     public static final Parcelable.Creator<GvCanonical> CREATOR = new Parcelable
             .Creator<GvCanonical>() {
         @Override
@@ -69,7 +69,7 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     }
 
     @Override
-    public IdableList<T> getAggregated() {
+    public IdableList<T> getAggregatedItems() {
         return toList();
     }
 

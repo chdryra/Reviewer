@@ -1,6 +1,6 @@
 package test.Model.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.DataConverters.Factories.FactoryMdConverter;
+import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
