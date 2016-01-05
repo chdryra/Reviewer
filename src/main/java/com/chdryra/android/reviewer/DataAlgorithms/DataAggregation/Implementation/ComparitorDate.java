@@ -29,12 +29,11 @@ public class ComparitorDate implements DifferenceComparitor<DataDateReview, Diff
 
         DifferenceDate.DateBucket difference = DifferenceDate.DateBucket.MORE_THAN_YEAR;
         if (cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)) {
+            difference = DifferenceDate.DateBucket.YEAR;
             if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR)) {
                 difference = DifferenceDate.DateBucket.DAY;
             } else if (cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)) {
                 difference = DifferenceDate.DateBucket.MONTH;
-            } else {
-                difference = DifferenceDate.DateBucket.YEAR;
             }
         }
 

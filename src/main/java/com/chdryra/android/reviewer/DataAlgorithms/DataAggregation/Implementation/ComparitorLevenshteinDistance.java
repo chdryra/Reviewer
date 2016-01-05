@@ -34,6 +34,7 @@ public class ComparitorLevenshteinDistance implements ComparitorString {
     }
 
     private double getDifference(String longer, String shorter) {
-        return longer.length() == 0 ? 0.0 : getEditDistance(longer, shorter) / longer.length();
+        int editDistance = getEditDistance(longer, shorter);
+        return longer.length() == 0 ? 0.0 : (double)editDistance / (double)longer.length();
     }
 }

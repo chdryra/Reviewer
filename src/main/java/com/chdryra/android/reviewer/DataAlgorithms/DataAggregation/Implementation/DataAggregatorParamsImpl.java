@@ -15,10 +15,10 @@ public class DataAggregatorParamsImpl implements DataAggregatorParams{
     private DifferenceLocation mLocation;
     private ComparitorString mComparitor;
 
-    public DataAggregatorParamsImpl(DifferenceBoolean aBoolean, DifferencePercentage percentage,
+    public DataAggregatorParamsImpl(DifferenceBoolean bool, DifferencePercentage percentage,
                                     DifferenceDate date, DifferenceLocation location,
                                     ComparitorString comparitor) {
-        mBoolean = aBoolean;
+        mBoolean = bool;
         mPercentage = percentage;
         mDate = date;
         mLocation = location;

@@ -31,6 +31,16 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
         return new DatumComment(id, getComment(data), false);
     }
 
+    @NonNull
+    private ItemCounter<DataComment, String> getCommentCounter() {
+        return new ItemCounter<>(new ItemGetter<DataComment, String>() {
+            @Override
+            public String getItem(DataComment datum) {
+                return datum.getComment();
+            }
+        });
+    }
+
     private String getComment(IdableList<? extends DataComment> data) {
         ItemCounter<DataComment, String> counter = getCommentCounter();
         counter.performCount(data);
@@ -38,15 +48,5 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
         int nonMax = counter.getNonModeCount();
         if (nonMax > 0) maxComment += " + " + String.valueOf(nonMax);
         return maxComment;
-    }
-
-    @NonNull
-    private ItemCounter<DataComment, String> getCommentCounter() {
-        return new ItemCounter<>(new ItemGetter<DataComment, String>() {
-                        @Override
-                        public String getItem(DataComment datum) {
-                            return datum.getComment();
-                        }
-                    });
     }
 }
