@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ComparitorString;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 
@@ -17,8 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorCriterionSubject extends ComparitorStringable<DataCriterion> {
-    public ComparitorCriterionSubject() {
-        super(new ItemGetter<DataCriterion, String>() {
+    public ComparitorCriterionSubject(ComparitorString comparitor) {
+        super(comparitor, new ItemGetter<DataCriterion, String>() {
             @Override
             public String getItem(DataCriterion datum) {
                 return datum.getSubject().toLowerCase();

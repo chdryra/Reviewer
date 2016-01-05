@@ -5,6 +5,9 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories
+        .FactoryDataAggregatorParams;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregatorParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -111,7 +114,9 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                              ConverterGv converter,
                                              FactoryVisitorReviewNode visitorFactory,
                                              FactoryNodeTraverser traverserFactory) {
-        GvDataAggregater aggregater = new GvDataAggregater(new FactoryDataAggregator(), converter);
+        FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
+        DataAggregatorParams params = paramsFactory.getDefaultParams();
+        GvDataAggregater aggregater = new GvDataAggregater(new FactoryDataAggregator(params), converter);
         FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(launchableFactory,
                 visitorFactory, traverserFactory, aggregater, provider, converter);
         setFactoryReviewViewAdapter(factory);

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ComparitorString;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 
@@ -17,8 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorFactLabel extends ComparitorStringable<DataFact> {
-    public ComparitorFactLabel() {
-        super(new ItemGetter<DataFact, String>() {
+    public ComparitorFactLabel(ComparitorString comparitor) {
+        super(comparitor, new ItemGetter<DataFact, String>() {
             @Override
             public String getItem(DataFact datum) {
                 return datum.getLabel().toLowerCase();

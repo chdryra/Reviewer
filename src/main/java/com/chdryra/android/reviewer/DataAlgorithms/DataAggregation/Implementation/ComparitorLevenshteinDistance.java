@@ -8,7 +8,9 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ComparitorString;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,10 +19,10 @@ import org.apache.commons.lang3.StringUtils;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorString implements DifferenceComparitor<String, DifferencePercentage> {
+public class ComparitorLevenshteinDistance implements ComparitorString {
 
     @Override
-    public DifferencePercentage compare(String lhs, String rhs) {
+    public DifferencePercentage compare(@NonNull String lhs, @NonNull String rhs) {
         boolean lhsLonger = lhs.length() > rhs.length();
         String longer = lhsLonger ? lhs : rhs;
         String shorter = lhsLonger ? rhs : lhs;

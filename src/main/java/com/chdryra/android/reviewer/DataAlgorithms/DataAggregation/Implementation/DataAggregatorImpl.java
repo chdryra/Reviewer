@@ -18,12 +18,11 @@ import java.util.ArrayList;
  */
 public class DataAggregatorImpl<T extends HasReviewId, D2 extends DifferenceLevel<D2>>
         implements DataAggregator<T> {
-    private DifferenceComparitor<T, D2> mComparitor;
+    private DifferenceComparitor<? super T, D2> mComparitor;
     private D2 mMinimumDifference;
     private CanonicalDatumMaker<T> mCanonical;
 
-    //Constructors
-    public DataAggregatorImpl(DifferenceComparitor<T, D2> comparitor,
+    public DataAggregatorImpl(DifferenceComparitor<? super T, D2> comparitor,
                               D2 minimumDifference,
                               CanonicalDatumMaker<T> canonical) {
         mComparitor = comparitor;

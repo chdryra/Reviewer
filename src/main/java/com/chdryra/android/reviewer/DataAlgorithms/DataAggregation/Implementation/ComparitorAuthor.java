@@ -8,18 +8,19 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorAuthor implements DifferenceComparitor<DataAuthorReview,
-        DifferenceBoolean> {
+public class ComparitorAuthor implements DifferenceComparitor<DataAuthor, DifferenceBoolean> {
     @Override
-    public DifferenceBoolean compare(DataAuthorReview lhs, DataAuthorReview rhs) {
+    public DifferenceBoolean compare(@NonNull DataAuthor lhs, @NonNull DataAuthor rhs) {
         boolean sameId = lhs.getUserId().equals(rhs.getUserId());
         boolean sameName = lhs.getName().equals(rhs.getName());
 

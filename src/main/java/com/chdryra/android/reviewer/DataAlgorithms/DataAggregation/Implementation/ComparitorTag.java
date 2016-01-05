@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ComparitorString;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 
@@ -17,8 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ComparitorTag extends ComparitorStringable<DataTag> {
-    public ComparitorTag() {
-        super(new ItemGetter<DataTag, String>() {
+    public ComparitorTag(ComparitorString comparitor) {
+        super(comparitor, new ItemGetter<DataTag, String>() {
             @Override
             public String getItem(DataTag datum) {
                 return datum.getTag().toLowerCase();
