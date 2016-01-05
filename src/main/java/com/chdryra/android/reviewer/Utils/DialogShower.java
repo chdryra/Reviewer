@@ -18,7 +18,6 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
  * Takes care of showing requested dialogs via a static <code>show(.)</code> method.
  */
 public class DialogShower {
-    //Static methods
     public static void show(DialogFragment dialog, Activity activity, int requestCode,
                             String tag, Bundle args) {
         dialog.setArguments(args);

@@ -42,7 +42,7 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<DataCriterion
     private ItemCounter<DataCriterion, Float> getRatingCounter() {
         return new ItemCounter<>(new ItemGetter<DataCriterion, Float>() {
                         @Override
-                        public Float getData(DataCriterion datum) {
+                        public Float getItem(DataCriterion datum) {
                             return datum.getRating();
                         }
                     });
@@ -52,7 +52,7 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<DataCriterion
     private ItemCounter<DataCriterion, String> getSubjectCounter() {
         return new ItemCounter<>(new ItemGetter<DataCriterion, String>() {
                         @Override
-                        public String getData(DataCriterion datum) {
+                        public String getItem(DataCriterion datum) {
                             return datum.getSubject();
                         }
                     });

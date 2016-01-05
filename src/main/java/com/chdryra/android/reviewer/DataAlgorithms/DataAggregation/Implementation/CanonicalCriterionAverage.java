@@ -52,7 +52,7 @@ public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriter
     private ItemCounter<DataCriterion, String> getSubjectCounter() {
         return new ItemCounter<>(new ItemGetter<DataCriterion, String>() {
                 @Override
-                public String getData(DataCriterion datum) {
+                public String getItem(DataCriterion datum) {
                     return datum.getSubject();
                 }
         });

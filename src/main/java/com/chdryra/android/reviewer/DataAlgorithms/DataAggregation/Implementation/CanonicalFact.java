@@ -54,7 +54,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
         ItemCounter<DataFact, String> counter;
         counter = new ItemCounter<>(new ItemGetter<DataFact, String>() {
                     @Override
-                    public String getData(DataFact datum) {
+                    public String getItem(DataFact datum) {
                         return datum.getValue();
                     }
                 });
@@ -65,7 +65,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     private ItemCounter<DataFact, String> getLabelCounter() {
         return new ItemCounter<>(new ItemGetter<DataFact, String>() {
                         @Override
-                        public String getData(DataFact datum) {
+                        public String getItem(DataFact datum) {
                             return datum.getLabel();
                         }
                     });

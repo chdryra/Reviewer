@@ -43,7 +43,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     private String getCaption(IdableList<? extends DataImage> data) {
         ItemCounter<DataImage, String> captionCounter = getCaptionCounter();
         captionCounter.performCount(data);
-        int num = captionCounter.getCount();
+        int num = captionCounter.getCountOfItemTypes();
 
         String caption = String.valueOf(num) + " captions";
         if (num == 0) {
@@ -74,7 +74,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     private ItemCounter<DataImage, String> getCaptionCounter() {
         return new ItemCounter<>(new ItemGetter<DataImage, String>() {
             @Override
-            public String getData(DataImage datum) {
+            public String getItem(DataImage datum) {
                 return datum.getCaption();
             }
         });

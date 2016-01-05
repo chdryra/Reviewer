@@ -37,17 +37,8 @@ public class GvComment extends GvDataBasic<GvComment> implements DataComment {
     private GvComment mUnsplitParent = null;
     private boolean mIsHeadline = false;
 
-    //Constructors
     public GvComment() {
         this(null, null, false);
-    }
-
-    public GvComment(String comment) {
-        this(null, comment, false);
-    }
-
-    public GvComment(GvReviewId id, String comment) {
-        this(id, comment, false);
     }
 
     public GvComment(String comment, boolean isHeadline) {

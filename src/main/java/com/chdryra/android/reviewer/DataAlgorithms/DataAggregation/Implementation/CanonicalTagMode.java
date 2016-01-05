@@ -44,7 +44,7 @@ public class CanonicalTagMode implements CanonicalDatumMaker<DataTag> {
         return new ItemCounter<>(new ItemGetter<DataTag, String>() {
                         //Overridden
                         @Override
-                        public String getData(DataTag datum) {
+                        public String getItem(DataTag datum) {
                             return datum.getTag();
                         }
                     });

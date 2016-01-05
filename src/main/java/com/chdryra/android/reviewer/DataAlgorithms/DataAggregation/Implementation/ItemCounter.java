@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,7 +25,6 @@ public class ItemCounter<T, D> {
     private ItemGetter<T, D> mGetter;
     private Map<D, Integer> mCountMap;
     private D mMaxItem;
-    private int mNonMaxCount;
 
     public ItemCounter(ItemGetter<T, D> getter) {
         mCountMap = new LinkedHashMap<>();
@@ -36,28 +36,31 @@ public class ItemCounter<T, D> {
     }
 
     public int getNonModeCount() {
-        return mNonMaxCount;
+        return Math.max(0, getCountOfItemTypes() - 1);
     }
 
-    public int getCount() {
+    public int getCountOfItemTypes() {
         return mCountMap.size();
     }
 
     public void performCount(Iterable<? extends T> data) {
-        mCountMap.clear();
-        countAndSetMaxItem(data);
-        mNonMaxCount = mCountMap.size() - 1;
-    }
-
-    private void countAndSetMaxItem(Iterable<? extends T> data) {
-        mMaxItem = mGetter.getData(data.iterator().next());
-        int maxCountSoFar = 1;
+        int maxCountSoFar = initialiseCounting(data);
         for (T datum : data) {
-            D item = mGetter.getData(datum);
+            D item = mGetter.getItem(datum);
             if (item == null) continue;
             Integer numberOfItems = incrementCount(item);
             maxCountSoFar = setNewMaxIfNeccessary(maxCountSoFar, numberOfItems, item);
         }
+    }
+
+    private int initialiseCounting(Iterable<? extends T> data) {
+        mCountMap.clear();
+        Iterator<? extends T> iterator = data.iterator();
+        if(iterator.hasNext()) {
+            mMaxItem = mGetter.getItem(iterator.next());
+            return 1;
+        }
+        return 0;
     }
 
     private int setNewMaxIfNeccessary(int maxCount, Integer numberOfItems, D item) {

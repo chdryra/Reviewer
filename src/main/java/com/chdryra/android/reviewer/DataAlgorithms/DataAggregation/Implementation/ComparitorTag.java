@@ -20,7 +20,7 @@ public class ComparitorTag extends ComparitorStringable<DataTag> {
     public ComparitorTag() {
         super(new ItemGetter<DataTag, String>() {
             @Override
-            public String getData(DataTag datum) {
+            public String getItem(DataTag datum) {
                 return datum.getTag().toLowerCase();
             }
         });

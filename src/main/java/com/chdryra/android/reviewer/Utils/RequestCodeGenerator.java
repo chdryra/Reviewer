@@ -6,7 +6,6 @@ package com.chdryra.android.reviewer.Utils;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RequestCodeGenerator {
-    //Static methods
     public static int getCode(String tag) {
         return tag != null ? tag.hashCode() : 0;
     }

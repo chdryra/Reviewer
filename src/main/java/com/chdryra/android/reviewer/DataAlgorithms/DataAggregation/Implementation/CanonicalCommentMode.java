@@ -44,7 +44,7 @@ public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
     private ItemCounter<DataComment, String> getCommentCounter() {
         return new ItemCounter<>(new ItemGetter<DataComment, String>() {
                         @Override
-                        public String getData(DataComment datum) {
+                        public String getItem(DataComment datum) {
                             return datum.getComment();
                         }
                     });

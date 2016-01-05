@@ -24,7 +24,6 @@ public class LocatedPlace {
 
     public enum LocationProvider {GOOGLE, USER}
 
-    //Constructors
     public LocatedPlace(LatLng latLng, String description, LocationId id) {
         mLatLng = latLng;
         mDescription = description;

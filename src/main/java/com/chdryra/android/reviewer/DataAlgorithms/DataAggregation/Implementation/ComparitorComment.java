@@ -20,7 +20,7 @@ public class ComparitorComment extends ComparitorStringable<DataComment> {
     public ComparitorComment() {
         super(new ItemGetter<DataComment, String>() {
             @Override
-            public String getData(DataComment datum) {
+            public String getItem(DataComment datum) {
                 return datum.getComment().toLowerCase();
             }
         });

@@ -56,7 +56,7 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
     private ItemCounter<DataLocation, String> getNameCounter() {
         return new ItemCounter<>(new ItemGetter<DataLocation, String>() {
                         @Override
-                        public String getData(DataLocation datum) {
+                        public String getItem(DataLocation datum) {
                             return datum.getName();
                         }
                     });

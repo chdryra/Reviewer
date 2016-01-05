@@ -20,7 +20,7 @@ public class ComparitorLocationName extends ComparitorStringable<DataLocation> {
     public ComparitorLocationName() {
         super(new ItemGetter<DataLocation, String>() {
             @Override
-            public String getData(DataLocation datum) {
+            public String getItem(DataLocation datum) {
                 return datum.getName().toLowerCase();
             }
         });

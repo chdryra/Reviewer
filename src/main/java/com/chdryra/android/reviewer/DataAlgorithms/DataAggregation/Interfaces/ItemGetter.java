@@ -14,5 +14,5 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ItemGetter<T, D> {
-    D getData(T datum);
+    D getItem(T datum);
 }

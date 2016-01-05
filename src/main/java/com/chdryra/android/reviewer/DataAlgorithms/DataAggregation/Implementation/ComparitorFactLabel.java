@@ -20,7 +20,7 @@ public class ComparitorFactLabel extends ComparitorStringable<DataFact> {
     public ComparitorFactLabel() {
         super(new ItemGetter<DataFact, String>() {
             @Override
-            public String getData(DataFact datum) {
+            public String getItem(DataFact datum) {
                 return datum.getLabel().toLowerCase();
             }
         });

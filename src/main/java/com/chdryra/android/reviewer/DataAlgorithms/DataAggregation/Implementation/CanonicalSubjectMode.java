@@ -44,7 +44,7 @@ public class CanonicalSubjectMode implements CanonicalDatumMaker<DataSubject> {
     private ItemCounter<DataSubject, String> getSubjectCounter() {
         return new ItemCounter<>(new ItemGetter<DataSubject, String>() {
                         @Override
-                        public String getData(DataSubject datum) {
+                        public String getItem(DataSubject datum) {
                             return datum.getSubject();
                         }
                     });

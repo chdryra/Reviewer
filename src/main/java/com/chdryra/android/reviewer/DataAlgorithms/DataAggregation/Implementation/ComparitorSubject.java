@@ -20,7 +20,7 @@ public class ComparitorSubject extends ComparitorStringable<DataSubject> {
     public ComparitorSubject() {
         super(new ItemGetter<DataSubject, String>() {
             @Override
-            public String getData(DataSubject datum) {
+            public String getItem(DataSubject datum) {
                 return datum.getSubject().toLowerCase();
             }
         });

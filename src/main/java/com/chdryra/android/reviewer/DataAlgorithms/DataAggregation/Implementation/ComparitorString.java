@@ -19,21 +19,19 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class ComparitorString implements DifferenceComparitor<String, DifferencePercentage> {
 
+    @Override
+    public DifferencePercentage compare(String lhs, String rhs) {
+        boolean lhsLonger = lhs.length() > rhs.length();
+        String longer = lhsLonger ? lhs : rhs;
+        String shorter = lhsLonger ? rhs : lhs;
+        return new DifferencePercentage(getDifference(longer, shorter));
+    }
+
     private int getEditDistance(String longer, String shorter) {
         return StringUtils.getLevenshteinDistance(longer, shorter);
     }
 
-    //Overridden
-    @Override
-    public DifferencePercentage compare(String lhs, String rhs) {
-        boolean string1Longer = lhs.length() > rhs.length();
-        String longer = string1Longer ? lhs : rhs;
-        String shorter = string1Longer ? rhs : lhs;
-
-        int longerLength = longer.length();
-        double pcntDiff = longerLength == 0 ? 0.0 :
-                getEditDistance(longer, shorter) / (double) longerLength;
-
-        return new DifferencePercentage(pcntDiff);
+    private double getDifference(String longer, String shorter) {
+        return longer.length() == 0 ? 0.0 : getEditDistance(longer, shorter) / longer.length();
     }
 }
