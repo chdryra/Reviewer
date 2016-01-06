@@ -70,9 +70,9 @@ public class ComparitorLocationNameTest {
         DataLocation rhs =
                 new DatumLocation(RandomReviewId.nextReviewId(), latLng, nameRhs);
 
-        DifferencePercentage expected = new DifferencePercentage(0.0);
+        DifferencePercentage zeroDifference = new DifferencePercentage(0.0);
         DifferencePercentage calculated = mComparitor.compare(lhs, rhs);
-        assertThat(calculated.lessThanOrEqualTo(expected), is(false));
+        assertThat(calculated.lessThanOrEqualTo(zeroDifference), is(false));
     }
 
     @Test
@@ -86,8 +86,8 @@ public class ComparitorLocationNameTest {
         DataLocation rhs =
                 new DatumLocation(RandomReviewId.nextReviewId(), latLngRhs, nameRhs);
 
-        DifferencePercentage expected = new DifferencePercentage(0.0);
+        DifferencePercentage zeroDifference = new DifferencePercentage(0.0);
         DifferencePercentage calculated = mComparitor.compare(lhs, rhs);
-        assertThat(calculated.lessThanOrEqualTo(expected), is(false));
+        assertThat(calculated.lessThanOrEqualTo(zeroDifference), is(false));
     }
 }

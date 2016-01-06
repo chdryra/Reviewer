@@ -8,10 +8,9 @@
 
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
-import android.location.Location;
-
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.Utils.LatLngDistance;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -25,7 +24,7 @@ public class ComparitorLocationDistance implements DifferenceComparitor<DataLoca
         float[] res = new float[1];
         LatLng ll1 = lhs.getLatLng();
         LatLng ll2 = rhs.getLatLng();
-        Location.distanceBetween(ll1.latitude, ll1.longitude, ll2.latitude, ll2.longitude, res);
+        LatLngDistance.distanceBetween(ll1.latitude, ll1.longitude, ll2.latitude, ll2.longitude, res);
 
         return new DifferenceFloat(res[0]);
     }

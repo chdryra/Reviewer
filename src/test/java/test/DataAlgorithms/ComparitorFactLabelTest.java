@@ -65,9 +65,9 @@ public class ComparitorFactLabelTest {
         DataFact rhs =
                 new DatumFact(RandomReviewId.nextReviewId(), labelRhs, value);
 
-        DifferencePercentage expected = new DifferencePercentage(0.0);
+        DifferencePercentage zeroDifference = new DifferencePercentage(0.0);
         DifferencePercentage calculated = mComparitor.compare(lhs, rhs);
-        assertThat(calculated.lessThanOrEqualTo(expected), is(false));
+        assertThat(calculated.lessThanOrEqualTo(zeroDifference), is(false));
     }
 
     @Test
@@ -81,8 +81,8 @@ public class ComparitorFactLabelTest {
         DataFact rhs =
                 new DatumFact(RandomReviewId.nextReviewId(), labelRhs, valueRhs);
 
-        DifferencePercentage expected = new DifferencePercentage(0.0);
+        DifferencePercentage zeroDifference = new DifferencePercentage(0.0);
         DifferencePercentage calculated = mComparitor.compare(lhs, rhs);
-        assertThat(calculated.lessThanOrEqualTo(expected), is(false));
+        assertThat(calculated.lessThanOrEqualTo(zeroDifference), is(false));
     }
 }
