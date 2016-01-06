@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
@@ -22,32 +21,23 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalSubjectMode implements CanonicalDatumMaker<DataSubject> {
+public class CanonicalSubjectMode extends CanonicalStringMaker<DataSubject> {
     @Override
     public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumSubject(id, "");
 
-        return new DatumSubject(id, getSubject(data));
-    }
-
-    private String getSubject(IdableList<? extends DataSubject> data) {
-        ItemCounter<DataSubject, String> subjectCounter = getSubjectCounter();
-        subjectCounter.performCount(data);
-        String maxSubject = subjectCounter.getModeItem();
-        int nonMax = subjectCounter.getNonModeCount();
-        if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
-        return maxSubject;
+        return new DatumSubject(id, getModeString(data));
     }
 
     @NonNull
-    private ItemCounter<DataSubject, String> getSubjectCounter() {
-        return new ItemCounter<>(new ItemGetter<DataSubject, String>() {
-                        @Override
-                        public String getItem(DataSubject datum) {
-                            return datum.getSubject();
-                        }
-                    });
+    @Override
+    protected ItemGetter<DataSubject, String> getStringGetter() {
+        return new ItemGetter<DataSubject, String>() {
+            @Override
+            public String getItem(DataSubject datum) {
+                return datum.getSubject();
+            }
+        };
     }
-
 }

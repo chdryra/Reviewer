@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -22,31 +21,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalTagMode implements CanonicalDatumMaker<DataTag> {
+public class CanonicalTagMode extends CanonicalStringMaker<DataTag> {
     @Override
     public DataTag getCanonical(IdableList<? extends DataTag> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumTag(id, "");
-        return new DatumTag(id, getTag(data));
-    }
-
-    private String getTag(IdableList<? extends DataTag> data) {
-        ItemCounter<DataTag, String> tagCounter = getTagCounter();
-        tagCounter.performCount(data);
-        String maxTag = tagCounter.getModeItem();
-        int nonMax = tagCounter.getNonModeCount();
-        if (nonMax > 0) maxTag += " + " + String.valueOf(nonMax);
-        return maxTag;
+        return new DatumTag(id, getModeString(data));
     }
 
     @NonNull
-    private ItemCounter<DataTag, String> getTagCounter() {
-        return new ItemCounter<>(new ItemGetter<DataTag, String>() {
-                        //Overridden
-                        @Override
-                        public String getItem(DataTag datum) {
-                            return datum.getTag();
-                        }
-                    });
+    @Override
+    protected ItemGetter<DataTag, String> getStringGetter() {
+        return new ItemGetter<DataTag, String>() {
+            @Override
+            public String getItem(DataTag datum) {
+                return datum.getTag();
+            }
+        };
     }
 }

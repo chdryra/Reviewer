@@ -22,7 +22,6 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalDate implements CanonicalDatumMaker<DataDateReview> {
-    //Overridden
     @Override
     public DatumDateReview getCanonical(IdableList<? extends DataDateReview> data) {
         ReviewId id = data.getReviewId();

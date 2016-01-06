@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -24,22 +23,13 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
+public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
     @Override
     public DataLocation getCanonical(IdableList<? extends DataLocation> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumLocation(id);
 
-        return new DatumLocation(id, getMidLatLng(data), getLocationName(data));
-    }
-
-    private String getLocationName(IdableList<? extends DataLocation> data) {
-        ItemCounter<DataLocation, String> nameCounter = getNameCounter();
-        nameCounter.performCount(data);
-        String maxLocation = nameCounter.getModeItem();
-        int nonMax = nameCounter.getNonModeCount();
-        if (nonMax > 0) maxLocation += " + " + String.valueOf(nonMax);
-        return maxLocation;
+        return new DatumLocation(id, getMidLatLng(data), getModeString(data));
     }
 
     private LatLng getMidLatLng(IdableList<? extends DataLocation> data) {
@@ -53,12 +43,13 @@ public class CanonicalLocation implements CanonicalDatumMaker<DataLocation> {
     }
 
     @NonNull
-    private ItemCounter<DataLocation, String> getNameCounter() {
-        return new ItemCounter<>(new ItemGetter<DataLocation, String>() {
-                        @Override
-                        public String getItem(DataLocation datum) {
-                            return datum.getName();
-                        }
-                    });
+    @Override
+    protected ItemGetter<DataLocation, String> getStringGetter() {
+        return new ItemGetter<DataLocation, String>() {
+            @Override
+            public String getItem(DataLocation datum) {
+                return datum.getName();
+            }
+        };
     }
 }

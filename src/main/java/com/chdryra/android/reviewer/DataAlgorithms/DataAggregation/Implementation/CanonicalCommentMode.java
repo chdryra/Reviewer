@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -22,31 +21,23 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCommentMode implements CanonicalDatumMaker<DataComment> {
+public class CanonicalCommentMode extends CanonicalStringMaker<DataComment> {
     @Override
     public DataComment getCanonical(IdableList<? extends DataComment> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumComment(id, "", false);
 
-        return new DatumComment(id, getComment(data), false);
+        return new DatumComment(id, getModeString(data), false);
     }
 
+    @Override
     @NonNull
-    private ItemCounter<DataComment, String> getCommentCounter() {
-        return new ItemCounter<>(new ItemGetter<DataComment, String>() {
+    protected ItemGetter<DataComment, String> getStringGetter() {
+        return new ItemGetter<DataComment, String>() {
             @Override
             public String getItem(DataComment datum) {
                 return datum.getComment();
             }
-        });
-    }
-
-    private String getComment(IdableList<? extends DataComment> data) {
-        ItemCounter<DataComment, String> counter = getCommentCounter();
-        counter.performCount(data);
-        String maxComment = counter.getModeItem();
-        int nonMax = counter.getNonModeCount();
-        if (nonMax > 0) maxComment += " + " + String.valueOf(nonMax);
-        return maxComment;
+        };
     }
 }

@@ -30,12 +30,18 @@ public class CanonicalCriterionMode implements CanonicalDatumMaker<DataCriterion
     }
 
     private String getSubject(IdableList<? extends DataCriterion> data) {
-        ItemCounter<DataCriterion, String> subjectCounter = getSubjectCounter();
-        subjectCounter.performCount(data);
+        ItemCounter<DataCriterion, String> subjectCounter = countSubjects(data);
         String maxSubject = subjectCounter.getModeItem();
         int nonMax = subjectCounter.getNonModeCount();
         if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
         return maxSubject;
+    }
+
+    @NonNull
+    private ItemCounter<DataCriterion, String> countSubjects(IdableList<? extends DataCriterion> data) {
+        ItemCounter<DataCriterion, String> subjectCounter = getSubjectCounter();
+        subjectCounter.performCount(data);
+        return subjectCounter;
     }
 
     @NonNull

@@ -23,51 +23,65 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
+    private static final CanonicalStringMaker<DataFact> LABEL_MAKER = new LabelMaker();
+    private static final CanonicalStringMaker<DataFact> VALUE_MAKER = new ValueMaker();
+
     @Override
     public DataFact getCanonical(IdableList<? extends DataFact> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumFact(id, "", "");
 
-        return new DatumFact(id, getLabel(data), getValue(data));
+        DataFact labelMode = LABEL_MAKER.getCanonical(data);
+        DataFact valueMode = VALUE_MAKER.getCanonical(data);
+        return new DatumFact(id, labelMode.getLabel(), valueMode.getValue());
     }
 
-    private String getValue(IdableList<? extends DataFact> data) {
-        ItemCounter<DataFact, String> valueCounter = getValueCounter();
-        valueCounter.performCount(data);
-        String maxValue = valueCounter.getModeItem();
-        int nonMax = valueCounter.getNonModeCount();
-        if (nonMax > 0) maxValue = String.valueOf(nonMax + 1) + " values";
-        return maxValue;
+    private static class LabelMaker extends CanonicalStringMaker<DataFact> {
+        @Override
+        public DataFact getCanonical(IdableList<? extends DataFact> data) {
+            ReviewId id = data.getReviewId();
+            if (data.size() == 0) return new DatumFact(id, "", "");
+
+            return new DatumFact(id, getModeString(data), "");
+        }
+
+        @NonNull
+        @Override
+        protected ItemGetter<DataFact, String> getStringGetter() {
+            return new ItemGetter<DataFact, String>() {
+                @Override
+                public String getItem(DataFact datum) {
+                    return datum.getLabel();
+                }
+            };
+        }
     }
 
-    private String getLabel(IdableList<? extends DataFact> data) {
-        ItemCounter<DataFact, String> labelCounter = getLabelCounter();
-        labelCounter.performCount(data);
-        String maxLabel = labelCounter.getModeItem();
-        int nonMax = labelCounter.getNonModeCount();
-        if (nonMax > 0) maxLabel += " + " + String.valueOf(nonMax);
-        return maxLabel;
-    }
+    private static class ValueMaker extends CanonicalStringMaker<DataFact> {
+        @Override
+        public DataFact getCanonical(IdableList<? extends DataFact> data) {
+            ReviewId id = data.getReviewId();
+            if (data.size() == 0) return new DatumFact(id, "", "");
 
-    @NonNull
-    private ItemCounter<DataFact, String> getValueCounter() {
-        ItemCounter<DataFact, String> counter;
-        counter = new ItemCounter<>(new ItemGetter<DataFact, String>() {
-                    @Override
-                    public String getItem(DataFact datum) {
-                        return datum.getValue();
-                    }
-                });
-        return counter;
-    }
+            return new DatumFact(id, "", getModeString(data));
+        }
 
-    @NonNull
-    private ItemCounter<DataFact, String> getLabelCounter() {
-        return new ItemCounter<>(new ItemGetter<DataFact, String>() {
-                        @Override
-                        public String getItem(DataFact datum) {
-                            return datum.getLabel();
-                        }
-                    });
+        @NonNull
+        @Override
+        protected ItemGetter<DataFact, String> getStringGetter() {
+            return new ItemGetter<DataFact, String>() {
+                @Override
+                public String getItem(DataFact datum) {
+                    return datum.getValue();
+                }
+            };
+        }
+
+        @NonNull
+        @Override
+        protected String formatModeString(String modeString, int nonMode) {
+            modeString += String.valueOf(nonMode + 1) + " values";
+            return modeString;
+        }
     }
 }

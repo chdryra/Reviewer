@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -22,39 +21,31 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalCriterionAverage implements CanonicalDatumMaker<DataCriterion> {
+public class CanonicalCriterionAverage extends CanonicalStringMaker<DataCriterion> {
     @Override
     public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return new DatumCriterion(id, "", 0f);
 
-        return new DatumCriterion(id, getSubject(data), getAverage(data));
+        return new DatumCriterion(id, getModeString(data), getAverageRating(data));
     }
 
-    private String getSubject(IdableList<? extends DataCriterion> data) {
-        ItemCounter<DataCriterion, String> counter = getSubjectCounter();
-        counter.performCount(data);
-        String maxSubject = counter.getModeItem();
-        int nonMax = counter.getNonModeCount();
-        if (nonMax > 0) maxSubject += " + " + String.valueOf(nonMax);
-        return maxSubject;
+    @NonNull
+    @Override
+    protected ItemGetter<DataCriterion, String> getStringGetter() {
+        return new ItemGetter<DataCriterion, String>() {
+            @Override
+            public String getItem(DataCriterion datum) {
+                return datum.getSubject();
+            }
+        };
     }
 
-    private float getAverage(IdableList<? extends DataCriterion> data) {
+    private float getAverageRating(IdableList<? extends DataCriterion> data) {
         float average = 0f;
         for (DataCriterion child : data) {
             average += child.getRating() / (float) data.size();
         }
         return average;
-    }
-
-    @NonNull
-    private ItemCounter<DataCriterion, String> getSubjectCounter() {
-        return new ItemCounter<>(new ItemGetter<DataCriterion, String>() {
-                @Override
-                public String getItem(DataCriterion datum) {
-                    return datum.getSubject();
-                }
-        });
     }
 }

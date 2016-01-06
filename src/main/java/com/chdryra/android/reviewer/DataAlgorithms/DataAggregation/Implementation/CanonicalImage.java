@@ -25,7 +25,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
-    //Overridden
     @Override
     public DataImage getCanonical(IdableList<? extends DataImage> data) {
         ReviewId id = data.getReviewId();
