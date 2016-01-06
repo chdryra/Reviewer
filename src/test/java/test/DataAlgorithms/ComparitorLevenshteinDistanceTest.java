@@ -21,7 +21,7 @@ import static org.hamcrest.MatcherAssert.*;
  * StringUtils.getLevenshteinDistance("hippo", "elephant") = 7
  * StringUtils.getLevenshteinDistance("hello", "hallo")    = 1
  */
-public class ComparitorStringTest {
+public class ComparitorLevenshteinDistanceTest {
     private ComparitorString mComparitor;
 
     @Before
