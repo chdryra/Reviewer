@@ -37,7 +37,8 @@ public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
         DataAuthorReview reference = data.getItem(0);
         DifferenceBoolean none = new DifferenceBoolean(false);
         for (DataAuthorReview author : data) {
-            if (!mComparitor.compare(reference, author).lessThanOrEqualTo(none)) return nullAuthor;
+            DifferenceBoolean difference = mComparitor.compare(reference, author);
+            if (!difference.lessThanOrEqualTo(none)) return nullAuthor;
         }
 
         return new DatumAuthorReview(id, reference.getName(), reference.getUserId());
