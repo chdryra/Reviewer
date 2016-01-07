@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -25,7 +26,7 @@ public class CanonicalTagMode extends CanonicalStringMaker<DataTag> {
     @Override
     public DataTag getCanonical(IdableList<? extends DataTag> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumTag(id, "");
+        if (data.size() == 0) return NullData.nullTag(id);
         return new DatumTag(id, getModeString(data));
     }
 

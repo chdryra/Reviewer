@@ -38,4 +38,25 @@ public class DatumComment implements DataComment {
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validate(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumComment)) return false;
+
+        DatumComment that = (DatumComment) o;
+
+        if (mIsHeadline != that.mIsHeadline) return false;
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        return mComment.equals(that.mComment);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId.hashCode();
+        result = 31 * result + mComment.hashCode();
+        result = 31 * result + (mIsHeadline ? 1 : 0);
+        return result;
+    }
 }

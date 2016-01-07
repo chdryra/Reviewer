@@ -4,6 +4,7 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementatio
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
         .CanonicalStringMaker;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -43,8 +44,7 @@ public class CanonicalCriterionAverageTest extends CanonicalStringMakerTest<Data
 
     @Override
     protected void checkInvalid(DataCriterion canonical) {
-        assertThat(canonical.getSubject(), is(""));
-        assertThat(canonical.getRating(), is(0f));
+        assertThat(canonical, is(NullData.nullCriterion(canonical.getReviewId())));
     }
 
     @Override

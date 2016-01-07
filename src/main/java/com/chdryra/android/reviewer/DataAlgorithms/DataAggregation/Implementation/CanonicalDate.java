@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -23,9 +24,9 @@ import java.util.Date;
  */
 public class CanonicalDate implements CanonicalDatumMaker<DataDateReview> {
     @Override
-    public DatumDateReview getCanonical(IdableList<? extends DataDateReview> data) {
+    public DataDateReview getCanonical(IdableList<? extends DataDateReview> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumDateReview(id, 0);
+        if (data.size() == 0) return NullData.nulDate(id);
 
         return new DatumDateReview(id, getMostRecent(data));
     }

@@ -31,4 +31,23 @@ public class DatumDateReview implements DataDateReview {
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumDateReview)) return false;
+
+        DatumDateReview that = (DatumDateReview) o;
+
+        if (mTime != that.mTime) return false;
+        return mReviewId.equals(that.mReviewId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId.hashCode();
+        result = 31 * result + (int) (mTime ^ (mTime >>> 32));
+        return result;
+    }
 }

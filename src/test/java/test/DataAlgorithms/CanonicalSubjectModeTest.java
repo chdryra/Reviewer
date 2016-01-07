@@ -1,6 +1,8 @@
 package test.DataAlgorithms;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalSubjectMode;
+
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 
@@ -32,7 +34,7 @@ public class CanonicalSubjectModeTest extends CanonicalStringMakerTest<DataSubje
 
     @Override
     protected void checkInvalid(DataSubject canonical) {
-        assertThat(canonical.getSubject(), is(""));
+        assertThat(canonical, is(NullData.nullSubject(canonical.getReviewId())));
     }
 
     @Override

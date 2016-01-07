@@ -24,7 +24,7 @@ import java.util.Map;
 public class ItemCounter<T, D> {
     private ItemGetter<T, D> mGetter;
     private Map<D, Integer> mCountMap;
-    private D mMaxItem;
+    private D mModeItem;
 
     public ItemCounter(ItemGetter<T, D> getter) {
         mCountMap = new LinkedHashMap<>();
@@ -32,7 +32,7 @@ public class ItemCounter<T, D> {
     }
 
     public D getModeItem() {
-        return mMaxItem;
+        return mModeItem;
     }
 
     public int getNonModeCount() {
@@ -57,7 +57,7 @@ public class ItemCounter<T, D> {
         mCountMap.clear();
         Iterator<? extends T> iterator = data.iterator();
         if(iterator.hasNext()) {
-            mMaxItem = mGetter.getItem(iterator.next());
+            mModeItem = mGetter.getItem(iterator.next());
             return 1;
         }
         return 0;
@@ -66,7 +66,7 @@ public class ItemCounter<T, D> {
     private int setNewMaxIfNeccessary(int maxCount, Integer numberOfItems, D item) {
         if (numberOfItems > maxCount) {
             maxCount = numberOfItems;
-            mMaxItem = item;
+            mModeItem = item;
         }
         return maxCount;
     }

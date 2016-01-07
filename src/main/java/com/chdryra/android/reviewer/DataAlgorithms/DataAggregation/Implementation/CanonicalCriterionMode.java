@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -18,7 +19,7 @@ public class CanonicalCriterionMode extends CanonicalStringMaker<DataCriterion> 
     @Override
     public DataCriterion getCanonical(IdableList<? extends DataCriterion> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumCriterion(id, "", 0f);
+        if (data.size() == 0) return NullData.nullCriterion(id);
 
         return new DatumCriterion(id, getModeString(data), getRating(data));
     }

@@ -3,6 +3,7 @@ package test.DataAlgorithms;
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalLocation;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalStringMaker;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -12,7 +13,6 @@ import com.google.android.gms.maps.model.LatLng;
 import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.*;
 
 /**
@@ -44,8 +44,7 @@ public class CanonicalLocationTest extends CanonicalStringMakerTest<DataLocation
 
     @Override
     protected void checkInvalid(DataLocation canonical) {
-        assertThat(canonical.getName(), is(""));
-        assertThat(canonical.getLatLng(), is(nullValue()));
+        assertThat(canonical, is(NullData.nullLocation(canonical.getReviewId())));
     }
 
     @Override

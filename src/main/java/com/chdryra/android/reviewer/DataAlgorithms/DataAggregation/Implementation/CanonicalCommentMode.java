@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -25,7 +26,7 @@ public class CanonicalCommentMode extends CanonicalStringMaker<DataComment> {
     @Override
     public DataComment getCanonical(IdableList<? extends DataComment> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumComment(id, "", false);
+        if (data.size() == 0) return NullData.nullComment(id);
 
         return new DatumComment(id, getModeString(data), false);
     }

@@ -1,6 +1,7 @@
 package test.DataAlgorithms;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalTagMode;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 
@@ -32,7 +33,7 @@ public class CanonicalTagModeTest extends CanonicalStringMakerTest<DataTag>{
 
     @Override
     protected void checkInvalid(DataTag canonical) {
-        assertThat(canonical.getTag(), is(""));
+        assertThat(canonical, is(NullData.nullTag(canonical.getReviewId())));
     }
 
     @Override

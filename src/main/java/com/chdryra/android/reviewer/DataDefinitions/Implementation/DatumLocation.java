@@ -45,4 +45,25 @@ public class DatumLocation implements DataLocation {
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumLocation)) return false;
+
+        DatumLocation that = (DatumLocation) o;
+
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (!mLatLng.equals(that.mLatLng)) return false;
+        return mName.equals(that.mName);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId.hashCode();
+        result = 31 * result + mLatLng.hashCode();
+        result = 31 * result + mName.hashCode();
+        return result;
+    }
 }

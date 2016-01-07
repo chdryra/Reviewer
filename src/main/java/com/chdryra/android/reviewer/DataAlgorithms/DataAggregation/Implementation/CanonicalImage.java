@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -28,7 +29,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
     @Override
     public DataImage getCanonical(IdableList<? extends DataImage> data) {
         ReviewId id = data.getReviewId();
-        DatumImage nullImage = new DatumImage(id);
+        DataImage nullImage = NullData.nullImage(id);
         if (data.size() == 0) return nullImage;
 
         String caption = getCaption(data);
@@ -53,7 +54,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         return caption;
     }
 
-    private DataImage getLastImage(IdableList<? extends DataImage> data, DatumImage nullImage) {
+    private DataImage getLastImage(IdableList<? extends DataImage> data, DataImage nullImage) {
         DataImage reference = data.getItem(0);
         ComparitorImageBitmap comparitor = new ComparitorImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);

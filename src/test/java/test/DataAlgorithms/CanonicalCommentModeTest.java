@@ -1,6 +1,8 @@
 package test.DataAlgorithms;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalCommentMode;
+
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 
@@ -34,8 +36,7 @@ public class CanonicalCommentModeTest extends CanonicalStringMakerTest<DataComme
 
     @Override
     protected void checkInvalid(DataComment canonical) {
-        assertThat(canonical.getComment(), is(""));
-        assertThat(canonical.isHeadline(), is(false));
+        assertThat(canonical, is(NullData.nullComment(canonical.getReviewId())));
     }
 
     @Override

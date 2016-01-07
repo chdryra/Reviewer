@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementati
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -25,7 +26,7 @@ public class CanonicalSubjectMode extends CanonicalStringMaker<DataSubject> {
     @Override
     public DataSubject getCanonical(IdableList<? extends DataSubject> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumSubject(id, "");
+        if (data.size() == 0) return NullData.nullSubject(id);
 
         return new DatumSubject(id, getModeString(data));
     }

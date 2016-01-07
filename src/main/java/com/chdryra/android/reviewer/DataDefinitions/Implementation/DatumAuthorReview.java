@@ -39,4 +39,25 @@ public class DatumAuthorReview implements DataAuthorReview {
     public ReviewId getReviewId() {
         return mReviewId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumAuthorReview)) return false;
+
+        DatumAuthorReview that = (DatumAuthorReview) o;
+
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (!mName.equals(that.mName)) return false;
+        return mUserId.equals(that.mUserId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId.hashCode();
+        result = 31 * result + mName.hashCode();
+        result = 31 * result + mUserId.hashCode();
+        return result;
+    }
 }

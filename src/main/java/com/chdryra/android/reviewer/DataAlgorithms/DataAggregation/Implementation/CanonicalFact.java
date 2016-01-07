@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ItemGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -29,7 +30,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     @Override
     public DataFact getCanonical(IdableList<? extends DataFact> data) {
         ReviewId id = data.getReviewId();
-        if (data.size() == 0) return new DatumFact(id, "", "");
+        if (data.size() == 0) return NullData.nullFact(id);
 
         DataFact labelMode = LABEL_MAKER.getCanonical(data);
         DataFact valueMode = VALUE_MAKER.getCanonical(data);
@@ -39,10 +40,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     private static class LabelMaker extends CanonicalStringMaker<DataFact> {
         @Override
         public DataFact getCanonical(IdableList<? extends DataFact> data) {
-            ReviewId id = data.getReviewId();
-            if (data.size() == 0) return new DatumFact(id, "", "");
-
-            return new DatumFact(id, getModeString(data), "");
+            return new DatumFact(data.getReviewId(), getModeString(data), "");
         }
 
         @NonNull
@@ -60,10 +58,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
     private static class ValueMaker extends CanonicalStringMaker<DataFact> {
         @Override
         public DataFact getCanonical(IdableList<? extends DataFact> data) {
-            ReviewId id = data.getReviewId();
-            if (data.size() == 0) return new DatumFact(id, "", "");
-
-            return new DatumFact(id, "", getModeString(data));
+            return new DatumFact(data.getReviewId(), "", getModeString(data));
         }
 
         @NonNull
@@ -80,8 +75,7 @@ public class CanonicalFact implements CanonicalDatumMaker<DataFact> {
         @NonNull
         @Override
         protected String formatModeString(String modeString, int nonMode) {
-            modeString += String.valueOf(nonMode + 1) + " values";
-            return modeString;
+            return String.valueOf(nonMode + 1) + " values";
         }
     }
 }

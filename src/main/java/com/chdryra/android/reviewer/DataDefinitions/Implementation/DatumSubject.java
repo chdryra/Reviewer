@@ -28,7 +28,28 @@ public class DatumSubject implements DataSubject {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumSubject)) return false;
+
+        DatumSubject that = (DatumSubject) o;
+
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        return mSubject.equals(that.mSubject);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId.hashCode();
+        result = 31 * result + mSubject.hashCode();
+        return result;
+    }
+
+    @Override
     public boolean hasData(DataValidator validator) {
+
+
         return validator.validate(this);
     }
 }

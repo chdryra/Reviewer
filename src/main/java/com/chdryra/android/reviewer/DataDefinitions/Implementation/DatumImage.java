@@ -65,4 +65,29 @@ public class DatumImage implements DataImage {
     public ReviewId getReviewId() {
         return mReviewId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumImage)) return false;
+
+        DatumImage that = (DatumImage) o;
+
+        if (mIsCover != that.mIsCover) return false;
+        if (mBitmap != null ? !mBitmap.equals(that.mBitmap) : that.mBitmap != null) return false;
+        if (mDate != null ? !mDate.equals(that.mDate) : that.mDate != null) return false;
+        if (!mCaption.equals(that.mCaption)) return false;
+        return mReviewId.equals(that.mReviewId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mBitmap != null ? mBitmap.hashCode() : 0;
+        result = 31 * result + (mDate != null ? mDate.hashCode() : 0);
+        result = 31 * result + mCaption.hashCode();
+        result = 31 * result + mReviewId.hashCode();
+        result = 31 * result + (mIsCover ? 1 : 0);
+        return result;
+    }
 }

@@ -43,4 +43,28 @@ public class DatumFact implements DataFact {
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumFact)) return false;
+
+        DatumFact datumFact = (DatumFact) o;
+
+        if (mReviewId != null ? !mReviewId.equals(datumFact.mReviewId) : datumFact.mReviewId !=
+                null)
+            return false;
+        if (mLabel != null ? !mLabel.equals(datumFact.mLabel) : datumFact.mLabel != null)
+            return false;
+        return !(mValue != null ? !mValue.equals(datumFact.mValue) : datumFact.mValue != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId != null ? mReviewId.hashCode() : 0;
+        result = 31 * result + (mLabel != null ? mLabel.hashCode() : 0);
+        result = 31 * result + (mValue != null ? mValue.hashCode() : 0);
+        return result;
+    }
 }

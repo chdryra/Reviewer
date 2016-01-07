@@ -4,10 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.CanonicalAuthor;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.ComparitorAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -21,7 +21,7 @@ import test.TestUtils.RandomAuthor;
 import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -42,15 +42,13 @@ public class CanonicalAuthorTest {
     }
 
     @Test
-    public void ifNoDataThenReturnsInvalidAuthor() {
+    public void ifNoDataThenReturnsNullAuthor() {
         ReviewId reviewId = RandomReviewId.nextReviewId();
         IdableList<DataAuthorReview> authors = new IdableDataList<>(reviewId);
 
         DataAuthorReview canonical = mCanonical.getCanonical(authors);
 
-        assertThat(canonical.getReviewId().toString(), is(reviewId.toString()));
-        assertThat(canonical.getName(), is(""));
-        assertThat(canonical.getUserId(), is(NullUserId.ID));
+        assertThat(canonical, is(NullData.nullAuthor(reviewId)));
     }
 
     @Test
@@ -61,9 +59,7 @@ public class CanonicalAuthorTest {
 
         DataAuthorReview canonical = mCanonical.getCanonical(authors);
 
-        assertThat(canonical.getReviewId().toString(), is(reviewId.toString()));
-        assertThat(canonical.getName(), is(""));
-        assertThat(canonical.getUserId(), is(NullUserId.ID));
+        assertThat(canonical, is(NullData.nullAuthor(reviewId)));
     }
 
     @Test

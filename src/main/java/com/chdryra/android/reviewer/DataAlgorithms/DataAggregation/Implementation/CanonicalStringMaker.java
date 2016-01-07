@@ -30,7 +30,6 @@ public abstract class CanonicalStringMaker<T extends HasReviewId> implements
         return modeString;
     }
 
-    @NonNull
     private ItemCounter<T, String> countItems(Iterable<? extends T> data) {
         ItemCounter<T, String> counter = newItemCounter();
         counter.performCount(data);
