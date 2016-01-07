@@ -14,6 +14,8 @@ import com.chdryra.android.testutils.RandomString;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -25,21 +27,24 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CanonnicalFactTest {
-    private static final int NUM_LABEL_MODE = 5;
-    private static final int NUM_VALUE_MODE = 7;
-    private static final int NUM_NON_MODE_DATA = NUM_LABEL_MODE + NUM_VALUE_MODE;
-    private static final int NUM_DATA = NUM_LABEL_MODE + NUM_VALUE_MODE + NUM_NON_MODE_DATA;
+    private static final int MIN_NUM_DATA = 3;
+    private static final int MAX_EXTRA_DATA = 7;
+    private static final Random RAND = new Random();
 
     private CanonicalFact mCanonical;
     private String mModeLabel;
     private String mModeValue;
     private IdableList<DataFact> mData;
+    private int mNumValueMode;
+    private int mNumLabelMode;
 
     @Before
     public void setUp() {
         mCanonical = new CanonicalFact();
         mModeLabel = RandomString.nextWord();
         mModeValue = RandomString.nextWord();
+        mNumLabelMode = MIN_NUM_DATA + RAND.nextInt(MAX_EXTRA_DATA);
+        mNumValueMode = MIN_NUM_DATA + RAND.nextInt(MAX_EXTRA_DATA);
     }
 
     @Test
@@ -63,17 +68,17 @@ public class CanonnicalFactTest {
         newData(true);
         DataFact canonical = mCanonical.getCanonical(mData);
         assertThat(canonical.getReviewId().toString(), is(mData.getReviewId().toString()));
-        assertThat(canonical.getLabel(), is(mModeLabel + " + " + String.valueOf(NUM_VALUE_MODE)));
-        assertThat(canonical.getValue(), is(String.valueOf(NUM_LABEL_MODE + 1) + " values"));
+        assertThat(canonical.getLabel(), is(mModeLabel + " + " + String.valueOf(mNumValueMode)));
+        assertThat(canonical.getValue(), is(String.valueOf(mNumLabelMode + 1) + " values"));
     }
 
     private void newData(boolean variable) {
         mData = newDataList();
         if(variable) {
-            addData(mData, mModeLabel, null, NUM_LABEL_MODE);
-            addData(mData, null, mModeValue, NUM_VALUE_MODE);
+            addData(mData, mModeLabel, null, mNumLabelMode);
+            addData(mData, null, mModeValue, mNumValueMode);
         } else {
-            addData(mData, mModeLabel, mModeValue, NUM_LABEL_MODE + NUM_VALUE_MODE);
+            addData(mData, mModeLabel, mModeValue, mNumLabelMode + mNumValueMode);
         }
     }
 
