@@ -54,7 +54,7 @@ public class DatumLocation implements DataLocation {
         DatumLocation that = (DatumLocation) o;
 
         if (!mReviewId.equals(that.mReviewId)) return false;
-        if (!mLatLng.equals(that.mLatLng)) return false;
+        if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) return false;
         return mName.equals(that.mName);
 
     }
@@ -62,7 +62,7 @@ public class DatumLocation implements DataLocation {
     @Override
     public int hashCode() {
         int result = mReviewId.hashCode();
-        result = 31 * result + mLatLng.hashCode();
+        result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
         result = 31 * result + mName.hashCode();
         return result;
     }

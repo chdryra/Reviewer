@@ -80,8 +80,10 @@ public class FactoryDataAggregator {
     }
 
     public DataAggregator<DataLocation> newLocationsAggregator() {
-        return new DataAggregatorImpl<>(new ComparitorLocation(new ComparitorLocationDistance(),
-                new ComparitorLocationName(mParams.getStringComparitor())),
+        ComparitorLocation comparitorLocation
+                = new ComparitorLocation(new ComparitorLocationDistance(),
+                new ComparitorLocationName(mParams.getStringComparitor()));
+        return new DataAggregatorImpl<>(comparitorLocation,
                 mParams.getSimilarLocation(), new CanonicalLocation());
     }
 

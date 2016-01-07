@@ -38,4 +38,26 @@ public class DatumCriterion implements DataCriterion {
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DatumCriterion)) return false;
+
+        DatumCriterion that = (DatumCriterion) o;
+
+        if (Float.compare(that.mRating, mRating) != 0) return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId != null ? mReviewId.hashCode() : 0;
+        result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
+        result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+        return result;
+    }
 }

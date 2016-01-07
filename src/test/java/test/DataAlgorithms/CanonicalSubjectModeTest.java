@@ -41,4 +41,9 @@ public class CanonicalSubjectModeTest extends CanonicalStringMakerTest<DataSubje
     protected DataSubject newDatum(String string) {
         return new DatumSubject(RandomReviewId.nextReviewId(), string);
     }
+
+    @Override
+    protected String getModeString() {
+        return super.getModeString().toLowerCase();
+    }
 }

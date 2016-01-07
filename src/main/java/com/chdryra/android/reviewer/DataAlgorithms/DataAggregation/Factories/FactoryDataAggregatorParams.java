@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.Da
 public class FactoryDataAggregatorParams {
     public DataAggregatorParams getDefaultParams() {
         DifferenceBoolean bool = new DifferenceBoolean(false);
-        DifferencePercentage percentage = new DifferencePercentage(0);
+        DifferencePercentage percentage = new DifferencePercentage(0.);
         DifferenceDate date = new DifferenceDate(DifferenceDate.DateBucket.DAY);
         DifferenceFloat tenMetres = new DifferenceFloat(10f);
         DifferenceLocation location = new DifferenceLocation(tenMetres, percentage);

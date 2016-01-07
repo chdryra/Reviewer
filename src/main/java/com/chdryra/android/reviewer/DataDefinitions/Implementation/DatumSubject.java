@@ -35,7 +35,7 @@ public class DatumSubject implements DataSubject {
         DatumSubject that = (DatumSubject) o;
 
         if (!mReviewId.equals(that.mReviewId)) return false;
-        return mSubject.equals(that.mSubject);
+        return mSubject.equalsIgnoreCase(that.mSubject);
 
     }
 
@@ -48,8 +48,6 @@ public class DatumSubject implements DataSubject {
 
     @Override
     public boolean hasData(DataValidator validator) {
-
-
         return validator.validate(this);
     }
 }

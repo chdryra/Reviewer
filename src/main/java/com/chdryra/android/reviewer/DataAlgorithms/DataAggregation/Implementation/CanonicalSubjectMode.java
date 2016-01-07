@@ -37,7 +37,7 @@ public class CanonicalSubjectMode extends CanonicalStringMaker<DataSubject> {
         return new ItemGetter<DataSubject, String>() {
             @Override
             public String getItem(DataSubject datum) {
-                return datum.getSubject();
+                return datum.getSubject().toLowerCase();
             }
         };
     }

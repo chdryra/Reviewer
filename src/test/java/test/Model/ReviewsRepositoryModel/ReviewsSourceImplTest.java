@@ -47,6 +47,7 @@ import test.TestUtils.StaticReviewsRepository;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -278,7 +279,7 @@ public class ReviewsSourceImplTest {
         }
 
         assertThat(node.getSubject().getSubject(), is(subject));
-        assertThat(node.getRating().getRating(), is(averageRating));
+        assertThat((double)node.getRating().getRating(), closeTo((double)averageRating, 0.001));
         assertThat(node.getRating().getRatingWeight(), is(numChildren));
     }
 
