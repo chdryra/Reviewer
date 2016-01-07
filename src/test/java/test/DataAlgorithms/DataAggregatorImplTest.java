@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
         .DataAggregatorImpl;
+import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
@@ -22,7 +23,7 @@ import java.util.Random;
 import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,7 +34,6 @@ public class DataAggregatorImplTest {
     private static final int MIN_INT = 1;
     private static final int MAX_INT = 10;
     private static final int NUM_DATA = 100;
-    private static final Random RAND = new Random();
     private IntegerComparitor mComparitor;
     private CanonicalInt mCanonical;
 
@@ -44,31 +44,116 @@ public class DataAggregatorImplTest {
     }
 
     @Test
-    public void allDataWithinMaxIntDistance() {
+    public void allDataWithinMaxIntDistanceAggregatesToOneGroupOfNumDataSize() {
         IdableList<ReviewInteger> data = getData();
         IntegerDifference diff = new IntegerDifference(MAX_INT);
         DataAggregatorImpl<ReviewInteger, IntegerDifference> aggregator = newAggregator(diff);
+
         AggregatedList<ReviewInteger> results = aggregator.aggregate(data);
-        assertThat(results.size(), is(1));
+
+        checkAggregates(data, results, 1, diff);
     }
 
-    @NonNull
-    private DataAggregatorImpl<ReviewInteger, IntegerDifference> newAggregator(IntegerDifference
-                                                                                           diff) {
-        return new DataAggregatorImpl<>(mComparitor, diff, mCanonical);
+    @Test
+    public void allDataWithinHalfMaxMinusOneIntDistanceAggregatesToTwoGroupsOfEqualSize() {
+        IdableList<ReviewInteger> data = getData();
+        IntegerDifference diff = new IntegerDifference(MAX_INT / 2 - 1); //because lessThanOrEqualTo
+        DataAggregatorImpl<ReviewInteger, IntegerDifference> aggregator = newAggregator(diff);
+
+        AggregatedList<ReviewInteger> results = aggregator.aggregate(data);
+
+        checkAggregates(data, results, 2, diff);
+    }
+
+    @Test
+    public void allDataWithinZeroDistanceAggregatesToMaxIntGroupsOfEqualSize() {
+        IdableList<ReviewInteger> data = getData();
+        IntegerDifference diff = new IntegerDifference(0);
+        DataAggregatorImpl<ReviewInteger, IntegerDifference> aggregator = newAggregator(diff);
+
+        AggregatedList<ReviewInteger> results = aggregator.aggregate(data);
+
+        checkAggregates(data, results, MAX_INT, diff);
+    }
+
+    @Test
+    public void allDataWithinOneDistanceAggregatesToHalfMaxIntGroupsOfEqualSize() {
+        IdableList<ReviewInteger> data = getData();
+        IntegerDifference diff = new IntegerDifference(1);
+        DataAggregatorImpl<ReviewInteger, IntegerDifference> aggregator = newAggregator(diff);
+
+        AggregatedList<ReviewInteger> results = aggregator.aggregate(data);
+
+        checkAggregates(data, results, MAX_INT / 2, diff);
+    }
+
+    @Test
+    public void allDataWithinCertainDistanceAggregatesToNGroupsThatAddUpToNumData() {
+        IdableList<ReviewInteger> data = getData();
+        int size = MIN_INT + new Random().nextInt(MAX_INT - 1);
+        IntegerDifference diff = new IntegerDifference(size);
+        DataAggregatorImpl<ReviewInteger, IntegerDifference> aggregator = newAggregator(diff);
+
+        AggregatedList<ReviewInteger> results = aggregator.aggregate(data);
+
+        int numAggregates = (int) Math.ceil((double) MAX_INT / ((double) size + 1));
+        assertThat(results.size(), is(numAggregates));
+        int totalSize = 0;
+        for (int i = 0; i < results.size(); ++i) {
+            AggregatedData<ReviewInteger> aggregate = results.getItem(i);
+            totalSize += aggregate.getAggregatedItems().size();
+            checkAggregateWithinExpectedSimilarity(aggregate, diff);
+        }
+        assertThat(totalSize, is(NUM_DATA));
     }
 
     private IdableList<ReviewInteger> getData() {
         IdableList<ReviewInteger> data = new IdableDataList<>(RandomReviewId.nextReviewId());
-        for(int i = 0; i < NUM_DATA; ++i) {
-            data.add(new ReviewInteger(RandomReviewId.nextReviewId(), newInt()));
+        for (int i = 0; i < NUM_DATA; ++i) {
+            data.add(new ReviewInteger(RandomReviewId.nextReviewId(), MIN_INT + i % MAX_INT));
         }
 
         return data;
     }
 
-    private int newInt() {
-        return MIN_INT + RAND.nextInt(MAX_INT);
+    private void checkAggregates(IdableList<ReviewInteger> data,
+                                 AggregatedList<ReviewInteger> results,
+                                 int numAggregatesExpected,
+                                 IntegerDifference expectedDifference) {
+        assertThat(results.size(), is(numAggregatesExpected));
+        int totalSize = 0;
+        for (int i = 0; i < results.size(); ++i) {
+            AggregatedData<ReviewInteger> aggregate = results.getItem(i);
+            totalSize = checkAggregateSize(aggregate, numAggregatesExpected, totalSize);
+            assertThat(aggregate.getReviewId(), is(data.getReviewId()));
+            checkAggregateWithinExpectedSimilarity(aggregate, expectedDifference);
+        }
+        assertThat(totalSize, is(NUM_DATA));
+    }
+
+    private int checkAggregateSize(AggregatedData<ReviewInteger> aggregate, int numAggregatesExpected, int totalSize) {
+        int groupSize = aggregate.getAggregatedItems().size();
+        assertThat(groupSize, is(NUM_DATA / numAggregatesExpected));
+        totalSize += groupSize;
+        return totalSize;
+    }
+
+    private void checkAggregateWithinExpectedSimilarity(AggregatedData<ReviewInteger> aggregate,
+                                                        IntegerDifference expectedDifference) {
+        ReviewInteger canonical = aggregate.getCanonical();
+        IdableList<ReviewInteger> aggregates = aggregate.getAggregatedItems();
+        assertThat(canonical.getReviewId(), is(aggregate.getReviewId()));
+        assertThat(canonical.getInt(), is(getAverageInt(aggregates)));
+        for (int j = 0; j < aggregates.size(); ++j) {
+            IntegerDifference diff = mComparitor.compare(canonical, aggregates.getItem(j));
+            assertThat(diff.lessThanOrEqualTo(expectedDifference), is(true));
+        }
+    }
+
+    @NonNull
+    private DataAggregatorImpl<ReviewInteger, IntegerDifference> newAggregator(IntegerDifference
+                                                                                       diff) {
+        return new DataAggregatorImpl<>(mComparitor, diff, mCanonical);
     }
 
     private int getAverageInt(IdableList<? extends ReviewInteger> data) {
