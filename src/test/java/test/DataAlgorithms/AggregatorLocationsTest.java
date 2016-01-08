@@ -40,8 +40,8 @@ public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLoc
     @NonNull
     protected DataLocation newSimilarDatum(ReviewId reviewId, DataLocation template) {
         LatLng latLng = template.getLatLng();
-        double lat = latLng.latitude + (getRAND().nextDouble() * 2 - 1) * 5e-10;
-        double lng = latLng.longitude + (getRAND().nextDouble() * 2 - 1) * 5e-10;
+        double lat = latLng.latitude + (getRAND().nextDouble() * 2 - 1) * 1e-5;
+        double lng = latLng.longitude + (getRAND().nextDouble() * 2 - 1) * 1e-5;
         return new DatumLocation(reviewId, new LatLng(lat, lng), template.getName());
     }
 
