@@ -64,7 +64,6 @@ public class FactoryDataAggregator {
     }
 
     public DataAggregator<DataComment> newCommentsAggregator() {
-
         return new DataAggregatorImpl<>(new ComparitorComment(mParams.getStringComparitor()),
                 mParams.getSimilarPercentage(), new CanonicalCommentMode());
     }

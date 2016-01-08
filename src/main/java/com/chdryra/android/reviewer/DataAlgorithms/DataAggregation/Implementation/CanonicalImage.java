@@ -35,7 +35,8 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         String caption = getCaption(data);
         DataImage lastEquivalentBitmap = getLastImage(data, nullImage);
         if(lastEquivalentBitmap == nullImage) return nullImage;
-        DataDate finalDate = new DatumDateReview(id, lastEquivalentBitmap.getDate().getTime());
+        DataDate date = lastEquivalentBitmap.getDate();
+        DataDate finalDate = new DatumDateReview(id, date.getTime());
 
         return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption, true);
     }
@@ -58,15 +59,34 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         DataImage reference = data.getItem(0);
         ComparitorImageBitmap comparitor = new ComparitorImageBitmap();
         DifferenceBoolean none = new DifferenceBoolean(false);
-        DataImage lastImage = data.getItem(0);
-        for (DataImage image : data) {
+
+        DataImage lastImage = null;
+        DataDate lastDate = null;
+        int i = 0;
+        while(lastDate == null && i < data.size()) {
+            lastImage = data.getItem(i++);
+            lastDate = lastImage.getDate();
+        }
+
+        if(lastDate == null) return reference;
+
+        for (int j = i; j < data.size(); ++j) {
+            DataImage image = data.getItem(j);
+            DataDate imageDate = image.getDate();
+
             if (!comparitor.compare(reference, image).lessThanOrEqualTo(none)) {
                 lastImage = nullImage;
                 break;
             }
-            DataDate imageDate = image.getDate();
-            if (imageDate.getTime() > lastImage.getDate().getTime()) lastImage = image;
+
+            if(imageDate == null) continue;
+
+            if (imageDate.getTime() > lastDate.getTime()) {
+                lastImage = image;
+                lastDate = imageDate;
+            }
         }
+
         return lastImage;
     }
 

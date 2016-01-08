@@ -40,7 +40,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     private static Random RAND = new Random();
 
     private DataAggregator<T> mAggregator;
-    private Map<T, Integer> mAuthorsMap;
+    protected Map<T, Integer> mCanonicalsMap;
 
     @NonNull
     protected abstract DataAggregator<T> newAggregator(FactoryDataAggregator factory);
@@ -57,7 +57,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     public void setUp() {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         mAggregator = newAggregator(new FactoryDataAggregator(paramsFactory.getDefaultParams()));
-        mAuthorsMap = new HashMap<>();
+        mCanonicalsMap = new HashMap<>();
     }
 
     @Test
@@ -81,9 +81,17 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
             T canonical = aggregated.getCanonical();
             IdableList<T> aggregatedItems = aggregated.getAggregatedItems();
 
-            assertThat(mAuthorsMap.containsKey(canonical), is(true));
-            assertThat(mAuthorsMap.get(canonical), is(aggregatedItems.size()));
+            checkCanonicalInMap(canonical);
+            checkCanonicalItemsSize(canonical, aggregatedItems.size());
         }
+    }
+
+    protected void checkCanonicalItemsSize(T canonical, int size) {
+        assertThat(mCanonicalsMap.get(canonical), is(size));
+    }
+
+    protected void checkCanonicalInMap(T canonical) {
+        assertThat(mCanonicalsMap.containsKey(canonical), is(true));
     }
 
     @NonNull
@@ -91,7 +99,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
         ArrayList<T> dataArray = new ArrayList<>();
         for (int i = 0; i < numTypes; ++i) {
             ArrayList<T> data = addData(dataArray);
-            mAuthorsMap.put(getExampleCanonical(id, data), data.size());
+            mCanonicalsMap.put(getExampleCanonical(id, data), data.size());
         }
 
         return getIdableList(id, dataArray);

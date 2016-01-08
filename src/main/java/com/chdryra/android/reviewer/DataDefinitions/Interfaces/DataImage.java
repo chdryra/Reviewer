@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataImage extends HasReviewId, Validatable{
-    @Nullable
     Bitmap getBitmap();
 
     @Nullable

@@ -41,4 +41,10 @@ public class CanonicalCommentMode extends CanonicalStringMaker<DataComment> {
             }
         };
     }
+
+    @NonNull
+    @Override
+    protected String formatModeString(String modeString, int nonMode) {
+        return String.valueOf(nonMode + 1) + " comments";
+    }
 }
