@@ -24,7 +24,7 @@ public class CanonicalCommentModeTest extends CanonicalStringMakerTest<DataComme
     @Override
     protected void checkValidForMultipleAggregated(DataComment canonical) {
         String string = canonical.getComment();
-        assertThat(string, is(getModeString() + " + " + String.valueOf(getNumDifferent())));
+        assertThat(string, is(String.valueOf(getNumDifferent() + 1) + " comments"));
         assertThat(canonical.isHeadline(), is(false));
     }
 
