@@ -19,6 +19,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 09/07/2015
@@ -33,14 +35,14 @@ public class CanonicalLocation extends CanonicalStringMaker<DataLocation> {
         return new DatumLocation(id, getMidLatLng(data), getModeString(data));
     }
 
-    private LatLng getMidLatLng(IdableList<? extends DataLocation> data) {
-        LatLng[] latLngs = new LatLng[data.size()];
-        for (int i = 0; i < data.size(); ++i) {
-            latLngs[i] = data.getItem(i).getLatLng();
+    private LatLng getMidLatLng(IdableList<? extends DataLocation> locations) {
+        ArrayList<LatLng> latLngs = new ArrayList<>();
+        for (DataLocation location : locations) {
+            latLngs.add(location.getLatLng());
         }
 
-        LatLngMidpoint midpoint = new LatLngMidpoint(latLngs);
-        return midpoint.getGeoMidpoint();
+        LatLngMidpoint midpoint = new LatLngMidpoint();
+        return midpoint.getGeoMidpoint(latLngs);
     }
 
     @NonNull

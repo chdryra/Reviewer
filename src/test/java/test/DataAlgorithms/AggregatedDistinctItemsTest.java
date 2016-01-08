@@ -47,7 +47,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     @NonNull
     protected abstract T randomDatum();
     @NonNull
-    protected abstract T newDatum(ReviewId reviewId, T template);
+    protected abstract T newSimilarDatum(ReviewId reviewId, T template);
 
     public Random getRAND() {
         return RAND;
@@ -106,7 +106,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     }
 
     protected T getExampleCanonical(ReviewId id, ArrayList<T> data) {
-        return newDatum(id, data.get(0));
+        return newSimilarDatum(id, data.get(0));
     }
 
     @NonNull
@@ -128,7 +128,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
         ArrayList<T> data = new ArrayList<>();
         T randomDatum = randomDatum();
         for (int i = 0; i < numData; ++i) {
-            data.add(newDatum(RandomReviewId.nextReviewId(), randomDatum));
+            data.add(newSimilarDatum(RandomReviewId.nextReviewId(), randomDatum));
         }
 
         return data;

@@ -26,7 +26,7 @@ public class AggregatorCriterionSubjectRatingTest extends AggregatedDistinctItem
 
     @Override
     @NonNull
-    protected DataCriterion newDatum(ReviewId reviewId, DataCriterion template) {
+    protected DataCriterion newSimilarDatum(ReviewId reviewId, DataCriterion template) {
         return new DatumCriterion(reviewId, template.getSubject(), template.getRating());
     }
 

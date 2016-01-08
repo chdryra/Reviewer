@@ -10,6 +10,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 import test.TestUtils.RandomReviewId;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -54,12 +56,12 @@ public class CanonicalLocationTest extends CanonicalStringMakerTest<DataLocation
 
     protected LatLng getExpectedLatLng() {
         IdableList<DataLocation> data = getData();
-        LatLng[] latLngs = new LatLng[data.size()];
-        for (int i = 0; i < data.size(); ++i) {
-            latLngs[i] = data.getItem(i).getLatLng();
+        ArrayList<LatLng> latLngs = new ArrayList<>();
+        for (DataLocation location : data) {
+            latLngs.add(location.getLatLng());
         }
 
-        LatLngMidpoint midpoint = new LatLngMidpoint(latLngs);
-        return midpoint.getGeoMidpoint();
+        LatLngMidpoint midpoint = new LatLngMidpoint();
+        return midpoint.getGeoMidpoint(latLngs);
     }
 }

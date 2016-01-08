@@ -35,7 +35,7 @@ public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<
 
     @Override
     @NonNull
-    protected DataCriterion newDatum(ReviewId reviewId, DataCriterion template) {
+    protected DataCriterion newSimilarDatum(ReviewId reviewId, DataCriterion template) {
         return new DatumCriterion(reviewId, template.getSubject(), RandomRating.nextRating());
     }
 
@@ -76,7 +76,7 @@ public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<
         DataCriterion keyEquivalent = null;
         for(DataCriterion key : mCanonicalsMap.keySet()) {
             float diff = key.getRating() - rating;
-            if(Math.sqrt(diff*diff) < 0.0001) keyEquivalent = key;
+            if(Math.sqrt(diff*diff) < 1e-5) keyEquivalent = key;
         }
         return keyEquivalent;
     }

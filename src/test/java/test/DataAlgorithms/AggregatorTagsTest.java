@@ -31,7 +31,7 @@ public class AggregatorTagsTest extends AggregatedDistinctItemsTest<DataTag>{
 
     @NonNull
     @Override
-    protected DataTag newDatum(ReviewId reviewId, DataTag template) {
+    protected DataTag newSimilarDatum(ReviewId reviewId, DataTag template) {
         return new DatumTag(reviewId, template.getTag());
     }
 }

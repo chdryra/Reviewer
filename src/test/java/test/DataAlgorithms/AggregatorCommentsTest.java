@@ -33,7 +33,7 @@ public class AggregatorCommentsTest extends AggregatedDistinctItemsTest<DataComm
 
     @NonNull
     @Override
-    protected DataComment newDatum(ReviewId reviewId, DataComment template) {
+    protected DataComment newSimilarDatum(ReviewId reviewId, DataComment template) {
         return new DatumComment(reviewId, template.getComment(), getRAND().nextBoolean());
     }
 

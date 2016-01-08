@@ -33,7 +33,7 @@ public class AggregatorSubjectsTest extends AggregatedDistinctItemsTest<DataSubj
 
     @NonNull
     @Override
-    protected DataSubject newDatum(ReviewId reviewId, DataSubject template) {
+    protected DataSubject newSimilarDatum(ReviewId reviewId, DataSubject template) {
         return new DatumSubject(reviewId, RandomString.toRandomCase(template.getSubject()));
     }
 

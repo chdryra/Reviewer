@@ -31,7 +31,7 @@ public class AggregatorDatesTest extends AggregatedDistinctItemsTest<DataDateRev
 
     @Override
     @NonNull
-    protected DataDateReview newDatum(ReviewId reviewId, DataDateReview template) {
+    protected DataDateReview newSimilarDatum(ReviewId reviewId, DataDateReview template) {
         GregorianCalendar cal = new GregorianCalendar();
         cal.setTimeInMillis(template.getTime());
         cal.set(Calendar.HOUR_OF_DAY, 1 + getRAND().nextInt(20));

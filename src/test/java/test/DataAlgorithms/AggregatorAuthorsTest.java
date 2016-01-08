@@ -30,7 +30,7 @@ public class AggregatorAuthorsTest extends AggregatedDistinctItemsTest<DataAutho
 
     @NonNull
     @Override
-    protected DatumAuthorReview newDatum(ReviewId reviewId, DataAuthorReview template) {
+    protected DatumAuthorReview newSimilarDatum(ReviewId reviewId, DataAuthorReview template) {
         return new DatumAuthorReview(reviewId, template.getName(), template.getUserId());
     }
 }
