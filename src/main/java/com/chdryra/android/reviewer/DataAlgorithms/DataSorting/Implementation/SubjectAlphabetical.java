@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SubjectAlphabetical implements Comparator<DataSubject> {
-    //Overridden
     @Override
     public int compare(DataSubject lhs, DataSubject rhs) {
         return lhs.getSubject().compareToIgnoreCase(rhs.getSubject());

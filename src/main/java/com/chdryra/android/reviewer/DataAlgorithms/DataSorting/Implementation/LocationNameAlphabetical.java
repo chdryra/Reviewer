@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationNameAlphabetical implements Comparator<DataLocation> {
-    //Overridden
     @Override
     public int compare(DataLocation lhs, DataLocation rhs) {
         return lhs.getName().compareToIgnoreCase(rhs.getName());

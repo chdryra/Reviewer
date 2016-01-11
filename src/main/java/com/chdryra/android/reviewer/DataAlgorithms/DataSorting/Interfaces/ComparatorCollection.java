@@ -12,6 +12,5 @@ public interface ComparatorCollection<T> {
 
     Comparator<T> next();
 
-    //public methods
     Comparator<T> getDefault();
 }

@@ -21,7 +21,6 @@ public class ComparatorCollectionImpl<T> implements ComparatorCollection<T> {
         add(defaultComparator);
     }
 
-    //public methods
     @Override
     public Comparator<T> getDefault() {
         return mComparators.get(0);

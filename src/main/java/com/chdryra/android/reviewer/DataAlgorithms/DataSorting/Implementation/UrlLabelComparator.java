@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UrlLabelComparator implements Comparator<DataUrl> {
-    //Overridden
     @Override
     public int compare(DataUrl lhs, DataUrl rhs) {
         int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());

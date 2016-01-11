@@ -46,7 +46,6 @@ public class ViewerTreeData extends ViewerReviewData {
         mTraverserFactory = traverserFactory;
     }
 
-    //Overridden
     @Override
     protected GvList makeGridData() {
         ReviewNode node = getReviewNode();

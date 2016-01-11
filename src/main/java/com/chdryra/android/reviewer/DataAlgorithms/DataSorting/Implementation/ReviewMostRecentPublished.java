@@ -17,7 +17,6 @@ public class ReviewMostRecentPublished implements Comparator<DataReviewSummary> 
         mDateComparator = dateComparator;
     }
 
-    //Overridden
     @Override
     public int compare(DataReviewSummary lhs, DataReviewSummary rhs) {
         return mDateComparator.compare(lhs.getPublishDate(), rhs.getPublishDate());

@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactLabelThenValue implements Comparator<DataFact> {
-    //Overridden
     @Override
     public int compare(DataFact lhs, DataFact rhs) {
         int comp = lhs.getLabel().compareToIgnoreCase(rhs.getLabel());

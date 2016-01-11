@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CriterionSubjectThenRating implements Comparator<DataCriterion> {
-    //Overridden
     @Override
     public int compare(DataCriterion lhs, DataCriterion
             rhs) {

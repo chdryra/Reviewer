@@ -10,8 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialMostFollowersThenAlphabetical implements Comparator<DataSocialPlatform> {
-
-    //Overridden
     @Override
     public int compare(DataSocialPlatform lhs, DataSocialPlatform rhs) {
         int comp;

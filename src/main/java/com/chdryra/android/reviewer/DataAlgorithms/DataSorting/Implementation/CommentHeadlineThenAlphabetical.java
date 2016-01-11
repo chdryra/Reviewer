@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CommentHeadlineThenAlphabetical implements Comparator<DataComment> {
-    //Overridden
     @Override
     public int compare(DataComment lhs, DataComment rhs) {
         int comp;

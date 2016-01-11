@@ -11,7 +11,6 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DateMostRecentFirst implements Comparator<DataDate> {
-    //Overridden
     @Override
     public int compare(DataDate lhs, DataDate rhs) {
         Date lhsDate = new Date(lhs.getTime());

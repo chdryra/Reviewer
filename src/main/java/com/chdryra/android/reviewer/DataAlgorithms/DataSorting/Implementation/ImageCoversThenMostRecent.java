@@ -17,10 +17,9 @@ public class ImageCoversThenMostRecent implements Comparator<DataImage> {
         mDateComparator = dateComparator;
     }
 
-    //Overridden
     @Override
     public int compare(DataImage lhs, DataImage rhs) {
-        int comp = 0;
+        int comp;
         if (lhs.isCover() && !rhs.isCover()) {
             comp = -1;
         } else if (!lhs.isCover() && rhs.isCover()) {

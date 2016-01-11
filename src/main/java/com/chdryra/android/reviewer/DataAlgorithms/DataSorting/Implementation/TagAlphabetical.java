@@ -10,7 +10,6 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TagAlphabetical implements Comparator<DataTag> {
-    //Overridden
     @Override
     public int compare(DataTag lhs, DataTag rhs) {
         return lhs.getTag().compareToIgnoreCase(rhs.getTag());
