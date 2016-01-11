@@ -6,7 +6,7 @@
  * Date: 12 March, 2015
  */
 
-package com.chdryra.android.reviewer.Utils;
+package com.chdryra.android.reviewer.LocationServices.Implementation;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -24,6 +24,10 @@ public class LocatedPlace {
 
     public enum LocationProvider {GOOGLE, USER}
 
+    public LocatedPlace(LatLng latLng) {
+        this(latLng, "");
+    }
+
     public LocatedPlace(LatLng latLng, String description, LocationId id) {
         mLatLng = latLng;
         mDescription = description;
@@ -36,7 +40,6 @@ public class LocatedPlace {
         mId = new LocationId(LocationProvider.USER, generateId());
     }
 
-    //public methods
     public LatLng getLatLng() {
         return mLatLng;
     }
@@ -54,7 +57,6 @@ public class LocatedPlace {
                 .hashCode());
     }
 
-//Overridden
     @Override
     public int hashCode() {
         int result = mLatLng.hashCode();
@@ -63,27 +65,19 @@ public class LocatedPlace {
         return result;
     }
 
-    //Classes
     public static class LocationId {
         private LocationProvider mProvider;
         private String mId;
 
-        //Constructors
         public LocationId(LocationProvider provider, String providerId) {
             mProvider = provider;
             mId = providerId;
-        }
-
-        //public methods
-        public LocationProvider getProvider() {
-            return mProvider;
         }
 
         public String getId() {
             return mId;
         }
 
-        //Overridden
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;

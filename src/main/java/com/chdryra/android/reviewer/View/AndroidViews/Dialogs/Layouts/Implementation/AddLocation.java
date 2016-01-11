@@ -24,17 +24,16 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.remoteapifetchers.GpNearestNamesSuggester;
-import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
-import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
-import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsListener;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggester;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggestionsListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhdLocatedPlace;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.GpAutoCompleter;
-import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
-import com.chdryra.android.reviewer.Utils.LocatedPlace;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -47,8 +46,8 @@ import java.util.ArrayList;
  */
 public class AddLocation extends AddEditLayoutBasic<GvLocation>
         implements LocationClientConnector.Locatable,
-        GpNearestNamesSuggester.SuggestionsListener,
-        GpPlaceDetailsFetcher.DetailsListener {
+        NearestNamesSuggestionsListener,
+        LocationDetailsListener{
     public static final int LAYOUT = R.layout.dialog_location_add;
     public static final int NAME = R.id.location_add_edit_text;
     public static final int LIST = R.id.suggestions_list_view;
@@ -65,7 +64,6 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private LatLng mCurrentLatLng;
     private LatLng mSelectedLatLng;
     private ViewHolderAdapterFiltered mFilteredAdapter;
-    private ViewHolderAdapterFiltered.QueryFilter mQueryFilter;
 
     private String mNoLocation;
     private String mSearching;
@@ -77,17 +75,38 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    //Constructors
-    public AddLocation(GvDataAdder adder) {
+    private LocationServicesProvider mLocationServices;
+    private LocationDetailsFetcher mFetcher;
+    private NearestNamesSuggester mSuggester;
+
+    public AddLocation(GvDataAdder adder, LocationServicesProvider locationServices) {
         super(GvLocation.class, LAYOUT, VIEWS, NAME, adder);
+        mLocationServices = locationServices;
+        mFetcher = mLocationServices.newDetailsFetcher();
+        mSuggester = mLocationServices.newNearestNamesSuggester();
     }
 
     private void fetchPlaceDetails(LocatedPlace place) {
         mNameEditText.setText(null);
         mNameEditText.setHint(R.string.edit_text_fetching_location_hint);
-        String placeId = place.getId().getId();
-        GpPlaceDetailsFetcher fetcher = new GpPlaceDetailsFetcher(placeId, AddLocation.this);
-        fetcher.fetchDetails();
+        mFetcher.fetchPlaceDetails(place, this);
+    }
+
+    private void findPlaceSuggestions() {
+        //Initial suggestions
+        mSuggester.fetchSuggestions(new LocatedPlace(mCurrentLatLng), this);
+
+        //Whilst initial suggestions are being found....
+        ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
+        message.add(mSearchingMessage);
+        setNewSuggestionsAdapter(message);
+    }
+
+    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
+        LocatedPlace place = new LocatedPlace(mCurrentLatLng);
+        ViewHolderAdapterFiltered.QueryFilter filter = mLocationServices.newAutoCompleter(place);
+        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, filter);
+        ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 
     private void onLatLngFound(LatLng latLng) {
@@ -102,26 +121,6 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         mSearchingMessage = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng, mSearching));
     }
 
-    private void findPlaceSuggestions() {
-        //Autocomplete suggestions
-        mQueryFilter = new GpAutoCompleter(mCurrentLatLng);
-
-        //Initial suggestions
-        GpNearestNamesSuggester suggester = new GpNearestNamesSuggester(mCurrentLatLng, this);
-        suggester.fetchSuggestions();
-
-        //Whilst initial suggestions are being found....
-        ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
-        message.add(mSearchingMessage);
-        setNewSuggestionsAdapter(message);
-    }
-
-    private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
-        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mQueryFilter);
-        ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
-    }
-
-    //Overridden
     @Override
     public GvLocation createGvDataFromInputs() {
         String name = ((EditText) getView(NAME)).getText().toString().trim();
@@ -206,14 +205,13 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
-    public void onNearestNamesSuggested(GpPlaceSearchResults results) {
-        ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(results);
+    public void onNearestNamesFound(ArrayList<LocatedPlace> suggestions) {
         mCurrentLatLngPlaces = new VhDataList<>();
-        if (places.size() == 0) {
+        if (suggestions.size() == 0) {
             mCurrentLatLngPlaces.add(mNoLocationMessage);
         } else {
-            for (LocatedPlace place : places) {
-                mCurrentLatLngPlaces.add(new VhdLocatedPlace(place));
+            for (LocatedPlace suggestion : suggestions) {
+                mCurrentLatLngPlaces.add(new VhdLocatedPlace(suggestion));
             }
         }
 
@@ -221,9 +219,9 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
-    public void onPlaceDetailsFound(GpPlaceDetailsResult details) {
-        mSelectedLatLng = details.getGeometry().getLatLng();
-        mNameEditText.setText(details.getName().getString());
+    public void onPlaceDetailsFound(LocationDetails details) {
+        mSelectedLatLng = details.getLatLng();
+        mNameEditText.setText(details.getName());
         mNameEditText.setHint(mHint);
     }
 }

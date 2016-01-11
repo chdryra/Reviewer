@@ -11,6 +11,8 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.LocationServices.Factories.LocationServicesSuite;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
 
 import java.io.File;
 
@@ -35,6 +37,7 @@ public class FactoryApplicationContext {
                 new ReleasePresenterContext(context, modelContext, viewContext, author,
                         externalStorageDirectory, imageDirectory);
 
-        return new ApplicationContextImpl(presenterContext);
+        LocationServicesProvider provider = new LocationServicesSuite().newGoogleProvider();
+        return new ApplicationContextImpl(presenterContext, provider);
     }
 }

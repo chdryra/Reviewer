@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 
 import java.io.File;
 
@@ -14,17 +13,15 @@ public class FactoryFileIncrementor {
     private File mSystemDir;
     private String mDir;
     private String mDefaultStem;
-    private DataValidator mValidator;
 
-    public FactoryFileIncrementor(File systemDir, String dir, String defaultStem, DataValidator validator) {
+    public FactoryFileIncrementor(File systemDir, String dir, String defaultStem) {
         mSystemDir = systemDir;
         mDir = dir;
         mDefaultStem = defaultStem;
-        mValidator = validator;
     }
 
     public FileIncrementor newJpgFileIncrementor(String fileName) {
-        if(!mValidator.validateString(fileName)) fileName = mDefaultStem;
+        if(fileName == null || fileName.length() > 0) fileName = mDefaultStem;
         return new FileIncrementor(mSystemDir, mDir, fileName, "jpg");
     }
 }

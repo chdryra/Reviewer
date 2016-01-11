@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Utils;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -39,9 +41,8 @@ public class CommentFormatter {
         return comments;
     }
 
-    private static String trim(String string, String toTrim) {
+    private static String trim(@NonNull String string, @NonNull String toTrim) {
         String trimmed = string;
-        if (trimmed == null) return null;
 
         while (trimmed.length() > 0 && toTrim.contains(String.valueOf(trimmed.charAt(0)))) {
             trimmed = (String) trimmed.subSequence(1, trimmed.length());
@@ -55,14 +56,14 @@ public class CommentFormatter {
         return trimmed;
     }
 
-    private static String getFirstSentence(String comment, boolean trimmed) {
-        if (comment != null && comment.length() > 0) {
+    private static String getFirstSentence(@NonNull String comment, boolean trimmed) {
+        if (comment.length() > 0) {
             StringTokenizer tokens = new StringTokenizer(comment, SENTENCE_DELIMITERS, true);
             String headline = tokens.nextToken();
             if (tokens.hasMoreTokens()) headline += tokens.nextToken();
             return trimmed ? trim(headline, IGNORE_DELIMITER) : headline;
         } else {
-            return null;
+            return comment;
         }
     }
 }

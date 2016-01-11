@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelDeleteDoneFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -127,7 +129,8 @@ public abstract class DialogGvDataEdit<T extends GvData>
     }
 
     private void setLayout() {
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig());
+        LocationServicesProvider provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesProvider();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), provider);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());
     }

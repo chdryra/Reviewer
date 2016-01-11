@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 05/11/2015
@@ -7,4 +9,5 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
  */
 public interface ApplicationContext {
     PresenterContext getContext();
+    LocationServicesProvider getLocationServicesProvider();
 }

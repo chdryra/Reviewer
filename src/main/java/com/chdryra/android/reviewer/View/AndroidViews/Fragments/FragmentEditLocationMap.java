@@ -37,15 +37,17 @@ import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
-import com.chdryra.android.mygenerallibrary.PlaceSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
-import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
-import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressSuggestionsListener;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearchResultsListener;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.GpLocatedPlaceConverter;
-import com.chdryra.android.reviewer.Utils.LocatedPlace;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -75,8 +77,8 @@ import java.util.ArrayList;
  */
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
-        PlaceSuggester.SuggestionsListener,
-        GpPlaceSearcher.SearchListener, OnMapReadyCallback {
+        AddressSuggestionsListener,
+        PlaceSearchResultsListener, OnMapReadyCallback {
 
     private static final String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments" +
             ".FragmentEditLocationMap.location";
@@ -115,6 +117,9 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private StringFilterAdapter mSearchAdapter;
     private GvDataPacker<GvLocation> mDataPacker;
 
+    private PlaceSearcher mPlaceSearcher;
+    private AddressesSuggester mAddressSuggester;
+
     public static FragmentEditLocationMap newInstance(GvLocation location) {
         return FactoryFragment.newFragment(FragmentEditLocationMap.class, LOCATION, location);
     }
@@ -123,6 +128,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataPacker = new GvDataPacker<>();
+
+        LocationServicesProvider provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesProvider();
+        mPlaceSearcher = provider.newPlaceSearcher();
+        mAddressSuggester = provider.newAddressesSuggester(getActivity());
+
         Bundle args = getArguments();
         if (args != null) mCurrentLocation = args.getParcelable(LOCATION);
         MapsInitializer.initialize(getActivity());
@@ -362,7 +372,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private void searchLocation(String query) {
         mSearchLocationName = query;
-        new GpPlaceSearcher(query, this).fetchResults();
+        mPlaceSearcher.searchQuery(query, this);
         setSearchViewToSearching();
     }
 
@@ -374,12 +384,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onSearchResultsFound(GpPlaceSearchResults results) {
-        ArrayList<LocatedPlace> places = GpLocatedPlaceConverter.convert(results);
-        if (places.size() == 0) {
+    public void onSearchResultsFound(ArrayList<LocatedPlace> results) {
+        if (results.size() == 0) {
             makeToast(TOAST_SEARCH_FAILED);
         } else {
-            setLatLng(places.get(0).getLatLng());
+            setLatLng(results.get(0).getLatLng());
         }
 
         mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
@@ -395,13 +404,17 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
 
-        PlaceSuggester suggestions = new PlaceSuggester(getActivity(), mNewLatLng, this);
-        suggestions.getSuggestions(NUMBER_DEFAULT_NAMES);
+        LocatedPlace newPlace = new LocatedPlace(mNewLatLng);
+        mAddressSuggester.fetchAddresses(newPlace, NUMBER_DEFAULT_NAMES, this);
     }
 
     @Override
-    public void onSuggestionsFound(ArrayList<String> addresses) {
-        if (addresses == null) addresses = new ArrayList<>();
+    public void onAddressSuggestionsFound(ArrayList<LocatedPlace> suggestions) {
+        ArrayList<String> addresses = new ArrayList<>();
+
+        for(LocatedPlace suggestion : suggestions) {
+            addresses.add(suggestion.getDescription());
+        }
 
         if (addresses.size() == 0) {
             addresses.add(NO_LOCATION);

@@ -98,7 +98,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryReviewBuilder factoryReviewBuilder = new FactoryReviewBuilder(converter,
                 tagsManager, reviewsFactory, dataBuilderFactory, validator);
         FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(extDir, dir,
-                authorName, validator);
+                authorName);
         FactoryReviewBuilderAdapter builderAdapterFactory
                 = new FactoryReviewBuilderAdapter(factoryReviewBuilder,
                 gridUi,

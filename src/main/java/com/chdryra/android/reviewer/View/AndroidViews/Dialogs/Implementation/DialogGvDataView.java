@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -81,7 +83,8 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     }
 
     private void setLayout() {
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig());
+        LocationServicesProvider provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesProvider();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), provider);
         //TODO make type safe
         mLayout = (DialogLayout<T>) layoutFactory.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), getArguments());

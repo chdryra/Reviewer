@@ -10,9 +10,12 @@ package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories
 
 import android.util.Log;
 
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Configs.ConfigDialogLayouts;
+import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Interfaces.GvDataAdder;
@@ -29,13 +32,19 @@ import java.lang.reflect.InvocationTargetException;
 public class FactoryDialogLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
     private ConfigDialogLayouts mConfig;
+    private LocationServicesProvider mProvider;
 
-    public FactoryDialogLayout(ConfigDialogLayouts config) {
+    public FactoryDialogLayout(ConfigDialogLayouts config, LocationServicesProvider provider) {
         mConfig = config;
+        mProvider = provider;
     }
 
     public <T extends GvData> AddEditLayout<T> newLayout
     (GvDataType<T> dataType, GvDataAdder adder) {
+        if(dataType == GvLocation.TYPE) {
+            return (AddEditLayout<T>) new AddLocation(adder, mProvider);
+        }
+
         try {
             Class<? extends AddEditLayout<T>> addEditLayout = mConfig.getAddEditLayoutClass(dataType);
             Constructor<? extends AddEditLayout<T>> ctor
