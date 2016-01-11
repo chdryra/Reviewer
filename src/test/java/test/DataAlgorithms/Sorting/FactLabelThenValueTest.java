@@ -20,34 +20,11 @@ public class FactLabelThenValueTest extends ComparatorTest<DataFact>{
     }
 
     @Test
-    public void testGetDefaultComparator() {
-        DataFact AA = new DatumFact(RandomReviewId.nextReviewId(), "A", "A");
-        DataFact AA2 = new DatumFact(RandomReviewId.nextReviewId(), "A", "A");
-        DataFact Aa = new DatumFact(RandomReviewId.nextReviewId(), "A", "a");
-        DataFact aA = new DatumFact(RandomReviewId.nextReviewId(), "a", "A");
-        DataFact aa = new DatumFact(RandomReviewId.nextReviewId(), "a", "a");
-        DataFact AZ = new DatumFact(RandomReviewId.nextReviewId(), "A", "Z");
-        DataFact BC = new DatumFact(RandomReviewId.nextReviewId(), "B", "C");
-        DataFact CA = new DatumFact(RandomReviewId.nextReviewId(), "C", "A");
-
-        ComparatorTester<DataFact> tester = newComparatorTester();
-        tester.testEquals(AA, AA);
-        tester.testEquals(AA, AA2);
-        tester.testEquals(AA, Aa);
-        tester.testEquals(AA, aA);
-        tester.testEquals(AA, aa);
-        tester.testFirstSecond(AA, AZ);
-        tester.testFirstSecond(AZ, BC);
-        tester.testFirstSecond(BC, CA);
-        tester.testFirstSecond(AA, CA);
-    }
-
-    @Test
     public void labelAlphabeticalAscendingFirst_AscendingValueSecond() {
-        DataFact AA = new DatumFact(RandomReviewId.nextReviewId(), "A", "A");
-        DataFact AZ = new DatumFact(RandomReviewId.nextReviewId(), "A", "Z");
-        DataFact BC = new DatumFact(RandomReviewId.nextReviewId(), "B", "C");
-        DataFact CA = new DatumFact(RandomReviewId.nextReviewId(), "C", "A");
+        DataFact AA = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase("A"), RandomString.toRandomCase("A"));
+        DataFact AZ = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase("A"), RandomString.toRandomCase("Z"));
+        DataFact BC = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase("B"), RandomString.toRandomCase("C"));
+        DataFact CA = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase("C"), RandomString.toRandomCase("A"));
 
         ComparatorTester<DataFact> tester = newComparatorTester();
         tester.testFirstSecond(AA, AZ);
@@ -59,9 +36,9 @@ public class FactLabelThenValueTest extends ComparatorTest<DataFact>{
     @Test
     public void labelAlphabeticalAscendingDifferentFirstLetter_SameValue() {
         String value = RandomString.nextWord();
-        DataFact factA = new DatumFact(RandomReviewId.nextReviewId(), "A" + RandomString.nextWord(), value);
-        DataFact factB = new DatumFact(RandomReviewId.nextReviewId(), "B" + RandomString.nextWord(), value);
-        DataFact factC = new DatumFact(RandomReviewId.nextReviewId(), "C" + RandomString.nextWord(), value);
+        DataFact factA = new DatumFact(RandomReviewId.nextReviewId(), "A" + RandomString.nextWord(), RandomString.toRandomCase(value));
+        DataFact factB = new DatumFact(RandomReviewId.nextReviewId(), "B" + RandomString.nextWord(), RandomString.toRandomCase(value));
+        DataFact factC = new DatumFact(RandomReviewId.nextReviewId(), "C" + RandomString.nextWord(), RandomString.toRandomCase(value));
 
         ComparatorTester<DataFact> tester = newComparatorTester();
         tester.testFirstSecond(factA, factB);
@@ -72,9 +49,9 @@ public class FactLabelThenValueTest extends ComparatorTest<DataFact>{
     @Test
     public void valueAscending_SameLabel() {
         String label = RandomString.nextWord();
-        DataFact fact1 = new DatumFact(RandomReviewId.nextReviewId(), label, "A");
-        DataFact fact2 = new DatumFact(RandomReviewId.nextReviewId(), label, "B");
-        DataFact fact3 = new DatumFact(RandomReviewId.nextReviewId(), label, "C");
+        DataFact fact1 = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase(label), "A");
+        DataFact fact2 = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase(label), "B");
+        DataFact fact3 = new DatumFact(RandomReviewId.nextReviewId(), RandomString.toRandomCase(label), "C");
 
         ComparatorTester<DataFact> tester = newComparatorTester();
         tester.testFirstSecond(fact1, fact2);
@@ -87,8 +64,8 @@ public class FactLabelThenValueTest extends ComparatorTest<DataFact>{
         String label1 = RandomString.nextWord();
         String label2 = label1 + RandomString.nextWord();
         String value = RandomString.nextWord();
-        DataFact fact1 = new DatumFact(RandomReviewId.nextReviewId(), label1, value);
-        DataFact fact2 = new DatumFact(RandomReviewId.nextReviewId(), label2, value);
+        DataFact fact1 = new DatumFact(RandomReviewId.nextReviewId(), label1, value.toLowerCase());
+        DataFact fact2 = new DatumFact(RandomReviewId.nextReviewId(), label2, value.toUpperCase());
 
         ComparatorTester<DataFact> tester = newComparatorTester();
         if(label1.compareToIgnoreCase(label2) < 0) {
