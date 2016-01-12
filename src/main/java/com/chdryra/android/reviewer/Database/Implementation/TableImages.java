@@ -3,9 +3,10 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -20,20 +21,20 @@ public class TableImages extends DbTableImpl<RowImage> {
     private static final String TABLE = "Images";
     
     public TableImages(DbTable<? extends RowReview> reviewsTable, FactoryDbColumnDef columnFactory,
-                       FactoryForeignKeyConstraint constraintFactory) {
+                       FactoryForeignKeyConstraint constraintFactory, StorageTypeDefinitions typeFactory) {
         super(TABLE, RowImage.class);
         DbColumnDef imageId = columnFactory.newPkColumnDef(RowImage.COLUMN_IMAGE_ID,
-                SQL.StorageType.TEXT);
+                typeFactory.getTextType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowImage.COLUMN_REVIEW_ID,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef bitmap = columnFactory.newColumnDef(RowImage.COLUMN_BITMAP,
-                SQL.StorageType.BLOB, SQL.Nullable.FALSE);
+                typeFactory.getBitmapType(), ValueNullable.FALSE);
         DbColumnDef imageDate = columnFactory.newColumnDef(RowImage.COLUMN_IMAGE_DATE,
-                SQL.StorageType.REAL, SQL.Nullable.TRUE);
+                typeFactory.getRealType(), ValueNullable.TRUE);
         DbColumnDef caption = columnFactory.newColumnDef(RowImage.COLUMN_CAPTION,
-                SQL.StorageType.TEXT, SQL.Nullable.TRUE);
+                typeFactory.getTextType(), ValueNullable.TRUE);
         DbColumnDef isCover = columnFactory.newColumnDef(RowImage.COLUMN_IS_COVER,
-                SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
         addPrimaryKey(imageId);
         addColumn(reviewId);

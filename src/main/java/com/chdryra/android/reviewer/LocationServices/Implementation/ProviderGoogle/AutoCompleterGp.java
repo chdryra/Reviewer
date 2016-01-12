@@ -13,7 +13,9 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -25,8 +27,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
-    private static final LocatedPlace.LocationProvider GOOGLE_PLACES
-            = LocatedPlace.LocationProvider.GOOGLE;
+    private static final LocatedPlaceImpl.LocationProvider GOOGLE_PLACES
+            = LocatedPlaceImpl.LocationProvider.GOOGLE;
     private final LatLng mLatLng;
 
     public AutoCompleterGp(LocatedPlace place) {
@@ -37,7 +39,7 @@ public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
     public ViewHolderDataList filter(String query) {
         ArrayList<LocatedPlace> places = fetchPredictions(query);
         ViewHolderDataList<VhdLocatedPlace> filtered = new VhDataList<>();
-        for (LocatedPlace place : places) {
+        for (LocatedPlaceImpl place : places) {
             filtered.add(new VhdLocatedPlace(place));
         }
 
@@ -53,9 +55,9 @@ public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
         for (GpAutoCompletePredictions.GpPrediction prediction : predictions) {
             String description = prediction.getDescription().getDescription();
             String googleId = prediction.getPlaceId().getString();
-            LocatedPlace.LocationId id = new LocatedPlace.LocationId(GOOGLE_PLACES, googleId);
+            LocationId id = new LocationId(GOOGLE_PLACES, googleId);
 
-            places.add(new LocatedPlace(mLatLng, description, id));
+            places.add(new LocatedPlaceImpl(mLatLng, description, id));
         }
 
         return places;

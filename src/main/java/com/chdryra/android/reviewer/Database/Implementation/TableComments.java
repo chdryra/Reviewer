@@ -3,9 +3,10 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -21,16 +22,17 @@ public class TableComments extends DbTableImpl<RowComment> {
     
     public TableComments(DbTable<? extends RowReview> reviewsTable,
                          FactoryDbColumnDef columnFactory,
-                         FactoryForeignKeyConstraint constraintFactory) {
+                         FactoryForeignKeyConstraint constraintFactory,
+                         StorageTypeDefinitions typeFactory) {
         super(TABLE, RowComment.class);
         DbColumnDef commentId = columnFactory.newPkColumnDef(RowComment.COLUMN_COMMENT_ID,
-                SQL.StorageType.TEXT);
+                typeFactory.getTextType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowComment.COLUMN_REVIEW_ID,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef comment = columnFactory.newColumnDef(RowComment.COLUMN_COMMENT,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef isHeadline = columnFactory.newColumnDef(RowComment.COLUMN_IS_HEADLINE,
-                SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
         addPrimaryKey(commentId);
         addColumn(reviewId);

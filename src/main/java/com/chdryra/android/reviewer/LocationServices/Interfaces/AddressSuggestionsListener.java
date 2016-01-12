@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
-
 import java.util.ArrayList;
 
 /**

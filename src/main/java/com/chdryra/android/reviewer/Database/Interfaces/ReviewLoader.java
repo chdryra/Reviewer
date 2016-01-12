@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -12,5 +11,5 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  */
 public interface ReviewLoader {
     @Nullable
-    Review loadReview(RowReview reviewRow, ReviewerReadableDb database, SQLiteDatabase db);
+    Review loadReview(RowReview reviewRow, ReviewerReadableDb database, DatabaseInstance db);
 }

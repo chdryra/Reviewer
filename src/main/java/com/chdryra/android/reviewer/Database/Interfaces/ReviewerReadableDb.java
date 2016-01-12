@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
@@ -16,15 +15,15 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewerReadableDb extends ReviewerDbContract {
-    SQLiteDatabase beginReadTransaction();
+    DatabaseInstance beginReadTransaction();
 
-    void endTransaction(SQLiteDatabase db);
+    void endTransaction(DatabaseInstance db);
 
-    ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, @Nullable String val);
+    ArrayList<Review> loadReviewsFromDbWhere(DatabaseInstance db, String col, @Nullable String val);
 
-    <T extends DbTableRow> T getRowWhere(SQLiteDatabase db, DbTable<T> table, String col, @Nullable String val);
+    <T extends DbTableRow> T getRowWhere(DatabaseInstance db, DbTable<T> table, String col, @Nullable String val);
 
-    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(SQLiteDatabase db, DbTable<T1> table,
+    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(DatabaseInstance db, DbTable<T1> table,
                                                             String reviewId);
 
     <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);

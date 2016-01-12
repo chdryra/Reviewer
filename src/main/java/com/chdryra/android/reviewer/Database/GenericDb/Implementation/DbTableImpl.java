@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
@@ -27,7 +29,6 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     private ArrayList<DbColumnDef> mOtherColumns;
     private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
 
-    //Constructors
     public DbTableImpl(String tableName, Class<? extends T> rowClass) {
         mTableName = tableName;
         mRowClass = rowClass;
@@ -36,7 +37,6 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
         mFkConstraints = new ArrayList<>();
     }
 
-    //public methods
     @Override
     public String getName() {
         return mTableName;
@@ -83,7 +83,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
 
     @Override
     public void addPrimaryKey(DbColumnDef column) {
-        if(column.isNullable()) {
+        if(column.getNullable()) {
             throw new IllegalArgumentException("Pk column cannot be nullable!");
         }
         mPrimaryKeys.add(column);
@@ -110,6 +110,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
+    @Nullable
     public DbColumnDef getColumn(String name) {
         for (DbColumnDef column : getColumns()) {
             if (column.getName().equals(name)) return column;

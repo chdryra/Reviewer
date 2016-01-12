@@ -9,7 +9,9 @@
 package com.chdryra.android.reviewer.LocationServices.Implementation.ProviderGoogle;
 
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GpLocatedPlaceConverter {
-    private static final LocatedPlace.LocationProvider GOOGLE_PLACES = LocatedPlace.LocationProvider.GOOGLE;
+    private static final LocatedPlaceImpl.LocationProvider GOOGLE_PLACES = LocatedPlaceImpl.LocationProvider.GOOGLE;
 
     public static ArrayList<LocatedPlace> convert(GpPlaceSearchResults results) {
         ArrayList<LocatedPlace> places = new ArrayList<>();
@@ -28,9 +30,9 @@ public class GpLocatedPlaceConverter {
             LatLng latlng = result.getGeometry().getLatLng();
             String description = result.getName().getString();
             String googleId = result.getPlaceId().getString();
-            LocatedPlace.LocationId id = new LocatedPlace.LocationId(GOOGLE_PLACES, googleId);
+            LocationId id = new LocationId(GOOGLE_PLACES, googleId);
 
-            places.add(new LocatedPlace(latlng, description, id));
+            places.add(new LocatedPlaceImpl(latlng, description, id));
         }
 
         return places;

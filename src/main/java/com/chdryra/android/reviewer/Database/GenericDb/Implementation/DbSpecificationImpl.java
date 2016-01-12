@@ -19,14 +19,17 @@ public class DbSpecificationImpl<T extends DbContract> implements DbSpecificatio
         mVersionNumber = versionNumber;
     }
 
+    @Override
     public String getDatabaseName() {
         return mDatabaseName;
     }
 
+    @Override
     public T getContract() {
         return mContract;
     }
 
+    @Override
     public int getVersionNumber() {
         return mVersionNumber;
     }

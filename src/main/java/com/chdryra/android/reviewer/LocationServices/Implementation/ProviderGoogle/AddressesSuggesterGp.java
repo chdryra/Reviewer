@@ -8,7 +8,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.chdryra.android.mygenerallibrary.GooglePlacesApi;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressSuggestionsListener;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.google.android.gms.maps.model.LatLng;
@@ -113,7 +114,7 @@ public class AddressesSuggesterGp implements AddressesSuggester {
             super.onPostExecute(addresses);
             ArrayList<LocatedPlace> suggestions = new ArrayList<>();
             for(String address : addresses) {
-                suggestions.add(new LocatedPlace(mLatLng, address));
+                suggestions.add(new LocatedPlaceImpl(mLatLng, address));
             }
             mListener.onAddressSuggestionsFound(suggestions);
         }

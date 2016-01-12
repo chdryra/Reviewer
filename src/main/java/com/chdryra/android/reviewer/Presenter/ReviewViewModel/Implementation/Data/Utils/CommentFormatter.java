@@ -6,7 +6,7 @@
  * Date: 23 September, 2014
  */
 
-package com.chdryra.android.reviewer.Utils;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.Utils;
 
 import android.support.annotation.NonNull;
 

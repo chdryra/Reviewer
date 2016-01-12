@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.LocationServices.Implementation.ProviderGoo
 
 import com.chdryra.android.remoteapifetchers.GpNearestNamesSuggester;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearchResults;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggestionsListener;
 

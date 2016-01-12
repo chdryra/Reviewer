@@ -39,7 +39,8 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressSuggestionsListener;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
@@ -404,7 +405,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
 
-        LocatedPlace newPlace = new LocatedPlace(mNewLatLng);
+        LocatedPlace newPlace = new LocatedPlaceImpl(mNewLatLng);
         mAddressSuggester.fetchAddresses(newPlace, NUMBER_DEFAULT_NAMES, this);
     }
 

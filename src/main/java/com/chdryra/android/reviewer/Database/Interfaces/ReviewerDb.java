@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -14,20 +13,20 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewerDb extends ReviewerReadableDb{
-    TagsManager getTagsManager();//
+    TagsManager getTagsManager();
 
-    SQLiteDatabase beginWriteTransaction();//
+    DatabaseInstance beginWriteTransaction();
 
-    boolean addReviewToDb(Review review, SQLiteDatabase db);//
+    boolean addReviewToDb(Review review, DatabaseInstance db);
 
-    boolean deleteReviewFromDb(String reviewId, SQLiteDatabase db);//
-
-    @Override
-    SQLiteDatabase beginReadTransaction();
+    boolean deleteReviewFromDb(String reviewId, DatabaseInstance db);
 
     @Override
-    void endTransaction(SQLiteDatabase db);
+    DatabaseInstance beginReadTransaction();
 
     @Override
-    ArrayList<Review> loadReviewsFromDbWhere(SQLiteDatabase db, String col, @Nullable String val);
+    void endTransaction(DatabaseInstance db);
+
+    @Override
+    ArrayList<Review> loadReviewsFromDbWhere(DatabaseInstance db, String col, @Nullable String val);
 }

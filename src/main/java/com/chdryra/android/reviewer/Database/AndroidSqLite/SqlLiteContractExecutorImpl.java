@@ -6,15 +6,13 @@
  * Date: 31 March, 2015
  */
 
-package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
+package com.chdryra.android.reviewer.Database.AndroidSqLite;
 
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContractExecutor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ForeignKeyConstraint;
@@ -28,7 +26,7 @@ import java.util.ArrayList;
  * On: 31/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbContractExecutorImpl implements DbContractExecutor{
+public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON = "SET foreign_key_checks = 1;";
     private static final String TAG = "DbCreator";
@@ -38,9 +36,7 @@ public class DbContractExecutorImpl implements DbContractExecutor{
         ArrayList<DbTable<? extends DbTableRow>> tables = contract.getTables();
         for (DbTable<?> table : tables) {
             try {
-                String command = getCreateTableSql(table);
-                Log.i(TAG, "Executing SQL:\n" + command);
-                db.execSQL(command);
+                db.execSQL(getCreateTableSql(table));
             } catch (SQLException e) {
                 throw new RuntimeException("Problem creating table " + table.getName(), e);
             }
@@ -84,8 +80,8 @@ public class DbContractExecutorImpl implements DbContractExecutor{
     }
 
     private String getColumnDefinition(DbColumnDef column) {
-        String definition = column.getName() + SQL.SPACE + column.getType().name();
-        definition += column.isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
+        String definition = column.getName() + SQL.SPACE + column.getType().getTypeString();
+        definition += column.getNullable().isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
         return definition;
     }

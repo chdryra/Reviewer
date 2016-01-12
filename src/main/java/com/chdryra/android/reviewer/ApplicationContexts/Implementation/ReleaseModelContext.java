@@ -1,24 +1,28 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.Database.AndroidSqLite.DatabaseProviderSqlLite;
+import com.chdryra.android.reviewer.Database.AndroidSqLite.FactorySqLiteDatabaseInstance;
+import com.chdryra.android.reviewer.Database.AndroidSqLite.StorageTypeDefinitionsSqlLite;
+import com.chdryra.android.reviewer.Database.AndroidSqLite.SqlLiteContractExecutorImpl;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDb;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbContract;
+import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
-import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbContractExecutor;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbSpecification;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbHelper;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DatabaseProvider;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
@@ -28,9 +32,11 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTreeFlattener;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
 
@@ -119,25 +125,41 @@ public class ReleaseModelContext extends ModelContextBasic {
         setFactoryReviews(new FactoryReviews(publisherFactory, factory, mdConverter));
     }
 
-    private ReviewerDb newReviewerDb(Context context, String databaseName, int version,
+    private ReviewerDb newReviewerDb(Context context,
+                                     String databaseName,
+                                     int version,
                                      ReviewLoader loader,
                                      DataValidator validator,
                                      TagsManager tagsManager) {
         FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
         FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
+        StorageTypeDefinitions typeFactory = getStorageTypeFactory();
         FactoryReviewerDbContract factoryReviewerDbContract = new FactoryReviewerDbContract
-                (columnFactory, constraintFactory);
+                (columnFactory, constraintFactory, typeFactory);
         ReviewerDbContract contract = factoryReviewerDbContract.newContract();
         DbSpecification<ReviewerDbContract> spec
                 = new FactoryDbSpecification().newSpecification(databaseName, contract, version);
-        FactoryDbContractExecutor executorFactory = new FactoryDbContractExecutor();
-        DbHelper<ReviewerDbContract> dbHelper
-                = new DbHelper<>(context, spec, executorFactory.newExecutor());
-
         FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
 
+        DatabaseProvider<ReviewerDbContract> dbProvider = newDatabaseProvider(context, spec,
+                rowFactory);
+
+
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
-        return dbFactory.newDatabase(dbHelper, loader, tagsManager, validator);
+        return dbFactory.newDatabase(dbProvider, loader, tagsManager, validator);
+    }
+
+    @NonNull
+    private StorageTypeDefinitions getStorageTypeFactory() {
+        return new StorageTypeDefinitionsSqlLite();
+    }
+
+    @NonNull
+    private DatabaseProvider<ReviewerDbContract> newDatabaseProvider(Context context,
+                                                                     DbSpecification<ReviewerDbContract> spec,
+                                                                     FactoryReviewerDbTableRow rowFactory) {
+        FactorySqLiteDatabaseInstance dbInstanceFactory = new FactorySqLiteDatabaseInstance(rowFactory);
+        return new DatabaseProviderSqlLite<>(context, spec, new SqlLiteContractExecutorImpl(), dbInstanceFactory);
     }
 
 }

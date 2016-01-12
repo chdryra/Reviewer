@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer.LocationServices.Interfaces;
 import android.content.Context;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
 
 /**
  * Created by: Rizwan Choudrey

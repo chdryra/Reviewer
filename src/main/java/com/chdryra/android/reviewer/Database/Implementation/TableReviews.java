@@ -3,9 +3,10 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -21,24 +22,25 @@ public class TableReviews extends DbTableImpl<RowReview> {
     
     public TableReviews(DbTable<? extends RowAuthor> authorsTable,
                         FactoryDbColumnDef columnFactory,
-                        FactoryForeignKeyConstraint constraintFactory) {
+                        FactoryForeignKeyConstraint constraintFactory,
+                        StorageTypeDefinitions typeFactory) {
         super(TABLE, RowReview.class);
         DbColumnDef reviewId = columnFactory.newPkColumnDef(RowReview.COLUMN_REVIEW_ID,
-                SQL.StorageType.TEXT);
+                typeFactory.getTextType());
         DbColumnDef parentId = columnFactory.newColumnDef(RowReview.COLUMN_PARENT_ID,
-                SQL.StorageType.TEXT, SQL.Nullable.TRUE);
+                typeFactory.getTextType(), ValueNullable.TRUE);
         DbColumnDef authorId = columnFactory.newColumnDef(RowReview.COLUMN_AUTHOR_ID,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef publishDate = columnFactory.newColumnDef(RowReview.COLUMN_PUBLISH_DATE,
-                SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+                typeFactory.getIntegerType(), ValueNullable.FALSE);
         DbColumnDef subject = columnFactory.newColumnDef(RowReview.COLUMN_SUBJECT,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef rating = columnFactory.newColumnDef(RowReview.COLUMN_RATING,
-                SQL.StorageType.REAL, SQL.Nullable.FALSE);
+                typeFactory.getRealType(), ValueNullable.FALSE);
         DbColumnDef ratingWeight = columnFactory.newColumnDef(RowReview.COLUMN_RATING_WEIGHT,
-                SQL.StorageType.REAL, SQL.Nullable.FALSE);
+                typeFactory.getRealType(), ValueNullable.FALSE);
         DbColumnDef isAverage = columnFactory.newColumnDef(RowReview.COLUMN_RATING_IS_AVERAGE,
-                SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
         addPrimaryKey(reviewId);
         addColumn(parentId);

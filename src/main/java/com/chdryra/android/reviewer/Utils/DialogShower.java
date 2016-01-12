@@ -24,7 +24,7 @@ public class DialogShower {
         show(dialog, activity, requestCode, tag);
     }
 
-    public static void show(DialogFragment dialog, Activity activity, int requestCode, String tag) {
+    private static void show(DialogFragment dialog, Activity activity, int requestCode, String tag) {
         dialog.setTargetFragment(null, requestCode);
         dialog.show(activity.getFragmentManager(), tag);
     }

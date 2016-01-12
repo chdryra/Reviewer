@@ -6,7 +6,7 @@
  * Date: 30 March, 2015
  */
 
-package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
+package com.chdryra.android.reviewer.Database.AndroidSqLite;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,10 +34,6 @@ public class SQL {
     public static final String DROP_TABLE_IF_EXISTS = "DROP TABLE IF EXISTS ";
     public static final String BIND_STRING = "= ? ";
     public static final String IS_NULL = "IS NULL ";
-
-    public enum StorageType {TEXT, REAL, INTEGER, BLOB}
-
-    public enum Nullable {TRUE, FALSE}
 
     private SQL() {
     }

@@ -3,9 +3,10 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -20,18 +21,18 @@ public class TableFacts extends DbTableImpl<RowFact> {
     private static final String TABLE = "Facts";
     
     public TableFacts(DbTable<? extends RowReview> reviewsTable, FactoryDbColumnDef columnFactory,
-                      FactoryForeignKeyConstraint constraintFactory) {
+                      FactoryForeignKeyConstraint constraintFactory, StorageTypeDefinitions typeFactory) {
         super(TABLE, RowFact.class);
         DbColumnDef factId = columnFactory.newPkColumnDef(RowFact.COLUMN_FACT_ID,
-                SQL.StorageType.TEXT);
+                typeFactory.getTextType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowFact.COLUMN_REVIEW_ID,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef label = columnFactory.newColumnDef(RowFact.COLUMN_LABEL,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef value = columnFactory.newColumnDef(RowFact.COLUMN_VALUE,
-                SQL.StorageType.TEXT, SQL.Nullable.FALSE);
+                typeFactory.getTextType(), ValueNullable.FALSE);
         DbColumnDef isUrl = columnFactory.newColumnDef(RowFact.COLUMN_IS_URL,
-                SQL.StorageType.INTEGER, SQL.Nullable.FALSE);
+                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
         addPrimaryKey(factId);
         addColumn(reviewId);

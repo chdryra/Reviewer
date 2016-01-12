@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
+import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.SQL;
 public interface DbColumnDef {
     String getName();
 
-    SQL.StorageType getType();
+    StorageType getType();
 
-    boolean isNullable();
+    ValueNullable getNullable();
 }

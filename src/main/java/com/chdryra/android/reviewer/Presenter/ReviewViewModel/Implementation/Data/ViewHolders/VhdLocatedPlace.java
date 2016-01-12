@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,10 +19,10 @@ import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhdLocatedPlace implements ViewHolderData {
-    private final LocatedPlace mPlace;
+    private final LocatedPlaceImpl mPlace;
 
     //Constructors
-    public VhdLocatedPlace(LocatedPlace place) {
+    public VhdLocatedPlace(LocatedPlaceImpl place) {
         mPlace = place;
     }
 

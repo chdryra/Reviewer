@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.LocationServices.Implementation;
 
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -15,39 +16,40 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocatedPlace {
+public class LocatedPlaceImpl implements LocatedPlace {
     private static final String SEPARATOR = ":";
 
     private final LatLng mLatLng;
     private final String mDescription;
     private final LocationId mId;
 
-    public enum LocationProvider {GOOGLE, USER}
-
-    public LocatedPlace(LatLng latLng) {
+    public LocatedPlaceImpl(LatLng latLng) {
         this(latLng, "");
     }
 
-    public LocatedPlace(LatLng latLng, String description, LocationId id) {
+    public LocatedPlaceImpl(LatLng latLng, String description, LocationId id) {
         mLatLng = latLng;
         mDescription = description;
         mId = id;
     }
 
-    public LocatedPlace(LatLng latLng, String description) {
+    public LocatedPlaceImpl(LatLng latLng, String description) {
         mLatLng = latLng;
         mDescription = description;
         mId = new LocationId(LocationProvider.USER, generateId());
     }
 
+    @Override
     public LatLng getLatLng() {
         return mLatLng;
     }
 
+    @Override
     public String getDescription() {
         return mDescription;
     }
 
+    @Override
     public LocationId getId() {
         return mId;
     }
@@ -65,37 +67,4 @@ public class LocatedPlace {
         return result;
     }
 
-    public static class LocationId {
-        private LocationProvider mProvider;
-        private String mId;
-
-        public LocationId(LocationProvider provider, String providerId) {
-            mProvider = provider;
-            mId = providerId;
-        }
-
-        public String getId() {
-            return mId;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof LocationId)) return false;
-
-            LocationId that = (LocationId) o;
-
-            if (!mId.equals(that.mId)) return false;
-            if (mProvider != that.mProvider) return false;
-
-            return true;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = mProvider.hashCode();
-            result = 31 * result + mId.hashCode();
-            return result;
-        }
-    }
 }

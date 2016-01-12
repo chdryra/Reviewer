@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -9,28 +10,27 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
  */
 public class DbColumnDefImpl implements DbColumnDef{
     private String mColumnName;
-    private SQL.StorageType mType;
-    private boolean mIsNullable;
+    private StorageType mType;
+    private ValueNullable mNullable;
 
-    public DbColumnDefImpl(String columnName, SQL.StorageType type, SQL.Nullable nullable) {
+    public DbColumnDefImpl(String columnName, StorageType type, ValueNullable nullable) {
         mColumnName = columnName;
         mType = type;
-        mIsNullable = nullable == SQL.Nullable.TRUE;
+        mNullable = nullable;
     }
 
-    //public methods
     @Override
     public String getName() {
         return mColumnName;
     }
 
     @Override
-    public SQL.StorageType getType() {
+    public StorageType getType() {
         return mType;
     }
 
     @Override
-    public boolean isNullable() {
-        return mIsNullable;
+    public ValueNullable getNullable() {
+        return mNullable;
     }
 }

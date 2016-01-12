@@ -11,7 +11,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.Validatable;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbTableRow extends Validatable{
-    //abstract
     String getRowId();
 
     String getRowIdColumnName();

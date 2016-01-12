@@ -24,8 +24,9 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsListener;
@@ -94,7 +95,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     private void findPlaceSuggestions() {
         //Initial suggestions
-        mSuggester.fetchSuggestions(new LocatedPlace(mCurrentLatLng), this);
+        mSuggester.fetchSuggestions(new LocatedPlaceImpl(mCurrentLatLng), this);
 
         //Whilst initial suggestions are being found....
         ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
@@ -103,7 +104,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
-        LocatedPlace place = new LocatedPlace(mCurrentLatLng);
+        LocatedPlace place = new LocatedPlaceImpl(mCurrentLatLng);
         ViewHolderAdapterFiltered.QueryFilter filter = mLocationServices.newAutoCompleter(place);
         mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, filter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
@@ -117,8 +118,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setMessages() {
-        mNoLocationMessage = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng, mNoLocation));
-        mSearchingMessage = new VhdLocatedPlace(new LocatedPlace(mCurrentLatLng, mSearching));
+        mNoLocationMessage = new VhdLocatedPlace(new LocatedPlaceImpl(mCurrentLatLng, mNoLocation));
+        mSearchingMessage = new VhdLocatedPlace(new LocatedPlaceImpl(mCurrentLatLng, mSearching));
     }
 
     @Override
@@ -210,7 +211,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (suggestions.size() == 0) {
             mCurrentLatLngPlaces.add(mNoLocationMessage);
         } else {
-            for (LocatedPlace suggestion : suggestions) {
+            for (LocatedPlaceImpl suggestion : suggestions) {
                 mCurrentLatLngPlaces.add(new VhdLocatedPlace(suggestion));
             }
         }
