@@ -9,5 +9,6 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public interface LocationDetails {
     LatLng getLatLng();
+
     String getName();
 }

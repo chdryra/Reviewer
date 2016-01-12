@@ -29,9 +29,7 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServices
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsListener;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggestionsListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
@@ -47,8 +45,8 @@ import java.util.ArrayList;
  */
 public class AddLocation extends AddEditLayoutBasic<GvLocation>
         implements LocationClientConnector.Locatable,
-        NearestNamesSuggestionsListener,
-        LocationDetailsListener{
+        NearestNamesSuggester.NearestNamesListener,
+        LocationDetailsFetcher.LocationDetailsListener {
     public static final int LAYOUT = R.layout.dialog_location_add;
     public static final int NAME = R.id.location_add_edit_text;
     public static final int LIST = R.id.suggestions_list_view;

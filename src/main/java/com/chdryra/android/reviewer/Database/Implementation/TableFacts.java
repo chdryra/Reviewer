@@ -34,7 +34,7 @@ public class TableFacts extends DbTableImpl<RowFact> {
         DbColumnDef isUrl = columnFactory.newColumnDef(RowFact.COLUMN_IS_URL,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKey(factId);
+        addPrimaryKeyColumn(factId);
         addColumn(reviewId);
         addColumn(label);
         addColumn(value);

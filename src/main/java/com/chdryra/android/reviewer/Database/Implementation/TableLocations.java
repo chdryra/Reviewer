@@ -35,7 +35,7 @@ public class TableLocations extends DbTableImpl<RowLocation> {
         DbColumnDef name = columnFactory.newColumnDef(RowLocation.COLUMN_NAME,
                 typeFactory.getStringType(), ValueNullable.FALSE);
 
-        addPrimaryKey(locationId);
+        addPrimaryKeyColumn(locationId);
         addColumn(reviewId);
         addColumn(latitude);
         addColumn(longitude);

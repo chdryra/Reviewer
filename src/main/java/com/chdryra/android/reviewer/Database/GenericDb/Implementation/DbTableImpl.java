@@ -82,7 +82,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
-    public void addPrimaryKey(DbColumnDef column) {
+    public void addPrimaryKeyColumn(DbColumnDef column) {
         if(column.getNullable().isNullable()) {
             throw new IllegalArgumentException("Pk column cannot be nullable!");
         }

@@ -20,7 +20,7 @@ public class TableTags extends DbTableImpl<RowTag> {
         DbColumnDef tag = columnFactory.newPkColumnDef(RowTag.COLUMN_TAG, typeFactory.getStringType());
         DbColumnDef reviews = columnFactory.newColumnDef(RowTag.COLUMN_REVIEWS, typeFactory.getStringType(), ValueNullable.FALSE);
 
-        addPrimaryKey(tag);
+        addPrimaryKeyColumn(tag);
         addColumn(reviews);
     }
 

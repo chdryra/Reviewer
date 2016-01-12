@@ -34,7 +34,7 @@ public class TableComments extends DbTableImpl<RowComment> {
         DbColumnDef isHeadline = columnFactory.newColumnDef(RowComment.COLUMN_IS_HEADLINE,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKey(commentId);
+        addPrimaryKeyColumn(commentId);
         addColumn(reviewId);
         addColumn(comment);
         addColumn(isHeadline);

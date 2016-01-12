@@ -7,4 +7,8 @@ package com.chdryra.android.reviewer.LocationServices.Interfaces;
  */
 public interface LocationDetailsFetcher {
     void fetchPlaceDetails(LocatedPlace place, LocationDetailsListener listener);
+
+    interface LocationDetailsListener {
+        void onPlaceDetailsFound(LocationDetails details);
+    }
 }

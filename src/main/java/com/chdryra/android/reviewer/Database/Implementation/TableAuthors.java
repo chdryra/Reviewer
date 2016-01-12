@@ -22,7 +22,7 @@ public class TableAuthors extends DbTableImpl<RowAuthor> {
         DbColumnDef name = columnFactory.newColumnDef(RowAuthor.COLUMN_AUTHOR_NAME,
                 typeFactory.getStringType(), ValueNullable.FALSE);
 
-        addPrimaryKey(userId);
+        addPrimaryKeyColumn(userId);
         addColumn(name);
     }
 }

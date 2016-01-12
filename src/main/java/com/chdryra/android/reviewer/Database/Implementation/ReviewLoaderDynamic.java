@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerReadableDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
@@ -20,7 +20,7 @@ public class ReviewLoaderDynamic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, DatabaseInstance db) {
+    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, TableTransactor db) {
         return new ReviewUserDb(reviewRow, database, mNodeFactory);
     }
 }

@@ -32,7 +32,7 @@ public interface DbTable<T extends DbTableRow> extends BaseColumns {
 
     void addColumn(DbColumnDef column);
 
-    void addPrimaryKey(DbColumnDef column);
+    void addPrimaryKeyColumn(DbColumnDef column);
 
     void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> contraint);
 

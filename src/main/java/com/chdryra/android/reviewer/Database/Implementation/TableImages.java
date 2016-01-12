@@ -36,7 +36,7 @@ public class TableImages extends DbTableImpl<RowImage> {
         DbColumnDef isCover = columnFactory.newColumnDef(RowImage.COLUMN_IS_COVER,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKey(imageId);
+        addPrimaryKeyColumn(imageId);
         addColumn(reviewId);
         addColumn(bitmap);
         addColumn(imageDate);

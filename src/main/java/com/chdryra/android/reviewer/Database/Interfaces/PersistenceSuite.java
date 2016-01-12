@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.Database.Factories;
+package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.content.Context;
 
@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDe
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceSuite<T extends DbContract> {
-    RowValueTypeDefinitions getStorageTypeDefinitions();
-    DatabaseProvider<T> getDatabaseProvider(Context context , DbSpecification<T> spec, FactoryReviewerDbTableRow rowFactory);
+    RowValueTypeDefinitions getTypeDefinitions();
+
+    DatabaseProvider<T> newDatabaseProvider(Context context, DbSpecification<T> spec);
 }

@@ -1,7 +1,7 @@
 package test.Model.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
@@ -54,7 +54,7 @@ public class ReviewerDbRepositoryTest {
 
     @Test
     public void addReviewAddsReviewToDb() {
-        DatabaseInstance mockDb = mockWriteTransaction();
+        TableTransactor mockDb = mockWriteTransaction();
         Review review = RandomReview.nextReview();
         mRepo.addReview(review);
         verify(mDb).addReviewToDb(review, mockDb);
@@ -68,7 +68,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         Review review = RandomReview.nextReview();
-        DatabaseInstance mockDb = mockWriteTransaction();
+        TableTransactor mockDb = mockWriteTransaction();
         when(mDb.addReviewToDb(review, mockDb)).thenReturn(true);
 
         mRepo.addReview(review);
@@ -85,7 +85,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         Review review = RandomReview.nextReview();
-        DatabaseInstance mockDb = mockWriteTransaction();
+        TableTransactor mockDb = mockWriteTransaction();
         when(mDb.addReviewToDb(review, mockDb)).thenReturn(false);
 
         mRepo.addReview(review);
@@ -96,7 +96,7 @@ public class ReviewerDbRepositoryTest {
     @Test
     public void getReviewCallsLoadReviewsFromDbWhere() {
         ReviewId id = RandomReviewId.nextReviewId();
-        DatabaseInstance mockDb = mockReadTransaction();
+        TableTransactor mockDb = mockReadTransaction();
         mRepo.getReview(id);
         verify(mDb).loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString());
     }
@@ -136,7 +136,7 @@ public class ReviewerDbRepositoryTest {
 
     @Test
     public void getReviewsCallsLoadReviewsFromDbWhere() {
-        DatabaseInstance mockDb = mockReadTransaction();
+        TableTransactor mockDb = mockReadTransaction();
         mRepo.getReviews();
         verify(mDb).loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null);
     }
@@ -148,7 +148,7 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
         reviews.add(review);
 
-        DatabaseInstance mockDb = mockReadTransaction();
+        TableTransactor mockDb = mockReadTransaction();
         when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null)).thenReturn
                 (reviews);
         assertThat(mRepo.getReviews(), is(reviews));
@@ -156,7 +156,7 @@ public class ReviewerDbRepositoryTest {
 
     @Test
     public void removeReviewRemovesReviewToDb() {
-        DatabaseInstance mockDb = mockWriteTransaction();
+        TableTransactor mockDb = mockWriteTransaction();
         ReviewId id = RandomReviewId.nextReviewId();
         mRepo.removeReview(id);
         verify(mDb).deleteReviewFromDb(id.toString(), mockDb);
@@ -170,7 +170,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         ReviewId id = RandomReviewId.nextReviewId();
-        DatabaseInstance mockDb = mockWriteTransaction();
+        TableTransactor mockDb = mockWriteTransaction();
         when(mDb.deleteReviewFromDb(id.toString(), mockDb)).thenReturn(true);
 
         mRepo.removeReview(id);
@@ -187,7 +187,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         ReviewId id = RandomReviewId.nextReviewId();
-        DatabaseInstance mockDb = mockWriteTransaction();
+        TableTransactor mockDb = mockWriteTransaction();
         when(mDb.deleteReviewFromDb(id.toString(), mockDb)).thenReturn(false);
 
         mRepo.removeReview(id);
@@ -196,19 +196,19 @@ public class ReviewerDbRepositoryTest {
     }
 
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
-        DatabaseInstance mockDb = mockReadTransaction();
+        TableTransactor mockDb = mockReadTransaction();
         when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString()))
                 .thenReturn(reviews);
     }
 
-    private DatabaseInstance mockReadTransaction() {
-        DatabaseInstance mockDb = mock(DatabaseInstance.class);
+    private TableTransactor mockReadTransaction() {
+        TableTransactor mockDb = mock(TableTransactor.class);
         when(mDb.beginReadTransaction()).thenReturn(mockDb);
         return mockDb;
     }
 
-    private DatabaseInstance mockWriteTransaction() {
-        DatabaseInstance mockDb = mock(DatabaseInstance.class);
+    private TableTransactor mockWriteTransaction() {
+        TableTransactor mockDb = mock(TableTransactor.class);
         when(mDb.beginWriteTransaction()).thenReturn(mockDb);
         return mockDb;
     }

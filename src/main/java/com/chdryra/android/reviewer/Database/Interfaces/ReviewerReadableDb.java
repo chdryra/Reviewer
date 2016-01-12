@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.TableRowList;
@@ -15,15 +16,15 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewerReadableDb extends ReviewerDbContract {
-    DatabaseInstance beginReadTransaction();
+    TableTransactor beginReadTransaction();
 
-    void endTransaction(DatabaseInstance db);
+    void endTransaction(TableTransactor db);
 
-    ArrayList<Review> loadReviewsFromDbWhere(DatabaseInstance db, String col, @Nullable String val);
+    ArrayList<Review> loadReviewsFromDbWhere(TableTransactor db, String col, @Nullable String val);
 
-    <T extends DbTableRow> T getRowWhere(DatabaseInstance db, DbTable<T> table, String col, @Nullable String val);
+    <T extends DbTableRow> T getRowWhere(TableTransactor db, DbTable<T> table, String col, @Nullable String val);
 
-    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(DatabaseInstance db, DbTable<T1> table,
+    <T1 extends DbTableRow> ArrayList<T1> loadFromDataTable(TableTransactor db, DbTable<T1> table,
                                                             String reviewId);
 
     <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);

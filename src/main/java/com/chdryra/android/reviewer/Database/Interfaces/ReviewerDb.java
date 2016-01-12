@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
@@ -15,18 +16,18 @@ import java.util.ArrayList;
 public interface ReviewerDb extends ReviewerReadableDb{
     TagsManager getTagsManager();
 
-    DatabaseInstance beginWriteTransaction();
+    TableTransactor beginWriteTransaction();
 
-    boolean addReviewToDb(Review review, DatabaseInstance db);
+    boolean addReviewToDb(Review review, TableTransactor db);
 
-    boolean deleteReviewFromDb(String reviewId, DatabaseInstance db);
-
-    @Override
-    DatabaseInstance beginReadTransaction();
+    boolean deleteReviewFromDb(String reviewId, TableTransactor db);
 
     @Override
-    void endTransaction(DatabaseInstance db);
+    TableTransactor beginReadTransaction();
 
     @Override
-    ArrayList<Review> loadReviewsFromDbWhere(DatabaseInstance db, String col, @Nullable String val);
+    void endTransaction(TableTransactor db);
+
+    @Override
+    ArrayList<Review> loadReviewsFromDbWhere(TableTransactor db, String col, @Nullable String val);
 }

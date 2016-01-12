@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Database.Implementation.RowImageImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowLocationImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowTagImpl;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
@@ -41,8 +42,9 @@ import java.lang.reflect.InvocationTargetException;
  * On: 02/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewerDbTableRow {
+public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
 
+    @Override
     public <T extends DbTableRow> T emptyRow(Class<T> rowClass) {
         try {
             return rowClass.newInstance();
@@ -53,6 +55,7 @@ public class FactoryReviewerDbTableRow {
         }
     }
 
+    @Override
     public <T extends DbTableRow> T newRow(RowValues values, Class<T> rowClass) {
         try {
             Constructor c = rowClass.getConstructor(RowValues.class);

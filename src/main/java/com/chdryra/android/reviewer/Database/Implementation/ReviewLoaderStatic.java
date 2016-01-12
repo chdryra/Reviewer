@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.Database.Interfaces.FactoryReviewFromDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
@@ -37,7 +37,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, DatabaseInstance db) {
+    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, TableTransactor db) {
         if (!reviewRow.hasData(mValidator)) return null;
 
         String subject = reviewRow.getSubject();
@@ -62,35 +62,35 @@ public class ReviewLoaderStatic implements ReviewLoader {
         return mFactory.recreateReview(reviewDb);
     }
 
-    private ArrayList<Review> loadCriteria(ReviewerReadableDb database, DatabaseInstance db, String
+    private ArrayList<Review> loadCriteria(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
         return database.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
     }
 
-    private ArrayList<RowImage> loadImages(ReviewerReadableDb database, DatabaseInstance db, String reviewId) {
+    private ArrayList<RowImage> loadImages(ReviewerReadableDb database, TableTransactor db, String reviewId) {
         DbTable<RowImage> imagesTable = database.getImagesTable();
         return database.loadFromDataTable(db, imagesTable, reviewId);
     }
 
-    private ArrayList<RowLocation> loadLocations(ReviewerReadableDb database, DatabaseInstance db, String
+    private ArrayList<RowLocation> loadLocations(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
         DbTable<RowLocation> locationsTable = database.getLocationsTable();
         return database.loadFromDataTable(db, locationsTable, reviewId);
     }
 
-    private ArrayList<RowFact> loadFacts(ReviewerReadableDb database, DatabaseInstance db, String reviewId) {
+    private ArrayList<RowFact> loadFacts(ReviewerReadableDb database, TableTransactor db, String reviewId) {
         DbTable<RowFact> factsTable = database.getFactsTable();
         return database.loadFromDataTable(db, factsTable, reviewId);
     }
 
-    private ArrayList<RowComment> loadComments(ReviewerReadableDb database, DatabaseInstance db, String
+    private ArrayList<RowComment> loadComments(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
         DbTable<RowComment> commentsTable = database.getCommentsTable();
         return database.loadFromDataTable(db, commentsTable, reviewId);
     }
 
     @NonNull
-    private DataAuthor loadAuthor(ReviewerReadableDb database, DatabaseInstance db, String userId) {
+    private DataAuthor loadAuthor(ReviewerReadableDb database, TableTransactor db, String userId) {
         String column = RowAuthor.COLUMN_USER_ID;
         RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());

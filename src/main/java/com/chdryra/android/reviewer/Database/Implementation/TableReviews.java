@@ -42,7 +42,7 @@ public class TableReviews extends DbTableImpl<RowReview> {
         DbColumnDef isAverage = columnFactory.newColumnDef(RowReview.COLUMN_RATING_IS_AVERAGE,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKey(reviewId);
+        addPrimaryKeyColumn(reviewId);
         addColumn(parentId);
         addColumn(authorId);
         addColumn(publishDate);

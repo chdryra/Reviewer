@@ -41,10 +41,8 @@ import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressSuggestionsListener;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearchResultsListener;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -78,8 +76,8 @@ import java.util.ArrayList;
  */
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
-        AddressSuggestionsListener,
-        PlaceSearchResultsListener, OnMapReadyCallback {
+        AddressesSuggester.AddressSuggestionsListener,
+        PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback {
 
     private static final String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments" +
             ".FragmentEditLocationMap.location";
