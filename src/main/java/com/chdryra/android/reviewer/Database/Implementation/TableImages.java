@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImp
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -21,18 +21,18 @@ public class TableImages extends DbTableImpl<RowImage> {
     private static final String TABLE = "Images";
     
     public TableImages(DbTable<? extends RowReview> reviewsTable, FactoryDbColumnDef columnFactory,
-                       FactoryForeignKeyConstraint constraintFactory, StorageTypeDefinitions typeFactory) {
+                       FactoryForeignKeyConstraint constraintFactory, RowValueTypeDefinitions typeFactory) {
         super(TABLE, RowImage.class);
         DbColumnDef imageId = columnFactory.newPkColumnDef(RowImage.COLUMN_IMAGE_ID,
-                typeFactory.getTextType());
+                typeFactory.getStringType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowImage.COLUMN_REVIEW_ID,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef bitmap = columnFactory.newColumnDef(RowImage.COLUMN_BITMAP,
-                typeFactory.getBitmapType(), ValueNullable.FALSE);
+                typeFactory.getByteArrayType(), ValueNullable.FALSE);
         DbColumnDef imageDate = columnFactory.newColumnDef(RowImage.COLUMN_IMAGE_DATE,
-                typeFactory.getRealType(), ValueNullable.TRUE);
+                typeFactory.getFloatType(), ValueNullable.TRUE);
         DbColumnDef caption = columnFactory.newColumnDef(RowImage.COLUMN_CAPTION,
-                typeFactory.getTextType(), ValueNullable.TRUE);
+                typeFactory.getStringType(), ValueNullable.TRUE);
         DbColumnDef isCover = columnFactory.newColumnDef(RowImage.COLUMN_IS_COVER,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 

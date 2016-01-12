@@ -25,9 +25,9 @@ public interface DatabaseInstance {
 
     boolean isIdInTable(String id, DbColumnDef idCol, DbTable table);
 
-    boolean insertRow(DbTableRow row, DbTable table);
+    <T extends DbTableRow> boolean insertRow(T row, DbTable<T> table);
 
-    void insertOrReplaceRow(DbTableRow row, DbTable table);
+    <T extends DbTableRow> void insertOrReplaceRow(T row, DbTable<T> table);
 
     void deleteRows(String col, String val, DbTable table);
 }

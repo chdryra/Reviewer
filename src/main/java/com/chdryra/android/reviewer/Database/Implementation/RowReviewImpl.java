@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
@@ -44,15 +42,15 @@ public class RowReviewImpl implements RowReview {
     public RowReviewImpl() {
     }
 
-    public RowReviewImpl(Cursor cursor) {
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
-        mParentId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PARENT_ID));
-        mAuthorId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR_ID));
-        mPublishDate = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_PUBLISH_DATE));
-        mSubject = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SUBJECT));
-        mRating = cursor.getFloat(cursor.getColumnIndexOrThrow(COLUMN_RATING));
-        mRatingWeight = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RATING_WEIGHT));
-        mRatingIsAverage = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RATING_IS_AVERAGE)) == 1;
+    public RowReviewImpl(RowValues values) {
+        mReviewId = values.getString(COLUMN_REVIEW_ID);
+        mParentId = values.getString(COLUMN_PARENT_ID);
+        mAuthorId = values.getString(COLUMN_AUTHOR_ID);
+        mPublishDate = values.getLong(COLUMN_PUBLISH_DATE);
+        mSubject = values.getString(COLUMN_SUBJECT);
+        mRating = values.getFloat(COLUMN_RATING);
+        mRatingWeight = values.getInteger(COLUMN_RATING_WEIGHT);
+        mRatingIsAverage = values.getBoolean(COLUMN_RATING_IS_AVERAGE);
     }
 
     @Override
@@ -108,21 +106,6 @@ public class RowReviewImpl implements RowReview {
     @Override
     public String getRowIdColumnName() {
         return COLUMN_REVIEW_ID;
-    }
-
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_REVIEW_ID, mReviewId);
-        values.put(COLUMN_PARENT_ID, mParentId);
-        values.put(COLUMN_AUTHOR_ID, mAuthorId);
-        values.put(COLUMN_PUBLISH_DATE, mPublishDate);
-        values.put(COLUMN_SUBJECT, mSubject);
-        values.put(COLUMN_RATING, mRating);
-        values.put(COLUMN_RATING_WEIGHT, mRating);
-        values.put(COLUMN_RATING_IS_AVERAGE, mRatingIsAverage);
-
-        return values;
     }
 
     @Override

@@ -5,6 +5,6 @@ package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StorageType {
+public interface RowValueType {
     String getTypeString();
 }

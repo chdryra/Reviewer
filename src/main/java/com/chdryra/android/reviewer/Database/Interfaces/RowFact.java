@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.content.ContentValues;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -35,9 +33,6 @@ public interface RowFact extends ReviewDataRow, DataFact {
 
     @Override
     String getRowIdColumnName();
-
-    @Override
-    ContentValues getContentValues();
 
     @Override
     boolean hasData(DataValidator validator);

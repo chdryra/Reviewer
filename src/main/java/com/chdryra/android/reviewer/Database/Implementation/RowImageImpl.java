@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -11,6 +9,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 
 import java.io.ByteArrayOutputStream;
@@ -36,7 +35,7 @@ public class RowImageImpl implements RowImage {
         mImageId = mReviewId + SEPARATOR + "i" + String.valueOf(index);
         mCaption = image.getCaption();
         mIsCover = image.isCover();
-        mDate = image.getDate().getTime();
+        mDate = image.getDate() != null ? image.getDate().getTime() : -1;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         image.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
         mBitmap = bos.toByteArray();
@@ -46,13 +45,16 @@ public class RowImageImpl implements RowImage {
     public RowImageImpl() {
     }
 
-    public RowImageImpl(Cursor cursor) {
-        mImageId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_ID));
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
-        mBitmap = cursor.getBlob(cursor.getColumnIndexOrThrow(COLUMN_BITMAP));
-        mDate = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_IMAGE_DATE));
-        mCaption = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CAPTION));
-        mIsCover = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_COVER)) == 1;
+    public RowImageImpl(RowValues values) {
+        mImageId = values.getString(COLUMN_IMAGE_ID);
+        mReviewId = values.getString(COLUMN_REVIEW_ID);
+        Byte[] byteArray = values.getByteArray(COLUMN_BITMAP);
+        for(int i = 0; i < byteArray.length; ++i) {
+            mBitmap[i] = byteArray[i];
+        }
+        mDate = values.getLong(COLUMN_IMAGE_DATE);
+        mCaption = values.getString(COLUMN_CAPTION);
+        mIsCover = values.getBoolean(COLUMN_IS_COVER);
     }
 
 
@@ -61,6 +63,11 @@ public class RowImageImpl implements RowImage {
     @Override
     public ReviewId getReviewId() {
         return new DatumReviewId(mReviewId);
+    }
+
+    @Override
+    public byte[] getBitmapByteArray() {
+        return mBitmap;
     }
 
     @Override
@@ -91,19 +98,6 @@ public class RowImageImpl implements RowImage {
     @Override
     public String getRowIdColumnName() {
         return COLUMN_IMAGE_ID;
-    }
-
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_IMAGE_ID, mImageId);
-        values.put(COLUMN_REVIEW_ID, mReviewId);
-        values.put(COLUMN_BITMAP, mBitmap);
-        values.put(COLUMN_IMAGE_DATE, mDate);
-        values.put(COLUMN_CAPTION, mCaption);
-        values.put(COLUMN_IS_COVER, mIsCover);
-
-        return values;
     }
 
     @Override

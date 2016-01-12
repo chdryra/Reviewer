@@ -24,12 +24,12 @@ import java.util.ArrayList;
  */
 public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     private String mTableName;
-    private Class<? extends T> mRowClass;
+    private Class<T> mRowClass;
     private ArrayList<DbColumnDef> mPrimaryKeys;
     private ArrayList<DbColumnDef> mOtherColumns;
     private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
 
-    public DbTableImpl(String tableName, Class<? extends T> rowClass) {
+    public DbTableImpl(String tableName, Class<T> rowClass) {
         mTableName = tableName;
         mRowClass = rowClass;
         mPrimaryKeys = new ArrayList<>();
@@ -43,7 +43,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
-    public Class<? extends T> getRowClass() {
+    public Class<T> getRowClass() {
         return mRowClass;
     }
 
@@ -83,7 +83,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
 
     @Override
     public void addPrimaryKey(DbColumnDef column) {
-        if(column.getNullable()) {
+        if(column.getNullable().isNullable()) {
             throw new IllegalArgumentException("Pk column cannot be nullable!");
         }
         mPrimaryKeys.add(column);

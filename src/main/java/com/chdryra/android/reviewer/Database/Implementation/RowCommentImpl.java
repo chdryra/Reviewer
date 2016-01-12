@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 
 /**
@@ -34,11 +32,11 @@ public class RowCommentImpl implements RowComment {
     public RowCommentImpl() {
     }
 
-    public RowCommentImpl(Cursor cursor) {
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
-        mCommentId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENT_ID));
-        mComment = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_COMMENT));
-        mIsHeadline = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_HEADLINE)) == 1;
+    public RowCommentImpl(RowValues values) {
+        mReviewId = values.getString(COLUMN_REVIEW_ID);
+        mCommentId = values.getString(COLUMN_COMMENT_ID);
+        mComment = values.getString(COLUMN_COMMENT);
+        mIsHeadline = values.getBoolean(COLUMN_IS_HEADLINE);
     }
 
     //Overridden
@@ -66,17 +64,6 @@ public class RowCommentImpl implements RowComment {
     @Override
     public String getRowIdColumnName() {
         return COLUMN_COMMENT_ID;
-    }
-
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_COMMENT_ID, mCommentId);
-        values.put(COLUMN_REVIEW_ID, mReviewId);
-        values.put(COLUMN_COMMENT, mComment);
-        values.put(COLUMN_IS_HEADLINE, mIsHeadline);
-
-        return values;
     }
 
     @Override

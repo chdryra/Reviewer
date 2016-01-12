@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImp
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -21,16 +21,16 @@ public class TableFacts extends DbTableImpl<RowFact> {
     private static final String TABLE = "Facts";
     
     public TableFacts(DbTable<? extends RowReview> reviewsTable, FactoryDbColumnDef columnFactory,
-                      FactoryForeignKeyConstraint constraintFactory, StorageTypeDefinitions typeFactory) {
+                      FactoryForeignKeyConstraint constraintFactory, RowValueTypeDefinitions typeFactory) {
         super(TABLE, RowFact.class);
         DbColumnDef factId = columnFactory.newPkColumnDef(RowFact.COLUMN_FACT_ID,
-                typeFactory.getTextType());
+                typeFactory.getStringType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowFact.COLUMN_REVIEW_ID,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef label = columnFactory.newColumnDef(RowFact.COLUMN_LABEL,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef value = columnFactory.newColumnDef(RowFact.COLUMN_VALUE,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef isUrl = columnFactory.newColumnDef(RowFact.COLUMN_IS_URL,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 

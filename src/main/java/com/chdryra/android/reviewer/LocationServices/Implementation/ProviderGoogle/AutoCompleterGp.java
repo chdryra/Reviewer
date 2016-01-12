@@ -39,7 +39,7 @@ public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
     public ViewHolderDataList filter(String query) {
         ArrayList<LocatedPlace> places = fetchPredictions(query);
         ViewHolderDataList<VhdLocatedPlace> filtered = new VhDataList<>();
-        for (LocatedPlaceImpl place : places) {
+        for (LocatedPlace place : places) {
             filtered.add(new VhdLocatedPlace(place));
         }
 

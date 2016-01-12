@@ -211,7 +211,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (suggestions.size() == 0) {
             mCurrentLatLngPlaces.add(mNoLocationMessage);
         } else {
-            for (LocatedPlaceImpl suggestion : suggestions) {
+            for (LocatedPlace suggestion : suggestions) {
                 mCurrentLatLngPlaces.add(new VhdLocatedPlace(suggestion));
             }
         }

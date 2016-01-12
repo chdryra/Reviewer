@@ -11,7 +11,13 @@ import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactorySqLiteDatabaseInstance {
+    private FactoryRowConverter mConverterFactory;
+
+    public FactorySqLiteDatabaseInstance(FactoryRowConverter converterFactory) {
+        mConverterFactory = converterFactory;
+    }
+
     public DatabaseInstance newInstance(SQLiteDatabase db, FactoryReviewerDbTableRow rowFactory) {
-        return new DatabaseInstanceSqlLite(db, rowFactory);
+        return new DatabaseInstanceSqlLite(db, rowFactory, mConverterFactory);
     }
 }

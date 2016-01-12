@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
 
-import android.content.ContentValues;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.Validatable;
 
@@ -14,8 +12,6 @@ public interface DbTableRow extends Validatable{
     String getRowId();
 
     String getRowIdColumnName();
-
-    ContentValues getContentValues();
 
     @Override
     boolean hasData(DataValidator validator);

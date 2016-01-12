@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 
 /**
@@ -28,12 +26,10 @@ public class RowAuthorImpl implements RowAuthor {
     public RowAuthorImpl() {
     }
 
-    public RowAuthorImpl(Cursor cursor) {
-        mUserId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USER_ID));
-        mName = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_AUTHOR_NAME));
+    public RowAuthorImpl(RowValues values) {
+        mUserId = values.getString(COLUMN_USER_ID);
+        mName = values.getString(COLUMN_AUTHOR_NAME);
     }
-
-    //Overridden
 
     @Override
     public String getName() {
@@ -53,15 +49,6 @@ public class RowAuthorImpl implements RowAuthor {
     @Override
     public String getRowIdColumnName() {
         return COLUMN_USER_ID;
-    }
-
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USER_ID, mUserId);
-        values.put(COLUMN_AUTHOR_NAME, mName);
-
-        return values;
     }
 
     @Override

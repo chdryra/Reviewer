@@ -1,16 +1,16 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageType;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueType;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StorageTypeImpl implements StorageType {
+public class RowValueTypeImpl implements RowValueType {
     private String mType;
 
-    public StorageTypeImpl(String type) {
+    public RowValueTypeImpl(String type) {
         mType = type;
     }
 

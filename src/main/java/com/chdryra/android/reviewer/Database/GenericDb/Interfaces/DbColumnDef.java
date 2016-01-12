@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNulla
 public interface DbColumnDef {
     String getName();
 
-    StorageType getType();
+    RowValueType getType();
 
     ValueNullable getNullable();
 }

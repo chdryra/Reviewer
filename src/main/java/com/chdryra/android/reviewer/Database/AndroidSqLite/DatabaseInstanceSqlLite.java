@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.Database.AndroidSqLite;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,10 +21,14 @@ import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
 public class DatabaseInstanceSqlLite implements DatabaseInstance {
     private final SQLiteDatabase mDb;
     private final FactoryReviewerDbTableRow mRowFactory;
+    private final FactoryRowConverter mConverterfactory;
 
-    public DatabaseInstanceSqlLite(SQLiteDatabase db, FactoryReviewerDbTableRow rowFactory) {
+    public DatabaseInstanceSqlLite(SQLiteDatabase db,
+                                   FactoryReviewerDbTableRow rowFactory,
+                                   FactoryRowConverter converterFactory) {
         mDb = db;
         mRowFactory = rowFactory;
+        mConverterfactory = converterFactory;
     }
 
     @Override
@@ -42,15 +47,17 @@ public class DatabaseInstanceSqlLite implements DatabaseInstance {
     public <T extends DbTableRow> T getRowWhere(DbTable<T> table, String col, String val) {
         Cursor cursor = getCursorWhere(table.getName(), col, val);
 
-        if (cursor == null || cursor.getCount() == 0) {
-            return mRowFactory.emptyRow(table.getRowClass());
-        }
+        if (cursor == null || cursor.getCount() == 0) return toDbTableRow(table);
 
         cursor.moveToFirst();
-        T row = mRowFactory.newRow(cursor, table.getRowClass());
+        T row = toDbTableRow(table, cursor);
         cursor.close();
 
         return row;
+    }
+
+    private <T extends DbTableRow> T toDbTableRow(DbTable<T> table) {
+        return mRowFactory.emptyRow(table.getRowClass());
     }
 
     @Override
@@ -61,22 +68,26 @@ public class DatabaseInstanceSqlLite implements DatabaseInstance {
 
         TableRowList<T> list = new TableRowList<>();
         while (cursor.moveToNext()) {
-            list.add(mRowFactory.newRow(cursor, table.getRowClass()));
+            list.add(toDbTableRow(table, cursor));
         }
         cursor.close();
 
         return list;
     }
 
+    private <T extends DbTableRow> T toDbTableRow(DbTable<T> table, Cursor cursor) {
+        return mRowFactory.newRow(new CursorRowValues(cursor), table.getRowClass());
+    }
+
     @Override
-    public boolean insertRow(DbTableRow row, DbTable table) {
+    public <T extends DbTableRow> boolean insertRow(T row, DbTable<T> table) {
         DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         if (isIdInTable(id, idCol, table)) return false;
 
         String tableName = table.getName();
         try {
-            mDb.insertOrThrow(tableName, null, row.getContentValues());
+            mDb.insertOrThrow(tableName, null, convertRow(row, table));
             return true;
         } catch (SQLException e) {
             String message = id + " into " + tableName + " table ";
@@ -85,13 +96,13 @@ public class DatabaseInstanceSqlLite implements DatabaseInstance {
     }
 
     @Override
-    public void insertOrReplaceRow(DbTableRow row, DbTable table) {
+    public <T extends DbTableRow> void insertOrReplaceRow(T row, DbTable<T> table) {
         DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table)) {
             try {
-                mDb.replaceOrThrow(tableName, null, row.getContentValues());
+                mDb.replaceOrThrow(tableName, null, convertRow(row, table));
             } catch (SQLException e) {
                 String message = id + " in " + tableName + " table ";
                 throw new RuntimeException("Couldn't replace " + message, e);
@@ -99,6 +110,11 @@ public class DatabaseInstanceSqlLite implements DatabaseInstance {
         } else {
             insertRow(row, table);
         }
+    }
+
+    private <T extends DbTableRow> ContentValues convertRow(T row, DbTable<T> table) {
+        RowConverter<T> converter = mConverterfactory.newConverter(table.getRowClass());
+        return converter.convert(row);
     }
 
     @Override

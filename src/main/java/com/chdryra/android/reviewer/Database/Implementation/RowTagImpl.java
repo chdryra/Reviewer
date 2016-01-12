@@ -1,9 +1,7 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 
@@ -21,7 +19,6 @@ public class RowTagImpl implements RowTag {
     private String mTag;
     private String mReviews;
 
-    //Constructors
     public RowTagImpl(ItemTag tag) {
         mTag = tag.getTag();
         mReviews = "";
@@ -35,14 +32,19 @@ public class RowTagImpl implements RowTag {
     public RowTagImpl() {
     }
 
-    public RowTagImpl(Cursor cursor) {
-        mTag = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TAG));
-        mReviews = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEWS));
+    public RowTagImpl(RowValues values) {
+        mTag = values.getString(COLUMN_TAG);
+        mReviews = values.getString(COLUMN_REVIEWS);
     }
 
     @Override
     public String getTag() {
         return mTag;
+    }
+
+    @Override
+    public String getReviewIdsString() {
+        return mReviews;
     }
 
     @Override
@@ -58,15 +60,6 @@ public class RowTagImpl implements RowTag {
     @Override
     public String getRowIdColumnName() {
         return COLUMN_TAG;
-    }
-
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_TAG, mTag);
-        values.put(COLUMN_REVIEWS, mReviews);
-
-        return values;
     }
 
     @Override

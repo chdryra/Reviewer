@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.content.ContentValues;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
@@ -27,9 +25,6 @@ public interface RowAuthor extends DbTableRow, DataAuthor {
 
     @Override
     String getRowIdColumnName();
-
-    @Override
-    ContentValues getContentValues();
 
     @Override
     boolean hasData(DataValidator validator);

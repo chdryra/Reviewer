@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.GenericDb.Factories;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbColumnDefImpl;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageType;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueType;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 
 /**
@@ -11,11 +11,11 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbColumnDef {
-    public DbColumnDef newColumnDef(String columnName, StorageType type, ValueNullable nullable) {
+    public DbColumnDef newColumnDef(String columnName, RowValueType type, ValueNullable nullable) {
         return new DbColumnDefImpl(columnName, type, nullable);
     }
 
-    public DbColumnDef newPkColumnDef(String columnName, StorageType type) {
+    public DbColumnDef newPkColumnDef(String columnName, RowValueType type) {
         return new DbColumnDefImpl(columnName, type, ValueNullable.FALSE);
     }
 }

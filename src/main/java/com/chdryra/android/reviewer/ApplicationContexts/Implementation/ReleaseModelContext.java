@@ -6,8 +6,9 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.AndroidSqLite.DatabaseProviderSqlLite;
+import com.chdryra.android.reviewer.Database.AndroidSqLite.FactoryRowConverter;
 import com.chdryra.android.reviewer.Database.AndroidSqLite.FactorySqLiteDatabaseInstance;
-import com.chdryra.android.reviewer.Database.AndroidSqLite.StorageTypeDefinitionsSqlLite;
+import com.chdryra.android.reviewer.Database.AndroidSqLite.RowValueTypeDefinitionsSqlLite;
 import com.chdryra.android.reviewer.Database.AndroidSqLite.SqlLiteContractExecutorImpl;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewLoader;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDb;
@@ -18,7 +19,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbSpecif
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DatabaseProvider;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
@@ -133,7 +134,7 @@ public class ReleaseModelContext extends ModelContextBasic {
                                      TagsManager tagsManager) {
         FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
         FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
-        StorageTypeDefinitions typeFactory = getStorageTypeFactory();
+        RowValueTypeDefinitions typeFactory = getStorageTypeFactory();
         FactoryReviewerDbContract factoryReviewerDbContract = new FactoryReviewerDbContract
                 (columnFactory, constraintFactory, typeFactory);
         ReviewerDbContract contract = factoryReviewerDbContract.newContract();
@@ -141,8 +142,7 @@ public class ReleaseModelContext extends ModelContextBasic {
                 = new FactoryDbSpecification().newSpecification(databaseName, contract, version);
         FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
 
-        DatabaseProvider<ReviewerDbContract> dbProvider = newDatabaseProvider(context, spec,
-                rowFactory);
+        DatabaseProvider<ReviewerDbContract> dbProvider = newDatabaseProvider(context, spec);
 
 
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
@@ -150,15 +150,14 @@ public class ReleaseModelContext extends ModelContextBasic {
     }
 
     @NonNull
-    private StorageTypeDefinitions getStorageTypeFactory() {
-        return new StorageTypeDefinitionsSqlLite();
+    private RowValueTypeDefinitions getStorageTypeFactory() {
+        return new RowValueTypeDefinitionsSqlLite();
     }
 
     @NonNull
     private DatabaseProvider<ReviewerDbContract> newDatabaseProvider(Context context,
-                                                                     DbSpecification<ReviewerDbContract> spec,
-                                                                     FactoryReviewerDbTableRow rowFactory) {
-        FactorySqLiteDatabaseInstance dbInstanceFactory = new FactorySqLiteDatabaseInstance(rowFactory);
+                                                                     DbSpecification<ReviewerDbContract> spec) {
+        FactorySqLiteDatabaseInstance dbInstanceFactory = new FactorySqLiteDatabaseInstance(new FactoryRowConverter());
         return new DatabaseProviderSqlLite<>(context, spec, new SqlLiteContractExecutorImpl(), dbInstanceFactory);
     }
 

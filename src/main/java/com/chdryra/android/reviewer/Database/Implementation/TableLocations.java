@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImp
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -22,18 +22,18 @@ public class TableLocations extends DbTableImpl<RowLocation> {
 
     public TableLocations(DbTable<? extends RowReview> reviewsTable,
                           FactoryDbColumnDef columnFactory,
-                          FactoryForeignKeyConstraint constraintFactory, StorageTypeDefinitions typeFactory) {
+                          FactoryForeignKeyConstraint constraintFactory, RowValueTypeDefinitions typeFactory) {
         super(TABLE, RowLocation.class);
         DbColumnDef locationId = columnFactory.newPkColumnDef(RowLocation.COLUMN_LOCATION_ID,
-                typeFactory.getTextType());
+                typeFactory.getStringType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowLocation.COLUMN_REVIEW_ID,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef latitude = columnFactory.newColumnDef(RowLocation.COLUMN_LATITUDE,
-                typeFactory.getRealType(), ValueNullable.FALSE);
+                typeFactory.getFloatType(), ValueNullable.FALSE);
         DbColumnDef longitude = columnFactory.newColumnDef(RowLocation.COLUMN_LONGITUDE,
-                typeFactory.getRealType(), ValueNullable.FALSE);
+                typeFactory.getFloatType(), ValueNullable.FALSE);
         DbColumnDef name = columnFactory.newColumnDef(RowLocation.COLUMN_NAME,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
 
         addPrimaryKey(locationId);
         addColumn(reviewId);

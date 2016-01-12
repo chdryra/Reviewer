@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageType;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -10,10 +10,10 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageType;
  */
 public class DbColumnDefImpl implements DbColumnDef{
     private String mColumnName;
-    private StorageType mType;
+    private RowValueType mType;
     private ValueNullable mNullable;
 
-    public DbColumnDefImpl(String columnName, StorageType type, ValueNullable nullable) {
+    public DbColumnDefImpl(String columnName, RowValueType type, ValueNullable nullable) {
         mColumnName = columnName;
         mType = type;
         mNullable = nullable;
@@ -25,7 +25,7 @@ public class DbColumnDefImpl implements DbColumnDef{
     }
 
     @Override
-    public StorageType getType() {
+    public RowValueType getType() {
         return mType;
     }
 

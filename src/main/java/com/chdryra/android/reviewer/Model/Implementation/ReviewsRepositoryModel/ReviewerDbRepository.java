@@ -1,8 +1,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -33,7 +32,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public void addReview(Review review) {
-        SQLiteDatabase db = mDatabase.beginWriteTransaction();
+        DatabaseInstance db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.addReviewToDb(review, db);
         mDatabase.endTransaction(db);
 
@@ -42,7 +41,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public Review getReview(ReviewId reviewId) {
-        SQLiteDatabase db = mDatabase.beginReadTransaction();
+        DatabaseInstance db = mDatabase.beginReadTransaction();
         ArrayList<Review> reviews = mDatabase.loadReviewsFromDbWhere(db,
                 RowReview.COLUMN_REVIEW_ID, reviewId.toString());
         mDatabase.endTransaction(db);
@@ -56,7 +55,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public ArrayList<Review> getReviews() {
-        SQLiteDatabase db = mDatabase.beginReadTransaction();
+        DatabaseInstance db = mDatabase.beginReadTransaction();
         ArrayList<Review> reviews = mDatabase.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID,
                 null);
         mDatabase.endTransaction(db);
@@ -66,7 +65,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public void removeReview(ReviewId reviewId) {
-        SQLiteDatabase db = mDatabase.beginWriteTransaction();
+        DatabaseInstance db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.deleteReviewFromDb(reviewId.toString(), db);
         mDatabase.endTransaction(db);
         if (success) notifyOnDeleteReview(reviewId);

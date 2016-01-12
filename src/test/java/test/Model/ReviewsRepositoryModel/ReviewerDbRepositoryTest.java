@@ -1,15 +1,12 @@
 package test.Model.ReviewsRepositoryModel;
 
-import android.database.sqlite.SQLiteDatabase;
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Database.Interfaces.DatabaseInstance;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
-        .ReviewerDbRepository;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import org.junit.Before;
@@ -57,7 +54,7 @@ public class ReviewerDbRepositoryTest {
 
     @Test
     public void addReviewAddsReviewToDb() {
-        SQLiteDatabase mockDb = mockWriteTransaction();
+        DatabaseInstance mockDb = mockWriteTransaction();
         Review review = RandomReview.nextReview();
         mRepo.addReview(review);
         verify(mDb).addReviewToDb(review, mockDb);
@@ -71,7 +68,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         Review review = RandomReview.nextReview();
-        SQLiteDatabase mockDb = mockWriteTransaction();
+        DatabaseInstance mockDb = mockWriteTransaction();
         when(mDb.addReviewToDb(review, mockDb)).thenReturn(true);
 
         mRepo.addReview(review);
@@ -88,7 +85,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         Review review = RandomReview.nextReview();
-        SQLiteDatabase mockDb = mockWriteTransaction();
+        DatabaseInstance mockDb = mockWriteTransaction();
         when(mDb.addReviewToDb(review, mockDb)).thenReturn(false);
 
         mRepo.addReview(review);
@@ -99,7 +96,7 @@ public class ReviewerDbRepositoryTest {
     @Test
     public void getReviewCallsLoadReviewsFromDbWhere() {
         ReviewId id = RandomReviewId.nextReviewId();
-        SQLiteDatabase mockDb = mockReadTransaction();
+        DatabaseInstance mockDb = mockReadTransaction();
         mRepo.getReview(id);
         verify(mDb).loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString());
     }
@@ -139,7 +136,7 @@ public class ReviewerDbRepositoryTest {
 
     @Test
     public void getReviewsCallsLoadReviewsFromDbWhere() {
-        SQLiteDatabase mockDb = mockReadTransaction();
+        DatabaseInstance mockDb = mockReadTransaction();
         mRepo.getReviews();
         verify(mDb).loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null);
     }
@@ -151,7 +148,7 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
         reviews.add(review);
 
-        SQLiteDatabase mockDb = mockReadTransaction();
+        DatabaseInstance mockDb = mockReadTransaction();
         when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null)).thenReturn
                 (reviews);
         assertThat(mRepo.getReviews(), is(reviews));
@@ -159,7 +156,7 @@ public class ReviewerDbRepositoryTest {
 
     @Test
     public void removeReviewRemovesReviewToDb() {
-        SQLiteDatabase mockDb = mockWriteTransaction();
+        DatabaseInstance mockDb = mockWriteTransaction();
         ReviewId id = RandomReviewId.nextReviewId();
         mRepo.removeReview(id);
         verify(mDb).deleteReviewFromDb(id.toString(), mockDb);
@@ -173,7 +170,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         ReviewId id = RandomReviewId.nextReviewId();
-        SQLiteDatabase mockDb = mockWriteTransaction();
+        DatabaseInstance mockDb = mockWriteTransaction();
         when(mDb.deleteReviewFromDb(id.toString(), mockDb)).thenReturn(true);
 
         mRepo.removeReview(id);
@@ -190,7 +187,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.registerObserver(observer2);
 
         ReviewId id = RandomReviewId.nextReviewId();
-        SQLiteDatabase mockDb = mockWriteTransaction();
+        DatabaseInstance mockDb = mockWriteTransaction();
         when(mDb.deleteReviewFromDb(id.toString(), mockDb)).thenReturn(false);
 
         mRepo.removeReview(id);
@@ -199,19 +196,19 @@ public class ReviewerDbRepositoryTest {
     }
 
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
-        SQLiteDatabase mockDb = mockReadTransaction();
+        DatabaseInstance mockDb = mockReadTransaction();
         when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString()))
                 .thenReturn(reviews);
     }
 
-    private SQLiteDatabase mockReadTransaction() {
-        SQLiteDatabase mockDb = mock(SQLiteDatabase.class);
+    private DatabaseInstance mockReadTransaction() {
+        DatabaseInstance mockDb = mock(DatabaseInstance.class);
         when(mDb.beginReadTransaction()).thenReturn(mockDb);
         return mockDb;
     }
 
-    private SQLiteDatabase mockWriteTransaction() {
-        SQLiteDatabase mockDb = mock(SQLiteDatabase.class);
+    private DatabaseInstance mockWriteTransaction() {
+        DatabaseInstance mockDb = mock(DatabaseInstance.class);
         when(mDb.beginWriteTransaction()).thenReturn(mockDb);
         return mockDb;
     }

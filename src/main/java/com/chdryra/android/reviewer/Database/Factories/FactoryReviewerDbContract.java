@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.Factories;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.Database.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.Database.Implementation.TableComments;
@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 public class FactoryReviewerDbContract {
     private FactoryDbColumnDef mColumnFactory;
     private FactoryForeignKeyConstraint mConstraintFactory;
-    private StorageTypeDefinitions mStorageTypeFactory;
+    private RowValueTypeDefinitions mStorageTypeFactory;
 
     public FactoryReviewerDbContract(FactoryDbColumnDef columnFactory,
                                      FactoryForeignKeyConstraint constraintFactory,
-                                     StorageTypeDefinitions storageTypeFactory) {
+                                     RowValueTypeDefinitions storageTypeFactory) {
         mColumnFactory = columnFactory;
         mConstraintFactory = constraintFactory;
         mStorageTypeFactory = storageTypeFactory;

@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.content.ContentValues;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 
@@ -18,6 +16,8 @@ public interface RowTag extends DbTableRow {
 
     String getTag();
 
+    String getReviewIdsString();
+
     ArrayList<String> getReviewIds();
 
     @Override
@@ -25,9 +25,6 @@ public interface RowTag extends DbTableRow {
 
     @Override
     String getRowIdColumnName();
-
-    @Override
-    ContentValues getContentValues();
 
     @Override
     boolean hasData(DataValidator validator);

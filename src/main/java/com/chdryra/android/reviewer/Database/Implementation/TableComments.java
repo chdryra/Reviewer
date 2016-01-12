@@ -6,7 +6,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImp
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.StorageTypeDefinitions;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 
@@ -23,14 +23,14 @@ public class TableComments extends DbTableImpl<RowComment> {
     public TableComments(DbTable<? extends RowReview> reviewsTable,
                          FactoryDbColumnDef columnFactory,
                          FactoryForeignKeyConstraint constraintFactory,
-                         StorageTypeDefinitions typeFactory) {
+                         RowValueTypeDefinitions typeFactory) {
         super(TABLE, RowComment.class);
         DbColumnDef commentId = columnFactory.newPkColumnDef(RowComment.COLUMN_COMMENT_ID,
-                typeFactory.getTextType());
+                typeFactory.getStringType());
         DbColumnDef reviewId = columnFactory.newColumnDef(RowComment.COLUMN_REVIEW_ID,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef comment = columnFactory.newColumnDef(RowComment.COLUMN_COMMENT,
-                typeFactory.getTextType(), ValueNullable.FALSE);
+                typeFactory.getStringType(), ValueNullable.FALSE);
         DbColumnDef isHeadline = columnFactory.newColumnDef(RowComment.COLUMN_IS_HEADLINE,
                 typeFactory.getBooleanType(), ValueNullable.FALSE);
 

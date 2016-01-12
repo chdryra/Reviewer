@@ -1,12 +1,10 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 
 /**
@@ -36,12 +34,12 @@ public class RowFactImpl implements RowFact {
     public RowFactImpl() {
     }
 
-    public RowFactImpl(Cursor cursor) {
-        mFactId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FACT_ID));
-        mReviewId = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_REVIEW_ID));
-        mLabel = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LABEL));
-        mValue = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_VALUE));
-        mIsUrl = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_IS_URL)) == 1;
+    public RowFactImpl(RowValues values) {
+        mFactId = values.getString(COLUMN_FACT_ID);
+        mReviewId = values.getString(COLUMN_REVIEW_ID);
+        mLabel = values.getString(COLUMN_LABEL);
+        mValue = values.getString(COLUMN_VALUE);
+        mIsUrl = values.getBoolean(COLUMN_IS_URL);
     }
 
     //Overridden
@@ -74,18 +72,6 @@ public class RowFactImpl implements RowFact {
     @Override
     public String getRowIdColumnName() {
         return COLUMN_FACT_ID;
-    }
-
-    @Override
-    public ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_FACT_ID, mFactId);
-        values.put(COLUMN_REVIEW_ID, mReviewId);
-        values.put(COLUMN_LABEL, mLabel);
-        values.put(COLUMN_VALUE, mValue);
-        values.put(COLUMN_IS_URL, mIsUrl);
-
-        return values;
     }
 
     @Override

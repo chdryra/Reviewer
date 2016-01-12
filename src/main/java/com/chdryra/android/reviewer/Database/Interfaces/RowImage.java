@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Database.Interfaces;
 
-import android.content.ContentValues;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -20,6 +19,8 @@ public interface RowImage extends ReviewDataRow, DataImage {
     String COLUMN_IMAGE_DATE = "image_date";
     String COLUMN_CAPTION = "caption";
     String COLUMN_IS_COVER = "is_cover";
+
+    byte[] getBitmapByteArray();
 
     @Override
     Bitmap getBitmap();
@@ -41,9 +42,6 @@ public interface RowImage extends ReviewDataRow, DataImage {
 
     @Override
     String getRowIdColumnName();
-
-    @Override
-    ContentValues getContentValues();
 
     @Override
     boolean hasData(DataValidator validator);

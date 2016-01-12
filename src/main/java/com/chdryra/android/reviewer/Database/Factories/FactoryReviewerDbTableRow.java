@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Database.Factories;
 
-import android.database.Cursor;
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
@@ -17,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.Database.Implementation.RowAuthorImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowCommentImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowFactImpl;
@@ -24,6 +23,13 @@ import com.chdryra.android.reviewer.Database.Implementation.RowImageImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowLocationImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.Database.Implementation.RowTagImpl;
+import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
+import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
+import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
+import com.chdryra.android.reviewer.Database.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
+import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 
@@ -47,12 +53,12 @@ public class FactoryReviewerDbTableRow {
         }
     }
 
-    public <T extends DbTableRow> T newRow(Cursor cursor, Class<T> rowClass) {
+    public <T extends DbTableRow> T newRow(RowValues values, Class<T> rowClass) {
         try {
-            Constructor c = rowClass.getConstructor(Cursor.class);
-            return rowClass.cast(c.newInstance(cursor));
+            Constructor c = rowClass.getConstructor(RowValues.class);
+            return rowClass.cast(c.newInstance(values));
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Couldn't find Cursor constructor for " + rowClass
+            throw new RuntimeException("Couldn't find RowValues constructor for " + rowClass
                     .getName(), e);
         } catch (InstantiationException e) {
             throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
@@ -63,35 +69,35 @@ public class FactoryReviewerDbTableRow {
         }
     }
 
-    public DbTableRow newRow(Review review) {
+    public RowReview newRow(Review review) {
         return new RowReviewImpl(review);
     }
 
-    public DbTableRow newRow(DataCriterionReview criterion) {
+    public RowReview newRow(DataCriterionReview criterion) {
         return new RowReviewImpl(criterion);
     }
 
-    public DbTableRow newRow(DataAuthor author) {
+    public RowAuthor newRow(DataAuthor author) {
         return new RowAuthorImpl(author);
     }
 
-    public DbTableRow newRow(ItemTag tag) {
+    public RowTag newRow(ItemTag tag) {
         return new RowTagImpl(tag);
     }
 
-    public DbTableRow newRow(DataComment comment, int index) {
+    public RowComment newRow(DataComment comment, int index) {
         return new RowCommentImpl(comment, index);
     }
 
-    public DbTableRow newRow(DataFact fact, int index) {
+    public RowFact newRow(DataFact fact, int index) {
         return new RowFactImpl(fact, index);
     }
 
-    public DbTableRow newRow(DataLocation location, int index) {
+    public RowLocation newRow(DataLocation location, int index) {
         return new RowLocationImpl(location, index);
     }
 
-    public DbTableRow newRow(DataImage image, int index) {
+    public RowImage newRow(DataImage image, int index) {
         return new RowImageImpl(image, index);
     }
 }
