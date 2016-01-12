@@ -11,10 +11,10 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransacto
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactorySqLiteDatabaseInstance {
+public class FactoryTableTransactorSqLite {
     private FactoryRowConverter mConverterFactory;
 
-    public FactorySqLiteDatabaseInstance(FactoryRowConverter converterFactory) {
+    public FactoryTableTransactorSqLite(FactoryRowConverter converterFactory) {
         mConverterFactory = converterFactory;
     }
 

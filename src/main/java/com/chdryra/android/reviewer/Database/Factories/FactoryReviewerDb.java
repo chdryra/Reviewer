@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Database.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DatabaseProvider;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbImpl;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
@@ -20,7 +20,7 @@ public class FactoryReviewerDb {
         mRowfactory = rowfactory;
     }
 
-    public ReviewerDb newDatabase(DatabaseProvider<ReviewerDbContract> dbHelper,
+    public ReviewerDb newDatabase(ContractedTableTransactor<ReviewerDbContract> dbHelper,
                                                       ReviewLoader reviewLoader,
                                                       TagsManager tagsManager,
                                                       DataValidator dataValidator) {

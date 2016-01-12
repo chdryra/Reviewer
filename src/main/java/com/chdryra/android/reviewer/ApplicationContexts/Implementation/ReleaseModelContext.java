@@ -11,7 +11,7 @@ import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbSpecification;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DatabaseProvider;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
 import com.chdryra.android.reviewer.Database.Interfaces.PersistenceSuite;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
@@ -133,14 +133,14 @@ public class ReleaseModelContext extends ModelContextBasic {
                                      PersistenceSuite<ReviewerDbContract> persistenceSuite) {
         ReviewerDbContract contract = getReviewerDbContract(persistenceSuite);
 
-        DatabaseProvider<ReviewerDbContract> dbProvider
+        ContractedTableTransactor<ReviewerDbContract> dbProvider
                 = getDatabaseProvider(context, databaseName, version, contract, persistenceSuite);
 
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(new FactoryReviewerDbTableRow());
         return dbFactory.newDatabase(dbProvider, loader, tagsManager, validator);
     }
 
-    private DatabaseProvider<ReviewerDbContract> getDatabaseProvider(Context context, String
+    private ContractedTableTransactor<ReviewerDbContract> getDatabaseProvider(Context context, String
             databaseName, int version, ReviewerDbContract contract, PersistenceSuite<ReviewerDbContract> persistenceSuite) {
         DbSpecification<ReviewerDbContract> spec
                 = new FactoryDbSpecification().newSpecification(databaseName, contract, version);

@@ -12,10 +12,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Factories.FactorySqLiteDatabaseInstance;
+import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Factories.FactoryTableTransactorSqLite;
 import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DatabaseProvider;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
@@ -25,30 +25,30 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransacto
  * On: 08/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatabaseProviderSqlLite<T extends DbContract> extends SQLiteOpenHelper
-        implements DatabaseProvider<T> {
+public class ContractedSqlLiteTransactor<T extends DbContract> extends SQLiteOpenHelper
+        implements ContractedTableTransactor<T> {
     private T mContract;
-    private SqlLiteContractExecutor mDbContractExecutor;
-    private FactorySqLiteDatabaseInstance mInstanceFactory;
+    private SqlLiteContractExecutor mContractExecutor;
+    private FactoryTableTransactorSqLite mFactory;
 
-    public DatabaseProviderSqlLite(Context context,
-                                   DbSpecification<T> spec,
-                                   SqlLiteContractExecutor dbContractExecutor,
-                                   FactorySqLiteDatabaseInstance instanceFactory) {
+    public ContractedSqlLiteTransactor(Context context,
+                                       DbSpecification<T> spec,
+                                       SqlLiteContractExecutor contractExecutor,
+                                       FactoryTableTransactorSqLite factory) {
         super(context, spec.getDatabaseName(), null, spec.getVersionNumber());
         mContract = spec.getContract();
-        mDbContractExecutor = dbContractExecutor;
-        mInstanceFactory = instanceFactory;
+        mContractExecutor = contractExecutor;
+        mFactory = factory;
     }
 
     @Override
-    public TableTransactor getReadableInstance(FactoryDbTableRow rowFactory) {
-        return mInstanceFactory.newInstance(super.getReadableDatabase(), rowFactory);
+    public TableTransactor getReadableTransactor(FactoryDbTableRow rowFactory) {
+        return mFactory.newInstance(super.getReadableDatabase(), rowFactory);
     }
 
     @Override
-    public TableTransactor getWriteableInstance(FactoryDbTableRow rowFactory) {
-        return mInstanceFactory.newInstance(super.getWritableDatabase(), rowFactory);
+    public TableTransactor getWriteableTransactor(FactoryDbTableRow rowFactory) {
+        return mFactory.newInstance(super.getWritableDatabase(), rowFactory);
     }
 
     @Override
@@ -58,11 +58,11 @@ public class DatabaseProviderSqlLite<T extends DbContract> extends SQLiteOpenHel
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        mDbContractExecutor.createDatabase(mContract, db);
+        mContractExecutor.createDatabase(mContract, db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        mDbContractExecutor.upgradeDatabase(mContract, db, oldVersion, newVersion);
+        mContractExecutor.upgradeDatabase(mContract, db, oldVersion, newVersion);
     }
 }

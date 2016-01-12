@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DatabaseProvider;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
@@ -47,20 +47,20 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbImpl implements ReviewerDb {
+    private final ContractedTableTransactor<ReviewerDbContract> mTransactor;
     private final ReviewerDbContract mTables;
-    private final DatabaseProvider<ReviewerDbContract> mDbProvider;
-    private final TagsManager mTagsManager;
     private final ReviewLoader mReviewLoader;
     private final FactoryReviewerDbTableRow mRowFactory;
+    private final TagsManager mTagsManager;
     private final DataValidator mDataValidator;
 
-    public ReviewerDbImpl(DatabaseProvider<ReviewerDbContract> dbProvider,
+    public ReviewerDbImpl(ContractedTableTransactor<ReviewerDbContract> transactor,
                           ReviewLoader reviewLoader,
                           FactoryReviewerDbTableRow rowFactory,
                           TagsManager tagsManager,
                           DataValidator dataValidator) {
-        mDbProvider = dbProvider;
-        mTables = dbProvider.getContract();
+        mTransactor = transactor;
+        mTables = transactor.getContract();
         mTagsManager = tagsManager;
         mReviewLoader = reviewLoader;
         mRowFactory = rowFactory;
@@ -74,90 +74,90 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public TableTransactor beginWriteTransaction() {
-        TableTransactor db = mDbProvider.getWriteableInstance(mRowFactory);
-        db.beginTransaction();
-        return db;
+        TableTransactor transactor = mTransactor.getWriteableTransactor(mRowFactory);
+        transactor.beginTransaction();
+        return transactor;
     }
 
     @Override
     public TableTransactor beginReadTransaction() {
-        TableTransactor db = mDbProvider.getReadableInstance(mRowFactory);
-        db.beginTransaction();
-        return db;
+        TableTransactor transactor = mTransactor.getReadableTransactor(mRowFactory);
+        transactor.beginTransaction();
+        return transactor;
     }
 
     @Override
-    public void endTransaction(TableTransactor db) {
-        db.endTransaction();
+    public void endTransaction(TableTransactor transactor) {
+        transactor.endTransaction();
     }
 
     @Override
-    public ArrayList<Review> loadReviewsFromDbWhere(TableTransactor db,
+    public ArrayList<Review> loadReviewsFromDbWhere(TableTransactor transactor,
                                                     String col,
                                                     @Nullable String val) {
         ArrayList<Review> reviews = new ArrayList<>();
-        for (RowReview reviewRow : loadFromTableWhere(db, getReviewsTable(), col, val)) {
-            reviews.add(loadReview(reviewRow, db));
+        for (RowReview reviewRow : loadFromTableWhere(transactor, getReviewsTable(), col, val)) {
+            reviews.add(loadReview(reviewRow, transactor));
         }
 
         return reviews;
     }
 
     @Override
-    public <T extends DbTableRow> T getRowWhere(TableTransactor db,
+    public <T extends DbTableRow> T getRowWhere(TableTransactor transactor,
                                                 DbTable<T> table,
                                                 String col,
                                                 String val) {
-        return db.getRowWhere(table, col, val);
+        return transactor.getRowWhere(table, col, val);
     }
 
     @Override
     public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table,
                                                                String col,
                                                                String val) {
-        TableTransactor db = beginReadTransaction();
-        TableRowList<T> rowList = db.getRowsWhere(table, col, val);
-        endTransaction(db);
+        TableTransactor transactor = beginReadTransaction();
+        TableRowList<T> rowList = transactor.getRowsWhere(table, col, val);
+        endTransaction(transactor);
 
         return rowList;
     }
 
     @Override
-    public <T extends DbTableRow> ArrayList<T> loadFromDataTable(TableTransactor db,
+    public <T extends DbTableRow> ArrayList<T> loadFromDataTable(TableTransactor transactor,
                                                                  DbTable<T> table,
                                                                  String reviewId) {
-        return loadFromTableWhere(db, table, getColumnNameReviewId(), reviewId);
+        return loadFromTableWhere(transactor, table, getColumnNameReviewId(), reviewId);
     }
 
     @Override
-    public boolean addReviewToDb(Review review, TableTransactor db) {
-        if (isReviewInDb(review, db)) return false;
+    public boolean addReviewToDb(Review review, TableTransactor transactor) {
+        if (isReviewInDb(review, transactor)) return false;
 
-        addToAuthorsTableIfNecessary(review, db);
-        addToReviewsTable(review, db);
-        addCriteriaToReviewsTable(review, db);
-        addToCommentsTable(review, db);
-        addToFactsTable(review, db);
-        addToLocationsTable(review, db);
-        addToImagesTable(review, db);
-        addToTagsTable(review, db);
+        addToAuthorsTableIfNecessary(review, transactor);
+        addToReviewsTable(review, transactor);
+        addCriteriaToReviewsTable(review, transactor);
+        addToCommentsTable(review, transactor);
+        addToFactsTable(review, transactor);
+        addToLocationsTable(review, transactor);
+        addToImagesTable(review, transactor);
+        addToTagsTable(review, transactor);
 
         return true;
     }
 
     @Override
-    public boolean deleteReviewFromDb(String reviewId, TableTransactor db) {
-        RowReview row = getRowWhere(db, getReviewsTable(), getColumnNameReviewId(), reviewId);
+    public boolean deleteReviewFromDb(String reviewId, TableTransactor transactor) {
+        RowReview row = getRowWhere(transactor, getReviewsTable(), getColumnNameReviewId(), reviewId);
         if (!row.hasData(mDataValidator)) return false;
 
-        deleteFromTable(reviewId, db, getImagesTable());
-        deleteFromTable(reviewId, db, getLocationsTable());
-        deleteFromTable(reviewId, db, getFactsTable());
-        deleteFromTable(reviewId, db, getCommentsTable());
-        deleteCriteriaFromReviewsTable(reviewId, db);
-        deleteFromTable(reviewId, db, getReviewsTable());
-        deleteFromAuthorsTableIfNecessary(db, row);
-        deleteFromTagsTableIfNecessary(reviewId, db);
+        deleteFromTable(reviewId, transactor, getImagesTable());
+        deleteFromTable(reviewId, transactor, getLocationsTable());
+        deleteFromTable(reviewId, transactor, getFactsTable());
+        deleteFromTable(reviewId, transactor, getCommentsTable());
+        deleteCriteriaFromReviewsTable(reviewId, transactor);
+        deleteFromTable(reviewId, transactor, getReviewsTable());
+        deleteFromAuthorsTableIfNecessary(transactor, row);
+        deleteFromTagsTableIfNecessary(reviewId, transactor);
 
         return true;
     }
@@ -213,47 +213,47 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     //Private methods
-    private void deleteFromTagsTableIfNecessary(String reviewId, TableTransactor db) {
+    private void deleteFromTagsTableIfNecessary(String reviewId, TableTransactor transactor) {
         ItemTagCollection tags = mTagsManager.getTags(reviewId);
         for (ItemTag tag : tags) {
             if (mTagsManager.untagItem(reviewId, tag)) {
-                deleteFromTagsTable(tag.getTag(), db);
+                deleteFromTagsTable(tag.getTag(), transactor);
             }
         }
     }
 
-    private void deleteFromAuthorsTableIfNecessary(TableTransactor db, RowReview row) {
+    private void deleteFromAuthorsTableIfNecessary(TableTransactor transactor, RowReview row) {
         String userId = row.getAuthorId();
-        TableRowList<RowReview> authored = db.getRowsWhere(getReviewsTable(), RowReview
+        TableRowList<RowReview> authored = transactor.getRowsWhere(getReviewsTable(), RowReview
                 .COLUMN_AUTHOR_ID, userId);
-        if (authored.size() == 0) deleteFromAuthorsTable(userId, db);
+        if (authored.size() == 0) deleteFromAuthorsTable(userId, transactor);
     }
 
-    private void addToAuthorsTableIfNecessary(Review review, TableTransactor db) {
+    private void addToAuthorsTableIfNecessary(Review review, TableTransactor transactor) {
         DataAuthor author = review.getAuthor();
         String userId = author.getUserId().toString();
         DbTable<RowAuthor> authorsTable = getAuthorsTable();
-        if (!db.isIdInTable(userId, authorsTable.getColumn(RowAuthor.COLUMN_USER_ID),
+        if (!transactor.isIdInTable(userId, authorsTable.getColumn(RowAuthor.COLUMN_USER_ID),
                 authorsTable)) {
-            addToAuthorsTable(author, db);
+            addToAuthorsTable(author, transactor);
         }
     }
 
     @NonNull
-    private <T extends DbTableRow> ArrayList<T> loadFromTableWhere(TableTransactor db,
+    private <T extends DbTableRow> ArrayList<T> loadFromTableWhere(TableTransactor transactor,
                                                                    DbTable<T> table,
                                                                    String col,
                                                                    @Nullable String val) {
         ArrayList<T> results = new ArrayList<>();
-        for (T row : db.getRowsWhere(table, col, val)) {
+        for (T row : transactor.getRowsWhere(table, col, val)) {
             results.add(row);
         }
 
         return results;
     }
 
-    private void loadTags(TableTransactor db) {
-        for (RowTag tag : db.getRowsWhere(getTagsTable(), null, null)) {
+    private void loadTags(TableTransactor transactor) {
+        for (RowTag tag : transactor.getRowsWhere(getTagsTable(), null, null)) {
             ArrayList<String> reviews = tag.getReviewIds();
             for (String reviewId : reviews) {
                 mTagsManager.tagItem(reviewId, tag.getTag());
@@ -262,90 +262,90 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Nullable
-    private Review loadReview(RowReview reviewRow, TableTransactor db) {
+    private Review loadReview(RowReview reviewRow, TableTransactor transactor) {
         if (!reviewRow.hasData(mDataValidator)) return null;
-        Review review = mReviewLoader.loadReview(reviewRow, this, db);
-        setTags(reviewRow.getReviewId().toString(), db);
+        Review review = mReviewLoader.loadReview(reviewRow, this, transactor);
+        setTags(reviewRow.getReviewId().toString(), transactor);
 
         return review;
     }
 
-    private void setTags(String id, TableTransactor db) {
+    private void setTags(String id, TableTransactor transactor) {
         ItemTagCollection tags = mTagsManager.getTags(id);
-        if (tags.size() == 0) loadTags(db);
+        if (tags.size() == 0) loadTags(transactor);
     }
 
-    private void addToAuthorsTable(DataAuthor author, TableTransactor db) {
-        db.insertRow(mRowFactory.newRow(author), getAuthorsTable());
+    private void addToAuthorsTable(DataAuthor author, TableTransactor transactor) {
+        transactor.insertRow(mRowFactory.newRow(author), getAuthorsTable());
     }
 
-    private void deleteFromAuthorsTable(String userId, TableTransactor db) {
-        db.deleteRows(RowAuthor.COLUMN_USER_ID, userId, getAuthorsTable());
+    private void deleteFromAuthorsTable(String userId, TableTransactor transactor) {
+        transactor.deleteRows(RowAuthor.COLUMN_USER_ID, userId, getAuthorsTable());
     }
 
-    private void addToTagsTable(Review review, TableTransactor db) {
+    private void addToTagsTable(Review review, TableTransactor transactor) {
         ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
         for (ItemTag tag : tags) {
-            db.insertOrReplaceRow(mRowFactory.newRow(tag), getTagsTable());
+            transactor.insertOrReplaceRow(mRowFactory.newRow(tag), getTagsTable());
         }
     }
 
-    private void deleteFromTagsTable(String tag, TableTransactor db) {
-        db.deleteRows(RowTag.COLUMN_TAG, tag, getTagsTable());
+    private void deleteFromTagsTable(String tag, TableTransactor transactor) {
+        transactor.deleteRows(RowTag.COLUMN_TAG, tag, getTagsTable());
     }
 
-    private void addToReviewsTable(Review review, TableTransactor db) {
-        db.insertRow(mRowFactory.newRow(review), getReviewsTable());
+    private void addToReviewsTable(Review review, TableTransactor transactor) {
+        transactor.insertRow(mRowFactory.newRow(review), getReviewsTable());
     }
 
-    private void addCriteriaToReviewsTable(Review review, TableTransactor db) {
+    private void addCriteriaToReviewsTable(Review review, TableTransactor transactor) {
         for (DataCriterionReview criterion : review.getCriteria()) {
-            db.insertRow(mRowFactory.newRow(criterion), getReviewsTable());
+            transactor.insertRow(mRowFactory.newRow(criterion), getReviewsTable());
         }
     }
 
-    private void deleteCriteriaFromReviewsTable(String reviewId, TableTransactor db) {
-        TableRowList<RowReview> rows = db.getRowsWhere(getReviewsTable(),
+    private void deleteCriteriaFromReviewsTable(String reviewId, TableTransactor transactor) {
+        TableRowList<RowReview> rows = transactor.getRowsWhere(getReviewsTable(),
                 RowReview.COLUMN_PARENT_ID, reviewId);
         for (RowReview row : rows) {
-            deleteReviewFromDb(row.getRowId(), db);
+            deleteReviewFromDb(row.getRowId(), transactor);
         }
     }
 
-    private void deleteFromTable(String reviewId, TableTransactor db, DbTable table) {
-        db.deleteRows(getColumnNameReviewId(), reviewId, table);
+    private void deleteFromTable(String reviewId, TableTransactor transactor, DbTable table) {
+        transactor.deleteRows(getColumnNameReviewId(), reviewId, table);
     }
 
-    private void addToCommentsTable(Review review, TableTransactor db) {
+    private void addToCommentsTable(Review review, TableTransactor transactor) {
         int i = 1;
         for (DataComment datum : review.getComments()) {
-            db.insertRow(mRowFactory.newRow(datum, i++), getCommentsTable());
+            transactor.insertRow(mRowFactory.newRow(datum, i++), getCommentsTable());
         }
     }
 
-    private void addToFactsTable(Review review, TableTransactor db) {
+    private void addToFactsTable(Review review, TableTransactor transactor) {
         int i = 1;
         for (DataFact datum : review.getFacts()) {
-            db.insertRow(mRowFactory.newRow(datum, i++), getFactsTable());
+            transactor.insertRow(mRowFactory.newRow(datum, i++), getFactsTable());
         }
     }
 
-    private void addToLocationsTable(Review review, TableTransactor db) {
+    private void addToLocationsTable(Review review, TableTransactor transactor) {
         int i = 1;
         for (DataLocation datum : review.getLocations()) {
-            db.insertRow(mRowFactory.newRow(datum, i++), getLocationsTable());
+            transactor.insertRow(mRowFactory.newRow(datum, i++), getLocationsTable());
         }
     }
 
-    private void addToImagesTable(Review review, TableTransactor db) {
+    private void addToImagesTable(Review review, TableTransactor transactor) {
         int i = 1;
         for (DataImage datum : review.getImages()) {
-            db.insertRow(mRowFactory.newRow(datum, i++), getImagesTable());
+            transactor.insertRow(mRowFactory.newRow(datum, i++), getImagesTable());
         }
     }
 
-    private boolean isReviewInDb(Review review, TableTransactor db) {
+    private boolean isReviewInDb(Review review, TableTransactor transactor) {
         DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
-        return db.isIdInTable(review.getReviewId().toString(), reviewIdCol, getReviewsTable());
+        return transactor.isIdInTable(review.getReviewId().toString(), reviewIdCol, getReviewsTable());
     }
 }
