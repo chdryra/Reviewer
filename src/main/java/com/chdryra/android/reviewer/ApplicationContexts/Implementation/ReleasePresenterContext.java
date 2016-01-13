@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
@@ -44,8 +45,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     public ReleasePresenterContext(Context context,
                                    ModelContext modelContext,
                                    ViewContext viewContext,
-                                   DataAuthor author,
-                                   File extDir, String imageDir) {
+                                   DeviceContext deviceContext,
+                                   DataAuthor author) {
         super(modelContext, viewContext);
 
         setLaunchablesFactory(viewContext);
@@ -60,7 +61,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 modelContext.getReviewsFactory(),
                 getGvDataFactory(),
                 modelContext.getDataValidator(),
-                extDir, imageDir, author.getName());
+                deviceContext.getImageStoragePath(), deviceContext.getImageStorageDirectory(),
+                author.getName());
     }
 
     private ConverterGv getConverterGv(TagsManager tagsManager) {
