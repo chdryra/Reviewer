@@ -7,7 +7,8 @@ import com.chdryra.android.remoteapifetchers.GpNearestNamesSuggester;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggester;
@@ -18,7 +19,9 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationServicesGoogle implements LocationServicesProvider {
+public class LocationServicesGoogle implements LocationServicesSuite {
+    static final LocationProvider GOOGLE = new LocationProvider("Google");
+
     @Override
     public LocationDetailsFetcher newDetailsFetcher() {
         return new LocationDetailsFetcherGp(new GpPlaceDetailsFetcher());

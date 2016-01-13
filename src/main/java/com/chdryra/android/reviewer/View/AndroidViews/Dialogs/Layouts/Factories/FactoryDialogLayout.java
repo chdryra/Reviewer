@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Factories
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -32,9 +32,9 @@ import java.lang.reflect.InvocationTargetException;
 public class FactoryDialogLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
     private ConfigDialogLayouts mConfig;
-    private LocationServicesProvider mProvider;
+    private LocationServicesSuite mProvider;
 
-    public FactoryDialogLayout(ConfigDialogLayouts config, LocationServicesProvider provider) {
+    public FactoryDialogLayout(ConfigDialogLayouts config, LocationServicesSuite provider) {
         mConfig = config;
         mProvider = provider;
     }

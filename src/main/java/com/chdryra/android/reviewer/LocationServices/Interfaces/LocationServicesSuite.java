@@ -9,7 +9,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface LocationServicesProvider {
+public interface LocationServicesSuite {
     LocationDetailsFetcher newDetailsFetcher();
 
     NearestNamesSuggester newNearestNamesSuggester();

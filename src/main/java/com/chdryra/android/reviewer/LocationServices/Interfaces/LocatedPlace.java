@@ -9,8 +9,6 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LocatedPlace {
-    enum LocationProvider {GOOGLE, USER}
-
     LatLng getLatLng();
 
     String getDescription();

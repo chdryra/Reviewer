@@ -40,9 +40,9 @@ import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.GooglePlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -128,7 +128,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         super.onCreate(savedInstanceState);
         mDataPacker = new GvDataPacker<>();
 
-        LocationServicesProvider provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesProvider();
+        LocationServicesSuite provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesSuite();
         mPlaceSearcher = provider.newPlaceSearcher();
         mAddressSuggester = provider.newAddressesSuggester(getActivity());
 
@@ -403,7 +403,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
 
-        LocatedPlace newPlace = new LocatedPlaceImpl(mNewLatLng);
+        LocatedPlace newPlace = new GooglePlace(mNewLatLng);
         mAddressSuggester.fetchAddresses(newPlace, NUMBER_DEFAULT_NAMES, this);
     }
 

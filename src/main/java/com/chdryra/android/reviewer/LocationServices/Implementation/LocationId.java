@@ -6,10 +6,10 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationId {
-    private LocatedPlaceImpl.LocationProvider mProvider;
+    private LocationProvider mProvider;
     private String mId;
 
-    public LocationId(LocatedPlaceImpl.LocationProvider provider, String providerId) {
+    public LocationId(LocationProvider provider, String providerId) {
         mProvider = provider;
         mId = providerId;
     }

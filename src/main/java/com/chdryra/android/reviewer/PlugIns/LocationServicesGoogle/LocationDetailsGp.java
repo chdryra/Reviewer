@@ -1,4 +1,4 @@
-package com.chdryra.android.reviewer.LocationServices.Implementation;
+package com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle;
 
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.google.android.gms.maps.model.LatLng;
@@ -8,11 +8,11 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationDetailsImpl implements LocationDetails {
+public class LocationDetailsGp implements LocationDetails {
     private LatLng mLatLng;
     private String mName;
 
-    public LocationDetailsImpl(LatLng latLng, String name) {
+    public LocationDetailsGp(LatLng latLng, String name) {
         mLatLng = latLng;
         mName = name;
     }

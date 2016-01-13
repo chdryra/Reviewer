@@ -24,8 +24,8 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.GooglePlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
@@ -74,11 +74,11 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    private LocationServicesProvider mLocationServices;
+    private LocationServicesSuite mLocationServices;
     private LocationDetailsFetcher mFetcher;
     private NearestNamesSuggester mSuggester;
 
-    public AddLocation(GvDataAdder adder, LocationServicesProvider locationServices) {
+    public AddLocation(GvDataAdder adder, LocationServicesSuite locationServices) {
         super(GvLocation.class, LAYOUT, VIEWS, NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newDetailsFetcher();
@@ -93,7 +93,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     private void findPlaceSuggestions() {
         //Initial suggestions
-        mSuggester.fetchSuggestions(new LocatedPlaceImpl(mCurrentLatLng), this);
+        mSuggester.fetchSuggestions(new GooglePlace(mCurrentLatLng), this);
 
         //Whilst initial suggestions are being found....
         ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
@@ -102,7 +102,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
-        LocatedPlace place = new LocatedPlaceImpl(mCurrentLatLng);
+        LocatedPlace place = new GooglePlace(mCurrentLatLng);
         ViewHolderAdapterFiltered.QueryFilter filter = mLocationServices.newAutoCompleter(place);
         mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, filter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
@@ -116,8 +116,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setMessages() {
-        mNoLocationMessage = new VhdLocatedPlace(new LocatedPlaceImpl(mCurrentLatLng, mNoLocation));
-        mSearchingMessage = new VhdLocatedPlace(new LocatedPlaceImpl(mCurrentLatLng, mSearching));
+        mNoLocationMessage = new VhdLocatedPlace(new GooglePlace(mCurrentLatLng, mNoLocation));
+        mSearchingMessage = new VhdLocatedPlace(new GooglePlace(mCurrentLatLng, mSearching));
     }
 
     @Override

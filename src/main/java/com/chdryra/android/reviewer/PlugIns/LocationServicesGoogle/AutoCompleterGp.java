@@ -13,9 +13,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocatedPlaceImpl;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -27,8 +26,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
-    private static final LocatedPlaceImpl.LocationProvider GOOGLE_PLACES
-            = LocatedPlaceImpl.LocationProvider.GOOGLE;
+    private static final LocationProvider GOOGLE = LocationServicesGoogle.GOOGLE;
     private final LatLng mLatLng;
 
     public AutoCompleterGp(LocatedPlace place) {
@@ -55,9 +53,7 @@ public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
         for (GpAutoCompletePredictions.GpPrediction prediction : predictions) {
             String description = prediction.getDescription().getDescription();
             String googleId = prediction.getPlaceId().getString();
-            LocationId id = new LocationId(GOOGLE_PLACES, googleId);
-
-            places.add(new LocatedPlaceImpl(mLatLng, description, id));
+            places.add(new GooglePlace(mLatLng, description, googleId));
         }
 
         return places;

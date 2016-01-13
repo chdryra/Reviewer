@@ -3,7 +3,6 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationDetailsImpl;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -30,6 +29,6 @@ public class LocationDetailsFetcherGp implements GpPlaceDetailsFetcher.DetailsLi
     public void onPlaceDetailsFound(GpPlaceDetailsResult details) {
         LatLng latLng = details.getGeometry().getLatLng();
         String name = details.getName().getString();
-        mListener.onPlaceDetailsFound(new LocationDetailsImpl(latLng, name));
+        mListener.onPlaceDetailsFound(new LocationDetailsGp(latLng, name));
     }
 }

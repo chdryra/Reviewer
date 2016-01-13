@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplica
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.PersistentTablesModel;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Implementation.AndroidSqlLitePersistence;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.LocationServicesGoogle;
@@ -70,7 +70,7 @@ public class ApplicationLaunch {
         return new AndroidSqlLitePersistence();
     }
 
-    private LocationServicesProvider getLocationProviderPlugIn() {
+    private LocationServicesSuite getLocationProviderPlugIn() {
         return new LocationServicesGoogle();
     }
 }

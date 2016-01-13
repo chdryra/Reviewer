@@ -6,9 +6,11 @@
  * Date: 12 March, 2015
  */
 
-package com.chdryra.android.reviewer.LocationServices.Implementation;
+package com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle;
 
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -16,27 +18,28 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocatedPlaceImpl implements LocatedPlace {
+public class GooglePlace implements LocatedPlace {
     private static final String SEPARATOR = ":";
+    private static final LocationProvider USER = new LocationProvider("User");
 
     private final LatLng mLatLng;
     private final String mDescription;
     private final LocationId mId;
 
-    public LocatedPlaceImpl(LatLng latLng) {
+    public GooglePlace(LatLng latLng) {
         this(latLng, "");
     }
 
-    public LocatedPlaceImpl(LatLng latLng, String description, LocationId id) {
+    public GooglePlace(LatLng latLng, String description, String id) {
         mLatLng = latLng;
         mDescription = description;
-        mId = id;
+        mId = new LocationId(LocationServicesGoogle.GOOGLE, id);
     }
 
-    public LocatedPlaceImpl(LatLng latLng, String description) {
+    public GooglePlace(LatLng latLng, String description) {
         mLatLng = latLng;
         mDescription = description;
-        mId = new LocationId(LocationProvider.USER, generateId());
+        mId = new LocationId(USER, generateId());
     }
 
     @Override

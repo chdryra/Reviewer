@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.PersistentTablesModel;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
 
 import java.io.File;
 
@@ -29,7 +29,7 @@ public class FactoryApplicationContext {
                                                 File externalStorageDirectory,
                                                 String imageDirectory,
                                                 PersistentTablesModel persistence,
-                                                LocationServicesProvider locationsProvider) {
+                                                LocationServicesSuite locationsProvider) {
         ModelContext modelContext =
                 new ReleaseModelContext(context, author, persistenceName, persistenceVersion,
                         persistence);
