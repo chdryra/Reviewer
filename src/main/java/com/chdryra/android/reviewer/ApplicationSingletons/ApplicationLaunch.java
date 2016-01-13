@@ -53,7 +53,7 @@ public class ApplicationLaunch {
     }
 
     private void createApplicationContext() {
-        String db = mLaunchState == LaunchState.TEST? TEST_DATABASE_NAME : DATABASE_NAME;
+        String db = mLaunchState == LaunchState.TEST ? TEST_DATABASE_NAME : DATABASE_NAME;
         FactoryApplicationContext contextFactory = new FactoryApplicationContext();
 
         mApplicationContext = contextFactory.newReleaseContext(mContext, AUTHOR, db, DATABASE_VER,

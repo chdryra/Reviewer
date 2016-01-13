@@ -14,14 +14,15 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvImageConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 
 /**
  * {@link ReviewViewAdapter} for a {@link ReviewNode}.
@@ -29,18 +30,17 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 
 public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> {
     private ReviewNode mNode;
-    private GvImageConverter mCoversConverter;
+    private DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
 
-    //Constructors
     public AdapterReviewNode(ReviewNode node,
-                             GvImageConverter coversConverter,
+                             DataConverter<DataImage, GvImage, GvImageList> coversConverter,
                              GridDataViewer<T> viewer) {
         this(node, coversConverter);
         setViewer(viewer);
     }
 
     public AdapterReviewNode(ReviewNode node,
-                             GvImageConverter coversConverter) {
+                             DataConverter<DataImage, GvImage, GvImageList> coversConverter) {
         mNode = node;
         mCoversConverter = coversConverter;
     }

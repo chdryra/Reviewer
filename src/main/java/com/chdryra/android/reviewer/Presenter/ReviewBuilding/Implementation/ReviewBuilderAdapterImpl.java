@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

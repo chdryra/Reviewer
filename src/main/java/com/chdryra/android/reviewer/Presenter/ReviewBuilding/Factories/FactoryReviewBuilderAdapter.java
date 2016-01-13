@@ -7,7 +7,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Utils.FactoryFileIncrementor;
 
 /**
  * Created by: Rizwan Choudrey

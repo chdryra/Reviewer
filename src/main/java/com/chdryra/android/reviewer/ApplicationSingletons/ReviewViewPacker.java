@@ -25,7 +25,6 @@ public class ReviewViewPacker extends ApplicationSingleton {
         mViews = new ObjectHolder();
     }
 
-    //Static methods
     public static ReviewViewPacker get(Context c) {
         sSingleton = getSingleton(sSingleton, ReviewViewPacker.class, c);
         return sSingleton;
