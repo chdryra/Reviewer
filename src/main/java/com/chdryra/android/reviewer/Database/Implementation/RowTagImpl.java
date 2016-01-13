@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 

@@ -7,11 +7,11 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Database.Interfaces.PersistentTablesModel;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.PersistencePlugin;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
-import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Implementation.AndroidSqlLitePersistence;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.LocationServicesGoogle;
+import com.chdryra.android.reviewer.PlugIns.Persistence.PersistenceAndroidSqLite.Implementation.PersistenceAndroidSqlLite;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.LocationServicesGoogle.LocationServicesGoogle;
 
 import java.io.File;
 
@@ -66,11 +66,11 @@ public class ApplicationLaunch {
 
 
     @NonNull
-    private PersistentTablesModel getPersistencePlugin() {
-        return new AndroidSqlLitePersistence();
+    private PersistencePlugin getPersistencePlugin() {
+        return new PersistenceAndroidSqlLite();
     }
 
-    private LocationServicesSuite getLocationProviderPlugIn() {
+    private LocationServicesPlugin getLocationProviderPlugIn() {
         return new LocationServicesGoogle();
     }
 }

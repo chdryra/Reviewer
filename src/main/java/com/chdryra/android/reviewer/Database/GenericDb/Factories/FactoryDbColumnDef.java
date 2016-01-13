@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.GenericDb.Factories;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbColumnDefImpl;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueType;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
 
 /**

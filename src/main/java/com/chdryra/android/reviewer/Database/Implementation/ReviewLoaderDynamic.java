@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.Implementation;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.TableTransactor;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerReadableDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;

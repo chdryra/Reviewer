@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueType;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
 
 /**
  * Created by: Rizwan Choudrey

@@ -14,7 +14,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
@@ -42,7 +42,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static ApplicationInstance sSingleton;
 
     private final PresenterContext mPresenterContext;
-    private LocationServicesSuite mLocationServicesSuite;
+    private LocationServicesPlugin mLocationServicesPlugin;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -52,7 +52,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private ApplicationInstance(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
         mPresenterContext = applicationContext.getContext();
-        mLocationServicesSuite = applicationContext.getLocationServicesSuite();
+        mLocationServicesPlugin = applicationContext.getLocationServicesPlugin();
     }
 
     //Static methods
@@ -126,7 +126,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.launchReview(activity, reviewId);
     }
 
-    public LocationServicesSuite getLocationServicesSuite() {
-        return mLocationServicesSuite;
+    public LocationServicesPlugin getLocationServicesPlugin() {
+        return mLocationServicesPlugin;
     }
 }

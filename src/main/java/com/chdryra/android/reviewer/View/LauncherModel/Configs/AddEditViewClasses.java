@@ -13,7 +13,8 @@ public class AddEditViewClasses<T extends GvData> {
     private final Class<? extends LaunchableUi> mEdit;
     private final Class<? extends LaunchableUi> mView;
 
-    public AddEditViewClasses(GvDataType<T> dataType, Class<? extends LaunchableUi> add,
+    public AddEditViewClasses(GvDataType<T> dataType,
+                              Class<? extends LaunchableUi> add,
                               Class<? extends LaunchableUi> edit,
                               Class<? extends LaunchableUi> view) {
         mDataType = dataType;

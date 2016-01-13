@@ -1,6 +1,7 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
 
 /**
  * Created by: Rizwan Choudrey

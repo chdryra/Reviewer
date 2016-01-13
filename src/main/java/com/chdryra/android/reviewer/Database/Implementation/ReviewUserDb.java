@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.TableTransactor;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerReadableDb;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;

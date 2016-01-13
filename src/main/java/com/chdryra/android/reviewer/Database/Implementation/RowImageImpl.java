@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValues;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValues;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 
 import java.io.ByteArrayOutputStream;

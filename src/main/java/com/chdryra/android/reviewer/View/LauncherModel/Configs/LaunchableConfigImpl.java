@@ -32,9 +32,6 @@ public class LaunchableConfigImpl implements LaunchableConfig {
         mTag = tag;
     }
 
-
-    //public methods
-
     @Override
     public String getTag() {
         return mTag;

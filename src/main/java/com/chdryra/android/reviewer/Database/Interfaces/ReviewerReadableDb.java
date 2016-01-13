@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.Interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.TableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.TableRowList;

@@ -15,7 +15,7 @@ import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
@@ -159,7 +159,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     }
 
     private void setLayout() {
-        LocationServicesSuite provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesSuite();
+        LocationServicesPlugin provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesPlugin();
         FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), provider);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());

@@ -11,8 +11,8 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Database.Interfaces.PersistentTablesModel;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.PersistencePlugin;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
 
 import java.io.File;
 
@@ -28,8 +28,8 @@ public class FactoryApplicationContext {
                                                 int persistenceVersion,
                                                 File externalStorageDirectory,
                                                 String imageDirectory,
-                                                PersistentTablesModel persistence,
-                                                LocationServicesSuite locationsProvider) {
+                                                PersistencePlugin persistence,
+                                                LocationServicesPlugin locationsProvider) {
         ModelContext modelContext =
                 new ReleaseModelContext(context, author, persistenceName, persistenceVersion,
                         persistence);

@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumn
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 
 /**

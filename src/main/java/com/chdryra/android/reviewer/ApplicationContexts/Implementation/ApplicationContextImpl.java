@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,12 +11,12 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServices
  */
 public class ApplicationContextImpl implements ApplicationContext {
     private PresenterContext mPresenterContext;
-    private LocationServicesSuite mLocationServicesSuite;
+    private LocationServicesPlugin mLocationServicesPlugin;
 
-    public ApplicationContextImpl(PresenterContext presenterContext, LocationServicesSuite
-            locationServicesSuite) {
+    public ApplicationContextImpl(PresenterContext presenterContext, LocationServicesPlugin
+            locationServicesPlugin) {
         mPresenterContext = presenterContext;
-        mLocationServicesSuite = locationServicesSuite;
+        mLocationServicesPlugin = locationServicesPlugin;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ApplicationContextImpl implements ApplicationContext {
     }
 
     @Override
-    public LocationServicesSuite getLocationServicesSuite() {
-        return mLocationServicesSuite;
+    public LocationServicesPlugin getLocationServicesPlugin() {
+        return mLocationServicesPlugin;
     }
 }

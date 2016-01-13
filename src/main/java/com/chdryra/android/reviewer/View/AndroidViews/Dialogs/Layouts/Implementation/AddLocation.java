@@ -24,12 +24,12 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.GooglePlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestNamesSuggester;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.LocationServicesGoogle.GooglePlace;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocatedPlace;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationDetails;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationDetailsFetcher;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.NearestNamesSuggester;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
@@ -74,11 +74,11 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    private LocationServicesSuite mLocationServices;
+    private LocationServicesPlugin mLocationServices;
     private LocationDetailsFetcher mFetcher;
     private NearestNamesSuggester mSuggester;
 
-    public AddLocation(GvDataAdder adder, LocationServicesSuite locationServices) {
+    public AddLocation(GvDataAdder adder, LocationServicesPlugin locationServices) {
         super(GvLocation.class, LAYOUT, VIEWS, NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newDetailsFetcher();

@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.Database.Factories;
 
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.Database.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.Database.Implementation.TableComments;

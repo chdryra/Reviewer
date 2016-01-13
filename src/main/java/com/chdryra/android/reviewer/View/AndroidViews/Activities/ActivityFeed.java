@@ -22,9 +22,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 /**
  * UI Activity holding published reviews feed.
  */
-public class ActivityFeed extends ActivityReviewView
-        implements DialogAlertFragment.DialogAlertListener,
+public class ActivityFeed extends ActivityReviewView implements
+        DialogAlertFragment.DialogAlertListener,
         FeedScreen.DeleteRequestListener{
+
     private FeedScreen mScreen;
     private ApplicationInstance mApp;
 

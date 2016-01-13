@@ -11,10 +11,10 @@ import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbSpecification;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.Database.Interfaces.PersistentTablesModel;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDbContract;
@@ -34,6 +34,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
         .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
 
 /**
@@ -47,7 +48,7 @@ public class ReleaseModelContext extends ModelContextBasic {
                                DataAuthor author,
                                String repositoryName,
                                int repositoryVersion,
-                               PersistentTablesModel persistentTablesModel) {
+                               PersistencePlugin persistencePlugin) {
         setReviewsFactory(author);
 
         setTagsManager(new FactoryTagsManager().newTagsManager());
@@ -60,19 +61,20 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         setSocialPlatforms(new FactorySocialPlatformList().newList(context));
 
-        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory
-                ());
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
 
         ReviewsRepositoryMutable persistence = getPersistentRepository(context,
                 repositoryName,
                 repositoryVersion,
-                persistentTablesModel, getReviewsFactory(),
+                persistencePlugin,
+                getReviewsFactory(),
                 getTagsManager(),
                 getDataValidator(),
                 repoFactory
         );
 
+        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory
+                ());
         setAuthorsFeed(persistence, getReviewsFactory(), flattener);
 
         setReviewsSource(repoFactory.newReviewsSource(persistence, getReviewsFactory(), flattener));
@@ -81,13 +83,13 @@ public class ReleaseModelContext extends ModelContextBasic {
     private ReviewsRepositoryMutable getPersistentRepository(Context context,
                                                              String repositoryName,
                                                              int repositoryVersion,
-                                                             PersistentTablesModel persistence,
+                                                             PersistencePlugin persistence,
                                                              FactoryReviews reviewFactory,
                                                              TagsManager tagsManager,
                                                              DataValidator dataValidator,
                                                              FactoryReviewsRepository repoFactory) {
-        ReviewerDb db = newDatabase(context, repositoryName, repositoryVersion, persistence, reviewFactory,
-                tagsManager, dataValidator);
+        ReviewerDb db = newDatabase(context, repositoryName, repositoryVersion, persistence,
+                reviewFactory, tagsManager, dataValidator);
         return repoFactory.newDatabaseRepository(db);
     }
 
@@ -101,19 +103,28 @@ public class ReleaseModelContext extends ModelContextBasic {
     private ReviewerDb newDatabase(Context context,
                                    String persistenceName,
                                    int persistenceVersion,
-                                   PersistentTablesModel persistence,
+                                   PersistencePlugin persistence,
                                    FactoryReviews reviewFactory,
                                    TagsManager tagsManager,
                                    DataValidator dataValidator) {
-        FactoryReviewLoader loaderFactory = new FactoryReviewLoader();
-        ReviewLoader loader = loaderFactory.newStaticLoader(reviewFactory, dataValidator);
+        RowValueTypeDefinitions typeDefinitions = persistence.getTypeDefinitions();
+        ReviewerDbContract contract = getReviewerDbContract(typeDefinitions);
         FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
         ContractedTableTransactor<ReviewerDbContract> dbTransactor
-                = getTableTransactor(context, persistenceName, persistenceVersion, persistence, rowFactory,
-                getReviewerDbContractFactory());
+                = getTableTransactor(context, persistenceName, persistenceVersion, persistence,
+                contract, rowFactory);
 
+        FactoryReviewLoader loaderFactory = new FactoryReviewLoader();
+        ReviewLoader loader = loaderFactory.newStaticLoader(reviewFactory, dataValidator);
         FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowFactory);
         return dbFactory.newDatabase(dbTransactor, loader, tagsManager, dataValidator);
+    }
+
+    private ReviewerDbContract getReviewerDbContract(RowValueTypeDefinitions typeDefinitions) {
+        FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
+        FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
+        FactoryReviewerDbContract factory = new FactoryReviewerDbContract(columnFactory, constraintFactory);
+        return factory.newContract(typeDefinitions);
     }
 
     private void setAuthorsFeed(ReviewsRepositoryMutable sourceAndDestination,
@@ -127,28 +138,18 @@ public class ReleaseModelContext extends ModelContextBasic {
 
     private void setReviewsFactory(DataAuthor author) {
         FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(author);
-        FactoryMdConverter convertersFactory = new FactoryMdConverter();
-        ConverterMd mdConverter = convertersFactory.newMdConverter();
-        FactoryReviewNode factory = new FactoryReviewNode();
-        setFactoryReviews(new FactoryReviews(publisherFactory, factory, mdConverter));
+        ConverterMd converter = new FactoryMdConverter().newMdConverter();
+        setFactoryReviews(new FactoryReviews(publisherFactory, new FactoryReviewNode(), converter));
     }
 
     private ContractedTableTransactor<ReviewerDbContract> getTableTransactor(Context context,
                                                                              String databaseName,
                                                                              int version,
-                                                                             PersistentTablesModel persistence,
-                                                                             FactoryDbTableRow rowFactory,
-                                                                             FactoryReviewerDbContract contractFactory) {
-        ReviewerDbContract contract = contractFactory.newContract(persistence.getTypeDefinitions());
-
+                                                                             PersistencePlugin persistence,
+                                                                             ReviewerDbContract contract,
+                                                                             FactoryDbTableRow rowFactory) {
         FactoryDbSpecification factoryDbSpecification = new FactoryDbSpecification();
         DbSpecification<ReviewerDbContract> spec = factoryDbSpecification.newSpecification(contract, databaseName, version);
         return persistence.newTableTransactor(context, spec, rowFactory);
-    }
-
-    private FactoryReviewerDbContract getReviewerDbContractFactory() {
-        FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
-        FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
-        return new FactoryReviewerDbContract(columnFactory, constraintFactory);
     }
 }

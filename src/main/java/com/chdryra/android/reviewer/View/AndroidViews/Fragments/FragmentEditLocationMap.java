@@ -39,11 +39,11 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.GooglePlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocatedPlace;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.LocationServicesGoogle.GooglePlace;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.AddressesSuggester;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.PlaceSearcher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
@@ -128,7 +128,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         super.onCreate(savedInstanceState);
         mDataPacker = new GvDataPacker<>();
 
-        LocationServicesSuite provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesSuite();
+        LocationServicesPlugin provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesPlugin();
         mPlaceSearcher = provider.newPlaceSearcher();
         mAddressSuggester = provider.newAddressesSuggester(getActivity());
 

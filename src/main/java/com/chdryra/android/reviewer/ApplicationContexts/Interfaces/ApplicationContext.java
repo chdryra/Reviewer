@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesSuite;
+import com.chdryra.android.reviewer.PlugIns.LocationServices.Api.LocationServicesPlugin;
 
 /**
  * Created by: Rizwan Choudrey
@@ -9,5 +9,5 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServices
  */
 public interface ApplicationContext {
     PresenterContext getContext();
-    LocationServicesSuite getLocationServicesSuite();
+    LocationServicesPlugin getLocationServicesPlugin();
 }
