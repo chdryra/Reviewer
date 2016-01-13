@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefiniti
  */
 public class TableAuthors extends DbTableImpl<RowAuthor> {
     private static final String TABLE = "Authors";
-    public static final String USER_ID = RowAuthor.COLUMN_USER_ID;
-    public static final String NAME = RowAuthor.COLUMN_AUTHOR_NAME;
+    private static final String USER_ID = RowAuthor.COLUMN_USER_ID;
+    private static final String NAME = RowAuthor.COLUMN_AUTHOR_NAME;
 
     public TableAuthors(FactoryDbColumnDef columnFactory, RowValueTypeDefinitions types) {
         super(TABLE, RowAuthor.class);

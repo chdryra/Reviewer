@@ -19,11 +19,11 @@ import java.util.ArrayList;
  */
 public class TableLocations extends DbTableImpl<RowLocation> {
     private static final String TABLE = "Locations";
-    public static final String LOCATION_ID = RowLocation.COLUMN_LOCATION_ID;
-    public static final String REVIEW_ID = RowLocation.COLUMN_REVIEW_ID;
-    public static final String LATITUDE = RowLocation.COLUMN_LATITUDE;
-    public static final String LONGITUDE = RowLocation.COLUMN_LONGITUDE;
-    public static final String NAME = RowLocation.COLUMN_NAME;
+    private static final String LOCATION_ID = RowLocation.COLUMN_LOCATION_ID;
+    private static final String REVIEW_ID = RowLocation.COLUMN_REVIEW_ID;
+    private static final String LATITUDE = RowLocation.COLUMN_LATITUDE;
+    private static final String LONGITUDE = RowLocation.COLUMN_LONGITUDE;
+    private static final String NAME = RowLocation.COLUMN_NAME;
 
     public TableLocations(FactoryDbColumnDef columnFactory,
                           RowValueTypeDefinitions types,

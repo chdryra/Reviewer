@@ -19,12 +19,12 @@ import java.util.ArrayList;
  */
 public class TableImages extends DbTableImpl<RowImage> {
     private static final String TABLE = "Images";
-    public static final String IMAGE_ID = RowImage.COLUMN_IMAGE_ID;
-    public static final String REVIEW_ID = RowImage.COLUMN_REVIEW_ID;
-    public static final String BITMAP = RowImage.COLUMN_BITMAP;
-    public static final String IMAGE_DATE = RowImage.COLUMN_IMAGE_DATE;
-    public static final String CAPTION = RowImage.COLUMN_CAPTION;
-    public static final String IS_COVER = RowImage.COLUMN_IS_COVER;
+    private static final String IMAGE_ID = RowImage.COLUMN_IMAGE_ID;
+    private static final String REVIEW_ID = RowImage.COLUMN_REVIEW_ID;
+    private static final String BITMAP = RowImage.COLUMN_BITMAP;
+    private static final String IMAGE_DATE = RowImage.COLUMN_IMAGE_DATE;
+    private static final String CAPTION = RowImage.COLUMN_CAPTION;
+    private static final String IS_COVER = RowImage.COLUMN_IS_COVER;
 
     public TableImages(FactoryDbColumnDef columnFactory,
                        RowValueTypeDefinitions types,

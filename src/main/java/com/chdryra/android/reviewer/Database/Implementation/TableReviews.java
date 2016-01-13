@@ -19,15 +19,14 @@ import java.util.ArrayList;
  */
 public class TableReviews extends DbTableImpl<RowReview> {
     private static final String TABLE = "Reviews";
-    public static final String REVIEW_ID = RowReview.COLUMN_REVIEW_ID;
-    public static final String PARENT_ID = RowReview.COLUMN_PARENT_ID;
-    public static final String USER_ID = RowReview.COLUMN_USER_ID;
-    public static final String PUBLISH_DATE = RowReview
-            .COLUMN_PUBLISH_DATE;
-    public static final String SUBJECT = RowReview.COLUMN_SUBJECT;
-    public static final String RATING = RowReview.COLUMN_RATING;
-    public static final String RATING_WEIGHT = RowReview.COLUMN_RATING_WEIGHT;
-    public static final String RATING_IS_AVERAGE = RowReview.COLUMN_RATING_IS_AVERAGE;
+    private static final String REVIEW_ID = RowReview.COLUMN_REVIEW_ID;
+    private static final String PARENT_ID = RowReview.COLUMN_PARENT_ID;
+    private static final String USER_ID = RowReview.COLUMN_USER_ID;
+    private static final String PUBLISH_DATE = RowReview.COLUMN_PUBLISH_DATE;
+    private static final String SUBJECT = RowReview.COLUMN_SUBJECT;
+    private static final String RATING = RowReview.COLUMN_RATING;
+    private static final String RATING_WEIGHT = RowReview.COLUMN_RATING_WEIGHT;
+    private static final String RATING_IS_AVERAGE = RowReview.COLUMN_RATING_IS_AVERAGE;
 
     public TableReviews(FactoryDbColumnDef columnFactory,
                         RowValueTypeDefinitions types,
