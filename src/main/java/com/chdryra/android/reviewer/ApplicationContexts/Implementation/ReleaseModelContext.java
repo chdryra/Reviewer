@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbSpecif
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.Interfaces.PersistenceSuite;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.Database.Interfaces.ReviewerDb;
@@ -59,7 +60,8 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         setSocialPlatforms(new FactorySocialPlatformList().newList(context));
 
-        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory());
+        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory
+                ());
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
 
         ReviewsRepositoryMutable persistence = getPersistentRepository(context,
@@ -83,14 +85,17 @@ public class ReleaseModelContext extends ModelContextBasic {
                                                              TagsManager tagsManager,
                                                              DataValidator dataValidator,
                                                              FactoryReviewsRepository repoFactory,
-                                                             PersistenceSuite<ReviewerDbContract> suite) {
+                                                             PersistenceSuite<ReviewerDbContract>
+                                                                     suite) {
         ReviewerDb db = newDatabase(context, repositoryName, repositoryVersion, reviewFactory,
                 tagsManager, dataValidator, suite);
         return repoFactory.newDatabaseRepository(db);
     }
 
-    private TreeFlattener getTreeFlattener(FactoryVisitorReviewNode visitorFactory, FactoryNodeTraverser traverserFactory) {
-        FactoryTreeFlattener flattenerFactory = new FactoryTreeFlattener(visitorFactory, traverserFactory);
+    private TreeFlattener getTreeFlattener(FactoryVisitorReviewNode visitorFactory,
+                                           FactoryNodeTraverser traverserFactory) {
+        FactoryTreeFlattener flattenerFactory = new FactoryTreeFlattener(visitorFactory,
+                traverserFactory);
         return flattenerFactory.newFlattener();
     }
 
@@ -132,19 +137,22 @@ public class ReleaseModelContext extends ModelContextBasic {
                                      TagsManager tagsManager,
                                      PersistenceSuite<ReviewerDbContract> persistenceSuite) {
         ReviewerDbContract contract = getReviewerDbContract(persistenceSuite);
+        FactoryReviewerDbTableRow rowfactory = new FactoryReviewerDbTableRow();
 
         ContractedTableTransactor<ReviewerDbContract> dbProvider
-                = getDatabaseProvider(context, databaseName, version, contract, persistenceSuite);
+                = getTableTransactor(context, databaseName, version, contract, rowfactory,
+                persistenceSuite);
 
-        FactoryReviewerDb dbFactory = new FactoryReviewerDb(new FactoryReviewerDbTableRow());
+        FactoryReviewerDb dbFactory = new FactoryReviewerDb(rowfactory);
         return dbFactory.newDatabase(dbProvider, loader, tagsManager, validator);
     }
 
-    private ContractedTableTransactor<ReviewerDbContract> getDatabaseProvider(Context context, String
-            databaseName, int version, ReviewerDbContract contract, PersistenceSuite<ReviewerDbContract> persistenceSuite) {
+    private ContractedTableTransactor<ReviewerDbContract> getTableTransactor(Context context, String
+            databaseName, int version, ReviewerDbContract contract, FactoryDbTableRow rowFactory,
+                                                                             PersistenceSuite<ReviewerDbContract> persistenceSuite) {
         DbSpecification<ReviewerDbContract> spec
                 = new FactoryDbSpecification().newSpecification(databaseName, contract, version);
-        return persistenceSuite.newDatabaseProvider(context, spec);
+        return persistenceSuite.newTableTransactor(context, spec, rowFactory);
     }
 
     private ReviewerDbContract getReviewerDbContract(PersistenceSuite<ReviewerDbContract>

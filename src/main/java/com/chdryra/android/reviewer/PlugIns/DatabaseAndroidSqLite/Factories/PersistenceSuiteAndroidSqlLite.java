@@ -2,6 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Factories;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Implementation.ContractedSqlLiteTransactor;
 import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Implementation.RowValueTypeDefinitionsSqlLite;
 import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Implementation.SqlLiteContractExecutorImpl;
@@ -25,8 +26,8 @@ public class PersistenceSuiteAndroidSqlLite<T extends DbContract> implements Per
     }
 
     @Override
-    public ContractedTableTransactor<T> newDatabaseProvider(Context context, DbSpecification<T> spec) {
-        FactoryTableTransactorSqLite dbInstanceFactory = new FactoryTableTransactorSqLite(new FactoryRowConverter());
+    public ContractedTableTransactor<T> newTableTransactor(Context context, DbSpecification<T> spec, FactoryDbTableRow rowFactory) {
+        FactoryTableTransactorSqLite dbInstanceFactory = new FactoryTableTransactorSqLite(new FactoryRowConverter(), rowFactory);
         return new ContractedSqlLiteTransactor<>(context, spec, new SqlLiteContractExecutorImpl(), dbInstanceFactory);
     }
 }

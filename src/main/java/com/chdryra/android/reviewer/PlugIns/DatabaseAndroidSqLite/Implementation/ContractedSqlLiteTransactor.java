@@ -12,13 +12,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Factories.FactoryTableTransactorSqLite;
-import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Factories.FactoryTableTransactorSqLite;
+import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -42,13 +41,13 @@ public class ContractedSqlLiteTransactor<T extends DbContract> extends SQLiteOpe
     }
 
     @Override
-    public TableTransactor getReadableTransactor(FactoryDbTableRow rowFactory) {
-        return mFactory.newInstance(super.getReadableDatabase(), rowFactory);
+    public TableTransactor getReadableTransactor() {
+        return mFactory.newInstance(super.getReadableDatabase());
     }
 
     @Override
-    public TableTransactor getWriteableTransactor(FactoryDbTableRow rowFactory) {
-        return mFactory.newInstance(super.getWritableDatabase(), rowFactory);
+    public TableTransactor getWriteableTransactor() {
+        return mFactory.newInstance(super.getWritableDatabase());
     }
 
     @Override

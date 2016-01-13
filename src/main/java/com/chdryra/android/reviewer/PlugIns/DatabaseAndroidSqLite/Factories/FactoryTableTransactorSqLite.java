@@ -13,12 +13,14 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.TableTransacto
  */
 public class FactoryTableTransactorSqLite {
     private FactoryRowConverter mConverterFactory;
+    private FactoryDbTableRow mRowFactory;
 
-    public FactoryTableTransactorSqLite(FactoryRowConverter converterFactory) {
+    public FactoryTableTransactorSqLite(FactoryRowConverter converterFactory, FactoryDbTableRow rowFactory) {
         mConverterFactory = converterFactory;
+        mRowFactory = rowFactory;
     }
 
-    public TableTransactor newInstance(SQLiteDatabase db, FactoryDbTableRow rowFactory) {
-        return new TableTransactorSqlLite(db, rowFactory, mConverterFactory);
+    public TableTransactor newInstance(SQLiteDatabase db) {
+        return new TableTransactorSqlLite(db, mRowFactory, mConverterFactory);
     }
 }

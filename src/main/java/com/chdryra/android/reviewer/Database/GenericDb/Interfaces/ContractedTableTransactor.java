@@ -8,7 +8,7 @@ package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
 public interface ContractedTableTransactor<T extends DbContract> {
     T getContract();
 
-    TableTransactor getReadableTransactor(FactoryDbTableRow rowFactory);
+    TableTransactor getReadableTransactor();
 
-    TableTransactor getWriteableTransactor(FactoryDbTableRow rowFactory);
+    TableTransactor getWriteableTransactor();
 }

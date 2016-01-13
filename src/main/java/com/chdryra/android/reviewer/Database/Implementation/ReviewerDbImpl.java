@@ -74,14 +74,14 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public TableTransactor beginWriteTransaction() {
-        TableTransactor transactor = mTransactor.getWriteableTransactor(mRowFactory);
+        TableTransactor transactor = mTransactor.getWriteableTransactor();
         transactor.beginTransaction();
         return transactor;
     }
 
     @Override
     public TableTransactor beginReadTransaction() {
-        TableTransactor transactor = mTransactor.getReadableTransactor(mRowFactory);
+        TableTransactor transactor = mTransactor.getReadableTransactor();
         transactor.beginTransaction();
         return transactor;
     }
@@ -96,7 +96,7 @@ public class ReviewerDbImpl implements ReviewerDb {
                                                     String col,
                                                     @Nullable String val) {
         ArrayList<Review> reviews = new ArrayList<>();
-        for (RowReview reviewRow : loadFromTableWhere(transactor, getReviewsTable(), col, val)) {
+        for (RowReview reviewRow : loadFromTableWhere(getReviewsTable(), col, val, transactor)) {
             reviews.add(loadReview(reviewRow, transactor));
         }
 
@@ -126,7 +126,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     public <T extends DbTableRow> ArrayList<T> loadFromDataTable(TableTransactor transactor,
                                                                  DbTable<T> table,
                                                                  String reviewId) {
-        return loadFromTableWhere(transactor, table, getColumnNameReviewId(), reviewId);
+        return loadFromTableWhere(table, getColumnNameReviewId(), reviewId, transactor);
     }
 
     @Override
@@ -147,15 +147,16 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public boolean deleteReviewFromDb(String reviewId, TableTransactor transactor) {
-        RowReview row = getRowWhere(transactor, getReviewsTable(), getColumnNameReviewId(), reviewId);
+        RowReview row = getRowWhere(transactor, getReviewsTable(), getColumnNameReviewId(),
+                reviewId);
         if (!row.hasData(mDataValidator)) return false;
 
-        deleteFromTable(reviewId, transactor, getImagesTable());
-        deleteFromTable(reviewId, transactor, getLocationsTable());
-        deleteFromTable(reviewId, transactor, getFactsTable());
-        deleteFromTable(reviewId, transactor, getCommentsTable());
+        deleteFromTable(getImagesTable(), reviewId, transactor);
+        deleteFromTable(getLocationsTable(), reviewId, transactor);
+        deleteFromTable(getFactsTable(), reviewId, transactor);
+        deleteFromTable(getCommentsTable(), reviewId, transactor);
         deleteCriteriaFromReviewsTable(reviewId, transactor);
-        deleteFromTable(reviewId, transactor, getReviewsTable());
+        deleteFromTable(getReviewsTable(), reviewId, transactor);
         deleteFromAuthorsTableIfNecessary(transactor, row);
         deleteFromTagsTableIfNecessary(reviewId, transactor);
 
@@ -240,10 +241,9 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    private <T extends DbTableRow> ArrayList<T> loadFromTableWhere(TableTransactor transactor,
-                                                                   DbTable<T> table,
-                                                                   String col,
-                                                                   @Nullable String val) {
+    private <T extends DbTableRow> ArrayList<T> loadFromTableWhere(DbTable<T> table, String col,
+                                                                   @Nullable String val,
+                                                                   TableTransactor transactor) {
         ArrayList<T> results = new ArrayList<>();
         for (T row : transactor.getRowsWhere(table, col, val)) {
             results.add(row);
@@ -312,7 +312,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         }
     }
 
-    private void deleteFromTable(String reviewId, TableTransactor transactor, DbTable table) {
+    private void deleteFromTable(DbTable table, String reviewId, TableTransactor transactor) {
         transactor.deleteRows(getColumnNameReviewId(), reviewId, table);
     }
 
@@ -346,6 +346,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     private boolean isReviewInDb(Review review, TableTransactor transactor) {
         DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
-        return transactor.isIdInTable(review.getReviewId().toString(), reviewIdCol, getReviewsTable());
+        return transactor.isIdInTable(review.getReviewId().toString(), reviewIdCol,
+                getReviewsTable());
     }
 }

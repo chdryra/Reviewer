@@ -5,6 +5,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ContractedTableTransactor;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecification;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDefinitions;
 
 /**
@@ -15,5 +16,5 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDe
 public interface PersistenceSuite<T extends DbContract> {
     RowValueTypeDefinitions getTypeDefinitions();
 
-    ContractedTableTransactor<T> newDatabaseProvider(Context context, DbSpecification<T> spec);
+    ContractedTableTransactor<T> newTableTransactor(Context context, DbSpecification<T> spec, FactoryDbTableRow rowFactory);
 }
