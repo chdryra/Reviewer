@@ -10,33 +10,38 @@ import com.chdryra.android.reviewer.Database.GenericDb.Implementation.RowValueTy
  * Email: rizwan.choudrey@gmail.com
  */
 public class RowValueTypeDefinitionsSqlLite implements RowValueTypeDefinitions {
+    private static final RowValueType TEXT = new RowValueTypeImpl("TEXT");
+    public static final RowValueTypeImpl REAL = new RowValueTypeImpl("REAL");
+    public static final RowValueTypeImpl INTEGER = new RowValueTypeImpl("INTEGER");
+    public static final RowValueTypeImpl BLOB = new RowValueTypeImpl("BLOB");
+
     @Override
     public RowValueType getStringType() {
-        return new RowValueTypeImpl("TEXT");
+        return TEXT;
     }
 
     @Override
     public RowValueType getFloatType() {
-        return new RowValueTypeImpl("REAL");
+        return REAL;
     }
 
     @Override
     public RowValueType getLongType() {
-        return getIntegerType();
+        return INTEGER;
     }
 
     @Override
     public RowValueType getBooleanType() {
-        return getIntegerType();
+        return INTEGER;
     }
 
     @Override
     public RowValueType getIntegerType() {
-        return new RowValueTypeImpl("INTEGER");
+        return INTEGER;
     }
 
     @Override
     public RowValueType getByteArrayType() {
-        return new RowValueTypeImpl("BLOB");
+        return BLOB;
     }
 }
