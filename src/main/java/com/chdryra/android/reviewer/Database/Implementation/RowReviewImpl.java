@@ -45,7 +45,7 @@ public class RowReviewImpl implements RowReview {
     public RowReviewImpl(RowValues values) {
         mReviewId = values.getString(COLUMN_REVIEW_ID);
         mParentId = values.getString(COLUMN_PARENT_ID);
-        mAuthorId = values.getString(COLUMN_AUTHOR_ID);
+        mAuthorId = values.getString(COLUMN_USER_ID);
         mPublishDate = values.getLong(COLUMN_PUBLISH_DATE);
         mSubject = values.getString(COLUMN_SUBJECT);
         mRating = values.getFloat(COLUMN_RATING);

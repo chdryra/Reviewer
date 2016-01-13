@@ -3,12 +3,12 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowImage;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -19,32 +19,33 @@ import java.util.ArrayList;
  */
 public class TableImages extends DbTableImpl<RowImage> {
     private static final String TABLE = "Images";
-    
-    public TableImages(DbTable<? extends RowReview> reviewsTable, FactoryDbColumnDef columnFactory,
-                       FactoryForeignKeyConstraint constraintFactory, RowValueTypeDefinitions typeFactory) {
+    public static final String IMAGE_ID = RowImage.COLUMN_IMAGE_ID;
+    public static final String REVIEW_ID = RowImage.COLUMN_REVIEW_ID;
+    public static final String BITMAP = RowImage.COLUMN_BITMAP;
+    public static final String IMAGE_DATE = RowImage.COLUMN_IMAGE_DATE;
+    public static final String CAPTION = RowImage.COLUMN_CAPTION;
+    public static final String IS_COVER = RowImage.COLUMN_IS_COVER;
+
+    public TableImages(FactoryDbColumnDef columnFactory,
+                       RowValueTypeDefinitions types,
+                       DbTable<? extends RowReview> reviewsTable,
+                       FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowImage.class);
-        DbColumnDef imageId = columnFactory.newPkColumnDef(RowImage.COLUMN_IMAGE_ID,
-                typeFactory.getStringType());
-        DbColumnDef reviewId = columnFactory.newColumnDef(RowImage.COLUMN_REVIEW_ID,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef bitmap = columnFactory.newColumnDef(RowImage.COLUMN_BITMAP,
-                typeFactory.getByteArrayType(), ValueNullable.FALSE);
-        DbColumnDef imageDate = columnFactory.newColumnDef(RowImage.COLUMN_IMAGE_DATE,
-                typeFactory.getFloatType(), ValueNullable.TRUE);
-        DbColumnDef caption = columnFactory.newColumnDef(RowImage.COLUMN_CAPTION,
-                typeFactory.getStringType(), ValueNullable.TRUE);
-        DbColumnDef isCover = columnFactory.newColumnDef(RowImage.COLUMN_IS_COVER,
-                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKeyColumn(imageId);
-        addColumn(reviewId);
-        addColumn(bitmap);
-        addColumn(imageDate);
-        addColumn(caption);
-        addColumn(isCover);
+        RowValueType text = types.getTextType();
+        RowValueType bytes = types.getByteArrayType();
+        RowValueType lng = types.getLongType();
+        RowValueType bool = types.getBooleanType();
 
-        ArrayList<DbColumnDef> fkCols = new ArrayList<>();
-        fkCols.add(reviewId);
+        addPrimaryKeyColumn(columnFactory.newPkColumn(IMAGE_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(BITMAP, bytes));
+        addColumn(columnFactory.newNullableColumn(IMAGE_DATE, lng));
+        addColumn(columnFactory.newNullableColumn(CAPTION, text));
+        addColumn(columnFactory.newNotNullableColumn(IS_COVER, bool));
+
+        ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
+        fkCols.add(getColumn(REVIEW_ID));
         addForeignKeyConstraint(constraintFactory.newConstraint(fkCols, reviewsTable));
     }
 }

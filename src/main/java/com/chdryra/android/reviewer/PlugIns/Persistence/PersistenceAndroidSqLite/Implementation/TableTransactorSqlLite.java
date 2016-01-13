@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.PlugIns.Persistence.PersistenceAndroidSqLite.Factories.FactoryRowConverter;
 import com.chdryra.android.reviewer.PlugIns.Persistence.PersistenceAndroidSqLite.Interfaces.RowConverter;
 import com.chdryra.android.reviewer.PlugIns.Persistence.Api.FactoryDbTableRow;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.TableRowList;
@@ -83,7 +83,7 @@ public class TableTransactorSqlLite implements TableTransactor {
 
     @Override
     public <T extends DbTableRow> boolean insertRow(T row, DbTable<T> table) {
-        DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        DbColumnDefinition idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         if (isIdInTable(id, idCol, table)) return false;
 
@@ -99,7 +99,7 @@ public class TableTransactorSqlLite implements TableTransactor {
 
     @Override
     public <T extends DbTableRow> void insertOrReplaceRow(T row, DbTable<T> table) {
-        DbColumnDef idCol = table.getColumn(row.getRowIdColumnName());
+        DbColumnDefinition idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table)) {
@@ -131,7 +131,7 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public boolean isIdInTable(String id, DbColumnDef idCol, DbTable table) {
+    public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable table) {
         String pkCol = idCol.getName();
         Cursor cursor = getCursorWhere(table.getName(), pkCol, id);
 

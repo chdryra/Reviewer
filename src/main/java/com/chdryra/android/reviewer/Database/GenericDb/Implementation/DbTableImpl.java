@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.ForeignKeyConstraint;
@@ -22,11 +22,11 @@ import java.util.ArrayList;
  * On: 30/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
+public class DbTableImpl<T extends DbTableRow> implements DbTable<T> {
     private String mTableName;
     private Class<T> mRowClass;
-    private ArrayList<DbColumnDef> mPrimaryKeys;
-    private ArrayList<DbColumnDef> mOtherColumns;
+    private ArrayList<DbColumnDefinition> mPrimaryKeys;
+    private ArrayList<DbColumnDefinition> mOtherColumns;
     private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
 
     public DbTableImpl(String tableName, Class<T> rowClass) {
@@ -48,7 +48,7 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
-    public ArrayList<DbColumnDef> getPrimaryKeys() {
+    public ArrayList<DbColumnDefinition> getPrimaryKeys() {
         return mPrimaryKeys;
     }
 
@@ -58,8 +58,8 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
-    public ArrayList<DbColumnDef> getColumns() {
-        ArrayList<DbColumnDef> columns = new ArrayList<>();
+    public ArrayList<DbColumnDefinition> getColumns() {
+        ArrayList<DbColumnDefinition> columns = new ArrayList<>();
         columns.addAll(mPrimaryKeys);
         columns.addAll(mOtherColumns);
         return columns;
@@ -67,9 +67,9 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
 
     @Override
     public ArrayList<String> getColumnNames() {
-        ArrayList<DbColumnDef> columns = getColumns();
+        ArrayList<DbColumnDefinition> columns = getColumns();
         ArrayList<String> columnNames = new ArrayList<>(columns.size());
-        for (DbColumnDef column : columns) {
+        for (DbColumnDefinition column : columns) {
             columnNames.add(column.getName());
         }
 
@@ -77,13 +77,13 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
     }
 
     @Override
-    public void addColumn(DbColumnDef column) {
+    public void addColumn(DbColumnDefinition column) {
         mOtherColumns.add(column);
     }
 
     @Override
-    public void addPrimaryKeyColumn(DbColumnDef column) {
-        if(column.getNullable().isNullable()) {
+    public void addPrimaryKeyColumn(DbColumnDefinition column) {
+        if (column.getNullable().isNullable()) {
             throw new IllegalArgumentException("Pk column cannot be nullable!");
         }
         mPrimaryKeys.add(column);
@@ -91,32 +91,26 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T>{
 
     @Override
     public void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> constraint) {
-        ArrayList<DbColumnDef> columns = constraint.getFkColumns();
-        DbTable<? extends DbTableRow> pkTable = constraint.getForeignTable();
-        if (columns.size() != pkTable.getPrimaryKeys().size()) {
-            throw new IllegalArgumentException("Number of column names should match number of " +
-                    "primary key columns in pkTable!");
-        }
-
-        for (DbColumnDef col : columns) {
-            String name = col.getName();
-            DbColumnDef fkColumn = getColumn(name);
-            if (fkColumn == null) {
-                throw new IllegalArgumentException("Column: " + name + " not found!");
-            }
-        }
-
+        checkFkConstraintsAreValid(constraint);
         mFkConstraints.add(constraint);
     }
 
     @Override
     @Nullable
-    public DbColumnDef getColumn(String name) {
-        for (DbColumnDef column : getColumns()) {
+    public DbColumnDefinition getColumn(String name) {
+        for (DbColumnDefinition column : getColumns()) {
             if (column.getName().equals(name)) return column;
         }
 
         return null;
     }
 
+    private void checkFkConstraintsAreValid(ForeignKeyConstraint<? extends DbTableRow> constraint) {
+        for (DbColumnDefinition col : constraint.getFkColumns()) {
+            String name = col.getName();
+            if (getColumn(name) == null) {
+                throw new IllegalArgumentException("Column: " + name + " not found!");
+            }
+        }
+    }
 }

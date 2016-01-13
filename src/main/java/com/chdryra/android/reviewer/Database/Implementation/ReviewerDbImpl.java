@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Database.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.Persistence.Api.ContractedTableTransactor;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.Persistence.Api.TableTransactor;
@@ -226,7 +226,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     private void deleteFromAuthorsTableIfNecessary(TableTransactor transactor, RowReview row) {
         String userId = row.getAuthorId();
         TableRowList<RowReview> authored = transactor.getRowsWhere(getReviewsTable(), RowReview
-                .COLUMN_AUTHOR_ID, userId);
+                .COLUMN_USER_ID, userId);
         if (authored.size() == 0) deleteFromAuthorsTable(userId, transactor);
     }
 
@@ -345,7 +345,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private boolean isReviewInDb(Review review, TableTransactor transactor) {
-        DbColumnDef reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
+        DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
         return transactor.isIdInTable(review.getReviewId().toString(), reviewIdCol,
                 getReviewsTable());
     }

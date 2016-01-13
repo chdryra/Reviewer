@@ -15,12 +15,17 @@ public class RowValueTypeDefinitionsSqlLite implements RowValueTypeDefinitions {
     public static final SqlLiteType BLOB = new SqlLiteType("BLOB");
 
     @Override
-    public RowValueType getStringType() {
+    public RowValueType getTextType() {
         return TEXT;
     }
 
     @Override
     public RowValueType getFloatType() {
+        return REAL;
+    }
+
+    @Override
+    public RowValueType getDoubleType() {
         return REAL;
     }
 

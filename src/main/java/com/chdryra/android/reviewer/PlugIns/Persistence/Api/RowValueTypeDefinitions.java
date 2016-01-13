@@ -6,9 +6,11 @@ package com.chdryra.android.reviewer.PlugIns.Persistence.Api;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowValueTypeDefinitions {
-    RowValueType getStringType();
+    RowValueType getTextType();
 
     RowValueType getFloatType();
+
+    RowValueType getDoubleType();
 
     RowValueType getLongType();
 

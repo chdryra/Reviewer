@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.Database.GenericDb.Implementation;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
 
 /**
@@ -8,15 +8,13 @@ import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
  * On: 14/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbColumnDefImpl implements DbColumnDef{
+public abstract class DbColumnDefinitionImpl implements DbColumnDefinition {
     private String mColumnName;
     private RowValueType mType;
-    private ValueNullable mNullable;
 
-    public DbColumnDefImpl(String columnName, RowValueType type, ValueNullable nullable) {
+    public DbColumnDefinitionImpl(String columnName, RowValueType type) {
         mColumnName = columnName;
         mType = type;
-        mNullable = nullable;
     }
 
     @Override
@@ -27,10 +25,5 @@ public class DbColumnDefImpl implements DbColumnDef{
     @Override
     public RowValueType getType() {
         return mType;
-    }
-
-    @Override
-    public ValueNullable getNullable() {
-        return mNullable;
     }
 }

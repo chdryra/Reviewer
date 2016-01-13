@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
  * On: 14/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DbColumnDef {
+public interface DbColumnDefinition {
     String getName();
 
     RowValueType getType();

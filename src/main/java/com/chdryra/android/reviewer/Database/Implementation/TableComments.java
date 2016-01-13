@@ -3,12 +3,12 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowComment;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -19,28 +19,27 @@ import java.util.ArrayList;
  */
 public class TableComments extends DbTableImpl<RowComment> {
     private static final String TABLE = "Comments";
-    
-    public TableComments(DbTable<? extends RowReview> reviewsTable,
-                         FactoryDbColumnDef columnFactory,
-                         FactoryForeignKeyConstraint constraintFactory,
-                         RowValueTypeDefinitions typeFactory) {
+    private static final String COMMENT_ID = RowComment.COLUMN_COMMENT_ID;
+    private static final String REVIEW_ID = RowComment.COLUMN_REVIEW_ID;
+    private static final String COMMENT = RowComment.COLUMN_COMMENT;
+    private static final String IS_HEADLINE = RowComment.COLUMN_IS_HEADLINE;
+
+    public TableComments(FactoryDbColumnDef columnFactory,
+                         RowValueTypeDefinitions types,
+                         DbTable<? extends RowReview> reviewsTable,
+                         FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowComment.class);
-        DbColumnDef commentId = columnFactory.newPkColumnDef(RowComment.COLUMN_COMMENT_ID,
-                typeFactory.getStringType());
-        DbColumnDef reviewId = columnFactory.newColumnDef(RowComment.COLUMN_REVIEW_ID,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef comment = columnFactory.newColumnDef(RowComment.COLUMN_COMMENT,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef isHeadline = columnFactory.newColumnDef(RowComment.COLUMN_IS_HEADLINE,
-                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKeyColumn(commentId);
-        addColumn(reviewId);
-        addColumn(comment);
-        addColumn(isHeadline);
+        RowValueType text = types.getTextType();
+        RowValueType bool = types.getBooleanType();
 
-        ArrayList<DbColumnDef> fkCols = new ArrayList<>();
-        fkCols.add(reviewId);
+        addPrimaryKeyColumn(columnFactory.newPkColumn(COMMENT_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(COMMENT, text));
+        addColumn(columnFactory.newNotNullableColumn(IS_HEADLINE, bool));
+
+        ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
+        fkCols.add(getColumn(REVIEW_ID));
         addForeignKeyConstraint(constraintFactory.newConstraint(fkCols, reviewsTable));
     }
 }

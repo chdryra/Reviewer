@@ -3,12 +3,12 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -19,45 +19,44 @@ import java.util.ArrayList;
  */
 public class TableReviews extends DbTableImpl<RowReview> {
     private static final String TABLE = "Reviews";
-    
-    public TableReviews(DbTable<? extends RowAuthor> authorsTable,
-                        FactoryDbColumnDef columnFactory,
-                        FactoryForeignKeyConstraint constraintFactory,
-                        RowValueTypeDefinitions typeFactory) {
+    public static final String REVIEW_ID = RowReview.COLUMN_REVIEW_ID;
+    public static final String PARENT_ID = RowReview.COLUMN_PARENT_ID;
+    public static final String USER_ID = RowReview.COLUMN_USER_ID;
+    public static final String PUBLISH_DATE = RowReview
+            .COLUMN_PUBLISH_DATE;
+    public static final String SUBJECT = RowReview.COLUMN_SUBJECT;
+    public static final String RATING = RowReview.COLUMN_RATING;
+    public static final String RATING_WEIGHT = RowReview.COLUMN_RATING_WEIGHT;
+    public static final String RATING_IS_AVERAGE = RowReview.COLUMN_RATING_IS_AVERAGE;
+
+    public TableReviews(FactoryDbColumnDef columnFactory,
+                        RowValueTypeDefinitions types,
+                        DbTable<? extends RowAuthor> authorsTable,
+                        FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowReview.class);
-        DbColumnDef reviewId = columnFactory.newPkColumnDef(RowReview.COLUMN_REVIEW_ID,
-                typeFactory.getStringType());
-        DbColumnDef parentId = columnFactory.newColumnDef(RowReview.COLUMN_PARENT_ID,
-                typeFactory.getStringType(), ValueNullable.TRUE);
-        DbColumnDef authorId = columnFactory.newColumnDef(RowReview.COLUMN_AUTHOR_ID,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef publishDate = columnFactory.newColumnDef(RowReview.COLUMN_PUBLISH_DATE,
-                typeFactory.getLongType(), ValueNullable.FALSE);
-        DbColumnDef subject = columnFactory.newColumnDef(RowReview.COLUMN_SUBJECT,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef rating = columnFactory.newColumnDef(RowReview.COLUMN_RATING,
-                typeFactory.getFloatType(), ValueNullable.FALSE);
-        DbColumnDef ratingWeight = columnFactory.newColumnDef(RowReview.COLUMN_RATING_WEIGHT,
-                typeFactory.getFloatType(), ValueNullable.FALSE);
-        DbColumnDef isAverage = columnFactory.newColumnDef(RowReview.COLUMN_RATING_IS_AVERAGE,
-                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKeyColumn(reviewId);
-        addColumn(parentId);
-        addColumn(authorId);
-        addColumn(publishDate);
-        addColumn(subject);
-        addColumn(rating);
-        addColumn(ratingWeight);
-        addColumn(isAverage);
+        RowValueType text = types.getTextType();
+        RowValueType lng = types.getLongType();
+        RowValueType flt = types.getFloatType();
+        RowValueType integer = types.getIntegerType();
+        RowValueType bool = types.getBooleanType();
 
-        ArrayList<DbColumnDef> fkColParent = new ArrayList<>();
-        fkColParent.add(authorId);
+        addPrimaryKeyColumn(columnFactory.newPkColumn(REVIEW_ID, text));
+        addColumn(columnFactory.newNullableColumn(PARENT_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(USER_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(PUBLISH_DATE, lng));
+        addColumn(columnFactory.newNotNullableColumn(SUBJECT, text));
+        addColumn(columnFactory.newNotNullableColumn(RATING, flt));
+        addColumn(columnFactory.newNotNullableColumn(RATING_WEIGHT, integer));
+        addColumn(columnFactory.newNotNullableColumn(RATING_IS_AVERAGE, bool));
+
+        ArrayList<DbColumnDefinition> fkColParent = new ArrayList<>();
+        fkColParent.add(getColumn(PARENT_ID));
         addForeignKeyConstraint(constraintFactory.newConstraint(fkColParent, this));
 
-        ArrayList<DbColumnDef> fkColAuthor = new ArrayList<>();
-        fkColAuthor.add(authorId);
-        addForeignKeyConstraint(constraintFactory.newConstraint(fkColAuthor, authorsTable));
+        ArrayList<DbColumnDefinition> fkColUser = new ArrayList<>();
+        fkColUser.add(getColumn(USER_ID));
+        addForeignKeyConstraint(constraintFactory.newConstraint(fkColUser, authorsTable));
     }
 
 }

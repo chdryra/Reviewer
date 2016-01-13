@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.Persistence.Api;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.Database.Implementation.TableRowList;
@@ -23,7 +23,7 @@ public interface TableTransactor {
                                                         @Nullable String col,
                                                         @Nullable String val);
 
-    boolean isIdInTable(String id, DbColumnDef idCol, DbTable table);
+    boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable table);
 
     <T extends DbTableRow> boolean insertRow(T row, DbTable<T> table);
 

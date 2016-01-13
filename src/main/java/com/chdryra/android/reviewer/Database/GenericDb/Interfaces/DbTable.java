@@ -22,19 +22,19 @@ public interface DbTable<T extends DbTableRow> extends BaseColumns {
 
     Class<T> getRowClass();
 
-    ArrayList<DbColumnDef> getPrimaryKeys();
+    ArrayList<DbColumnDefinition> getPrimaryKeys();
 
     ArrayList<ForeignKeyConstraint<? extends DbTableRow>> getForeignKeyConstraints();
 
-    ArrayList<DbColumnDef> getColumns();
+    ArrayList<DbColumnDefinition> getColumns();
 
     ArrayList<String> getColumnNames();
 
-    void addColumn(DbColumnDef column);
+    void addColumn(DbColumnDefinition column);
 
-    void addPrimaryKeyColumn(DbColumnDef column);
+    void addPrimaryKeyColumn(DbColumnDefinition column);
 
     void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> contraint);
 
-    DbColumnDef getColumn(String name);
+    DbColumnDefinition getColumn(String name);
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ForeignKeyConstraint<T extends DbTableRow> {
-    ArrayList<DbColumnDef> getFkColumns();
+    ArrayList<DbColumnDefinition> getFkColumns();
 
     DbTable<T> getForeignTable();
 }

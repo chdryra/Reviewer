@@ -15,7 +15,7 @@ public interface RowReview extends ReviewDataRow, DataDateReview,
         DataSubject, DataRating {
     String COLUMN_REVIEW_ID = "review_id";
     String COLUMN_PARENT_ID = "parent_id";
-    String COLUMN_AUTHOR_ID = "author_id";
+    String COLUMN_USER_ID = "user_id";
     String COLUMN_PUBLISH_DATE = "publish_date";
     String COLUMN_SUBJECT = "subject";
     String COLUMN_RATING = "rating";

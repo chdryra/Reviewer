@@ -12,7 +12,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.PlugIns.Persistence.PersistenceAndroidSqLite.Interfaces.SqlLiteContractExecutor;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTableRow;
@@ -68,7 +68,7 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     }
 
     private String getColumnDefinitions(DbTable<? extends DbTableRow> table) {
-        ArrayList<DbColumnDef> columns = table.getColumns();
+        ArrayList<DbColumnDefinition> columns = table.getColumns();
         String definition = "";
         if (columns.size() == 0) return definition;
 
@@ -80,7 +80,7 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
         return definition;
     }
 
-    private String getColumnDefinition(DbColumnDef column) {
+    private String getColumnDefinition(DbColumnDefinition column) {
         String definition = column.getName() + SQL.SPACE + column.getType().getTypeString();
         definition += column.getNullable().isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
@@ -88,7 +88,7 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     }
 
     private String getPrimaryKeyDefinition(DbTable<? extends DbTableRow> table) {
-        ArrayList<DbColumnDef> pks = table.getPrimaryKeys();
+        ArrayList<DbColumnDefinition> pks = table.getPrimaryKeys();
         String definition = "";
         if (pks.size() == 0) return definition;
 
@@ -136,9 +136,9 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
         return definition;
     }
 
-    private String getCommaSeparatedNames(ArrayList<DbColumnDef> cols) {
+    private String getCommaSeparatedNames(ArrayList<DbColumnDefinition> cols) {
         String cs = "";
-        for (DbColumnDef column : cols) {
+        for (DbColumnDefinition column : cols) {
             cs += column.getName() + SQL.COMMA;
         }
 

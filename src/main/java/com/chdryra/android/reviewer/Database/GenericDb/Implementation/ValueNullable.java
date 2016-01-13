@@ -11,7 +11,7 @@ public enum ValueNullable {
 
     private boolean mNullable;
     ValueNullable(boolean nullable) {
-
+        mNullable = nullable;
     }
 
     public boolean isNullable() {

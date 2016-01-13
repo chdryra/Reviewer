@@ -32,12 +32,12 @@ public class FactoryReviewerDbContract {
     public ReviewerDbContract newContract(RowValueTypeDefinitions valueDefinitions) {
         TableAuthors authors = new TableAuthors(mColumnFactory, valueDefinitions);
         TableTags tags = new TableTags(mColumnFactory, valueDefinitions);
-        TableReviews reviews = new TableReviews(authors, mColumnFactory, mConstraintFactory, valueDefinitions);
-        TableComments comments = new TableComments(reviews, mColumnFactory, mConstraintFactory, 
-                valueDefinitions);
-        TableFacts factes = new TableFacts(reviews, mColumnFactory, mConstraintFactory, valueDefinitions);
-        TableImages images = new TableImages(reviews, mColumnFactory, mConstraintFactory, valueDefinitions);
-        TableLocations locations = new TableLocations(reviews, mColumnFactory, mConstraintFactory, valueDefinitions);
+        TableReviews reviews = new TableReviews(mColumnFactory, valueDefinitions, authors, mConstraintFactory);
+        TableComments comments = new TableComments(mColumnFactory, valueDefinitions, reviews, mConstraintFactory
+        );
+        TableFacts factes = new TableFacts(mColumnFactory, valueDefinitions, reviews, mConstraintFactory);
+        TableImages images = new TableImages(mColumnFactory, valueDefinitions, reviews, mConstraintFactory);
+        TableLocations locations = new TableLocations(mColumnFactory, valueDefinitions, reviews, mConstraintFactory);
         String id = RowReview.COLUMN_REVIEW_ID;
 
         return new ReviewerDbContractImpl(id, authors, tags, reviews, comments, factes, images,

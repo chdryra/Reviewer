@@ -3,12 +3,12 @@ package com.chdryra.android.reviewer.Database.Implementation;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.Database.GenericDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.Database.GenericDb.Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.Database.GenericDb.Implementation.ValueNullable;
-import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDef;
+import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 import com.chdryra.android.reviewer.Database.Interfaces.RowFact;
 import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
+import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -19,29 +19,29 @@ import java.util.ArrayList;
  */
 public class TableFacts extends DbTableImpl<RowFact> {
     private static final String TABLE = "Facts";
-    
-    public TableFacts(DbTable<? extends RowReview> reviewsTable, FactoryDbColumnDef columnFactory,
-                      FactoryForeignKeyConstraint constraintFactory, RowValueTypeDefinitions typeFactory) {
+    public static final String FACT_ID = RowFact.COLUMN_FACT_ID;
+    public static final String REVIEW_ID = RowFact.COLUMN_REVIEW_ID;
+    public static final String LABEL = RowFact.COLUMN_LABEL;
+    public static final String VALUE = RowFact.COLUMN_VALUE;
+    public static final String IS_URL = RowFact.COLUMN_IS_URL;
+
+    public TableFacts(FactoryDbColumnDef columnFactory,
+                      RowValueTypeDefinitions types,
+                      DbTable<? extends RowReview> reviewsTable,
+                      FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowFact.class);
-        DbColumnDef factId = columnFactory.newPkColumnDef(RowFact.COLUMN_FACT_ID,
-                typeFactory.getStringType());
-        DbColumnDef reviewId = columnFactory.newColumnDef(RowFact.COLUMN_REVIEW_ID,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef label = columnFactory.newColumnDef(RowFact.COLUMN_LABEL,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef value = columnFactory.newColumnDef(RowFact.COLUMN_VALUE,
-                typeFactory.getStringType(), ValueNullable.FALSE);
-        DbColumnDef isUrl = columnFactory.newColumnDef(RowFact.COLUMN_IS_URL,
-                typeFactory.getBooleanType(), ValueNullable.FALSE);
 
-        addPrimaryKeyColumn(factId);
-        addColumn(reviewId);
-        addColumn(label);
-        addColumn(value);
-        addColumn(isUrl);
+        RowValueType text = types.getTextType();
+        RowValueType bool = types.getBooleanType();
 
-        ArrayList<DbColumnDef> fkCols = new ArrayList<>();
-        fkCols.add(reviewId);
+        addPrimaryKeyColumn(columnFactory.newPkColumn(FACT_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, text));
+        addColumn(columnFactory.newNotNullableColumn(LABEL, text));
+        addColumn(columnFactory.newNotNullableColumn(VALUE, text));
+        addColumn(columnFactory.newNotNullableColumn(IS_URL, bool));
+
+        ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
+        fkCols.add(getColumn(REVIEW_ID));
         addForeignKeyConstraint(constraintFactory.newConstraint(fkCols, reviewsTable));
     }
 }

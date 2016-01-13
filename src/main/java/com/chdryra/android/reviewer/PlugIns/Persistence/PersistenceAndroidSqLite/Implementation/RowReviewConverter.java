@@ -16,7 +16,7 @@ public class RowReviewConverter implements RowConverter<RowReview> {
         ContentValues values = new ContentValues();
         values.put(RowReview.COLUMN_REVIEW_ID, row.getRowId());
         values.put(RowReview.COLUMN_PARENT_ID, row.getParentId());
-        values.put(RowReview.COLUMN_AUTHOR_ID, row.getAuthorId());
+        values.put(RowReview.COLUMN_USER_ID, row.getAuthorId());
         values.put(RowReview.COLUMN_PUBLISH_DATE, row.getPublishDate());
         values.put(RowReview.COLUMN_SUBJECT, row.getSubject());
         values.put(RowReview.COLUMN_RATING, row.getRating());
