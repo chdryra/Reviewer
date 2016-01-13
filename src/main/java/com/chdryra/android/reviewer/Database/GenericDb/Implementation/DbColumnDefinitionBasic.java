@@ -8,11 +8,11 @@ import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
  * On: 14/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DbColumnDefinitionImpl implements DbColumnDefinition {
+public abstract class DbColumnDefinitionBasic implements DbColumnDefinition {
     private String mColumnName;
     private RowValueType mType;
 
-    public DbColumnDefinitionImpl(String columnName, RowValueType type) {
+    public DbColumnDefinitionBasic(String columnName, RowValueType type) {
         mColumnName = columnName;
         mType = type;
     }

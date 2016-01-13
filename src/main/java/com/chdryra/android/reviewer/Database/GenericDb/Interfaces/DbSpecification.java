@@ -6,9 +6,9 @@ package com.chdryra.android.reviewer.Database.GenericDb.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DbSpecification<T extends DbContract> {
-    String getDatabaseName();
-
     T getContract();
+
+    String getDatabaseName();
 
     int getVersionNumber();
 }

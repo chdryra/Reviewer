@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.PlugIns.Persistence.Api.RowValueType;
  * On: 14/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DbColumnNullable extends DbColumnDefinitionImpl {
+public class DbColumnNullable extends DbColumnDefinitionBasic {
     public DbColumnNullable(String columnName, RowValueType type) {
         super(columnName, type);
     }

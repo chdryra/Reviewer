@@ -9,24 +9,24 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecificatio
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbSpecificationImpl<T extends DbContract> implements DbSpecification<T> {
-    private String mDatabaseName;
     private T mContract;
+    private String mDatabaseName;
     private int mVersionNumber;
 
     public DbSpecificationImpl(T contract, String databaseName, int versionNumber) {
-        mDatabaseName = databaseName;
         mContract = contract;
+        mDatabaseName = databaseName;
         mVersionNumber = versionNumber;
-    }
-
-    @Override
-    public String getDatabaseName() {
-        return mDatabaseName;
     }
 
     @Override
     public T getContract() {
         return mContract;
+    }
+
+    @Override
+    public String getDatabaseName() {
+        return mDatabaseName;
     }
 
     @Override
