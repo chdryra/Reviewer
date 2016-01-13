@@ -2,11 +2,16 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.Database.Interfaces.PersistentTablesModel;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationServicesProvider;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
+import com.chdryra.android.reviewer.PlugIns.DatabaseAndroidSqLite.Implementation.AndroidSqlLitePersistence;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesGoogle.LocationServicesGoogle;
 
 import java.io.File;
 
@@ -52,10 +57,20 @@ public class ApplicationLaunch {
         FactoryApplicationContext contextFactory = new FactoryApplicationContext();
 
         mApplicationContext = contextFactory.newReleaseContext(mContext, AUTHOR, db, DATABASE_VER,
-                FILE_DIR_EXT, IMAGE_DIR);
+                FILE_DIR_EXT, IMAGE_DIR, getPersistencePlugin(), getLocationProviderPlugIn());
     }
 
     private void intialiseSingletons() {
         ApplicationInstance.newInstance(mContext, mApplicationContext);
+    }
+
+
+    @NonNull
+    private PersistentTablesModel getPersistencePlugin() {
+        return new AndroidSqlLitePersistence();
+    }
+
+    private LocationServicesProvider getLocationProviderPlugIn() {
+        return new LocationServicesGoogle();
     }
 }

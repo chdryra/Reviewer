@@ -13,7 +13,7 @@ public class DbSpecificationImpl<T extends DbContract> implements DbSpecificatio
     private T mContract;
     private int mVersionNumber;
 
-    public DbSpecificationImpl(String databaseName, T contract, int versionNumber) {
+    public DbSpecificationImpl(T contract, String databaseName, int versionNumber) {
         mDatabaseName = databaseName;
         mContract = contract;
         mVersionNumber = versionNumber;

@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.RowValueTypeDe
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface PersistenceSuite<T extends DbContract> {
+public interface PersistentTablesModel {
     RowValueTypeDefinitions getTypeDefinitions();
 
-    ContractedTableTransactor<T> newTableTransactor(Context context, DbSpecification<T> spec, FactoryDbTableRow rowFactory);
+    <T extends DbContract> ContractedTableTransactor<T> newTableTransactor(Context context, DbSpecification<T> spec, FactoryDbTableRow rowFactory);
 }

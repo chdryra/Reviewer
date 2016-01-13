@@ -10,9 +10,8 @@ import com.chdryra.android.reviewer.Database.GenericDb.Interfaces.DbSpecificatio
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDbSpecification {
-    public <T extends DbContract> DbSpecification<T> newSpecification(String name,
-                                                                      T contract,
+    public <T extends DbContract> DbSpecification<T> newSpecification(T contract, String name,
                                                                       int versionNumber) {
-        return new DbSpecificationImpl<>(name, contract, versionNumber);
+        return new DbSpecificationImpl<>(contract, name, versionNumber);
     }
 }

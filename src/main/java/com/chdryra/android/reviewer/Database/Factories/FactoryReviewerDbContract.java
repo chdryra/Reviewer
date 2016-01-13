@@ -22,24 +22,22 @@ import com.chdryra.android.reviewer.Database.Interfaces.RowReview;
 public class FactoryReviewerDbContract {
     private FactoryDbColumnDef mColumnFactory;
     private FactoryForeignKeyConstraint mConstraintFactory;
-    private RowValueTypeDefinitions mStorageTypeFactory;
 
     public FactoryReviewerDbContract(FactoryDbColumnDef columnFactory,
-                                     FactoryForeignKeyConstraint constraintFactory,
-                                     RowValueTypeDefinitions storageTypeFactory) {
+                                     FactoryForeignKeyConstraint constraintFactory) {
         mColumnFactory = columnFactory;
         mConstraintFactory = constraintFactory;
-        mStorageTypeFactory = storageTypeFactory;
     }
 
-    public ReviewerDbContract newContract() {
-        TableAuthors authors = new TableAuthors(mColumnFactory, mStorageTypeFactory);
-        TableTags tags = new TableTags(mColumnFactory, mStorageTypeFactory);
-        TableReviews reviews = new TableReviews(authors, mColumnFactory, mConstraintFactory, mStorageTypeFactory);
-        TableComments comments = new TableComments(reviews, mColumnFactory, mConstraintFactory, mStorageTypeFactory);
-        TableFacts factes = new TableFacts(reviews, mColumnFactory, mConstraintFactory, mStorageTypeFactory);
-        TableImages images = new TableImages(reviews, mColumnFactory, mConstraintFactory, mStorageTypeFactory);
-        TableLocations locations = new TableLocations(reviews, mColumnFactory, mConstraintFactory, mStorageTypeFactory);
+    public ReviewerDbContract newContract(RowValueTypeDefinitions valueDefinitions) {
+        TableAuthors authors = new TableAuthors(mColumnFactory, valueDefinitions);
+        TableTags tags = new TableTags(mColumnFactory, valueDefinitions);
+        TableReviews reviews = new TableReviews(authors, mColumnFactory, mConstraintFactory, valueDefinitions);
+        TableComments comments = new TableComments(reviews, mColumnFactory, mConstraintFactory, 
+                valueDefinitions);
+        TableFacts factes = new TableFacts(reviews, mColumnFactory, mConstraintFactory, valueDefinitions);
+        TableImages images = new TableImages(reviews, mColumnFactory, mConstraintFactory, valueDefinitions);
+        TableLocations locations = new TableLocations(reviews, mColumnFactory, mConstraintFactory, valueDefinitions);
         String id = RowReview.COLUMN_REVIEW_ID;
 
         return new ReviewerDbContractImpl(id, authors, tags, reviews, comments, factes, images,
