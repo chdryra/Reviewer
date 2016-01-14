@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.Launchable
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UiAndroidPlugin implements UiPlugin {
+public class UiAndroid implements UiPlugin {
     @Override
     public LaunchablesList getUiLaunchables() {
         return new AndroidLaunchables();

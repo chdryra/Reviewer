@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Configs;
 
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroidPlugin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  * <p/>
  * <p>
  * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- * .GVReviewDataList.GVType} from {@link UiAndroidPlugin.DefaultLaunchables}
+ * .GVReviewDataList.GVType} from {@link UiAndroid.DefaultLaunchables}
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>

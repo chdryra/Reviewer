@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.DatabaseAndroidSqlLite;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroidPlugin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroid;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,6 +32,6 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
 
     @Override
     public UiPlugin getUiPlugin() {
-        return new UiAndroidPlugin();
+        return new UiAndroid();
     }
 }

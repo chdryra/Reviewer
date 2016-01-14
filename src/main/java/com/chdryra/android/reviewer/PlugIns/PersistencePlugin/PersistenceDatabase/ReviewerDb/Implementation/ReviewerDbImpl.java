@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDbContract;
@@ -114,14 +114,16 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table,
+    public <T extends DbTableRow> ArrayList<T> getRowsWhere(DbTable<T> table,
                                                                String col,
                                                                String val) {
         TableTransactor transactor = beginReadTransaction();
         TableRowList<T> rowList = transactor.getRowsWhere(table, col, val);
         endTransaction(transactor);
 
-        return rowList;
+        ArrayList<T> rowArray = new ArrayList<>();
+        rowArray.addAll(rowList);
+        return rowArray;
     }
 
     @Override

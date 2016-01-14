@@ -2,10 +2,10 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 import java.util.ArrayList;
 
@@ -27,5 +27,5 @@ public interface ReviewerReadableDb extends ReviewerDbContract {
     <T extends DbTableRow> ArrayList<T> loadFromDataTable(TableTransactor db, DbTable<T> table,
                                                             String reviewId);
 
-    <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);
+    <T extends DbTableRow> ArrayList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);
 }
