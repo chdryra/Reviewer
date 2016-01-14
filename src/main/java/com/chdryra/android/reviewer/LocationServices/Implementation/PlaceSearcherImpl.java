@@ -17,7 +17,6 @@ import java.util.ArrayList;
  */
 public class PlaceSearcherImpl implements PlaceSearcher {
     private PlaceSearcherProvider mFetcher;
-    private PlaceSearcherListener mListener;
 
     public PlaceSearcherImpl(PlaceSearcherProvider fetcher) {
         mFetcher = fetcher;
@@ -25,15 +24,16 @@ public class PlaceSearcherImpl implements PlaceSearcher {
 
     @Override
     public void searchQuery(String query, PlaceSearcherListener listener) {
-        mListener = listener;
-        new SearchQueryTask(query).execute();
+        new SearchQueryTask(query, listener).execute();
     }
 
     private class SearchQueryTask extends AsyncTask<Void, Void, ArrayList<LocatedPlace>> {
         private final String mQuery;
+        private final PlaceSearcherListener mListener;
 
-        public SearchQueryTask(String query) {
+        public SearchQueryTask(String query, PlaceSearcherListener listener) {
             mQuery = query;
+            mListener = listener;
         }
 
         @Override

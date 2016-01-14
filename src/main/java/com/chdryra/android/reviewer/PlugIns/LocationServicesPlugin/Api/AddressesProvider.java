@@ -11,5 +11,5 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AddressesProvider {
-    ArrayList<String> fetchAddresses(LatLng latLng, int num);
+    ArrayList<LocatedPlace> fetchAddresses(LatLng latLng, int num);
 }

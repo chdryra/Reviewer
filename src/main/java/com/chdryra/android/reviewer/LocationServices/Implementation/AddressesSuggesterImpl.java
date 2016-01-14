@@ -2,12 +2,9 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 
 import android.os.AsyncTask;
 
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AddressesProvider;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.LocationServices.Interfaces
-        .AddressesSuggester;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle
-        .Implementation.GooglePlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AddressesSuggesterImpl implements AddressesSuggester {
-    AddressesProvider mProvider;
+    private AddressesProvider mProvider;
 
     public AddressesSuggesterImpl(AddressesProvider provider) {
         mProvider = provider;
@@ -29,7 +26,7 @@ public class AddressesSuggesterImpl implements AddressesSuggester {
         new AddressFinderTask(latLng, listener).execute(number);
     }
 
-    private class AddressFinderTask extends AsyncTask<Integer, Void, ArrayList<String>> {
+    private class AddressFinderTask extends AsyncTask<Integer, Void, ArrayList<LocatedPlace>> {
         private final LatLng mLatLng;
         private final AddressSuggestionsListener mListener;
 
@@ -39,18 +36,13 @@ public class AddressesSuggesterImpl implements AddressesSuggester {
         }
 
         @Override
-        protected ArrayList<String> doInBackground(Integer... params) {
+        protected ArrayList<LocatedPlace> doInBackground(Integer... params) {
             return mProvider.fetchAddresses(mLatLng, params[0]);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> addresses) {
-            ArrayList<LocatedPlace> suggestions = new ArrayList<>();
-            for(String address : addresses) {
-                suggestions.add(new GooglePlace(mLatLng, address));
-            }
-
-            mListener.onAddressSuggestionsFound(suggestions);
+        protected void onPostExecute(ArrayList<LocatedPlace> addresses) {
+            mListener.onAddressSuggestionsFound(addresses);
         }
     }
 }

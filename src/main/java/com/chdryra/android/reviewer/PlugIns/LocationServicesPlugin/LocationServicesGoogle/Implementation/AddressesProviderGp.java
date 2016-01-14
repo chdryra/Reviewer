@@ -4,6 +4,7 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 import com.chdryra.android.mygenerallibrary.GooglePlacesApi;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AddressesProvider;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -21,12 +22,20 @@ public class AddressesProviderGp implements AddressesProvider {
     }
 
     @Override
-    public ArrayList<String> fetchAddresses(LatLng latLng, int num) {
-        ArrayList<String> names = new ArrayList<String>();
-        if (latLng == null || num == 0) return names;
+    public ArrayList<LocatedPlace> fetchAddresses(LatLng latLng, int num) {
+        if (latLng == null || num == 0) return new ArrayList<>();
 
-        names = GooglePlacesApi.fetchNearestNames(latLng, num);
+        ArrayList<String> names = GooglePlacesApi.fetchNearestNames(latLng, num);
 
-        return names.size() > 0 ? names : mGeocoder.fetchAddresses(latLng, num);
+        return convert(latLng, names.size() > 0 ? names : mGeocoder.fetchAddresses(latLng, num));
+    }
+
+    private ArrayList<LocatedPlace> convert(LatLng latLng, ArrayList<String> addresses) {
+        ArrayList<LocatedPlace> suggestions = new ArrayList<>();
+        for(String address : addresses) {
+            suggestions.add(new GooglePlace(latLng, address));
+        }
+
+        return suggestions;
     }
 }

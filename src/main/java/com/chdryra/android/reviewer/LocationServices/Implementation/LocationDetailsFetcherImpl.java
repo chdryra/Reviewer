@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces
  */
 public class LocationDetailsFetcherImpl implements LocationDetailsFetcher {
     private LocationDetailsProvider mProvider;
-    private LocationDetailsListener mListener;
 
     public LocationDetailsFetcherImpl(LocationDetailsProvider provider) {
         mProvider = provider;
@@ -25,15 +24,16 @@ public class LocationDetailsFetcherImpl implements LocationDetailsFetcher {
 
     @Override
     public void fetchPlaceDetails(LocatedPlace place, LocationDetailsListener listener) {
-        mListener = listener;
-        new DetailsFetcherTask(place.getId()).execute();
+        new DetailsFetcherTask(place.getId(), listener).execute();
     }
 
     private class DetailsFetcherTask extends AsyncTask<Void, Void, LocationDetails> {
         private final LocationId mId;
+        private final LocationDetailsListener mListener;
 
-        public DetailsFetcherTask(LocationId id) {
+        public DetailsFetcherTask(LocationId id, LocationDetailsListener listener) {
             mId = id;
+            mListener = listener;
         }
 
         @Override

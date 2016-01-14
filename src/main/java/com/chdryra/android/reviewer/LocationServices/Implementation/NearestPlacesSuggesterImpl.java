@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public class NearestPlacesSuggesterImpl implements NearestPlacesSuggester {
     private NearestPlacesProvider mProvider;
-    private NearestPlacesListener mListener;
 
     public NearestPlacesSuggesterImpl(NearestPlacesProvider provider) {
         mProvider = provider;
@@ -24,15 +23,16 @@ public class NearestPlacesSuggesterImpl implements NearestPlacesSuggester {
 
     @Override
     public void fetchSuggestions(LocatedPlace place, NearestPlacesListener listener) {
-        mListener = listener;
-        new NamesFetcherTask(place).execute();
+        new NamesFetcherTask(place, listener).execute();
     }
 
     private class NamesFetcherTask extends AsyncTask<Void, Void, ArrayList<LocatedPlace>> {
         private final LocatedPlace mPlace;
+        private final NearestPlacesListener mListener;
 
-        public NamesFetcherTask(LocatedPlace place) {
+        public NamesFetcherTask(LocatedPlace place, NearestPlacesListener listener) {
             mPlace = place;
+            mListener = listener;
         }
 
         @Override
