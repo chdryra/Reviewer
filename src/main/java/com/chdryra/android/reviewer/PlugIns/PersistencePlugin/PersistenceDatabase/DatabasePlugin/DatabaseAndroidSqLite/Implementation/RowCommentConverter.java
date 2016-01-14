@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import android.content.ContentValues;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowConverter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowToContentValuesConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowComment;
 
 /**
@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowCommentConverter implements RowConverter<RowComment> {
+public class RowCommentConverter implements RowToContentValuesConverter<RowComment> {
     @Override
     public ContentValues convert(RowComment row) {
         ContentValues values = new ContentValues();

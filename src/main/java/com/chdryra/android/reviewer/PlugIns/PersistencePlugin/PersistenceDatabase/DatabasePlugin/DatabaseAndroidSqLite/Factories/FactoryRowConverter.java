@@ -2,13 +2,13 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowAuthorConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowCommentConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowConverter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowToContentValuesConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowFactConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowImageConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowLocationConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowReviewConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowTagConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowFact;
@@ -26,7 +26,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryRowConverter {
-    private Map<Class<? extends DbTableRow>, RowConverter<? extends DbTableRow>> mMap;
+    private Map<Class<? extends DbTableRow>, RowToContentValuesConverter<? extends DbTableRow>> mMap;
 
     public FactoryRowConverter() {
         mMap = new HashMap<>();
@@ -39,8 +39,8 @@ public class FactoryRowConverter {
         mMap.put(RowTag.class, new RowTagConverter());
     }
 
-    public <T extends DbTableRow> RowConverter<T> newConverter(Class<T> rowClass) {
-        return (RowConverter<T>) mMap.get(rowClass);
+    public <T extends DbTableRow> RowToContentValuesConverter<T> newConverter(Class<T> rowClass) {
+        return (RowToContentValuesConverter<T>) mMap.get(rowClass);
     }
 
 }

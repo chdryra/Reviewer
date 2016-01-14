@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
@@ -29,5 +28,5 @@ public interface ReviewerDb extends ReviewerReadableDb{
     void endTransaction(TableTransactor db);
 
     @Override
-    ArrayList<Review> loadReviewsFromDbWhere(TableTransactor db, String col, @Nullable String val);
+    ArrayList<Review> loadReviewsWhere(TableTransactor db, String col, @Nullable String val);
 }

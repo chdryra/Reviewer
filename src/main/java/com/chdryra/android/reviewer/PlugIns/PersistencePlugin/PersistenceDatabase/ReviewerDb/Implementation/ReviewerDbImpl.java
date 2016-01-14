@@ -20,10 +20,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDbContract;
@@ -47,20 +47,20 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbImpl implements ReviewerDb {
-    private final ContractorDb<ReviewerDbContract> mTransactor;
+    private final ContractorDb<ReviewerDbContract> mContractor;
     private final ReviewerDbContract mTables;
     private final ReviewLoader mReviewLoader;
     private final FactoryReviewerDbTableRow mRowFactory;
     private final TagsManager mTagsManager;
     private final DataValidator mDataValidator;
 
-    public ReviewerDbImpl(ContractorDb<ReviewerDbContract> transactor,
+    public ReviewerDbImpl(ContractorDb<ReviewerDbContract> contractor,
                           ReviewLoader reviewLoader,
                           FactoryReviewerDbTableRow rowFactory,
                           TagsManager tagsManager,
                           DataValidator dataValidator) {
-        mTransactor = transactor;
-        mTables = transactor.getContract();
+        mContractor = contractor;
+        mTables = contractor.getContract();
         mTagsManager = tagsManager;
         mReviewLoader = reviewLoader;
         mRowFactory = rowFactory;
@@ -74,14 +74,14 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public TableTransactor beginWriteTransaction() {
-        TableTransactor transactor = mTransactor.getWriteableTransactor();
+        TableTransactor transactor = mContractor.getWriteableTransactor();
         transactor.beginTransaction();
         return transactor;
     }
 
     @Override
     public TableTransactor beginReadTransaction() {
-        TableTransactor transactor = mTransactor.getReadableTransactor();
+        TableTransactor transactor = mContractor.getReadableTransactor();
         transactor.beginTransaction();
         return transactor;
     }
@@ -92,9 +92,9 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public ArrayList<Review> loadReviewsFromDbWhere(TableTransactor transactor,
-                                                    String col,
-                                                    @Nullable String val) {
+    public ArrayList<Review> loadReviewsWhere(TableTransactor transactor,
+                                              String col,
+                                              @Nullable String val) {
         ArrayList<Review> reviews = new ArrayList<>();
         for (RowReview reviewRow : loadFromTableWhere(getReviewsTable(), col, val, transactor)) {
             reviews.add(loadReview(reviewRow, transactor));
@@ -104,11 +104,13 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <T extends DbTableRow> T getRowWhere(TableTransactor transactor,
-                                                DbTable<T> table,
-                                                String col,
-                                                String val) {
-        return transactor.getRowWhere(table, col, val);
+    public <T extends DbTableRow> T getUniqueRowWhere(TableTransactor transactor,
+                                                      DbTable<T> table,
+                                                      String col,
+                                                      String val) {
+        TableRowList<T> rows = transactor.getRowsWhere(table, col, val);
+        if(rows.size() > 1) throw new IllegalStateException("More than one row found!");
+        return rows.getItem(0);
     }
 
     @Override
@@ -147,7 +149,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public boolean deleteReviewFromDb(String reviewId, TableTransactor transactor) {
-        RowReview row = getRowWhere(transactor, getReviewsTable(), getColumnNameReviewId(),
+        RowReview row = getUniqueRowWhere(transactor, getReviewsTable(), getColumnNameReviewId(),
                 reviewId);
         if (!row.hasData(mDataValidator)) return false;
 
@@ -253,7 +255,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void loadTags(TableTransactor transactor) {
-        for (RowTag tag : transactor.getRowsWhere(getTagsTable(), null, null)) {
+        for (RowTag tag : transactor.loadTable(getTagsTable())) {
             ArrayList<String> reviews = tag.getReviewIds();
             for (String reviewId : reviews) {
                 mTagsManager.tagItem(reviewId, tag.getTag());

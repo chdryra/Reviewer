@@ -6,7 +6,7 @@
  * Date: 31 March, 2015
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -42,7 +42,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public Review getReview(ReviewId reviewId) {
         TableTransactor db = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsFromDbWhere(db,
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db,
                 RowReview.COLUMN_REVIEW_ID, reviewId.toString());
         mDatabase.endTransaction(db);
 
@@ -56,7 +56,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public ArrayList<Review> getReviews() {
         TableTransactor db = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID,
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db, RowReview.COLUMN_PARENT_ID,
                 null);
         mDatabase.endTransaction(db);
 

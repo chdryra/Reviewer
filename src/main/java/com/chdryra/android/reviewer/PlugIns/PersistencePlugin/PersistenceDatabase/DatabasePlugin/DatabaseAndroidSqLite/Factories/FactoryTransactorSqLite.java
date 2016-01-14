@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.TableTransactorSqlLite;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.TableTransactor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +21,7 @@ public class FactoryTransactorSqLite {
         mRowFactory = rowFactory;
     }
 
-    public TableTransactor newInstance(SQLiteDatabase db) {
+    public TableTransactor newTransactor(SQLiteDatabase db) {
         return new TableTransactorSqlLite(db, mRowFactory, mConverterFactory);
     }
 }

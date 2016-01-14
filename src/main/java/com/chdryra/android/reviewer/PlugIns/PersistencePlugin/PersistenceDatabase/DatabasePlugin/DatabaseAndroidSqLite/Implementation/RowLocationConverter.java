@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import android.content.ContentValues;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowConverter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowToContentValuesConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowLocation;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocationConverter implements RowConverter<RowLocation> {
+public class RowLocationConverter implements RowToContentValuesConverter<RowLocation> {
     @Override
     public ContentValues convert(RowLocation row) {
         ContentValues values = new ContentValues();

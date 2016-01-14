@@ -1,7 +1,7 @@
 package test.Model.ReviewsRepositoryModel;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
@@ -98,7 +98,7 @@ public class ReviewerDbRepositoryTest {
         ReviewId id = RandomReviewId.nextReviewId();
         TableTransactor mockDb = mockReadTransaction();
         mRepo.getReview(id);
-        verify(mDb).loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString());
+        verify(mDb).loadReviewsWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class ReviewerDbRepositoryTest {
     public void getReviewsCallsLoadReviewsFromDbWhere() {
         TableTransactor mockDb = mockReadTransaction();
         mRepo.getReviews();
-        verify(mDb).loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null);
+        verify(mDb).loadReviewsWhere(mockDb, RowReview.COLUMN_PARENT_ID, null);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
 
         TableTransactor mockDb = mockReadTransaction();
-        when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_PARENT_ID, null)).thenReturn
+        when(mDb.loadReviewsWhere(mockDb, RowReview.COLUMN_PARENT_ID, null)).thenReturn
                 (reviews);
         assertThat(mRepo.getReviews(), is(reviews));
     }
@@ -197,7 +197,7 @@ public class ReviewerDbRepositoryTest {
 
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
         TableTransactor mockDb = mockReadTransaction();
-        when(mDb.loadReviewsFromDbWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString()))
+        when(mDb.loadReviewsWhere(mockDb, RowReview.COLUMN_REVIEW_ID, id.toString()))
                 .thenReturn(reviews);
     }
 

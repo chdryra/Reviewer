@@ -13,7 +13,6 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationProvider;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
@@ -26,7 +25,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AutoCompleterGp implements ViewHolderAdapterFiltered.QueryFilter {
-    private static final LocationProvider GOOGLE = GoogleLocationProvider.GOOGLE;
     private final LatLng mLatLng;
 
     public AutoCompleterGp(LocatedPlace place) {

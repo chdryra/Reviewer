@@ -6,8 +6,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.FactoryReviewFromDataHolder;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewLoader;
@@ -64,7 +64,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
     private ArrayList<Review> loadCriteria(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
-        return database.loadReviewsFromDbWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
+        return database.loadReviewsWhere(db, RowReview.COLUMN_PARENT_ID, reviewId);
     }
 
     private ArrayList<RowImage> loadImages(ReviewerReadableDb database, TableTransactor db, String reviewId) {
@@ -92,7 +92,8 @@ public class ReviewLoaderStatic implements ReviewLoader {
     @NonNull
     private DataAuthor loadAuthor(ReviewerReadableDb database, TableTransactor db, String userId) {
         String column = RowAuthor.COLUMN_USER_ID;
-        RowAuthor authorRow = database.getRowWhere(db, database.getAuthorsTable(), column, userId);
+        RowAuthor authorRow = database.getUniqueRowWhere(db, database.getAuthorsTable(), column,
+                userId);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());
     }
 }

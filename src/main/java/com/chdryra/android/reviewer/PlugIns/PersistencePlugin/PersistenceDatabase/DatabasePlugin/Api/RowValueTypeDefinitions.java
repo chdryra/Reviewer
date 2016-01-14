@@ -1,5 +1,9 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api;
 
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowValueType;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/01/2016
