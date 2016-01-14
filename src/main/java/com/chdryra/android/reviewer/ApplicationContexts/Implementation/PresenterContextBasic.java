@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -92,7 +92,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public ConfigDataUi getConfigDataUi() {
+    public ConfigUi getConfigDataUi() {
         return mViewContext.getUiConfig();
     }
 

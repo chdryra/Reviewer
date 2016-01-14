@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -31,7 +31,7 @@ public class FactoryBuildScreen {
     private static final int SCREEN_TITLE = R.string.screen_title_build_review;
 
     public <GC extends GvDataList<?>> BuildScreen newScreen(Context context,
-                                 ConfigDataUi uiConfig,
+                                 ConfigUi uiConfig,
                                  ReviewBuilderAdapter<GC> builder,
                                  LaunchableUiLauncher launchablefactory,
                                  FactoryReviewEditor editorFactory) {

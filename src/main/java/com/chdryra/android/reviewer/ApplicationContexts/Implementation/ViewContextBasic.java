@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -10,11 +10,11 @@ import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ViewContextBasic implements ViewContext {
-    private ConfigDataUi mConfigDataUi;
+    private ConfigUi mConfigUi;
     private LaunchableUiLauncher mLauncher;
 
-    public void setConfigDataUi(ConfigDataUi configDataUi) {
-        mConfigDataUi = configDataUi;
+    public void setConfigUi(ConfigUi configUi) {
+        mConfigUi = configUi;
     }
 
     public void setLauncher(LaunchableUiLauncher launcher) {
@@ -27,7 +27,7 @@ public abstract class ViewContextBasic implements ViewContext {
     }
 
     @Override
-    public ConfigDataUi getUiConfig() {
-        return mConfigDataUi;
+    public ConfigUi getUiConfig() {
+        return mConfigUi;
     }
 }

@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 
 /**
@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
 public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLocation> {
     private static final GvDataType<GvLocation> TYPE = GvLocation.TYPE;
 
-    public FactoryEditActionsLocations(Context context, ConfigDataUi config,
+    public FactoryEditActionsLocations(Context context, ConfigUi config,
                                        LaunchableUiLauncher launchableFactory,
                                        FactoryGvData dataFactory,
                                        GvDataPacker<GvLocation> packer) {

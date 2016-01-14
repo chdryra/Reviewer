@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,7 +25,7 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     private static final GvDataType<GvTag> TYPE = GvTag.TYPE;
     private TagAdjuster mTagAdjuster;
 
-    public FactoryEditActionsTags(Context context, ConfigDataUi config,
+    public FactoryEditActionsTags(Context context, ConfigUi config,
                                   LaunchableUiLauncher launchableFactory,
                                   FactoryGvData dataFactory,
                                   GvDataPacker<GvTag> packer) {

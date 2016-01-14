@@ -1,7 +1,5 @@
 package com.chdryra.android.reviewer.View.Configs;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryConfigDataUi {
+public class FactoryConfigUi {
     private static final String REVIEW_BUILD_TAG = "ReviewBuilderScreen";
     private static final int REVIEW_BUILD = RequestCodeGenerator.getCode(REVIEW_BUILD_TAG);
     private static final String EDIT_ON_MAP_TAG = "EditOnMap";
@@ -21,22 +19,17 @@ public class FactoryConfigDataUi {
     private static final String SHARE_REVIEW_TAG = "ShareReview";
     private static final int SHARE_REVIEW = RequestCodeGenerator.getCode(SHARE_REVIEW_TAG);
 
-    public ConfigDataUi getDefaultConfig(LaunchablesList launchables) {
-        return getConfigDataUi(launchables);
-    }
-
-    @NonNull
-    private ConfigDataUi getConfigDataUi(LaunchablesList classes) {
+    public ConfigUi newUiConfig(LaunchablesList launchables) {
         ArrayList<LaunchableConfigsHolder<?>> dataConfigs = new ArrayList<>();
 
-        for (AddEditViewClasses<?> uiClasses : classes.getDataLaunchableUis()) {
+        for (AddEditViewClasses<?> uiClasses : launchables.getDataLaunchableUis()) {
             dataConfigs.add(new LaunchableConfigsHolder<>(uiClasses));
         }
 
-        LaunchableConfig builder = getReviewBuilderConfig(classes);
-        LaunchableConfig mapper = getEditOnMapConfig(classes);
-        LaunchableConfig sharer = getShareReviewConfig(classes);
-        return new ConfigDataUiImpl(dataConfigs, builder, mapper, sharer);
+        LaunchableConfig builder = getReviewBuilderConfig(launchables);
+        LaunchableConfig mapper = getEditOnMapConfig(launchables);
+        LaunchableConfig sharer = getShareReviewConfig(launchables);
+        return new ConfigUiImpl(dataConfigs, builder, mapper, sharer);
     }
 
     private LaunchableConfig getReviewBuilderConfig(LaunchablesList classes) {

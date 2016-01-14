@@ -37,7 +37,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -49,10 +49,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class FactoryReviewViewLaunchable {
     private FactoryChildListView mChildListScreenBuilder;
     private FactoryReviewViewParams mParamsFactory;
-    private ConfigDataUi mConfig;
+    private ConfigUi mConfig;
     private LaunchableUiLauncher mLauncher;
 
-    public FactoryReviewViewLaunchable(ConfigDataUi config, LaunchableUiLauncher launcher,
+    public FactoryReviewViewLaunchable(ConfigUi config, LaunchableUiLauncher launcher,
                                        FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mParamsFactory = paramsFactory;

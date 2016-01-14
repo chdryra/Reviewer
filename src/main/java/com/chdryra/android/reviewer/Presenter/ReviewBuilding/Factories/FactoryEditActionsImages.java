@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +23,7 @@ public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage>
     private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
     private ImageChooser mImageChooser;
 
-    public FactoryEditActionsImages(Context context, ConfigDataUi config, LaunchableUiLauncher launchableFactory,
+    public FactoryEditActionsImages(Context context, ConfigUi config, LaunchableUiLauncher launchableFactory,
                                     FactoryGvData dataFactory,
                                     GvDataPacker<GvImage> packer,
                                     ImageChooser imageChooser) {

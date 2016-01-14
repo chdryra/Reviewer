@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
@@ -82,7 +82,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getSocialPlatformList();
     }
 
-    public ConfigDataUi getConfigDataUi() {
+    public ConfigUi getConfigDataUi() {
         return mPresenterContext.getConfigDataUi();
     }
 

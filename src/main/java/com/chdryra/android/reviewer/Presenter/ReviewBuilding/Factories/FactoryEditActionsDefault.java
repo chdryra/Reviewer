@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -31,14 +31,14 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class FactoryEditActionsDefault<T extends GvData> {
     private Context mContext;
     private GvDataType<T> mDataType;
-    private ConfigDataUi mConfig;
+    private ConfigUi mConfig;
     private LaunchableUiLauncher mLaunchableFactory;
     private FactoryGvData mDataFactory;
     private GvDataPacker<T> mPacker;
 
     public FactoryEditActionsDefault(Context context,
                                      GvDataType<T> dataType,
-                                     ConfigDataUi config,
+                                     ConfigUi config,
                                      LaunchableUiLauncher launchableFactory,
                                      FactoryGvData dataFactory,
                                      GvDataPacker<T> packer) {
@@ -67,7 +67,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
         return mConfig.getAdderConfig(mDataType.getDatumName());
     }
 
-    public ConfigDataUi getConfig() {
+    public ConfigUi getConfig() {
         return mConfig;
     }
 

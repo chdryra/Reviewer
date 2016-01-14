@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
-import com.chdryra.android.reviewer.View.Configs.FactoryConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.FactoryConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  */
 public class ReleaseViewContext extends ViewContextBasic{
     public ReleaseViewContext(UiPlugin ui) {
-        setConfigDataUi(new FactoryConfigDataUi().getDefaultConfig(ui.getUiLaunchables()));
+        setConfigUi(new FactoryConfigUi().newUiConfig(ui.getUiLaunchables()));
         setLauncher(new LaunchableUiLauncher(new FactoryLauncherUi()));
     }
 }

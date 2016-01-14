@@ -18,16 +18,16 @@ import java.util.Map;
  * by whichever UI needs them in response to a user interaction.
  * </p>
  */
-public final class ConfigDataUiImpl implements ConfigDataUi {
+public final class ConfigUiImpl implements ConfigUi {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
     private LaunchableConfig mBuildReviewConfig;
     private LaunchableConfig mEditOnMapConfig;
     private LaunchableConfig mShareReviewConfig;
 
-    public ConfigDataUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
-                            LaunchableConfig buildReviewConfig,
-                            LaunchableConfig editOnMapConfig,
-                            LaunchableConfig shareReviewConfig) {
+    public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
+                        LaunchableConfig buildReviewConfig,
+                        LaunchableConfig editOnMapConfig,
+                        LaunchableConfig shareReviewConfig) {
         mConfigsMap = new HashMap<>();
         for (LaunchableConfigsHolder<?> config : configs) {
             mConfigsMap.put(config.getGvDataType().getDatumName(), config);

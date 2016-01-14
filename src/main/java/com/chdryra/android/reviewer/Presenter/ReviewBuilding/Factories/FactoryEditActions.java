@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,12 +30,12 @@ import java.util.Map;
 public class FactoryEditActions {
     private Map<GvDataType<?>, FactoryEditActionsDefault<?>> mFactoriesMap;
     private Context mContext;
-    private ConfigDataUi mConfig;
+    private ConfigUi mConfig;
     private LaunchableUiLauncher mLaunchableFactory;
     private FactoryGvData mDataFactory;
 
     public FactoryEditActions(Context context,
-                              ConfigDataUi config,
+                              ConfigUi config,
                               LaunchableUiLauncher launchableFactory,
                               FactoryGvData dataFactory,
                               ImageChooser imageChooser) {

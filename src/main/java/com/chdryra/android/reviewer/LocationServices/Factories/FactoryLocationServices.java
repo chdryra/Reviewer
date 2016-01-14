@@ -19,6 +19,7 @@ public class FactoryLocationServices {
                                          AutoCompleterProvider autoCompleteProvider,
                                          NearestPlacesProvider nearestPlacesProvider,
                                          PlaceSearcherProvider searchProvider) {
-        return new ReviewerLocationServicesImpl(addressProvider, detailsProvider, autoCompleteProvider, nearestPlacesProvider, searchProvider);
+        return new ReviewerLocationServicesImpl(addressProvider, detailsProvider,
+                autoCompleteProvider, nearestPlacesProvider, searchProvider);
     }
 }

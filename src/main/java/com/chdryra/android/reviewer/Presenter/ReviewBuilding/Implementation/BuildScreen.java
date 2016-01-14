@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Activities.Activi
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -44,7 +44,7 @@ public class BuildScreen<GC extends GvDataList<?>> implements
         ReviewViewActions.ReviewViewAttachedObserver,
         GridItemClickObserved.ClickObserver<GC> {
     private ReviewEditor<GC> mEditor;
-    private final ConfigDataUi mUiConfig;
+    private final ConfigUi mUiConfig;
     private final LaunchableUiLauncher mLauncher;
 
     private LocationClientConnector mLocationClient;
@@ -52,7 +52,7 @@ public class BuildScreen<GC extends GvDataList<?>> implements
     private LatLng mLatLng;
 
     public BuildScreen(ReviewEditor<GC> editor,
-                       ConfigDataUi uiConfig,
+                       ConfigUi uiConfig,
                        LaunchableUiLauncher launcher) {
         mEditor = editor;
         mUiConfig = uiConfig;

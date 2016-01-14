@@ -10,7 +10,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,7 +21,7 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
     private static final GvDataType<GvCriterion> TYPE
             = GvCriterion.TYPE;
 
-    public FactoryEditActionsCriteria(Context context, ConfigDataUi config,
+    public FactoryEditActionsCriteria(Context context, ConfigUi config,
                                       LaunchableUiLauncher launchableFactory,
                                       FactoryGvData dataFactory,
                                       GvDataPacker<GvCriterion> packer) {

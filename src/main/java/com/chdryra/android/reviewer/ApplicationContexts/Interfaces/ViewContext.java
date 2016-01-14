@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,5 +11,5 @@ import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
 public interface ViewContext {
     LaunchableUiLauncher getUiLauncher();
 
-    ConfigDataUi getUiConfig();
+    ConfigUi getUiConfig();
 }

@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ConfigDataUi {
+public interface ConfigUi {
     LaunchableConfig getViewerConfig(String datumName);
 
     LaunchableConfig getEditorConfig(String datumName);
