@@ -39,11 +39,10 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation.GooglePlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AddressesSuggester;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.PlaceSearcher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
@@ -128,9 +127,10 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         super.onCreate(savedInstanceState);
         mDataPacker = new GvDataPacker<>();
 
-        LocationServicesPlugin provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesPlugin();
-        mPlaceSearcher = provider.newPlaceSearcher();
-        mAddressSuggester = provider.newAddressesSuggester(getActivity());
+        ReviewerLocationServices services
+                = ApplicationInstance.getInstance(getActivity()).getLocationServices();
+        mPlaceSearcher = services.newPlaceSearcher();
+        mAddressSuggester = services.newAddressesSuggester();
 
         Bundle args = getArguments();
         if (args != null) mCurrentLocation = args.getParcelable(LOCATION);
@@ -403,8 +403,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
 
-        LocatedPlace newPlace = new GooglePlace(mNewLatLng);
-        mAddressSuggester.fetchAddresses(newPlace, NUMBER_DEFAULT_NAMES, this);
+        mAddressSuggester.fetchAddresses(mNewLatLng, NUMBER_DEFAULT_NAMES, this);
     }
 
     @Override

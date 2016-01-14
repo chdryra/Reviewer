@@ -1,4 +1,7 @@
-package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api;
+package com.chdryra.android.reviewer.LocationServices.Interfaces;
+
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetails;
 
 /**
  * Created by: Rizwan Choudrey

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -32,17 +32,17 @@ import java.lang.reflect.InvocationTargetException;
 public class FactoryDialogLayout {
     private static final String TAG = "FactoryGvDataViewHolder";
     private ConfigDialogLayouts mConfig;
-    private LocationServicesPlugin mProvider;
+    private ReviewerLocationServices mServices;
 
-    public FactoryDialogLayout(ConfigDialogLayouts config, LocationServicesPlugin provider) {
+    public FactoryDialogLayout(ConfigDialogLayouts config, ReviewerLocationServices services) {
         mConfig = config;
-        mProvider = provider;
+        mServices = services;
     }
 
     public <T extends GvData> AddEditLayout<T> newLayout
     (GvDataType<T> dataType, GvDataAdder adder) {
         if(dataType == GvLocation.TYPE) {
-            return (AddEditLayout<T>) new AddLocation(adder, mProvider);
+            return (AddEditLayout<T>) new AddLocation(adder, mServices);
         }
 
         try {

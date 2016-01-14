@@ -14,7 +14,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
@@ -26,8 +26,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -42,7 +42,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static ApplicationInstance sSingleton;
 
     private final PresenterContext mPresenterContext;
-    private LocationServicesPlugin mLocationServicesPlugin;
+    private ReviewerLocationServices mLocationServices;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -52,7 +52,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private ApplicationInstance(Context context, ApplicationContext applicationContext) {
         super(context, NAME);
         mPresenterContext = applicationContext.getContext();
-        mLocationServicesPlugin = applicationContext.getLocationServicesPlugin();
+        mLocationServices = applicationContext.getLocationServices();
     }
 
     //Static methods
@@ -126,7 +126,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.launchReview(activity, reviewId);
     }
 
-    public LocationServicesPlugin getLocationServicesPlugin() {
-        return mLocationServicesPlugin;
+    public ReviewerLocationServices getLocationServices() {
+        return mLocationServices;
     }
 }

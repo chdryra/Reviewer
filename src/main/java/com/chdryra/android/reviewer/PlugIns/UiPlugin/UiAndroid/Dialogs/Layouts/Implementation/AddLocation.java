@@ -24,16 +24,16 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation.GooglePlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetails;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.NearestNamesSuggester;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation.GooglePlace;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import java.util.ArrayList;
  */
 public class AddLocation extends AddEditLayoutBasic<GvLocation>
         implements LocationClientConnector.Locatable,
-        NearestNamesSuggester.NearestNamesListener,
+        NearestPlacesSuggester.NearestPlacesListener,
         LocationDetailsFetcher.LocationDetailsListener {
     public static final int LAYOUT = R.layout.dialog_location_add;
     public static final int NAME = R.id.location_add_edit_text;
@@ -74,15 +74,15 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    private LocationServicesPlugin mLocationServices;
+    private ReviewerLocationServices mLocationServices;
     private LocationDetailsFetcher mFetcher;
-    private NearestNamesSuggester mSuggester;
+    private NearestPlacesSuggester mSuggester;
 
-    public AddLocation(GvDataAdder adder, LocationServicesPlugin locationServices) {
+    public AddLocation(GvDataAdder adder, ReviewerLocationServices locationServices) {
         super(GvLocation.class, LAYOUT, VIEWS, NAME, adder);
         mLocationServices = locationServices;
-        mFetcher = mLocationServices.newDetailsFetcher();
-        mSuggester = mLocationServices.newNearestNamesSuggester();
+        mFetcher = mLocationServices.newLocationDetailsFetcher();
+        mSuggester = mLocationServices.newNearestPlacesSuggester();
     }
 
     private void fetchPlaceDetails(LocatedPlace place) {
@@ -204,7 +204,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
-    public void onNearestNamesFound(ArrayList<LocatedPlace> suggestions) {
+    public void onNearestPlacesFound(ArrayList<LocatedPlace> suggestions) {
         mCurrentLatLngPlaces = new VhDataList<>();
         if (suggestions.size() == 0) {
             mCurrentLatLngPlaces.add(mNoLocationMessage);
@@ -220,7 +220,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     @Override
     public void onPlaceDetailsFound(LocationDetails details) {
         mSelectedLatLng = details.getLatLng();
-        mNameEditText.setText(details.getName());
+        mNameEditText.setText(details.getDescription());
         mNameEditText.setHint(mHint);
     }
 }

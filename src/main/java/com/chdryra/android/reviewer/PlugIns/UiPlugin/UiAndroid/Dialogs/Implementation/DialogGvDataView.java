@@ -14,14 +14,14 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Configs.DefaultLayoutConfig;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Configs.DefaultLayoutConfig;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -83,8 +83,9 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     }
 
     private void setLayout() {
-        LocationServicesPlugin provider = ApplicationInstance.getInstance(getActivity()).getLocationServicesPlugin();
-        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), provider);
+        ReviewerLocationServices services
+                = ApplicationInstance.getInstance(getActivity()).getLocationServices();
+        FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), services);
         //TODO make type safe
         mLayout = (DialogLayout<T>) layoutFactory.newLayout(mDatum.getGvDataType());
         mLayout.onActivityAttached(getActivity(), getArguments());

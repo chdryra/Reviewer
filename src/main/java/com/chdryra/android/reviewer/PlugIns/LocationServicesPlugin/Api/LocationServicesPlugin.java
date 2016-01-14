@@ -2,21 +2,19 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api;
 
 import android.content.Context;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LocationServicesPlugin {
-    LocationDetailsFetcher newDetailsFetcher();
+    LocationDetailsProvider newLocationDetailsProvider();
 
-    NearestNamesSuggester newNearestNamesSuggester();
+    NearestPlacesProvider newNearestPlacesProvider();
 
-    PlaceSearcher newPlaceSearcher();
+    PlaceSearcherProvider newPlaceSearcherProvider();
 
-    AddressesSuggester newAddressesSuggester(Context context);
+    AddressesProvider newAddressesProvider(Context context);
 
-    ViewHolderAdapterFiltered.QueryFilter newAutoCompleter(LocatedPlace place);
+    AutoCompleterProvider newAutoCompleterProvider();
 }

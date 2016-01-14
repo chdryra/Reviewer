@@ -20,17 +20,14 @@ import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPl
 public class VhdLocatedPlace implements ViewHolderData {
     private final LocatedPlace mPlace;
 
-    //Constructors
     public VhdLocatedPlace(LocatedPlace place) {
         mPlace = place;
     }
 
-    //public methods
     public LocatedPlace getPlace() {
         return mPlace;
     }
 
-    //Overridden
     @Override
     public ViewHolder getViewHolder() {
         return new VhLocatedPlace();
