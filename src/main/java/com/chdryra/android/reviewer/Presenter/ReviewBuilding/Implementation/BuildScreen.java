@@ -25,11 +25,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.AndroidViews.Activities.ActivityEditData;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.View.AndroidViews.Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Activities.ActivityEditData;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -73,7 +73,7 @@ public class BuildScreen<GC extends GvDataList<?>> implements
         return mEditor;
     }
 
-    public Activity getActivity() {
+    private Activity getActivity() {
         return mEditor.getActivity();
     }
 

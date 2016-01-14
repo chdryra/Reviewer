@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON = "SET foreign_key_checks = 1;";
-    private static final String TAG = "DbCreator";
 
     @Override
     public void createDatabase(DbContract contract, SQLiteDatabase db) {

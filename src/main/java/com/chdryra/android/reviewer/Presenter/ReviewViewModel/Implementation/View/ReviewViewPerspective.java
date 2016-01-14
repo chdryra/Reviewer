@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
-import com.chdryra.android.reviewer.View.AndroidViews.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Fragments.FragmentReviewView;
 
 /**
  * Created by: Rizwan Choudrey

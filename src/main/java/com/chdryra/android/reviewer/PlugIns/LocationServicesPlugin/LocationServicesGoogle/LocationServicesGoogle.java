@@ -7,12 +7,19 @@ import com.chdryra.android.remoteapifetchers.GpNearestNamesSuggester;
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsFetcher;
 import com.chdryra.android.remoteapifetchers.GpPlaceSearcher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationProvider;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AddressesSuggester;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.NearestNamesSuggester;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.PlaceSearcher;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle
+        .Implementation.AddressesSuggesterGp;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle
+        .Implementation.AutoCompleterGp;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle
+        .Implementation.LocationDetailsFetcherGp;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation.NearestNamesSuggesterGp;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation.PlaceSearcherGp;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,7 +27,6 @@ import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.PlaceSear
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationServicesGoogle implements LocationServicesPlugin {
-    static final LocationProvider GOOGLE = new LocationProvider("Google");
 
     @Override
     public LocationDetailsFetcher newDetailsFetcher() {

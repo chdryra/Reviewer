@@ -37,7 +37,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.ConfigDataUi;
+import com.chdryra.android.reviewer.View.Configs.ConfigDataUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 

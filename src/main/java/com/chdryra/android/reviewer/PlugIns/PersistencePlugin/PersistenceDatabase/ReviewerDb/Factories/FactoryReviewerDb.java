@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractedTableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.ReviewerDbImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
@@ -20,7 +20,7 @@ public class FactoryReviewerDb {
         mRowfactory = rowfactory;
     }
 
-    public ReviewerDb newDatabase(ContractedTableTransactor<ReviewerDbContract> transactor,
+    public ReviewerDb newDatabase(ContractorDb<ReviewerDbContract> transactor,
                                                       ReviewLoader reviewLoader,
                                                       TagsManager tagsManager,
                                                       DataValidator dataValidator) {

@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.View.AndroidViews.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -24,7 +24,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
-    //public methods
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);

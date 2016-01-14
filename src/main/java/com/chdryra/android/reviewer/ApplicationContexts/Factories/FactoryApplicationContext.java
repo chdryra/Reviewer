@@ -27,7 +27,7 @@ public class FactoryApplicationContext {
         ModelContext modelContext =
                 new ReleaseModelContext(context, author, plugins.getPersistencePlugin());
 
-        ViewContext viewContext = new ReleaseViewContext();
+        ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 
         PresenterContext presenterContext =
                 new ReleasePresenterContext(context, modelContext, viewContext, deviceContext, author);

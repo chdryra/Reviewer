@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
-import com.chdryra.android.reviewer.View.AndroidViews.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Fragments.FragmentReviewView;
 
 /**
  * Created by: Rizwan Choudrey

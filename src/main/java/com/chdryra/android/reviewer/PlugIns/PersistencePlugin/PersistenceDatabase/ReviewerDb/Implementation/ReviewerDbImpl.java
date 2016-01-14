@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractedTableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.GenericDb.Interfaces.DbTableRow;
@@ -47,14 +47,14 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbImpl implements ReviewerDb {
-    private final ContractedTableTransactor<ReviewerDbContract> mTransactor;
+    private final ContractorDb<ReviewerDbContract> mTransactor;
     private final ReviewerDbContract mTables;
     private final ReviewLoader mReviewLoader;
     private final FactoryReviewerDbTableRow mRowFactory;
     private final TagsManager mTagsManager;
     private final DataValidator mDataValidator;
 
-    public ReviewerDbImpl(ContractedTableTransactor<ReviewerDbContract> transactor,
+    public ReviewerDbImpl(ContractorDb<ReviewerDbContract> transactor,
                           ReviewLoader reviewLoader,
                           FactoryReviewerDbTableRow rowFactory,
                           TagsManager tagsManager,
