@@ -8,6 +8,8 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryContractor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.ContractorSqlLite;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqlLiteContractExecutorImpl;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqlLiteTypeDefinitions;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbSpecification;
@@ -22,7 +24,7 @@ public class FactoryContractorSqLite implements FactoryContractor{
     public <T extends DbContract> ContractorDb<T> newContractor(Context context, DbSpecification<T> spec) {
         FactoryTransactorSqLite transactorFactory
                 = new FactoryTransactorSqLite(new FactoryRowConverter());
-        SqlLiteContractExecutor executor = new SqlLiteContractExecutorImpl();
+        SqlLiteContractExecutor executor = new SqlLiteContractExecutorImpl(new SqlLiteTypeDefinitions());
 
         return new ContractorSqlLite<>(context, spec, executor, transactorFactory);
     }

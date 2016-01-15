@@ -2,7 +2,6 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TransactorTypeDefinitions;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.TableComments;
@@ -29,14 +28,14 @@ public class FactoryReviewerDbContract {
         mFkFactory = fkFactory;
     }
 
-    public ReviewerDbContract newContract(TransactorTypeDefinitions types) {
-        TableAuthors authors = new TableAuthors(mColumnFactory, types);
-        TableTags tags = new TableTags(mColumnFactory, types);
-        TableReviews reviews = new TableReviews(mColumnFactory, types, authors, mFkFactory);
-        TableComments comments = new TableComments(mColumnFactory, types, reviews, mFkFactory);
-        TableFacts facts = new TableFacts(mColumnFactory, types, reviews, mFkFactory);
-        TableImages images = new TableImages(mColumnFactory, types, reviews, mFkFactory);
-        TableLocations locations = new TableLocations(mColumnFactory, types, reviews, mFkFactory);
+    public ReviewerDbContract newContract() {
+        TableAuthors authors = new TableAuthors(mColumnFactory);
+        TableTags tags = new TableTags(mColumnFactory);
+        TableReviews reviews = new TableReviews(mColumnFactory, authors, mFkFactory);
+        TableComments comments = new TableComments(mColumnFactory, reviews, mFkFactory);
+        TableFacts facts = new TableFacts(mColumnFactory, reviews, mFkFactory);
+        TableImages images = new TableImages(mColumnFactory, reviews, mFkFactory);
+        TableLocations locations = new TableLocations(mColumnFactory, reviews, mFkFactory);
 
         String id = RowReview.COLUMN_REVIEW_ID;
 

@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
@@ -32,14 +32,14 @@ public class TableReviews extends DbTableImpl<RowReview> {
                         FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowReview.class);
 
-        addPrimaryKeyColumn(columnFactory.newPkColumn(REVIEW_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNullableColumn(PARENT_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(USER_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(PUBLISH_DATE, DbEntryTypes.LONG));
-        addColumn(columnFactory.newNotNullableColumn(SUBJECT, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(RATING, DbEntryTypes.FLOAT));
-        addColumn(columnFactory.newNotNullableColumn(RATING_WEIGHT, DbEntryTypes.INTEGER));
-        addColumn(columnFactory.newNotNullableColumn(RATING_IS_AVERAGE, DbEntryTypes.BOOLEAN));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(REVIEW_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNullableColumn(PARENT_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(USER_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(PUBLISH_DATE, DbEntryType.LONG));
+        addColumn(columnFactory.newNotNullableColumn(SUBJECT, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(RATING, DbEntryType.FLOAT));
+        addColumn(columnFactory.newNotNullableColumn(RATING_WEIGHT, DbEntryType.INTEGER));
+        addColumn(columnFactory.newNotNullableColumn(RATING_IS_AVERAGE, DbEntryType.BOOLEAN));
 
         ArrayList<DbColumnDefinition> fkColParent = new ArrayList<>();
         fkColParent.add(getColumn(PARENT_ID));

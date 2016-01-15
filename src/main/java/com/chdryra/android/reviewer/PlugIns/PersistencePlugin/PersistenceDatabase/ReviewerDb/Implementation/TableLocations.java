@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
@@ -29,11 +29,11 @@ public class TableLocations extends DbTableImpl<RowLocation> {
                           FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowLocation.class);
 
-        addPrimaryKeyColumn(columnFactory.newPkColumn(LOCATION_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(LATITUDE, DbEntryTypes.DOUBLE));
-        addColumn(columnFactory.newNotNullableColumn(LONGITUDE, DbEntryTypes.DOUBLE));
-        addColumn(columnFactory.newNotNullableColumn(NAME, DbEntryTypes.TEXT));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(LOCATION_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(LATITUDE, DbEntryType.DOUBLE));
+        addColumn(columnFactory.newNotNullableColumn(LONGITUDE, DbEntryType.DOUBLE));
+        addColumn(columnFactory.newNotNullableColumn(NAME, DbEntryType.TEXT));
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(REVIEW_ID));

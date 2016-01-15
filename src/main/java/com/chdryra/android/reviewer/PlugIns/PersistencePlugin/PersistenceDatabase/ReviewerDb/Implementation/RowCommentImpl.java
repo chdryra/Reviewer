@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowCommentImpl implements RowComment {
+public class RowCommentImpl extends RowTableBasic implements RowComment {
     private static final String SEPARATOR = ":";
 
     private String mCommentId;
@@ -33,7 +33,7 @@ public class RowCommentImpl implements RowComment {
     }
 
     public RowCommentImpl(RowValues values) {
-        mReviewId = values.getString(COLUMN_REVIEW_ID);
+        mReviewId = (String)values.getValue(COLUMN_REVIEW_ID, COLUMN_COMMENT_ID_TYPE);
         mCommentId = values.getString(COLUMN_COMMENT_ID);
         mComment = values.getString(COLUMN_COMMENT);
         mIsHeadline = values.getBoolean(COLUMN_IS_HEADLINE);

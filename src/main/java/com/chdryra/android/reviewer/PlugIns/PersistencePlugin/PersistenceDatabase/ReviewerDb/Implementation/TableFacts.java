@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
@@ -30,11 +30,11 @@ public class TableFacts extends DbTableImpl<RowFact> {
                       FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowFact.class);
 
-        addPrimaryKeyColumn(columnFactory.newPkColumn(FACT_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(LABEL, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(VALUE, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(IS_URL, DbEntryTypes.BOOLEAN));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(FACT_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(LABEL, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(VALUE, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(IS_URL, DbEntryType.BOOLEAN));
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(REVIEW_ID));

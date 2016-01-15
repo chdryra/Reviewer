@@ -3,6 +3,8 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,6 +16,10 @@ public interface RowComment extends ReviewDataRow, DataComment {
     String COLUMN_REVIEW_ID = "review_id";
     String COLUMN_COMMENT = "comment";
     String COLUMN_IS_HEADLINE = "is_headline";
+    DbEntryType COLUMN_COMMENT_ID_TYPE = DbEntryType.TEXT;
+    DbEntryType COLUMN_REVIEW_ID_TYPE = DbEntryType.TEXT;
+    DbEntryType COLUMN_COMMENT_TYPE = DbEntryType.TEXT;
+    DbEntryType COLUMN_IS_HEADLINE_TYPE = DbEntryType.BOOLEAN;
 
     @Override
     String getComment();

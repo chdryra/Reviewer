@@ -6,7 +6,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbColumnNullable extends DbColumnDefinitionBasic {
-    public DbColumnNullable(String columnName, DbEntryType<?> type) {
+    public DbColumnNullable(String columnName, DbEntryType type) {
         super(columnName, type);
     }
 

@@ -8,19 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Factories.FactoryRowConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowToContentValuesConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
-        .Implementation.TableRowList;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.TableRowList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,14 +23,14 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public class TableTransactorSqlLite implements TableTransactor {
     private final SQLiteDatabase mDb;
     private final FactoryDbTableRow mRowFactory;
-    //private final FactoryRowConverter mConverterfactory;
+    private final RowToValuesConverter mConverter;
 
     public TableTransactorSqlLite(SQLiteDatabase db,
                                   FactoryDbTableRow rowFactory,
-                                  FactoryRowConverter converterFactory) {
+                                  RowToValuesConverter converter) {
         mDb = db;
         mRowFactory = rowFactory;
-        mConverterfactory = converterFactory;
+        mConverter = converter;
     }
 
     @Override
@@ -72,7 +65,7 @@ public class TableTransactorSqlLite implements TableTransactor {
 
         String tableName = table.getName();
         try {
-            mDb.insertOrThrow(tableName, null, convertRow(row, table));
+            mDb.insertOrThrow(tableName, null, convertRow(row));
             return true;
         } catch (SQLException e) {
             String message = id + " into " + tableName + " table ";
@@ -87,7 +80,7 @@ public class TableTransactorSqlLite implements TableTransactor {
         String tableName = table.getName();
         if (isIdInTable(id, idCol, table)) {
             try {
-                mDb.replaceOrThrow(tableName, null, convertRow(row, table));
+                mDb.replaceOrThrow(tableName, null, convertRow(row));
             } catch (SQLException e) {
                 String message = id + " in " + tableName + " table ";
                 throw new RuntimeException("Couldn't replace " + message, e);
@@ -149,9 +142,8 @@ public class TableTransactorSqlLite implements TableTransactor {
         return mRowFactory.newRow(new CursorRowValues(cursor), table.getRowClass());
     }
 
-    private <T extends DbTableRow> ContentValues convertRow(T row, DbTable<T> table) {
-        RowToContentValuesConverter<T> converter = mConverterfactory.newConverter(table.getRowClass());
-        return converter.convert(row);
+    private <T extends DbTableRow> ContentValues convertRow(T row) {
+        return mConverter.convert(row);
     }
 
     private Cursor getFromTableWhere(String table, @Nullable String column, @Nullable String

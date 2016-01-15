@@ -3,6 +3,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
 
 /**
@@ -13,6 +14,8 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public interface RowAuthor extends DbTableRow, DataAuthor {
     String COLUMN_USER_ID = "user_id";
     String COLUMN_AUTHOR_NAME = "name";
+    DbEntryType<String> COLUMN_USER_ID_TYPE = DbEntryType.TEXT;
+    DbEntryType<String> COLUMN_AUTHOR_NAME_TYPE = DbEntryType.TEXT;
 
     @Override
     String getName();

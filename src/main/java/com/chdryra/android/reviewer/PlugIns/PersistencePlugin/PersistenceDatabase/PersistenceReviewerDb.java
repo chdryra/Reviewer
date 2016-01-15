@@ -60,7 +60,7 @@ public class PersistenceReviewerDb implements PersistencePlugin {
         FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
         FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
         FactoryReviewerDbContract factory = new FactoryReviewerDbContract(columnFactory, constraintFactory);
-        ReviewerDbContract contract = factory.newContract(plugin.getTypeDefinitions());
+        ReviewerDbContract contract = factory.newContract();
 
         String dbName = name + "." + plugin.getDbNameExtension();
         return new FactoryDbSpecification().newSpecification(contract, dbName, version);

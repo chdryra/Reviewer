@@ -2,9 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.DatabasePlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryContractor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TransactorTypeDefinitions;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Factories.FactoryContractorSqLite;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.TransactorTypeDefinitionsSqlLite;
 
 /**
  * Created by: Rizwan Choudrey
@@ -12,14 +10,8 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatabaseAndroidSqlLite implements DatabasePlugin {
-    private static final TransactorTypeDefinitions TYPES = new TransactorTypeDefinitionsSqlLite();
     private static final String EXT = ".db";
     public static final FactoryContractorSqLite FACTORY = new FactoryContractorSqLite();
-
-    @Override
-    public TransactorTypeDefinitions getTypeDefinitions() {
-        return TYPES;
-    }
 
     @Override
     public FactoryContractor getContractorFactory() {

@@ -1,10 +1,10 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation;
 
+
 import android.database.Cursor;
 
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.ByteArray;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,46 +19,27 @@ public class CursorRowValues implements RowValues {
     }
 
     @Override
-    public String getString(String columnName) {
-        return mCursor.getString(getIndex(columnName));
-    }
-
-    @Override
-    public Float getFloat(String columnName) {
-        return mCursor.getFloat(getIndex(columnName));
-    }
-
-    @Override
-    public Double getDouble(String columnName) {
-        return mCursor.getDouble(getIndex(columnName));
-    }
-
-    @Override
-    public Long getLong(String columnName) {
-        return mCursor.getLong(getIndex(columnName));
-    }
-
-    @Override
-    public Integer getInteger(String columnName) {
-        return mCursor.getInt(getIndex(columnName));
-    }
-
-    @Override
-    public Boolean getBoolean(String columnName) {
-        return mCursor.getInt(getIndex(columnName)) == 1;
-    }
-
-    @Override
-    public Byte[] getByteArray(String columnName) {
-        ArrayList<Byte> bytes = new ArrayList<>();
-        for(byte b : mCursor.getBlob(getIndex(columnName))) {
-            bytes.add(b);
+    public <T> T getValue(String columnName, Class<T> type) {
+        int columnIndex = mCursor.getColumnIndexOrThrow(columnName);
+        Object value;
+        if(type == String.class) {
+            value = mCursor.getString(columnIndex);
+        } else if(type == Boolean.class) {
+            value = mCursor.getInt(columnIndex) == 1;
+        } else if(type == Integer.class) {
+            value = mCursor.getInt(columnIndex);
+        } else if(type == Float.class) {
+            value = mCursor.getFloat(columnIndex);
+        } else if(type == Double.class) {
+            value = mCursor.getDouble(columnIndex);
+        } else if(type == Long.class) {
+            value = mCursor.getLong(columnIndex);
+        } else if(type == ByteArray.class) {
+            value = new ByteArray(mCursor.getBlob(columnIndex));
+        } else {
+            throw new IllegalArgumentException("EntryType: " + type + " not supported");
         }
 
-        return (Byte[]) bytes.toArray();
-    }
-
-    private int getIndex(String columnName) {
-        return mCursor.getColumnIndexOrThrow(columnName);
+        return type.cast(value);
     }
 }

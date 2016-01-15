@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
@@ -30,12 +30,12 @@ public class TableImages extends DbTableImpl<RowImage> {
                        FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowImage.class);
 
-        addPrimaryKeyColumn(columnFactory.newPkColumn(IMAGE_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(BITMAP, DbEntryTypes.BYTE_ARRAY));
-        addColumn(columnFactory.newNullableColumn(IMAGE_DATE, DbEntryTypes.LONG));
-        addColumn(columnFactory.newNullableColumn(CAPTION, DbEntryTypes.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(IS_COVER, DbEntryTypes.BOOLEAN));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(IMAGE_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(BITMAP, DbEntryType.BYTE_ARRAY));
+        addColumn(columnFactory.newNullableColumn(IMAGE_DATE, DbEntryType.LONG));
+        addColumn(columnFactory.newNullableColumn(CAPTION, DbEntryType.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(IS_COVER, DbEntryType.BOOLEAN));
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(REVIEW_ID));

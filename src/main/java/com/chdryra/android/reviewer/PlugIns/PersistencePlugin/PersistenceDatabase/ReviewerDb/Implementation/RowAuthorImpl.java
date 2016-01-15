@@ -4,6 +4,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowAuthor;
 
@@ -12,11 +14,10 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthorImpl implements RowAuthor {
+public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
     private String mUserId;
     private String mName;
 
-    //Constructors
     public RowAuthorImpl(DataAuthor author) {
         mUserId = author.getUserId().toString();
         mName = author.getName();
@@ -27,8 +28,8 @@ public class RowAuthorImpl implements RowAuthor {
     }
 
     public RowAuthorImpl(RowValues values) {
-        mUserId = values.getString(COLUMN_USER_ID);
-        mName = values.getString(COLUMN_AUTHOR_NAME);
+        mUserId = values.getValue(COLUMN_USER_ID, COLUMN_USER_ID_TYPE.getTypeClass());
+        mName = values.getValue(COLUMN_AUTHOR_NAME, COLUMN_AUTHOR_NAME_TYPE.getTypeClass());
     }
 
     @Override
@@ -54,5 +55,19 @@ public class RowAuthorImpl implements RowAuthor {
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
+    }
+
+    @Override
+    protected int size() {
+        return 2;
+    }
+
+    @Override
+    protected RowEntry<?> getEntry(int position) {
+        if(position == 0) {
+            return new RowEntryImpl<>(COLUMN_USER_ID, COLUMN_USER_ID_TYPE, mUserId);
+        } else {
+            return new RowEntryImpl<>(COLUMN_AUTHOR_NAME, COLUMN_AUTHOR_NAME_TYPE, mName);
+        }
     }
 }

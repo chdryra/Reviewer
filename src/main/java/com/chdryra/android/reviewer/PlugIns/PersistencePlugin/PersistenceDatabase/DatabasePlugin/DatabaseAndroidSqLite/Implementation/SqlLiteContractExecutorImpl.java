@@ -31,6 +31,12 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON = "SET foreign_key_checks = 1;";
 
+    private SqlLiteTypeDefinitions mDefs;
+
+    public SqlLiteContractExecutorImpl(SqlLiteTypeDefinitions defs) {
+        mDefs = defs;
+    }
+
     @Override
     public void createDatabase(DbContract contract, SQLiteDatabase db) {
         ArrayList<DbTable<? extends DbTableRow>> tables = contract.getTables();
@@ -80,10 +86,14 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     }
 
     private String getColumnDefinition(DbColumnDefinition column) {
-        String definition = column.getName() + SQL.SPACE + column.getType().getTransactorTypeName();
+        String definition = column.getName() + SQL.SPACE + getTypeName(column);
         definition += column.getNullable().isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
         return definition;
+    }
+
+    private String getTypeName(DbColumnDefinition column) {
+        return mDefs.getSqlTypeName(column.getType());
     }
 
     private String getPrimaryKeyDefinition(DbTable<? extends DbTableRow> table) {
