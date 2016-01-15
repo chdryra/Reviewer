@@ -4,6 +4,9 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import android.database.Cursor;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.ByteArray;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 
 /**
@@ -19,9 +22,10 @@ public class CursorRowValues implements RowValues {
     }
 
     @Override
-    public <T> T getValue(String columnName, Class<T> type) {
+    public <T> T getValue(String columnName, DbEntryType<T> entryType) {
         int columnIndex = mCursor.getColumnIndexOrThrow(columnName);
         Object value;
+        Class<T> type = entryType.getTypeClass();
         if(type == String.class) {
             value = mCursor.getString(columnIndex);
         } else if(type == Boolean.class) {

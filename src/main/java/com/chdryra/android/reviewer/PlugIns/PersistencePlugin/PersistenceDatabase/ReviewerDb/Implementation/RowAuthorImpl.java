@@ -28,8 +28,8 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
     }
 
     public RowAuthorImpl(RowValues values) {
-        mUserId = values.getValue(COLUMN_USER_ID, COLUMN_USER_ID_TYPE.getTypeClass());
-        mName = values.getValue(COLUMN_AUTHOR_NAME, COLUMN_AUTHOR_NAME_TYPE.getTypeClass());
+        mUserId = values.getValue(COLUMN_USER_ID, COLUMN_USER_ID_TYPE);
+        mName = values.getValue(COLUMN_AUTHOR_NAME, COLUMN_AUTHOR_NAME_TYPE);
     }
 
     @Override

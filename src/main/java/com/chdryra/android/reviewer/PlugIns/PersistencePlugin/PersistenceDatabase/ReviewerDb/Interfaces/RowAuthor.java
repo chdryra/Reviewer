@@ -13,8 +13,9 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  */
 public interface RowAuthor extends DbTableRow, DataAuthor {
     String COLUMN_USER_ID = "user_id";
-    String COLUMN_AUTHOR_NAME = "name";
     DbEntryType<String> COLUMN_USER_ID_TYPE = DbEntryType.TEXT;
+
+    String COLUMN_AUTHOR_NAME = "name";
     DbEntryType<String> COLUMN_AUTHOR_NAME_TYPE = DbEntryType.TEXT;
 
     @Override

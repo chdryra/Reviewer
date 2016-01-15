@@ -4,6 +4,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowComment;
 
@@ -33,13 +37,11 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
     }
 
     public RowCommentImpl(RowValues values) {
-        mReviewId = (String)values.getValue(COLUMN_REVIEW_ID, COLUMN_COMMENT_ID_TYPE);
-        mCommentId = values.getString(COLUMN_COMMENT_ID);
-        mComment = values.getString(COLUMN_COMMENT);
-        mIsHeadline = values.getBoolean(COLUMN_IS_HEADLINE);
+        mReviewId = values.getValue(COLUMN_REVIEW_ID, COLUMN_REVIEW_ID_TYPE);
+        mCommentId = values.getValue(COLUMN_COMMENT_ID, COLUMN_REVIEW_ID_TYPE);
+        mComment = values.getValue(COLUMN_COMMENT, COLUMN_COMMENT_TYPE);
+        mIsHeadline = values.getValue(COLUMN_IS_HEADLINE, COLUMN_IS_HEADLINE_TYPE);
     }
-
-    //Overridden
 
     @Override
     public ReviewId getReviewId() {
@@ -69,5 +71,23 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
+    }
+
+    @Override
+    protected int size() {
+        return 4;
+    }
+
+    @Override
+    protected RowEntry<?> getEntry(int position) {
+        if(position == 0) {
+            return new RowEntryImpl<>(COLUMN_COMMENT_ID, COLUMN_COMMENT_ID_TYPE, mCommentId);
+        } else if(position == 1) {
+            return new RowEntryImpl<>(COLUMN_REVIEW_ID, COLUMN_REVIEW_ID_TYPE, mReviewId);
+        } else if(position == 2) {
+            return new RowEntryImpl<>(COLUMN_COMMENT, COLUMN_COMMENT_TYPE, mComment);
+        } else {
+            return new RowEntryImpl<>(COLUMN_IS_HEADLINE, COLUMN_IS_HEADLINE_TYPE, mIsHeadline);
+        }
     }
 }

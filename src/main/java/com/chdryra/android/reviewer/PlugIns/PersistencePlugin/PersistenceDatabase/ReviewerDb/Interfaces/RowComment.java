@@ -13,13 +13,16 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  */
 public interface RowComment extends ReviewDataRow, DataComment {
     String COLUMN_COMMENT_ID = "comment_id";
+    DbEntryType<String> COLUMN_COMMENT_ID_TYPE = DbEntryType.TEXT;
+
     String COLUMN_REVIEW_ID = "review_id";
+    DbEntryType<String> COLUMN_REVIEW_ID_TYPE = DbEntryType.TEXT;
+
     String COLUMN_COMMENT = "comment";
+    DbEntryType<String> COLUMN_COMMENT_TYPE = DbEntryType.TEXT;
+
     String COLUMN_IS_HEADLINE = "is_headline";
-    DbEntryType COLUMN_COMMENT_ID_TYPE = DbEntryType.TEXT;
-    DbEntryType COLUMN_REVIEW_ID_TYPE = DbEntryType.TEXT;
-    DbEntryType COLUMN_COMMENT_TYPE = DbEntryType.TEXT;
-    DbEntryType COLUMN_IS_HEADLINE_TYPE = DbEntryType.BOOLEAN;
+    DbEntryType<Boolean> COLUMN_IS_HEADLINE_TYPE = DbEntryType.BOOLEAN;
 
     @Override
     String getComment();
