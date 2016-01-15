@@ -34,7 +34,7 @@ public interface DbTable<T extends DbTableRow> extends BaseColumns {
 
     void addPrimaryKeyColumn(DbColumnDefinition column);
 
-    void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> contraint);
+    void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> constraint);
 
     DbColumnDefinition getColumn(String name);
 }

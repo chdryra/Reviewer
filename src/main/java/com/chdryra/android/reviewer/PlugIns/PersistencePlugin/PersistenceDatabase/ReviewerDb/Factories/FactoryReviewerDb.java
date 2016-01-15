@@ -16,14 +16,14 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 public class FactoryReviewerDb {
     private FactoryReviewerDbTableRow mRowfactory;
 
-    public FactoryReviewerDb(FactoryReviewerDbTableRow rowfactory) {
-        mRowfactory = rowfactory;
+    public FactoryReviewerDb(FactoryReviewerDbTableRow rowFactory) {
+        mRowfactory = rowFactory;
     }
 
-    public ReviewerDb newDatabase(ContractorDb<ReviewerDbContract> transactor,
+    public ReviewerDb newDatabase(ContractorDb<ReviewerDbContract> contractor,
                                                       ReviewLoader reviewLoader,
                                                       TagsManager tagsManager,
                                                       DataValidator dataValidator) {
-        return new ReviewerDbImpl(transactor, reviewLoader, mRowfactory, tagsManager, dataValidator);
+        return new ReviewerDbImpl(contractor, reviewLoader, mRowfactory, tagsManager, dataValidator);
     }
 }
