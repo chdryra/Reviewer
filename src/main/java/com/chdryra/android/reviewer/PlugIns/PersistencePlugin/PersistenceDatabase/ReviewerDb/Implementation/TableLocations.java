@@ -2,13 +2,12 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValueType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -26,19 +25,15 @@ public class TableLocations extends DbTableImpl<RowLocation> {
     private static final String NAME = RowLocation.COLUMN_NAME;
 
     public TableLocations(FactoryDbColumnDef columnFactory,
-                          RowValueTypeDefinitions types,
                           DbTable<? extends RowReview> reviewsTable,
                           FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowLocation.class);
 
-        RowValueType text = types.getTextType();
-        RowValueType dbl = types.getDoubleType();
-
-        addPrimaryKeyColumn(columnFactory.newPkColumn(LOCATION_ID, text));
-        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, text));
-        addColumn(columnFactory.newNotNullableColumn(LATITUDE, dbl));
-        addColumn(columnFactory.newNotNullableColumn(LONGITUDE, dbl));
-        addColumn(columnFactory.newNotNullableColumn(NAME, text));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(LOCATION_ID, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(LATITUDE, DbEntryTypes.DOUBLE));
+        addColumn(columnFactory.newNotNullableColumn(LONGITUDE, DbEntryTypes.DOUBLE));
+        addColumn(columnFactory.newNotNullableColumn(NAME, DbEntryTypes.TEXT));
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(REVIEW_ID));

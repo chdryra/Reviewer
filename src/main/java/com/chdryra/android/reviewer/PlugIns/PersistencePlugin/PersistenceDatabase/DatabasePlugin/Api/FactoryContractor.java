@@ -13,5 +13,5 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryContractor {
-    <T extends DbContract> ContractorDb<T> newContractor(Context context, DbSpecification<T> spec, FactoryDbTableRow rowFactory);
+    <T extends DbContract> ContractorDb<T> newContractor(Context context, DbSpecification<T> spec);
 }

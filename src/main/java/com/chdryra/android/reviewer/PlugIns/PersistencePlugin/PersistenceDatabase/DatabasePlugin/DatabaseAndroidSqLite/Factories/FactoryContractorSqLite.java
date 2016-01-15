@@ -4,18 +4,11 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.ContractorDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.FactoryContractor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.ContractorSqlLite;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.SqlLiteContractExecutorImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryContractor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.ContractorSqlLite;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqlLiteContractExecutorImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbContract;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbSpecification;
 
@@ -26,9 +19,9 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  */
 public class FactoryContractorSqLite implements FactoryContractor{
     @Override
-    public <T extends DbContract> ContractorDb<T> newContractor(Context context, DbSpecification<T> spec, FactoryDbTableRow rowFactory) {
+    public <T extends DbContract> ContractorDb<T> newContractor(Context context, DbSpecification<T> spec) {
         FactoryTransactorSqLite transactorFactory
-                = new FactoryTransactorSqLite(new FactoryRowConverter(), rowFactory);
+                = new FactoryTransactorSqLite(new FactoryRowConverter());
         SqlLiteContractExecutor executor = new SqlLiteContractExecutorImpl();
 
         return new ContractorSqlLite<>(context, spec, executor, transactorFactory);

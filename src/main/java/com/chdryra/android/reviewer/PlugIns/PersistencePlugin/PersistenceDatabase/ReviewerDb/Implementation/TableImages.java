@@ -2,13 +2,12 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValueType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -27,22 +26,16 @@ public class TableImages extends DbTableImpl<RowImage> {
     private static final String IS_COVER = RowImage.COLUMN_IS_COVER;
 
     public TableImages(FactoryDbColumnDef columnFactory,
-                       RowValueTypeDefinitions types,
                        DbTable<? extends RowReview> reviewsTable,
                        FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowImage.class);
 
-        RowValueType text = types.getTextType();
-        RowValueType bytes = types.getByteArrayType();
-        RowValueType lng = types.getLongType();
-        RowValueType bool = types.getBooleanType();
-
-        addPrimaryKeyColumn(columnFactory.newPkColumn(IMAGE_ID, text));
-        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, text));
-        addColumn(columnFactory.newNotNullableColumn(BITMAP, bytes));
-        addColumn(columnFactory.newNullableColumn(IMAGE_DATE, lng));
-        addColumn(columnFactory.newNullableColumn(CAPTION, text));
-        addColumn(columnFactory.newNotNullableColumn(IS_COVER, bool));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(IMAGE_ID, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(BITMAP, DbEntryTypes.BYTE_ARRAY));
+        addColumn(columnFactory.newNullableColumn(IMAGE_DATE, DbEntryTypes.LONG));
+        addColumn(columnFactory.newNullableColumn(CAPTION, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(IS_COVER, DbEntryTypes.BOOLEAN));
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(REVIEW_ID));

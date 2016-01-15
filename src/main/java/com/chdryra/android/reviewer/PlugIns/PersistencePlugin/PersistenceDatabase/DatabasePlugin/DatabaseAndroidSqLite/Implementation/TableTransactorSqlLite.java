@@ -11,8 +11,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
         .DatabaseAndroidSqLite.Factories.FactoryRowConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.RowToContentValuesConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
         .Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
@@ -31,7 +30,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public class TableTransactorSqlLite implements TableTransactor {
     private final SQLiteDatabase mDb;
     private final FactoryDbTableRow mRowFactory;
-    private final FactoryRowConverter mConverterfactory;
+    //private final FactoryRowConverter mConverterfactory;
 
     public TableTransactorSqlLite(SQLiteDatabase db,
                                   FactoryDbTableRow rowFactory,

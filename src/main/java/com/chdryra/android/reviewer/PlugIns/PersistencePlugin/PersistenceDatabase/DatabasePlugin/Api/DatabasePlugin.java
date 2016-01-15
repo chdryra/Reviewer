@@ -6,7 +6,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DatabasePlugin {
-    RowValueTypeDefinitions getTypeDefinitions();
+    TransactorTypeDefinitions getTypeDefinitions();
 
     FactoryContractor getContractorFactory();
 

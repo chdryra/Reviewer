@@ -3,6 +3,10 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbContract;
 
 
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.FactoryDbTableRow;
+
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/01/2016
@@ -11,7 +15,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public interface ContractorDb<T extends DbContract> {
     T getContract();
 
-    TableTransactor getReadableTransactor();
+    TableTransactor getReadableTransactor(FactoryDbTableRow rowFactory);
 
-    TableTransactor getWriteableTransactor();
+    TableTransactor getWriteableTransactor(FactoryDbTableRow rowFactory);
 }

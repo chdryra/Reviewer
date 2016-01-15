@@ -1,14 +1,14 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
 
+
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryTypes;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValueType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.RowValueTypeDefinitions;
 
 import java.util.ArrayList;
 
@@ -25,18 +25,14 @@ public class TableComments extends DbTableImpl<RowComment> {
     private static final String IS_HEADLINE = RowComment.COLUMN_IS_HEADLINE;
 
     public TableComments(FactoryDbColumnDef columnFactory,
-                         RowValueTypeDefinitions types,
                          DbTable<? extends RowReview> reviewsTable,
                          FactoryForeignKeyConstraint constraintFactory) {
         super(TABLE, RowComment.class);
 
-        RowValueType text = types.getTextType();
-        RowValueType bool = types.getBooleanType();
-
-        addPrimaryKeyColumn(columnFactory.newPkColumn(COMMENT_ID, text));
-        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, text));
-        addColumn(columnFactory.newNotNullableColumn(COMMENT, text));
-        addColumn(columnFactory.newNotNullableColumn(IS_HEADLINE, bool));
+        addPrimaryKeyColumn(columnFactory.newPkColumn(COMMENT_ID, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(REVIEW_ID, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(COMMENT, DbEntryTypes.TEXT));
+        addColumn(columnFactory.newNotNullableColumn(IS_HEADLINE, DbEntryTypes.BOOLEAN));
 
         ArrayList<DbColumnDefinition> fkCols = new ArrayList<>();
         fkCols.add(getColumn(REVIEW_ID));

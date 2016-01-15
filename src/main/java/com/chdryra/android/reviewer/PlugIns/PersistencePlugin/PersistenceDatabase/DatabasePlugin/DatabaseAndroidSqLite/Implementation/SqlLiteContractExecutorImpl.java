@@ -80,7 +80,7 @@ public class SqlLiteContractExecutorImpl implements SqlLiteContractExecutor {
     }
 
     private String getColumnDefinition(DbColumnDefinition column) {
-        String definition = column.getName() + SQL.SPACE + column.getType().getTypeString();
+        String definition = column.getName() + SQL.SPACE + column.getType().getTransactorTypeName();
         definition += column.getNullable().isNullable() ? "" : SQL.SPACE + SQL.NOT_NULL;
 
         return definition;

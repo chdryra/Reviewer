@@ -74,14 +74,14 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public TableTransactor beginWriteTransaction() {
-        TableTransactor transactor = mContractor.getWriteableTransactor();
+        TableTransactor transactor = mContractor.getWriteableTransactor(mRowFactory);
         transactor.beginTransaction();
         return transactor;
     }
 
     @Override
     public TableTransactor beginReadTransaction() {
-        TableTransactor transactor = mContractor.getReadableTransactor();
+        TableTransactor transactor = mContractor.getReadableTransactor(mRowFactory);
         transactor.beginTransaction();
         return transactor;
     }

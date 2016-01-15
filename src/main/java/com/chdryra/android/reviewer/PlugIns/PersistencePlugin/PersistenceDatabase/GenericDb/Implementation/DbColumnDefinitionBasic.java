@@ -1,7 +1,6 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValueType;
 
 /**
  * Created by: Rizwan Choudrey
@@ -10,9 +9,9 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  */
 public abstract class DbColumnDefinitionBasic implements DbColumnDefinition {
     private String mColumnName;
-    private RowValueType mType;
+    private DbEntryType<?> mType;
 
-    public DbColumnDefinitionBasic(String columnName, RowValueType type) {
+    public DbColumnDefinitionBasic(String columnName, DbEntryType<?> type) {
         mColumnName = columnName;
         mType = type;
     }
@@ -23,7 +22,7 @@ public abstract class DbColumnDefinitionBasic implements DbColumnDefinition {
     }
 
     @Override
-    public RowValueType getType() {
+    public DbEntryType<?> getType() {
         return mType;
     }
 }

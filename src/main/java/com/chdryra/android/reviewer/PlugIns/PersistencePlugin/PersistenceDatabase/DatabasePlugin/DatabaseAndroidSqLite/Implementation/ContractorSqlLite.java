@@ -19,6 +19,10 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Factories.FactoryTransactorSqLite;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Interfaces.SqlLiteContractExecutor;
 
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.FactoryDbTableRow;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 08/04/2015
@@ -41,13 +45,13 @@ public class ContractorSqlLite<T extends DbContract> extends SQLiteOpenHelper
     }
 
     @Override
-    public TableTransactor getReadableTransactor() {
-        return mFactory.newTransactor(super.getReadableDatabase());
+    public TableTransactor getReadableTransactor(FactoryDbTableRow rowFactory) {
+        return mFactory.newTransactor(super.getReadableDatabase(), rowFactory);
     }
 
     @Override
-    public TableTransactor getWriteableTransactor() {
-        return mFactory.newTransactor(super.getWritableDatabase());
+    public TableTransactor getWriteableTransactor(FactoryDbTableRow rowFactory) {
+        return mFactory.newTransactor(super.getWritableDatabase(), rowFactory);
     }
 
     @Override

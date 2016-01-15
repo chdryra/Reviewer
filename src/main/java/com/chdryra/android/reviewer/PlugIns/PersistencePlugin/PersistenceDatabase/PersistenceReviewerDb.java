@@ -32,15 +32,13 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public class PersistenceReviewerDb implements PersistencePlugin {
     private FactoryContractor mContractorFactory;
     private DbSpecification<ReviewerDbContract> mSpec;
-    private FactoryReviewerDbTableRow mRowFactory;
     private FactoryReviewerDb mDbFactory;
     private FactoryReviewLoader mLoaderFactory;
 
     public PersistenceReviewerDb(String name, int version, DatabasePlugin dbPlugin) {
         mLoaderFactory  = new FactoryReviewLoader();
-        mRowFactory = new FactoryReviewerDbTableRow();
-        mDbFactory = new FactoryReviewerDb(mRowFactory);
-        mSpec = newDbSpec(dbPlugin, name, version);
+        mDbFactory = new FactoryReviewerDb(new FactoryReviewerDbTableRow());
+        mSpec = newDbSpecification(dbPlugin, name, version);
         mContractorFactory = dbPlugin.getContractorFactory();
     }
 
@@ -50,15 +48,15 @@ public class PersistenceReviewerDb implements PersistencePlugin {
         DataValidator dataValidator = model.getDataValidator();
         TagsManager tagsManager = model.getTagsManager();
 
-        ContractorDb<ReviewerDbContract> contractor = mContractorFactory.newContractor(context, mSpec, mRowFactory);
+        ContractorDb<ReviewerDbContract> contractor = mContractorFactory.newContractor(context, mSpec);
         ReviewLoader loader = mLoaderFactory.newStaticLoader(reviewFactory, dataValidator);
         ReviewerDb db = mDbFactory.newDatabase(contractor, loader, tagsManager, dataValidator);
 
         return new ReviewerDbRepository(db);
     }
 
-    private DbSpecification<ReviewerDbContract> newDbSpec(DatabasePlugin plugin,
-                                                          String name, int version) {
+    private DbSpecification<ReviewerDbContract> newDbSpecification(DatabasePlugin plugin,
+                                                                   String name, int version) {
         FactoryDbColumnDef columnFactory = new FactoryDbColumnDef();
         FactoryForeignKeyConstraint constraintFactory = new FactoryForeignKeyConstraint();
         FactoryReviewerDbContract factory = new FactoryReviewerDbContract(columnFactory, constraintFactory);

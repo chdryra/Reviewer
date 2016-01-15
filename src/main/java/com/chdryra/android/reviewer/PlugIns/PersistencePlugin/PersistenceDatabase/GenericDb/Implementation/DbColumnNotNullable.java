@@ -1,14 +1,12 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValueType;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 14/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class DbColumnNotNullable extends DbColumnDefinitionBasic {
-    public DbColumnNotNullable(String columnName, RowValueType type) {
+    public DbColumnNotNullable(String columnName, DbEntryType<?> type) {
         super(columnName, type);
     }
 
