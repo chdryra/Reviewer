@@ -42,8 +42,11 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public Review getReview(ReviewId reviewId) {
         TableTransactor db = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db,
-                RowReview.REVIEW_ID, reviewId.toString());
+
+        String colName = RowReview.REVIEW_ID.getName();
+        String colVal = reviewId.toString();
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db, colName, colVal);
+
         mDatabase.endTransaction(db);
 
         if(reviews.size() > 1) {
@@ -56,8 +59,10 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public ArrayList<Review> getReviews() {
         TableTransactor db = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db, RowReview.PARENT_ID,
-                null);
+
+        String colName = RowReview.PARENT_ID.getName();
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db, colName, null);
+
         mDatabase.endTransaction(db);
 
         return reviews;

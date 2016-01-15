@@ -98,7 +98,7 @@ public class ReviewerDbRepositoryTest {
         ReviewId id = RandomReviewId.nextReviewId();
         TableTransactor mockDb = mockReadTransaction();
         mRepo.getReview(id);
-        verify(mDb).loadReviewsWhere(mockDb, RowReview.REVIEW_ID, id.toString());
+        verify(mDb).loadReviewsWhere(mockDb, RowReview.REVIEW_ID.getName(), id.toString());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class ReviewerDbRepositoryTest {
     public void getReviewsCallsLoadReviewsFromDbWhere() {
         TableTransactor mockDb = mockReadTransaction();
         mRepo.getReviews();
-        verify(mDb).loadReviewsWhere(mockDb, RowReview.PARENT_ID, null);
+        verify(mDb).loadReviewsWhere(mockDb, RowReview.PARENT_ID.getName(), null);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
 
         TableTransactor mockDb = mockReadTransaction();
-        when(mDb.loadReviewsWhere(mockDb, RowReview.PARENT_ID, null)).thenReturn
+        when(mDb.loadReviewsWhere(mockDb, RowReview.PARENT_ID.getName(), null)).thenReturn
                 (reviews);
         assertThat(mRepo.getReviews(), is(reviews));
     }
@@ -197,7 +197,7 @@ public class ReviewerDbRepositoryTest {
 
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
         TableTransactor mockDb = mockReadTransaction();
-        when(mDb.loadReviewsWhere(mockDb, RowReview.REVIEW_ID, id.toString()))
+        when(mDb.loadReviewsWhere(mockDb, RowReview.REVIEW_ID.getName(), id.toString()))
                 .thenReturn(reviews);
     }
 

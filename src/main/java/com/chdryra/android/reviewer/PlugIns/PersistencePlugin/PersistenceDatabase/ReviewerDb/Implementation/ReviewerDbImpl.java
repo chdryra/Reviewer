@@ -229,8 +229,8 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     private void deleteFromAuthorsTableIfNecessary(TableTransactor transactor, RowReview row) {
         String userId = row.getAuthorId();
-        TableRowList<RowReview> authored = transactor.getRowsWhere(getReviewsTable(), RowReview
-                .USER_ID, userId);
+        TableRowList<RowReview> authored
+                = transactor.getRowsWhere(getReviewsTable(), RowReview.USER_ID.getName(), userId);
         if (authored.size() == 0) deleteFromAuthorsTable(userId, transactor);
     }
 
@@ -238,7 +238,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         DataAuthor author = review.getAuthor();
         String userId = author.getUserId().toString();
         DbTable<RowAuthor> authorsTable = getAuthorsTable();
-        if (!transactor.isIdInTable(userId, authorsTable.getColumn(RowAuthor.USER_ID),
+        if (!transactor.isIdInTable(userId, authorsTable.getColumn(RowAuthor.USER_ID.getName()),
                 authorsTable)) {
             addToAuthorsTable(author, transactor);
         }
@@ -284,7 +284,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromAuthorsTable(String userId, TableTransactor transactor) {
-        transactor.deleteRows(RowAuthor.USER_ID, userId, getAuthorsTable());
+        transactor.deleteRows(RowAuthor.USER_ID.getName(), userId, getAuthorsTable());
     }
 
     private void addToTagsTable(Review review, TableTransactor transactor) {
@@ -295,7 +295,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromTagsTable(String tag, TableTransactor transactor) {
-        transactor.deleteRows(RowTag.TAG, tag, getTagsTable());
+        transactor.deleteRows(RowTag.TAG.getName(), tag, getTagsTable());
     }
 
     private void addToReviewsTable(Review review, TableTransactor transactor) {
@@ -310,7 +310,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     private void deleteCriteriaFromReviewsTable(String reviewId, TableTransactor transactor) {
         TableRowList<RowReview> rows = transactor.getRowsWhere(getReviewsTable(),
-                RowReview.PARENT_ID, reviewId);
+                RowReview.PARENT_ID.getName(), reviewId);
         for (RowReview row : rows) {
             deleteReviewFromDb(row.getRowId(), transactor);
         }

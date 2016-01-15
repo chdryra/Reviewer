@@ -64,8 +64,8 @@ public class ReviewUserDb implements Review {
 
     @Override
     public DataAuthorReview getAuthor() {
-        RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(), RowAuthor.USER_ID,
-                mRow.getAuthorId());
+        RowAuthor row = getRowWhere(mDatabase.getAuthorsTable(),
+                RowAuthor.USER_ID.getName(), mRow.getAuthorId());
         return new DatumAuthorReview(getReviewId(), row.getName(), row.getUserId());
     }
 
@@ -118,7 +118,7 @@ public class ReviewUserDb implements Review {
     @Override
     public IdableList<? extends DataImage> getCovers() {
         ArrayList<RowImage> covers =
-                mDatabase.getRowsWhere(mDatabase.getImagesTable(), RowImage.IS_COVER, "1");
+                mDatabase.getRowsWhere(mDatabase.getImagesTable(), RowImage.IS_COVER.getName(), "1");
 
         return new IdableRowList<>(getReviewId(), covers);
     }
@@ -142,7 +142,7 @@ public class ReviewUserDb implements Review {
     private ArrayList<Review> loadCriteria() {
         TableTransactor db = mDatabase.beginReadTransaction();
         ArrayList<Review> criteria = mDatabase.loadReviewsWhere(db,
-                RowReview.PARENT_ID, getReviewId().toString());
+                RowReview.PARENT_ID.getName(), getReviewId().toString());
         mDatabase.endTransaction(db);
         return criteria;
     }

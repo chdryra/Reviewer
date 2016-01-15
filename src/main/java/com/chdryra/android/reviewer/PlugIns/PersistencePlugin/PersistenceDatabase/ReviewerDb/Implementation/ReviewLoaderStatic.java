@@ -64,7 +64,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
     private ArrayList<Review> loadCriteria(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
-        return database.loadReviewsWhere(db, RowReview.PARENT_ID, reviewId);
+        return database.loadReviewsWhere(db, RowReview.PARENT_ID.getName(), reviewId);
     }
 
     private ArrayList<RowImage> loadImages(ReviewerReadableDb database, TableTransactor db, String reviewId) {
@@ -91,9 +91,8 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
     @NonNull
     private DataAuthor loadAuthor(ReviewerReadableDb database, TableTransactor db, String userId) {
-        String column = RowAuthor.USER_ID;
-        RowAuthor authorRow = database.getUniqueRowWhere(db, database.getAuthorsTable(), column,
-                userId);
+        RowAuthor authorRow = database.getUniqueRowWhere(db, database.getAuthorsTable(),
+                RowAuthor.USER_ID.getName(), userId);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());
     }
 }

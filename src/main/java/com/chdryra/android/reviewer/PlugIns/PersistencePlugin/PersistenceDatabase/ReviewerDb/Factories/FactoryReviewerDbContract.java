@@ -38,7 +38,7 @@ public class FactoryReviewerDbContract {
         TableImages images = new TableImages(mColumnFactory, reviews, mFkFactory);
         TableLocations locations = new TableLocations(mColumnFactory, reviews, mFkFactory);
 
-        String id = RowReview.REVIEW_ID;
+        String id = RowReview.REVIEW_ID.getName();
 
         return new ReviewerDbContractImpl(id, authors, tags, reviews, comments, facts, images,
                 locations);
