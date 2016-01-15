@@ -4,6 +4,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowFact;
 
@@ -12,7 +14,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowFactImpl implements RowFact {
+public class RowFactImpl extends RowTableBasic implements RowFact {
     private static final String SEPARATOR = ":";
 
     private String mFactId;
@@ -35,11 +37,11 @@ public class RowFactImpl implements RowFact {
     }
 
     public RowFactImpl(RowValues values) {
-        mFactId = values.getString(COLUMN_FACT_ID);
-        mReviewId = values.getString(COLUMN_REVIEW_ID);
-        mLabel = values.getString(COLUMN_LABEL);
-        mValue = values.getString(COLUMN_VALUE);
-        mIsUrl = values.getBoolean(COLUMN_IS_URL);
+        mFactId = values.getValue(FACT_ID.getName(), FACT_ID.getType());
+        mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
+        mLabel = values.getValue(LABEL.getName(), LABEL.getType());
+        mValue = values.getValue(VALUE.getName(), VALUE.getType());
+        mIsUrl = values.getValue(IS_URL.getName(), IS_URL.getType());
     }
 
     //Overridden
@@ -71,11 +73,31 @@ public class RowFactImpl implements RowFact {
 
     @Override
     public String getRowIdColumnName() {
-        return COLUMN_FACT_ID;
+        return FACT_ID.getName();
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
+    }
+
+    @Override
+    protected int size() {
+        return 5;
+    }
+
+    @Override
+    protected RowEntry<?> getEntry(int position) {
+        if(position == 0) {
+            return new RowEntryImpl<>(FACT_ID, mFactId);
+        } else if(position == 1) {
+            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+        } else if(position == 2) {
+            return new RowEntryImpl<>(LABEL, mLabel);
+        } else if(position == 3) {
+            return new RowEntryImpl<>(VALUE, mValue);
+        } else {
+            return new RowEntryImpl<>(IS_URL, mIsUrl);
+        }
     }
 }

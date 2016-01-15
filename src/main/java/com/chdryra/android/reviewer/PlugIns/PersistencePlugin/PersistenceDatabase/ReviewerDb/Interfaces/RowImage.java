@@ -6,6 +6,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.ByteArray;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -13,12 +19,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowImage extends ReviewDataRow, DataImage {
-    String COLUMN_IMAGE_ID = "image_id";
-    String COLUMN_REVIEW_ID = "review_id";
-    String COLUMN_BITMAP = "bitmap";
-    String COLUMN_IMAGE_DATE = "image_date";
-    String COLUMN_CAPTION = "caption";
-    String COLUMN_IS_COVER = "is_cover";
+    ColumnInfo<String> IMAGE_ID = new ColumnInfo<>("image_id", DbEntryType.TEXT);
+    ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
+    ColumnInfo<ByteArray> BITMAP = new ColumnInfo<>("bitmap", DbEntryType.BYTE_ARRAY);
+    ColumnInfo<Boolean> IS_COVER = new ColumnInfo<>("is_cover", DbEntryType.BOOLEAN);
+    ColumnInfo<String> CAPTION = new ColumnInfo<>("caption", DbEntryType.TEXT);
+    ColumnInfo<Long> IMAGE_DATE = new ColumnInfo<>("image_date", DbEntryType.LONG);
 
     byte[] getBitmapByteArray();
 

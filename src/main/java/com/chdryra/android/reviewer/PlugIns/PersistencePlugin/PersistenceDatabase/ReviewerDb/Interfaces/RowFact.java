@@ -3,6 +3,10 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -10,12 +14,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowFact extends ReviewDataRow, DataFact {
-    String COLUMN_FACT_ID = "fact_id";
-    String COLUMN_REVIEW_ID = "review_id";
-    String COLUMN_LABEL = "label";
-    String COLUMN_VALUE = "value";
-    String COLUMN_IS_URL = "is_url";
-    
+    ColumnInfo<String> FACT_ID = new ColumnInfo<>("fact_id", DbEntryType.TEXT);
+    ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
+    ColumnInfo<String> LABEL = new ColumnInfo<>("label", DbEntryType.TEXT);
+    ColumnInfo<String> VALUE = new ColumnInfo<>("value", DbEntryType.TEXT);
+    ColumnInfo<Boolean> IS_URL = new ColumnInfo<>("is_url", DbEntryType.BOOLEAN);
+
     @Override
     String getLabel();
 

@@ -1,10 +1,13 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces;
 
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
         .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -12,17 +15,10 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowComment extends ReviewDataRow, DataComment {
-    String COLUMN_COMMENT_ID = "comment_id";
-    DbEntryType<String> COLUMN_COMMENT_ID_TYPE = DbEntryType.TEXT;
-
-    String COLUMN_REVIEW_ID = "review_id";
-    DbEntryType<String> COLUMN_REVIEW_ID_TYPE = DbEntryType.TEXT;
-
-    String COLUMN_COMMENT = "comment";
-    DbEntryType<String> COLUMN_COMMENT_TYPE = DbEntryType.TEXT;
-
-    String COLUMN_IS_HEADLINE = "is_headline";
-    DbEntryType<Boolean> COLUMN_IS_HEADLINE_TYPE = DbEntryType.BOOLEAN;
+    ColumnInfo<String> COMMENT_ID = new ColumnInfo<>("comment_id", DbEntryType.TEXT);
+    ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
+    ColumnInfo<String> COMMENT = new ColumnInfo<>("comment", DbEntryType.TEXT);
+    ColumnInfo<Boolean> IS_HEADLINE = new ColumnInfo<>("is_headline", DbEntryType.BOOLEAN);
 
     @Override
     String getComment();

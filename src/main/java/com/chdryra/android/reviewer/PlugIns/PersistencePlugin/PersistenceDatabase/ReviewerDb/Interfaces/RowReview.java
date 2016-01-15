@@ -5,6 +5,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -13,14 +17,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  */
 public interface RowReview extends ReviewDataRow, DataDateReview,
         DataSubject, DataRating {
-    String COLUMN_REVIEW_ID = "review_id";
-    String COLUMN_PARENT_ID = "parent_id";
-    String COLUMN_USER_ID = "user_id";
-    String COLUMN_PUBLISH_DATE = "publish_date";
-    String COLUMN_SUBJECT = "subject";
-    String COLUMN_RATING = "rating";
-    String COLUMN_RATING_WEIGHT = "rating_weight";
-    String COLUMN_RATING_IS_AVERAGE = "rating_is_average";
+    ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
+    ColumnInfo<String> PARENT_ID = new ColumnInfo<>("parent_id", DbEntryType.TEXT);
+    ColumnInfo<String> USER_ID = new ColumnInfo<>("user_id", DbEntryType.TEXT);
+    ColumnInfo<Long> PUBLISH_DATE = new ColumnInfo<>("publish_date", DbEntryType.LONG);
+    ColumnInfo<String> SUBJECT = new ColumnInfo<>("subject", DbEntryType.TEXT);
+    ColumnInfo<Float> RATING = new ColumnInfo<>("rating", DbEntryType.FLOAT);
+    ColumnInfo<Integer> RATING_WEIGHT = new ColumnInfo<>("rating_weight", DbEntryType.INTEGER);
+    ColumnInfo<Boolean> IS_AVERAGE = new ColumnInfo<>("rating_is_average", DbEntryType.BOOLEAN);
 
     String getParentId();
 

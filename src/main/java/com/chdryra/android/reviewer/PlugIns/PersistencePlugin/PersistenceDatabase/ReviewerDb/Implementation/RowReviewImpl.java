@@ -4,6 +4,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -13,7 +15,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReviewImpl implements RowReview {
+public class RowReviewImpl extends RowTableBasic implements RowReview {
     private String mReviewId;
     private String mParentId;
     private String mAuthorId;
@@ -43,14 +45,14 @@ public class RowReviewImpl implements RowReview {
     }
 
     public RowReviewImpl(RowValues values) {
-        mReviewId = values.getString(COLUMN_REVIEW_ID);
-        mParentId = values.getString(COLUMN_PARENT_ID);
-        mAuthorId = values.getString(COLUMN_USER_ID);
-        mPublishDate = values.getLong(COLUMN_PUBLISH_DATE);
-        mSubject = values.getString(COLUMN_SUBJECT);
-        mRating = values.getFloat(COLUMN_RATING);
-        mRatingWeight = values.getInteger(COLUMN_RATING_WEIGHT);
-        mRatingIsAverage = values.getBoolean(COLUMN_RATING_IS_AVERAGE);
+        mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
+        mParentId = values.getValue(PARENT_ID.getName(), PARENT_ID.getType());
+        mAuthorId = values.getValue(USER_ID.getName(), USER_ID.getType());
+        mPublishDate = values.getValue(PUBLISH_DATE.getName(), PUBLISH_DATE.getType());
+        mSubject = values.getValue(SUBJECT.getName(), SUBJECT.getType());
+        mRating = values.getValue(RATING.getName(), RATING.getType());
+        mRatingWeight = values.getValue(RATING_WEIGHT.getName(), RATING_WEIGHT.getType());
+        mRatingIsAverage = values.getValue(IS_AVERAGE.getName(), IS_AVERAGE.getType());
     }
 
     @Override
@@ -105,11 +107,37 @@ public class RowReviewImpl implements RowReview {
 
     @Override
     public String getRowIdColumnName() {
-        return COLUMN_REVIEW_ID;
+        return REVIEW_ID.getName();
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validateString(getRowId()) && mRatingWeight >= 1;
+    }
+
+    @Override
+    protected int size() {
+        return 8;
+    }
+
+    @Override
+    protected RowEntry<?> getEntry(int position) {
+        if(position == 0) {
+            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+        } else if(position == 1) {
+            return new RowEntryImpl<>(PARENT_ID, mParentId);
+        } else if(position == 2) {
+            return new RowEntryImpl<>(USER_ID, mAuthorId);
+        } else if(position == 3) {
+            return new RowEntryImpl<>(PUBLISH_DATE, mPublishDate);
+        } else if(position == 4) {
+            return new RowEntryImpl<>(SUBJECT, mSubject);
+        } else if(position == 5) {
+            return new RowEntryImpl<>(RATING, mRating);
+        } else if(position == 6) {
+            return new RowEntryImpl<>(RATING_WEIGHT, mRatingWeight);
+        } else {
+            return new RowEntryImpl<>(IS_AVERAGE, mRatingIsAverage);
+        }
     }
 }

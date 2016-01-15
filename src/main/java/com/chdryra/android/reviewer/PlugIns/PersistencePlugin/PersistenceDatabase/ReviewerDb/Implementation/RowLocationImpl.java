@@ -4,6 +4,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowLocation;
 import com.google.android.gms.maps.model.LatLng;
@@ -13,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocationImpl implements RowLocation {
+public class RowLocationImpl extends RowTableBasic implements RowLocation {
     private static final String SEPARATOR = ":";
 
     private String mLocationId;
@@ -24,11 +25,11 @@ public class RowLocationImpl implements RowLocation {
 
     //Constructors
     public RowLocationImpl(DataLocation location, int index) {
-        mReviewId = location.getReviewId().toString();
         mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
+        mReviewId = location.getReviewId().toString();
+        mName = location.getName();
         mLatitude = location.getLatLng().latitude;
         mLongitude = location.getLatLng().longitude;
-        mName = location.getName();
     }
 
     //Via reflection
@@ -36,15 +37,12 @@ public class RowLocationImpl implements RowLocation {
     }
 
     public RowLocationImpl(RowValues values) {
-        mLocationId = values.getString(COLUMN_LOCATION_ID);
-        mReviewId = values.getString(COLUMN_REVIEW_ID);
-        mLatitude = values.getDouble(COLUMN_LATITUDE);
-        mLongitude = values.getDouble(COLUMN_LONGITUDE);
-        mName = values.getString(COLUMN_NAME);
+        mLocationId = values.getValue(LOCATION_ID.getName(), LOCATION_ID.getType());
+        mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
+        mName = values.getValue(NAME.getName(), NAME.getType());
+        mLatitude = values.getValue(LATITUDE.getName(), LATITUDE.getType());
+        mLongitude = values.getValue(LONGITUDE.getName(), LONGITUDE.getType());
     }
-
-
-    //Overridden
 
     @Override
     public ReviewId getReviewId() {
@@ -68,11 +66,31 @@ public class RowLocationImpl implements RowLocation {
 
     @Override
     public String getRowIdColumnName() {
-        return COLUMN_LOCATION_ID;
+        return LOCATION_ID.getName();
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validate(this);
+    }
+
+    @Override
+    protected int size() {
+        return 5;
+    }
+
+    @Override
+    protected RowEntry<?> getEntry(int position) {
+        if(position == 0) {
+            return new RowEntryImpl<>(LOCATION_ID, mLocationId);
+        } else if(position == 1) {
+            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+        } else if(position == 2) {
+            return new RowEntryImpl<>(LONGITUDE, mLongitude);
+        } else if(position == 3) {
+            return new RowEntryImpl<>(LATITUDE, mLatitude);
+        } else {
+            return new RowEntryImpl<>(NAME, mName);
+        }
     }
 }

@@ -1,7 +1,11 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
 
 import java.util.ArrayList;
 
@@ -11,8 +15,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowTag extends DbTableRow {
-    String COLUMN_TAG = "tag";
-    String COLUMN_REVIEWS = "reviews";
+    ColumnInfo<String> TAG = new ColumnInfo<>("tag", DbEntryType.TEXT);
+    ColumnInfo<String> REVIEWS = new ColumnInfo<>("reviews", DbEntryType.TEXT);
 
     String getTag();
 

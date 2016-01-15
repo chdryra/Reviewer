@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
@@ -13,7 +15,7 @@ import java.util.Arrays;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowTagImpl implements RowTag {
+public class RowTagImpl extends RowTableBasic implements RowTag {
     private static final String SEPARATOR = ",";
 
     private String mTag;
@@ -33,8 +35,8 @@ public class RowTagImpl implements RowTag {
     }
 
     public RowTagImpl(RowValues values) {
-        mTag = values.getString(COLUMN_TAG);
-        mReviews = values.getString(COLUMN_REVIEWS);
+        mTag = values.getValue(TAG.getName(), TAG.getType());
+        mReviews = values.getValue(REVIEWS.getName(), REVIEWS.getType());
     }
 
     @Override
@@ -59,11 +61,25 @@ public class RowTagImpl implements RowTag {
 
     @Override
     public String getRowIdColumnName() {
-        return COLUMN_TAG;
+        return TAG.getName();
     }
 
     @Override
     public boolean hasData(DataValidator validator) {
         return validator.validateString(getRowId());
+    }
+
+    @Override
+    protected int size() {
+        return 2;
+    }
+
+    @Override
+    protected RowEntry<?> getEntry(int position) {
+        if(position == 0) {
+            return new RowEntryImpl<>(TAG, mTag);
+        } else {
+            return new RowEntryImpl<>(REVIEWS, mReviews);
+        }
     }
 }

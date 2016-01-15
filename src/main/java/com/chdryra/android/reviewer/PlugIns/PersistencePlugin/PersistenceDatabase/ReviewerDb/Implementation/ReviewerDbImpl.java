@@ -230,7 +230,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     private void deleteFromAuthorsTableIfNecessary(TableTransactor transactor, RowReview row) {
         String userId = row.getAuthorId();
         TableRowList<RowReview> authored = transactor.getRowsWhere(getReviewsTable(), RowReview
-                .COLUMN_USER_ID, userId);
+                .USER_ID, userId);
         if (authored.size() == 0) deleteFromAuthorsTable(userId, transactor);
     }
 
@@ -238,7 +238,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         DataAuthor author = review.getAuthor();
         String userId = author.getUserId().toString();
         DbTable<RowAuthor> authorsTable = getAuthorsTable();
-        if (!transactor.isIdInTable(userId, authorsTable.getColumn(RowAuthor.COLUMN_USER_ID),
+        if (!transactor.isIdInTable(userId, authorsTable.getColumn(RowAuthor.USER_ID),
                 authorsTable)) {
             addToAuthorsTable(author, transactor);
         }
@@ -284,7 +284,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromAuthorsTable(String userId, TableTransactor transactor) {
-        transactor.deleteRows(RowAuthor.COLUMN_USER_ID, userId, getAuthorsTable());
+        transactor.deleteRows(RowAuthor.USER_ID, userId, getAuthorsTable());
     }
 
     private void addToTagsTable(Review review, TableTransactor transactor) {
@@ -295,7 +295,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromTagsTable(String tag, TableTransactor transactor) {
-        transactor.deleteRows(RowTag.COLUMN_TAG, tag, getTagsTable());
+        transactor.deleteRows(RowTag.TAG, tag, getTagsTable());
     }
 
     private void addToReviewsTable(Review review, TableTransactor transactor) {
@@ -310,7 +310,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     private void deleteCriteriaFromReviewsTable(String reviewId, TableTransactor transactor) {
         TableRowList<RowReview> rows = transactor.getRowsWhere(getReviewsTable(),
-                RowReview.COLUMN_PARENT_ID, reviewId);
+                RowReview.PARENT_ID, reviewId);
         for (RowReview row : rows) {
             deleteReviewFromDb(row.getRowId(), transactor);
         }

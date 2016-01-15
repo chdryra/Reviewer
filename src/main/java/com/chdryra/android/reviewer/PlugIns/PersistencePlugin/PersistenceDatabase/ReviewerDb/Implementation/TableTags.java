@@ -1,10 +1,6 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
-
-
-
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowTag;
 
 /**
@@ -12,16 +8,14 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class TableTags extends DbTableImpl<RowTag> {
+public class TableTags extends ReviewerDbTableImpl<RowTag> {
     private static final String TABLE = "Tags";
-    private static final String TAG = RowTag.COLUMN_TAG;
-    private static final String REVIEWS = RowTag.COLUMN_REVIEWS;
 
     public TableTags(FactoryDbColumnDef columnFactory) {
-        super(TABLE, RowTag.class);
+        super(TABLE, RowTag.class, columnFactory);
 
-        addPrimaryKeyColumn(columnFactory.newPkColumn(TAG, DbEntryType.TEXT));
-        addColumn(columnFactory.newNotNullableColumn(REVIEWS, DbEntryType.TEXT));
+        addPkColumn(RowTag.TAG);
+        addNotNullableColumn(RowTag.REVIEWS);
     }
 
 }

@@ -6,14 +6,10 @@
  * Date: 30 March, 2015
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Factories.FactoryDbColumnDef;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
@@ -32,12 +28,10 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T> {
     private ArrayList<DbColumnDefinition> mPrimaryKeys;
     private ArrayList<DbColumnDefinition> mOtherColumns;
     private ArrayList<ForeignKeyConstraint<? extends DbTableRow>> mFkConstraints;
-    private FactoryDbColumnDef mColumnFactory;
 
-    public DbTableImpl(String tableName, Class<T> rowClass, FactoryDbColumnDef columnFactory) {
+    public DbTableImpl(String tableName, Class<T> rowClass) {
         mTableName = tableName;
         mRowClass = rowClass;
-        mColumnFactory = columnFactory;
         mPrimaryKeys = new ArrayList<>();
         mOtherColumns = new ArrayList<>();
         mFkConstraints = new ArrayList<>();
@@ -109,18 +103,6 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T> {
         }
 
         return null;
-    }
-
-    protected <Type> void addPkColumn(String name, DbEntryType<Type> entryType) {
-        addPrimaryKeyColumn(mColumnFactory.newPkColumn(name, entryType));
-    }
-
-    protected <Type> void addNullableColumn(String name, DbEntryType<Type> entryType) {
-        addColumn(mColumnFactory.newNullableColumn(name, entryType));
-    }
-
-    protected <Type> void addNotNullableColumn(String name, DbEntryType<Type> entryType) {
-        addColumn(mColumnFactory.newNotNullableColumn(name, entryType));
     }
 
     private void checkFkConstraintsAreValid(ForeignKeyConstraint<? extends DbTableRow> constraint) {

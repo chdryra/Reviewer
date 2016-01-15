@@ -4,7 +4,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.RowEntryImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowAuthor;
@@ -28,8 +27,8 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
     }
 
     public RowAuthorImpl(RowValues values) {
-        mUserId = values.getValue(COLUMN_USER_ID, COLUMN_USER_ID_TYPE);
-        mName = values.getValue(COLUMN_AUTHOR_NAME, COLUMN_AUTHOR_NAME_TYPE);
+        mUserId = values.getValue(USER_ID.getName(), USER_ID.getType());
+        mName = values.getValue(AUTHOR_NAME.getName(), AUTHOR_NAME.getType());
     }
 
     @Override
@@ -49,7 +48,7 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
 
     @Override
     public String getRowIdColumnName() {
-        return COLUMN_USER_ID;
+        return USER_ID.getName();
     }
 
     @Override
@@ -65,9 +64,9 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
     @Override
     protected RowEntry<?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(COLUMN_USER_ID, COLUMN_USER_ID_TYPE, mUserId);
+            return new RowEntryImpl<>(USER_ID, mUserId);
         } else {
-            return new RowEntryImpl<>(COLUMN_AUTHOR_NAME, COLUMN_AUTHOR_NAME_TYPE, mName);
+            return new RowEntryImpl<>(AUTHOR_NAME, mName);
         }
     }
 }

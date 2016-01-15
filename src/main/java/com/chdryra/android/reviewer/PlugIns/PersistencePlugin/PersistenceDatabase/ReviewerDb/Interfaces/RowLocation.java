@@ -3,6 +3,10 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -11,12 +15,12 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowLocation extends ReviewDataRow, DataLocation {
-    String COLUMN_LOCATION_ID = "location_id";
-    String COLUMN_REVIEW_ID = "review_id";
-    String COLUMN_LATITUDE = "latitude";
-    String COLUMN_LONGITUDE = "longitude";
-    String COLUMN_NAME = "name";
-    
+    ColumnInfo<String> LOCATION_ID = new ColumnInfo<>("location_id", DbEntryType.TEXT);
+    ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
+    ColumnInfo<Double> LATITUDE = new ColumnInfo<>("latitude", DbEntryType.DOUBLE);
+    ColumnInfo<Double> LONGITUDE = new ColumnInfo<>("longitude", DbEntryType.DOUBLE);
+    ColumnInfo<String> NAME = new ColumnInfo<>("name", DbEntryType.TEXT);
+
     @Override
     LatLng getLatLng();
 
