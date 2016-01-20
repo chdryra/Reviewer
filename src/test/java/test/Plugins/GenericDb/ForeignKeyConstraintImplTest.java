@@ -2,10 +2,8 @@ package test.Plugins.GenericDb;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbColumnNotNullable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.ForeignKeyConstraintImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.testutils.RandomString;
 
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,7 +29,8 @@ public class ForeignKeyConstraintImplTest {
     @Test
     public void constructorThrowsIllegalArgumentExceptionIfNumberColsDoesNotEqualNumberPrimaryKeys() {
         mExpectedException.expect(IllegalArgumentException.class);
-        DbTable<DbTableRow> table = new DbTableImpl<>(RandomString.nextWord(), DbTableRow.class);
+        DbTableForTesting<DbTableRow> table
+                = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
 
         DbColumnDefinition col1 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
         DbColumnDefinition col2 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
@@ -49,7 +48,8 @@ public class ForeignKeyConstraintImplTest {
 
     @Test
     public void constructorOkIfNumberColsEqualNumberPrimaryKeys() {
-        DbTable<DbTableRow> table = new DbTableImpl<>(RandomString.nextWord(), DbTableRow.class);
+        DbTableForTesting<DbTableRow> table
+                = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
 
         DbColumnDefinition col1 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
         DbColumnDefinition col2 = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);

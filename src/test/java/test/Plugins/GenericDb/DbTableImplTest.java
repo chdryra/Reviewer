@@ -6,7 +6,6 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.ForeignKeyConstraintImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.ForeignKeyConstraint;
 import com.chdryra.android.testutils.RandomString;
@@ -31,11 +30,11 @@ public class DbTableImplTest {
     private static final int NUM = 3;
     @Rule
     public ExpectedException mExpectedException = ExpectedException.none();
-    private DbTableImpl<DbTableRow> mTable;
+    private DbTableForTesting<DbTableRow> mTable;
 
     @Before
     public void setUp() {
-        mTable = new DbTableImpl<>(RandomString.nextWord(), DbTableRow.class);
+        mTable = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
     }
 
     @Test
@@ -173,8 +172,8 @@ public class DbTableImplTest {
         mTable.addColumn(col2);
         mTable.addColumn(col3);
 
-        DbTable<DbTableRow> fkTable1 = new DbTableImpl<>(RandomString.nextWord(), DbTableRow.class);
-        DbTable<DbTableRow> fkTable2 = new DbTableImpl<>(RandomString.nextWord(), DbTableRow.class);
+        DbTableForTesting<DbTableRow> fkTable1 = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
+        DbTableForTesting<DbTableRow> fkTable2 = new DbTableForTesting<>(RandomString.nextWord(), DbTableRow.class);
 
         fkTable1.addPrimaryKeyColumn(new DbColumnNotNullable(RandomString.nextWord(), DbEntryType
                 .TEXT));
@@ -198,4 +197,5 @@ public class DbTableImplTest {
 
         assertThat(mTable.getForeignKeyConstraints().equals(fksIn), is(true));
     }
+
 }

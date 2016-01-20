@@ -6,14 +6,19 @@
  * Date: 30 March, 2015
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.ForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.ForeignKeyConstraint;
 
 import java.util.ArrayList;
 
@@ -35,6 +40,22 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T> {
         mPrimaryKeys = new ArrayList<>();
         mOtherColumns = new ArrayList<>();
         mFkConstraints = new ArrayList<>();
+    }
+
+    protected void addColumn(DbColumnDefinition column) {
+        mOtherColumns.add(column);
+    }
+
+    protected void addPrimaryKeyColumn(DbColumnDefinition column) {
+        if (column.getNullable().isNullable()) {
+            throw new IllegalArgumentException("Pk column cannot be nullable!");
+        }
+        mPrimaryKeys.add(column);
+    }
+
+    protected void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> constraint) {
+        checkFkConstraintsAreValid(constraint);
+        mFkConstraints.add(constraint);
     }
 
     @Override
@@ -74,25 +95,6 @@ public class DbTableImpl<T extends DbTableRow> implements DbTable<T> {
         }
 
         return columnNames;
-    }
-
-    @Override
-    public void addColumn(DbColumnDefinition column) {
-        mOtherColumns.add(column);
-    }
-
-    @Override
-    public void addPrimaryKeyColumn(DbColumnDefinition column) {
-        if (column.getNullable().isNullable()) {
-            throw new IllegalArgumentException("Pk column cannot be nullable!");
-        }
-        mPrimaryKeys.add(column);
-    }
-
-    @Override
-    public void addForeignKeyConstraint(ForeignKeyConstraint<? extends DbTableRow> constraint) {
-        checkFkConstraintsAreValid(constraint);
-        mFkConstraints.add(constraint);
     }
 
     @Override

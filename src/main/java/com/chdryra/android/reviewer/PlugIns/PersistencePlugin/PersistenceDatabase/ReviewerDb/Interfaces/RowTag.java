@@ -20,8 +20,6 @@ public interface RowTag extends DbTableRow {
 
     String getTag();
 
-    String getReviewIdsString();
-
     ArrayList<String> getReviewIds();
 
     @Override

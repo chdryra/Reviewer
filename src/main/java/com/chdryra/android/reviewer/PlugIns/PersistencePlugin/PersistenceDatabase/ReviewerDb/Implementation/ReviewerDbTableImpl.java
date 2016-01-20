@@ -2,9 +2,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Factories.FactoryDbColumnDef;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbTableImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
 
 /**
@@ -19,7 +17,6 @@ public class ReviewerDbTableImpl<T extends DbTableRow> extends DbTableImpl<T> {
         super(tableName, rowClass);
         mColumnFactory = columnFactory;
     }
-
 
     protected <Type> void addPkColumn(ColumnInfo<Type> info) {
         addPrimaryKeyColumn(mColumnFactory.newPkColumn(info.getName(), info.getType()));

@@ -45,11 +45,6 @@ public class RowTagImpl extends RowTableBasic implements RowTag {
     }
 
     @Override
-    public String getReviewIdsString() {
-        return mReviews;
-    }
-
-    @Override
     public ArrayList<String> getReviewIds() {
         return new ArrayList<>(Arrays.asList(mReviews.split(SEPARATOR)));
     }
