@@ -21,7 +21,28 @@ public class DbEntryType<T> {
         mTypeClass = typeClass;
     }
 
-    public Class<T> getTypeClass() {
-        return mTypeClass;
+    public T cast(Object obj) {
+        try {
+            return mTypeClass.cast(obj);
+        } catch (ClassCastException e) {
+            throw new RuntimeException(obj + " is not of DbEntryType: " + mTypeClass.getSimpleName());
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DbEntryType)) return false;
+
+        DbEntryType<?> that = (DbEntryType<?>) o;
+
+        return !(mTypeClass != null ? !mTypeClass.equals(that.mTypeClass) : that.mTypeClass !=
+                null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return mTypeClass != null ? mTypeClass.hashCode() : 0;
     }
 }

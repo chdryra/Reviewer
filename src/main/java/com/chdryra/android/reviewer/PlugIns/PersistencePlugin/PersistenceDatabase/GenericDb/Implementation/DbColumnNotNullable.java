@@ -12,6 +12,6 @@ public class DbColumnNotNullable extends DbColumnDefinitionBasic {
 
     @Override
     public ValueNullable getNullable() {
-        return ValueNullable.TRUE;
+        return ValueNullable.FALSE;
     }
 }
