@@ -9,11 +9,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.DataAggregationPlugin;
 import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.FactoryDataAggregator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
@@ -46,7 +44,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    ViewContext viewContext,
                                    DeviceContext deviceContext,
                                    DataAuthor author,
-                                   FactoryDataAggregator aggregationPlugin) {
+                                   DataAggregationPlugin plugin) {
         super(modelContext, viewContext);
 
         setLaunchablesFactory(viewContext);
@@ -54,7 +52,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         setFactoryGvData(new FactoryGvData());
 
         ConverterGv gvConverter = getConverterGv(modelContext.getTagsManager());
-        setAdaptersFactory(modelContext, gvConverter, aggregationPlugin);
+        setAdaptersFactory(modelContext, gvConverter, plugin.getAggregatorFactory());
 
         setReviewBuilderAdapterFactory(context, gvConverter,
                 modelContext.getTagsManager(),
@@ -71,9 +69,19 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
 
-    private void setAdaptersFactory(ModelContext modelContext, ConverterGv gvConverter, FactoryDataAggregator aggregationPlugin) {
-        setFactoryReviewViewAdapter(getReviewViewLaunchableFactory(), modelContext.getReviewsSource(),
-                gvConverter, modelContext.getVisitorsFactory(), modelContext.getNodeTraversersFactory(), aggregationPlugin);
+    private void setAdaptersFactory(ModelContext modelContext, ConverterGv gvConverter,
+                                    FactoryDataAggregator aggregator) {
+        FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
+        DataAggregatorParams params = paramsFactory.getDefaultParams();
+        GvDataAggregater aggregater = new GvDataAggregater(aggregator, params, gvConverter);
+        FactoryReviewViewAdapter factory
+                = new FactoryReviewViewAdapter(getReviewViewLaunchableFactory(),
+                modelContext.getVisitorsFactory(),
+                modelContext.getNodeTraversersFactory(),
+                aggregater,
+                modelContext.getReviewsSource(),
+                gvConverter);
+        setFactoryReviewViewAdapter(factory);
     }
 
     private void setLaunchablesFactory(ViewContext viewContext) {
@@ -109,19 +117,5 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 factoryDataBuilderAdapter, incrementorFactory, factoryImageChooser);
 
         setFactoryBuilderAdapter(builderAdapterFactory);
-    }
-
-    private void setFactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
-                                             ReviewsSource provider,
-                                             ConverterGv converter,
-                                             FactoryVisitorReviewNode visitorFactory,
-                                             FactoryNodeTraverser traverserFactory,
-                                             FactoryDataAggregator aggregationPlugin) {
-        FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
-        DataAggregatorParams params = paramsFactory.getDefaultParams();
-        GvDataAggregater aggregater = new GvDataAggregater(aggregationPlugin, params, converter);
-        FactoryReviewViewAdapter factory = new FactoryReviewViewAdapter(launchableFactory,
-                visitorFactory, traverserFactory, aggregater, provider, converter);
-        setFactoryReviewViewAdapter(factory);
     }
 }

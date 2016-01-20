@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault.Interfaces.ComparitorString;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 
 /**
@@ -13,16 +12,13 @@ public class DataAggregatorParamsImpl implements DataAggregatorParams{
     private DifferencePercentage mPercentage;
     private DifferenceDate mDate;
     private DifferenceLocation mLocation;
-    private ComparitorString mComparitor;
 
     public DataAggregatorParamsImpl(DifferenceBoolean bool, DifferencePercentage percentage,
-                                    DifferenceDate date, DifferenceLocation location,
-                                    ComparitorString comparitor) {
+                                    DifferenceDate date, DifferenceLocation location) {
         mBoolean = bool;
         mPercentage = percentage;
         mDate = date;
         mLocation = location;
-        mComparitor = comparitor;
     }
 
     @Override
@@ -43,10 +39,5 @@ public class DataAggregatorParamsImpl implements DataAggregatorParams{
     @Override
     public DifferenceLocation getSimilarLocation() {
         return mLocation;
-    }
-
-    @Override
-    public ComparitorString getStringComparitor() {
-        return mComparitor;
     }
 }

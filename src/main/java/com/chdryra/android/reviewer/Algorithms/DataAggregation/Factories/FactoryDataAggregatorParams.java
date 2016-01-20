@@ -1,13 +1,11 @@
 package com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault.Implementation.ComparitorLevenshteinDistance;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DataAggregatorParamsImpl;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault.Interfaces.ComparitorString;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 
 /**
@@ -22,8 +20,7 @@ public class FactoryDataAggregatorParams {
         DifferenceDate date = new DifferenceDate(DifferenceDate.DateBucket.DAY);
         DifferenceFloat tenMetres = new DifferenceFloat(10f);
         DifferenceLocation location = new DifferenceLocation(tenMetres, percentage);
-        ComparitorString comparitor = new ComparitorLevenshteinDistance();
 
-        return new DataAggregatorParamsImpl(bool, percentage, date, location, comparitor);
+        return new DataAggregatorParamsImpl(bool, percentage, date, location);
     }
 }

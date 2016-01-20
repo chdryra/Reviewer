@@ -2,11 +2,8 @@ package com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
-        .DifferenceLocation;
-import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
-        .DifferencePercentage;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault.Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,5 +15,4 @@ public interface DataAggregatorParams {
     DifferencePercentage getSimilarPercentage();
     DifferenceDate getSimilarDate();
     DifferenceLocation getSimilarLocation();
-    ComparitorString getStringComparitor();
 }
