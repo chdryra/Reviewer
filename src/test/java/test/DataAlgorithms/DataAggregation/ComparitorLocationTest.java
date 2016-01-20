@@ -2,21 +2,17 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
-        .ComparitorLevenshteinDistance;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
-        .ComparitorLocation;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
-        .ComparitorLocationDistance;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
-        .ComparitorLocationName;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorLevenshteinDistance;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorLocation;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorLocationDistance;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorLocationName;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
         .DifferenceLocation;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
         .DifferencePercentage;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.ComparitorString;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Interfaces.ComparitorString;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.testutils.RandomLatLng;

@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.TagAlphabetical;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.TagAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.testutils.RandomString;

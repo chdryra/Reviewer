@@ -1,8 +1,8 @@
 package test.DataAlgorithms.DataAggregation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.ComparitorCriterionSubject;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.ComparitorLevenshteinDistance;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorCriterionSubject;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorLevenshteinDistance;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.testutils.RandomString;

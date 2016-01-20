@@ -2,8 +2,8 @@ package test.DataAlgorithms.DataSorting;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.DateMostRecentFirst;
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.ReviewMostRecentPublished;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.DateMostRecentFirst;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.ReviewMostRecentPublished;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;

@@ -2,8 +2,8 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -19,7 +19,7 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorTagsTest extends AggregatedDistinctItemsTest<DataTag>{
     @NonNull
     @Override
-    protected DataAggregator<DataTag> newAggregator(FactoryDataAggregator factory) {
+    protected DataAggregator<DataTag> newAggregator(DataAggregationPluginDefault factory) {
         return factory.newTagsAggregator();
     }
 

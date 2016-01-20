@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation
+import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation
         .CommentHeadlineThenAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;

@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.LocationNameAlphabetical;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.LocationNameAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.testutils.RandomLatLng;

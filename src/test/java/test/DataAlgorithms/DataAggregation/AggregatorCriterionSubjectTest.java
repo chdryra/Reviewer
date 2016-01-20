@@ -3,8 +3,8 @@ package test.DataAlgorithms.DataAggregation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -29,8 +29,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class AggregatorCriterionSubjectTest extends AggregatedDistinctItemsTest<DataCriterion>{
     @NonNull
     @Override
-    protected DataAggregator<DataCriterion> newAggregator(FactoryDataAggregator factory) {
-        return factory.newCriteriaAggregatorSubject();
+    protected DataAggregator<DataCriterion> newAggregator(DataAggregationPluginDefault factory) {
+        return factory.newCriteriaAggregatorSameSubject();
     }
 
     @Override

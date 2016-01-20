@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataSorting.Implementation.CriterionSubjectThenRating;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.CriterionSubjectThenRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.testutils.RandomString;

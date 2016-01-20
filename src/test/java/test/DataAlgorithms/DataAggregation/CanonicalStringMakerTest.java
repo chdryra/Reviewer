@@ -2,8 +2,7 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
-        .CanonicalStringMaker;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.CanonicalStringMaker;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;

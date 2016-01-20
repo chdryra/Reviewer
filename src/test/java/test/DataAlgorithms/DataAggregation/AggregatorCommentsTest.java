@@ -2,8 +2,8 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -21,7 +21,7 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorCommentsTest extends AggregatedDistinctItemsTest<DataComment> {
     @NonNull
     @Override
-    protected DataAggregator<DataComment> newAggregator(FactoryDataAggregator factory) {
+    protected DataAggregator<DataComment> newAggregator(DataAggregationPluginDefault factory) {
         return factory.newCommentsAggregator();
     }
 

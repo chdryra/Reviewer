@@ -2,13 +2,12 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
-        .DataAggregatorImpl;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedData;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.CanonicalDatumMaker;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceComparitor;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DifferenceLevel;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.DataAggregatorImpl;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Interfaces.CanonicalDatumMaker;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Interfaces.DifferenceComparitor;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DifferenceLevel;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;

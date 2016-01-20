@@ -33,7 +33,8 @@ public class FactoryApplicationContext {
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 
         PresenterContext presenterContext =
-                new ReleasePresenterContext(context, modelContext, viewContext, deviceContext, author);
+                new ReleasePresenterContext(context,
+                        modelContext, viewContext, deviceContext, author, plugins.getDataAggregationPlugin());
 
         ReviewerLocationServices services = getLocationServices(context, plugins.getLocationServicesPlugin());
         return new ApplicationContextImpl(presenterContext, services);

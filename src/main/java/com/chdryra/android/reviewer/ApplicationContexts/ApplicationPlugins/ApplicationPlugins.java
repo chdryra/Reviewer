@@ -1,5 +1,6 @@
 package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.DataAggregationPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
@@ -10,6 +11,8 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ApplicationPlugins {
+    DataAggregationPlugin getDataAggregationPlugin();
+
     PersistencePlugin getPersistencePlugin();
 
     LocationServicesPlugin getLocationServicesPlugin();

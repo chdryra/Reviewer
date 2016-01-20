@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataAggregation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferenceBoolean;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 
 import org.junit.Test;
 

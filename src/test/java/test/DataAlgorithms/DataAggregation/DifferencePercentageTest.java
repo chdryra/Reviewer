@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataAggregation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
         .DifferencePercentage;
 
 import org.junit.Rule;

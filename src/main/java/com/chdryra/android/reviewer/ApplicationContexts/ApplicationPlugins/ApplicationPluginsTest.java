@@ -1,5 +1,9 @@
 package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.DataAggregationPlugin;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault
+        .Implementation.ComparitorLevenshteinDistance;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.LocationServicesGoogle;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
@@ -17,6 +21,11 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroid;
 public class ApplicationPluginsTest implements ApplicationPlugins {
     private static final String PERSISTENCE_NAME = "TestReviewer";
     private static final int PERSISTENCE_VER = 1;
+
+    @Override
+    public DataAggregationPlugin getDataAggregationPlugin() {
+        return new DataAggregationPluginDefault(new ComparitorLevenshteinDistance());
+    }
 
     @Override
     public PersistencePlugin getPersistencePlugin() {

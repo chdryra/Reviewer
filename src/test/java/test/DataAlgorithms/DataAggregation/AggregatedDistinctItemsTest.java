@@ -2,11 +2,11 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregator;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Factories.FactoryDataAggregatorParams;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedData;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.AggregatedList;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Interfaces.DataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories.FactoryDataAggregatorParams;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -43,7 +43,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     protected Map<T, Integer> mCanonicalsMap;
 
     @NonNull
-    protected abstract DataAggregator<T> newAggregator(FactoryDataAggregator factory);
+    protected abstract DataAggregator<T> newAggregator(DataAggregationPluginDefault factory);
     @NonNull
     protected abstract T randomDatum();
     @NonNull
@@ -56,7 +56,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     @Before
     public void setUp() {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
-        mAggregator = newAggregator(new FactoryDataAggregator(paramsFactory.getDefaultParams()));
+        mAggregator = newAggregator(new DataAggregationPluginDefault(paramsFactory.getDefaultParams()));
         mCanonicalsMap = new HashMap<>();
     }
 

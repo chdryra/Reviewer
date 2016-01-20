@@ -1,8 +1,8 @@
 package test.DataAlgorithms.DataAggregation;
 
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferenceFloat;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferenceLocation;
-import com.chdryra.android.reviewer.DataAlgorithms.DataAggregation.Implementation.DifferencePercentage;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
+import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 
 import org.junit.Before;
 import org.junit.Test;
