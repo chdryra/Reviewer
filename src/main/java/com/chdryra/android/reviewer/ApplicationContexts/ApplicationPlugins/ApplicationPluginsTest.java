@@ -1,8 +1,8 @@
 package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.DataAggregationPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault
         .Implementation.ComparitorLevenshteinDistance;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.LocationServicesGoogle;
@@ -23,8 +23,8 @@ public class ApplicationPluginsTest implements ApplicationPlugins {
     private static final int PERSISTENCE_VER = 1;
 
     @Override
-    public DataAggregationPlugin getDataAggregationPlugin() {
-        return new DataAggregationPluginDefault(new ComparitorLevenshteinDistance());
+    public FactoryDataAggregator getDataAggregationPlugin() {
+        return new FactoryDataAggregatorDefault(new ComparitorLevenshteinDistance());
     }
 
     @Override

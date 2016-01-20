@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataAggregation;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.Implementation.ComparitorLocationDistance;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault.Implementation.ComparitorLocationDistance;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
         .DifferenceFloat;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;

@@ -2,7 +2,7 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories.FactoryDataAggregatorParams;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
@@ -43,7 +43,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     protected Map<T, Integer> mCanonicalsMap;
 
     @NonNull
-    protected abstract DataAggregator<T> newAggregator(DataAggregationPluginDefault factory);
+    protected abstract DataAggregator<T> newAggregator(FactoryDataAggregatorDefault factory);
     @NonNull
     protected abstract T randomDatum();
     @NonNull
@@ -56,7 +56,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     @Before
     public void setUp() {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
-        mAggregator = newAggregator(new DataAggregationPluginDefault(paramsFactory.getDefaultParams()));
+        mAggregator = newAggregator(new FactoryDataAggregatorDefault(paramsFactory.getDefaultParams()));
         mCanonicalsMap = new HashMap<>();
     }
 

@@ -2,7 +2,7 @@ package test.DataAlgorithms.DataAggregation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
@@ -18,7 +18,7 @@ import test.TestUtils.RandomAuthor;
 public class AggregatorAuthorsTest extends AggregatedDistinctItemsTest<DataAuthorReview>{
     @NonNull
     @Override
-    protected DataAggregator<DataAuthorReview> newAggregator(DataAggregationPluginDefault factory) {
+    protected DataAggregator<DataAuthorReview> newAggregator(FactoryDataAggregatorDefault factory) {
         return factory.newAuthorsAggregator();
     }
 

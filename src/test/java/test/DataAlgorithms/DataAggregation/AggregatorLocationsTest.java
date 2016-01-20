@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault.FactoryDataAggregatorDefault;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -32,7 +32,7 @@ import static org.hamcrest.MatcherAssert.*;
 public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLocation>{
     @NonNull
     @Override
-    protected DataAggregator<DataLocation> newAggregator(DataAggregationPluginDefault factory) {
+    protected DataAggregator<DataLocation> newAggregator(FactoryDataAggregatorDefault factory) {
         return factory.newLocationsAggregator();
     }
 

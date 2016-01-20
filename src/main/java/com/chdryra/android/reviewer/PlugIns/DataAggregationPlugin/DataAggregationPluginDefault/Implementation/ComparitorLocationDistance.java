@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregati
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault.DataAggregationPluginDefault
         .Interfaces.DifferenceComparitor;
 import com.chdryra.android.reviewer.Utils.LatLngDistance;
 import com.google.android.gms.maps.model.LatLng;

@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregatio
 import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
         .Interfaces.ItemGetter;
 
+
 /**
  * Created by: Rizwan Choudrey
  * On: 03/07/2015
