@@ -9,10 +9,10 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public class TableTags extends ReviewerDbTableImpl<RowTag> {
-    private static final String TABLE = "Tags";
+    private static final String NAME = "Tags";
 
     public TableTags(FactoryDbColumnDef columnFactory) {
-        super(TABLE, RowTag.class, columnFactory);
+        super(NAME, RowTag.class, columnFactory);
 
         addPkColumn(RowTag.TAG);
         addNotNullableColumn(RowTag.REVIEWS);

@@ -1,23 +1,14 @@
 package test.Plugins.GenericDb;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbColumnNotNullable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbColumnNullable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbEntryType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbTableImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.ForeignKeyConstraintImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.ForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbColumnNotNullable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbColumnNullable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbTableImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.ForeignKeyConstraintImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.ForeignKeyConstraint;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -28,6 +19,7 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.*;
 
 /**
@@ -70,70 +62,96 @@ public class DbTableImplTest {
 
     @Test
     public void addPrimaryKeyAddsPrimaryKeys() {
-        ArrayList<DbColumnDefinition> pksIn = new ArrayList<>();
+        ArrayList<DbColumnDefinition> pks = new ArrayList<>();
         for(int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
-            pksIn.add(col);
+            pks.add(col);
             mTable.addPrimaryKeyColumn(col);
         }
 
-        ArrayList<DbColumnDefinition> pksOut = mTable.getPrimaryKeys();
-        assertThat(pksOut, is(pksIn));
+        assertThat(mTable.getPrimaryKeys(), is(pks));
     }
 
     @Test
     public void addColumnsAddsColumns() {
-        ArrayList<DbColumnDefinition> colsIn = new ArrayList<>();
+        ArrayList<DbColumnDefinition> cols = new ArrayList<>();
         for(int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
-            colsIn.add(col);
+            cols.add(col);
             mTable.addColumn(col);
         }
 
-        ArrayList<DbColumnDefinition> colsOut = mTable.getColumns();
-        assertThat(colsOut, is(colsIn));
+        assertThat(mTable.getColumns(), is(cols));
     }
 
     @Test
     public void getColumnsGetsPrimaryKeysAndOtherColumnsInThatOrder() {
-        ArrayList<DbColumnDefinition> colsIn = new ArrayList<>();
+        ArrayList<DbColumnDefinition> cols = new ArrayList<>();
         for(int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
-            colsIn.add(col);
+            cols.add(col);
             mTable.addPrimaryKeyColumn(col);
         }
         for(int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
-            colsIn.add(col);
+            cols.add(col);
             mTable.addColumn(col);
         }
 
-        ArrayList<DbColumnDefinition> colsOut = mTable.getColumns();
-        assertThat(colsOut, is(colsIn));
+        assertThat(mTable.getColumns(), is(cols));
     }
 
     @Test
     public void getColumnNamesGetsPrimaryKeysAndOtherColumnsInThatOrder() {
-        ArrayList<String> colsIn = new ArrayList<>();
+        ArrayList<String> cols = new ArrayList<>();
         for(int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
-            colsIn.add(col.getName());
+            cols.add(col.getName());
             mTable.addPrimaryKeyColumn(col);
         }
         for(int i = 0; i < NUM; ++i) {
             String columnName = RandomString.nextWord();
             DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
-            colsIn.add(col.getName());
+            cols.add(col.getName());
             mTable.addColumn(col);
         }
 
-        ArrayList<String> colsOut = mTable.getColumnNames();
-        assertThat(colsOut, is(colsIn));
+        assertThat(mTable.getColumnNames(), is(cols));
+    }
+
+    @Test
+    public void getColumnReturnsCorrectColumn() {
+        for(int i = 0; i < NUM; ++i) {
+            String columnName = RandomString.nextWord();
+            DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
+            mTable.addColumn(col);
+        }
+
+        String ofInterest = RandomString.nextWord();
+        DbColumnDefinition col = new DbColumnNotNullable(ofInterest, DbEntryType.TEXT);
+        mTable.addColumn(col);
+
+        assertThat(mTable.getColumn(ofInterest), is(col));
+    }
+
+    @Test
+    public void getColumnReturnsNullIfNotFound() {
+        for(int i = 0; i < NUM; ++i) {
+            String columnName = RandomString.nextWord();
+            DbColumnDefinition col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
+            mTable.addColumn(col);
+        }
+
+        String ofInterest = RandomString.nextWord();
+        DbColumnDefinition col = new DbColumnNotNullable(ofInterest, DbEntryType.TEXT);
+        mTable.addColumn(col);
+
+        assertThat(mTable.getColumn(RandomString.nextWord()), is(nullValue()));
     }
 
     @Test
