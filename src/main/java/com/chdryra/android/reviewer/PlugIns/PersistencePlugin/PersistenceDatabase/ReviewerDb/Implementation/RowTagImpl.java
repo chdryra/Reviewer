@@ -7,6 +7,8 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,11 +25,7 @@ public class RowTagImpl extends RowTableBasic implements RowTag {
 
     public RowTagImpl(ItemTag tag) {
         mTag = tag.getTag();
-        mReviews = "";
-        for (String id : tag.getItemIds()) {
-            mReviews += id + SEPARATOR;
-        }
-        mReviews = mReviews.substring(0, mReviews.length() - 1);
+        mReviews = StringUtils.join(tag.getItemIds().toArray(), SEPARATOR);
     }
 
     //Via reflection
@@ -61,7 +59,7 @@ public class RowTagImpl extends RowTableBasic implements RowTag {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validateString(getRowId());
+        return validator.validateString(getRowId()) && validator.validateString(mReviews);
     }
 
     @Override
@@ -73,8 +71,10 @@ public class RowTagImpl extends RowTableBasic implements RowTag {
     protected RowEntry<?> getEntry(int position) {
         if(position == 0) {
             return new RowEntryImpl<>(TAG, mTag);
-        } else {
+        } else if(position == 1){
             return new RowEntryImpl<>(REVIEWS, mReviews);
+        } else {
+            throw noElement();
         }
     }
 }

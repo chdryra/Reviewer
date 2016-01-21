@@ -12,22 +12,24 @@ import java.util.NoSuchElementException;
  * On: 15/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class RowTableBasic {
+public abstract class RowTableBasic implements Iterable<RowEntry<?>>{
+    private String NO_ELEMENT = "No more elements left";
+
     protected abstract int size();
 
     protected abstract RowEntry<?> getEntry(int position);
 
+    @Override
     public Iterator<RowEntry<?>> iterator() {
         return new RowIterator();
     }
 
+    protected NoSuchElementException noElement() {
+        throw new NoSuchElementException(NO_ELEMENT);
+    }
+
     private class RowIterator implements Iterator<RowEntry<?>> {
-        String NO_ELEMENT = "No more elements left";
-        int mPosition = 0;
-
-        private RowIterator() {
-
-        }
+        private int mPosition = 0;
 
         @Override
         public boolean hasNext() {
@@ -39,7 +41,7 @@ public abstract class RowTableBasic {
             if (hasNext()) {
                 return getEntry(mPosition++);
             } else {
-                throw new NoSuchElementException(NO_ELEMENT);
+                throw noElement();
             }
         }
 

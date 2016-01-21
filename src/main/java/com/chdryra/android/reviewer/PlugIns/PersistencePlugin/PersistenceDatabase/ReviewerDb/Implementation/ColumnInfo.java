@@ -24,4 +24,23 @@ public class ColumnInfo<T> {
     public DbEntryType<T> getType() {
         return mType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ColumnInfo)) return false;
+
+        ColumnInfo<?> that = (ColumnInfo<?>) o;
+
+        if (mName != null ? !mName.equals(that.mName) : that.mName != null) return false;
+        return !(mType != null ? !mType.equals(that.mType) : that.mType != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mName != null ? mName.hashCode() : 0;
+        result = 31 * result + (mType != null ? mType.hashCode() : 0);
+        return result;
+    }
 }
