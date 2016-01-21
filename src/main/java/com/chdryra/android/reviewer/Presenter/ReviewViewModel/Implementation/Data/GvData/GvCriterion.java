@@ -81,7 +81,7 @@ public class GvCriterion extends GvDataBasic<GvCriterion> implements DataCriteri
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validateString(mSubject);
+        return dataValidator.validate(this);
     }
 
     @Override

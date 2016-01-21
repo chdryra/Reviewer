@@ -9,7 +9,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
 
@@ -36,11 +35,10 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
     @Test
     public void constructionWithRowValuesAndGetters() {
         RowReview reference = newRow();
-        String parentId = RandomString.nextWord();
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.PARENT_ID, parentId);
+        values.put(RowReview.PARENT_ID, reference.getParentId());
         values.put(RowReview.USER_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
@@ -53,7 +51,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
         assertThat(row.hasData(new DataValidator()), is(true));
 
         assertThat(row.getReviewId(), is(reference.getReviewId()));
-        assertThat(row.getParentId(), is(parentId));
+        assertThat(row.getParentId(), is(reference.getParentId()));
         assertThat(row.getAuthorId(), is(reference.getAuthorId()));
         assertThat(row.getPublishDate(), is(reference.getPublishDate()));
         assertThat(row.getSubject(), is(reference.getSubject()));

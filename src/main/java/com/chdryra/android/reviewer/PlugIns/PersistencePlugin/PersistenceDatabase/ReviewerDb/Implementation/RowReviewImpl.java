@@ -138,8 +138,10 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
             return new RowEntryImpl<>(RATING, mRating);
         } else if(position == 6) {
             return new RowEntryImpl<>(RATING_WEIGHT, mRatingWeight);
-        } else {
+        } else if(position == 7) {
             return new RowEntryImpl<>(IS_AVERAGE, mRatingIsAverage);
+        } else {
+            throw noElement();
         }
     }
 }

@@ -25,11 +25,11 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
 
     //Constructors
     public RowLocationImpl(DataLocation location, int index) {
-        mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
         mReviewId = location.getReviewId().toString();
-        mName = location.getName();
+        mLocationId = mReviewId + SEPARATOR + "l" + String.valueOf(index);
         mLatitude = location.getLatLng().latitude;
         mLongitude = location.getLatLng().longitude;
+        mName = location.getName();
     }
 
     //Via reflection
@@ -39,9 +39,9 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
     public RowLocationImpl(RowValues values) {
         mLocationId = values.getValue(LOCATION_ID.getName(), LOCATION_ID.getType());
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
-        mName = values.getValue(NAME.getName(), NAME.getType());
         mLatitude = values.getValue(LATITUDE.getName(), LATITUDE.getType());
         mLongitude = values.getValue(LONGITUDE.getName(), LONGITUDE.getType());
+        mName = values.getValue(NAME.getName(), NAME.getType());
     }
 
     @Override
@@ -71,7 +71,9 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(this);
+        return validator.validate(this)
+                && validator.validateString(mReviewId)
+                && validator.validateString(mLocationId);
     }
 
     @Override
@@ -86,11 +88,13 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
         } else if(position == 1) {
             return new RowEntryImpl<>(REVIEW_ID, mReviewId);
         } else if(position == 2) {
-            return new RowEntryImpl<>(LONGITUDE, mLongitude);
-        } else if(position == 3) {
             return new RowEntryImpl<>(LATITUDE, mLatitude);
-        } else {
+        } else if(position == 3) {
+            return new RowEntryImpl<>(LONGITUDE, mLongitude);
+        } else if(position == 4) {
             return new RowEntryImpl<>(NAME, mName);
+        } else {
+            throw noElement();
         }
     }
 }
