@@ -25,20 +25,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MdReviewId implements ReviewId, HasReviewId {
     private static final String SPLITTER = ":";
-    private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time:Increment" +
-            " format!";
-    private String mUserId;
-    private long mTime;
-    private int mIncrement;
-    private String mString;
+    private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time:Increment!";
+
+    private String mId;
 
     public MdReviewId(@NotNull String userId, long time, int increment) {
         if(userId.length() == 0) throwException();
-        mUserId = userId;
-        mTime = time;
-        mIncrement = increment;
-        mString = mUserId + SPLITTER + String.valueOf(mTime) + SPLITTER +
-                String.valueOf(mIncrement);
+        mId = userId + SPLITTER + String.valueOf(time) + SPLITTER +
+                String.valueOf(increment);
     }
 
     public MdReviewId(ReviewId id) {
@@ -49,11 +43,11 @@ public class MdReviewId implements ReviewId, HasReviewId {
         String[] split = idString.split(SPLITTER);
         if(split.length != 3) throwException(idString);
         try {
-            mUserId = split[0];
-            mTime = Long.parseLong(split[1]);
-            mIncrement = Integer.parseInt(split[2]);
-            mString = idString;
-            check(mUserId, mTime, mIncrement, mString);
+            String userId = split[0];
+            long time = Long.parseLong(split[1]);
+            int increment = Integer.parseInt(split[2]);
+            mId = idString;
+            check(userId, time, increment, mId);
         } catch (Exception e) {
             throwException("On id: " + idString, e);
         }
@@ -84,25 +78,19 @@ public class MdReviewId implements ReviewId, HasReviewId {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MdReviewId)) return false;
+        if (!(o instanceof ReviewId)) return false;
 
-        MdReviewId mdReviewId = (MdReviewId) o;
+        ReviewId that = (ReviewId) o;
 
-        if (mTime != mdReviewId.mTime) return false;
-        if (mIncrement != mdReviewId.mIncrement) return false;
-        return mUserId.equals(mdReviewId.mUserId);
-
+        return mId.equals(that.toString());
     }
 
     @Override
     public int hashCode() {
-        int result = mUserId.hashCode();
-        result = 31 * result + (int) (mTime ^ (mTime >>> 32));
-        result = 31 * result + mIncrement;
-        return result;
+        return mId.hashCode();
     }
 
     public String toString() {
-        return mString;
+        return mId;
     }
 }

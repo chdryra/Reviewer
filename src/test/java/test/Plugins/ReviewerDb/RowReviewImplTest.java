@@ -7,20 +7,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterio
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
-        .Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.testutils.RandomString;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import test.TestUtils.RandomReview;
 import test.TestUtils.RandomReviewId;
@@ -34,14 +27,15 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReviewImplTest {
-    private static final int NUM = 10;
-    @Rule
-    public ExpectedException mExpectedException = ExpectedException.none();
+public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
+
+    public RowReviewImplTest() {
+        super(RowReview.REVIEW_ID.getName(), 8);
+    }
 
     @Test
     public void constructionWithRowValuesAndGetters() {
-        RowReview reference = getRowToIterateOver();
+        RowReview reference = newRow();
         String parentId = RandomString.nextWord();
 
         RowValuesForTest values = new RowValuesForTest();
@@ -106,12 +100,11 @@ public class RowReviewImplTest {
 
     @Test
     public void constructionWithInvalidReviewIdMakesRowReviewInvalid() {
-        RowReview reference = getRowToIterateOver();
-        String parentId = RandomString.nextWord();
+        RowReview reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, "");
-        values.put(RowReview.PARENT_ID, parentId);
+        values.put(RowReview.PARENT_ID, reference.getParentId());
         values.put(RowReview.USER_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
@@ -126,12 +119,11 @@ public class RowReviewImplTest {
 
     @Test
     public void constructionWithInvalidAuthorIdMakesRowReviewInvalid() {
-        RowReview reference = getRowToIterateOver();
-        String parentId = RandomString.nextWord();
+        RowReview reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.PARENT_ID, parentId);
+        values.put(RowReview.PARENT_ID, reference.getParentId());
         values.put(RowReview.USER_ID, "");
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
@@ -146,12 +138,11 @@ public class RowReviewImplTest {
 
     @Test
     public void constructionWithInvalidSubjectMakesRowReviewInvalid() {
-        RowReview reference = getRowToIterateOver();
-        String parentId = RandomString.nextWord();
+        RowReview reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.PARENT_ID, parentId);
+        values.put(RowReview.PARENT_ID, reference.getParentId());
         values.put(RowReview.USER_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, "");
@@ -166,12 +157,11 @@ public class RowReviewImplTest {
 
     @Test
     public void constructionWithInvalidRatingWeightMakesRowReviewInvalid() {
-        RowReview reference = getRowToIterateOver();
-        String parentId = RandomString.nextWord();
+        RowReview reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.PARENT_ID, parentId);
+        values.put(RowReview.PARENT_ID, reference.getParentId());
         values.put(RowReview.USER_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
@@ -185,49 +175,10 @@ public class RowReviewImplTest {
     }
 
     @Test
-    public void getRowIdColumnNameReturnsReviewIdColumnName() {
-        Review review = RandomReview.nextReview();
-        RowReviewImpl row = new RowReviewImpl(review);
-        assertThat(row.getRowIdColumnName(), is(RowReview.REVIEW_ID.getName()));
-    }
-
-    @Test
-    public void iteratorIsSize8() {
-        RowReviewImpl row = getRowToIterateOver();
-        Iterator<RowEntry<?>> it = row.iterator();
-        int i = 0;
-        while (it.hasNext()) {
-            it.next();
-            ++i;
-        }
-        assertThat(i, is(8));
-    }
-
-    @Test
-    public void iteratorThrowsNoElementExceptionAfterTooManyNexts() {
-        mExpectedException.expect(NoSuchElementException.class);
-        RowReviewImpl row = getRowToIterateOver();
-        Iterator<RowEntry<?>> it = row.iterator();
-        while (it.hasNext()) it.next();
-        it.next();
-    }
-
-    @Test
-    public void iteratorThrowsUnsupportedOperationExceptionOnRemove() {
-        mExpectedException.expect(UnsupportedOperationException.class);
-        RowReviewImpl row = getRowToIterateOver();
-        Iterator<RowEntry<?>> it = row.iterator();
-        it.remove();
-    }
-
-    @Test
     public void iteratorReturnsDataInOrder() {
-        RowReviewImpl row = getRowToIterateOver();
+        RowReviewImpl row = newRow();
 
-        ArrayList<RowEntry<?>> entries = new ArrayList<>();
-        for (RowEntry<?> entry : row) {
-            entries.add(entry);
-        }
+        ArrayList<RowEntry<?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(8));
 
@@ -241,17 +192,17 @@ public class RowReviewImplTest {
         checkEntry(entries.get(7), RowReview.IS_AVERAGE, row.isRatingIsAverage());
     }
 
-    private <T> void checkEntry(RowEntry<?> entry, ColumnInfo<T> column, T value) {
-        assertThat(entry.getColumnName(), is(column.getName()));
-        assertThat(entry.getEntryType().equals(column.getType()), is(true));
-        assertThat((T) entry.getValue(), is(value));
-    }
-
     @NonNull
-    private RowReviewImpl getRowToIterateOver() {
+    @Override
+    protected RowReviewImpl newRow() {
         Review reference = RandomReview.nextReview();
         ReviewId parentId = RandomReviewId.nextReviewId();
 
         return new RowReviewImpl(new DatumCriterionReview(parentId, reference));
+    }
+
+    @Override
+    protected String getRowId(RowReviewImpl row) {
+        return row.getReviewId().toString();
     }
 }

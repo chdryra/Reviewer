@@ -18,4 +18,20 @@ public class DatumReviewId implements ReviewId {
     public String toString() {
         return mId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewId)) return false;
+
+        ReviewId that = (ReviewId) o;
+
+        return !(mId != null ? !mId.equals(that.toString()) : that.toString() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return mId != null ? mId.hashCode() : 0;
+    }
 }

@@ -107,13 +107,11 @@ public class GvReviewId implements GvData, ReviewId {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GvReviewId)) return false;
+        if (!(o instanceof ReviewId)) return false;
 
-        GvReviewId that = (GvReviewId) o;
+        ReviewId that = (ReviewId) o;
 
-        if (!mId.equals(that.mId)) return false;
-
-        return true;
+        return mId.equals(that.toString());
     }
 
     @Override

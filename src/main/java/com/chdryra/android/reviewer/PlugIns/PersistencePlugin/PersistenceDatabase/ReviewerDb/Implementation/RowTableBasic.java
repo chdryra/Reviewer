@@ -2,6 +2,8 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
         .Interfaces.RowEntry;
 
 import java.util.Iterator;
@@ -12,9 +14,7 @@ import java.util.NoSuchElementException;
  * On: 15/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class RowTableBasic implements Iterable<RowEntry<?>>{
-    private String NO_ELEMENT = "No more elements left";
-
+public abstract class RowTableBasic implements Iterable<RowEntry<?>>, DbTableRow{
     protected abstract int size();
 
     protected abstract RowEntry<?> getEntry(int position);
@@ -25,7 +25,7 @@ public abstract class RowTableBasic implements Iterable<RowEntry<?>>{
     }
 
     protected NoSuchElementException noElement() {
-        throw new NoSuchElementException(NO_ELEMENT);
+        throw new NoSuchElementException("No more elements left");
     }
 
     private class RowIterator implements Iterator<RowEntry<?>> {
