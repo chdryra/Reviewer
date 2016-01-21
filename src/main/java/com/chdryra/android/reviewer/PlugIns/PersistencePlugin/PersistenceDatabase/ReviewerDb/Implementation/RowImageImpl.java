@@ -100,7 +100,8 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(this);
+        return validator.validate(this) && validator.validateString(mImageId) &&
+                validator.validateString(mReviewId);
     }
 
     @Override
@@ -120,8 +121,10 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
             return new RowEntryImpl<>(IS_COVER, mIsCover);
         } else if(position == 4) {
             return new RowEntryImpl<>(CAPTION, mCaption);
-        } else {
+        } else if(position == 5) {
             return new RowEntryImpl<>(IMAGE_DATE, mDate);
+        } else {
+            throw noElement();
         }
     }
 }

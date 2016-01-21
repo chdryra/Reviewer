@@ -1,5 +1,7 @@
 package test.Plugins.ReviewerDb;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
         .Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
@@ -18,7 +20,7 @@ class RowValuesForTest implements RowValues {
     private Map<ColumnInfo<?>, Object> mValues = new HashMap<>();
 
 
-    void put(ColumnInfo<?> col, Object value) {
+    void put(ColumnInfo<?> col, @Nullable Object value) {
         mValues.put(col, value);
     }
 

@@ -27,8 +27,8 @@ public class DatumImage implements DataImage {
         mIsCover = false;
     }
 
-    public DatumImage(ReviewId reviewId, Bitmap bitmap, DataDate date, @Nullable String caption,
-                      boolean isCover) {
+    public DatumImage(ReviewId reviewId, Bitmap bitmap, @Nullable DataDate date,
+                      @Nullable String caption, boolean isCover) {
         mReviewId = reviewId;
         mBitmap = bitmap;
         mDate = date;

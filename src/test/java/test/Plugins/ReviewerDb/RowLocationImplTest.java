@@ -5,9 +5,12 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.RowLocationImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.RowLocationImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowLocation;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 
@@ -25,7 +28,9 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl>{
+public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl> {
+
+    public static final int INDEX = 314;
 
     public RowLocationImplTest() {
         super(RowLocation.LOCATION_ID.getName(), 5);
@@ -46,10 +51,7 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl>{
 
         assertThat(row.hasData(new DataValidator()), is(true));
 
-        assertThat(row.getRowId(), is(reference.getRowId()));
-        assertThat(row.getReviewId(), is(reference.getReviewId()));
-        assertThat(row.getLatLng(), is(reference.getLatLng()));
-        assertThat(row.getName(), is(reference.getName()));
+        checkAgainstReference(row, reference);
     }
 
     @Test
@@ -57,14 +59,11 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl>{
         DataLocation location = new DatumLocation(RandomReviewId.nextReviewId(),
                 RandomLatLng.nextLatLng(), RandomString.nextWord());
 
-        RowLocationImpl row = new RowLocationImpl(location, 123);
+        RowLocationImpl row = new RowLocationImpl(location, INDEX);
 
         assertThat(row.hasData(new DataValidator()), is(true));
 
-        assertThat(row.getRowId(), is(rowId(location, 123)));
-        assertThat(row.getReviewId(), is(location.getReviewId()));
-        assertThat(row.getLatLng(), is(location.getLatLng()));
-        assertThat(row.getName(), is(location.getName()));
+        checkAgainstReference(row, location);
     }
 
     @Test
@@ -104,7 +103,7 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl>{
         DataLocation location = new DatumLocation(RandomReviewId.nextReviewId(),
                 RandomLatLng.nextLatLng(), "");
 
-        RowLocationImpl row = new RowLocationImpl(location, 123);
+        RowLocationImpl row = new RowLocationImpl(location, INDEX);
 
         assertThat(row.hasData(new DataValidator()), is(false));
     }
@@ -127,16 +126,23 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl>{
     @NonNull
     @Override
     protected RowLocationImpl newRow() {
-        return new RowLocationImpl(new DatumLocation(RandomReviewId.nextReviewId(), 
-                RandomLatLng.nextLatLng(), RandomString.nextWord()), 314);
+        return new RowLocationImpl(new DatumLocation(RandomReviewId.nextReviewId(),
+                RandomLatLng.nextLatLng(), RandomString.nextWord()), INDEX);
     }
 
     @Override
     protected String getRowId(RowLocationImpl row) {
-        return rowId(row, 314);
+        return rowId(row);
     }
 
-    private String rowId(DataLocation location, int index) {
-        return location.getReviewId().toString() + ":l" + String.valueOf(index);
+    private void checkAgainstReference(RowLocationImpl row, DataLocation reference) {
+        assertThat(row.getRowId(), is(rowId(reference)));
+        assertThat(row.getReviewId(), is(reference.getReviewId()));
+        assertThat(row.getLatLng(), is(reference.getLatLng()));
+        assertThat(row.getName(), is(reference.getName()));
+    }
+
+    private String rowId(DataLocation location) {
+        return location.getReviewId().toString() + ":l" + String.valueOf(INDEX);
     }
 }

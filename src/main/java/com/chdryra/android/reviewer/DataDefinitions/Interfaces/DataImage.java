@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 
@@ -21,10 +20,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 public interface DataImage extends HasReviewId, Validatable{
     Bitmap getBitmap();
 
-    @Nullable
     DataDate getDate();
 
-    @Nullable
     String getCaption();
 
     boolean isCover();
