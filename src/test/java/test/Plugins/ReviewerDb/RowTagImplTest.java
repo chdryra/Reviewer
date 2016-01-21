@@ -42,6 +42,8 @@ public class RowTagImplTest {
         values.put(RowTag.REVIEWS, StringUtils.join(reference.getReviewIds().toArray(), ","));
 
         RowTagImpl row = new RowTagImpl(values);
+        assertThat(row.hasData(new DataValidator()), is(true));
+
         assertThat(row.getTag(), is(reference.getTag()));
         assertThat(row.getReviewIds(), is(reference.getReviewIds()));
     }
@@ -50,34 +52,34 @@ public class RowTagImplTest {
     public void constructionWithItemTagWithInvalidTagMakesRowTagInvalid() {
         ItemTag tag = new Tag("", RandomString.nextWord());
         RowTagImpl row = new RowTagImpl(tag);
-        DataValidator validator = new DataValidator();
-        assertThat(row.hasData(validator), is(false));
+        assertThat(row.hasData(new DataValidator()), is(false));
     }
 
     @Test
     public void constructionWithItemTagWithInvalidTaggedIdsMakesRowTagInvalid() {
         ItemTag tag = new Tag(RandomString.nextWord(), "");
         RowTagImpl row = new RowTagImpl(tag);
-        DataValidator validator = new DataValidator();
-        assertThat(row.hasData(validator), is(false));
+        assertThat(row.hasData(new DataValidator()), is(false));
     }
 
     @Test
-    public void getTagReturnsTag() {
-        String tagString = RandomString.nextWord();
-        ItemTag tag = new Tag(tagString, RandomString.nextWord());
+    public void constructionWithValidItemTagMakesRowTagValid() {
+        ItemTag tag = new Tag(RandomString.nextWord(), RandomString.nextWord());
         RowTagImpl row = new RowTagImpl(tag);
-        assertThat(row.getTag(), is(tagString));
+        assertThat(row.hasData(new DataValidator()), is(true));
     }
 
     @Test
-    public void getReviewIdsReturnsIds() {
+    public void constructionWithTagAndGetters() {
+        String tagString = RandomString.nextWord();
         ArrayList<String> ids = new ArrayList<>();
         for (int i = 0; i < NUM; i++) {
             ids.add(RandomString.nextWord());
         }
-        ItemTag tag = new Tag(RandomString.nextWord(), ids);
+
+        ItemTag tag = new Tag(tagString, ids);
         RowTagImpl row = new RowTagImpl(tag);
+        assertThat(row.getTag(), is(tagString));
         assertThat(row.getReviewIds(), is(ids));
     }
 
@@ -109,12 +111,11 @@ public class RowTagImplTest {
     }
 
     @Test
-    public void iteratorThrowsNoElementExceptionAfter2Nexts() {
+    public void iteratorThrowsNoElementExceptionAfterTooManyNexts() {
         mExpectedException.expect(NoSuchElementException.class);
         RowTagImpl row = getRowToIterateOver();
         Iterator<RowEntry<?>> it = row.iterator();
-        it.next();
-        it.next();
+        while (it.hasNext()) it.next();
         it.next();
     }
 

@@ -112,7 +112,9 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validateString(getRowId()) && mRatingWeight >= 1;
+        return validator.validate(getReviewId()) &&
+                validator.validateString(getSubject())  &&
+                validator.validateString(getAuthorId())  && mRatingWeight >= 1;
     }
 
     @Override
