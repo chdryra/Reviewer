@@ -68,7 +68,8 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(this);
+        return validator.validate(this) && validator.validateString(mCommentId)
+                && validator.validateString(mReviewId);
     }
 
     @Override
@@ -84,8 +85,10 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
             return new RowEntryImpl<>(REVIEW_ID, mReviewId);
         } else if(position == 2) {
             return new RowEntryImpl<>(COMMENT, mComment);
-        } else {
+        } else if(position == 3){
             return new RowEntryImpl<>(IS_HEADLINE, mIsHeadline);
+        } else {
+            throw noElement();
         }
     }
 }

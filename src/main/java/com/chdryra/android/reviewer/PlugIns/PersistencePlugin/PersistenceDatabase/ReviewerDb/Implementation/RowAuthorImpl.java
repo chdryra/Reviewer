@@ -65,8 +65,10 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
     protected RowEntry<?> getEntry(int position) {
         if(position == 0) {
             return new RowEntryImpl<>(USER_ID, mUserId);
-        } else {
+        } else if(position == 1){
             return new RowEntryImpl<>(AUTHOR_NAME, mName);
+        } else {
+            throw noElement();
         }
     }
 }

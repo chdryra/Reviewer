@@ -128,8 +128,20 @@ public class RowFactImplTest extends RowTableBasicTest<RowFactImpl> {
     @NonNull
     @Override
     protected RowFactImpl newRow() {
-        return new RowFactImpl(new DatumFact(RandomReviewId.nextReviewId(),
-                RandomString.nextWord(), RandomString.nextWord()), INDEX);
+        String reviewId = RandomReviewId.nextIdString();
+        String factId = reviewId + ":f" + INDEX;
+        String label = RandomString.nextWord();
+        String value = RandomString.nextWord();
+        boolean isUrl = RAND.nextBoolean();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowFact.FACT_ID, factId);
+        values.put(RowFact.REVIEW_ID, reviewId);
+        values.put(RowFact.LABEL, label);
+        values.put(RowFact.VALUE, value);
+        values.put(RowFact.IS_URL, isUrl);
+
+        return new RowFactImpl(values);
     }
 
     @Override
