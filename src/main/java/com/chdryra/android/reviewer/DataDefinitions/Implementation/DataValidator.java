@@ -85,7 +85,7 @@ public class DataValidator {
     }
 
     public boolean validate(UserId userId) {
-        return !userId.toString().equals(UserId.NULL_ID_STRING);
+        return !userId.toString().equals(UserId.NULL_ID_STRING) && validateString(userId.toString());
     }
 
     public boolean NotNull(Object obj) {
