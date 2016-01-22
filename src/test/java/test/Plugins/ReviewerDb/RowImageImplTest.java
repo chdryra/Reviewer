@@ -122,9 +122,18 @@ public class RowImageImplTest extends RowTableBasicTest<RowImageImpl>{
     @Override
     protected RowImageImpl newRow() {
         //Because Android hasn't stubbed Bitmaps can't actually use a randomly generated Bitmap...
-        return new RowImageImpl(new DatumImage(RandomReviewId.nextReviewId(), null,
-                RandomDataDate.nextDateReview(),
-                RandomString.nextSentence(), RAND.nextBoolean()), INDEX);
+        RowValuesForTest values = new RowValuesForTest();
+        String reviewId = RandomReviewId.nextIdString();
+        values.put(RowImage.REVIEW_ID, reviewId);
+        values.put(RowImage.IMAGE_ID, reviewId + ":i" + String.valueOf(INDEX));
+        byte[] data = new byte[40];
+        RAND.nextBytes(data);
+        values.put(RowImage.BITMAP, new ByteArray(data));
+        values.put(RowImage.IS_COVER, RAND.nextBoolean());
+        values.put(RowImage.CAPTION, RandomString.nextSentence());
+        values.put(RowImage.IMAGE_DATE, RandomDataDate.nextDate().getTime());
+
+        return new RowImageImpl(values);
     }
 
     @Override
