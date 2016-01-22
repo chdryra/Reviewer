@@ -35,4 +35,23 @@ public class RowEntryImpl<T> implements RowEntry<T> {
     public T getValue() {
         return mValue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowEntryImpl)) return false;
+
+        RowEntryImpl<?> rowEntry = (RowEntryImpl<?>) o;
+
+        if (!mInfo.equals(rowEntry.mInfo)) return false;
+        return !(mValue != null ? !mValue.equals(rowEntry.mValue) : rowEntry.mValue != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mInfo.hashCode();
+        result = 31 * result + (mValue != null ? mValue.hashCode() : 0);
+        return result;
+    }
 }

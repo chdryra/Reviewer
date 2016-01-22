@@ -1,11 +1,8 @@
 package test.Plugins.GenericDb;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbColumnNotNullable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.DbEntryType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Implementation.ValueNullable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbColumnNullable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Implementation.ValueNullable;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -22,20 +19,20 @@ public class DbColumnNullableTest {
     @Test
     public void getNameReturnsCorrectName() {
         String columnName = RandomString.nextWord();
-        DbColumnNotNullable col = new DbColumnNotNullable(columnName, DbEntryType.TEXT);
+        DbColumnNullable col = new DbColumnNullable(columnName, DbEntryType.TEXT);
         assertThat(col.getName(), is(columnName));
     }
 
     @Test
     public void getTypeReturnsCorrectType() {
         DbEntryType<?> text = DbEntryType.TEXT;
-        DbColumnNotNullable col = new DbColumnNotNullable(RandomString.nextWord(), text);
+        DbColumnNullable col = new DbColumnNullable(RandomString.nextWord(), text);
         assertThat(col.getType().equals(text), is(true));
     }
 
     @Test
     public void notNullableReturnsTrue() {
-        DbColumnNotNullable col = new DbColumnNotNullable(RandomString.nextWord(), DbEntryType.TEXT);
+        DbColumnNullable col = new DbColumnNullable(RandomString.nextWord(), DbEntryType.TEXT);
         assertThat(col.getNullable(), is(ValueNullable.TRUE));
     }
 }

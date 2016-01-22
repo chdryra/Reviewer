@@ -3,22 +3,17 @@ package test.Model.ReviewsRepositoryModel;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
-        .Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
-        .Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.RowEntryImpl;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
-        .Implementation.TableReviews;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -58,8 +53,8 @@ public class ReviewerDbRepositoryTest {
 
     @Before
     public void setup() {
-        mRepo = new ReviewerDbRepository(mDb);
         when(mDb.getReviewsTable()).thenReturn(mReviewsTable);
+        mRepo = new ReviewerDbRepository(mDb);
     }
 
     @Test
@@ -114,7 +109,6 @@ public class ReviewerDbRepositoryTest {
     public void getReviewCallsLoadReviewsFromDbWhere() {
         ReviewId id = RandomReviewId.nextReviewId();
         RowEntry<String> clause = asClause(RowReview.REVIEW_ID, id.toString());
-
         TableTransactor mockTransactor = mockReadTransaction();
         mRepo.getReview(id);
         verify(mDb).loadReviewsWhere(mockTransactor, mReviewsTable, clause);
