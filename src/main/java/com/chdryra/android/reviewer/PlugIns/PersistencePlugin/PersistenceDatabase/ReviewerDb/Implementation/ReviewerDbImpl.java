@@ -6,8 +6,8 @@
  * Date: 1 April, 2015
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
-
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -61,6 +61,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .Interfaces.RowTag;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by: Rizwan Choudrey
@@ -113,20 +114,25 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor transactor,
-                                                                               DbTable<DbRow> table,
-                                                                               RowEntry<Type> entry) {
-        RowEntry reviewEntry;
-        if(table.getName().equals(getAuthorsTable().getName())) {
-            RowAuthor row = getUniqueRowWhere(transactor, getAuthorsTable(), entry);
-            reviewEntry = asEntry(RowReview.USER_ID, row.getUserId().toString());
-        } else if(table.getName().equals(getTagsTable().getName())) {
-
-        }
+    public <DbRow extends DbTableRow, Type> ArrayList<Review>
+    loadReviewsWhere(TableTransactor transactor,
+                     DbTable<DbRow> table,
+                     RowEntry<Type> clause) {
 
         ArrayList<Review> reviews = new ArrayList<>();
-        for (RowReview reviewRow : getRowsWhere(transactor, getReviewsTable(), entry)) {
-            reviews.add(loadReview(reviewRow, transactor));
+        ArrayList<ReviewId> reviewsLoaded = new ArrayList<>();
+
+        for (RowEntry<?> reviewEntry : resolveReviewTableEntries(transactor, table, clause)) {
+
+            for (RowReview reviewRow : getRowsWhere(transactor, getReviewsTable(), reviewEntry)) {
+                if (reviewsLoaded.contains(reviewRow.getReviewId())) continue;
+                Review review = loadReview(reviewRow, transactor);
+                if (review != null) {
+                    reviews.add(review);
+                    reviewsLoaded.add(review.getReviewId());
+                }
+            }
+
         }
 
         return reviews;
@@ -134,22 +140,23 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor transactor,
-                                                      DbTable<DbRow> table,
-                                                      RowEntry<Type> entry) {
-        TableRowList<DbRow> rows = transactor.getRowsWhere(table, entry);
-        if(rows.size() > 1) throw new IllegalStateException("More than one row found!");
+                                                                    DbTable<DbRow> table,
+                                                                    RowEntry<Type> clause) {
+        TableRowList<DbRow> rows = transactor.getRowsWhere(table, clause);
+        if (rows.size() > 1) throw new IllegalStateException("More than one row found!");
         return rows.getItem(0);
     }
 
     @Override
-    public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor transactor,
-                                                            DbTable<DbRow> table,
-                                                            RowEntry<Type> entry) {
-        return transactor.getRowsWhere(table, entry);
+    public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor
+                                                                                     transactor,
+                                                                             DbTable<DbRow> table,
+                                                                             RowEntry<Type> clause) {
+        return transactor.getRowsWhere(table, clause);
     }
 
     @Override
-    public boolean addReviewToDb(Review review, TableTransactor transactor) {
+    public boolean addReviewToDb(TableTransactor transactor, Review review) {
         if (isReviewInDb(review, transactor)) return false;
 
         addToAuthorsTableIfNecessary(review, transactor);
@@ -165,7 +172,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public boolean deleteReviewFromDb(ReviewId reviewId, TableTransactor transactor) {
+    public boolean deleteReviewFromDb(TableTransactor transactor, ReviewId reviewId) {
         String idString = reviewId.toString();
         RowReview row = getUniqueRowWhere(transactor, getReviewsTable(),
                 asEntry(RowReview.REVIEW_ID, idString));
@@ -231,6 +238,73 @@ public class ReviewerDbImpl implements ReviewerDb {
     @Override
     public ArrayList<String> getTableNames() {
         return mTables.getTableNames();
+    }
+
+    @NonNull
+    private <DbRow extends DbTableRow, Type> HashSet<RowEntry<?>>
+    resolveReviewTableEntries(TableTransactor transactor, DbTable<DbRow> table, RowEntry<Type>
+            entry) {
+        HashSet<RowEntry<?>> reviewEntries;
+
+        if (table.getName().equals(getReviewsTable().getName())) {
+            reviewEntries = new HashSet<>();
+            reviewEntries.add(entry);
+        } else if (table.getName().equals(getAuthorsTable().getName())) {
+            reviewEntries = resolveAsAuthorsConstraint(transactor, entry);
+        } else if (table.getName().equals(getTagsTable().getName())) {
+            reviewEntries = resolveAsTagsConstraint(transactor, entry);
+        } else {
+            reviewEntries = resolveAsDataConstraint(transactor, table, entry);
+        }
+
+        return reviewEntries;
+    }
+
+    @NonNull
+    private <DbRow extends DbTableRow, Type> HashSet<RowEntry<?>> resolveAsDataConstraint
+            (TableTransactor transactor, DbTable<DbRow> table, RowEntry<Type> entry) {
+        HashSet<RowEntry<?>> entries = new HashSet<>();
+        if (table.getName().equals(getCommentsTable().getName())) {
+            for (RowComment row : getRowsWhere(transactor, getCommentsTable(), entry)) {
+                entries.add(asEntry(RowComment.REVIEW_ID, row.getReviewId().toString()));
+            }
+        } else if (table.getName().equals(getFactsTable().getName())) {
+            for (RowFact row : getRowsWhere(transactor, getFactsTable(), entry)) {
+                entries.add(asEntry(RowFact.REVIEW_ID, row.getReviewId().toString()));
+            }
+        } else if (table.getName().equals(getImagesTable().getName())) {
+            for (RowImage row : getRowsWhere(transactor, getImagesTable(), entry)) {
+                entries.add(asEntry(RowImage.REVIEW_ID, row.getReviewId().toString()));
+            }
+        } else if (table.getName().equals(getLocationsTable().getName())) {
+            for (RowLocation row : getRowsWhere(transactor, getLocationsTable(), entry)) {
+                entries.add(asEntry(RowLocation.REVIEW_ID, row.getReviewId().toString()));
+            }
+        }
+        return entries;
+    }
+
+    @NonNull
+    private <Type> HashSet<RowEntry<?>> resolveAsTagsConstraint(TableTransactor transactor,
+                                                                RowEntry<Type> entry) {
+        TableRowList<RowTag> rows = getRowsWhere(transactor, getTagsTable(), entry);
+        HashSet<String> reviewIds = new HashSet<>();
+        for (RowTag row : rows) {
+            reviewIds.addAll(row.getReviewIds());
+        }
+        HashSet<RowEntry<?>> entries = new HashSet<>();
+        for (String id : reviewIds) {
+            entries.add(asEntry(RowReview.REVIEW_ID, id));
+        }
+        return entries;
+    }
+
+    private <Type> HashSet<RowEntry<?>> resolveAsAuthorsConstraint(TableTransactor transactor,
+                                                                   RowEntry<Type> entry) {
+        RowAuthor row = getUniqueRowWhere(transactor, getAuthorsTable(), entry);
+        HashSet<RowEntry<?>> entries = new HashSet<>();
+        entries.add(asEntry(RowReview.USER_ID, row.getUserId().toString()));
+        return entries;
     }
 
     //Private methods
@@ -316,7 +390,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         TableRowList<RowReview> rows = transactor.getRowsWhere(getReviewsTable(),
                 asEntry(RowReview.PARENT_ID, reviewId));
         for (RowReview row : rows) {
-            deleteReviewFromDb(row.getReviewId(), transactor);
+            deleteReviewFromDb(transactor, row.getReviewId());
         }
     }
 

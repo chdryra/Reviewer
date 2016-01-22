@@ -17,13 +17,12 @@ public class EntryToStringConverter {
     @Nullable
     public <T> String convert(RowEntry<T> entry) {
         Object value = entry.getValue();
+        if(value == null) return null;
         DbEntryType<?> type = entry.getEntryType();
         if(type.equals(DbEntryType.TEXT)) {
             return (String)value;
         } else if(type.equals(DbEntryType.BOOLEAN)) {
-            Boolean val = (Boolean)value;
-            if(val == null) return null;
-            return val ? "1" : "0";
+            return (Boolean)value ? "1" : "0";
         } else if(type.equals(DbEntryType.INTEGER)) {
             return String.valueOf((int) value);
         } else if(type.equals(DbEntryType.FLOAT)) {

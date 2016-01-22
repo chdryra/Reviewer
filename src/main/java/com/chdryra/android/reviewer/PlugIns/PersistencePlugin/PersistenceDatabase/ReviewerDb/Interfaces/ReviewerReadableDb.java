@@ -24,16 +24,16 @@ public interface ReviewerReadableDb extends ReviewerDbContract {
 
     void endTransaction(TableTransactor db);
 
-    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor db,
+    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor transactor,
                                                                         DbTable<DbRow> table,
-                                                                        RowEntry<Type> entry);
+                                                                        RowEntry<Type> clause);
 
-    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor db,
+    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor transactor,
                                                              DbTable<DbRow> table,
-                                                             RowEntry<Type> entry);
+                                                             RowEntry<Type> clause);
 
-    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor db,
+    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor transactor,
                                                                    DbTable<DbRow> table,
-                                                                   RowEntry<Type> entry);
+                                                                   RowEntry<Type> clause);
 
 }

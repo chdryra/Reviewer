@@ -1,4 +1,5 @@
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation;
 
 import android.support.annotation.NonNull;
 
@@ -6,18 +7,36 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.FactoryReviewFromDataHolder;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerReadableDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.TableTransactor;
+
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.FactoryReviewFromDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.ReviewLoader;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.ReviewerReadableDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 
 import java.util.ArrayList;
@@ -37,7 +56,8 @@ public class ReviewLoaderStatic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, TableTransactor db) {
+    public Review loadReview(RowReview reviewRow, ReviewerReadableDb db, TableTransactor
+            transactor) {
         if (!reviewRow.hasData(mValidator)) return null;
 
         String subject = reviewRow.getSubject();
@@ -48,12 +68,17 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
         String reviewId = reviewRow.getReviewId().toString();
 
-        ArrayList<RowComment> comments = loadComments(database, db, reviewId);
-        ArrayList<RowFact> facts = loadFacts(database, db, reviewId);
-        ArrayList<RowLocation> locations = loadLocations(database, db, reviewId);
-        ArrayList<RowImage> images = loadImages(database, db, reviewId);
-        ArrayList<Review> critList = loadCriteria(database, db, reviewId);
-        DataAuthor author = loadAuthor(database, db, reviewRow.getAuthorId());
+        ArrayList<RowComment> comments = loadData(db, transactor, db.getCommentsTable(),
+                RowComment.REVIEW_ID, reviewId);
+        ArrayList<RowFact> facts = loadData(db, transactor, db.getFactsTable(),
+                RowFact.REVIEW_ID, reviewId);
+        ArrayList<RowLocation> locations = loadData(db, transactor, db.getLocationsTable(),
+                RowLocation.REVIEW_ID, reviewId);
+        ArrayList<RowImage> images = loadData(db, transactor, db.getImagesTable(),
+                RowImage.REVIEW_ID, reviewId);
+
+        ArrayList<Review> critList = loadCriteria(db, transactor, reviewId);
+        DataAuthor author = loadAuthor(db, transactor, reviewRow.getAuthorId());
 
         ReviewDataHolder reviewDb = new ReviewDataHolderImpl(reviewRow.getReviewId(), author,
                 publishDate, subject, rating, ratingWeight, comments, images, facts, locations,
@@ -62,37 +87,31 @@ public class ReviewLoaderStatic implements ReviewLoader {
         return mFactory.recreateReview(reviewDb);
     }
 
-    private ArrayList<Review> loadCriteria(ReviewerReadableDb database, TableTransactor db, String
-            reviewId) {
-        return database.loadReviewsWhere(db, RowReview.PARENT_ID.getName(), reviewId);
+    private <T extends DbTableRow> ArrayList<T> loadData(ReviewerReadableDb database,
+                                                         TableTransactor transactor,
+                                                         DbTable<T> table,
+                                                         ColumnInfo<String> reviewIdCol,
+                                                         String reviewId) {
+        ArrayList<T> data = new ArrayList<>();
+        data.addAll(database.getRowsWhere(transactor, table, asClause(reviewIdCol, reviewId)));
+        return data;
     }
 
-    private ArrayList<RowImage> loadImages(ReviewerReadableDb database, TableTransactor db, String reviewId) {
-        DbTable<RowImage> imagesTable = database.getImagesTable();
-        return database.loadFromTableWhere(db, imagesTable, reviewId);
-    }
-
-    private ArrayList<RowLocation> loadLocations(ReviewerReadableDb database, TableTransactor db, String
-            reviewId) {
-        DbTable<RowLocation> locationsTable = database.getLocationsTable();
-        return database.loadFromTableWhere(db, locationsTable, reviewId);
-    }
-
-    private ArrayList<RowFact> loadFacts(ReviewerReadableDb database, TableTransactor db, String reviewId) {
-        DbTable<RowFact> factsTable = database.getFactsTable();
-        return database.loadFromTableWhere(db, factsTable, reviewId);
-    }
-
-    private ArrayList<RowComment> loadComments(ReviewerReadableDb database, TableTransactor db, String
-            reviewId) {
-        DbTable<RowComment> commentsTable = database.getCommentsTable();
-        return database.loadFromTableWhere(db, commentsTable, reviewId);
+    private ArrayList<Review> loadCriteria(ReviewerReadableDb db, TableTransactor transactor,
+                                           String reviewId) {
+        RowEntry<String> clause = asClause(RowReview.PARENT_ID, reviewId);
+        return db.loadReviewsWhere(transactor, db.getReviewsTable(), clause);
     }
 
     @NonNull
-    private DataAuthor loadAuthor(ReviewerReadableDb database, TableTransactor db, String userId) {
-        RowAuthor authorRow = database.getUniqueRowWhere(db, database.getAuthorsTable(),
-                RowAuthor.USER_ID.getName(), userId);
+    private DataAuthor loadAuthor(ReviewerReadableDb db, TableTransactor transactor, String
+            userId) {
+        RowEntry<String> clause = asClause(RowAuthor.USER_ID, userId);
+        RowAuthor authorRow = db.getUniqueRowWhere(transactor, db.getAuthorsTable(), clause);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());
+    }
+
+    private <T> RowEntry<T> asClause(ColumnInfo<T> column, T value) {
+        return new RowEntryImpl<>(column, value);
     }
 }

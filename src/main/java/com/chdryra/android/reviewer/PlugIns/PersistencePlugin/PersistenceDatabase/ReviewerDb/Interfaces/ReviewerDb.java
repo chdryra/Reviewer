@@ -27,9 +27,9 @@ import java.util.ArrayList;
 public interface ReviewerDb extends ReviewerReadableDb{
     TagsManager getTagsManager();
 
-    boolean addReviewToDb(Review review, TableTransactor db);
+    boolean addReviewToDb(TableTransactor transactor, Review review);
 
-    boolean deleteReviewFromDb(ReviewId id, TableTransactor db);
+    boolean deleteReviewFromDb(TableTransactor transactor, ReviewId id);
 
     TableTransactor beginWriteTransaction();
 
@@ -40,17 +40,17 @@ public interface ReviewerDb extends ReviewerReadableDb{
     void endTransaction(TableTransactor db);
 
     @Override
-    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor db,
+    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor transactor,
                                                                         DbTable<DbRow> table,
-                                                                        RowEntry<Type> entry);
+                                                                        RowEntry<Type> clause);
 
     @Override
-    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor db,
+    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor transactor,
                                                              DbTable<DbRow> table,
-                                                             RowEntry<Type> entry);
+                                                             RowEntry<Type> clause);
 
     @Override
-    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor db,
+    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor transactor,
                                                                       DbTable<DbRow> table,
-                                                                      RowEntry<Type> entry);
+                                                                      RowEntry<Type> clause);
 }

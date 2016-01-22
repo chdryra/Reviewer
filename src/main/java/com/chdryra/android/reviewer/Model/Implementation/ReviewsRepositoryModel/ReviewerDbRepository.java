@@ -1,7 +1,18 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.RowEntryImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -17,11 +28,15 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbRepository implements ReviewsRepositoryMutable{
+    public static final RowEntryImpl<String> REVIEW_CLAUSE = new RowEntryImpl<>(RowReview
+            .PARENT_ID, null);
     private final ReviewerDb mDatabase;
+    private final DbTable<RowReview> mTable;
     private final ArrayList<ReviewsRepositoryObserver> mObservers;
 
     public ReviewerDbRepository(ReviewerDb database) {
         mDatabase = database;
+        mTable = database.getReviewsTable();
         mObservers = new ArrayList<>();
     }
 
@@ -33,7 +48,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public void addReview(Review review) {
         TableTransactor db = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.addReviewToDb(review, db);
+        boolean success = mDatabase.addReviewToDb(db, review);
         mDatabase.endTransaction(db);
 
         if (success) notifyOnAddReview(review);
@@ -41,13 +56,11 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public Review getReview(ReviewId reviewId) {
-        TableTransactor db = mDatabase.beginReadTransaction();
+        RowEntry<String> clause = asClause(RowReview.REVIEW_ID, reviewId.toString());
 
-        String colName = RowReview.REVIEW_ID.getName();
-        String colVal = reviewId.toString();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db, colName, colVal);
-
-        mDatabase.endTransaction(db);
+        TableTransactor transactor = mDatabase.beginReadTransaction();
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(transactor, mTable, clause);
+        mDatabase.endTransaction(transactor);
 
         if(reviews.size() > 1) {
             throw new IllegalStateException("There is more than 1 review with id " + reviewId);
@@ -58,21 +71,18 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public ArrayList<Review> getReviews() {
-        TableTransactor db = mDatabase.beginReadTransaction();
-
-        String colName = RowReview.PARENT_ID.getName();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(db, colName, null);
-
-        mDatabase.endTransaction(db);
+        TableTransactor transactor = mDatabase.beginReadTransaction();
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(transactor, mTable, REVIEW_CLAUSE);
+        mDatabase.endTransaction(transactor);
 
         return reviews;
     }
 
     @Override
     public void removeReview(ReviewId reviewId) {
-        TableTransactor db = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.deleteReviewFromDb(reviewId.toString(), db);
-        mDatabase.endTransaction(db);
+        TableTransactor transactor = mDatabase.beginWriteTransaction();
+        boolean success = mDatabase.deleteReviewFromDb(transactor, reviewId);
+        mDatabase.endTransaction(transactor);
         if (success) notifyOnDeleteReview(reviewId);
     }
 
@@ -96,5 +106,9 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewRemoved(reviewId);
         }
+    }
+
+    private <T> RowEntry<T> asClause(ColumnInfo<T> column, @Nullable T value) {
+        return new RowEntryImpl<>(column, value);
     }
 }
