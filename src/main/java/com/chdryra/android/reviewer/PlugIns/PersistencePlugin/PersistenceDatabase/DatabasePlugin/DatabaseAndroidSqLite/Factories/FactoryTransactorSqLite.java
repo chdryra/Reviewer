@@ -3,6 +3,8 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 import android.database.sqlite.SQLiteDatabase;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .DatabaseAndroidSqLite.Implementation.EntryToStringConverter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
         .DatabaseAndroidSqLite.Implementation.RowToValuesConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.TableTransactorSqlLite;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.FactoryDbTableRow;
@@ -14,13 +16,16 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryTransactorSqLite {
-    private RowToValuesConverter mConverter;
+    private RowToValuesConverter mRowConverter;
+    private EntryToStringConverter mEntryConverter;
 
-    public FactoryTransactorSqLite(RowToValuesConverter converter) {
-        mConverter = converter;
+    public FactoryTransactorSqLite(RowToValuesConverter rowConverter, EntryToStringConverter
+            entryConverter) {
+        mRowConverter = rowConverter;
+        mEntryConverter = entryConverter;
     }
 
     public TableTransactor newTransactor(SQLiteDatabase db, FactoryDbTableRow rowFactory) {
-        return new TableTransactorSqlLite(db, rowFactory, mConverter);
+        return new TableTransactorSqlLite(db, rowFactory, mRowConverter, mEntryConverter);
     }
 }

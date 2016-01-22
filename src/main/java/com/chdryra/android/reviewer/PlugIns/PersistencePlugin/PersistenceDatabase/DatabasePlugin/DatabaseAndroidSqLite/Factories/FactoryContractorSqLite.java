@@ -7,6 +7,9 @@ import android.content.Context;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryContractor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.ContractorSqlLite;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .DatabaseAndroidSqLite.Implementation.EntryToStringConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowToValuesConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqlLiteContractExecutor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqlLiteTypeDefinitions;
@@ -22,7 +25,7 @@ public class FactoryContractorSqLite implements FactoryContractor{
     @Override
     public <T extends DbContract> ContractorDb<T> newContractor(Context context, DbSpecification<T> spec) {
         FactoryTransactorSqLite transactorFactory
-                = new FactoryTransactorSqLite(new RowToValuesConverter());
+                = new FactoryTransactorSqLite(new RowToValuesConverter(), new EntryToStringConverter());
         SqlLiteContractExecutor executor = new SqlLiteContractExecutor(new SqlLiteTypeDefinitions());
 
         return new ContractorSqlLite<>(context, spec, executor, transactorFactory);

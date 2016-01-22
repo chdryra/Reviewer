@@ -135,7 +135,7 @@ public class ReviewUserDb implements Review {
 
     private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table) {
         TableTransactor db = mDatabase.beginReadTransaction();
-        ArrayList<T> data = mDatabase.loadFromDataTable(db, table, getReviewId().toString());
+        ArrayList<T> data = mDatabase.loadFromTableWhere(db, table, getReviewId().toString());
         mDatabase.endTransaction(db);
 
         return data;

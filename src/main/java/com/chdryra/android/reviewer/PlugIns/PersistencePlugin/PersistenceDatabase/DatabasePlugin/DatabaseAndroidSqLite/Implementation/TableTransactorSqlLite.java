@@ -13,6 +13,9 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.FactoryDbTableRow;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation.TableRowList;
 
 /**
@@ -23,14 +26,17 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public class TableTransactorSqlLite implements TableTransactor {
     private final SQLiteDatabase mDb;
     private final FactoryDbTableRow mRowFactory;
-    private final RowToValuesConverter mConverter;
+    private final RowToValuesConverter mRowConverter;
+    private final EntryToStringConverter mEntryConverter;
 
     public TableTransactorSqlLite(SQLiteDatabase db,
                                   FactoryDbTableRow rowFactory,
-                                  RowToValuesConverter converter) {
+                                  RowToValuesConverter rowConverter,
+                                  EntryToStringConverter entryConverter) {
         mDb = db;
         mRowFactory = rowFactory;
-        mConverter = converter;
+        mRowConverter = rowConverter;
+        mEntryConverter = entryConverter;
     }
 
     @Override
@@ -46,15 +52,14 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public <DbRow extends DbTableRow> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                               String col,
-                                                               String val) {
-        return getAllRowsWhere(table, col, val);
+    public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
+                                                                             RowEntry<Type> entry) {
+        return getAllRowsWhere(table, entry);
     }
 
     @Override
     public <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table) {
-        return getAllRowsWhere(table, null, null);
+        return getAllRowsWhere(table, null);
     }
 
     @Override
@@ -91,20 +96,22 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public void deleteRows(DbTable<?> table, String col, String val) {
+    public <Type> void deleteRows(DbTable<?> table, RowEntry<Type> entry) {
         String tableName = table.getName();
+        String val = mEntryConverter.convert(entry);
+        String message = "Couldn't delete " + entry.getValue() + " from " + tableName + " table ";
+        if(val == null) throw new IllegalArgumentException(message);
         try {
-            mDb.delete(tableName, col + SQL.BIND_STRING, new String[]{val});
+            mDb.delete(tableName, entry.getColumnName() + SQL.BIND_STRING, new String[]{val});
         } catch (SQLException e) {
-            String message = val + " from " + tableName + " table ";
-            throw new RuntimeException("Couldn't delete " + message, e);
+            throw new RuntimeException(message, e);
         }
     }
 
     @Override
     public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table) {
-        String pkCol = idCol.getName();
-        Cursor cursor = getCursorWhere(table.getName(), pkCol, id);
+        String col = idCol.getName();
+        Cursor cursor = getCursorWhere(table.getName(), col, id);
 
         boolean hasRow = false;
         if (cursor != null) {
@@ -115,16 +122,22 @@ public class TableTransactorSqlLite implements TableTransactor {
         return hasRow;
     }
 
-    private <T extends DbTableRow> T toDbTableRow(DbTable<T> table) {
+    private <DbRow extends DbTableRow> DbRow toDbTableRow(DbTable<DbRow> table) {
         return mRowFactory.emptyRow(table.getRowClass());
     }
 
     @NonNull
-    private <T extends DbTableRow> TableRowList<T> getAllRowsWhere(DbTable<T> table,
-                                                                   @Nullable String col,
-                                                                   @Nullable String val) {
+    private <DbRow extends DbTableRow, Type> TableRowList<DbRow> getAllRowsWhere(DbTable<DbRow> table,
+                                                                           @Nullable RowEntry<Type> entry) {
+        String col = null;
+        String val = null;
+        if(entry != null) {
+            col = entry.getColumnName();
+            val = mEntryConverter.convert(entry);
+        }
+
         Cursor cursor = getFromTableWhere(table.getName(), col, val);
-        TableRowList<T> list = new TableRowList<>();
+        TableRowList<DbRow> list = new TableRowList<>();
         if (cursor == null || cursor.getCount() == 0) {
             list.add(toDbTableRow(table));
             return list;
@@ -138,12 +151,12 @@ public class TableTransactorSqlLite implements TableTransactor {
         return list;
     }
 
-    private <T extends DbTableRow> T toDbTableRow(DbTable<T> table, Cursor cursor) {
+    private <DbRow extends DbTableRow> DbRow toDbTableRow(DbTable<DbRow> table, Cursor cursor) {
         return mRowFactory.newRow(new CursorRowValues(cursor), table.getRowClass());
     }
 
-    private <T extends DbTableRow> ContentValues convertRow(T row) {
-        return mConverter.convert(row);
+    private <DbRow extends DbTableRow> ContentValues convertRow(DbRow row) {
+        return mRowConverter.convert(row);
     }
 
     private Cursor getFromTableWhere(String table, @Nullable String column, @Nullable String

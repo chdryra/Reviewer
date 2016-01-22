@@ -69,24 +69,24 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
     private ArrayList<RowImage> loadImages(ReviewerReadableDb database, TableTransactor db, String reviewId) {
         DbTable<RowImage> imagesTable = database.getImagesTable();
-        return database.loadFromDataTable(db, imagesTable, reviewId);
+        return database.loadFromTableWhere(db, imagesTable, reviewId);
     }
 
     private ArrayList<RowLocation> loadLocations(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
         DbTable<RowLocation> locationsTable = database.getLocationsTable();
-        return database.loadFromDataTable(db, locationsTable, reviewId);
+        return database.loadFromTableWhere(db, locationsTable, reviewId);
     }
 
     private ArrayList<RowFact> loadFacts(ReviewerReadableDb database, TableTransactor db, String reviewId) {
         DbTable<RowFact> factsTable = database.getFactsTable();
-        return database.loadFromDataTable(db, factsTable, reviewId);
+        return database.loadFromTableWhere(db, factsTable, reviewId);
     }
 
     private ArrayList<RowComment> loadComments(ReviewerReadableDb database, TableTransactor db, String
             reviewId) {
         DbTable<RowComment> commentsTable = database.getCommentsTable();
-        return database.loadFromDataTable(db, commentsTable, reviewId);
+        return database.loadFromTableWhere(db, commentsTable, reviewId);
     }
 
     @NonNull

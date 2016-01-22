@@ -1,11 +1,16 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces;
 
-import android.support.annotation.Nullable;
+
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
+
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Implementation.TableRowList;
 
 import java.util.ArrayList;
 
@@ -19,13 +24,16 @@ public interface ReviewerReadableDb extends ReviewerDbContract {
 
     void endTransaction(TableTransactor db);
 
-    ArrayList<Review> loadReviewsWhere(TableTransactor db, String col, @Nullable String val);
+    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor db,
+                                                                        DbTable<DbRow> table,
+                                                                        RowEntry<Type> entry);
 
-    <T extends DbTableRow> T getUniqueRowWhere(TableTransactor db, DbTable<T> table, String col,
-                                               @Nullable String val);
+    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor db,
+                                                             DbTable<DbRow> table,
+                                                             RowEntry<Type> entry);
 
-    <T extends DbTableRow> ArrayList<T> loadFromDataTable(TableTransactor db, DbTable<T> table,
-                                                            String reviewId);
+    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor db,
+                                                                   DbTable<DbRow> table,
+                                                                   RowEntry<Type> entry);
 
-    <T extends DbTableRow> ArrayList<T> getRowsWhere(TableTransactor db, DbTable<T> table, String col, @Nullable String val);
 }
