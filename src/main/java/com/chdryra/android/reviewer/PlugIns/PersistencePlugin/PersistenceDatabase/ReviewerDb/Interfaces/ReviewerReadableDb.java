@@ -27,5 +27,5 @@ public interface ReviewerReadableDb extends ReviewerDbContract {
     <T extends DbTableRow> ArrayList<T> loadFromDataTable(TableTransactor db, DbTable<T> table,
                                                             String reviewId);
 
-    <T extends DbTableRow> ArrayList<T> getRowsWhere(DbTable<T> table, String col, @Nullable String val);
+    <T extends DbTableRow> ArrayList<T> getRowsWhere(TableTransactor db, DbTable<T> table, String col, @Nullable String val);
 }

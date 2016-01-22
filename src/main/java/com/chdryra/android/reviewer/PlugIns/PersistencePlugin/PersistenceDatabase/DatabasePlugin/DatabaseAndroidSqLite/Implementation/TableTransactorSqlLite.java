@@ -46,19 +46,19 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table,
+    public <DbRow extends DbTableRow> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
                                                                String col,
                                                                String val) {
         return getAllRowsWhere(table, col, val);
     }
 
     @Override
-    public <T extends DbTableRow> TableRowList<T> loadTable(DbTable<T> table) {
+    public <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table) {
         return getAllRowsWhere(table, null, null);
     }
 
     @Override
-    public <T extends DbTableRow> boolean insertRow(T row, DbTable<T> table) {
+    public <DbRow extends DbTableRow> boolean insertRow(DbRow row, DbTable<DbRow> table) {
         DbColumnDefinition idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         if (isIdInTable(id, idCol, table)) return false;
@@ -74,7 +74,7 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public <T extends DbTableRow> void insertOrReplaceRow(T row, DbTable<T> table) {
+    public <DbRow extends DbTableRow> void insertOrReplaceRow(DbRow row, DbTable<DbRow> table) {
         DbColumnDefinition idCol = table.getColumn(row.getRowIdColumnName());
         String id = row.getRowId();
         String tableName = table.getName();
@@ -91,7 +91,7 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public void deleteRows(String col, String val, DbTable table) {
+    public void deleteRows(DbTable<?> table, String col, String val) {
         String tableName = table.getName();
         try {
             mDb.delete(tableName, col + SQL.BIND_STRING, new String[]{val});
@@ -102,7 +102,7 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable table) {
+    public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table) {
         String pkCol = idCol.getName();
         Cursor cursor = getCursorWhere(table.getName(), pkCol, id);
 

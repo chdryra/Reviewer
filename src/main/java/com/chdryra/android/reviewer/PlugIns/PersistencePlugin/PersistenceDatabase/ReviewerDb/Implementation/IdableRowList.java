@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces.ReviewDataRow;
@@ -44,6 +46,7 @@ public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T
     }
 
     @Override
+    @NonNull
     public Iterator<T> iterator() {
         return mData.iterator();
     }

@@ -1,6 +1,8 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Implementation;
 
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
         .Implementation.DbEntryType;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
@@ -14,7 +16,7 @@ public class RowEntryImpl<T> implements RowEntry<T> {
     private ColumnInfo<T> mInfo;
     private T mValue;
 
-    public RowEntryImpl(ColumnInfo<T> info, T value) {
+    public RowEntryImpl(ColumnInfo<T> info, @Nullable T value) {
         mInfo = info;
         mValue = value;
     }

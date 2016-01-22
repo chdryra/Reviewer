@@ -15,17 +15,17 @@ public interface TableTransactor {
 
     void endTransaction();
 
-    <T extends DbTableRow> TableRowList<T> getRowsWhere(DbTable<T> table,
+    <DbRow extends DbTableRow> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
                                                         String col,
                                                         String val);
 
-    <T extends DbTableRow> TableRowList<T> loadTable(DbTable<T> table);
+    <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table);
 
-    boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable table);
+    boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table);
 
-    <T extends DbTableRow> boolean insertRow(T row, DbTable<T> table);
+    <DbRow extends DbTableRow> boolean insertRow(DbRow row, DbTable<DbRow> table);
 
-    <T extends DbTableRow> void insertOrReplaceRow(T row, DbTable<T> table);
+    <DbRow extends DbTableRow> void insertOrReplaceRow(DbRow row, DbTable<DbRow> table);
 
-    void deleteRows(String col, String val, DbTable table);
+    void deleteRows(DbTable<?> table, String col, String val);
 }

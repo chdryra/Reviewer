@@ -114,15 +114,13 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <T extends DbTableRow> ArrayList<T> getRowsWhere(DbTable<T> table,
-                                                               String col,
-                                                               String val) {
-        TableTransactor transactor = beginReadTransaction();
-        TableRowList<T> rowList = transactor.getRowsWhere(table, col, val);
-        endTransaction(transactor);
-
+    public <T extends DbTableRow> ArrayList<T> getRowsWhere(TableTransactor transactor,
+                                                            DbTable<T> table,
+                                                            String col,
+                                                            String val) {
         ArrayList<T> rowArray = new ArrayList<>();
-        rowArray.addAll(rowList);
+        rowArray.addAll(transactor.getRowsWhere(table, col, val));
+
         return rowArray;
     }
 
@@ -284,7 +282,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromAuthorsTable(String userId, TableTransactor transactor) {
-        transactor.deleteRows(RowAuthor.USER_ID.getName(), userId, getAuthorsTable());
+        transactor.deleteRows(getAuthorsTable(), RowAuthor.USER_ID.getName(), userId);
     }
 
     private void addToTagsTable(Review review, TableTransactor transactor) {
@@ -295,7 +293,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromTagsTable(String tag, TableTransactor transactor) {
-        transactor.deleteRows(RowTag.TAG.getName(), tag, getTagsTable());
+        transactor.deleteRows(getTagsTable(), RowTag.TAG.getName(), tag);
     }
 
     private void addToReviewsTable(Review review, TableTransactor transactor) {
@@ -317,7 +315,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     private void deleteFromTable(DbTable table, String reviewId, TableTransactor transactor) {
-        transactor.deleteRows(getColumnNameReviewId(), reviewId, table);
+        transactor.deleteRows(table, getColumnNameReviewId(), reviewId);
     }
 
     private void addToCommentsTable(Review review, TableTransactor transactor) {

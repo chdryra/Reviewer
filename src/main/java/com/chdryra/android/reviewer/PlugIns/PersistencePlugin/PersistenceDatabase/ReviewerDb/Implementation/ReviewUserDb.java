@@ -117,9 +117,11 @@ public class ReviewUserDb implements Review {
 
     @Override
     public IdableList<? extends DataImage> getCovers() {
+        TableTransactor db = mDatabase.beginReadTransaction();
         ArrayList<RowImage> covers =
-                mDatabase.getRowsWhere(mDatabase.getImagesTable(), RowImage.IS_COVER.getName(), "1");
-
+                mDatabase.getRowsWhere(db, mDatabase.getImagesTable(), RowImage.IS_COVER.getName(), "1");
+        mDatabase.endTransaction(db);
+        
         return new IdableRowList<>(getReviewId(), covers);
     }
 
