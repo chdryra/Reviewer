@@ -14,7 +14,6 @@ import com.chdryra.android.testutils.RandomString;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import test.TestUtils.RandomDataDate;
 import test.TestUtils.RandomReviewId;
@@ -27,8 +26,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowImageImplTest extends RowTableBasicTest<RowImageImpl>{
-    private static final Random RAND = new Random();
+public class RowImageImplTest extends RowTableBasicTest<RowImageImpl> {
     public static final int INDEX = 314;
 
     public RowImageImplTest() {
@@ -37,26 +35,30 @@ public class RowImageImplTest extends RowTableBasicTest<RowImageImpl>{
 
     @Test
     public void constructionWithRowValuesAndGetters() {
-        RowImageImpl reference = newRow();
-
         RowValuesForTest values = new RowValuesForTest();
-        values.put(RowImage.IMAGE_ID, reference.getRowId());
-        values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowImage.BITMAP, reference.getBitmap());
-        values.put(RowImage.IS_COVER, reference.isCover());
-        values.put(RowImage.CAPTION, reference.getCaption());
-        values.put(RowImage.IMAGE_DATE, reference.getDate().getTime());
+        String reviewId = RandomReviewId.nextIdString();
+        String imageId = reviewId + ":i" + String.valueOf(INDEX);
+        byte[] data = new byte[40];
+        RAND.nextBytes(data);
+        boolean isCover = RAND.nextBoolean();
+        String caption = RandomString.nextSentence();
+        long imageDate = RandomDataDate.nextDate().getTime();
 
-        checkAgainstReference(new RowImageImpl(values), reference);
-    }
+        values.put(RowImage.REVIEW_ID, reviewId);
+        values.put(RowImage.IMAGE_ID, imageId);
+        values.put(RowImage.BITMAP, new ByteArray(data));
+        values.put(RowImage.IS_COVER, isCover);
+        values.put(RowImage.CAPTION, caption);
+        values.put(RowImage.IMAGE_DATE, imageDate);
 
-    private void checkAgainstReference(RowImageImpl row, DataImage reference) {
-        assertThat(row.getRowId(), is(rowId(reference, INDEX)));
-        assertThat(row.getReviewId(), is(reference.getReviewId()));
-        assertThat(row.getBitmap(), is(reference.getBitmap()));
-        assertThat(row.isCover(), is(reference.isCover()));
-        assertThat(row.getCaption(), is(reference.getCaption()));
-        assertThat(row.getDate().getTime(), is(reference.getDate().getTime()));
+        RowImageImpl row = new RowImageImpl(values);
+
+        assertThat(row.getRowId(), is(imageId));
+        assertThat(row.getReviewId().toString(), is(reviewId));
+        //assertThat(row.getBitmap(), is());
+        assertThat(row.isCover(), is(isCover));
+        assertThat(row.getCaption(), is(caption));
+        assertThat(row.getDate().getTime(), is(imageDate));
     }
 
     @Test
@@ -139,6 +141,15 @@ public class RowImageImplTest extends RowTableBasicTest<RowImageImpl>{
     @Override
     protected String getRowId(RowImageImpl row) {
         return rowId(row, 314);
+    }
+
+    private void checkAgainstReference(RowImageImpl row, DataImage reference) {
+        assertThat(row.getRowId(), is(rowId(reference, INDEX)));
+        assertThat(row.getReviewId(), is(reference.getReviewId()));
+        assertThat(row.getBitmap(), is(reference.getBitmap()));
+        assertThat(row.isCover(), is(reference.isCover()));
+        assertThat(row.getCaption(), is(reference.getCaption()));
+        assertThat(row.getDate().getTime(), is(reference.getDate().getTime()));
     }
 
     private String rowId(DataImage image, int index) {

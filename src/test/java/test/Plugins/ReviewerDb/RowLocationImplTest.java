@@ -50,7 +50,6 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl> {
         RowLocationImpl row = new RowLocationImpl(values);
 
         assertThat(row.hasData(new DataValidator()), is(true));
-
         checkAgainstReference(row, reference);
     }
 
@@ -62,7 +61,6 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl> {
         RowLocationImpl row = new RowLocationImpl(location, INDEX);
 
         assertThat(row.hasData(new DataValidator()), is(true));
-
         checkAgainstReference(row, location);
     }
 

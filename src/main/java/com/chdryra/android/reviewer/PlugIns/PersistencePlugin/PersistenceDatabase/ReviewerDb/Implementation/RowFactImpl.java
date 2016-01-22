@@ -78,7 +78,8 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(this);
+        return validator.validate(this) && validator.validateString(mFactId)
+                && validator.validateString(mReviewId);
     }
 
     @Override
@@ -96,8 +97,10 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
             return new RowEntryImpl<>(LABEL, mLabel);
         } else if(position == 3) {
             return new RowEntryImpl<>(VALUE, mValue);
-        } else {
+        } else if(position == 4){
             return new RowEntryImpl<>(IS_URL, mIsUrl);
+        } else {
+            throw noElement();
         }
     }
 }

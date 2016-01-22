@@ -13,6 +13,7 @@ import org.junit.rules.ExpectedException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.*;
@@ -23,6 +24,8 @@ import static org.hamcrest.MatcherAssert.*;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class RowTableBasicTest<T extends RowTableBasic> {
+    protected static final Random RAND = new Random();
+
     @Rule
     public ExpectedException mExpectedException = ExpectedException.none();
 

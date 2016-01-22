@@ -31,6 +31,20 @@ public class RowTagImplTest extends RowTableBasicTest<RowTagImpl>{
     }
 
     @Test
+    public void constructionWithItemTagAndGetters() {
+        ArrayList<String> ids = new ArrayList<>();
+        for (int i = 0; i < NUM; i++) {
+            ids.add(RandomString.nextWord());
+        }
+        String tagString = RandomString.nextWord();
+        ItemTag tag = new Tag(tagString, ids);
+
+        RowTagImpl row = new RowTagImpl(tag);
+        assertThat(row.getTag(), is(tagString));
+        assertThat(row.getReviewIds(), is(ids));
+    }
+
+    @Test
     public void constructionWithRowValuesAndGetters() {
         RowTag reference = newRow();
 
