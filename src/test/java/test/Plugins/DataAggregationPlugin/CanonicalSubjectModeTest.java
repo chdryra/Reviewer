@@ -3,7 +3,7 @@ package test.Plugins.DataAggregationPlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalSubjectMode;
 
 import test.TestUtils.RandomReviewId;

@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalFact;
 import com.chdryra.android.testutils.RandomString;
 

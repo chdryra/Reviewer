@@ -24,17 +24,19 @@ import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationS
  */
 public class FactoryApplicationContext {
     public ApplicationContext newReleaseContext(Context context,
-                                                DataAuthor author,
                                                 DeviceContext deviceContext,
-                                                ApplicationPlugins plugins) {
+                                                ApplicationPlugins plugins,
+                                                DataAuthor author) {
         ModelContext modelContext =
                 new ReleaseModelContext(context, author, plugins.getPersistencePlugin());
 
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 
         PresenterContext presenterContext =
-                new ReleasePresenterContext(context,
-                        modelContext, viewContext, deviceContext, author, plugins.getDataAggregationPlugin());
+                new ReleasePresenterContext(context, modelContext, viewContext, deviceContext,
+                        author,
+                        plugins.getDataComparatorsPlugin(),
+                        plugins.getDataAggregatorsPlugin());
 
         ReviewerLocationServices services = getLocationServices(context, plugins.getLocationServicesPlugin());
         return new ApplicationContextImpl(presenterContext, services);

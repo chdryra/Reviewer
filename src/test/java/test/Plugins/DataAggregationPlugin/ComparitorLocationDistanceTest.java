@@ -3,7 +3,7 @@ package test.Plugins.DataAggregationPlugin;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorLocationDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;

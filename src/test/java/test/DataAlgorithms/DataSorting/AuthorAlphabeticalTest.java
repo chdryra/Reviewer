@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.AuthorAlphabetical;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.AuthorAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;

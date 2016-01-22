@@ -48,7 +48,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public void addReview(Review review) {
         TableTransactor db = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.addReviewToDb(db, review);
+        boolean success = mDatabase.addReviewToDb(review, db);
         mDatabase.endTransaction(db);
 
         if (success) notifyOnAddReview(review);
@@ -59,7 +59,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         RowEntry<String> clause = asClause(RowReview.REVIEW_ID, reviewId.toString());
 
         TableTransactor transactor = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(transactor, mTable, clause);
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
         mDatabase.endTransaction(transactor);
 
         if(reviews.size() > 1) {
@@ -72,7 +72,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public ArrayList<Review> getReviews() {
         TableTransactor transactor = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(transactor, mTable, REVIEW_CLAUSE);
+        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
         mDatabase.endTransaction(transactor);
 
         return reviews;
@@ -81,7 +81,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public void removeReview(ReviewId reviewId) {
         TableTransactor transactor = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.deleteReviewFromDb(transactor, reviewId);
+        boolean success = mDatabase.deleteReviewFromDb(reviewId, transactor);
         mDatabase.endTransaction(transactor);
         if (success) notifyOnDeleteReview(reviewId);
     }

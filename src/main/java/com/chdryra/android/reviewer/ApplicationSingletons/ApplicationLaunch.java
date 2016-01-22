@@ -42,9 +42,8 @@ public class ApplicationLaunch {
         FactoryApplicationContext contextFactory = new FactoryApplicationContext();
 
         mApplicationContext
-                = contextFactory.newReleaseContext(mContext, AUTHOR,
-                getDeviceContext(),
-                Plugins.getPlugins(launchState));
+                = contextFactory.newReleaseContext(mContext, getDeviceContext(), Plugins.getPlugins(launchState), AUTHOR
+        );
     }
 
     private void intialiseSingletons() {

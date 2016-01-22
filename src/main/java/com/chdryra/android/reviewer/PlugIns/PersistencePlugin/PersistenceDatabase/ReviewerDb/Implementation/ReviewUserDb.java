@@ -146,7 +146,7 @@ public class ReviewUserDb implements Review {
     private void loadAuthor() {
         TableTransactor transactor = mDb.beginReadTransaction();
         RowEntry<String> clause = asClause(RowAuthor.USER_ID, mRow.getAuthorId());
-        RowAuthor row = mDb.getUniqueRowWhere(transactor, mDb.getAuthorsTable(), clause);
+        RowAuthor row = mDb.getUniqueRowWhere(mDb.getAuthorsTable(), clause, transactor);
         mDb.endTransaction(transactor);
         mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getUserId());
     }
@@ -163,7 +163,7 @@ public class ReviewUserDb implements Review {
         ArrayList<T> data = new ArrayList<>();
 
         TableTransactor db = mDb.beginReadTransaction();
-        data.addAll(mDb.getRowsWhere(db, table, clause));
+        data.addAll(mDb.getRowsWhere(table, clause, db));
         mDb.endTransaction(db);
 
         return data;
@@ -171,8 +171,8 @@ public class ReviewUserDb implements Review {
 
     private ArrayList<Review> loadCriteria() {
         TableTransactor transactor = mDb.beginReadTransaction();
-        ArrayList<Review> criteria = mDb.loadReviewsWhere(transactor, mDb.getReviewsTable(),
-                asClause(RowReview.PARENT_ID, getReviewId().toString()));
+        ArrayList<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(), asClause(RowReview.PARENT_ID, getReviewId().toString()), transactor
+        );
         mDb.endTransaction(transactor);
         return criteria;
     }

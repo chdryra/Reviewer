@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalStringMaker;
 import com.chdryra.android.testutils.RandomString;
 

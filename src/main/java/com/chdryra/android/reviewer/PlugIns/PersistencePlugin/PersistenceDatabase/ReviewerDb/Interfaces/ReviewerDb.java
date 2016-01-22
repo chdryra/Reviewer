@@ -27,9 +27,9 @@ import java.util.ArrayList;
 public interface ReviewerDb extends ReviewerReadableDb{
     TagsManager getTagsManager();
 
-    boolean addReviewToDb(TableTransactor transactor, Review review);
+    boolean addReviewToDb(Review review, TableTransactor transactor);
 
-    boolean deleteReviewFromDb(TableTransactor transactor, ReviewId id);
+    boolean deleteReviewFromDb(ReviewId id, TableTransactor transactor);
 
     TableTransactor beginWriteTransaction();
 
@@ -40,17 +40,17 @@ public interface ReviewerDb extends ReviewerReadableDb{
     void endTransaction(TableTransactor db);
 
     @Override
-    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor transactor,
-                                                                        DbTable<DbRow> table,
-                                                                        RowEntry<Type> clause);
+    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(DbTable<DbRow> table,
+                                                                        RowEntry<Type> clause,
+                                                                        TableTransactor transactor);
 
     @Override
-    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor transactor,
-                                                             DbTable<DbRow> table,
-                                                             RowEntry<Type> clause);
+    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
+                                                             RowEntry<Type> clause,
+                                                             TableTransactor transactor);
 
     @Override
-    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor transactor,
-                                                                      DbTable<DbRow> table,
-                                                                      RowEntry<Type> clause);
+    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
+                                                                      RowEntry<Type> clause,
+                                                                      TableTransactor transactor);
 }

@@ -69,7 +69,7 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockDb = mockWriteTransaction();
         Review review = RandomReview.nextReview();
         mRepo.addReview(review);
-        verify(mDb).addReviewToDb(mockDb, review);
+        verify(mDb).addReviewToDb(review, mockDb);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class ReviewerDbRepositoryTest {
 
         Review review = RandomReview.nextReview();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.addReviewToDb(mockDb, review)).thenReturn(true);
+        when(mDb.addReviewToDb(review, mockDb)).thenReturn(true);
 
         mRepo.addReview(review);
 
@@ -98,7 +98,7 @@ public class ReviewerDbRepositoryTest {
 
         Review review = RandomReview.nextReview();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.addReviewToDb(mockDb, review)).thenReturn(false);
+        when(mDb.addReviewToDb(review, mockDb)).thenReturn(false);
 
         mRepo.addReview(review);
 
@@ -111,7 +111,7 @@ public class ReviewerDbRepositoryTest {
         RowEntry<String> clause = asClause(RowReview.REVIEW_ID, id.toString());
         TableTransactor mockTransactor = mockReadTransaction();
         mRepo.getReview(id);
-        verify(mDb).loadReviewsWhere(mockTransactor, mReviewsTable, clause);
+        verify(mDb).loadReviewsWhere(mReviewsTable, clause, mockTransactor);
     }
 
     @Test
@@ -151,7 +151,7 @@ public class ReviewerDbRepositoryTest {
     public void getReviewsCallsLoadReviewsFromDbWhere() {
         TableTransactor mockTransactor = mockReadTransaction();
         mRepo.getReviews();
-        verify(mDb).loadReviewsWhere(mockTransactor, mReviewsTable, REVIEW_CLAUSE);
+        verify(mDb).loadReviewsWhere(mReviewsTable, REVIEW_CLAUSE, mockTransactor);
     }
 
     @Test
@@ -162,7 +162,7 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
 
         TableTransactor mockDb = mockReadTransaction();
-        when(mDb.loadReviewsWhere(mockDb, mReviewsTable, REVIEW_CLAUSE)).thenReturn(reviews);
+        when(mDb.loadReviewsWhere(mReviewsTable, REVIEW_CLAUSE, mockDb)).thenReturn(reviews);
         assertThat(mRepo.getReviews(), is(reviews));
     }
 
@@ -171,7 +171,7 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockTransactor = mockWriteTransaction();
         ReviewId id = RandomReviewId.nextReviewId();
         mRepo.removeReview(id);
-        verify(mDb).deleteReviewFromDb(mockTransactor, id);
+        verify(mDb).deleteReviewFromDb(id, mockTransactor);
     }
 
     @Test
@@ -183,7 +183,7 @@ public class ReviewerDbRepositoryTest {
 
         ReviewId id = RandomReviewId.nextReviewId();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.deleteReviewFromDb(mockDb, id)).thenReturn(true);
+        when(mDb.deleteReviewFromDb(id, mockDb)).thenReturn(true);
 
         mRepo.removeReview(id);
 
@@ -200,7 +200,7 @@ public class ReviewerDbRepositoryTest {
 
         ReviewId id = RandomReviewId.nextReviewId();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.deleteReviewFromDb(mockDb, id)).thenReturn(false);
+        when(mDb.deleteReviewFromDb(id, mockDb)).thenReturn(false);
 
         mRepo.removeReview(id);
 
@@ -210,7 +210,7 @@ public class ReviewerDbRepositoryTest {
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
         TableTransactor mockDb = mockReadTransaction();
         RowEntry<String> clause = asClause(RowReview.REVIEW_ID, id.toString());
-        when(mDb.loadReviewsWhere(mockDb, mReviewsTable, clause)).thenReturn(reviews);
+        when(mDb.loadReviewsWhere(mReviewsTable, clause, mockDb)).thenReturn(reviews);
     }
 
     private TableTransactor mockReadTransaction() {

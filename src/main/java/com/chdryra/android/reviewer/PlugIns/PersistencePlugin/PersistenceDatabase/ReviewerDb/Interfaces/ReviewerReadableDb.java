@@ -1,12 +1,16 @@
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb.Interfaces;
-
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
+        .Interfaces;
 
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.GenericDb
+        .Interfaces.RowEntry;
 
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.ReviewerDb
@@ -24,16 +28,16 @@ public interface ReviewerReadableDb extends ReviewerDbContract {
 
     void endTransaction(TableTransactor db);
 
-    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(TableTransactor transactor,
-                                                                        DbTable<DbRow> table,
-                                                                        RowEntry<Type> clause);
+    <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(DbTable<DbRow> table,
+                                                                        RowEntry<Type> clause,
+                                                                        TableTransactor transactor);
 
-    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(TableTransactor transactor,
-                                                             DbTable<DbRow> table,
-                                                             RowEntry<Type> clause);
+    <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
+                                                             RowEntry<Type> clause,
+                                                             TableTransactor transactor);
 
-    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(TableTransactor transactor,
-                                                                   DbTable<DbRow> table,
-                                                                   RowEntry<Type> clause);
+    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
+                                                                      RowEntry<Type> clause,
+                                                                      TableTransactor transactor);
 
 }

@@ -93,21 +93,21 @@ public class ReviewLoaderStatic implements ReviewLoader {
                                                          ColumnInfo<String> reviewIdCol,
                                                          String reviewId) {
         ArrayList<T> data = new ArrayList<>();
-        data.addAll(database.getRowsWhere(transactor, table, asClause(reviewIdCol, reviewId)));
+        data.addAll(database.getRowsWhere(table, asClause(reviewIdCol, reviewId), transactor));
         return data;
     }
 
     private ArrayList<Review> loadCriteria(ReviewerReadableDb db, TableTransactor transactor,
                                            String reviewId) {
         RowEntry<String> clause = asClause(RowReview.PARENT_ID, reviewId);
-        return db.loadReviewsWhere(transactor, db.getReviewsTable(), clause);
+        return db.loadReviewsWhere(db.getReviewsTable(), clause, transactor);
     }
 
     @NonNull
     private DataAuthor loadAuthor(ReviewerReadableDb db, TableTransactor transactor, String
             userId) {
         RowEntry<String> clause = asClause(RowAuthor.USER_ID, userId);
-        RowAuthor authorRow = db.getUniqueRowWhere(transactor, db.getAuthorsTable(), clause);
+        RowAuthor authorRow = db.getUniqueRowWhere(db.getAuthorsTable(), clause, transactor);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());
     }
 

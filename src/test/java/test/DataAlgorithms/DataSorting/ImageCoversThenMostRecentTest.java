@@ -1,7 +1,7 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.DateMostRecentFirst;
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.ImageCoversThenMostRecent;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ImageCoversThenMostRecent;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;

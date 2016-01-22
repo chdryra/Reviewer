@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.ComparatorCollectionImpl;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollectionImpl;
 
 import org.junit.Before;
 import org.junit.Test;

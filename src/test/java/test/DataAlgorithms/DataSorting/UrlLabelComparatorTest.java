@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.UrlLabelComparator;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.UrlLabelComparator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;

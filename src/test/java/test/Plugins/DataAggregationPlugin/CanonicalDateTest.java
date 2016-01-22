@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalDate;
 
 import org.junit.Before;

@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
 
 import java.util.ArrayList;
 import java.util.Calendar;

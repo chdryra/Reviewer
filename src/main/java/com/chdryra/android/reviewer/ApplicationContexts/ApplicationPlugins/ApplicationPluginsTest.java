@@ -1,8 +1,11 @@
 package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.DataAggregationPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
-        .DataAggregationPluginDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.DataAggregatorsDefault;
+
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
+        .DataComparatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.LocationServicesGoogle;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
@@ -22,8 +25,13 @@ public class ApplicationPluginsTest implements ApplicationPlugins {
     private static final int PERSISTENCE_VER = 1;
 
     @Override
-    public DataAggregationPlugin getDataAggregationPlugin() {
-        return new DataAggregationPluginDefault();
+    public DataComparatorsPlugin getDataComparatorsPlugin() {
+        return new DataComparatorsDefault();
+    }
+
+    @Override
+    public DataAggregatorsPlugin getDataAggregatorsPlugin() {
+        return new DataAggregatorsDefault();
     }
 
     @Override

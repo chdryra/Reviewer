@@ -4,7 +4,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorCriterion;
 import com.chdryra.android.testutils.RandomString;
 

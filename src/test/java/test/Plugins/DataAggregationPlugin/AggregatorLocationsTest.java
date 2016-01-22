@@ -9,7 +9,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
 import com.chdryra.android.reviewer.Utils.LatLngDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;

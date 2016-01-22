@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;

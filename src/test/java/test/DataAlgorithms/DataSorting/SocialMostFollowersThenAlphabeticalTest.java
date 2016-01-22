@@ -1,6 +1,6 @@
 package test.DataAlgorithms.DataSorting;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Implementation.SocialMostFollowersThenAlphabetical;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialMostFollowersThenAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.testutils.RandomString;
 

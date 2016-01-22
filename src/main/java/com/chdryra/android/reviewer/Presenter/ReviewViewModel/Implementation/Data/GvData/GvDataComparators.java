@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Factories.DataComparatorsFactory;
-import com.chdryra.android.reviewer.Algorithms.DataSorting.Interfaces.ComparatorCollection;
+import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.FactoryDataComparators;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 import java.util.Comparator;
@@ -20,7 +20,7 @@ public class GvDataComparators {
     private static GvDataComparators sComparator;
     private ComparatorMappings mMap = new ComparatorMappings();
 
-    private GvDataComparators(DataComparatorsFactory comparatorsFactory) {
+    private GvDataComparators(FactoryDataComparators comparatorsFactory) {
         mMap = new ComparatorMappings();
         mMap.put(GvSubject.TYPE, comparatorsFactory.getSubjectComparators());
         mMap.put(GvAuthor.TYPE, comparatorsFactory.getAuthorComparators());
@@ -37,8 +37,12 @@ public class GvDataComparators {
     }
 
     //Static methods
+    public static void initialise(FactoryDataComparators comparators) {
+        if (sComparator == null) sComparator = new GvDataComparators(comparators);
+    }
+
     public static <T extends GvData> Comparator<? super T> getDefaultComparator(GvDataType<T> elementType) {
-        ComparatorCollection<? super T> sorters = get().mMap.get(elementType);
+        ComparatorCollection<? super T> sorters = sComparator.mMap.get(elementType);
         if(sorters != null) {
             return sorters.getDefault();
         } else {
@@ -54,11 +58,6 @@ public class GvDataComparators {
                 return lhs.toString().compareToIgnoreCase(rhs.toString());
             }
         };
-    }
-
-    private static GvDataComparators get() {
-        if (sComparator == null) sComparator = new GvDataComparators(new DataComparatorsFactory());
-        return sComparator;
     }
 
     //To help with type safety

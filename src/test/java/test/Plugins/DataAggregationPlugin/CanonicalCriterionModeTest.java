@@ -2,7 +2,7 @@ package test.Plugins.DataAggregationPlugin;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalCriterionMode;
 
 import test.TestUtils.RandomRating;

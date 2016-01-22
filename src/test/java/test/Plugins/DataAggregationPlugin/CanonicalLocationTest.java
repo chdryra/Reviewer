@@ -5,9 +5,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalLocation;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalStringMaker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.google.android.gms.maps.model.LatLng;

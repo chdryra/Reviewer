@@ -3,7 +3,7 @@ package test.Plugins.DataAggregationPlugin;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.PlugIns.DataAggregationPlugin.DataAggregationPluginDefault
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorAuthor;
 
 import org.junit.Before;
