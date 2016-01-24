@@ -29,17 +29,18 @@ public interface TableTransactor {
 
     void endTransaction();
 
-    <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table, FactoryDbTableRow rowFactory);
+    <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table,
+                                                             FactoryDbTableRow rowFactory);
 
     <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                      RowEntry<Type> entry,
+                                                                      RowEntry<Type> clause,
                                                                       FactoryDbTableRow rowFactory);
+
+    <Type> void deleteRowsWhere(DbTable<?> table, RowEntry<Type> clause);
 
     <DbRow extends DbTableRow> boolean insertRow(DbRow row, DbTable<DbRow> table);
 
     <DbRow extends DbTableRow> void insertOrReplaceRow(DbRow row, DbTable<DbRow> table);
-
-    <Type> void deleteRows(DbTable<?> table, RowEntry<Type> entry);
 
     boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table);
 }

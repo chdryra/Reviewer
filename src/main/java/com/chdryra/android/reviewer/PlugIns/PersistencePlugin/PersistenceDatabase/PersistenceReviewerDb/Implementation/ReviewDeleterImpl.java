@@ -54,17 +54,25 @@ public class ReviewDeleterImpl implements ReviewDeleter {
         deleteFromTable(db.getFactsTable(), RowFact.REVIEW_ID, idString, transactor);
         deleteFromTable(db.getCommentsTable(), RowComment.REVIEW_ID, idString, transactor);
         deleteFromTable(db.getReviewsTable(), RowReview.REVIEW_ID, idString, transactor);
-        deleteCriteriaFromReviewsTable(db.getReviewsTable(), RowReview.REVIEW_ID, idString,
-                transactor);
-        deleteFromTagsTableIfNecessary(db.getTagsTable(), db.getTagsManager(), idString,
-                transactor);
-        deleteFromAuthorsTableIfNecessary(db, row, transactor);
+        deleteCriteria(db.getReviewsTable(), RowReview.REVIEW_ID, idString, transactor);
+        deleteTagsIfNecessary(db.getTagsTable(), db.getTagsManager(), idString, transactor);
+        deleteAuthorIfNecessary(db, row, transactor);
 
         return true;
     }
 
-    private void deleteFromTagsTableIfNecessary(DbTable<RowTag> tagsTable, TagsManager tagsManager,
-                                                String reviewId, TableTransactor transactor) {
+    private void deleteCriteria(DbTable<RowReview> reviewsTable,
+                                ColumnInfo<String> idCol, String id,
+                                TableTransactor transactor) {
+        RowEntry<String> clause = asClause(RowReview.PARENT_ID, id);
+        TableRowList<RowReview> rows = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
+        for (RowReview row : rows) {
+            deleteFromTable(reviewsTable, idCol, row.getReviewId().toString(), transactor);
+        }
+    }
+
+    private void deleteTagsIfNecessary(DbTable<RowTag> tagsTable, TagsManager tagsManager,
+                                       String reviewId, TableTransactor transactor) {
         ItemTagCollection tags = tagsManager.getTags(reviewId);
         for (ItemTag tag : tags) {
             if (tagsManager.untagItem(reviewId, tag)) {
@@ -73,11 +81,11 @@ public class ReviewDeleterImpl implements ReviewDeleter {
         }
     }
 
-    private void deleteFromAuthorsTableIfNecessary(ReviewerDb db, RowReview row,
-                                                   TableTransactor transactor) {
+    private void deleteAuthorIfNecessary(ReviewerDb db, RowReview row,
+                                         TableTransactor transactor) {
         String userId = row.getAuthorId();
         DbTable<RowReview> reviewsTable = db.getReviewsTable();
-        RowEntry<String> clause = asEntry(RowReview.USER_ID, userId);
+        RowEntry<String> clause = asClause(RowReview.USER_ID, userId);
 
         TableRowList<RowReview> authored = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
         if (authored.size() == 0) {
@@ -85,22 +93,12 @@ public class ReviewDeleterImpl implements ReviewDeleter {
         }
     }
 
-    private void deleteCriteriaFromReviewsTable(DbTable<RowReview> reviewsTable,
-                                                ColumnInfo<String> idCol, String id,
-                                                TableTransactor transactor) {
-        RowEntry<String> clause = asEntry(RowReview.PARENT_ID, id);
-        TableRowList<RowReview> rows = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
-        for (RowReview row : rows) {
-            deleteFromTable(reviewsTable, idCol, row.getReviewId().toString(), transactor);
-        }
-    }
-
     private void deleteFromTable(DbTable<?> table, ColumnInfo<String> rowIdCol, String rowId, TableTransactor transactor) {
-        transactor.deleteRows(table, asEntry(rowIdCol, rowId));
+        transactor.deleteRowsWhere(table, asClause(rowIdCol, rowId));
     }
 
     @NonNull
-    private <T> RowEntry<T> asEntry(ColumnInfo<T> column, T value) {
+    private <T> RowEntry<T> asClause(ColumnInfo<T> column, T value) {
         return new RowEntryImpl<>(column, value);
     }
 }
