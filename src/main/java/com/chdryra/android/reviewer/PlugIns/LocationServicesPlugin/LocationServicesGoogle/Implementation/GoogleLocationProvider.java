@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationProvider;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 
 /**
  * Created by: Rizwan Choudrey

@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Dialogs.Implementation.DialogGvDataEdit;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
 
 /**
  * Created by: Rizwan Choudrey

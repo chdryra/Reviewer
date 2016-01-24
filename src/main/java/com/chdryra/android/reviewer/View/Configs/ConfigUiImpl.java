@@ -1,6 +1,6 @@
 package com.chdryra.android.reviewer.View.Configs;
 
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroid;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 

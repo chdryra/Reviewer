@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AutoCompleterProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleterProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 

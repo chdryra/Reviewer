@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**

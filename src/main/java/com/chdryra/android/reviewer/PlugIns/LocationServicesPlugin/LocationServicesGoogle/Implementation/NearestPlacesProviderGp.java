@@ -2,8 +2,8 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.NearestPlacesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesProvider;
 
 import java.util.ArrayList;
 

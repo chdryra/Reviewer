@@ -3,10 +3,9 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 
 import android.os.AsyncTask;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetails;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetailsProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces
         .LocationDetailsFetcher;
 

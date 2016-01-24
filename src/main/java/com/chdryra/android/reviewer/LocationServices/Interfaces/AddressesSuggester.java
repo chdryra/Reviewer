@@ -1,6 +1,5 @@
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

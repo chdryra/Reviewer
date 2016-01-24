@@ -4,8 +4,8 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 import com.chdryra.android.remoteapifetchers.GpAutoCompletePredictions;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AutoCompleterProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleterProvider;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

@@ -4,9 +4,9 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 import com.chdryra.android.remoteapifetchers.GpPlaceDetailsResult;
 import com.chdryra.android.remoteapifetchers.PlacesApi;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetails;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationId;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetailsProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsProvider;
 
 /**
  * Created by: Rizwan Choudrey

@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregater;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -43,7 +43,7 @@ public class FactoryReviewViewAdapter {
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryNodeTraverser mTraverserFactory;
-    private GvDataAggregater mAggregater;
+    private GvDataAggregator mAggregater;
     private ConverterGv mConverter;
     private ReviewsSource mProvider;
 
@@ -51,7 +51,7 @@ public class FactoryReviewViewAdapter {
     public FactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                     FactoryVisitorReviewNode visitorFactory,
                                     FactoryNodeTraverser traverserFactory,
-                                    GvDataAggregater aggregater,
+                                    GvDataAggregator aggregater,
                                     ReviewsSource provider,
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);

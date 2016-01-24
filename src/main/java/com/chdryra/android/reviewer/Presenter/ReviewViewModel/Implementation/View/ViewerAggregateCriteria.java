@@ -11,8 +11,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterionList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataAggregater;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,13 +19,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> {
-    GvDataAggregater mAggregater;
+    GvDataAggregator mAggregater;
 
     //Constructors
     public ViewerAggregateCriteria(GvCanonicalCollection<GvCriterion> data,
                                    FactoryGridDataViewer viewerFactory,
                                    FactoryReviewViewAdapter adapterFactory,
-                                   GvDataAggregater aggregater) {
+                                   GvDataAggregator aggregater) {
         super(data, viewerFactory, adapterFactory);
         mAggregater = aggregater;
     }
@@ -36,7 +35,7 @@ public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> 
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         GvCanonicalCollection<GvCriterion> aggregate;
         aggregate = mAggregater.aggregateCriteria((GvCriterionList) datum.toList(),
-                GvDataAggregater.CriterionAggregation.SUBJECT_RATING);
+                GvDataAggregator.CriterionAggregation.SUBJECT_RATING);
 
         int diffSubject = 0;
         GvCriterion reference = aggregate.getCanonical(0);

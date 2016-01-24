@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 
 import com.chdryra.android.mygenerallibrary.GooglePlacesApi;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AddressesProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

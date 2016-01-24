@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCanonicalCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataAggregater;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -31,7 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class ViewerTreeData extends ViewerReviewData {
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryNodeTraverser mTraverserFactory;
-    private GvDataAggregater mAggregater;
+    private GvDataAggregator mAggregater;
 
     public ViewerTreeData(ReviewNode node,
                    ConverterGv converter,
@@ -39,7 +38,7 @@ public class ViewerTreeData extends ViewerReviewData {
                    FactoryReviewViewAdapter adapterFactory,
                    FactoryVisitorReviewNode visitorFactory,
                    FactoryNodeTraverser traverserFactory,
-                   GvDataAggregater aggregater) {
+                   GvDataAggregator aggregater) {
         super(node, converter, tagsManager, adapterFactory);
         mAggregater = aggregater;
         mVisitorFactory = visitorFactory;
@@ -59,7 +58,7 @@ public class ViewerTreeData extends ViewerReviewData {
         data.add(mAggregater.aggregateSubjects(converter.toGvSubjectList(nodes, id)));
         data.add(mAggregater.aggregateDates(converter.toGvDateList(nodes, id)));
         data.add(mAggregater.aggregateTags(collectTags()));
-        data.add(mAggregater.aggregateCriteria(node.getCriteria(), GvDataAggregater.CriterionAggregation.SUBJECT));
+        data.add(mAggregater.aggregateCriteria(node.getCriteria(), GvDataAggregator.CriterionAggregation.SUBJECT));
         data.add(mAggregater.aggregateImages(node.getImages()));
         data.add(mAggregater.aggregateComments(node.getComments()));
         data.add(mAggregater.aggregateLocations(node.getLocations()));

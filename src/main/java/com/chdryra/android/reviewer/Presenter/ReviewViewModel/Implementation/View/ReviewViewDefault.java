@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Activities.ActivityReviewView;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 import java.util.ArrayList;

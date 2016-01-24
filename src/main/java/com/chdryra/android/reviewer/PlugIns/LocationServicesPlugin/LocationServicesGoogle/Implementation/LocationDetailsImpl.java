@@ -1,7 +1,7 @@
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation;
 
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetails;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

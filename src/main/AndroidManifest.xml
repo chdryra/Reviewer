@@ -40,7 +40,7 @@
 
         <!-- Main -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityFeed"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFeed"
             android:label="@string/activity_title_feed"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -52,7 +52,7 @@
 
         <!-- General grid view -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityReviewView"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -61,7 +61,7 @@
 
         <!-- Build review -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityBuildReview"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityBuildReview"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -70,7 +70,7 @@
 
         <!-- Share review -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityShareReview"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityShareReview"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -79,7 +79,7 @@
 
         <!-- Edit review data-->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityEditData"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -88,7 +88,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityEditUrlBrowser"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditUrlBrowser"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_url"
@@ -97,12 +97,12 @@
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityReviewView"/>
+                android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView"/>
         </activity>
 
         <!-- Map choose location -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityEditLocationMap"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_location"
@@ -116,7 +116,7 @@
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityReviewView"/>
+                android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView"/>
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_location_map"/>
@@ -124,7 +124,7 @@
 
         <!-- Browser choose link -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityViewLocation"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewLocation"
             android:configChanges="orientation"
             android:exported="true"
             android:label="@string/activity_title_location"
@@ -132,7 +132,7 @@
             android:theme="@style/Theme.Reviewer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PlugIns.UiPlugin.UiAndroid.Activities.ActivityReviewView"/>
+                android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView"/>
         </activity>
 
         <!-- Key for GMaps and setting up Google Play -->

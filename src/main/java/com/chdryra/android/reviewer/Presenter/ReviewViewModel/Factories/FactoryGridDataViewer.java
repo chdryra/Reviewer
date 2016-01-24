@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataAggregater;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ViewerAggregateCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
@@ -44,7 +43,7 @@ public class FactoryGridDataViewer {
                                                     TagsManager tagsManager,
                                                     FactoryVisitorReviewNode visitorFactory,
                                                     FactoryNodeTraverser traverserFactory,
-                                                    GvDataAggregater aggregateFactory) {
+                                                    GvDataAggregator aggregateFactory) {
         GridDataViewer<GvData> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
@@ -73,7 +72,7 @@ public class FactoryGridDataViewer {
     }
 
     public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
-                                                                                   GvDataAggregater aggregateFactory) {
+                                                                                   GvDataAggregator aggregateFactory) {
         GridDataViewer<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterion.TYPE)) {
             viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterion>) data,

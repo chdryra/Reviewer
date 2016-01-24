@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationId;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationProvider;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

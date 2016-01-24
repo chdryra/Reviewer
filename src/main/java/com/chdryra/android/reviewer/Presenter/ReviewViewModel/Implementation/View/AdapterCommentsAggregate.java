@@ -8,7 +8,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregater;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
@@ -22,14 +22,14 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
     private GvCanonicalCollection<GvComment> mComments;
     private GvCanonicalCollection<GvComment> mCommentsSplit;
     private FactoryGridDataViewer mViewerFactory;
-    private GvDataAggregater mAggregater;
+    private GvDataAggregator mAggregater;
 
     //Constructors
     public AdapterCommentsAggregate(ReviewNode node,
                                     DataConverter<DataImage, GvImage, GvImageList> converter,
                                     GvCanonicalCollection<GvComment> comments,
                                     FactoryGridDataViewer viewerFactory,
-                                    GvDataAggregater aggregater) {
+                                    GvDataAggregator aggregater) {
         super(node, converter);
         mComments = comments;
         mViewerFactory = viewerFactory;

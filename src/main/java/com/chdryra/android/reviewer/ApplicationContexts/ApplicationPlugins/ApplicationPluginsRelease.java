@@ -1,19 +1,20 @@
 package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.DataAggregatorsDefault;
+import android.content.Context;
 
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
-        .DataComparatorsDefault;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin.DataComparatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.LocationServicesGoogle;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Plugin.LocationServicesGoogle;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.DatabasePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.DatabaseAndroidSqlLite;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.DatabasePlugin;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Plugin.DatabaseAndroidSqlLite;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Plugin.PersistenceReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroid;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +24,11 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.UiAndroid;
 public class ApplicationPluginsRelease implements ApplicationPlugins {
     private static final String PERSISTENCE_NAME = "Reviewer";
     private static final int PERSISTENCE_VER = 1;
+    private Context mContext;
+
+    public ApplicationPluginsRelease(Context context) {
+        mContext = context;
+    }
 
     @Override
     public DataComparatorsPlugin getDataComparatorsPlugin() {
@@ -42,7 +48,7 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
 
     @Override
     public LocationServicesPlugin getLocationServicesPlugin() {
-        return new LocationServicesGoogle();
+        return new LocationServicesGoogle(mContext);
     }
 
     @Override

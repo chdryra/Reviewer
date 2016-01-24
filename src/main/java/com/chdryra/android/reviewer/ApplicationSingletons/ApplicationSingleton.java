@@ -18,7 +18,7 @@ import java.lang.reflect.InvocationTargetException;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ApplicationSingleton {
+public abstract class ApplicationSingleton {
     private static final String NO_CTOR_ERR = "Constructor not found: ";
     private static final String INSTANTIATION_ERR = "Constructor not found: ";
     private static final String INVOCATION_ERR = "Exception thrown by constructor: ";

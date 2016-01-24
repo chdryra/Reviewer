@@ -2,11 +2,11 @@ package com.chdryra.android.reviewer.LocationServices.Factories;
 
 import com.chdryra.android.reviewer.LocationServices.Implementation.ReviewerLocationServicesImpl;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AddressesProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.AutoCompleterProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationDetailsProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.NearestPlacesProvider;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.PlaceSearcherProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleterProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcherProvider;
 
 /**
  * Created by: Rizwan Choudrey

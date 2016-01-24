@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.LocationServices.Factories.FactoryLocationServices;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.FactoryLocationProviders;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 
 /**
@@ -38,16 +39,18 @@ public class FactoryApplicationContext {
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin());
 
-        ReviewerLocationServices services = getLocationServices(context, plugins.getLocationServicesPlugin());
+        ReviewerLocationServices services = getLocationServices(plugins.getLocationServicesPlugin());
         return new ApplicationContextImpl(presenterContext, services);
     }
 
-    public ReviewerLocationServices getLocationServices(Context context, LocationServicesPlugin plugin) {
-        FactoryLocationServices factory = new FactoryLocationServices();
-        return factory.newServices(plugin.newAddressesProvider(context),
-                plugin.newLocationDetailsProvider(),
-                plugin.newAutoCompleterProvider(),
-                plugin.newNearestPlacesProvider(),
-                plugin.newPlaceSearcherProvider());
+    public ReviewerLocationServices getLocationServices(LocationServicesPlugin plugin) {
+        FactoryLocationServices servicesFactory = new FactoryLocationServices();
+        FactoryLocationProviders providersFactory = plugin.getLocationProvidersFactory();
+
+        return servicesFactory.newServices(providersFactory.newAddressesProvider(),
+                providersFactory.newLocationDetailsProvider(),
+                providersFactory.newAutoCompleterProvider(),
+                providersFactory.newNearestPlacesProvider(),
+                providersFactory.newPlaceSearcherProvider());
     }
 }

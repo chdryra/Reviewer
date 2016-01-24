@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 
 import android.os.AsyncTask;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocatedPlace;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.PlaceSearcherProvider;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcherProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces
         .PlaceSearcher;
 

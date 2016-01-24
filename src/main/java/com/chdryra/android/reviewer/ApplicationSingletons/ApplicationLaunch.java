@@ -30,7 +30,7 @@ public class ApplicationLaunch {
         intialiseSingletons();
     }
 
-    public static void intitialiseSingletons(Context context, LaunchState launchState) {
+    public static void intitialiseApplication(Context context, LaunchState launchState) {
         if(sApplicationLaunch != null) {
             throw new RuntimeException("Can only have 1 new Instance!");
         }
@@ -39,11 +39,10 @@ public class ApplicationLaunch {
     }
 
     private void createApplicationContext(LaunchState launchState) {
-        FactoryApplicationContext contextFactory = new FactoryApplicationContext();
+        FactoryApplicationContext factory = new FactoryApplicationContext();
 
-        mApplicationContext
-                = contextFactory.newReleaseContext(mContext, getDeviceContext(), Plugins.getPlugins(launchState), AUTHOR
-        );
+        mApplicationContext = factory.newReleaseContext(mContext, getDeviceContext(),
+                Plugins.getPlugins(mContext, launchState), AUTHOR);
     }
 
     private void intialiseSingletons() {
