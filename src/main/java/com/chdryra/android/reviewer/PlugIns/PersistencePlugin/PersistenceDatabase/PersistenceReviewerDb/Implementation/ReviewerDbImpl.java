@@ -137,15 +137,19 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor transactor) {
+    public <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
+                                                                    RowEntry<Type> clause,
+                                                                    TableTransactor transactor) {
         TableRowList<DbRow> rows = transactor.getRowsWhere(table, clause);
         if (rows.size() > 1) throw new IllegalStateException("More than one row found!");
         return rows.getItem(0);
     }
 
     @Override
-    public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor
-            transactor) {
+    public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
+                                                                             RowEntry<Type> clause,
+                                                                             TableTransactor
+                                                                                         transactor) {
         return transactor.getRowsWhere(table, clause);
     }
 
@@ -234,6 +238,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         return mTables.getTableNames();
     }
 
+    //Private methods
     @NonNull
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<?>>
     resolveReviewTableEntries(TableTransactor transactor, DbTable<DbRow> table, RowEntry<Type>
@@ -258,6 +263,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<?>> resolveAsDataConstraint
             (TableTransactor transactor, DbTable<DbRow> table, RowEntry<Type> entry) {
         HashSet<RowEntry<?>> entries = new HashSet<>();
+
         if (table.getName().equals(getCommentsTable().getName())) {
             for (RowComment row : getRowsWhere(getCommentsTable(), entry, transactor)) {
                 entries.add(asEntry(RowComment.REVIEW_ID, row.getReviewId().toString()));
@@ -275,33 +281,36 @@ public class ReviewerDbImpl implements ReviewerDb {
                 entries.add(asEntry(RowLocation.REVIEW_ID, row.getReviewId().toString()));
             }
         }
+
         return entries;
     }
 
     @NonNull
     private <Type> HashSet<RowEntry<?>> resolveAsTagsConstraint(TableTransactor transactor,
                                                                 RowEntry<Type> entry) {
-        TableRowList<RowTag> rows = getRowsWhere(getTagsTable(), entry, transactor);
         HashSet<String> reviewIds = new HashSet<>();
-        for (RowTag row : rows) {
+        for (RowTag row : getRowsWhere(getTagsTable(), entry, transactor)) {
             reviewIds.addAll(row.getReviewIds());
         }
+
         HashSet<RowEntry<?>> entries = new HashSet<>();
         for (String id : reviewIds) {
             entries.add(asEntry(RowReview.REVIEW_ID, id));
         }
+
         return entries;
     }
 
     private <Type> HashSet<RowEntry<?>> resolveAsAuthorsConstraint(TableTransactor transactor,
                                                                    RowEntry<Type> entry) {
         RowAuthor row = getUniqueRowWhere(getAuthorsTable(), entry, transactor);
+
         HashSet<RowEntry<?>> entries = new HashSet<>();
         entries.add(asEntry(RowReview.USER_ID, row.getUserId().toString()));
+
         return entries;
     }
 
-    //Private methods
     private void deleteFromTagsTableIfNecessary(String reviewId, TableTransactor transactor) {
         ItemTagCollection tags = mTagsManager.getTags(reviewId);
         for (ItemTag tag : tags) {
