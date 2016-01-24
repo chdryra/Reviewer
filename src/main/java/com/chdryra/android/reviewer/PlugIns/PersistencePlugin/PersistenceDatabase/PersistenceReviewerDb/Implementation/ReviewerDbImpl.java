@@ -311,22 +311,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         return entries;
     }
 
-    private void deleteFromTagsTableIfNecessary(String reviewId, TableTransactor transactor) {
-        ItemTagCollection tags = mTagsManager.getTags(reviewId);
-        for (ItemTag tag : tags) {
-            if (mTagsManager.untagItem(reviewId, tag)) {
-                deleteFromTagsTable(tag.getTag(), transactor);
-            }
-        }
-    }
-
-    private void deleteFromAuthorsTableIfNecessary(TableTransactor transactor, RowReview row) {
-        String userId = row.getAuthorId();
-        TableRowList<RowReview> authored
-                = transactor.getRowsWhere(getReviewsTable(), asEntry(RowReview.USER_ID, userId));
-        if (authored.size() == 0) deleteFromAuthorsTable(userId, transactor);
-    }
-
     private void addToAuthorsTableIfNecessary(Review review, TableTransactor transactor) {
         DataAuthor author = review.getAuthor();
         String userId = author.getUserId().toString();
@@ -364,15 +348,31 @@ public class ReviewerDbImpl implements ReviewerDb {
         transactor.insertRow(mRowFactory.newRow(author), getAuthorsTable());
     }
 
-    private void deleteFromAuthorsTable(String userId, TableTransactor transactor) {
-        transactor.deleteRows(getAuthorsTable(), asEntry(RowAuthor.USER_ID, userId));
-    }
-
     private void addToTagsTable(Review review, TableTransactor transactor) {
         ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
         for (ItemTag tag : tags) {
             transactor.insertOrReplaceRow(mRowFactory.newRow(tag), getTagsTable());
         }
+    }
+
+    private void deleteFromTagsTableIfNecessary(String reviewId, TableTransactor transactor) {
+        ItemTagCollection tags = mTagsManager.getTags(reviewId);
+        for (ItemTag tag : tags) {
+            if (mTagsManager.untagItem(reviewId, tag)) {
+                deleteFromTagsTable(tag.getTag(), transactor);
+            }
+        }
+    }
+
+    private void deleteFromAuthorsTableIfNecessary(TableTransactor transactor, RowReview row) {
+        String userId = row.getAuthorId();
+        TableRowList<RowReview> authored
+                = transactor.getRowsWhere(getReviewsTable(), asEntry(RowReview.USER_ID, userId));
+        if (authored.size() == 0) deleteFromAuthorsTable(userId, transactor);
+    }
+
+    private void deleteFromAuthorsTable(String userId, TableTransactor transactor) {
+        transactor.deleteRows(getAuthorsTable(), asEntry(RowAuthor.USER_ID, userId));
     }
 
     private void deleteFromTagsTable(String tag, TableTransactor transactor) {
@@ -395,11 +395,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         for (RowReview row : rows) {
             deleteReviewFromDb(row.getReviewId(), transactor);
         }
-    }
-
-    @NonNull
-    private <T> RowEntry<T> asEntry(ColumnInfo<T> column, T value) {
-        return new RowEntryImpl<>(column, value);
     }
 
     private void deleteFromTable(DbTable table, String reviewId, TableTransactor transactor) {
@@ -438,5 +433,10 @@ public class ReviewerDbImpl implements ReviewerDb {
         DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(getColumnNameReviewId());
         return transactor.isIdInTable(review.getReviewId().toString(), reviewIdCol,
                 getReviewsTable());
+    }
+
+    @NonNull
+    private <T> RowEntry<T> asEntry(ColumnInfo<T> column, T value) {
+        return new RowEntryImpl<>(column, value);
     }
 }
