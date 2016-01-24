@@ -28,7 +28,6 @@ import java.util.ArrayList;
  */
 
 public final class ReviewerDbContractImpl implements ReviewerDbContract {
-    private String mColumnNameReviewId;
     private TableAuthors mAuthorsTable;
     private TableTags mTagsTable;
     private TableReviews mReviewsTable;
@@ -40,10 +39,9 @@ public final class ReviewerDbContractImpl implements ReviewerDbContract {
     ArrayList<DbTable<? extends DbTableRow>> mTablesList;
     ArrayList<String> mTableNames;
 
-    public ReviewerDbContractImpl(String columnNameReviewId, TableAuthors authorsTable, TableTags
+    public ReviewerDbContractImpl(TableAuthors authorsTable, TableTags
             tagsTable, TableReviews reviewsTable, TableComments commentsTable, TableFacts
                                           factsTable, TableImages imagesTable, TableLocations locationsTable) {
-        mColumnNameReviewId = columnNameReviewId;
         mAuthorsTable = authorsTable;
         mTagsTable = tagsTable;
         mReviewsTable = reviewsTable;
@@ -75,11 +73,6 @@ public final class ReviewerDbContractImpl implements ReviewerDbContract {
     @Override
     public ArrayList<String> getTableNames() {
         return mTableNames;
-    }
-
-    @Override
-    public String getColumnNameReviewId() {
-        return mColumnNameReviewId;
     }
 
     @Override

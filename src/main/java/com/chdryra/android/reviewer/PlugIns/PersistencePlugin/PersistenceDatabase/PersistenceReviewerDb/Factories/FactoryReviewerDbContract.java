@@ -1,8 +1,5 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Factories.FactoryDbColumnDef;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableComments;
@@ -12,7 +9,8 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableReviews;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableTags;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,10 +36,7 @@ public class FactoryReviewerDbContract {
         TableImages images = new TableImages(mColumnFactory, reviews, mFkFactory);
         TableLocations locations = new TableLocations(mColumnFactory, reviews, mFkFactory);
 
-        String id = RowReview.REVIEW_ID.getName();
-
-        return new ReviewerDbContractImpl(id, authors, tags, reviews, comments, facts, images,
-                locations);
+        return new ReviewerDbContractImpl(authors, tags, reviews, comments, facts, images, locations);
     }
 
 }

@@ -9,8 +9,6 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewerDbContract extends DbContract {
-    String getColumnNameReviewId();
-
     DbTable<RowReview> getReviewsTable();
 
     DbTable<RowComment> getCommentsTable();
