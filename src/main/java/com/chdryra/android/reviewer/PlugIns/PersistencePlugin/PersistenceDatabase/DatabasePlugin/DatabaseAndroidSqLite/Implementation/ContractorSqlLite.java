@@ -44,13 +44,13 @@ public class ContractorSqlLite<T extends DbContract> extends SQLiteOpenHelper
     }
 
     @Override
-    public TableTransactor getReadableTransactor(FactoryDbTableRow rowFactory) {
-        return mFactory.newTransactor(super.getReadableDatabase(), rowFactory);
+    public TableTransactor getReadableTransactor() {
+        return mFactory.newTransactor(super.getReadableDatabase());
     }
 
     @Override
-    public TableTransactor getWriteableTransactor(FactoryDbTableRow rowFactory) {
-        return mFactory.newTransactor(super.getWritableDatabase(), rowFactory);
+    public TableTransactor getWriteableTransactor() {
+        return mFactory.newTransactor(super.getWritableDatabase());
     }
 
     @Override

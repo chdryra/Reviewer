@@ -8,34 +8,47 @@
 
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowValues;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowAuthorImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowCommentImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowFactImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowImageImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowLocationImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowReviewImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowTagImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowAuthorImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowCommentImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowFactImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowImageImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowLocationImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowReviewImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowTagImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.FactoryDbTableRow;
+
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,11 +56,24 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
+    private Map<Class<?>, Class<?>> mConstructorMap;
+
+    public FactoryReviewerDbTableRow() {
+        mConstructorMap = new HashMap<>();
+        mConstructorMap.put(RowReview.class, RowReviewImpl.class);
+        mConstructorMap.put(RowAuthor.class, RowAuthorImpl.class);
+        mConstructorMap.put(RowTag.class, RowTagImpl.class);
+        mConstructorMap.put(RowComment.class, RowCommentImpl.class);
+        mConstructorMap.put(RowFact.class, RowFactImpl.class);
+        mConstructorMap.put(RowLocation.class, RowLocationImpl.class);
+        mConstructorMap.put(RowImage.class, RowImageImpl.class);
+    }
 
     @Override
     public <T extends DbTableRow> T emptyRow(Class<T> rowClass) {
         try {
-            return rowClass.newInstance();
+            Class<?> rowImplClass = mConstructorMap.get(rowClass);
+            return rowClass.cast(rowImplClass.newInstance());
         } catch (InstantiationException e) {
             throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
         } catch (IllegalAccessException e) {
@@ -56,13 +82,12 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
     }
 
     @Override
-    public <T extends DbTableRow> T newRow(RowValues values, Class<T> rowClass) {
+    public <T extends DbTableRow, D> T newRow(Class<T> rowClass, D toInsert) {
         try {
-            Constructor c = rowClass.getConstructor(RowValues.class);
-            return rowClass.cast(c.newInstance(values));
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Couldn't find RowValues constructor for " + rowClass
-                    .getName(), e);
+            Class<?> rowImplClass = mConstructorMap.get(rowClass);
+            Constructor<?> c = ConstructorUtils.getMatchingAccessibleConstructor(rowImplClass,
+                    toInsert.getClass());
+            return rowClass.cast(c.newInstance(toInsert));
         } catch (InstantiationException e) {
             throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
         } catch (IllegalAccessException e) {
@@ -72,35 +97,19 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
         }
     }
 
-    public RowReview newRow(Review review) {
-        return new RowReviewImpl(review);
-    }
-
-    public RowReview newRow(DataCriterionReview criterion) {
-        return new RowReviewImpl(criterion);
-    }
-
-    public RowAuthor newRow(DataAuthor author) {
-        return new RowAuthorImpl(author);
-    }
-
-    public RowTag newRow(ItemTag tag) {
-        return new RowTagImpl(tag);
-    }
-
-    public RowComment newRow(DataComment comment, int index) {
-        return new RowCommentImpl(comment, index);
-    }
-
-    public RowFact newRow(DataFact fact, int index) {
-        return new RowFactImpl(fact, index);
-    }
-
-    public RowLocation newRow(DataLocation location, int index) {
-        return new RowLocationImpl(location, index);
-    }
-
-    public RowImage newRow(DataImage image, int index) {
-        return new RowImageImpl(image, index);
+    @Override
+    public <T extends DbTableRow, D> T newRow(Class<T> rowClass, D toInsert, int index) {
+        try {
+            Class<?> rowImplClass = mConstructorMap.get(rowClass);
+            Constructor<?> c = ConstructorUtils.getMatchingAccessibleConstructor(rowImplClass,
+                    toInsert.getClass(), Integer.class);
+            return rowClass.cast(c.newInstance(toInsert, index));
+        } catch (InstantiationException e) {
+            throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException("Couldn't invoke class " + rowClass.getName(), e);
+        }
     }
 }

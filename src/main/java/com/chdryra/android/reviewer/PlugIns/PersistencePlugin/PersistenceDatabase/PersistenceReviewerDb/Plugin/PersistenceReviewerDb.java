@@ -1,5 +1,7 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Plugin;
 
+
+
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
@@ -11,18 +13,18 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlu
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.DatabasePlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryContractor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewLoader;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbContract;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.FactoryReviewFromDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbSpecification;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbSpecification;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.FactoryReviewFromDataHolder;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,11 +35,12 @@ public class PersistenceReviewerDb implements PersistencePlugin {
     private FactoryContractor mContractorFactory;
     private DbSpecification<ReviewerDbContract> mSpec;
     private FactoryReviewerDb mDbFactory;
-    private FactoryReviewLoader mLoaderFactory;
+    private FactoryReviewTransactor mReviewTransactor;
 
     public PersistenceReviewerDb(String name, int version, DatabasePlugin dbPlugin) {
-        mLoaderFactory  = new FactoryReviewLoader();
-        mDbFactory = new FactoryReviewerDb(new FactoryReviewerDbTableRow());
+        FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
+        mReviewTransactor = new FactoryReviewTransactor(rowFactory);
+        mDbFactory = new FactoryReviewerDb(rowFactory);
         mSpec = newDbSpecification(dbPlugin, name, version);
         mContractorFactory = dbPlugin.getContractorFactory();
     }
@@ -48,9 +51,11 @@ public class PersistenceReviewerDb implements PersistencePlugin {
         DataValidator dataValidator = model.getDataValidator();
         TagsManager tagsManager = model.getTagsManager();
 
-        ContractorDb<ReviewerDbContract> contractor = mContractorFactory.newContractor(context, mSpec);
-        ReviewLoader loader = mLoaderFactory.newStaticLoader(reviewFactory, dataValidator);
-        ReviewerDb db = mDbFactory.newDatabase(contractor, loader, tagsManager, dataValidator);
+        ContractorDb<ReviewerDbContract> contractor = mContractorFactory.newContractor(context,
+                mSpec);
+        ReviewTransactor transactor = mReviewTransactor.newStaticLoader(reviewFactory,
+                dataValidator);
+        ReviewerDb db = mDbFactory.newDatabase(contractor, transactor, tagsManager, dataValidator);
 
         return new ReviewerDbRepository(db);
     }

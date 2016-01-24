@@ -1,12 +1,15 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories;
 
+
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewerDbImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
 
 /**
  * Created by: Rizwan Choudrey
@@ -14,16 +17,17 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDb {
-    private FactoryReviewerDbTableRow mRowfactory;
+    private FactoryDbTableRow mRowFactory;
 
-    public FactoryReviewerDb(FactoryReviewerDbTableRow rowFactory) {
-        mRowfactory = rowFactory;
+    public FactoryReviewerDb(FactoryDbTableRow rowFactory) {
+        mRowFactory = rowFactory;
     }
 
     public ReviewerDb newDatabase(ContractorDb<ReviewerDbContract> contractor,
-                                                      ReviewLoader reviewLoader,
-                                                      TagsManager tagsManager,
-                                                      DataValidator dataValidator) {
-        return new ReviewerDbImpl(contractor, reviewLoader, mRowfactory, tagsManager, dataValidator);
+                                  ReviewTransactor transactor,
+                                  TagsManager tagsManager,
+                                  DataValidator dataValidator) {
+        return new ReviewerDbImpl(contractor, transactor,
+                mRowFactory, tagsManager, dataValidator);
     }
 }

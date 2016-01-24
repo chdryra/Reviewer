@@ -5,6 +5,9 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
 
@@ -18,10 +21,11 @@ public interface TableTransactor {
 
     void endTransaction();
 
-    <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table);
+    <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table, FactoryDbTableRow rowFactory);
 
     <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                      RowEntry<Type> entry);
+                                                                      RowEntry<Type> entry,
+                                                                      FactoryDbTableRow rowFactory);
 
     <DbRow extends DbTableRow> boolean insertRow(DbRow row, DbTable<DbRow> table);
 

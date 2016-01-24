@@ -9,5 +9,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 public interface FactoryDbTableRow {
     <T extends DbTableRow> T emptyRow(Class<T> rowClass);
 
-    <T extends DbTableRow> T newRow(RowValues values, Class<T> rowClass);
+    <T extends DbTableRow, D> T newRow(Class<T> rowClass, D values);
+
+    <T extends DbTableRow, D> T newRow(Class<T> rowClass, D values, int index);
 }
