@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 1 April, 2015
+ * rizwan.choudrey@gmail.com
+ *
  */
 
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
@@ -112,7 +112,7 @@ public class ReviewerDbImpl implements ReviewerDb {
         ArrayList<Review> reviews = new ArrayList<>();
         ArrayList<ReviewId> reviewsLoaded = new ArrayList<>();
 
-        for (RowEntry<?> reviewEntry : resolveReviewTableEntries(transactor, table, clause)) {
+        for (RowEntry<?> reviewEntry : resolveReviewTableEntries(table, clause, transactor)) {
 
             for (RowReview reviewRow : getRowsWhere(getReviewsTable(), reviewEntry, transactor)) {
                 if (reviewsLoaded.contains(reviewRow.getReviewId())) continue;
@@ -213,19 +213,19 @@ public class ReviewerDbImpl implements ReviewerDb {
     //Private methods
     @NonNull
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<?>>
-    resolveReviewTableEntries(TableTransactor transactor, DbTable<DbRow> table, RowEntry<Type>
-            entry) {
+    resolveReviewTableEntries(DbTable<DbRow> table, RowEntry<Type> entry,
+                              TableTransactor transactor) {
         HashSet<RowEntry<?>> reviewEntries;
 
         if (table.getName().equals(getReviewsTable().getName())) {
             reviewEntries = new HashSet<>();
             reviewEntries.add(entry);
         } else if (table.getName().equals(getAuthorsTable().getName())) {
-            reviewEntries = resolveAsAuthorsConstraint(transactor, entry);
+            reviewEntries = resolveAsAuthorsConstraint(entry, transactor);
         } else if (table.getName().equals(getTagsTable().getName())) {
-            reviewEntries = resolveAsTagsConstraint(transactor, entry);
+            reviewEntries = resolveAsTagsConstraint(entry, transactor);
         } else {
-            reviewEntries = resolveAsDataConstraint(transactor, table, entry);
+            reviewEntries = resolveAsDataConstraint(table, entry, transactor);
         }
 
         return reviewEntries;
@@ -233,7 +233,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @NonNull
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<?>> resolveAsDataConstraint
-            (TableTransactor transactor, DbTable<DbRow> table, RowEntry<Type> entry) {
+            (DbTable<DbRow> table, RowEntry<Type> entry, TableTransactor transactor) {
         HashSet<RowEntry<?>> entries = new HashSet<>();
 
         if (table.getName().equals(getCommentsTable().getName())) {
@@ -258,8 +258,8 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    private <Type> HashSet<RowEntry<?>> resolveAsTagsConstraint(TableTransactor transactor,
-                                                                RowEntry<Type> entry) {
+    private <Type> HashSet<RowEntry<?>> resolveAsTagsConstraint(RowEntry<Type> entry,
+                                                                TableTransactor transactor) {
         HashSet<String> reviewIds = new HashSet<>();
         for (RowTag row : getRowsWhere(getTagsTable(), entry, transactor)) {
             reviewIds.addAll(row.getReviewIds());
@@ -273,8 +273,8 @@ public class ReviewerDbImpl implements ReviewerDb {
         return entries;
     }
 
-    private <Type> HashSet<RowEntry<?>> resolveAsAuthorsConstraint(TableTransactor transactor,
-                                                                   RowEntry<Type> entry) {
+    private <Type> HashSet<RowEntry<?>> resolveAsAuthorsConstraint(RowEntry<Type> entry,
+                                                                   TableTransactor transactor) {
         RowAuthor row = getUniqueRowWhere(getAuthorsTable(), entry, transactor);
 
         HashSet<RowEntry<?>> entries = new HashSet<>();

@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2014, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 15 December, 2014
+ * rizwan.choudrey@gmail.com
+ *
  */
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;

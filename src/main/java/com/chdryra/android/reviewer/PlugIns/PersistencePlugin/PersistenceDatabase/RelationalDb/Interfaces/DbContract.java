@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2015, Rizwan Choudrey - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+ * Unauthorized copying of this file via any medium is strictly prohibited
  * Proprietary and confidential
- * Author: Rizwan Choudrey
- * Date: 31 March, 2015
+ * rizwan.choudrey@gmail.com
+ *
  */
 
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces;
