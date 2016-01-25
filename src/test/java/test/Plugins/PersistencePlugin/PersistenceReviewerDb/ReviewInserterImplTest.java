@@ -15,6 +15,9 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewInserterImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableComments;
@@ -25,7 +28,23 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableTags;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
+
+
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
@@ -54,7 +73,6 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewInserterImplTest {
-    @Mock
     private FactoryDbTableRow mRowFactory;
     @Mock
     private ReviewerDb mDb;
@@ -67,16 +85,24 @@ public class ReviewInserterImplTest {
 
     @Before
     public void setUp() {
+        mRowFactory = new FactoryReviewerDbTableRow();
         mInserter = new ReviewInserterImpl(mRowFactory);
         mManager = new TagsMan();
         mTransactor = new Transactor();
         when(mDb.getImagesTable()).thenReturn(mock(TableImages.class));
+        when(mDb.getImagesTable().getRowClass()).thenReturn(RowImage.class);
         when(mDb.getFactsTable()).thenReturn(mock(TableFacts.class));
+        when(mDb.getFactsTable().getRowClass()).thenReturn(RowFact.class);
         when(mDb.getLocationsTable()).thenReturn(mock(TableLocations.class));
+        when(mDb.getLocationsTable().getRowClass()).thenReturn(RowLocation.class);
         when(mDb.getCommentsTable()).thenReturn(mock(TableComments.class));
+        when(mDb.getCommentsTable().getRowClass()).thenReturn(RowComment.class);
         when(mDb.getReviewsTable()).thenReturn(mock(TableReviews.class));
+        when(mDb.getReviewsTable().getRowClass()).thenReturn(RowReview.class);
         when(mDb.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
+        when(mDb.getAuthorsTable().getRowClass()).thenReturn(RowAuthor.class);
         when(mDb.getTagsTable()).thenReturn(mock(TableTags.class));
+        when(mDb.getTagsTable().getRowClass()).thenReturn(RowTag.class);
         when(mDb.getTagsManager()).thenReturn(mManager);
     }
 
@@ -84,31 +110,32 @@ public class ReviewInserterImplTest {
     public void insertReviewCallsTransactorWithCorrectTableAndRows() {
         Review review = newReview();
 
-        ArrayList<DbTableRow> rows = new ArrayList<>();
-        rows.add(asRow(RowReview.class, review));
+        ArrayList<RowReview> rows = new ArrayList<>();
+        Class<RowReview> rowClass = RowReview.class;
+        rows.add(asRow(rowClass, review));
         for(DataCriterionReview criterion : review.getCriteria()) {
-            rows.add(asRow(RowReview.class, criterion));
+            rows.add(asRow(rowClass, criterion));
         }
 
         checkInsertCalled(review, mDb.getReviewsTable(), TableReviews.NAME, rows);
     }
 
-    private void checkCaptures(ArrayList<DbTableRow> rows) {
+    private <T extends DbTableRow> void checkCaptures(ArrayList<T> rows) {
         checkNumberCaptured(rows.size());
         for (int i = 0; i < rows.size(); ++i) {
             assertThat(mTransactor.mCapturedRows.get(i).equals(rows.get(i)), is(true));
         }
     }
 
-    private void checkInsertCalled(Review review, DbTable<?> table,
-                                   String tableName, DbTableRow row) {
-        ArrayList<DbTableRow> rows = new ArrayList<>();
+    private <T extends DbTableRow> void checkInsertCalled(Review review, DbTable<T> table,
+                                   String tableName, T row) {
+        ArrayList<T> rows = new ArrayList<>();
         rows.add(row);
         checkInsertCalled(review, table, tableName, rows);
     }
 
-    private void checkInsertCalled(Review review, DbTable<?> table,
-                                   String tableName, ArrayList<DbTableRow> rows) {
+    private <T extends DbTableRow> void checkInsertCalled(Review review, DbTable<T> table,
+                                   String tableName, ArrayList<T> rows) {
         setToCapture(table, tableName);
 
         checkNumberCaptured(0);
@@ -133,11 +160,11 @@ public class ReviewInserterImplTest {
         return RandomReview.nextReview();
     }
 
-    private <T extends DbTableRow, D> DbTableRow asRow(Class<T> rowClass, D entry) {
+    private <T extends DbTableRow, D> T asRow(Class<T> rowClass, D entry) {
         return mRowFactory.newRow(rowClass, entry);
     }
 
-    private <T extends DbTableRow, D> DbTableRow asRow(Class<T> rowClass, D entry, int index) {
+    private <T extends DbTableRow, D> T asRow(Class<T> rowClass, D entry, int index) {
         return mRowFactory.newRow(rowClass, entry, index);
     }
 

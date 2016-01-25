@@ -165,4 +165,40 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
             throw noElement();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowReviewImpl)) return false;
+
+        RowReviewImpl that = (RowReviewImpl) o;
+
+        if (mPublishDate != that.mPublishDate) return false;
+        if (Float.compare(that.mRating, mRating) != 0) return false;
+        if (mRatingWeight != that.mRatingWeight) return false;
+        if (mRatingIsAverage != that.mRatingIsAverage) return false;
+        if (mValidIsAverage != that.mValidIsAverage) return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        if (mParentId != null ? !mParentId.equals(that.mParentId) : that.mParentId != null)
+            return false;
+        if (mAuthorId != null ? !mAuthorId.equals(that.mAuthorId) : that.mAuthorId != null)
+            return false;
+        return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mReviewId != null ? mReviewId.hashCode() : 0;
+        result = 31 * result + (mParentId != null ? mParentId.hashCode() : 0);
+        result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
+        result = 31 * result + (int) (mPublishDate ^ (mPublishDate >>> 32));
+        result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
+        result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+        result = 31 * result + mRatingWeight;
+        result = 31 * result + (mRatingIsAverage ? 1 : 0);
+        result = 31 * result + (mValidIsAverage ? 1 : 0);
+        return result;
+    }
 }
