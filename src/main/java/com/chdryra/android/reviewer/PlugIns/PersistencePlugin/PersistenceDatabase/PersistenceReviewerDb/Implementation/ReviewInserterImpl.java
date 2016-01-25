@@ -11,16 +11,13 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewInserter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewInserter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
@@ -43,11 +40,11 @@ public class ReviewInserterImpl implements ReviewInserter {
     @Override
     public void addReviewToDb(Review review, ReviewerDb db, TableTransactor transactor) {
         addToTable(review, db.getReviewsTable(), transactor);
-        addToTable(review.getCriteria(), db.getReviewsTable(), transactor);
-        addToDataTable(review.getComments(), db.getCommentsTable(), transactor);
-        addToDataTable(review.getFacts(), db.getFactsTable(), transactor);
-        addToDataTable(review.getLocations(), db.getLocationsTable(), transactor);
-        addToDataTable(review.getImages(), db.getImagesTable(), transactor);
+        addToTable(review.getCriteria(), db.getReviewsTable(), transactor, false);
+        addToTable(review.getComments(), db.getCommentsTable(), transactor, true);
+        addToTable(review.getFacts(), db.getFactsTable(), transactor, true);
+        addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);
+        addToTable(review.getImages(), db.getImagesTable(), transactor, true);
         addToTagsTable(review.getReviewId(), db.getTagsTable(), db.getTagsManager(), transactor);
         addToAuthorsTableIfNecessary(review.getAuthor(), db.getAuthorsTable(), transactor);
     }
@@ -58,20 +55,14 @@ public class ReviewInserterImpl implements ReviewInserter {
         insertIntoTable(mRowFactory.newRow(table.getRowClass(), data), table, transactor);
     }
 
-    private <DbRow extends DbTableRow, T> void addToTable(IdableList<? extends T> data,
+    private <DbRow extends DbTableRow, T> void addToTable(Iterable<? extends T> data,
                             DbTable<DbRow> table,
-                            TableTransactor transactor) {
-        for (T datum : data) {
-            insertIntoTable(mRowFactory.newRow(table.getRowClass(), datum), table, transactor);
-        }
-    }
-
-    private <DbRow extends DbTableRow, T> void addToDataTable(IdableList<? extends T> data,
-                                                              DbTable<DbRow> table,
-                                                              TableTransactor transactor) {
+                            TableTransactor transactor, boolean indexed) {
         int i = 1;
         for (T datum : data) {
-            insertIntoTable(mRowFactory.newRow(table.getRowClass(), datum, i++), table, transactor);
+            DbRow row = indexed ? mRowFactory.newRow(table.getRowClass(), datum, i++) :
+                    mRowFactory.newRow(table.getRowClass(), datum);
+            insertIntoTable(row, table, transactor);
         }
     }
 

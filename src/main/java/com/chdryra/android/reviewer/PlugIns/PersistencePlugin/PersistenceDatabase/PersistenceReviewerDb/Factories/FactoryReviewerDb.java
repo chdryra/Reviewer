@@ -35,7 +35,6 @@ public class FactoryReviewerDb {
                                   ReviewTransactor transactor,
                                   TagsManager tagsManager,
                                   DataValidator dataValidator) {
-        return new ReviewerDbImpl(contractor, transactor,
-                mRowFactory, tagsManager, dataValidator);
+        return new ReviewerDbImpl(contractor, transactor, mRowFactory, tagsManager, dataValidator);
     }
 }

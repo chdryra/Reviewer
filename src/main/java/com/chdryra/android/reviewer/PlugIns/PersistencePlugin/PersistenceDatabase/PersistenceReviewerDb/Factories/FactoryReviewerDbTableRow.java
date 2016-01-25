@@ -6,9 +6,11 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Factories;
 
 
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
         .PersistenceReviewerDb.Implementation.RowAuthorImpl;
@@ -75,9 +77,9 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
             Class<?> rowImplClass = mConstructorMap.get(rowClass);
             return rowClass.cast(rowImplClass.newInstance());
         } catch (InstantiationException e) {
-            throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         }
     }
 
@@ -89,11 +91,11 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
                     toInsert.getClass());
             return rowClass.cast(c.newInstance(toInsert));
         } catch (InstantiationException e) {
-            throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException("Couldn't invoke class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         }
     }
 
@@ -105,11 +107,30 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
                     toInsert.getClass(), Integer.class);
             return rowClass.cast(c.newInstance(toInsert, index));
         } catch (InstantiationException e) {
-            throw new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException("Couldn't invoke class " + rowClass.getName(), e);
+            throw getRuntimeException(rowClass, e);
         }
+    }
+
+    @NonNull
+    private <T extends DbTableRow> RuntimeException getRuntimeException(Class<T> rowClass,
+                                                                        IllegalAccessException e) {
+        return new RuntimeException("Couldn't access class " + rowClass.getName(), e);
+    }
+
+    @NonNull
+    private <T extends DbTableRow> RuntimeException getRuntimeException(Class<T> rowClass,
+                                                                        InstantiationException e) {
+        return new RuntimeException("Couldn't instantiate class " + rowClass.getName(), e);
+    }
+
+    @NonNull
+    private <T extends DbTableRow> RuntimeException getRuntimeException(Class<T> rowClass,
+                                                                        InvocationTargetException
+                                                                                e) {
+        return new RuntimeException("Couldn't invoke class " + rowClass.getName(), e);
     }
 }
