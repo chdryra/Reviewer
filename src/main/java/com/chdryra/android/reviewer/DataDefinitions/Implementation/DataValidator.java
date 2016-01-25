@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by: Rizwan Choudrey
@@ -64,8 +65,10 @@ public class DataValidator {
     }
 
     public boolean validate(DataLocation location) {
-        return NotNull(location) && NotNull(location.getLatLng()) && validateString(location
-                .getName());
+        LatLng latLng = location.getLatLng();
+        return NotNull(location) && validateString(location.getName()) && NotNull(latLng)
+                && latLng.latitude >= -90. && latLng.latitude <= 90.
+                && latLng.longitude >= -180. && latLng.longitude <= 180.;
     }
 
     public boolean validate(DataDate date) {

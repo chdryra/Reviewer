@@ -31,6 +31,8 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
     private String mValue;
     private boolean mIsUrl;
 
+    private boolean mValidIsUrl = true;
+
     //Constructors
     public RowFactImpl(DataFact fact, int index) {
         mReviewId = fact.getReviewId().toString();
@@ -49,7 +51,9 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
         mLabel = values.getValue(LABEL.getName(), LABEL.getType());
         mValue = values.getValue(VALUE.getName(), VALUE.getType());
-        mIsUrl = values.getValue(IS_URL.getName(), IS_URL.getType());
+        Boolean isUrl = values.getValue(IS_URL.getName(), IS_URL.getType());
+        if(isUrl == null) mValidIsUrl = false;
+        mIsUrl = mValidIsUrl && isUrl;
     }
 
     //Overridden
@@ -86,8 +90,8 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validateString(getLabel()) && validator.validateString(getValue()) &&
-                validator.validateString(mFactId)
+        return mValidIsUrl && validator.validateString(getLabel()) &&
+                validator.validateString(getValue()) && validator.validateString(mFactId)
                 && validator.validateString(mReviewId);
     }
 

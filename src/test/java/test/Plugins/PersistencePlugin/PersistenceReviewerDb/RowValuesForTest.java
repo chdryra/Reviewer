@@ -10,11 +10,9 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Implementation.DbEntryType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.RowValues;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowValues;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +33,13 @@ class RowValuesForTest implements RowValues {
     @Override
     public <T> T getValue(String columnName, DbEntryType<T> entryType) {
         ColumnInfo<T> col = new ColumnInfo<>(columnName, entryType);
-        return entryType.cast(mValues.get(col));
+        T cast = null;
+        try {
+            Object obj = mValues.get(col);
+            cast = entryType.cast(obj);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        return cast;
     }
 }

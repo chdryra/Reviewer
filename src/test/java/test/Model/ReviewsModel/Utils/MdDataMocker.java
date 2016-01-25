@@ -122,7 +122,7 @@ public class MdDataMocker {
     }
 
     public MdDate newDate() {
-        return new MdDate(mMdReviewId, Math.min(new Date().getTime(), RAND.nextLong()));
+        return new MdDate(mMdReviewId, Math.max(new Date().getTime(), RAND.nextLong()));
     }
 
     public MdSubject newSubject() {

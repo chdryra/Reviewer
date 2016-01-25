@@ -12,19 +12,13 @@ import java.util.Random;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 08/12/2015
+ * On: 25/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RandomRating {
+public class RandomBoolean {
     private static final Random RAND = new Random();
 
-    //Static methods
-    public static float nextRating() {
-        //0 to 5, rounded to nearest 0.5.
-        return Math.round(RAND.nextFloat() * 10) / 2f;
-    }
-
-    public static int nextWeight() {
-        return 1 + RAND.nextInt(10);
+    public static boolean nextBoolean() {
+        return RAND.nextBoolean();
     }
 }

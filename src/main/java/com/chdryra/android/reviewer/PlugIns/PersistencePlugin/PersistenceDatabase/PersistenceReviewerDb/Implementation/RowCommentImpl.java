@@ -30,6 +30,8 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
     private String mComment;
     private boolean mIsHeadline;
 
+    private boolean mValidIsHeadline = true;
+
     //Constructors
     public RowCommentImpl(DataComment comment, int index) {
         mReviewId = comment.getReviewId().toString();
@@ -46,7 +48,9 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
         mCommentId = values.getValue(COMMENT_ID.getName(), COMMENT_ID.getType());
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
         mComment = values.getValue(COMMENT.getName(), COMMENT.getType());
-        mIsHeadline = values.getValue(IS_HEADLINE.getName(), IS_HEADLINE.getType());
+        Boolean isHeadline = values.getValue(IS_HEADLINE.getName(), IS_HEADLINE.getType());
+        if(isHeadline == null) mValidIsHeadline = false;
+        mIsHeadline = mValidIsHeadline && isHeadline;
     }
 
     @Override
@@ -76,7 +80,7 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(this) && validator.validateString(mCommentId)
+        return mValidIsHeadline && validator.validate(this) && validator.validateString(mCommentId)
                 && validator.validateString(mReviewId);
     }
 

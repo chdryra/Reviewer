@@ -85,7 +85,7 @@ public class RowImageImplTest extends RowTableBasicTest<RowImageImpl> {
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowImage.IMAGE_ID, "");
         values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowImage.BITMAP, reference.getBitmap());
+        values.put(RowImage.BITMAP, nextByteArray());
         values.put(RowImage.IS_COVER, reference.isCover());
         values.put(RowImage.CAPTION, reference.getCaption());
         values.put(RowImage.IMAGE_DATE, reference.getDate().getTime());
@@ -102,10 +102,61 @@ public class RowImageImplTest extends RowTableBasicTest<RowImageImpl> {
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowImage.IMAGE_ID, reference.getRowId());
         values.put(RowImage.REVIEW_ID, "");
-        values.put(RowImage.BITMAP, reference.getBitmap());
+        values.put(RowImage.BITMAP, nextByteArray());
         values.put(RowImage.IS_COVER, reference.isCover());
         values.put(RowImage.CAPTION, reference.getCaption());
         values.put(RowImage.IMAGE_DATE, reference.getDate().getTime());
+
+        RowImageImpl row = new RowImageImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullBitmapIdMakesRowImageInvalid() {
+        RowImage reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowImage.IMAGE_ID, reference.getRowId());
+        values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowImage.BITMAP, null);
+        values.put(RowImage.IS_COVER, reference.isCover());
+        values.put(RowImage.CAPTION, reference.getCaption());
+        values.put(RowImage.IMAGE_DATE, reference.getDate().getTime());
+
+        RowImageImpl row = new RowImageImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullIsCoverIdMakesRowImageInvalid() {
+        RowImage reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowImage.IMAGE_ID, reference.getRowId());
+        values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowImage.BITMAP, nextByteArray());
+        values.put(RowImage.IS_COVER, null);
+        values.put(RowImage.CAPTION, reference.getCaption());
+        values.put(RowImage.IMAGE_DATE, reference.getDate().getTime());
+
+        RowImageImpl row = new RowImageImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullDateMakesRowImageInvalid() {
+        RowImage reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowImage.IMAGE_ID, reference.getRowId());
+        values.put(RowImage.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowImage.BITMAP, nextByteArray());
+        values.put(RowImage.IS_COVER, reference.isCover());
+        values.put(RowImage.CAPTION, reference.getCaption());
+        values.put(RowImage.IMAGE_DATE, null);
 
         RowImageImpl row = new RowImageImpl(values);
 
@@ -136,14 +187,20 @@ public class RowImageImplTest extends RowTableBasicTest<RowImageImpl> {
         String reviewId = RandomReviewId.nextIdString();
         values.put(RowImage.REVIEW_ID, reviewId);
         values.put(RowImage.IMAGE_ID, reviewId + ":i" + String.valueOf(INDEX));
-        byte[] data = new byte[40];
-        RAND.nextBytes(data);
-        values.put(RowImage.BITMAP, new ByteArray(data));
+        ByteArray byteArray = nextByteArray();
+        values.put(RowImage.BITMAP, byteArray);
         values.put(RowImage.IS_COVER, RAND.nextBoolean());
         values.put(RowImage.CAPTION, RandomString.nextSentence());
         values.put(RowImage.IMAGE_DATE, RandomDataDate.nextDate().getTime());
 
         return new RowImageImpl(values);
+    }
+
+    @NonNull
+    private ByteArray nextByteArray() {
+        byte[] data = new byte[40];
+        RAND.nextBytes(data);
+        return new ByteArray(data);
     }
 
     @Override

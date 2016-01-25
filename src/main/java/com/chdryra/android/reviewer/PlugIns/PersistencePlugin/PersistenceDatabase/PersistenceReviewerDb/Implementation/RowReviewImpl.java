@@ -33,6 +33,8 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
     private int mRatingWeight;
     private boolean mRatingIsAverage;
 
+    private boolean mValidIsAverage = true;
+
     public RowReviewImpl(Review review) {
         mReviewId = review.getReviewId().toString();
         mAuthorId = review.getAuthor().getUserId().toString();
@@ -56,11 +58,21 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
         mParentId = values.getValue(PARENT_ID.getName(), PARENT_ID.getType());
         mAuthorId = values.getValue(USER_ID.getName(), USER_ID.getType());
-        mPublishDate = values.getValue(PUBLISH_DATE.getName(), PUBLISH_DATE.getType());
+
+        Long time = values.getValue(PUBLISH_DATE.getName(), PUBLISH_DATE.getType());
+        mPublishDate = time != null ? time : 0l;
+
         mSubject = values.getValue(SUBJECT.getName(), SUBJECT.getType());
-        mRating = values.getValue(RATING.getName(), RATING.getType());
-        mRatingWeight = values.getValue(RATING_WEIGHT.getName(), RATING_WEIGHT.getType());
-        mRatingIsAverage = values.getValue(IS_AVERAGE.getName(), IS_AVERAGE.getType());
+
+        Float rating = values.getValue(RATING.getName(), RATING.getType());
+        mRating = rating != null ? rating : -1f;
+
+        Integer weight = values.getValue(RATING_WEIGHT.getName(), RATING_WEIGHT.getType());
+        mRatingWeight = weight != null ? weight : 0;
+
+        Boolean average = values.getValue(IS_AVERAGE.getName(), IS_AVERAGE.getType());
+        if(average == null) mValidIsAverage = false;
+        mRatingIsAverage = mValidIsAverage && average;
     }
 
     @Override
@@ -120,9 +132,10 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(getReviewId()) &&
+        return mPublishDate > 0 && mRating != -1f && mRatingWeight > 0 && mValidIsAverage
+                && validator.validate(getReviewId()) &&
                 validator.validateString(getSubject())  &&
-                validator.validateString(getAuthorId())  && mRatingWeight >= 1;
+                validator.validateString(getAuthorId());
     }
 
     @Override

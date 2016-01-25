@@ -47,8 +47,10 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
     public RowLocationImpl(RowValues values) {
         mLocationId = values.getValue(LOCATION_ID.getName(), LOCATION_ID.getType());
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
-        mLatitude = values.getValue(LATITUDE.getName(), LATITUDE.getType());
-        mLongitude = values.getValue(LONGITUDE.getName(), LONGITUDE.getType());
+        Double lat = values.getValue(LATITUDE.getName(), LATITUDE.getType());
+        mLatitude = lat != null ? lat : -91.;
+        Double lng = values.getValue(LONGITUDE.getName(), LONGITUDE.getType());
+        mLongitude = lng !=  null ? lng : -181.;
         mName = values.getValue(NAME.getName(), NAME.getType());
     }
 

@@ -104,6 +104,21 @@ public class RowCommentImplTest extends RowTableBasicTest<RowCommentImpl> {
     }
 
     @Test
+    public void constructionWithNullIsHeadlineMakesRowCommentInvalid() {
+        RowComment reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowComment.COMMENT_ID, reference.getRowId());
+        values.put(RowComment.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowComment.COMMENT, reference.getComment());
+        values.put(RowComment.IS_HEADLINE, null);
+
+        RowCommentImpl row = new RowCommentImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
     public void constructionWithInvalidCommentMakesRowCommentInvalid() {
         DataComment comment = new DatumComment(RandomReviewId.nextReviewId(),
                 "", RAND.nextBoolean());

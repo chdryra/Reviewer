@@ -143,7 +143,45 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
     }
 
     @Test
-    public void constructionWithInvalidSubjectMakesRowReviewInvalid() {
+    public void constructionWithNullDateMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, null);
+        values.put(RowReview.SUBJECT, reference.getSubject());
+        values.put(RowReview.RATING, reference.getRating());
+        values.put(RowReview.RATING_WEIGHT, reference.getRatingWeight());
+        values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullSubjectMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
+        values.put(RowReview.SUBJECT, null);
+        values.put(RowReview.RATING, reference.getRating());
+        values.put(RowReview.RATING_WEIGHT, reference.getRatingWeight());
+        values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithZeroLengthSubjectMakesRowReviewInvalid() {
         RowReview reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
@@ -155,6 +193,101 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
         values.put(RowReview.RATING, reference.getRating());
         values.put(RowReview.RATING_WEIGHT, reference.getRatingWeight());
         values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullRatingMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
+        values.put(RowReview.SUBJECT, reference.getSubject());
+        values.put(RowReview.RATING, null);
+        values.put(RowReview.RATING_WEIGHT, reference.getRatingWeight());
+        values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNegativeRatingMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
+        values.put(RowReview.SUBJECT, reference.getSubject());
+        values.put(RowReview.RATING, -1f);
+        values.put(RowReview.RATING_WEIGHT, reference.getRatingWeight());
+        values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithZeroRatingWeightMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
+        values.put(RowReview.SUBJECT, reference.getSubject());
+        values.put(RowReview.RATING, reference.getRating());
+        values.put(RowReview.RATING_WEIGHT, 0);
+        values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullRatingWeightMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
+        values.put(RowReview.SUBJECT, reference.getSubject());
+        values.put(RowReview.RATING, reference.getRating());
+        values.put(RowReview.RATING_WEIGHT, null);
+        values.put(RowReview.IS_AVERAGE, reference.isRatingIsAverage());
+
+        RowReviewImpl row = new RowReviewImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
+    public void constructionWithNullIsAverageWeightMakesRowReviewInvalid() {
+        RowReview reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowReview.PARENT_ID, reference.getParentId());
+        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
+        values.put(RowReview.SUBJECT, reference.getSubject());
+        values.put(RowReview.RATING, reference.getRating());
+        values.put(RowReview.RATING_WEIGHT, reference.getRatingWeight());
+        values.put(RowReview.IS_AVERAGE, null);
 
         RowReviewImpl row = new RowReviewImpl(values);
 

@@ -89,6 +89,7 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
             Class<?> rowImplClass = mConstructorMap.get(rowClass);
             Constructor<?> c = ConstructorUtils.getMatchingAccessibleConstructor(rowImplClass,
                     toInsert.getClass());
+            if (c == null) throw getNoSuchMethodException(rowClass, toInsert.getClass());
             return rowClass.cast(c.newInstance(toInsert));
         } catch (InstantiationException e) {
             throw getRuntimeException(rowClass, e);
@@ -105,6 +106,7 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
             Class<?> rowImplClass = mConstructorMap.get(rowClass);
             Constructor<?> c = ConstructorUtils.getMatchingAccessibleConstructor(rowImplClass,
                     toInsert.getClass(), Integer.class);
+            if (c == null) throw getNoSuchMethodException(rowClass, toInsert.getClass());
             return rowClass.cast(c.newInstance(toInsert, index));
         } catch (InstantiationException e) {
             throw getRuntimeException(rowClass, e);
@@ -113,6 +115,13 @@ public class FactoryReviewerDbTableRow implements FactoryDbTableRow {
         } catch (InvocationTargetException e) {
             throw getRuntimeException(rowClass, e);
         }
+    }
+
+    private <T extends DbTableRow, D> RuntimeException getNoSuchMethodException(Class<T> rowClass,
+                                                                                Class<D> insertClass) {
+        Exception e = new NoSuchMethodException("No constructor found for " + rowClass.getName() +
+                " using parameter type " + insertClass.getName());
+        return new RuntimeException(e);
     }
 
     @NonNull

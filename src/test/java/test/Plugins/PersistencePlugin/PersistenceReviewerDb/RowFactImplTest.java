@@ -109,6 +109,22 @@ public class RowFactImplTest extends RowTableBasicTest<RowFactImpl> {
     }
 
     @Test
+    public void constructionWithNullIsUrlMakesRowFactInvalid() {
+        RowFact reference = newRow();
+
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowFact.FACT_ID, reference.getRowId());
+        values.put(RowFact.REVIEW_ID, reference.getReviewId().toString());
+        values.put(RowFact.LABEL, reference.getLabel());
+        values.put(RowFact.VALUE, reference.getValue());
+        values.put(RowFact.IS_URL, null);
+
+        RowFactImpl row = new RowFactImpl(values);
+
+        assertThat(row.hasData(new DataValidator()), is(false));
+    }
+
+    @Test
     public void constructionWithInvalidIs_urlMakesRowFactInvalid() {
         DataFact fact = new DatumFact(RandomReviewId.nextReviewId(),
                 RandomString.nextWord(), "");

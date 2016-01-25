@@ -41,6 +41,8 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
     private String mCaption;
     private long mDate;
 
+    private boolean mValidIsCover = true;
+
     //Constructors
     public RowImageImpl(DataImage image, int index) {
         mReviewId = image.getReviewId().toString();
@@ -48,9 +50,14 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
         mIsCover = image.isCover();
         mCaption = image.getCaption();
         mDate = image.getDate() != null ? image.getDate().getTime() : -1;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        image.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, bos);
-        mBitmap = bos.toByteArray();
+        Bitmap bitmap = image.getBitmap();
+        if(bitmap != null) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            mBitmap = bos.toByteArray();
+        } else {
+            mBitmap = null;
+        }
     }
 
     //Via reflection
@@ -60,10 +67,18 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
     public RowImageImpl(RowValues values) {
         mImageId = values.getValue(IMAGE_ID.getName(), IMAGE_ID.getType());
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
-        mBitmap = values.getValue(BITMAP.getName(), BITMAP.getType()).getData();
-        mIsCover = values.getValue(IS_COVER.getName(), IS_COVER.getType());
+
+        ByteArray array = values.getValue(BITMAP.getName(), BITMAP.getType());
+        mBitmap = array != null ? array.getData() : null;
+
+        Boolean cover = values.getValue(IS_COVER.getName(), IS_COVER.getType());
+        if(cover == null) mValidIsCover = false;
+        mIsCover = mValidIsCover && cover;
+
         mCaption = values.getValue(CAPTION.getName(), CAPTION.getType());
-        mDate = values.getValue(IMAGE_DATE.getName(), IMAGE_DATE.getType());
+
+        Long time = values.getValue(IMAGE_DATE.getName(), IMAGE_DATE.getType());
+        mDate = time != null ? time : 0l;
     }
 
     @Override
@@ -78,7 +93,8 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
 
     @Override
     public Bitmap getBitmap() {
-        return BitmapFactory.decodeByteArray(mBitmap, 0, mBitmap.length);
+        byte[] data = mBitmap != null? mBitmap : new byte[]{};
+        return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
     @Override
@@ -108,8 +124,8 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(this) && validator.validateString(mImageId) &&
-                validator.validateString(mReviewId);
+        return mBitmap != null && mDate > 0 && mValidIsCover && validator.validate(this) &&
+                validator.validateString(mImageId) && validator.validateString(mReviewId);
     }
 
     @Override
