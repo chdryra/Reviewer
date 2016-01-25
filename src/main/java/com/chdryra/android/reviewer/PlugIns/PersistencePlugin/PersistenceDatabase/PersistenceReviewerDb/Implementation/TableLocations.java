@@ -23,12 +23,12 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TableLocations extends ReviewerDbTableImpl<RowLocation> {
-    private static final String TABLE = "Locations";
+    public static final String NAME = "Locations";
 
     public TableLocations(FactoryDbColumnDef columnFactory,
                           DbTable<? extends RowReview> reviewsTable,
                           FactoryForeignKeyConstraint constraintFactory) {
-        super(TABLE, RowLocation.class, columnFactory);
+        super(NAME, RowLocation.class, columnFactory);
 
         addPkColumn(RowLocation.LOCATION_ID);
         addNotNullableColumn(RowLocation.REVIEW_ID);

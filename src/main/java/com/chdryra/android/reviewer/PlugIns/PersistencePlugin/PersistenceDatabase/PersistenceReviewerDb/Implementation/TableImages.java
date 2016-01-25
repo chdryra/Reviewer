@@ -23,12 +23,12 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TableImages extends ReviewerDbTableImpl<RowImage> {
-    private static final String TABLE = "Images";
+    public static final String NAME = "Images";
 
     public TableImages(FactoryDbColumnDef columnFactory,
                        DbTable<? extends RowReview> reviewsTable,
                        FactoryForeignKeyConstraint constraintFactory) {
-        super(TABLE, RowImage.class, columnFactory);
+        super(NAME, RowImage.class, columnFactory);
 
         addPkColumn(RowImage.IMAGE_ID);
         addNotNullableColumn(RowImage.REVIEW_ID);

@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public class TableTags extends ReviewerDbTableImpl<RowTag> {
-    private static final String NAME = "Tags";
+    public static final String NAME = "Tags";
 
     public TableTags(FactoryDbColumnDef columnFactory) {
         super(NAME, RowTag.class, columnFactory);
