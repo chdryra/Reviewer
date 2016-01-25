@@ -19,6 +19,5 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistencePlugin {
-    ReviewsRepositoryMutable newPersistenceRepository(Context context,
-                                                      ModelContext modelContext);
+    ReviewsRepositoryMutable newPersistenceRepository(Context context, ModelContext modelContext);
 }

@@ -25,8 +25,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.FactoryReviewFromDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.FactoryReviewRecreater;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
         .Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
@@ -56,9 +55,9 @@ import java.util.ArrayList;
  */
 public class ReviewLoaderStatic implements ReviewLoader {
     private DataValidator mValidator;
-    private FactoryReviewFromDataHolder mFactory;
+    private FactoryReviewRecreater mFactory;
 
-    public ReviewLoaderStatic(FactoryReviewFromDataHolder factory, DataValidator validator) {
+    public ReviewLoaderStatic(FactoryReviewRecreater factory, DataValidator validator) {
         mFactory = factory;
         mValidator = validator;
     }
