@@ -79,4 +79,23 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
             throw noElement();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowAuthorImpl)) return false;
+
+        RowAuthorImpl that = (RowAuthorImpl) o;
+
+        if (mUserId != null ? !mUserId.equals(that.mUserId) : that.mUserId != null) return false;
+        return !(mName != null ? !mName.equals(that.mName) : that.mName != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mUserId != null ? mUserId.hashCode() : 0;
+        result = 31 * result + (mName != null ? mName.hashCode() : 0);
+        return result;
+    }
 }

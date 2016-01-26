@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 /**
  * Created by: Rizwan Choudrey
@@ -150,5 +151,36 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
         } else {
             throw noElement();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowImageImpl)) return false;
+
+        RowImageImpl that = (RowImageImpl) o;
+
+        if (mIsCover != that.mIsCover) return false;
+        if (mDate != that.mDate) return false;
+        if (mValidIsCover != that.mValidIsCover) return false;
+        if (mImageId != null ? !mImageId.equals(that.mImageId) : that.mImageId != null)
+            return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        if (!Arrays.equals(mBitmap, that.mBitmap)) return false;
+        return !(mCaption != null ? !mCaption.equals(that.mCaption) : that.mCaption != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mImageId != null ? mImageId.hashCode() : 0;
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        result = 31 * result + (mBitmap != null ? Arrays.hashCode(mBitmap) : 0);
+        result = 31 * result + (mIsCover ? 1 : 0);
+        result = 31 * result + (mCaption != null ? mCaption.hashCode() : 0);
+        result = 31 * result + (int) (mDate ^ (mDate >>> 32));
+        result = 31 * result + (mValidIsCover ? 1 : 0);
+        return result;
     }
 }

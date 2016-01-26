@@ -116,4 +116,32 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
             throw noElement();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowFactImpl)) return false;
+
+        RowFactImpl that = (RowFactImpl) o;
+
+        if (mIsUrl != that.mIsUrl) return false;
+        if (mValidIsUrl != that.mValidIsUrl) return false;
+        if (mFactId != null ? !mFactId.equals(that.mFactId) : that.mFactId != null) return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        if (mLabel != null ? !mLabel.equals(that.mLabel) : that.mLabel != null) return false;
+        return !(mValue != null ? !mValue.equals(that.mValue) : that.mValue != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mFactId != null ? mFactId.hashCode() : 0;
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        result = 31 * result + (mLabel != null ? mLabel.hashCode() : 0);
+        result = 31 * result + (mValue != null ? mValue.hashCode() : 0);
+        result = 31 * result + (mIsUrl ? 1 : 0);
+        result = 31 * result + (mValidIsUrl ? 1 : 0);
+        return result;
+    }
 }

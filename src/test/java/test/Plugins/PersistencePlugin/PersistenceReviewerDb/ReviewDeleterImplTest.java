@@ -99,13 +99,11 @@ public class ReviewDeleterImplTest {
     @Mock
     private Transactor mTransactor;
     private TableRowList<RowReview> mWhereRows = new TableRowList<>();
-    private TagsMan mManager;
     private ItemTagCollection mTags = new ItemTagList();
 
     @Before
     public void setUp() {
         mDeleter = new ReviewDeleterImpl(mRowFactory);
-        mManager = new TagsMan();
         mTransactor = new Transactor();
         when(mDb.getImagesTable()).thenReturn(mock(TableImages.class));
         when(mDb.getFactsTable()).thenReturn(mock(TableFacts.class));
@@ -114,7 +112,8 @@ public class ReviewDeleterImplTest {
         when(mDb.getReviewsTable()).thenReturn(mock(TableReviews.class));
         when(mDb.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
         when(mDb.getTagsTable()).thenReturn(mock(TableTags.class));
-        when(mDb.getTagsManager()).thenReturn(mManager);
+        TagsMan manager = new TagsMan();
+        when(mDb.getTagsManager()).thenReturn(manager);
     }
 
     @Test

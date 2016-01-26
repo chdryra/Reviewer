@@ -107,4 +107,35 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
             throw noElement();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowLocationImpl)) return false;
+
+        RowLocationImpl that = (RowLocationImpl) o;
+
+        if (Double.compare(that.mLatitude, mLatitude) != 0) return false;
+        if (Double.compare(that.mLongitude, mLongitude) != 0) return false;
+        if (mLocationId != null ? !mLocationId.equals(that.mLocationId) : that.mLocationId != null)
+            return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        return !(mName != null ? !mName.equals(that.mName) : that.mName != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = mLocationId != null ? mLocationId.hashCode() : 0;
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        temp = Double.doubleToLongBits(mLatitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(mLongitude);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (mName != null ? mName.hashCode() : 0);
+        return result;
+    }
 }

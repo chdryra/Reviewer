@@ -103,4 +103,31 @@ public class RowCommentImpl extends RowTableBasic implements RowComment {
             throw noElement();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowCommentImpl)) return false;
+
+        RowCommentImpl that = (RowCommentImpl) o;
+
+        if (mIsHeadline != that.mIsHeadline) return false;
+        if (mValidIsHeadline != that.mValidIsHeadline) return false;
+        if (mCommentId != null ? !mCommentId.equals(that.mCommentId) : that.mCommentId != null)
+            return false;
+        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
+            return false;
+        return !(mComment != null ? !mComment.equals(that.mComment) : that.mComment != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mCommentId != null ? mCommentId.hashCode() : 0;
+        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        result = 31 * result + (mComment != null ? mComment.hashCode() : 0);
+        result = 31 * result + (mIsHeadline ? 1 : 0);
+        result = 31 * result + (mValidIsHeadline ? 1 : 0);
+        return result;
+    }
 }

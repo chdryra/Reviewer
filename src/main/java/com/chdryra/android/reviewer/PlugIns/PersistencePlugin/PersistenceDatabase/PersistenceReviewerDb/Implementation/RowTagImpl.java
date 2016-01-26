@@ -85,4 +85,23 @@ public class RowTagImpl extends RowTableBasic implements RowTag {
             throw noElement();
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RowTagImpl)) return false;
+
+        RowTagImpl that = (RowTagImpl) o;
+
+        if (mTag != null ? !mTag.equals(that.mTag) : that.mTag != null) return false;
+        return !(mReviews != null ? !mReviews.equals(that.mReviews) : that.mReviews != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mTag != null ? mTag.hashCode() : 0;
+        result = 31 * result + (mReviews != null ? mReviews.hashCode() : 0);
+        return result;
+    }
 }
