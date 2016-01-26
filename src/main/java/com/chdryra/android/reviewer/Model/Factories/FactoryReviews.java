@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.FactoryReviewRecreater;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewRecreater;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * put constructors so as to minimise the use of constructors in multiple places.
  * </p>
  */
-public class FactoryReviews implements FactoryReviewRecreater {
+public class FactoryReviews implements ReviewRecreater {
     private FactoryReviewPublisher mPublisherFactory;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;

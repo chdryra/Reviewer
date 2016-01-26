@@ -15,6 +15,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FactoryReviewRecreater {
+public interface ReviewRecreater {
     Review recreateReview(ReviewDataHolder review);
 }

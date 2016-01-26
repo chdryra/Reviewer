@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
         .PersistenceReviewerDb.Implementation.ReviewTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.FactoryReviewRecreater;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewRecreater;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
         .PersistenceReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
@@ -75,7 +75,7 @@ public class PersistenceReviewerDb implements PersistencePlugin {
     }
 
     private ReviewerDb newReviewerDb(Context context, ModelContext model) {
-        FactoryReviewRecreater reviewFactory = model.getReviewsFactory();
+        ReviewRecreater reviewFactory = model.getReviewsFactory();
         DataValidator dataValidator = model.getDataValidator();
         TagsManager tagsManager = model.getTagsManager();
 
