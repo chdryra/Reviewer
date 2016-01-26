@@ -26,4 +26,20 @@ public class DatumUserId implements UserId {
     public String toString() {
         return mId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserId)) return false;
+
+        UserId that = (UserId) o;
+
+        return !(mId != null ? !mId.equals(that.toString()) : that.toString() != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return mId != null ? mId.hashCode() : 0;
+    }
 }

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerReadableDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -28,7 +28,7 @@ public class ReviewLoaderDynamic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, TableTransactor db) {
+    public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
         return new ReviewUserDb(reviewRow, database, mNodeFactory);
     }
 }

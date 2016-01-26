@@ -33,7 +33,7 @@ public interface ReviewDataHolder {
 
     float getRating();
 
-    float getRatingWeight();
+    int getRatingWeight();
 
     Iterable<? extends DataComment> getComments();
 

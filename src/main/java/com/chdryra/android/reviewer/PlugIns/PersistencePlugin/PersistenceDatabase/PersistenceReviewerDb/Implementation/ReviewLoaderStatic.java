@@ -30,8 +30,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
         .Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.ReviewerReadableDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
         .Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
@@ -63,7 +62,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
     }
 
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerReadableDb db, TableTransactor
+    public Review loadReview(RowReview reviewRow, ReviewerDbReadable db, TableTransactor
             transactor) {
         if (!reviewRow.hasData(mValidator)) return null;
 
@@ -109,21 +108,21 @@ public class ReviewLoaderStatic implements ReviewLoader {
     private <T extends DbTableRow> ArrayList<T> loadData(DbTable<T> table,
                                                          ColumnInfo<String> idCol,
                                                          String id,
-                                                         ReviewerReadableDb database,
+                                                         ReviewerDbReadable db,
                                                          TableTransactor transactor) {
         ArrayList<T> data = new ArrayList<>();
-        data.addAll(database.getRowsWhere(table, asClause(idCol, id), transactor));
+        data.addAll(db.getRowsWhere(table, asClause(idCol, id), transactor));
         return data;
     }
 
-    private ArrayList<Review> loadCriteria(String reviewId, ReviewerReadableDb db,
+    private ArrayList<Review> loadCriteria(String reviewId, ReviewerDbReadable db,
                                            TableTransactor transactor) {
         RowEntry<String> clause = asClause(RowReview.PARENT_ID, reviewId);
         return db.loadReviewsWhere(db.getReviewsTable(), clause, transactor);
     }
 
     @NonNull
-    private DataAuthor loadAuthor(String userId, ReviewerReadableDb db,
+    private DataAuthor loadAuthor(String userId, ReviewerDbReadable db,
                                   TableTransactor transactor) {
         RowEntry<String> clause = asClause(RowAuthor.USER_ID, userId);
         RowAuthor authorRow = db.getUniqueRowWhere(db.getAuthorsTable(), clause, transactor);

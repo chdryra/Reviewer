@@ -25,12 +25,12 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.testutils.BitmapMocker;
+import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.Random;
 
 import test.TestUtils.RandomAuthor;
@@ -122,7 +122,7 @@ public class MdDataMocker {
     }
 
     public MdDate newDate() {
-        return new MdDate(mMdReviewId, Math.max(new Date().getTime(), RAND.nextLong()));
+        return new MdDate(mMdReviewId, RandomDate.nextDate().getTime());
     }
 
     public MdSubject newSubject() {

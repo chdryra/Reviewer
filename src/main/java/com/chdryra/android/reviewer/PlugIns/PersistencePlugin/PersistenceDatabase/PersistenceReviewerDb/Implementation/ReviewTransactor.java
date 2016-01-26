@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .PersistenceReviewerDb.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
         .PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerReadableDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
 
 /**
@@ -54,7 +53,7 @@ public class ReviewTransactor implements ReviewLoader, ReviewInserter, ReviewDel
 
     @Nullable
     @Override
-    public Review loadReview(RowReview reviewRow, ReviewerReadableDb database, TableTransactor db) {
+    public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
         return mLoader.loadReview(reviewRow, database, db);
     }
 }

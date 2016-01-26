@@ -21,5 +21,5 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  */
 public interface ReviewLoader {
     @Nullable
-    Review loadReview(RowReview reviewRow, ReviewerReadableDb database, TableTransactor db);
+    Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db);
 }

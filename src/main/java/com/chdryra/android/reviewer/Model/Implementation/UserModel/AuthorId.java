@@ -35,17 +35,22 @@ public class AuthorId implements UserId {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj != null && obj.getClass() == getClass() && this.mId.equals(((AuthorId) obj).mId);
+    public String toString() {
+        return mId.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserId)) return false;
+
+        UserId authorId = (UserId) o;
+
+        return !(mId != null ? !toString().equals(authorId.toString()) : authorId.toString() != null);
     }
 
     @Override
     public int hashCode() {
-        return mId.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return mId.toString();
+        return mId != null ? mId.hashCode() : 0;
     }
 }

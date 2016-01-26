@@ -67,11 +67,10 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewInserterImplTest {
-    private FactoryDbTableRow mRowFactory;
     @Mock
     private ReviewerDb mDb;
+    private FactoryDbTableRow mRowFactory;
     private ReviewInserterImpl mInserter;
-    @Mock
     private Transactor mTransactor;
     private ItemTagCollection mTags = new ItemTagList();
 

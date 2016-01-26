@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * On: 14/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewerDb extends ReviewerReadableDb{
+public interface ReviewerDb extends ReviewerDbReadable {
     TagsManager getTagsManager();
 
     boolean addReviewToDb(Review review, TableTransactor transactor);

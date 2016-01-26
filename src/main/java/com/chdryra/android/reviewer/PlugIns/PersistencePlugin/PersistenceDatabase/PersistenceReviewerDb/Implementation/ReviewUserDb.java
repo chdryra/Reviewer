@@ -36,8 +36,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
         .Interfaces.ReviewDataRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.ReviewerReadableDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
         .Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
@@ -63,12 +62,12 @@ public class ReviewUserDb implements Review {
             true);
 
     private RowReview mRow;
-    private ReviewerReadableDb mDb;
+    private ReviewerDbReadable mDb;
     private ReviewNode mNode;
     private DataAuthorReview mAuthor;
 
     public ReviewUserDb(RowReview row,
-                        ReviewerReadableDb db,
+                        ReviewerDbReadable db,
                         FactoryReviewNode nodeFactory) {
         mRow = row;
         mDb = db;

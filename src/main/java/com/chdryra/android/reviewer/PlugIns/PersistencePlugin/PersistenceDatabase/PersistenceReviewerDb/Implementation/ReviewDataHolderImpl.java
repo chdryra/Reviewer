@@ -86,7 +86,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     }
 
     @Override
-    public float getRatingWeight() {
+    public int getRatingWeight() {
         return mRatingWeight;
     }
 

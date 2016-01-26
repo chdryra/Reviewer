@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewerReadableDb extends ReviewerDbContract {
+public interface ReviewerDbReadable extends ReviewerDbContract {
     TableTransactor beginReadTransaction();
 
     void endTransaction(TableTransactor db);

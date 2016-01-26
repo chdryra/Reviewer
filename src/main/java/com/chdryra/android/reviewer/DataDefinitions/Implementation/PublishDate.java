@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -25,7 +26,10 @@ public class PublishDate implements DataDate {
     }
 
     public PublishDate(long time) {
-        if (time > new Date().getTime()) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(new Date().getTime());
+        long timeNow = calendar.getTime().getTime();
+        if (time > timeNow) {
             throw new IllegalStateException("Publish date must not be in the future!");
         }
         mTime = time;
