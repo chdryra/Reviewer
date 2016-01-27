@@ -58,8 +58,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUserDb implements Review {
-    public static final RowEntry<Boolean> COVER_CLAUSE = new RowEntryImpl<>(RowImage.IS_COVER,
-            true);
+    public static final RowEntry<Boolean> COVER_CLAUSE
+            = new RowEntryImpl<>(RowImage.IS_COVER, true);
 
     private RowReview mRow;
     private ReviewerDbReadable mDb;
@@ -159,14 +159,13 @@ public class ReviewUserDb implements Review {
     }
 
     private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table,
-                                                                     ColumnInfo<String>
-                                                                             reviewIdCol) {
-        return loadDataWhere(table, asClause(reviewIdCol, getReviewId().toString()));
+                                                                     ColumnInfo<String> idCol) {
+        return loadDataWhere(table, asClause(idCol, getReviewId().toString()));
     }
 
     @NonNull
-    private <T extends ReviewDataRow, Type> ArrayList<T> loadDataWhere(DbTable<T> table, RowEntry
-            <Type> clause) {
+    private <T extends ReviewDataRow, Type> ArrayList<T> loadDataWhere(DbTable<T> table,
+                                                                       RowEntry<Type> clause) {
         ArrayList<T> data = new ArrayList<>();
 
         TableTransactor db = mDb.beginReadTransaction();
@@ -178,8 +177,8 @@ public class ReviewUserDb implements Review {
 
     private ArrayList<Review> loadCriteria() {
         TableTransactor transactor = mDb.beginReadTransaction();
-        ArrayList<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(), asClause(RowReview.PARENT_ID, getReviewId().toString()), transactor
-        );
+        ArrayList<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(),
+                asClause(RowReview.PARENT_ID, getReviewId().toString()), transactor);
         mDb.endTransaction(transactor);
         return criteria;
     }

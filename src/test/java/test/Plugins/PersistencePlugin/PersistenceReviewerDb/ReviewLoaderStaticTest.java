@@ -294,7 +294,8 @@ public class ReviewLoaderStaticTest {
         }
 
         @Override
-        public <DbRow extends DbTableRow, Type> ArrayList<Review> loadReviewsWhere(DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor transactor) {
+        public <DbRow extends DbTableRow, Type> ArrayList<Review>
+        loadReviewsWhere(DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor transactor) {
             if (table.getName().equals(TableReviews.NAME)) doCapture(table, clause);
             ArrayList<Review> crits = new ArrayList<>();
             for (DataCriterionReview criterion : mReview.getCriteria()) {
