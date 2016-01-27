@@ -113,6 +113,8 @@ public class ReviewerDbImpl implements ReviewerDb {
         ArrayList<Review> reviews = new ArrayList<>();
         ArrayList<ReviewId> reviewsLoaded = new ArrayList<>();
 
+        if (invalidClause(table, clause)) return new ArrayList<>();
+
         for (RowEntry<?> reviewClause : findReviewTableClauses(table, clause, transactor)) {
             for (RowReview reviewRow : getRowsWhere(getReviewsTable(), reviewClause, transactor)) {
                 loadReviewIfNotLoaded(reviewRow, reviews, reviewsLoaded, transactor);
@@ -126,9 +128,12 @@ public class ReviewerDbImpl implements ReviewerDb {
     public <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
                                                                     RowEntry<Type> clause,
                                                                     TableTransactor transactor) {
+        DbRow emptyRow = mRowFactory.emptyRow(table.getRowClass());
+        if(invalidClause(table, clause)) return emptyRow;
+
         TableRowList<DbRow> rows = transactor.getRowsWhere(table, clause, mRowFactory);
         if (rows.size() > 1) throw new IllegalStateException("More than one row found!");
-        return rows.size() == 0 ? mRowFactory.emptyRow(table.getRowClass()) : rows.getItem(0);
+        return rows.size() == 0 ? emptyRow : rows.getItem(0);
     }
 
     @Override
@@ -136,6 +141,7 @@ public class ReviewerDbImpl implements ReviewerDb {
                                                                              RowEntry<Type> clause,
                                                                              TableTransactor
                                                                                      transactor) {
+        if(invalidClause(table, clause)) return new TableRowList<>();
         return transactor.getRowsWhere(table, clause, mRowFactory);
     }
 
@@ -204,6 +210,11 @@ public class ReviewerDbImpl implements ReviewerDb {
         return mTables.getTableNames();
     }
 
+    private <DbRow extends DbTableRow, Type> boolean invalidClause(DbTable<DbRow> table,
+                                                                   RowEntry<Type> clause) {
+        return table.getColumn(clause.getColumnName()) == null;
+    }
+
     private void loadReviewIfNotLoaded(RowReview reviewRow, ArrayList<Review> reviews,
                                        ArrayList<ReviewId> reviewsLoaded,
                                        TableTransactor transactor) {
@@ -240,21 +251,21 @@ public class ReviewerDbImpl implements ReviewerDb {
             (DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor transactor) {
         HashSet<RowEntry<?>> entries = new HashSet<>();
 
-        ColumnInfo<String> reviwIdCol;
+        ColumnInfo<String> reviewIdCol;
         if (table.equals(getCommentsTable())) {
-            reviwIdCol = RowComment.REVIEW_ID;
+            reviewIdCol = RowComment.REVIEW_ID;
         } else if (table.equals(getFactsTable())) {
-            reviwIdCol = RowFact.REVIEW_ID;
+            reviewIdCol = RowFact.REVIEW_ID;
         } else if (table.equals(getImagesTable())) {
-            reviwIdCol = RowImage.REVIEW_ID;
+            reviewIdCol = RowImage.REVIEW_ID;
         } else if (table.equals(getLocationsTable())) {
-            reviwIdCol = RowLocation.REVIEW_ID;
+            reviewIdCol = RowLocation.REVIEW_ID;
         } else {
             return entries;
         }
 
         for (DbRow row : getRowsWhere(table, clause, transactor)) {
-            entries.add(asClause(reviwIdCol, ((HasReviewId) row).getReviewId().toString()));
+            entries.add(asClause(reviewIdCol, ((HasReviewId) row).getReviewId().toString()));
         }
 
         return entries;

@@ -12,49 +12,28 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.ContractorDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.ReviewTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.ReviewerDbImpl;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.RowReviewImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableAuthors;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableComments;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableFacts;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableImages;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableLocations;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableTags;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewerDbImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowReviewImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -64,6 +43,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Collection;
+
 import test.TestUtils.RandomReview;
 import test.TestUtils.RandomReviewId;
 
@@ -71,7 +52,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
@@ -85,7 +65,6 @@ public class ReviewerDbImplTest {
     public ExpectedException mExpectedException = ExpectedException.none();
     @Mock
     private ReviewTransactor mReviewTransactor;
-    @Mock
     private TagsManager mTagsManager;
     @Mock
     private ContractorDb<ReviewerDbContract> mContractor;
@@ -94,16 +73,18 @@ public class ReviewerDbImplTest {
     private ReviewerDbImpl mDb;
     private FactoryReviewerDbTableRow mRowFactory;
     private DataValidator mValidator;
+    private ReviewerDbContract mContract;
 
     @Before
     public void setUp() {
         when(mContractor.getReadableTransactor()).thenReturn(mTransactor);
         when(mContractor.getWriteableTransactor()).thenReturn(mTransactor);
-        ReviewerDbContract contract = setupContract();
-        when(mContractor.getContract()).thenReturn(contract);
+        mContract = setupContract();
+        when(mContractor.getContract()).thenReturn(mContract);
 
         mRowFactory = new FactoryReviewerDbTableRow();
         mValidator = new DataValidator();
+        mTagsManager = new TagsManagerImpl();
         mDb = new ReviewerDbImpl(mContractor, mReviewTransactor, mRowFactory, mTagsManager,
                 mValidator);
     }
@@ -167,12 +148,12 @@ public class ReviewerDbImplTest {
     @SuppressWarnings("unchecked")
     public void deleteReviewFromDbForUnrecognisedReviewIdDoesNotCallReviewTransactorReturnsFalse() {
         DbTable<RowReview> table = mDb.getReviewsTable();
-        when(table.getRowClass()).thenReturn(RowReview.class);
 
         ReviewId id = RandomReviewId.nextReviewId();
-        RowEntry clause = new RowEntryImpl<>(RowReview.REVIEW_ID, id.toString());;
+        RowEntry clause = new RowEntryImpl<>(RowReview.REVIEW_ID, id.toString());
 
-        when(mTransactor.getRowsWhere(table, clause, mRowFactory)).thenReturn(new TableRowList<RowReview>());
+        when(mTransactor.getRowsWhere(table, clause, mRowFactory)).thenReturn(new
+                TableRowList<RowReview>());
 
         assertThat(mDb.deleteReviewFromDb(id, mTransactor), is(false));
         verifyZeroInteractions(mReviewTransactor);
@@ -182,11 +163,10 @@ public class ReviewerDbImplTest {
     @SuppressWarnings("unchecked")
     public void deleteReviewFromDbForRecognisedReviewIdDoesCallReviewTransactorReturnsTrue() {
         DbTable<RowReview> table = mDb.getReviewsTable();
-        when(table.getRowClass()).thenReturn(RowReview.class);
 
         Review review = RandomReview.nextReview();
         ReviewId id = review.getReviewId();
-        RowEntry clause = new RowEntryImpl<>(RowReview.REVIEW_ID, id.toString());;
+        RowEntry clause = asClause(RowReview.REVIEW_ID, id.toString());
 
         TableRowList<RowReview> ret = new TableRowList<>();
         RowReviewImpl row = new RowReviewImpl(review);
@@ -194,12 +174,27 @@ public class ReviewerDbImplTest {
         when(mTransactor.getRowsWhere(table, clause, mRowFactory)).thenReturn(ret);
 
         assertThat(mDb.deleteReviewFromDb(id, mTransactor), is(true));
-        verify(mReviewTransactor).deleteReviewFromDb(row, mDb,  mTransactor);
+        verify(mReviewTransactor).deleteReviewFromDb(row, mDb, mTransactor);
     }
 
     @Test
-    public void loadReviewsWhere() {
-        fail();
+    public void loadReviewsWhereCallsReviewTransactorWithPassedClauseIfReviewTableClauses() {
+        Review review = RandomReview.nextReview();
+        RowEntry<?> clause = asClause(RowReview.REVIEW_ID, review.getReviewId().toString());
+
+        Collection<Review> reviews = mDb.loadReviewsWhere(mDb.getReviewsTable(), clause, mTransactor);
+
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void getUniqueRowWhereReturnsEmptyRowIfInvalidClause() {
+        DbTable<RowReview> table = mock(DbTable.class);
+        RowEntry clause = asClause(RowComment.REVIEW_ID, RandomReviewId.nextIdString()); //wrong Row
+
+        RowReview row = mDb.getUniqueRowWhere(table, clause, mTransactor);
+        assertThat(row, not(nullValue()));
+        assertThat(row.hasData(mValidator), is(false));
     }
 
     @Test
@@ -217,8 +212,7 @@ public class ReviewerDbImplTest {
     @Test
     @SuppressWarnings("unchecked")
     public void getUniqueRowWhereReturnsEmptyRowIfNoRowsFound() {
-        DbTable<RowReview> table = mock(DbTable.class);
-        when(table.getRowClass()).thenReturn(RowReview.class);
+        DbTable<RowReview> table = mDb.getReviewsTable();
         RowEntry clause = mock(RowEntry.class);
         when(mTransactor.getRowsWhere(table, clause, mRowFactory)).thenReturn(new TableRowList<>());
 
@@ -230,8 +224,7 @@ public class ReviewerDbImplTest {
     @Test
     @SuppressWarnings("unchecked")
     public void getUniqueRowWhereReturnsRowIfOneRowFound() {
-        DbTable<RowReview> table = mock(DbTable.class);
-        when(table.getRowClass()).thenReturn(RowReview.class);
+        DbTable<RowReview> table = mDb.getReviewsTable();
         RowEntry clause = mock(RowEntry.class);
 
         TableRowList<RowReview> ret = new TableRowList<>();
@@ -247,9 +240,19 @@ public class ReviewerDbImplTest {
 
     @Test
     @SuppressWarnings("unchecked")
+    public void getRowsWhereReturnsEmptyListIfInvalidClause() {
+        DbTable<RowReview> table = mDb.getReviewsTable();
+        RowEntry clause = asClause(RowFact.REVIEW_ID, RandomReviewId.nextIdString());
+
+        TableRowList<RowReview> list = mDb.getRowsWhere(table, clause, mTransactor);
+
+        assertThat(list.size(), is(0));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void getRowsWhere() {
-        DbTable<RowReview> table = mock(DbTable.class);
-        when(table.getRowClass()).thenReturn(RowReview.class);
+        DbTable<RowReview> table = mDb.getReviewsTable();
         RowEntry clause = mock(RowEntry.class);
 
         TableRowList<RowReview> ret = new TableRowList<>();
@@ -265,16 +268,13 @@ public class ReviewerDbImplTest {
         assertThat(list, is(ret));
     }
 
+    private <T> RowEntry<?> asClause(ColumnInfo<T> column, T value) {
+        return new RowEntryImpl<>(column, value);
+    }
+
     @NonNull
     private ReviewerDbContract setupContract() {
-        ReviewerDbContract contract = mock(ReviewerDbContract.class);
-        when(contract.getTagsTable()).thenReturn(mock(TableTags.class));
-        when(contract.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
-        when(contract.getReviewsTable()).thenReturn(mock(TableReviews.class));
-        when(contract.getCommentsTable()).thenReturn(mock(TableComments.class));
-        when(contract.getFactsTable()).thenReturn(mock(TableFacts.class));
-        when(contract.getImagesTable()).thenReturn(mock(TableImages.class));
-        when(contract.getLocationsTable()).thenReturn(mock(TableLocations.class));
-        return contract;
+        FactoryReviewerDbContract factory = new FactoryReviewerDbContract(new FactoryDbColumnDef(), new FactoryForeignKeyConstraint());
+        return factory.newContract();
     }
 }
