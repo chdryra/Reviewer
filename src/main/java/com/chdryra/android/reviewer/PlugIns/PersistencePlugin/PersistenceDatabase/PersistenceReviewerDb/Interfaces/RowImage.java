@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowImage extends ReviewDataRow, DataImage {
+public interface RowImage extends ReviewDataRow<RowImage>, DataImage {
     ColumnInfo<String> IMAGE_ID = new ColumnInfo<>("image_id", DbEntryType.TEXT);
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<ByteArray> BITMAP = new ColumnInfo<>("bitmap", DbEntryType.BYTE_ARRAY);

@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 
 /**
@@ -20,13 +22,20 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 15/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowEntryImpl<T> implements RowEntry<T> {
-    private ColumnInfo<T> mInfo;
-    private T mValue;
+public class RowEntryImpl<DbRow extends DbTableRow, Type> implements RowEntry<DbRow, Type> {
+    private Class<DbRow> mRowClass;
+    private ColumnInfo<Type> mInfo;
+    private Type mValue;
 
-    public RowEntryImpl(ColumnInfo<T> info, @Nullable T value) {
+    public RowEntryImpl(Class<DbRow> rowClass, ColumnInfo<Type> info, @Nullable Type value) {
+        mRowClass = rowClass;
         mInfo = info;
         mValue = value;
+    }
+
+    @Override
+    public Class<DbRow> getRowClass() {
+        return mRowClass;
     }
 
     @Override
@@ -35,12 +44,12 @@ public class RowEntryImpl<T> implements RowEntry<T> {
     }
 
     @Override
-    public DbEntryType<T> getEntryType() {
+    public DbEntryType<Type> getEntryType() {
         return mInfo.getType();
     }
 
     @Override
-    public T getValue() {
+    public Type getValue() {
         return mValue;
     }
 
@@ -49,16 +58,19 @@ public class RowEntryImpl<T> implements RowEntry<T> {
         if (this == o) return true;
         if (!(o instanceof RowEntryImpl)) return false;
 
-        RowEntryImpl<?> rowEntry = (RowEntryImpl<?>) o;
+        RowEntryImpl<?, ?> rowEntry = (RowEntryImpl<?, ?>) o;
 
-        if (!mInfo.equals(rowEntry.mInfo)) return false;
+        if (mRowClass != null ? !mRowClass.equals(rowEntry.mRowClass) : rowEntry.mRowClass != null)
+            return false;
+        if (mInfo != null ? !mInfo.equals(rowEntry.mInfo) : rowEntry.mInfo != null) return false;
         return !(mValue != null ? !mValue.equals(rowEntry.mValue) : rowEntry.mValue != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mInfo.hashCode();
+        int result = mRowClass != null ? mRowClass.hashCode() : 0;
+        result = 31 * result + (mInfo != null ? mInfo.hashCode() : 0);
         result = 31 * result + (mValue != null ? mValue.hashCode() : 0);
         return result;
     }

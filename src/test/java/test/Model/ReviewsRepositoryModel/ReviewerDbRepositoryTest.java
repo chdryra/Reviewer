@@ -16,6 +16,9 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowEntryImpl;
@@ -49,8 +52,8 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewerDbRepositoryTest {
-    public static final RowEntryImpl<String> REVIEW_CLAUSE = new RowEntryImpl<>(RowReview
-            .PARENT_ID, null);
+    public static final RowEntryImpl<RowReview, String> REVIEW_CLAUSE
+            = new RowEntryImpl<>(RowReview.class, RowReview.PARENT_ID, null);
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
     @Mock
@@ -117,7 +120,8 @@ public class ReviewerDbRepositoryTest {
     @Test
     public void getReviewCallsLoadReviewsFromDbWhere() {
         ReviewId id = RandomReviewId.nextReviewId();
-        RowEntry<String> clause = asClause(RowReview.REVIEW_ID, id.toString());
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.REVIEW_ID, id.toString());
         TableTransactor mockTransactor = mockReadTransaction();
         mRepo.getReview(id);
         verify(mDb).loadReviewsWhere(mReviewsTable, clause, mockTransactor);
@@ -219,7 +223,8 @@ public class ReviewerDbRepositoryTest {
 
     private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
         TableTransactor mockDb = mockReadTransaction();
-        RowEntry<String> clause = asClause(RowReview.REVIEW_ID, id.toString());
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.REVIEW_ID, id.toString());
         when(mDb.loadReviewsWhere(mReviewsTable, clause, mockDb)).thenReturn(reviews);
     }
 
@@ -235,7 +240,9 @@ public class ReviewerDbRepositoryTest {
         return mockDb;
     }
 
-    private <T> RowEntry<T> asClause(ColumnInfo<T> column, @Nullable T value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow>rowClass,
+                                                                      ColumnInfo<T> column,
+                                                                      @Nullable T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 }

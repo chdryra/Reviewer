@@ -28,27 +28,17 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.ReviewDataRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
-        .Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 
 import java.util.ArrayList;
 
@@ -58,8 +48,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUserDb implements Review {
-    public static final RowEntry<Boolean> COVER_CLAUSE
-            = new RowEntryImpl<>(RowImage.IS_COVER, true);
+    public static final RowEntry<RowImage, Boolean> COVER_CLAUSE
+            = new RowEntryImpl<>(RowImage.class, RowImage.IS_COVER, true);
 
     private RowReview mRow;
     private ReviewerDbReadable mDb;
@@ -152,21 +142,22 @@ public class ReviewUserDb implements Review {
 
     private void loadAuthor() {
         TableTransactor transactor = mDb.beginReadTransaction();
-        RowEntry<String> clause = asClause(RowAuthor.USER_ID, mRow.getAuthorId());
+        RowEntry<RowAuthor, String> clause
+                = asClause(RowAuthor.class, RowAuthor.USER_ID, mRow.getAuthorId());
         RowAuthor row = mDb.getUniqueRowWhere(mDb.getAuthorsTable(), clause, transactor);
         mDb.endTransaction(transactor);
         mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getUserId());
     }
 
-    private <T extends ReviewDataRow> ArrayList<T> loadFromDataTable(DbTable<T> table,
-                                                                     ColumnInfo<String> idCol) {
-        return loadDataWhere(table, asClause(idCol, getReviewId().toString()));
+    private <DbRow extends DbTableRow> ArrayList<DbRow> loadFromDataTable(DbTable<DbRow> table,
+                                                                          ColumnInfo<String> idCol) {
+        return loadDataWhere(table, asClause(table.getRowClass(), idCol, getReviewId().toString()));
     }
 
     @NonNull
-    private <T extends ReviewDataRow, Type> ArrayList<T> loadDataWhere(DbTable<T> table,
-                                                                       RowEntry<Type> clause) {
-        ArrayList<T> data = new ArrayList<>();
+    private <DbRow extends DbTableRow, Type> ArrayList<DbRow> loadDataWhere(DbTable<DbRow> table,
+                                                                       RowEntry<DbRow, Type> clause) {
+        ArrayList<DbRow> data = new ArrayList<>();
 
         TableTransactor db = mDb.beginReadTransaction();
         data.addAll(mDb.getRowsWhere(table, clause, db));
@@ -176,14 +167,18 @@ public class ReviewUserDb implements Review {
     }
 
     private Iterable<Review> loadCriteria() {
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.PARENT_ID, getReviewId().toString());
+
         TableTransactor transactor = mDb.beginReadTransaction();
-        Iterable<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(),
-                asClause(RowReview.PARENT_ID, getReviewId().toString()), transactor);
+        Iterable<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(), clause, transactor);
         mDb.endTransaction(transactor);
         return criteria;
     }
 
-    private <T> RowEntry<T> asClause(ColumnInfo<T> column, T value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
+                                                                      ColumnInfo<T> column,
+                                                                      T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 }

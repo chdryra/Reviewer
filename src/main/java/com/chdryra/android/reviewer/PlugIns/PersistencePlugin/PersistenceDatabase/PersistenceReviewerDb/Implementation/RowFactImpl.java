@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowFactImpl extends RowTableBasic implements RowFact {
+public class RowFactImpl extends RowTableBasic<RowFact> implements RowFact {
     private static final String SEPARATOR = ":";
 
     private String mFactId;
@@ -101,17 +101,17 @@ public class RowFactImpl extends RowTableBasic implements RowFact {
     }
 
     @Override
-    protected RowEntry<?> getEntry(int position) {
+    protected RowEntry<RowFact, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(FACT_ID, mFactId);
+            return new RowEntryImpl<>(RowFact.class, FACT_ID, mFactId);
         } else if(position == 1) {
-            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+            return new RowEntryImpl<>(RowFact.class, REVIEW_ID, mReviewId);
         } else if(position == 2) {
-            return new RowEntryImpl<>(LABEL, mLabel);
+            return new RowEntryImpl<>(RowFact.class, LABEL, mLabel);
         } else if(position == 3) {
-            return new RowEntryImpl<>(VALUE, mValue);
+            return new RowEntryImpl<>(RowFact.class, VALUE, mValue);
         } else if(position == 4){
-            return new RowEntryImpl<>(IS_URL, mIsUrl);
+            return new RowEntryImpl<>(RowFact.class, IS_URL, mIsUrl);
         } else {
             throw noElement();
         }

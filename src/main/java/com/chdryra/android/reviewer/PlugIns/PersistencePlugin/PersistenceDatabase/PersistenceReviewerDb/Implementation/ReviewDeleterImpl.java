@@ -29,6 +29,9 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
 
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
@@ -49,12 +52,17 @@ public class ReviewDeleterImpl implements ReviewDeleter {
     public boolean deleteReviewFromDb(RowReview row, ReviewerDb db, TableTransactor transactor) {
         String idString = row.getReviewId().toString();
 
-        deleteFromTable(db.getImagesTable(), RowImage.REVIEW_ID, idString, transactor);
-        deleteFromTable(db.getLocationsTable(), RowLocation.REVIEW_ID, idString, transactor);
-        deleteFromTable(db.getFactsTable(), RowFact.REVIEW_ID, idString, transactor);
-        deleteFromTable(db.getCommentsTable(), RowComment.REVIEW_ID, idString, transactor);
-        deleteFromTable(db.getReviewsTable(), RowReview.REVIEW_ID, idString, transactor);
-        deleteCriteria(db.getReviewsTable(), RowReview.REVIEW_ID, idString, transactor);
+        deleteFromTable(db.getImagesTable(),
+                asClause(RowImage.class, RowImage.REVIEW_ID, idString), transactor);
+        deleteFromTable(db.getLocationsTable(),
+                asClause(RowLocation.class, RowLocation.REVIEW_ID, idString), transactor);
+        deleteFromTable(db.getFactsTable(),
+                asClause(RowFact.class, RowFact.REVIEW_ID, idString), transactor);
+        deleteFromTable(db.getCommentsTable(),
+                asClause(RowComment.class, RowComment.REVIEW_ID, idString), transactor);
+        deleteFromTable(db.getReviewsTable(),
+                asClause(RowReview.class, RowReview.REVIEW_ID, idString), transactor);
+        deleteCriteria(db.getReviewsTable(), idString, transactor);
         deleteTagsIfNecessary(db.getTagsTable(), db.getTagsManager(), idString, transactor);
         deleteAuthorIfNecessary(db, row, transactor);
 
@@ -62,12 +70,16 @@ public class ReviewDeleterImpl implements ReviewDeleter {
     }
 
     private void deleteCriteria(DbTable<RowReview> reviewsTable,
-                                ColumnInfo<String> idCol, String id,
+                                String reviewId,
                                 TableTransactor transactor) {
-        RowEntry<String> clause = asClause(RowReview.PARENT_ID, id);
-        TableRowList<RowReview> rows = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
+        RowEntry<RowReview, String> reviewIsParent
+                = asClause(RowReview.class, RowReview.PARENT_ID, reviewId);
+        TableRowList<RowReview> rows
+                = transactor.getRowsWhere(reviewsTable, reviewIsParent, mRowFactory);
         for (RowReview row : rows) {
-            deleteFromTable(reviewsTable, idCol, row.getReviewId().toString(), transactor);
+            RowEntry<RowReview, String> idClause = asClause(RowReview.class, RowReview.REVIEW_ID,
+                    row.getReviewId().toString());
+            deleteFromTable(reviewsTable, idClause, transactor);
         }
     }
 
@@ -76,7 +88,9 @@ public class ReviewDeleterImpl implements ReviewDeleter {
         ItemTagCollection tags = tagsManager.getTags(reviewId);
         for (ItemTag tag : tags) {
             if (tagsManager.untagItem(reviewId, tag)) {
-                deleteFromTable(tagsTable, RowTag.TAG, tag.getTag(), transactor);
+                RowEntry<RowTag, String> tagClause
+                        = asClause(RowTag.class, RowTag.TAG, tag.getTag());
+                deleteFromTable(tagsTable, tagClause, transactor);
             }
         }
     }
@@ -85,20 +99,25 @@ public class ReviewDeleterImpl implements ReviewDeleter {
                                          TableTransactor transactor) {
         String userId = row.getAuthorId();
         DbTable<RowReview> reviewsTable = db.getReviewsTable();
-        RowEntry<String> clause = asClause(RowReview.USER_ID, userId);
+        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.USER_ID, userId);
 
         TableRowList<RowReview> authored = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
         if (authored.size() == 0) {
-            deleteFromTable(db.getAuthorsTable(), RowAuthor.USER_ID, userId, transactor);
+            RowEntry<RowAuthor, String> userIdClause
+                    = asClause(RowAuthor.class, RowAuthor.USER_ID, userId);
+            deleteFromTable(db.getAuthorsTable(), userIdClause, transactor);
         }
     }
 
-    private void deleteFromTable(DbTable<?> table, ColumnInfo<String> rowIdCol, String rowId, TableTransactor transactor) {
-        transactor.deleteRowsWhere(table, asClause(rowIdCol, rowId));
+    private <DbRow extends DbTableRow> void deleteFromTable(DbTable<DbRow> table,
+                                                            RowEntry<DbRow, ?> clause,
+                                                            TableTransactor transactor) {
+        transactor.deleteRowsWhere(table, clause);
     }
 
     @NonNull
-    private <T> RowEntry<T> asClause(ColumnInfo<T> column, T value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
+                                                               ColumnInfo<T> column, T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 }

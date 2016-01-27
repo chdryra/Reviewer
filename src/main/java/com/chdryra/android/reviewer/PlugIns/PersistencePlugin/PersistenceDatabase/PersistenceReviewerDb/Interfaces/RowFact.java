@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowFact extends ReviewDataRow, DataFact {
+public interface RowFact extends ReviewDataRow<RowFact>, DataFact {
     ColumnInfo<String> FACT_ID = new ColumnInfo<>("fact_id", DbEntryType.TEXT);
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<String> LABEL = new ColumnInfo<>("label", DbEntryType.TEXT);

@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
+public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor {
     private String mUserId;
     private String mName;
 
@@ -70,11 +70,11 @@ public class RowAuthorImpl extends RowTableBasic implements RowAuthor {
     }
 
     @Override
-    protected RowEntry<?> getEntry(int position) {
+    protected RowEntry<RowAuthor, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(USER_ID, mUserId);
+            return new RowEntryImpl<>(RowAuthor.class, USER_ID, mUserId);
         } else if(position == 1){
-            return new RowEntryImpl<>(AUTHOR_NAME, mName);
+            return new RowEntryImpl<>(RowAuthor.class, AUTHOR_NAME, mName);
         } else {
             throw noElement();
         }

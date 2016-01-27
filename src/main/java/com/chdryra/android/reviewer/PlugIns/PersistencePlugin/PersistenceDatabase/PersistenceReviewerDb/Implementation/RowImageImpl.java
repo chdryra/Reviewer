@@ -32,7 +32,7 @@ import java.util.Arrays;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowImageImpl extends RowTableBasic implements RowImage {
+public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
     private static final String SEPARATOR = ":";
 
     private String mImageId;
@@ -135,19 +135,19 @@ public class RowImageImpl extends RowTableBasic implements RowImage {
     }
 
     @Override
-    protected RowEntry<?> getEntry(int position) {
+    protected RowEntry<RowImage, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(IMAGE_ID, mImageId);
+            return new RowEntryImpl<>(RowImage.class, IMAGE_ID, mImageId);
         } else if(position == 1) {
-            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+            return new RowEntryImpl<>(RowImage.class, REVIEW_ID, mReviewId);
         } else if(position == 2) {
-            return new RowEntryImpl<>(BITMAP, new ByteArray(mBitmap));
+            return new RowEntryImpl<>(RowImage.class, BITMAP, new ByteArray(mBitmap));
         } else if(position == 3) {
-            return new RowEntryImpl<>(IS_COVER, mIsCover);
+            return new RowEntryImpl<>(RowImage.class, IS_COVER, mIsCover);
         } else if(position == 4) {
-            return new RowEntryImpl<>(CAPTION, mCaption);
+            return new RowEntryImpl<>(RowImage.class, CAPTION, mCaption);
         } else if(position == 5) {
-            return new RowEntryImpl<>(IMAGE_DATE, mDate);
+            return new RowEntryImpl<>(RowImage.class, IMAGE_DATE, mDate);
         } else {
             throw noElement();
         }

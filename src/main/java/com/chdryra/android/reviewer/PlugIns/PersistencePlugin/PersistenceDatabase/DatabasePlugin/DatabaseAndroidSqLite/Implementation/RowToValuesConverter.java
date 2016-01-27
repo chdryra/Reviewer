@@ -23,16 +23,16 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  */
 public class RowToValuesConverter {
 
-    public ContentValues convert(DbTableRow row) {
+    public <DbRow extends DbTableRow> ContentValues convert(DbTableRow<DbRow> row) {
         ContentValues values = new ContentValues();
-        for(RowEntry<?> entry : row) {
+        for(RowEntry<DbRow, ?> entry : row) {
             putEntry(entry, values);
         }
 
         return values;
     }
 
-    private void putEntry(RowEntry<?> entry, ContentValues values) {
+    private void putEntry(RowEntry<?, ?> entry, ContentValues values) {
         String columnName = entry.getColumnName();
         Object value = entry.getValue();
         DbEntryType<?> type = entry.getEntryType();
@@ -49,7 +49,8 @@ public class RowToValuesConverter {
         } else if(type.equals(DbEntryType.LONG)) {
             values.put(columnName, (Long)value);
         } else if(type.equals(DbEntryType.BYTE_ARRAY)) {
-            values.put(columnName, ((ByteArray) value).getData());
+            ByteArray array = (ByteArray) value;
+            values.put(columnName, array != null ? array.getData() : null);
         } else {
             throw new IllegalArgumentException("EntryType: " + type + " not supported");
         }

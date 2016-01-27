@@ -22,13 +22,15 @@ import java.util.NoSuchElementException;
  * On: 15/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class RowTableBasic implements Iterable<RowEntry<?>>, DbTableRow{
+public abstract class RowTableBasic<DbRow extends DbTableRow>
+        implements Iterable<RowEntry<DbRow, ?>>, DbTableRow<DbRow>{
+
     protected abstract int size();
 
-    protected abstract RowEntry<?> getEntry(int position);
+    protected abstract RowEntry<DbRow, ?> getEntry(int position);
 
     @Override
-    public Iterator<RowEntry<?>> iterator() {
+    public Iterator<RowEntry<DbRow, ?>> iterator() {
         return new RowIterator();
     }
 
@@ -36,7 +38,7 @@ public abstract class RowTableBasic implements Iterable<RowEntry<?>>, DbTableRow
         throw new NoSuchElementException("No more elements left");
     }
 
-    private class RowIterator implements Iterator<RowEntry<?>> {
+    private class RowIterator implements Iterator<RowEntry<DbRow, ?>> {
         private int mPosition = 0;
 
         @Override
@@ -45,7 +47,7 @@ public abstract class RowTableBasic implements Iterable<RowEntry<?>>, DbTableRow
         }
 
         @Override
-        public RowEntry<?> next() {
+        public RowEntry<DbRow, ?> next() {
             if (hasNext()) {
                 return getEntry(mPosition++);
             } else {

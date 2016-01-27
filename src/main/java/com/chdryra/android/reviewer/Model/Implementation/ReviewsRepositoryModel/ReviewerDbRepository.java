@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Interfaces.RowEntry;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
         .Implementation.ColumnInfo;
@@ -38,8 +40,8 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbRepository implements ReviewsRepositoryMutable{
-    public static final RowEntryImpl<String> REVIEW_CLAUSE = new RowEntryImpl<>(RowReview
-            .PARENT_ID, null);
+    public static final RowEntryImpl<RowReview, String> REVIEW_CLAUSE
+            = new RowEntryImpl<>(RowReview.class, RowReview.PARENT_ID, null);
     private final ReviewerDb mDatabase;
     private final DbTable<RowReview> mTable;
     private final ArrayList<ReviewsRepositoryObserver> mObservers;
@@ -66,7 +68,8 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
     @Override
     public Review getReview(ReviewId reviewId) {
-        RowEntry<String> clause = asClause(RowReview.REVIEW_ID, reviewId.toString());
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
 
         TableTransactor transactor = mDatabase.beginReadTransaction();
         Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
@@ -122,7 +125,9 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         }
     }
 
-    private <T> RowEntry<T> asClause(ColumnInfo<T> column, @Nullable T value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
+                                                                      ColumnInfo<T> column,
+                                                                      @Nullable T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 }

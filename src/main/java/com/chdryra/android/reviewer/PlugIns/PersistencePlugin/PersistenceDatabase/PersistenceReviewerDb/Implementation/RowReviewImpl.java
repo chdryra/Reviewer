@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReviewImpl extends RowTableBasic implements RowReview {
+public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview {
     private String mReviewId;
     private String mParentId;
     private String mAuthorId;
@@ -144,23 +144,23 @@ public class RowReviewImpl extends RowTableBasic implements RowReview {
     }
 
     @Override
-    protected RowEntry<?> getEntry(int position) {
+    protected RowEntry<RowReview, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+            return new RowEntryImpl<>(RowReview.class, REVIEW_ID, mReviewId);
         } else if(position == 1) {
-            return new RowEntryImpl<>(PARENT_ID, mParentId);
+            return new RowEntryImpl<>(RowReview.class, PARENT_ID, mParentId);
         } else if(position == 2) {
-            return new RowEntryImpl<>(USER_ID, mAuthorId);
+            return new RowEntryImpl<>(RowReview.class, USER_ID, mAuthorId);
         } else if(position == 3) {
-            return new RowEntryImpl<>(PUBLISH_DATE, mPublishDate);
+            return new RowEntryImpl<>(RowReview.class, PUBLISH_DATE, mPublishDate);
         } else if(position == 4) {
-            return new RowEntryImpl<>(SUBJECT, mSubject);
+            return new RowEntryImpl<>(RowReview.class, SUBJECT, mSubject);
         } else if(position == 5) {
-            return new RowEntryImpl<>(RATING, mRating);
+            return new RowEntryImpl<>(RowReview.class, RATING, mRating);
         } else if(position == 6) {
-            return new RowEntryImpl<>(RATING_WEIGHT, mRatingWeight);
+            return new RowEntryImpl<>(RowReview.class, RATING_WEIGHT, mRatingWeight);
         } else if(position == 7) {
-            return new RowEntryImpl<>(IS_AVERAGE, mRatingIsAverage);
+            return new RowEntryImpl<>(RowReview.class, IS_AVERAGE, mRatingIsAverage);
         } else {
             throw noElement();
         }

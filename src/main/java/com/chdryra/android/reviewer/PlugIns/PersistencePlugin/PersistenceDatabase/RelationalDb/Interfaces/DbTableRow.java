@@ -16,7 +16,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.Validatable;
  * On: 07/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DbTableRow extends Validatable, Iterable<RowEntry<?>>{
+public interface DbTableRow<DbRow extends DbTableRow>
+        extends Validatable, Iterable<RowEntry<DbRow, ?>>{
     String getRowId();
 
     String getRowIdColumnName();

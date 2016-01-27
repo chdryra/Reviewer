@@ -58,7 +58,7 @@ public class TableTransactorSqlLite implements TableTransactor {
 
     @Override
     public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                             RowEntry<Type> clause,
+                                                                             RowEntry<DbRow, Type> clause,
                                                                              FactoryDbTableRow rowFactory) {
         return getAllRowsWhere(table, clause, rowFactory);
     }
@@ -102,7 +102,8 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @Override
-    public <Type> void deleteRowsWhere(DbTable<?> table, RowEntry<Type> clause) {
+    public <DbRow extends DbTableRow, Type> void deleteRowsWhere(DbTable<DbRow> table,
+                                                                 RowEntry<DbRow, Type> clause) {
         String tableName = table.getName();
         String val = mEntryConverter.convert(clause);
         String message = "Couldn't delete " + clause.getValue() + " from " + tableName + " table ";
@@ -129,9 +130,9 @@ public class TableTransactorSqlLite implements TableTransactor {
     }
 
     @NonNull
-    private <DbRow extends DbTableRow, Type> TableRowList<DbRow> getAllRowsWhere(DbTable<DbRow> table,
-                                                                           @Nullable RowEntry<Type> entry,
-                                                                                 FactoryDbTableRow rowFactory) {
+    private <DbRow extends DbTableRow, Type> TableRowList<DbRow>
+    getAllRowsWhere(DbTable<DbRow> table, @Nullable RowEntry<DbRow, Type> entry,
+                    FactoryDbTableRow rowFactory) {
         String col = null;
         String val = null;
         if(entry != null) {

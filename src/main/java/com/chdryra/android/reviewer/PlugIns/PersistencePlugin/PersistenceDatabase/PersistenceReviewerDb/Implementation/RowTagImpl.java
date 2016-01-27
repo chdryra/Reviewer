@@ -25,7 +25,7 @@ import java.util.Arrays;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowTagImpl extends RowTableBasic implements RowTag {
+public class RowTagImpl extends RowTableBasic<RowTag> implements RowTag {
     private static final String SEPARATOR = ",";
 
     private String mTag;
@@ -76,11 +76,11 @@ public class RowTagImpl extends RowTableBasic implements RowTag {
     }
 
     @Override
-    protected RowEntry<?> getEntry(int position) {
+    protected RowEntry<RowTag, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(TAG, mTag);
+            return new RowEntryImpl<>(RowTag.class, TAG, mTag);
         } else if(position == 1){
-            return new RowEntryImpl<>(REVIEWS, mReviews);
+            return new RowEntryImpl<>(RowTag.class, REVIEWS, mReviews);
         } else {
             throw noElement();
         }

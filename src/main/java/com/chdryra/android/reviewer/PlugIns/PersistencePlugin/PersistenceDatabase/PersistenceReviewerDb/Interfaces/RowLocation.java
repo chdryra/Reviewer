@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowLocation extends ReviewDataRow, DataLocation {
+public interface RowLocation extends ReviewDataRow<RowLocation>, DataLocation {
     ColumnInfo<String> LOCATION_ID = new ColumnInfo<>("location_id", DbEntryType.TEXT);
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<Double> LATITUDE = new ColumnInfo<>("latitude", DbEntryType.DOUBLE);

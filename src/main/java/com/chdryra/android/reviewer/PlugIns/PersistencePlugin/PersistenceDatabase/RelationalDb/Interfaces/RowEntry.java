@@ -19,11 +19,13 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 15/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowEntry<T> {
+public interface RowEntry<DbRow extends DbTableRow, Type> {
+    Class<DbRow> getRowClass();
+
     String getColumnName();
 
-    DbEntryType<T> getEntryType();
+    DbEntryType<Type> getEntryType();
 
     @Nullable
-    T getValue();
+    Type getValue();
 }

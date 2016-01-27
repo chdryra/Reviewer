@@ -34,7 +34,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
+public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImpl>{
 
     public RowReviewImplTest() {
         super(RowReview.REVIEW_ID.getName(), 8);
@@ -317,7 +317,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReviewImpl>{
     public void iteratorReturnsDataInOrder() {
         RowReviewImpl row = newRow();
 
-        ArrayList<RowEntry<?>> entries = getRowEntries(row);
+        ArrayList<RowEntry<RowReview, ?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(8));
 

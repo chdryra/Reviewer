@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 public class EntryToStringConverter {
 
     @Nullable
-    public <T> String convert(RowEntry<T> entry) {
+    public <T> String convert(RowEntry<?, T> entry) {
         Object value = entry.getValue();
         if(value == null) return null;
         DbEntryType<?> type = entry.getEntryType();

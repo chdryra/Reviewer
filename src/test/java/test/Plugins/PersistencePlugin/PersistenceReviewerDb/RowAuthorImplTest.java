@@ -32,7 +32,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorImpl>{
+public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImpl>{
 
     public RowAuthorImplTest() {
         super(RowAuthor.USER_ID.getName(), 2);
@@ -89,7 +89,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthorImpl>{
     public void iteratorReturnsDataInOrder() {
         RowAuthorImpl row = newRow();
 
-        ArrayList<RowEntry<?>> entries = getRowEntries(row);
+        ArrayList<RowEntry<RowAuthor, ?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(2));
 

@@ -284,16 +284,16 @@ public class ReviewInserterImplTest {
         }
 
         @Override
-        public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                                 RowEntry<Type>
-                                                                                         clause,
-                                                                                 FactoryDbTableRow rowFactory) {
+        public <DbRow extends DbTableRow, Type> TableRowList<DbRow>
+        getRowsWhere(DbTable<DbRow> table, RowEntry<DbRow, Type> clause,
+                     FactoryDbTableRow rowFactory) {
             fail();
             return null;
         }
 
         @Override
-        public <Type> void deleteRowsWhere(DbTable<?> table, RowEntry<Type> clause) {
+        public <DbRow extends DbTableRow, Type> void deleteRowsWhere(DbTable<DbRow> table,
+                                                                     RowEntry<DbRow, Type> clause) {
             fail();
         }
 

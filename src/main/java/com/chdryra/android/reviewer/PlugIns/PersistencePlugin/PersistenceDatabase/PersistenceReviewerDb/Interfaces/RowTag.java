@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowTag extends DbTableRow {
+public interface RowTag extends DbTableRow<RowTag> {
     ColumnInfo<String> TAG = new ColumnInfo<>("tag", DbEntryType.TEXT);
     ColumnInfo<String> REVIEWS = new ColumnInfo<>("reviews", DbEntryType.TEXT);
 

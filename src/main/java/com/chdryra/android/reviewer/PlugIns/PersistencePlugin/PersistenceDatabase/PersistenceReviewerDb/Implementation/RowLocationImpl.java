@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocationImpl extends RowTableBasic implements RowLocation {
+public class RowLocationImpl extends RowTableBasic<RowLocation> implements RowLocation {
     private static final String SEPARATOR = ":";
 
     private String mLocationId;
@@ -92,17 +92,17 @@ public class RowLocationImpl extends RowTableBasic implements RowLocation {
     }
 
     @Override
-    protected RowEntry<?> getEntry(int position) {
+    protected RowEntry<RowLocation, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(LOCATION_ID, mLocationId);
+            return new RowEntryImpl<>(RowLocation.class, LOCATION_ID, mLocationId);
         } else if(position == 1) {
-            return new RowEntryImpl<>(REVIEW_ID, mReviewId);
+            return new RowEntryImpl<>(RowLocation.class, REVIEW_ID, mReviewId);
         } else if(position == 2) {
-            return new RowEntryImpl<>(LATITUDE, mLatitude);
+            return new RowEntryImpl<>(RowLocation.class, LATITUDE, mLatitude);
         } else if(position == 3) {
-            return new RowEntryImpl<>(LONGITUDE, mLongitude);
+            return new RowEntryImpl<>(RowLocation.class, LONGITUDE, mLongitude);
         } else if(position == 4) {
-            return new RowEntryImpl<>(NAME, mName);
+            return new RowEntryImpl<>(RowLocation.class, NAME, mName);
         } else {
             throw noElement();
         }

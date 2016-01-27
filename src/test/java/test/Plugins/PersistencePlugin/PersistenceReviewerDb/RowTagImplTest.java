@@ -31,7 +31,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowTagImplTest extends RowTableBasicTest<RowTagImpl>{
+public class RowTagImplTest extends RowTableBasicTest<RowTag, RowTagImpl>{
     private static final int NUM = 10;
 
     public RowTagImplTest() {
@@ -107,7 +107,7 @@ public class RowTagImplTest extends RowTableBasicTest<RowTagImpl>{
     public void iteratorReturnsDataInOrder() {
         RowTagImpl row = newRow();
 
-        ArrayList<RowEntry<?>> entries = getRowEntries(row);
+        ArrayList<RowEntry<RowTag, ?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(2));
 

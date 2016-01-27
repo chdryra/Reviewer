@@ -120,43 +120,43 @@ public class ReviewLoaderStaticTest {
     @Test
     public void loadReviewCallsDbGetRowsWhereForCommentsWithReviewIdColEqualsIdValClause() {
         RowReview review = newRowReview();
-        checkLoadClassDb(review, TableComments.NAME, RowComment.REVIEW_ID,
-                review.getReviewId().toString());
+        checkLoadClassDb(review, TableComments.NAME,
+                asClause(RowComment.class, RowComment.REVIEW_ID, review.getReviewId().toString()));
     }
 
     @Test
     public void loadReviewCallsDbGetRowsWhereForFactsWithReviewIdColEqualsIdValClause() {
         RowReview review = newRowReview();
-        checkLoadClassDb(review, TableFacts.NAME, RowFact.REVIEW_ID,
-                review.getReviewId().toString());
+        checkLoadClassDb(review, TableFacts.NAME,
+                asClause(RowFact.class, RowFact.REVIEW_ID, review.getReviewId().toString()));
     }
 
     @Test
     public void loadReviewCallsDbGetRowsWhereForImagesWithReviewIdColEqualsIdValClause() {
         RowReview review = newRowReview();
-        checkLoadClassDb(review, TableImages.NAME, RowImage.REVIEW_ID,
-                review.getReviewId().toString());
+        checkLoadClassDb(review, TableImages.NAME,
+                asClause(RowImage.class, RowImage.REVIEW_ID, review.getReviewId().toString()));
     }
 
     @Test
     public void loadReviewCallsDbGetRowsWhereForLocationsWithReviewIdColEqualsIdValClause() {
         RowReview review = newRowReview();
-        checkLoadClassDb(review, TableLocations.NAME, RowLocation.REVIEW_ID,
-                review.getReviewId().toString());
+        checkLoadClassDb(review, TableLocations.NAME, asClause(RowLocation.class,
+                RowLocation.REVIEW_ID, review.getReviewId().toString()));
     }
 
     @Test
     public void loadReviewCallsDbLoadReviewsWhereForCriteriaWithParentIdColEqualsIdValClause() {
         RowReview review = newRowReview();
-        checkLoadClassDb(review, TableReviews.NAME, RowReview.PARENT_ID,
-                review.getReviewId().toString());
+        checkLoadClassDb(review, TableReviews.NAME,
+                asClause(RowReview.class, RowReview.PARENT_ID, review.getReviewId().toString()));
     }
 
     @Test
     public void loadReviewCallsDbGetUniqueWhereForAuthorWithUserIdColEqualsIdValClause() {
         RowReview review = newRowReview();
-        checkLoadClassDb(review, TableAuthors.NAME, RowAuthor.USER_ID,
-                review.getAuthorId());
+        checkLoadClassDb(review, TableAuthors.NAME,
+                asClause(RowAuthor.class, RowAuthor.USER_ID, review.getAuthorId()));
     }
 
     @Test
@@ -240,14 +240,15 @@ public class ReviewLoaderStaticTest {
         when(tags.getRowClass()).thenReturn(RowTag.class);
     }
 
-    private RowEntry<?> asClause(ColumnInfo<String> column, String value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow> RowEntry<DbRow, ?> asClause(Class<DbRow> rowClass,
+                                                                   ColumnInfo<String> column,
+                                                                   String value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 
-    private void checkLoadClassDb(RowReview review,
-                                  String tableName,
-                                  ColumnInfo<String> column,
-                                  String value) {
+    private <DbRow extends DbTableRow> void checkLoadClassDb(RowReview review,
+                                                             String tableName,
+                                                             RowEntry<DbRow, ?> clause) {
         mDb.mCaptureTableName = tableName;
 
         assertThat(mDb.mTableCaptured, is(false));
@@ -256,7 +257,7 @@ public class ReviewLoaderStaticTest {
         mLoader.loadReview(review, mDb, mTransactor);
 
         assertThat(mDb.mTableCaptured, is(true));
-        assertThat(mDb.mCapturedClause.equals(asClause(column, value)), is(true));
+        assertThat(mDb.mCapturedClause.equals(clause), is(true));
     }
 
     private RowReview newRowReview() {
@@ -265,10 +266,6 @@ public class ReviewLoaderStaticTest {
 
     private class Recreater implements ReviewRecreater {
         private ReviewDataHolder mHolder;
-
-        public ReviewDataHolder getHolder() {
-            return mHolder;
-        }
 
         @Override
         public Review recreateReview(ReviewDataHolder review) {
@@ -280,22 +277,12 @@ public class ReviewLoaderStaticTest {
     private class Db implements ReviewerDbReadable {
         private String mCaptureTableName;
         private boolean mTableCaptured = false;
-        private RowEntry<?> mCapturedClause;
-
-        @Override
-        public TableTransactor beginReadTransaction() {
-            fail();
-            return null;
-        }
-
-        @Override
-        public void endTransaction(TableTransactor db) {
-            fail();
-        }
+        private RowEntry<?, ?> mCapturedClause;
 
         @Override
         public <DbRow extends DbTableRow, Type> ArrayList<Review>
-        loadReviewsWhere(DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor transactor) {
+        loadReviewsWhere(DbTable<DbRow> table, RowEntry<DbRow, Type> clause,
+                         TableTransactor transactor) {
             if (table.getName().equals(TableReviews.NAME)) doCapture(table, clause);
             ArrayList<Review> crits = new ArrayList<>();
             for (DataCriterionReview criterion : mReview.getCriteria()) {
@@ -306,7 +293,7 @@ public class ReviewLoaderStaticTest {
 
         @Override
         public <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
-                                                                        RowEntry<Type> clause,
+                                                                        RowEntry<DbRow, Type> clause,
                                                                         TableTransactor transactor) {
 
             if (table.getName().equals(TableAuthors.NAME)) doCapture(table, clause);
@@ -315,10 +302,9 @@ public class ReviewLoaderStaticTest {
         }
 
         @Override
-        public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                                 RowEntry<Type>
-                                                                                         clause,
-                                                                                 TableTransactor transactor) {
+        public <DbRow extends DbTableRow, Type> TableRowList<DbRow>
+        getRowsWhere(DbTable<DbRow> table, RowEntry<DbRow, Type> clause,
+                     TableTransactor transactor) {
             String name = table.getName();
             if (!name.equals(TableAuthors.NAME) && !name.equals(TableAuthors.NAME)) {
                 doCapture(table, clause);
@@ -326,16 +312,22 @@ public class ReviewLoaderStaticTest {
 
             TableRowList<DbRow> tableRowList = new TableRowList<>();
             Iterable<? extends HasReviewId> data = null;
-            if (name.equals(TableComments.NAME)) {
-                data = mReview.getComments();
-            } else if (name.equals(TableFacts.NAME)) {
-                data = mReview.getFacts();
-            } else if (name.equals(TableImages.NAME)) {
-                data = mReview.getImages();
-            } else if (name.equals(TableLocations.NAME)) {
-                data = mReview.getLocations();
-            } else {
-                fail();
+            switch (name) {
+                case TableComments.NAME:
+                    data = mReview.getComments();
+                    break;
+                case TableFacts.NAME:
+                    data = mReview.getFacts();
+                    break;
+                case TableImages.NAME:
+                    data = mReview.getImages();
+                    break;
+                case TableLocations.NAME:
+                    data = mReview.getLocations();
+                    break;
+                default:
+                    fail();
+                    break;
             }
 
             for (HasReviewId datum : data) {
@@ -343,6 +335,17 @@ public class ReviewLoaderStaticTest {
             }
 
             return tableRowList;
+        }
+
+        @Override
+        public TableTransactor beginReadTransaction() {
+            fail();
+            return null;
+        }
+
+        @Override
+        public void endTransaction(TableTransactor db) {
+            fail();
         }
 
         @Override
@@ -391,7 +394,7 @@ public class ReviewLoaderStaticTest {
         }
 
         private <DbRow extends DbTableRow, Type> void doCapture(DbTable<DbRow> table, RowEntry
-                <Type> clause) {
+                <DbRow, Type> clause) {
             if (table.getName() != null && table.getName().equals(mCaptureTableName)) {
                 mTableCaptured = true;
                 mCapturedClause = clause;

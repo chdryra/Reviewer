@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowReview extends ReviewDataRow, DataDateReview,
+public interface RowReview extends ReviewDataRow<RowReview>, DataDateReview,
         DataSubject, DataRating {
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<String> PARENT_ID = new ColumnInfo<>("parent_id", DbEntryType.TEXT);

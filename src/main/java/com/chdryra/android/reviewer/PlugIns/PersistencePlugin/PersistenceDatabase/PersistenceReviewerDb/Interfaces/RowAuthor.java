@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowAuthor extends DbTableRow, DataAuthor {
+public interface RowAuthor extends DbTableRow<RowAuthor>, DataAuthor {
     ColumnInfo<String> USER_ID = new ColumnInfo<>("user_id", DbEntryType.TEXT);
     ColumnInfo<String> AUTHOR_NAME = new ColumnInfo<>("name", DbEntryType.TEXT);
 

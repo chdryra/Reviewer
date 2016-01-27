@@ -68,14 +68,14 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
         String id = reviewRow.getReviewId().toString();
 
-        Iterable<RowComment> comments
-                = loadData(db.getCommentsTable(), RowComment.REVIEW_ID, id, db, transactor);
-        Iterable<RowFact> facts
-                = loadData(db.getFactsTable(), RowFact.REVIEW_ID, id, db, transactor);
-        Iterable<RowLocation> locations
-                = loadData(db.getLocationsTable(), RowLocation.REVIEW_ID, id, db, transactor);
-        Iterable<RowImage> images
-                = loadData(db.getImagesTable(), RowImage.REVIEW_ID, id, db, transactor);
+        Iterable<RowComment> comments = loadData(db.getCommentsTable(),
+                asClause(RowComment.class, RowComment.REVIEW_ID, id), db, transactor);
+        Iterable<RowFact> facts = loadData(db.getFactsTable(),
+                asClause(RowFact.class, RowFact.REVIEW_ID, id), db, transactor);
+        Iterable<RowLocation> locations = loadData(db.getLocationsTable(),
+                asClause(RowLocation.class, RowLocation.REVIEW_ID, id), db, transactor);
+        Iterable<RowImage> images = loadData(db.getImagesTable(),
+                asClause(RowImage.class, RowImage.REVIEW_ID, id), db, transactor);
 
         Iterable<Review> critList = loadCriteria(id, db, transactor);
         DataAuthor author = loadAuthor(reviewRow.getAuthorId(), db, transactor);
@@ -105,31 +105,33 @@ public class ReviewLoaderStatic implements ReviewLoader {
                 critList, isAverage);
     }
 
-    private <T extends DbTableRow> Iterable<T> loadData(DbTable<T> table,
-                                                         ColumnInfo<String> idCol,
-                                                         String id,
+    private <DbRow extends DbTableRow> Iterable<DbRow> loadData(DbTable<DbRow> table,
+                                                         RowEntry<DbRow, ?> idClause,
                                                          ReviewerDbReadable db,
                                                          TableTransactor transactor) {
-        ArrayList<T> data = new ArrayList<>();
-        data.addAll(db.getRowsWhere(table, asClause(idCol, id), transactor));
+        ArrayList<DbRow> data = new ArrayList<>();
+        data.addAll(db.getRowsWhere(table, idClause, transactor));
         return data;
     }
 
     private Iterable<Review> loadCriteria(String reviewId, ReviewerDbReadable db,
                                            TableTransactor transactor) {
-        RowEntry<String> clause = asClause(RowReview.PARENT_ID, reviewId);
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.PARENT_ID, reviewId);
         return db.loadReviewsWhere(db.getReviewsTable(), clause, transactor);
     }
 
     @NonNull
     private DataAuthor loadAuthor(String userId, ReviewerDbReadable db,
                                   TableTransactor transactor) {
-        RowEntry<String> clause = asClause(RowAuthor.USER_ID, userId);
+        RowEntry<RowAuthor, String> clause = asClause(RowAuthor.class, RowAuthor.USER_ID, userId);
         RowAuthor authorRow = db.getUniqueRowWhere(db.getAuthorsTable(), clause, transactor);
         return new DatumAuthor(authorRow.getName(), authorRow.getUserId());
     }
 
-    private <T> RowEntry<T> asClause(ColumnInfo<T> column, T value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
+                                                                      ColumnInfo<T> column,
+                                                                      T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 }

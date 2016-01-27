@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDataRow extends HasReviewId, DbTableRow {
+public interface ReviewDataRow<DbRow extends DbTableRow> extends HasReviewId, DbTableRow<DbRow> {
     @Override
     ReviewId getReviewId();
 

@@ -13,58 +13,32 @@ import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.ReviewDeleterImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.RowReviewImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableAuthors;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableComments;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableFacts;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableImages;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableLocations;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableTags;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewDeleterImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowReviewImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableAuthors;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableComments;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableFacts;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableImages;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableLocations;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableTags;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -74,7 +48,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import test.TestUtils.RandomReview;
 import test.TestUtils.RandomReviewId;
@@ -120,35 +93,35 @@ public class ReviewDeleterImplTest {
     public void deleteImagesCallsTransactorWithCorrectTableAndClause() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getImagesTable(), TableImages.NAME,
-                RowImage.REVIEW_ID, review.getRowId());
+                asClause(RowImage.class, RowImage.REVIEW_ID, review.getRowId()));
     }
 
     @Test
     public void deleteFactsCallsTransactorWithCorrectTableAndClause() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getFactsTable(), TableFacts.NAME,
-                RowFact.REVIEW_ID, review.getRowId());
+                asClause(RowFact.class, RowFact.REVIEW_ID, review.getRowId()));
     }
 
     @Test
     public void deleteCommentsCallsTransactorWithCorrectTableAndClause() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getCommentsTable(), TableComments.NAME,
-                RowComment.REVIEW_ID, review.getRowId());
+                asClause(RowComment.class, RowComment.REVIEW_ID, review.getRowId()));
     }
 
     @Test
     public void deleteLocationCallsTransactorWithCorrectTableAndClause() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getLocationsTable(), TableLocations.NAME,
-                RowLocation.REVIEW_ID, review.getRowId());
+                asClause(RowLocation.class, RowLocation.REVIEW_ID, review.getRowId()));
     }
 
     @Test
     public void deleteReviewCallsTransactorWithCorrectTableAndClause() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getReviewsTable(), TableReviews.NAME,
-                RowReview.REVIEW_ID, review.getRowId());
+                asClause(RowReview.class, RowReview.REVIEW_ID, review.getRowId()));
     }
 
     @Test
@@ -168,10 +141,10 @@ public class ReviewDeleterImplTest {
         checkNumberCaptured(mWhereRows.size() + 1);
 
         ColumnInfo<String> columnOfInterest = RowReview.REVIEW_ID;
-        ArrayList<RowEntry<?>> expected = new ArrayList<>();
-        expected.add(asClause(columnOfInterest, review.getRowId()));
+        ArrayList<RowEntry<RowReview, ?>> expected = new ArrayList<>();
+        expected.add(asClause(RowReview.class, columnOfInterest, review.getRowId()));
         for (int i = 0; i < mWhereRows.size(); ++i) {
-            expected.add(asClause(columnOfInterest, mWhereRows.getItem(i).getRowId()));
+            expected.add(asClause(RowReview.class, columnOfInterest, mWhereRows.getItem(i).getRowId()));
         }
 
         checkCaptures(expected);
@@ -198,8 +171,10 @@ public class ReviewDeleterImplTest {
         mTags.add(tag2);
         mTags.add(tag3);
 
-        checkDeleteCalled(review, mDb.getTagsTable(), TableTags.NAME,
-                asClause(RowTag.TAG, tag1.getTag()), asClause(RowTag.TAG, tag2.getTag()));
+        ArrayList<RowEntry<RowTag, ?>> clauses = new ArrayList<>();
+        clauses.add(asClause(RowTag.class, RowTag.TAG, tag1.getTag()));
+        clauses.add(asClause(RowTag.class, RowTag.TAG, tag2.getTag()));
+        checkDeleteCalled(review, mDb.getTagsTable(), TableTags.NAME, clauses);
     }
 
     @Test
@@ -212,19 +187,15 @@ public class ReviewDeleterImplTest {
     @Test
     public void deleteAuthorDoesCallTransactorIfAuthorNoLongerAuthorsAnotherReview() {
         RowReview review = newRowReview();
-        checkDeleteCalled(review, mDb.getAuthorsTable(), TableAuthors.NAME, RowAuthor.USER_ID,
-                review.getAuthorId());
+        checkDeleteCalled(review, mDb.getAuthorsTable(), TableAuthors.NAME,
+                asClause(RowAuthor.class, RowAuthor.USER_ID, review.getAuthorId()));
     }
 
-    private void checkCaptures(ArrayList<RowEntry<?>> clauses) {
+    private <DbRow extends DbTableRow> void checkCaptures(ArrayList<RowEntry<DbRow, ?>> clauses) {
         checkNumberCaptured(clauses.size());
         for (int i = 0; i < clauses.size(); ++i) {
             assertThat(mTransactor.mCapturedClauses.get(i).equals(clauses.get(i)), is(true));
         }
-    }
-
-    private void checkCaptures(RowEntry<?>... clauses) {
-        checkCaptures(new ArrayList<>(Arrays.asList(clauses)));
     }
 
     private void checkDeleteNotCalled(RowReview review, DbTable<?> table, String tableName) {
@@ -237,20 +208,23 @@ public class ReviewDeleterImplTest {
         checkNumberCaptured(0);
     }
 
-    private void checkDeleteCalled(RowReview review, DbTable<?> table,
-                                   String tableName, ColumnInfo<String> column, String entry) {
-        checkDeleteCalled(review, table, tableName, asClause(column, entry));
+    private <DbRow extends DbTableRow> void checkDeleteCalled(RowReview review,
+                                                              DbTable<DbRow> table,
+                                   String tableName, RowEntry<DbRow, ?> clause) {
+        ArrayList<RowEntry<DbRow, ?>> clauses = new ArrayList<>();
+        clauses.add(clause);
+        checkDeleteCalled(review, table, tableName, clauses);
     }
 
-    private void checkDeleteCalled(RowReview review, DbTable<?> table,
-                                   String tableName, RowEntry<?>...clauses) {
+    private <DbRow extends DbTableRow> void checkDeleteCalled(RowReview review, DbTable<DbRow> table,
+                                   String tableName, ArrayList<RowEntry<DbRow, ?>> clauses) {
         setToCapture(table, tableName);
 
         checkNumberCaptured(0);
 
         mDeleter.deleteReviewFromDb(review, mDb, mTransactor);
 
-        checkNumberCaptured(clauses.length);
+        checkNumberCaptured(clauses.size());
         checkCaptures(clauses);
     }
 
@@ -268,14 +242,15 @@ public class ReviewDeleterImplTest {
         return new RowReviewImpl(RandomReview.nextReview());
     }
 
-    private <T> RowEntry<?> asClause(ColumnInfo<T> col, T entry) {
-        return new RowEntryImpl<>(col, entry);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
+                                                                      ColumnInfo<T> col, T entry) {
+        return new RowEntryImpl<>(rowClass, col, entry);
     }
 
     private class Transactor implements TableTransactor {
         private String mCaptureTableName;
         private int mTablesCaptured = 0;
-        private ArrayList<RowEntry<?>> mCapturedClauses = new ArrayList<>();
+        private ArrayList<RowEntry<?, ?>> mCapturedClauses = new ArrayList<>();
 
         @Override
         public void beginTransaction() {
@@ -297,7 +272,7 @@ public class ReviewDeleterImplTest {
 
         @Override
         public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                                 RowEntry<Type>
+                                                                                 RowEntry<DbRow, Type>
                                                                                          clause,
                                                                                  FactoryDbTableRow rowFactory) {
             TableRowList<DbRow> dbRows = new TableRowList<>();
@@ -314,7 +289,8 @@ public class ReviewDeleterImplTest {
         }
 
         @Override
-        public <Type> void deleteRowsWhere(DbTable<?> table, RowEntry<Type> clause) {
+        public <DbRow extends DbTableRow, Type> void deleteRowsWhere(DbTable<DbRow> table,
+                                                                     RowEntry<DbRow, Type> clause) {
             if (table.getName() != null && table.getName().equals(mCaptureTableName)) {
                 mTablesCaptured++;
                 mCapturedClauses.add(clause);

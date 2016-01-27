@@ -32,7 +32,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowCommentImplTest extends RowTableBasicTest<RowCommentImpl> {
+public class RowCommentImplTest extends RowTableBasicTest<RowComment, RowCommentImpl> {
 
     public static final int INDEX = 314;
 
@@ -132,7 +132,7 @@ public class RowCommentImplTest extends RowTableBasicTest<RowCommentImpl> {
     public void iteratorReturnsDataInOrder() {
         RowCommentImpl row = newRow();
 
-        ArrayList<RowEntry<?>> entries = getRowEntries(row);
+        ArrayList<RowEntry<RowComment, ?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(4));
 

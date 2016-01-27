@@ -26,13 +26,12 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 
 import org.junit.Before;
@@ -150,7 +149,8 @@ public class ReviewerDbImplTest {
         DbTable<RowReview> table = mDb.getReviewsTable();
 
         ReviewId id = RandomReviewId.nextReviewId();
-        RowEntry clause = new RowEntryImpl<>(RowReview.REVIEW_ID, id.toString());
+        RowEntry<RowReview, String> clause
+                = new RowEntryImpl<>(RowReview.class, RowReview.REVIEW_ID, id.toString());
 
         when(mTransactor.getRowsWhere(table, clause, mRowFactory)).thenReturn(new
                 TableRowList<RowReview>());
@@ -166,7 +166,8 @@ public class ReviewerDbImplTest {
 
         Review review = RandomReview.nextReview();
         ReviewId id = review.getReviewId();
-        RowEntry clause = asClause(RowReview.REVIEW_ID, id.toString());
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.REVIEW_ID, id.toString());
 
         TableRowList<RowReview> ret = new TableRowList<>();
         RowReviewImpl row = new RowReviewImpl(review);
@@ -180,21 +181,11 @@ public class ReviewerDbImplTest {
     @Test
     public void loadReviewsWhereCallsReviewTransactorWithPassedClauseIfReviewTableClauses() {
         Review review = RandomReview.nextReview();
-        RowEntry<?> clause = asClause(RowReview.REVIEW_ID, review.getReviewId().toString());
+        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.REVIEW_ID, review.getReviewId().toString());
 
-        Collection<Review> reviews = mDb.loadReviewsWhere(mDb.getReviewsTable(), clause, mTransactor);
+        Collection<Review> reviews = mDb.loadReviewsWhere(mDb.getReviewsTable(), clause,
+                mTransactor);
 
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getUniqueRowWhereReturnsEmptyRowIfInvalidClause() {
-        DbTable<RowReview> table = mock(DbTable.class);
-        RowEntry clause = asClause(RowComment.REVIEW_ID, RandomReviewId.nextIdString()); //wrong Row
-
-        RowReview row = mDb.getUniqueRowWhere(table, clause, mTransactor);
-        assertThat(row, not(nullValue()));
-        assertThat(row.hasData(mValidator), is(false));
     }
 
     @Test
@@ -240,20 +231,9 @@ public class ReviewerDbImplTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void getRowsWhereReturnsEmptyListIfInvalidClause() {
-        DbTable<RowReview> table = mDb.getReviewsTable();
-        RowEntry clause = asClause(RowFact.REVIEW_ID, RandomReviewId.nextIdString());
-
-        TableRowList<RowReview> list = mDb.getRowsWhere(table, clause, mTransactor);
-
-        assertThat(list.size(), is(0));
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
     public void getRowsWhere() {
         DbTable<RowReview> table = mDb.getReviewsTable();
-        RowEntry clause = mock(RowEntry.class);
+        RowEntry<RowReview, ?> clause = mock(RowEntry.class);
 
         TableRowList<RowReview> ret = new TableRowList<>();
         ret.add(new RowReviewImpl(RandomReview.nextReview()));
@@ -268,8 +248,9 @@ public class ReviewerDbImplTest {
         assertThat(list, is(ret));
     }
 
-    private <T> RowEntry<?> asClause(ColumnInfo<T> column, T value) {
-        return new RowEntryImpl<>(column, value);
+    private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
+                                                                      ColumnInfo<T> column, T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 
     @NonNull

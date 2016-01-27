@@ -45,16 +45,16 @@ public interface ReviewerDb extends ReviewerDbReadable {
 
     @Override
     <DbRow extends DbTableRow, Type> Collection<Review> loadReviewsWhere(DbTable<DbRow> table,
-                                                                        RowEntry<Type> clause,
+                                                                        RowEntry<DbRow, Type> clause,
                                                                         TableTransactor transactor);
 
     @Override
     <DbRow extends DbTableRow, Type> DbRow getUniqueRowWhere(DbTable<DbRow> table,
-                                                             RowEntry<Type> clause,
+                                                             RowEntry<DbRow, Type> clause,
                                                              TableTransactor transactor);
 
     @Override
     <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                      RowEntry<Type> clause,
+                                                                      RowEntry<DbRow, Type> clause,
                                                                       TableTransactor transactor);
 }

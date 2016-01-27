@@ -33,7 +33,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl> {
+public class RowLocationImplTest extends RowTableBasicTest<RowLocation, RowLocationImpl> {
 
     public static final int INDEX = 314;
 
@@ -115,7 +115,7 @@ public class RowLocationImplTest extends RowTableBasicTest<RowLocationImpl> {
     public void iteratorReturnsDataInOrder() {
         RowLocationImpl row = newRow();
 
-        ArrayList<RowEntry<?>> entries = getRowEntries(row);
+        ArrayList<RowEntry<RowLocation, ?>> entries = getRowEntries(row);
 
         assertThat(entries.size(), is(5));
 

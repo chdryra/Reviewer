@@ -10,9 +10,14 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowTableBasic;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowTableBasic;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.RowEntry;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +36,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 21/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class RowTableBasicTest<T extends RowTableBasic> {
+public abstract class RowTableBasicTest<S extends DbTableRow, T extends RowTableBasic<S>> {
     protected static final Random RAND = new Random();
 
     @Rule
@@ -63,7 +68,7 @@ public abstract class RowTableBasicTest<T extends RowTableBasic> {
     @Test
     public void iteratorIsSize() {
         T row = newRow();
-        Iterator<RowEntry<?>> it = row.iterator();
+        Iterator<RowEntry<S, ?>> it = row.iterator();
         int i = 0;
         while (it.hasNext()) {
             it.next();
@@ -76,7 +81,7 @@ public abstract class RowTableBasicTest<T extends RowTableBasic> {
     public void iteratorThrowsNoElementExceptionAfterTooManyNexts() {
         mExpectedException.expect(NoSuchElementException.class);
         T row = newRow();
-        Iterator<RowEntry<?>> it = row.iterator();
+        Iterator<RowEntry<S, ?>> it = row.iterator();
         while (it.hasNext()) it.next();
         it.next();
     }
@@ -85,22 +90,23 @@ public abstract class RowTableBasicTest<T extends RowTableBasic> {
     public void iteratorThrowsUnsupportedOperationExceptionOnRemove() {
         mExpectedException.expect(UnsupportedOperationException.class);
         T row = newRow();
-        Iterator<RowEntry<?>> it = row.iterator();
+        Iterator<RowEntry<S, ?>> it = row.iterator();
         it.remove();
     }
 
     @NonNull
-    protected ArrayList<RowEntry<?>> getRowEntries(T row) {
-        ArrayList<RowEntry<?>> entries = new ArrayList<>();
-        for (RowEntry<?> entry : row) {
+    protected ArrayList<RowEntry<S, ?>> getRowEntries(T row) {
+        ArrayList<RowEntry<S, ?>> entries = new ArrayList<>();
+        for (RowEntry<S, ?> entry : row) {
             entries.add(entry);
         }
         return entries;
     }
 
-    protected <T> void checkEntry(RowEntry<?> entry, ColumnInfo<T> column, T value) {
+    @SuppressWarnings("unchecked")
+    protected <Type> void checkEntry(RowEntry<S, ?> entry, ColumnInfo<Type> column, Type value) {
         assertThat(entry.getColumnName(), is(column.getName()));
         assertThat(entry.getEntryType().equals(column.getType()), is(true));
-        assertThat((T) entry.getValue(), is(value));
+        assertThat((Type) entry.getValue(), is(value));
     }
 }

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 09/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RowComment extends ReviewDataRow, DataComment {
+public interface RowComment extends ReviewDataRow<RowComment>, DataComment {
     ColumnInfo<String> COMMENT_ID = new ColumnInfo<>("comment_id", DbEntryType.TEXT);
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
     ColumnInfo<String> COMMENT = new ColumnInfo<>("comment", DbEntryType.TEXT);
