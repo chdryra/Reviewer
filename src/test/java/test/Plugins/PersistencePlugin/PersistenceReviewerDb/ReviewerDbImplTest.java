@@ -181,7 +181,24 @@ public class ReviewerDbImplTest {
     @Test
     public void loadReviewsWhereCallsReviewTransactorWithPassedClauseIfReviewTableClauses() {
         Review review = RandomReview.nextReview();
-        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.REVIEW_ID, review.getReviewId().toString());
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.REVIEW_ID, review.getReviewId().toString());
+
+        TableRowList<RowReview> ret = new TableRowList<>();
+        Review review1 = RandomReview.nextReview();
+        Review review2 = RandomReview.nextReview();
+        Review review3 = RandomReview.nextReview();
+        RowReviewImpl row1 = new RowReviewImpl(review1);
+        RowReviewImpl row2 = new RowReviewImpl(review2);
+        RowReviewImpl row3 = new RowReviewImpl(review3);
+        ret.add(row1);
+        ret.add(row2);
+        ret.add(row3);
+
+        when(mTransactor.getRowsWhere(mDb.getReviewsTable(),clause, mRowFactory)).thenReturn(ret);
+        when(mReviewTransactor.loadReview(row1, mDb, mTransactor)).thenReturn(review1);
+        when(mReviewTransactor.loadReview(row2, mDb, mTransactor)).thenReturn(review2);
+        when(mReviewTransactor.loadReview(row3, mDb, mTransactor)).thenReturn(review3);
 
         Collection<Review> reviews = mDb.loadReviewsWhere(mDb.getReviewsTable(), clause,
                 mTransactor);
