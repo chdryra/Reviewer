@@ -68,16 +68,16 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
         String id = reviewRow.getReviewId().toString();
 
-        ArrayList<RowComment> comments
+        Iterable<RowComment> comments
                 = loadData(db.getCommentsTable(), RowComment.REVIEW_ID, id, db, transactor);
-        ArrayList<RowFact> facts
+        Iterable<RowFact> facts
                 = loadData(db.getFactsTable(), RowFact.REVIEW_ID, id, db, transactor);
-        ArrayList<RowLocation> locations
+        Iterable<RowLocation> locations
                 = loadData(db.getLocationsTable(), RowLocation.REVIEW_ID, id, db, transactor);
-        ArrayList<RowImage> images
+        Iterable<RowImage> images
                 = loadData(db.getImagesTable(), RowImage.REVIEW_ID, id, db, transactor);
 
-        ArrayList<Review> critList = loadCriteria(id, db, transactor);
+        Iterable<Review> critList = loadCriteria(id, db, transactor);
         DataAuthor author = loadAuthor(reviewRow.getAuthorId(), db, transactor);
 
         ReviewDataHolder reviewDb = newReviewDataHolder(reviewRow, comments, facts, locations,
@@ -88,11 +88,11 @@ public class ReviewLoaderStatic implements ReviewLoader {
 
     @NonNull
     private ReviewDataHolderImpl newReviewDataHolder(RowReview reviewRow,
-                                                     ArrayList<RowComment> comments,
-                                                     ArrayList<RowFact> facts,
-                                                     ArrayList<RowLocation> locations,
-                                                     ArrayList<RowImage> images,
-                                                     ArrayList<Review> critList,
+                                                     Iterable<RowComment> comments,
+                                                     Iterable<RowFact> facts,
+                                                     Iterable<RowLocation> locations,
+                                                     Iterable<RowImage> images,
+                                                     Iterable<Review> critList,
                                                      DataAuthor author) {
         String subject = reviewRow.getSubject();
         float rating = reviewRow.getRating();
@@ -105,7 +105,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
                 critList, isAverage);
     }
 
-    private <T extends DbTableRow> ArrayList<T> loadData(DbTable<T> table,
+    private <T extends DbTableRow> Iterable<T> loadData(DbTable<T> table,
                                                          ColumnInfo<String> idCol,
                                                          String id,
                                                          ReviewerDbReadable db,
@@ -115,7 +115,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
         return data;
     }
 
-    private ArrayList<Review> loadCriteria(String reviewId, ReviewerDbReadable db,
+    private Iterable<Review> loadCriteria(String reviewId, ReviewerDbReadable db,
                                            TableTransactor transactor) {
         RowEntry<String> clause = asClause(RowReview.PARENT_ID, reviewId);
         return db.loadReviewsWhere(db.getReviewsTable(), clause, transactor);

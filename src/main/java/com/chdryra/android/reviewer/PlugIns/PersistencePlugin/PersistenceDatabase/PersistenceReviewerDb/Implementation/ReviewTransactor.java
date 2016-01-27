@@ -9,19 +9,12 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation;
 
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewDeleter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewInserter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDeleter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewInserter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewLoader;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
 
@@ -51,7 +44,6 @@ public class ReviewTransactor implements ReviewLoader, ReviewInserter, ReviewDel
         mInserter.addReviewToDb(review, db, transactor);
     }
 
-    @Nullable
     @Override
     public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
         return mLoader.loadReview(reviewRow, database, db);

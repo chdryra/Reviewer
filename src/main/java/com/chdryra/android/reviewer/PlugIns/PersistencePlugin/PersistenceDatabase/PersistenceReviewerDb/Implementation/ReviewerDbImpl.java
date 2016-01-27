@@ -54,6 +54,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
         .Interfaces.RowEntry;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -107,9 +108,8 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public <DbRow extends DbTableRow, Type> ArrayList<Review>
+    public <DbRow extends DbTableRow, Type> Collection<Review>
     loadReviewsWhere(DbTable<DbRow> table, RowEntry<Type> clause, TableTransactor transactor) {
-
         ArrayList<Review> reviews = new ArrayList<>();
         ArrayList<ReviewId> reviewsLoaded = new ArrayList<>();
 
@@ -293,11 +293,8 @@ public class ReviewerDbImpl implements ReviewerDb {
         if (!reviewRow.hasData(mDataValidator)) return null;
 
         Review review = mReviewTransactor.loadReview(reviewRow, this, transactor);
-
-        if (review != null) {
-            ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
-            if (tags.size() == 0) loadTags(transactor);
-        }
+        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
+        if (tags.size() == 0) loadTags(transactor);
 
         return review;
     }

@@ -14,6 +14,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
+import java.util.Collection;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
@@ -29,7 +31,7 @@ public interface ReviewsRepositoryMutable extends ReviewsRepository{
     Review getReview(ReviewId id);
 
     @Override
-    Iterable<Review> getReviews();
+    Collection<Review> getReviews();
 
     @Override
     TagsManager getTagsManager();

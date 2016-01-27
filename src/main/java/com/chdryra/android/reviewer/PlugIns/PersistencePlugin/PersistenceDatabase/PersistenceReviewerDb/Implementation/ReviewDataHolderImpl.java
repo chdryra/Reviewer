@@ -15,10 +15,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDataHolder;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +34,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     private final Iterable<? extends DataImage> mImages;
     private final Iterable<? extends DataFact> mFacts;
     private final Iterable<? extends DataLocation> mLocations;
-    private final ArrayList<Review> mCritList;
+    private final Iterable<Review> mCritList;
     private final boolean mIsAverage;
 
     public ReviewDataHolderImpl(ReviewId id, DataAuthor author, DataDate publishDate,
@@ -45,7 +43,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
                                 Iterable<? extends DataImage> images,
                                 Iterable<? extends DataFact> facts,
                                 Iterable<? extends DataLocation> locations,
-                                ArrayList<Review> critList, boolean isAverage) {
+                                Iterable<Review> critList, boolean isAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;

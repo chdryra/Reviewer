@@ -175,9 +175,9 @@ public class ReviewUserDb implements Review {
         return data;
     }
 
-    private ArrayList<Review> loadCriteria() {
+    private Iterable<Review> loadCriteria() {
         TableTransactor transactor = mDb.beginReadTransaction();
-        ArrayList<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(),
+        Iterable<Review> criteria = mDb.loadReviewsWhere(mDb.getReviewsTable(),
                 asClause(RowReview.PARENT_ID, getReviewId().toString()), transactor);
         mDb.endTransaction(transactor);
         return criteria;

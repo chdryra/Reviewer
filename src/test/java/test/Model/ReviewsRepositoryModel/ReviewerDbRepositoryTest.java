@@ -32,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import test.TestUtils.RandomReview;
 import test.TestUtils.RandomReviewId;
@@ -165,12 +166,13 @@ public class ReviewerDbRepositoryTest {
     @Test
     public void getReviewsReturnsResultOfLoadReviewsFromDbWhere() {
         Review review = RandomReview.nextReview();
-        ArrayList<Review> reviews = new ArrayList<>();
+        Collection<Review> reviews = new ArrayList<>();
         reviews.add(review);
         reviews.add(review);
 
         TableTransactor mockDb = mockReadTransaction();
         when(mDb.loadReviewsWhere(mReviewsTable, REVIEW_CLAUSE, mockDb)).thenReturn(reviews);
+
         assertThat(mRepo.getReviews(), is(reviews));
     }
 

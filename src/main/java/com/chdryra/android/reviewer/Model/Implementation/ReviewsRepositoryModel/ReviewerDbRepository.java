@@ -29,6 +29,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -67,20 +69,24 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         RowEntry<String> clause = asClause(RowReview.REVIEW_ID, reviewId.toString());
 
         TableTransactor transactor = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
+        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
         mDatabase.endTransaction(transactor);
 
-        if(reviews.size() > 1) {
+        Iterator<Review> iterator = reviews.iterator();
+
+        Review review = null;
+        if(iterator.hasNext()) review = iterator.next();
+        if(iterator.hasNext()) {
             throw new IllegalStateException("There is more than 1 review with id " + reviewId);
         }
 
-        return reviews.size() == 1 ? reviews.get(0) : null;
+        return review;
     }
 
     @Override
-    public ArrayList<Review> getReviews() {
+    public Collection<Review> getReviews() {
         TableTransactor transactor = mDatabase.beginReadTransaction();
-        ArrayList<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
+        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
         mDatabase.endTransaction(transactor);
 
         return reviews;

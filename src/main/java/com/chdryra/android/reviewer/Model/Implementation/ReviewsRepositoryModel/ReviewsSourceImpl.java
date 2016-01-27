@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -82,7 +83,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public Iterable<Review> getReviews() {
+    public Collection<Review> getReviews() {
         return mRepository.getReviews();
     }
 
