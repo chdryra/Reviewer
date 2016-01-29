@@ -44,8 +44,8 @@ public class TagsManagerImplTest {
 
     @Test
     public void tagItemWithNewTagAddsNewItemTag() {
-        String id = "abc";
-        String tag = "tag";
+        String id = RandomString.nextWord();
+        String tag = RandomString.nextWord();
 
         mManager.tagItem(id, tag);
 
@@ -59,9 +59,9 @@ public class TagsManagerImplTest {
 
     @Test
     public void tagItemWithExistingTagAddsItemIdToExistingItemTag() {
-        String id1 = "abc";
-        String id2 = "def";
-        String tag = "tag";
+        String id1 = RandomString.nextWord();
+        String id2 = RandomString.nextWord();
+        String tag = RandomString.nextWord();
 
         mManager.tagItem(id1, tag);
         mManager.tagItem(id2, tag);
@@ -78,7 +78,7 @@ public class TagsManagerImplTest {
     public void tagItemWithArrayOfNewTagsCreatesNewItemTags() {
         ArrayList<String> tags = getTags();
 
-        String id = "id";
+        String id = RandomString.nextWord();
         mManager.tagItem(id, tags);
 
         ItemTagCollection tagsCollection = mManager.getTags();
@@ -92,8 +92,8 @@ public class TagsManagerImplTest {
     public void tagItemWithArrayOfExistingTagsAddsItemIdToItemTags() {
         ArrayList<String> tags = getTags();
 
-        String id1 = "id1";
-        String id2 = "id2";
+        String id1 = RandomString.nextWord();
+        String id2 = RandomString.nextWord();
         mManager.tagItem(id1, tags);
         mManager.tagItem(id2, tags);
 
@@ -103,6 +103,21 @@ public class TagsManagerImplTest {
             assertThat(tag.tagsItem(id1), is(true));
             assertThat(tag.tagsItem(id2), is(true));
         }
+    }
+
+    @Test
+    public void tagsItemReturnsTrueIfTagsItem() {
+        String id1 = RandomString.nextWord();
+        String id2 = RandomString.nextWord();
+        String tag = RandomString.nextWord();
+
+        assertThat(mManager.tagsItem(id1, tag), is(false));
+        assertThat(mManager.tagsItem(id2, tag), is(false));
+
+        mManager.tagItem(id1, tag);
+
+        assertThat(mManager.tagsItem(id1, tag), is(true));
+        assertThat(mManager.tagsItem(id2, tag), is(false));
     }
 
     @Test

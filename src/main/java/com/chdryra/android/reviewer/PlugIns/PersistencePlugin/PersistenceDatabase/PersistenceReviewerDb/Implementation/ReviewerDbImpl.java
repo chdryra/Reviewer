@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
@@ -114,23 +115,28 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public boolean addReviewToDb(Review review, TableTransactor transactor) {
+    public <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table, TableTransactor transactor) {
+        return transactor.loadTable(table, mRowFactory);
+    }
+
+    @Override
+    public boolean addReviewToDb(Review review, TagsManager tagsManager, TableTransactor transactor) {
         DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(RowReview.REVIEW_ID.getName());
         String reviewId = review.getReviewId().toString();
         if (transactor.isIdInTable(reviewId, reviewIdCol, getReviewsTable())) return false;
 
-        mReviewTransactor.addReviewToDb(review, this, transactor);
+        mReviewTransactor.addReviewToDb(review, tagsManager, this, transactor);
 
         return true;
     }
 
     @Override
-    public boolean deleteReviewFromDb(ReviewId reviewId, TableTransactor transactor) {
+    public boolean deleteReviewFromDb(ReviewId reviewId, TagsManager tagsManager, TableTransactor transactor) {
         RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
         RowReview row = getUniqueRowWhere(getReviewsTable(), clause, transactor);
         if (!row.hasData(mDataValidator)) return false;
 
-        mReviewTransactor.deleteReviewFromDb(row, this, transactor);
+        mReviewTransactor.deleteReviewFromDb(row, tagsManager, this, transactor);
 
         return true;
     }
@@ -265,20 +271,6 @@ public class ReviewerDbImpl implements ReviewerDb {
 
         return entries;
     }
-//
-//    private void manageTags(TableTransactor transactor, Review review) {
-//        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
-//        if (tags.size() == 0) loadTags(transactor);
-//    }
-//
-//    private void loadTags(TableTransactor transactor) {
-//        for (RowTag tag : transactor.loadTable(getTagsTable(), mRowFactory)) {
-//            ArrayList<String> reviews = tag.getReviewIds();
-//            for (String reviewId : reviews) {
-//                mTagsManager.tagItem(reviewId, tag.getTag());
-//            }
-//        }
-//    }
 
     @NonNull
     private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,

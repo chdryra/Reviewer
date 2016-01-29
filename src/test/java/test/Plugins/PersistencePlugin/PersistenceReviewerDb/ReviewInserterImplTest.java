@@ -73,6 +73,7 @@ public class ReviewInserterImplTest {
     private ReviewInserterImpl mInserter;
     private Transactor mTransactor;
     private ItemTagCollection mTags = new ItemTagList();
+    private TagsMan mTagsManager;
 
     @Before
     public void setUp() {
@@ -100,8 +101,7 @@ public class ReviewInserterImplTest {
         when(mDb.getTagsTable()).thenReturn(mock(TableTags.class));
         when(mDb.getTagsTable().getRowClass()).thenReturn(RowTag.class);
 
-        TagsMan manager = new TagsMan();
-        when(mDb.getTagsManager()).thenReturn(manager);
+        mTagsManager = new TagsMan();
     }
 
     @Test
@@ -218,7 +218,7 @@ public class ReviewInserterImplTest {
 
         checkNumberCaptured(0);
 
-        mInserter.addReviewToDb(review, mDb, mTransactor);
+        mInserter.addReviewToDb(review, mTagsManager, mDb, mTransactor);
 
         checkNumberCaptured(rows.size());
         checkCaptures(rows);
@@ -230,7 +230,7 @@ public class ReviewInserterImplTest {
 
         checkNumberCaptured(0);
 
-        mInserter.addReviewToDb(review, mDb, mTransactor);
+        mInserter.addReviewToDb(review, mTagsManager, mDb, mTransactor);
 
         checkNumberCaptured(0);
         assertThat(mTransactor.mInsertOrReplaceCalled, is(false));
@@ -330,6 +330,12 @@ public class ReviewInserterImplTest {
         @Override
         public void tagItem(String id, ArrayList<String> tags) {
             fail();
+        }
+
+        @Override
+        public boolean tagsItem(String id, String tag) {
+            fail();
+            return false;
         }
 
         @Override

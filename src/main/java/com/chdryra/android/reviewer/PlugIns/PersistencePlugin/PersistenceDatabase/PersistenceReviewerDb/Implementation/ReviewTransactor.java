@@ -24,28 +24,28 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 24/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTransactor {
+public class ReviewTransactor implements ReviewInserter, ReviewDeleter,ReviewLoader{
     private ReviewLoader mLoader;
     private ReviewInserter mInserter;
     private ReviewDeleter mDeleter;
-    private TagsManager mTagsManager;
 
-    public ReviewTransactor(ReviewLoader loader, ReviewInserter inserter, ReviewDeleter deleter,
-                            TagsManager tagsManager) {
+    public ReviewTransactor(ReviewLoader loader, ReviewInserter inserter, ReviewDeleter deleter) {
         mLoader = loader;
         mInserter = inserter;
         mDeleter = deleter;
-        mTagsManager = tagsManager;
     }
 
-    public boolean deleteReviewFromDb(RowReview row, ReviewerDb db, TableTransactor transactor) {
-        return mDeleter.deleteReviewFromDb(row, mTagsManager, db, transactor);
+    @Override
+    public boolean deleteReviewFromDb(RowReview row, TagsManager tagsManager, ReviewerDb db, TableTransactor transactor) {
+        return mDeleter.deleteReviewFromDb(row, tagsManager, db, transactor);
     }
 
-    public void addReviewToDb(Review review, ReviewerDb db, TableTransactor transactor) {
-        mInserter.addReviewToDb(review, mTagsManager, db, transactor);
+    @Override
+    public void addReviewToDb(Review review, TagsManager tagsManager, ReviewerDb db, TableTransactor transactor) {
+        mInserter.addReviewToDb(review, tagsManager, db, transactor);
     }
 
+    @Override
     public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
         return mLoader.loadReview(reviewRow, database, db);
     }

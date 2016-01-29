@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
  * Unauthorized copying of this file via any medium is strictly prohibited
@@ -299,6 +300,12 @@ public class ReviewLoaderStaticTest {
             if (table.getName().equals(TableAuthors.NAME)) doCapture(table, clause);
 
             return mRowFactory.newRow(table.getRowClass(), mReview.getAuthor());
+        }
+
+        @Override
+        public <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table, TableTransactor transactor) {
+            fail();
+            return null;
         }
 
         @Override

@@ -91,7 +91,16 @@ public class ItemCounterTest {
         ArrayList<Datum> data = new ArrayList<>();
         int num1 = addItems(item1, data);
         int num2 = addItems(item2, data);
+        if(num2 == num1) {
+            data.add(new Datum(item2));
+            num2++;
+        }
         int num3 = addItems(item3, data);
+        if(num3 == Math.max(num1, num2)) {
+            data.add(new Datum(item3));
+            num3++;
+        }
+
         String modeItem = getModeItem(item1, item2, item3, num1, num2, num3);
 
         ItemCounter<Datum, String> counter = new ItemCounter<>(newGetter());

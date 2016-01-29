@@ -14,41 +14,24 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
-        .ReviewerDbRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.ContractorDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.DatabasePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.FactoryContractor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.ReviewTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.DatabasePlugin;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.FactoryContractor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewRecreater;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Factories.FactoryDbColumnDef;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Factories.FactoryDbSpecification;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Factories.FactoryForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbSpecification;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbSpecification;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbSpecification;
 
 /**
  * Created by: Rizwan Choudrey
@@ -71,19 +54,18 @@ public class PersistenceReviewerDb implements PersistencePlugin {
 
     @Override
     public ReviewsRepositoryMutable newPersistenceRepository(Context context, ModelContext model) {
-        return new ReviewerDbRepository(newReviewerDb(context, model));
+        return new ReviewerDbRepository(newReviewerDb(context, model), model.getTagsManager());
     }
 
     private ReviewerDb newReviewerDb(Context context, ModelContext model) {
         ReviewRecreater reviewFactory = model.getReviewsFactory();
         DataValidator dataValidator = model.getDataValidator();
-        TagsManager tagsManager = model.getTagsManager();
 
         ContractorDb<ReviewerDbContract> contractor
                 = mContractorFactory.newContractor(context, mSpec);
         ReviewTransactor transactor
-                = mReviewTransactor.newStaticLoader(reviewFactory, tagsManager, dataValidator);
-        return mDbFactory.newDatabase(contractor, transactor, tagsManager, dataValidator);
+                = mReviewTransactor.newStaticLoader(reviewFactory, dataValidator);
+        return mDbFactory.newDatabase(contractor, transactor, dataValidator);
     }
 
     private DbSpecification<ReviewerDbContract> newDbSpecification(String name, String ext,

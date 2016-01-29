@@ -31,9 +31,15 @@ public class TagsManagerImpl implements TagsManager {
         ItemTagImpl itemTag = (ItemTagImpl) mTags.getItemTag(tag);
         if (itemTag == null) {
             mTags.add(new ItemTagImpl(tag, id));
-        } else {
+        } else if(!itemTag.tagsItem(id)){
             itemTag.addItemId(id);
         }
+    }
+
+    @Override
+    public boolean tagsItem(String id, String tag) {
+        ItemTagImpl itemTag = (ItemTagImpl) mTags.getItemTag(tag);
+        return itemTag != null && itemTag.tagsItem(id);
     }
 
     @Override

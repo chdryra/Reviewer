@@ -42,18 +42,17 @@ public class FactoryReviewTransactor {
     }
 
     public ReviewTransactor newStaticLoader(ReviewRecreater reviewBuilder,
-                                            TagsManager tagsManager,
                                             DataValidator validator) {
-        return newTransactor(new ReviewLoaderStatic(reviewBuilder, validator), tagsManager);
+        return newTransactor(new ReviewLoaderStatic(reviewBuilder, validator));
     }
 
     public ReviewTransactor newDynamicLoader(FactoryReviewNode nodeFactory, TagsManager tagsManager) {
-        return newTransactor(new ReviewLoaderDynamic(nodeFactory), tagsManager);
+        return newTransactor(new ReviewLoaderDynamic(nodeFactory));
     }
 
-    private ReviewTransactor newTransactor(ReviewLoader loader, TagsManager tagsManager) {
+    private ReviewTransactor newTransactor(ReviewLoader loader) {
         return new ReviewTransactor( loader,
                 new ReviewInserterImpl(mRowFactory),
-                new ReviewDeleterImpl(mRowFactory), tagsManager);
+                new ReviewDeleterImpl(mRowFactory));
     }
 }

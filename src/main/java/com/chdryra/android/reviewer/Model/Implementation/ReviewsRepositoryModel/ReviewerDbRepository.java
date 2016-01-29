@@ -14,6 +14,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 
 
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
@@ -46,11 +51,12 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     private final TagsManager mTagsManager;
     private final DbTable<RowReview> mTable;
     private final ArrayList<ReviewsRepositoryObserver> mObservers;
+    private boolean mTagsLoaded = false;
 
     public ReviewerDbRepository(ReviewerDb database, TagsManager tagsManager) {
         mDatabase = database;
         mTagsManager = tagsManager;
-        mTable = database.getReviewsTable();
+        mTable = mDatabase.getReviewsTable();
         mObservers = new ArrayList<>();
     }
 
@@ -62,7 +68,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public void addReview(Review review) {
         TableTransactor db = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.addReviewToDb(review, db);
+        boolean success = mDatabase.addReviewToDb(review, mTagsManager, db);
         mDatabase.endTransaction(db);
 
         if (success) notifyOnAddReview(review);
@@ -75,6 +81,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
 
         TableTransactor transactor = mDatabase.beginReadTransaction();
         Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
+        loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
 
         Iterator<Review> iterator = reviews.iterator();
@@ -92,6 +99,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     public Collection<Review> getReviews() {
         TableTransactor transactor = mDatabase.beginReadTransaction();
         Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
+        loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
 
         return reviews;
@@ -100,9 +108,24 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     @Override
     public void removeReview(ReviewId reviewId) {
         TableTransactor transactor = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.deleteReviewFromDb(reviewId, transactor);
+        boolean success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
         mDatabase.endTransaction(transactor);
         if (success) notifyOnDeleteReview(reviewId);
+    }
+
+    private void loadTagsIfNecessary(TableTransactor transactor) {
+        if(mTagsLoaded) return;
+        TableRowList<RowTag> rows = mDatabase.loadTable(mDatabase.getTagsTable(), transactor);
+        for (RowTag row : rows) {
+            ArrayList<String> reviewIds = row.getReviewIds();
+            for(String reviewId : reviewIds) {
+                if(!mTagsManager.tagsItem(reviewId, row.getTag())){
+                    mTagsManager.tagItem(reviewId, row.getTag());
+                }
+            }
+        }
+
+        mTagsLoaded = true;
     }
 
     @Override

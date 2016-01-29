@@ -11,20 +11,41 @@ package test.Model.ReviewsRepositoryModel;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewerDbRepository;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
+        .ReviewerDbRepository;
+import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagImpl;
+import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.RowTagImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.TableTags;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
         .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.RowEntry;
+import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -60,20 +81,26 @@ public class ReviewerDbRepositoryTest {
     private ReviewerDb mDb;
     @Mock
     private TableReviews mReviewsTable;
-
+    @Mock
+    private TableTags mTagsTable;
+    private TagsManager mTagsManager;
+    private TableRowList<RowTag> mTags;
     private ReviewerDbRepository mRepo;
+    @Mock
+    private TableTransactor mTransactor;
 
     @Before
     public void setup() {
         when(mDb.getReviewsTable()).thenReturn(mReviewsTable);
-        mRepo = new ReviewerDbRepository(mDb);
+        when(mDb.getTagsTable()).thenReturn(mTagsTable);
+        mTagsManager = new TagsManagerImpl();
+        mRepo = new ReviewerDbRepository(mDb, mTagsManager);
+        mTags = new TableRowList<>();
     }
 
     @Test
     public void getTagsManagerReturnsDatabasesTagsManager() {
-        TagsManager mockManager = mock(TagsManager.class);
-        when(mDb.getTagsManager()).thenReturn(mockManager);
-        assertThat(mRepo.getTagsManager(), is(mockManager));
+        assertThat(mRepo.getTagsManager(), is(mTagsManager));
     }
 
     @Test
@@ -81,7 +108,7 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockDb = mockWriteTransaction();
         Review review = RandomReview.nextReview();
         mRepo.addReview(review);
-        verify(mDb).addReviewToDb(review, mockDb);
+        verify(mDb).addReviewToDb(review, mTagsManager, mockDb);
     }
 
     @Test
@@ -93,7 +120,7 @@ public class ReviewerDbRepositoryTest {
 
         Review review = RandomReview.nextReview();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.addReviewToDb(review, mockDb)).thenReturn(true);
+        when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(true);
 
         mRepo.addReview(review);
 
@@ -110,7 +137,7 @@ public class ReviewerDbRepositoryTest {
 
         Review review = RandomReview.nextReview();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.addReviewToDb(review, mockDb)).thenReturn(false);
+        when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(false);
 
         mRepo.addReview(review);
 
@@ -143,6 +170,43 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
         mockLoadFromDb(id, reviews);
         assertThat(mRepo.getReview(id), is(review));
+    }
+
+    @Test
+    public void getReviewLoadsTagsIfNecessary() {
+        Review review = RandomReview.nextReview();
+        ReviewId id = review.getReviewId();
+
+        String tagString = RandomString.nextWord();
+        ItemTagImpl tag = new ItemTagImpl(tagString, id.toString());
+        mTags.add(new RowTagImpl(tag));
+
+        assertThat(mTagsManager.getTags(id.toString()).size(), is(0));
+        TableTransactor transactor = mockReadTransaction();
+
+        mRepo.getReview(id);
+
+        verify(mDb).loadTable(mDb.getTagsTable(), transactor);
+        ItemTagCollection tags = mTagsManager.getTags(id.toString());
+        assertThat(tags.size(), is(1));
+        assertThat(tags.getItemTag(0), is((ItemTag) tag));
+    }
+
+    @Test
+    public void getReviewLoadsTagsOnlyOnce() {
+        Review review = RandomReview.nextReview();
+        ReviewId id = review.getReviewId();
+
+        String tagString = RandomString.nextWord();
+        ItemTagImpl tag = new ItemTagImpl(tagString, id.toString());
+        mTags.add(new RowTagImpl(tag));
+
+        TableTransactor transactor = mockReadTransaction();
+
+        mRepo.getReview(id);
+        mRepo.getReview(id);
+
+        verify(mDb, atMost(1)).loadTable(mDb.getTagsTable(), transactor);
     }
 
     @Test
@@ -185,7 +249,7 @@ public class ReviewerDbRepositoryTest {
         TableTransactor mockTransactor = mockWriteTransaction();
         ReviewId id = RandomReviewId.nextReviewId();
         mRepo.removeReview(id);
-        verify(mDb).deleteReviewFromDb(id, mockTransactor);
+        verify(mDb).deleteReviewFromDb(id, mTagsManager, mockTransactor);
     }
 
     @Test
@@ -197,7 +261,7 @@ public class ReviewerDbRepositoryTest {
 
         ReviewId id = RandomReviewId.nextReviewId();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.deleteReviewFromDb(id, mockDb)).thenReturn(true);
+        when(mDb.deleteReviewFromDb(id, mTagsManager, mockDb)).thenReturn(true);
 
         mRepo.removeReview(id);
 
@@ -214,30 +278,30 @@ public class ReviewerDbRepositoryTest {
 
         ReviewId id = RandomReviewId.nextReviewId();
         TableTransactor mockDb = mockWriteTransaction();
-        when(mDb.deleteReviewFromDb(id, mockDb)).thenReturn(false);
+        when(mDb.deleteReviewFromDb(id, mTagsManager, mockDb)).thenReturn(false);
 
         mRepo.removeReview(id);
 
         verifyZeroInteractions(observer1, observer2);
     }
 
-    private void mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
+    private TableTransactor mockLoadFromDb(ReviewId id, ArrayList<Review> reviews) {
         TableTransactor mockDb = mockReadTransaction();
         RowEntry<RowReview, String> clause
                 = asClause(RowReview.class, RowReview.REVIEW_ID, id.toString());
         when(mDb.loadReviewsWhere(mReviewsTable, clause, mockDb)).thenReturn(reviews);
+        return mockDb;
     }
 
     private TableTransactor mockReadTransaction() {
-        TableTransactor mockDb = mock(TableTransactor.class);
-        when(mDb.beginReadTransaction()).thenReturn(mockDb);
-        return mockDb;
+        when(mDb.beginReadTransaction()).thenReturn(mTransactor);
+        when(mDb.loadTable(mTagsTable, mTransactor)).thenReturn(mTags);
+        return mTransactor;
     }
 
     private TableTransactor mockWriteTransaction() {
-        TableTransactor mockDb = mock(TableTransactor.class);
-        when(mDb.beginWriteTransaction()).thenReturn(mockDb);
-        return mockDb;
+        when(mDb.beginWriteTransaction()).thenReturn(mTransactor);
+        return mTransactor;
     }
 
     private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow>rowClass,

@@ -68,6 +68,7 @@ public class ReviewDeleterImplTest {
     private FactoryDbTableRow mRowFactory;
     @Mock
     private ReviewerDb mDb;
+    private TagsMan mTagsManager;
     private ReviewDeleterImpl mDeleter;
     @Mock
     private Transactor mTransactor;
@@ -78,6 +79,7 @@ public class ReviewDeleterImplTest {
     public void setUp() {
         mDeleter = new ReviewDeleterImpl(mRowFactory);
         mTransactor = new Transactor();
+        mTagsManager = new TagsMan();
         when(mDb.getImagesTable()).thenReturn(mock(TableImages.class));
         when(mDb.getFactsTable()).thenReturn(mock(TableFacts.class));
         when(mDb.getLocationsTable()).thenReturn(mock(TableLocations.class));
@@ -85,8 +87,6 @@ public class ReviewDeleterImplTest {
         when(mDb.getReviewsTable()).thenReturn(mock(TableReviews.class));
         when(mDb.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
         when(mDb.getTagsTable()).thenReturn(mock(TableTags.class));
-        TagsMan manager = new TagsMan();
-        when(mDb.getTagsManager()).thenReturn(manager);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ReviewDeleterImplTest {
 
         checkNumberCaptured(0);
 
-        mDeleter.deleteReviewFromDb(review, mDb, mTransactor);
+        mDeleter.deleteReviewFromDb(review, mTagsManager, mDb, mTransactor);
 
         //Including deleting of review itself
         checkNumberCaptured(mWhereRows.size() + 1);
@@ -203,7 +203,7 @@ public class ReviewDeleterImplTest {
 
         checkNumberCaptured(0);
 
-        mDeleter.deleteReviewFromDb(review, mDb, mTransactor);
+        mDeleter.deleteReviewFromDb(review, mTagsManager, mDb, mTransactor);
 
         checkNumberCaptured(0);
     }
@@ -222,7 +222,7 @@ public class ReviewDeleterImplTest {
 
         checkNumberCaptured(0);
 
-        mDeleter.deleteReviewFromDb(review, mDb, mTransactor);
+        mDeleter.deleteReviewFromDb(review, mTagsManager, mDb, mTransactor);
 
         checkNumberCaptured(clauses.size());
         checkCaptures(clauses);
@@ -324,6 +324,12 @@ public class ReviewDeleterImplTest {
         @Override
         public void tagItem(String id, ArrayList<String> tags) {
             fail();
+        }
+
+        @Override
+        public boolean tagsItem(String id, String tag) {
+            fail();
+            return false;
         }
 
         @Override

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 public interface TagsManager {
     void tagItem(String id, String tag);
 
+    boolean tagsItem(String id, String tag);
+
     void tagItem(String id, ArrayList<String> tags);
 
     boolean untagItem(String id, ItemTag tag);
