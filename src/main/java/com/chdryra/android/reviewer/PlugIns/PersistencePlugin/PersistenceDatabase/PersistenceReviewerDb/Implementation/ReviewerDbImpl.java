@@ -217,7 +217,7 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    @SuppressWarnings("unchecked")
+    //TODO make type safe
     private <DbRow extends DbTableRow, Type> HashSet<RowEntry<RowReview, ?>>
     findReviewTableClauses(DbTable<DbRow> table, RowEntry<DbRow, Type> clause,
                            TableTransactor transactor) {
@@ -235,6 +235,35 @@ public class ReviewerDbImpl implements ReviewerDb {
         }
 
         return reviewClauses;
+    }
+
+    @NonNull
+    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsAuthorsConstraint(RowEntry<RowAuthor, Type> clause,
+                                                                              TableTransactor transactor) {
+        RowAuthor row = getUniqueRowWhere(getAuthorsTable(), clause, transactor);
+
+        HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
+        if (row.hasData(mDataValidator)) {
+            entries.add(asClause(RowReview.class, RowReview.USER_ID, row.getUserId().toString()));
+        }
+
+        return entries;
+    }
+
+    @NonNull
+    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsTagsConstraint(RowEntry<RowTag, Type> clause,
+                                                                           TableTransactor transactor) {
+        HashSet<String> reviewIds = new HashSet<>();
+        for (RowTag row : getRowsWhere(getTagsTable(), clause, transactor)) {
+            reviewIds.addAll(row.getReviewIds());
+        }
+
+        HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
+        for (String id : reviewIds) {
+            entries.add(asClause(RowReview.class, RowReview.REVIEW_ID, id));
+        }
+
+        return entries;
     }
 
     @NonNull
@@ -258,34 +287,6 @@ public class ReviewerDbImpl implements ReviewerDb {
         for (DbRow row : getRowsWhere(table, clause, transactor)) {
             String reviewId = ((HasReviewId) row).getReviewId().toString();
             entries.add(asClause(RowReview.class, reviewIdCol, reviewId));
-        }
-
-        return entries;
-    }
-
-    @NonNull
-    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsTagsConstraint(RowEntry<RowTag, Type> clause,
-                                                                TableTransactor transactor) {
-        HashSet<String> reviewIds = new HashSet<>();
-        for (RowTag row : getRowsWhere(getTagsTable(), clause, transactor)) {
-            reviewIds.addAll(row.getReviewIds());
-        }
-
-        HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
-        for (String id : reviewIds) {
-            entries.add(asClause(RowReview.class, RowReview.REVIEW_ID, id));
-        }
-
-        return entries;
-    }
-
-    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsAuthorsConstraint(RowEntry<RowAuthor, Type> clause,
-                                                                   TableTransactor transactor) {
-        RowAuthor row = getUniqueRowWhere(getAuthorsTable(), clause, transactor);
-
-        HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
-        if (row.hasData(mDataValidator)) {
-            entries.add(asClause(RowReview.class, RowReview.USER_ID, row.getUserId().toString()));
         }
 
         return entries;
