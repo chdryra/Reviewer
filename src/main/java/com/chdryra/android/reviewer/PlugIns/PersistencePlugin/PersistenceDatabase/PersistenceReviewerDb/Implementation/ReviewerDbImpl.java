@@ -18,22 +18,38 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.ContractorDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.RowEntry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -83,11 +99,13 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public <DbRow extends DbTableRow, Type> Collection<Review>
-    loadReviewsWhere(DbTable<DbRow> table, RowEntry<DbRow, Type> clause, TableTransactor transactor) {
+    loadReviewsWhere(DbTable<DbRow> table, RowEntry<DbRow, Type> clause, TableTransactor
+            transactor) {
         ArrayList<Review> reviews = new ArrayList<>();
         ArrayList<ReviewId> reviewsLoaded = new ArrayList<>();
 
-        for (RowEntry<RowReview, ?> reviewClause : findReviewTableClauses(table, clause, transactor)) {
+        for (RowEntry<RowReview, ?> reviewClause : findReviewTableClauses(table, clause,
+                transactor)) {
             for (RowReview reviewRow : getRowsWhere(getReviewsTable(), reviewClause, transactor)) {
                 loadReviewIfNotLoaded(reviewRow, reviews, reviewsLoaded, transactor);
             }
@@ -108,19 +126,22 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                             RowEntry<DbRow, Type> clause,
+                                                                             RowEntry<DbRow,
+                                                                                     Type> clause,
                                                                              TableTransactor
-                                                                                         transactor) {
+                                                                                     transactor) {
         return transactor.getRowsWhere(table, clause, mRowFactory);
     }
 
     @Override
-    public <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table, TableTransactor transactor) {
+    public <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table,
+                                                                    TableTransactor transactor) {
         return transactor.loadTable(table, mRowFactory);
     }
 
     @Override
-    public boolean addReviewToDb(Review review, TagsManager tagsManager, TableTransactor transactor) {
+    public boolean addReviewToDb(Review review, TagsManager tagsManager,
+                                 TableTransactor transactor) {
         DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(RowReview.REVIEW_ID.getName());
         String reviewId = review.getReviewId().toString();
         if (transactor.isIdInTable(reviewId, reviewIdCol, getReviewsTable())) return false;
@@ -131,8 +152,10 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @Override
-    public boolean deleteReviewFromDb(ReviewId reviewId, TagsManager tagsManager, TableTransactor transactor) {
-        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
+    public boolean deleteReviewFromDb(ReviewId reviewId, TagsManager tagsManager, TableTransactor
+            transactor) {
+        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.REVIEW_ID,
+                reviewId.toString());
         RowReview row = getUniqueRowWhere(getReviewsTable(), clause, transactor);
         if (!row.hasData(mDataValidator)) return false;
 
@@ -218,8 +241,10 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsAuthorsConstraint(RowEntry<RowAuthor, Type> clause,
-                                                                              TableTransactor transactor) {
+    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsAuthorsConstraint(RowEntry<RowAuthor,
+            Type> clause,
+                                                                              TableTransactor
+                                                                                      transactor) {
         RowAuthor row = getUniqueRowWhere(getAuthorsTable(), clause, transactor);
 
         HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
@@ -231,8 +256,10 @@ public class ReviewerDbImpl implements ReviewerDb {
     }
 
     @NonNull
-    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsTagsConstraint(RowEntry<RowTag, Type> clause,
-                                                                           TableTransactor transactor) {
+    private <Type> HashSet<RowEntry<RowReview, ?>> resolveAsTagsConstraint(RowEntry<RowTag, Type>
+                                                                                       clause,
+                                                                           TableTransactor
+                                                                                   transactor) {
         HashSet<String> reviewIds = new HashSet<>();
         for (RowTag row : getRowsWhere(getTagsTable(), clause, transactor)) {
             reviewIds.addAll(row.getReviewIds());
@@ -274,7 +301,8 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @NonNull
     private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,
-                                                                      ColumnInfo<T> column, T value) {
+                                                                      ColumnInfo<T> column, T
+                                                                                  value) {
         return new RowEntryImpl<>(rowClass, column, value);
     }
 }
