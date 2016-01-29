@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb
         .Implementation;
 
 import android.support.annotation.NonNull;
@@ -29,12 +30,15 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
@@ -112,32 +116,35 @@ public class ReviewUserDb implements Review {
 
     @Override
     public IdableList<? extends DataComment> getComments() {
-        return new IdableRowList<>(getReviewId(), loadFromDataTable(mDb.getCommentsTable(),
-                RowComment.REVIEW_ID));
+        return getData(mDb.getCommentsTable(), RowComment.REVIEW_ID);
     }
 
     @Override
     public IdableList<? extends DataFact> getFacts() {
-        return new IdableRowList<>(getReviewId(), loadFromDataTable(mDb.getFactsTable(), RowFact
-                .REVIEW_ID));
+        return getData(mDb.getFactsTable(), RowFact.REVIEW_ID);
     }
 
     @Override
     public IdableList<? extends DataImage> getImages() {
-        return new IdableRowList<>(getReviewId(), loadFromDataTable(mDb.getImagesTable(),
-                RowImage.REVIEW_ID));
+        return getData(mDb.getImagesTable(), RowImage.REVIEW_ID);
     }
 
     @Override
     public IdableList<? extends DataLocation> getLocations() {
-        return new IdableRowList<>(getReviewId(), loadFromDataTable(mDb.getLocationsTable(),
-                RowLocation.REVIEW_ID));
+        return getData(mDb.getLocationsTable(), RowLocation.REVIEW_ID);
     }
 
     @Override
     public IdableList<? extends DataImage> getCovers() {
         return new IdableRowList<>(getReviewId(), loadDataWhere(mDb.getImagesTable(),
                 COVER_CLAUSE));
+    }
+
+    @NonNull
+    private <T extends DbTableRow & ReviewDataRow> IdableList<T> getData(DbTable<T> table,
+                                                                         ColumnInfo<String>
+                                                                                 reviewIdCol) {
+        return new IdableRowList<>(getReviewId(), loadReviewIdRows(table, reviewIdCol));
     }
 
     private void loadAuthor() {
@@ -149,19 +156,20 @@ public class ReviewUserDb implements Review {
         mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getUserId());
     }
 
-    private <DbRow extends DbTableRow> ArrayList<DbRow> loadFromDataTable(DbTable<DbRow> table,
-                                                                          ColumnInfo<String> idCol) {
+    private <DbRow extends DbTableRow> ArrayList<DbRow> loadReviewIdRows(DbTable<DbRow> table,
+                                                                         ColumnInfo<String> idCol) {
         return loadDataWhere(table, asClause(table.getRowClass(), idCol, getReviewId().toString()));
     }
 
     @NonNull
     private <DbRow extends DbTableRow, Type> ArrayList<DbRow> loadDataWhere(DbTable<DbRow> table,
-                                                                       RowEntry<DbRow, Type> clause) {
+                                                                            RowEntry<DbRow, Type>
+                                                                                    clause) {
         ArrayList<DbRow> data = new ArrayList<>();
 
-        TableTransactor db = mDb.beginReadTransaction();
-        data.addAll(mDb.getRowsWhere(table, clause, db));
-        mDb.endTransaction(db);
+        TableTransactor transactor = mDb.beginReadTransaction();
+        data.addAll(mDb.getRowsWhere(table, clause, transactor));
+        mDb.endTransaction(transactor);
 
         return data;
     }

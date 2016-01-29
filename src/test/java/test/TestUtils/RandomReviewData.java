@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionRevi
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.testutils.BitmapMocker;
@@ -31,21 +32,37 @@ import com.chdryra.android.testutils.RandomString;
  */
 public class RandomReviewData {
     public static DataComment nextComment() {
-        return new DatumComment(RandomReviewId.nextReviewId(), RandomString.nextSentence(),
+        return nextComment(RandomReviewId.nextReviewId());
+    }
+
+    public static DataComment nextComment(ReviewId reviewId) {
+        return new DatumComment(reviewId, RandomString.nextSentence(),
                 RandomBoolean.nextBoolean());
     }
 
     public static DataFact nextFact() {
-        return new DatumFact(RandomReviewId.nextReviewId(), RandomString.nextWord(),
+        return nextFact(RandomReviewId.nextReviewId());
+    }
+
+    public static DataFact nextFact(ReviewId reviewId) {
+        return new DatumFact(reviewId, RandomString.nextWord(),
                 RandomString.nextWord());
     }
 
     public static DataCriterionReview nextCriterionReview() {
-        return new DatumCriterionReview(RandomReviewId.nextReviewId(), RandomReview.nextReview());
+        return nextCriterionReview(RandomReviewId.nextReviewId());
+    }
+
+    public static DataCriterionReview nextCriterionReview(ReviewId reviewId) {
+        return new DatumCriterionReview(reviewId, RandomReview.nextReview());
     }
 
     public static DataLocation nextLocation() {
-        return new DatumLocation(RandomReviewId.nextReviewId(), RandomLatLng.nextLatLng(),
+        return nextLocation(RandomReviewId.nextReviewId());
+    }
+
+    public static DataLocation nextLocation(ReviewId reviewId) {
+        return new DatumLocation(reviewId, RandomLatLng.nextLatLng(),
                 RandomString.nextWord());
     }
 
@@ -54,7 +71,11 @@ public class RandomReviewData {
     }
 
     public static DataImage nextImage() {
-        return new DatumImage(RandomReviewId.nextReviewId(), BitmapMocker.nextBitmap(),
+        return nextImage(RandomReviewId.nextReviewId());
+    }
+
+    public static DataImage nextImage(ReviewId reviewId) {
+        return new DatumImage(reviewId, BitmapMocker.nextBitmap(),
                 RandomDataDate.nextDate(), RandomString.nextSentence(), RandomBoolean.nextBoolean());
     }
 }
