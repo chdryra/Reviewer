@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
@@ -38,14 +37,15 @@ public class ReviewInserterImpl implements ReviewInserter {
     }
 
     @Override
-    public void addReviewToDb(Review review, ReviewerDb db, TableTransactor transactor) {
+    public void addReviewToDb(Review review, TagsManager tagsManager,
+                              ReviewerDb db, TableTransactor transactor) {
         addToTable(review, db.getReviewsTable(), transactor);
         addToTable(review.getCriteria(), db.getReviewsTable(), transactor, false);
         addToTable(review.getComments(), db.getCommentsTable(), transactor, true);
         addToTable(review.getFacts(), db.getFactsTable(), transactor, true);
         addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);
         addToTable(review.getImages(), db.getImagesTable(), transactor, true);
-        addToTagsTable(review.getReviewId(), db.getTagsTable(), db.getTagsManager(), transactor);
+        addToTagsTable(tagsManager.getTags(review.getReviewId().toString()), db.getTagsTable(), transactor);
         addToAuthorsTableIfNecessary(review.getAuthor(), db.getAuthorsTable(), transactor);
     }
 
@@ -74,9 +74,7 @@ public class ReviewInserterImpl implements ReviewInserter {
         }
     }
 
-    private void addToTagsTable(ReviewId id, DbTable<RowTag> table, TagsManager tagsManager,
-                                TableTransactor transactor) {
-        ItemTagCollection tags = tagsManager.getTags(id.toString());
+    private void addToTagsTable(ItemTagCollection tags, DbTable<RowTag> table, TableTransactor transactor) {
         for (ItemTag tag : tags) {
             transactor.insertOrReplaceRow(mRowFactory.newRow(table.getRowClass(), tag), table);
         }

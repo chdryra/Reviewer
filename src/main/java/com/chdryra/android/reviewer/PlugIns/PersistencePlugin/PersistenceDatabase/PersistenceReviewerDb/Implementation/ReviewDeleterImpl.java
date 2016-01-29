@@ -49,7 +49,8 @@ public class ReviewDeleterImpl implements ReviewDeleter {
     }
 
     @Override
-    public boolean deleteReviewFromDb(RowReview row, ReviewerDb db, TableTransactor transactor) {
+    public boolean deleteReviewFromDb(RowReview row, TagsManager tagsManager,
+                                      ReviewerDb db, TableTransactor transactor) {
         String idString = row.getReviewId().toString();
 
         deleteFromTable(db.getImagesTable(),
@@ -63,7 +64,7 @@ public class ReviewDeleterImpl implements ReviewDeleter {
         deleteFromTable(db.getReviewsTable(),
                 asClause(RowReview.class, RowReview.REVIEW_ID, idString), transactor);
         deleteCriteria(db.getReviewsTable(), idString, transactor);
-        deleteTagsIfNecessary(db.getTagsTable(), db.getTagsManager(), idString, transactor);
+        deleteTagsIfNecessary(db.getTagsTable(), idString, tagsManager, transactor);
         deleteAuthorIfNecessary(db, row, transactor);
 
         return true;
@@ -83,8 +84,8 @@ public class ReviewDeleterImpl implements ReviewDeleter {
         }
     }
 
-    private void deleteTagsIfNecessary(DbTable<RowTag> tagsTable, TagsManager tagsManager,
-                                       String reviewId, TableTransactor transactor) {
+    private void deleteTagsIfNecessary(DbTable<RowTag> tagsTable, String reviewId,
+                                       TagsManager tagsManager, TableTransactor transactor) {
         ItemTagCollection tags = tagsManager.getTags(reviewId);
         for (ItemTag tag : tags) {
             if (tagsManager.untagItem(reviewId, tag)) {

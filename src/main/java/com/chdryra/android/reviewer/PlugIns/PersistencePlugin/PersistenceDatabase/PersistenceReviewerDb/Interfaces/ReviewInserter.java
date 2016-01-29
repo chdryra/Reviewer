@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 
 /**
@@ -18,5 +19,6 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewInserter {
-    void addReviewToDb(Review review, ReviewerDb db, TableTransactor transactor);
+    void addReviewToDb(Review review, TagsManager tagsManager,
+                       ReviewerDb db, TableTransactor transactor);
 }

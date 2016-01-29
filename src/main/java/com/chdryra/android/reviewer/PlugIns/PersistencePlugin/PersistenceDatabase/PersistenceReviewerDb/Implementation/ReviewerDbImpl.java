@@ -12,46 +12,27 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.ContractorDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.ContractorDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,7 +46,6 @@ import java.util.HashSet;
 public class ReviewerDbImpl implements ReviewerDb {
     private final ContractorDb<ReviewerDbContract> mContractor;
     private final ReviewerDbContract mTables;
-    private final TagsManager mTagsManager;
     private final DataValidator mDataValidator;
     private final ReviewTransactor mReviewTransactor;
     private final FactoryDbTableRow mRowFactory;
@@ -73,19 +53,12 @@ public class ReviewerDbImpl implements ReviewerDb {
     public ReviewerDbImpl(ContractorDb<ReviewerDbContract> contractor,
                           ReviewTransactor reviewTransactor,
                           FactoryDbTableRow rowFactory,
-                          TagsManager tagsManager,
                           DataValidator dataValidator) {
         mContractor = contractor;
         mTables = contractor.getContract();
-        mTagsManager = tagsManager;
         mReviewTransactor = reviewTransactor;
         mRowFactory = rowFactory;
         mDataValidator = dataValidator;
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mTagsManager;
     }
 
     @Override
@@ -142,7 +115,9 @@ public class ReviewerDbImpl implements ReviewerDb {
 
     @Override
     public boolean addReviewToDb(Review review, TableTransactor transactor) {
-        if (isReviewInDb(review, transactor)) return false;
+        DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(RowReview.REVIEW_ID.getName());
+        String reviewId = review.getReviewId().toString();
+        if (transactor.isIdInTable(reviewId, reviewIdCol, getReviewsTable())) return false;
 
         mReviewTransactor.addReviewToDb(review, this, transactor);
 
@@ -205,15 +180,14 @@ public class ReviewerDbImpl implements ReviewerDb {
         return mTables.getTableNames();
     }
 
-    private void loadReviewIfNotLoaded(RowReview reviewRow, ArrayList<Review> reviews,
+    private void loadReviewIfNotLoaded(RowReview row, ArrayList<Review> reviews,
                                        ArrayList<ReviewId> reviewsLoaded,
                                        TableTransactor transactor) {
-        if (reviewsLoaded.contains(reviewRow.getReviewId())) return;
-        Review review = loadReview(reviewRow, transactor);
-        if (review != null) {
-            reviews.add(review);
-            reviewsLoaded.add(review.getReviewId());
-        }
+        if (reviewsLoaded.contains(row.getReviewId()) || !row.hasData(mDataValidator)) return;
+
+        Review review = mReviewTransactor.loadReview(row, this, transactor);
+        reviews.add(review);
+        reviewsLoaded.add(review.getReviewId());
     }
 
     @NonNull
@@ -291,33 +265,20 @@ public class ReviewerDbImpl implements ReviewerDb {
 
         return entries;
     }
-
-    @Nullable
-    private Review loadReview(RowReview reviewRow, TableTransactor transactor) {
-        if (!reviewRow.hasData(mDataValidator)) return null;
-
-        Review review = mReviewTransactor.loadReview(reviewRow, this, transactor);
-        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
-        if (tags.size() == 0) loadTags(transactor);
-
-        return review;
-    }
-
-    private void loadTags(TableTransactor transactor) {
-        for (RowTag tag : transactor.loadTable(getTagsTable(), mRowFactory)) {
-            ArrayList<String> reviews = tag.getReviewIds();
-            for (String reviewId : reviews) {
-                mTagsManager.tagItem(reviewId, tag.getTag());
-            }
-        }
-    }
-
-    private boolean isReviewInDb(Review review, TableTransactor transactor) {
-        DbColumnDefinition reviewIdCol = getReviewsTable().getColumn(RowReview.REVIEW_ID.getName());
-        String reviewId = review.getReviewId().toString();
-
-        return transactor.isIdInTable(reviewId, reviewIdCol, getReviewsTable());
-    }
+//
+//    private void manageTags(TableTransactor transactor, Review review) {
+//        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
+//        if (tags.size() == 0) loadTags(transactor);
+//    }
+//
+//    private void loadTags(TableTransactor transactor) {
+//        for (RowTag tag : transactor.loadTable(getTagsTable(), mRowFactory)) {
+//            ArrayList<String> reviews = tag.getReviewIds();
+//            for (String reviewId : reviews) {
+//                mTagsManager.tagItem(reviewId, tag.getTag());
+//            }
+//        }
+//    }
 
     @NonNull
     private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,

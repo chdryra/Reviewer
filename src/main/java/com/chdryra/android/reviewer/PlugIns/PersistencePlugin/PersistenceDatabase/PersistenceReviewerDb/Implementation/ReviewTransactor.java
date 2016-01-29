@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDeleter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewInserter;
@@ -23,28 +24,28 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * On: 24/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTransactor implements ReviewLoader, ReviewInserter, ReviewDeleter{
+public class ReviewTransactor {
     private ReviewLoader mLoader;
     private ReviewInserter mInserter;
     private ReviewDeleter mDeleter;
+    private TagsManager mTagsManager;
 
-    public ReviewTransactor(ReviewLoader loader, ReviewInserter inserter, ReviewDeleter deleter) {
+    public ReviewTransactor(ReviewLoader loader, ReviewInserter inserter, ReviewDeleter deleter,
+                            TagsManager tagsManager) {
         mLoader = loader;
         mInserter = inserter;
         mDeleter = deleter;
+        mTagsManager = tagsManager;
     }
 
-    @Override
     public boolean deleteReviewFromDb(RowReview row, ReviewerDb db, TableTransactor transactor) {
-        return mDeleter.deleteReviewFromDb(row, db, transactor);
+        return mDeleter.deleteReviewFromDb(row, mTagsManager, db, transactor);
     }
 
-    @Override
     public void addReviewToDb(Review review, ReviewerDb db, TableTransactor transactor) {
-        mInserter.addReviewToDb(review, db, transactor);
+        mInserter.addReviewToDb(review, mTagsManager, db, transactor);
     }
 
-    @Override
     public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
         return mLoader.loadReview(reviewRow, database, db);
     }

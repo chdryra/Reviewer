@@ -8,16 +8,26 @@
 
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories;
 
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewDeleterImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewInserterImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewLoaderDynamic;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewLoaderStatic;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewRecreater;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ReviewDeleterImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ReviewInserterImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ReviewLoaderDynamic;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ReviewLoaderStatic;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.ReviewTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.ReviewLoader;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Interfaces.ReviewRecreater;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.FactoryDbTableRow;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,16 +42,18 @@ public class FactoryReviewTransactor {
     }
 
     public ReviewTransactor newStaticLoader(ReviewRecreater reviewBuilder,
+                                            TagsManager tagsManager,
                                             DataValidator validator) {
-        return newTransactor(new ReviewLoaderStatic(reviewBuilder, validator));
+        return newTransactor(new ReviewLoaderStatic(reviewBuilder, validator), tagsManager);
     }
 
-    public ReviewLoader newDynamicLoader(FactoryReviewNode nodeFactory) {
-        return newTransactor(new ReviewLoaderDynamic(nodeFactory));
+    public ReviewTransactor newDynamicLoader(FactoryReviewNode nodeFactory, TagsManager tagsManager) {
+        return newTransactor(new ReviewLoaderDynamic(nodeFactory), tagsManager);
     }
 
-    private ReviewTransactor newTransactor(ReviewLoader loader) {
+    private ReviewTransactor newTransactor(ReviewLoader loader, TagsManager tagsManager) {
         return new ReviewTransactor( loader,
-                new ReviewInserterImpl(mRowFactory), new ReviewDeleterImpl(mRowFactory));
+                new ReviewInserterImpl(mRowFactory),
+                new ReviewDeleterImpl(mRowFactory), tagsManager);
     }
 }

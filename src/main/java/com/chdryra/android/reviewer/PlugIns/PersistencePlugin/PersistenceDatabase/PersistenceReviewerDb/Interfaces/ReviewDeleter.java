@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces;
 
 
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
 
 /**
@@ -17,5 +18,6 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewDeleter {
-    boolean deleteReviewFromDb(RowReview row, ReviewerDb db, TableTransactor transactor);
+    boolean deleteReviewFromDb(RowReview row, TagsManager tagsManager,
+                               ReviewerDb db, TableTransactor transactor);
 }

@@ -43,18 +43,20 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     public static final RowEntryImpl<RowReview, String> REVIEW_CLAUSE
             = new RowEntryImpl<>(RowReview.class, RowReview.PARENT_ID, null);
     private final ReviewerDb mDatabase;
+    private final TagsManager mTagsManager;
     private final DbTable<RowReview> mTable;
     private final ArrayList<ReviewsRepositoryObserver> mObservers;
 
-    public ReviewerDbRepository(ReviewerDb database) {
+    public ReviewerDbRepository(ReviewerDb database, TagsManager tagsManager) {
         mDatabase = database;
+        mTagsManager = tagsManager;
         mTable = database.getReviewsTable();
         mObservers = new ArrayList<>();
     }
 
     @Override
     public TagsManager getTagsManager() {
-        return mDatabase.getTagsManager();
+        return mTagsManager;
     }
 
     @Override

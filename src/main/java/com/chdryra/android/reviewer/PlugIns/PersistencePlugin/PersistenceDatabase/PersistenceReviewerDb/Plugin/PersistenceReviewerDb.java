@@ -82,7 +82,7 @@ public class PersistenceReviewerDb implements PersistencePlugin {
         ContractorDb<ReviewerDbContract> contractor
                 = mContractorFactory.newContractor(context, mSpec);
         ReviewTransactor transactor
-                = mReviewTransactor.newStaticLoader(reviewFactory, dataValidator);
+                = mReviewTransactor.newStaticLoader(reviewFactory, tagsManager, dataValidator);
         return mDbFactory.newDatabase(contractor, transactor, tagsManager, dataValidator);
     }
 
