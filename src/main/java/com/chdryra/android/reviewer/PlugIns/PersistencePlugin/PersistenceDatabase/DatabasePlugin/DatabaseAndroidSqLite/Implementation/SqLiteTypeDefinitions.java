@@ -20,7 +20,7 @@ import java.util.Map;
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SqlLiteTypeDefinitions {
+public class SqLiteTypeDefinitions {
     public static final String TEXT = "TEXT";
     public static final String REAL = "REAL";
     public static final String INTEGER = "INTEGER";

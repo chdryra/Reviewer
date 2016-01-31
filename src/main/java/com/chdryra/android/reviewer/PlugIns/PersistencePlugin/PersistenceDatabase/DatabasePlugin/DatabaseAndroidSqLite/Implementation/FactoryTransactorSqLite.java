@@ -27,7 +27,8 @@ public class FactoryTransactorSqLite {
         mEntryConverter = entryConverter;
     }
 
-    public TableTransactor newTransactor(SQLiteDatabase db) {
-        return new TableTransactorSqlLite(db, mRowConverter, mEntryConverter);
+    public TableTransactor newTransactor(SQLiteDatabase db, TablesSql sql) {
+        return new TableTransactorSqLite(new AndroidSqLiteDb(db), sql,
+                mRowConverter, mEntryConverter);
     }
 }

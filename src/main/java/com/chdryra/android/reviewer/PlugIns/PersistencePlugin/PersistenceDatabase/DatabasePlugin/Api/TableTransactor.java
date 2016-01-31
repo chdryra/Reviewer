@@ -34,19 +34,19 @@ public interface TableTransactor {
 
     void endTransaction();
 
-    <DbRow extends DbTableRow> TableRowList<DbRow> loadTable(DbTable<DbRow> table,
-                                                             FactoryDbTableRow rowFactory);
+    <Row extends DbTableRow> TableRowList<Row> loadTable(DbTable<Row> table,
+                                                         FactoryDbTableRow rowFactory);
 
-    <DbRow extends DbTableRow, Type> TableRowList<DbRow> getRowsWhere(DbTable<DbRow> table,
-                                                                      RowEntry<DbRow, Type> clause,
-                                                                      FactoryDbTableRow rowFactory);
+    <Row extends DbTableRow, Type> TableRowList<Row> getRowsWhere(DbTable<Row> table,
+                                                                  RowEntry<Row, Type> clause,
+                                                                  FactoryDbTableRow rowFactory);
 
-    <DbRow extends DbTableRow, Type> void deleteRowsWhere(DbTable<DbRow> table,
-                                                          RowEntry<DbRow, Type> clause);
+    <Row extends DbTableRow, Type> void deleteRowsWhere(DbTable<Row> table,
+                                                        RowEntry<Row, Type> clause);
 
-    <DbRow extends DbTableRow> boolean insertRow(DbRow row, DbTable<DbRow> table);
+    <Row extends DbTableRow> boolean insertRow(Row row, DbTable<Row> table);
 
-    <DbRow extends DbTableRow> void insertOrReplaceRow(DbRow row, DbTable<DbRow> table);
+    <Row extends DbTableRow> void insertOrReplaceRow(Row row, DbTable<Row> table);
 
     boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table);
 }

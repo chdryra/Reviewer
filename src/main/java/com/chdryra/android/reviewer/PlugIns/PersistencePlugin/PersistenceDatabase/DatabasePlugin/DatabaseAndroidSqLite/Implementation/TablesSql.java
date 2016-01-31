@@ -6,16 +6,20 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .DatabaseAndroidSqLite.Implementation;
 
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.ForeignKeyConstraint;
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.ForeignKeyConstraint;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -23,39 +27,20 @@ import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 31/03/2015
+ * On: 31/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SqlLiteContractExecutor {
+public class TablesSql {
     private static final String CHECKS_OFF = "SET foreign_key_checks = 0;";
     private static final String CHECKS_ON = "SET foreign_key_checks = 1;";
 
-    private SqlLiteTypeDefinitions mDefs;
+    private SqLiteTypeDefinitions mDefs;
 
-    public SqlLiteContractExecutor(SqlLiteTypeDefinitions defs) {
+    public TablesSql(SqLiteTypeDefinitions defs) {
         mDefs = defs;
     }
 
-    public void createDatabase(DbContract contract, SQLiteDatabase db) {
-        ArrayList<DbTable<? extends DbTableRow>> tables = contract.getTables();
-        for (DbTable<?> table : tables) {
-            try {
-                db.execSQL(getCreateTableSql(table));
-            } catch (SQLException e) {
-                throw new RuntimeException("Problem creating table " + table.getName(), e);
-            }
-        }
-    }
-
-    public void upgradeDatabase(DbContract contract, SQLiteDatabase db, int oldVersion, int newVersion) {
-        try {
-            db.execSQL(dropAllTablesSql(contract.getTableNames()));
-        } catch (SQLException e) {
-            throw new RuntimeException("Problem dropping tables", e);
-        }
-    }
-
-    private String getCreateTableSql(DbTable<? extends DbTableRow> table) {
+    public String createTableSql(DbTable<? extends DbTableRow> table) {
         String colDef = getColumnDefinitions(table);
         String pkDef = getPrimaryKeyDefinition(table);
         String fkDef = getFkConstraintsDefinition(table);
@@ -67,6 +52,32 @@ public class SqlLiteContractExecutor {
         definition += SQL.NEW_LINE + SQL.CLOSE_BRACKET;
 
         return definition;
+    }
+
+    public String dropAllTablesSql(ArrayList<String> tableNames) {
+        String tables = StringUtils.join(tableNames.toArray(), ",");
+        String dropString = SQL.DROP_TABLE_IF_EXISTS + tables + SQL.SEMICOLON;
+
+        String definition = CHECKS_OFF + SQL.NEW_LINE;
+        definition += dropString + SQL.NEW_LINE;
+        definition += CHECKS_ON;
+
+        return definition;
+    }
+
+    public Query getFromTableWhere(String tableName, @Nullable String column, @Nullable String
+            value) {
+        boolean isNull = value == null;
+        String val = isNull ? SQL.SPACE + SQL.IS_NULL : SQL.SPACE + SQL.BIND_STRING;
+        String whereClause = column != null ? " " + SQL.WHERE + column + val : "";
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + tableName + whereClause;
+        String[] args = isNull ? null : new String[]{value};
+
+        return new Query(query, args);
+    }
+
+    public Query bindColumnWithValue(String columnName, String val) {
+        return new Query(columnName + SQL.BIND_STRING, new String[]{val});
     }
 
     private String getColumnDefinitions(DbTable<? extends DbTableRow> table) {
@@ -131,17 +142,6 @@ public class SqlLiteContractExecutor {
         return definition;
     }
 
-    private String dropAllTablesSql(ArrayList<String> tableNames) {
-        String tables = StringUtils.join(tableNames.toArray(), ",");
-        String dropString = SQL.DROP_TABLE_IF_EXISTS + tables + SQL.SEMICOLON;
-
-        String definition = CHECKS_OFF + SQL.NEW_LINE;
-        definition += dropString + SQL.NEW_LINE;
-        definition += CHECKS_ON;
-
-        return definition;
-    }
-
     private String getCommaSeparatedNames(ArrayList<DbColumnDefinition> cols) {
         String cs = "";
         for (DbColumnDefinition column : cols) {
@@ -150,4 +150,23 @@ public class SqlLiteContractExecutor {
 
         return cs.substring(0, cs.length() - 1);
     }
+
+    public class Query {
+        private String mQuery;
+        private String mArgs[];
+
+        public Query(String query, String[] args) {
+            mQuery = query;
+            mArgs = args;
+        }
+
+        public String getQuery() {
+            return mQuery;
+        }
+
+        public String[] getArgs() {
+            return mArgs;
+        }
+    }
+
 }
