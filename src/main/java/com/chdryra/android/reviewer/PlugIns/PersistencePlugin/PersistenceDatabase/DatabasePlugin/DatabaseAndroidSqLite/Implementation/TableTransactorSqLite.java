@@ -9,25 +9,17 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
         .DatabaseAndroidSqLite.Implementation;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
 
 /**
  * Created by: Rizwan Choudrey
@@ -79,14 +71,14 @@ public class TableTransactorSqLite implements TableTransactor {
         String id = row.getRowId();
         if (isIdInTable(id, table.getColumn(row.getRowIdColumnName()), table)) return false;
 
-        return mDb.insertOrThrow(table.getName(), convertRowToContentValues(row), id) != -1;
+        return mDb.insertOrThrow(table.getName(), mRowConverter.convert(row), id) != -1;
     }
 
     @Override
     public <Row extends DbTableRow> void insertOrReplaceRow(Row row, DbTable<Row> table) {
         String id = row.getRowId();
         if (isIdInTable(id, table.getColumn(row.getRowIdColumnName()), table)) {
-            mDb.replaceOrThrow(table.getName(), convertRowToContentValues(row), id);
+            mDb.replaceOrThrow(table.getName(), mRowConverter.convert(row), id);
         } else {
             insertRow(row, table);
         }
@@ -103,7 +95,7 @@ public class TableTransactorSqLite implements TableTransactor {
 
     @Override
     public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table) {
-        Cursor cursor = getFromTableWhere(table.getName(), idCol.getName(), id);
+        Cursor cursor = getFromTableWhere(table, idCol.getName(), id);
         if (cursor != null && cursor.getCount() > 1) {
             cursor.close();
             throw new IllegalStateException("Cannot have more than 1 row with same Id!");
@@ -129,14 +121,15 @@ public class TableTransactorSqLite implements TableTransactor {
             val = mEntryConverter.convert(entry);
         }
 
-        Cursor cursor = getFromTableWhere(table.getName(), col, val);
+        Cursor cursor = getFromTableWhere(table, col, val);
 
         return convertToTableRowList(table.getRowClass(), rowFactory, cursor);
     }
 
-    private Cursor getFromTableWhere(String table, @Nullable String column, @Nullable String
-            value) {
-        TablesSql.Query query = mSql.getFromTableWhere(table, column, value);
+    private <Row extends DbTableRow> Cursor getFromTableWhere(DbTable<Row> table,
+                                                              @Nullable String column,
+                                                              @Nullable String value) {
+        TablesSql.Query query = mSql.getFromTableWhereQuery(table, column, value);
         return mDb.rawQuery(query.getQuery(), query.getArgs());
     }
 
@@ -157,9 +150,5 @@ public class TableTransactorSqLite implements TableTransactor {
         cursor.close();
 
         return list;
-    }
-
-    private <Row extends DbTableRow> ContentValues convertRowToContentValues(Row row) {
-        return mRowConverter.convert(row);
     }
 }

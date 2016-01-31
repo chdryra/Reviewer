@@ -27,6 +27,7 @@ public class EntryToStringConverter {
         Object value = entry.getValue();
         if(value == null) return null;
         DbEntryType<?> type = entry.getEntryType();
+
         if(type.equals(DbEntryType.TEXT)) {
             return (String)value;
         } else if(type.equals(DbEntryType.BOOLEAN)) {

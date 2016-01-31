@@ -21,10 +21,10 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SqLiteTypeDefinitions {
-    public static final String TEXT = "TEXT";
-    public static final String REAL = "REAL";
-    public static final String INTEGER = "INTEGER";
-    public static final String BLOB = "BLOB";
+    private static final String TEXT = "TEXT";
+    private static final String REAL = "REAL";
+    private static final String INTEGER = "INTEGER";
+    private static final String BLOB = "BLOB";
 
     private static final Map<DbEntryType<?>, String> mMap;
     static{

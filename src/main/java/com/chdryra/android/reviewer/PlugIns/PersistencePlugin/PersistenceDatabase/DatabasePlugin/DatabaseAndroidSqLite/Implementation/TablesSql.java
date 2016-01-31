@@ -65,15 +65,24 @@ public class TablesSql {
         return definition;
     }
 
-    public Query getFromTableWhere(String tableName, @Nullable String column, @Nullable String
-            value) {
+    public Query getFromTableWhereQuery(DbTable<? extends DbTableRow> table,
+                                        @Nullable String column, @Nullable String value) {
+        if(column != null && table.getColumn(column) == null) {
+            throw new IllegalArgumentException("Column " + column + " not found in table "
+                    + table.getName());
+        }
+
+        if(column != null && value == null && !table.getColumn(column).getNullable().isNullable()) {
+            throw new IllegalArgumentException("Column " + column + " not nullable");
+        }
+
         boolean isNull = value == null;
         String val = isNull ? SQL.SPACE + SQL.IS_NULL : SQL.SPACE + SQL.BIND_STRING;
         String whereClause = column != null ? " " + SQL.WHERE + column + val : "";
-        String query = SQL.SELECT + SQL.ALL + SQL.FROM + tableName + whereClause;
+        String query = SQL.SELECT + SQL.ALL + SQL.FROM + table.getName() + whereClause;
         String[] args = isNull ? null : new String[]{value};
 
-        return new Query(query, args);
+        return new Query(query.trim(), args);
     }
 
     public Query bindColumnWithValue(String columnName, String val) {
@@ -155,7 +164,7 @@ public class TablesSql {
         private String mQuery;
         private String mArgs[];
 
-        public Query(String query, String[] args) {
+        public Query(String query, @Nullable String[] args) {
             mQuery = query;
             mArgs = args;
         }

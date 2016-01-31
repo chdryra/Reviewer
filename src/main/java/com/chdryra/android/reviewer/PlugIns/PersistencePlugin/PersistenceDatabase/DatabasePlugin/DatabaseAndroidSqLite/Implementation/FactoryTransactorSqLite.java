@@ -21,14 +21,13 @@ public class FactoryTransactorSqLite {
     private RowToValuesConverter mRowConverter;
     private EntryToStringConverter mEntryConverter;
 
-    public FactoryTransactorSqLite(RowToValuesConverter rowConverter, EntryToStringConverter
-            entryConverter) {
+    public FactoryTransactorSqLite(RowToValuesConverter rowConverter,
+                                   EntryToStringConverter entryConverter) {
         mRowConverter = rowConverter;
         mEntryConverter = entryConverter;
     }
 
     public TableTransactor newTransactor(SQLiteDatabase db, TablesSql sql) {
-        return new TableTransactorSqLite(new AndroidSqLiteDb(db), sql,
-                mRowConverter, mEntryConverter);
+        return new TableTransactorSqLite(new AndroidSqLiteDb(db), sql, mRowConverter, mEntryConverter);
     }
 }
