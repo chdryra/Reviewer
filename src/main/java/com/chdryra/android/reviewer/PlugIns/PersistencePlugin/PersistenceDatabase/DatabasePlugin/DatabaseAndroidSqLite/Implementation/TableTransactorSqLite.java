@@ -53,17 +53,17 @@ public class TableTransactorSqLite implements TableTransactor {
     }
 
     @Override
+    public <Row extends DbTableRow> TableRowList<Row> loadTable(DbTable<Row> table,
+                                                                FactoryDbTableRow rowFactory) {
+        return getAllRowsWhere(table, null, rowFactory);
+    }
+
+    @Override
     public <Row extends DbTableRow, Type> TableRowList<Row> getRowsWhere(DbTable<Row> table,
                                                                          RowEntry<Row, Type> clause,
                                                                          FactoryDbTableRow
                                                                                  rowFactory) {
         return getAllRowsWhere(table, clause, rowFactory);
-    }
-
-    @Override
-    public <Row extends DbTableRow> TableRowList<Row> loadTable(DbTable<Row> table,
-                                                                FactoryDbTableRow rowFactory) {
-        return getAllRowsWhere(table, null, rowFactory);
     }
 
     @Override
@@ -139,15 +139,11 @@ public class TableTransactorSqLite implements TableTransactor {
                                                                                      rowFactory,
                                                                              Cursor cursor) {
         TableRowList<Row> list = new TableRowList<>();
-        if (cursor == null || cursor.getCount() == 0) {
-            list.add(rowFactory.emptyRow(rowClass));
-            return list;
-        }
-
-        while (cursor.moveToNext()) {
+        while (cursor != null && cursor.getCount() > 0 && cursor.moveToNext()) {
             list.add(rowFactory.newRow(rowClass, new CursorRowValues(cursor)));
         }
-        cursor.close();
+
+        if(cursor != null) cursor.close();
 
         return list;
     }

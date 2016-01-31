@@ -29,10 +29,9 @@ public class FactoryReviewerDbContract {
     private FactoryDbColumnDef mColumnFactory;
     private FactoryForeignKeyConstraint mFkFactory;
 
-    public FactoryReviewerDbContract(FactoryDbColumnDef columnFactory,
-                                     FactoryForeignKeyConstraint fkFactory) {
-        mColumnFactory = columnFactory;
-        mFkFactory = fkFactory;
+    public FactoryReviewerDbContract() {
+        mColumnFactory = new FactoryDbColumnDef();
+        mFkFactory = new FactoryForeignKeyConstraint();
     }
 
     public ReviewerDbContract newContract() {

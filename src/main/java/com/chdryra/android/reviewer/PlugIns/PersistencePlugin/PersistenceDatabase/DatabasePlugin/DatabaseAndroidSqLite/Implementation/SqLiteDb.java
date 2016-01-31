@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDataba
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +28,7 @@ public interface SqLiteDb {
 
     long replaceOrThrow(String table, ContentValues values, String id);
 
-    int delete(String table, String whereClause, String[] whereArgs);
+    int delete(String table, String whereClause, @Nullable String[] whereArgs);
 
-    Cursor rawQuery(String sql, String[] selectionArgs);
+    Cursor rawQuery(String sql, @Nullable String[] selectionArgs);
 }

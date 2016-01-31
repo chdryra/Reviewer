@@ -15,8 +15,6 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.testutils.RandomString;
 
@@ -41,9 +39,7 @@ public class TablesSqlTest {
     @Before
     public void setUp() {
         mSql = new TablesSql(new SqLiteTypeDefinitions());
-        FactoryReviewerDbContract factory = new FactoryReviewerDbContract(new FactoryDbColumnDef(),
-                new FactoryForeignKeyConstraint());
-        mContract = factory.newContract();
+        mContract = new FactoryReviewerDbContract().newContract();
     }
 
     @Test

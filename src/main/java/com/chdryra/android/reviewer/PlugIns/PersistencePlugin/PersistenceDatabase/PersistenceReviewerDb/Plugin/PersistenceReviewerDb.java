@@ -28,9 +28,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewRecreater;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbColumnDef;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryDbSpecification;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Factories.FactoryForeignKeyConstraint;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbSpecification;
 
 /**
@@ -70,11 +68,7 @@ public class PersistenceReviewerDb implements PersistencePlugin {
 
     private DbSpecification<ReviewerDbContract> newDbSpecification(String name, String ext,
                                                                    int version) {
-        FactoryReviewerDbContract factory
-                = new FactoryReviewerDbContract(new FactoryDbColumnDef(), new
-                FactoryForeignKeyConstraint());
-        ReviewerDbContract contract = factory.newContract();
-
+        ReviewerDbContract contract = new FactoryReviewerDbContract().newContract();
         return new FactoryDbSpecification().newSpecification(contract, name + "." + ext, version);
     }
 }
