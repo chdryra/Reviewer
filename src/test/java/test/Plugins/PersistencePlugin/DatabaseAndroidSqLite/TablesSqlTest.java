@@ -208,14 +208,8 @@ public class TablesSqlTest {
         String column = RowAuthor.AUTHOR_NAME.getName();
         String value = "Riz";
         TablesSql.Query query = mSql.bindColumnWithValue(column, value);
-        assertThat(query.getQuery(), is(column + " = ? "));
+        assertThat(query.getQuery(), is(column + " = ?"));
         assertThat(query.getArgs().length, is(1));
         assertThat(query.getArgs()[0], is(value));
-    }
-
-    @Test
-    public void check() {
-        TablesSql.Query query = mSql.getFromTableWhereQuery(mContract.getImagesTable(), RowImage.IMAGE_DATE.getName(), null);
-        System.out.print(query.getQuery());
     }
 }

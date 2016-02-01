@@ -9,17 +9,25 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
         .DatabaseAndroidSqLite.Implementation;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.Api.TableTransactor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
+        .Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
+        .PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
+        .Interfaces.RowEntry;
 
 /**
  * Created by: Rizwan Choudrey
@@ -68,46 +76,56 @@ public class TableTransactorSqLite implements TableTransactor {
 
     @Override
     public <Row extends DbTableRow> boolean insertRow(Row row, DbTable<Row> table) {
-        String id = row.getRowId();
-        if (isIdInTable(id, table.getColumn(row.getRowIdColumnName()), table)) return false;
-
-        return mDb.insertOrThrow(table.getName(), mRowConverter.convert(row), id) != -1;
+        return insertOrReplace(row, table, false);
     }
 
     @Override
-    public <Row extends DbTableRow> void insertOrReplaceRow(Row row, DbTable<Row> table) {
-        String id = row.getRowId();
-        if (isIdInTable(id, table.getColumn(row.getRowIdColumnName()), table)) {
-            mDb.replaceOrThrow(table.getName(), mRowConverter.convert(row), id);
-        } else {
-            insertRow(row, table);
-        }
+    public <Row extends DbTableRow> boolean insertOrReplaceRow(Row row, DbTable<Row> table) {
+        return insertOrReplace(row, table, true);
     }
 
     @Override
-    public <Row extends DbTableRow, Type> void deleteRowsWhere(DbTable<Row> table,
+    public <Row extends DbTableRow, Type> int deleteRowsWhere(DbTable<Row> table,
                                                                RowEntry<Row, Type> clause) {
         String val = mEntryConverter.convert(clause);
         if (val == null) throw new IllegalArgumentException("Null values not allowed");
         TablesSql.Query query = mSql.bindColumnWithValue(clause.getColumnName(), val);
-        mDb.delete(table.getName(), query.getQuery(), query.getArgs());
+        return mDb.delete(table.getName(), query.getQuery(), query.getArgs());
     }
 
     @Override
     public boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table) {
         Cursor cursor = getFromTableWhere(table, idCol.getName(), id);
-        if (cursor != null && cursor.getCount() > 1) {
+
+        if (cursor == null) return false;
+
+        try {
+            if (cursor.getCount() > 1) {
+                throw new IllegalStateException("Cannot have more than 1 row with same Id!");
+            }
+
+            return cursor.moveToFirst();
+        } finally {
             cursor.close();
-            throw new IllegalStateException("Cannot have more than 1 row with same Id!");
+        }
+    }
+
+    private <Row extends DbTableRow> boolean insertOrReplace(Row row, DbTable<Row> table,
+                                                             boolean replace) {
+        String tableName = table.getName();
+        ContentValues values = mRowConverter.convert(row);
+        String id = row.getRowId();
+        String idCol = row.getRowIdColumnName();
+
+        boolean success = false;
+        boolean idInTable = isIdInTable(id, table.getColumn(idCol), table);
+        if (!idInTable) {
+            success = mDb.insertOrThrow(tableName, values, id) != -1;
+        } else if (replace) {
+            success = mDb.replaceOrThrow(tableName, values, id) != -1;
         }
 
-        boolean hasRow = false;
-        if (cursor != null) {
-            if (cursor.moveToFirst()) hasRow = true;
-            cursor.close();
-        }
-
-        return hasRow;
+        return success;
     }
 
     @NonNull
@@ -139,11 +157,13 @@ public class TableTransactorSqLite implements TableTransactor {
                                                                                      rowFactory,
                                                                              Cursor cursor) {
         TableRowList<Row> list = new TableRowList<>();
-        while (cursor != null && cursor.getCount() > 0 && cursor.moveToNext()) {
-            list.add(rowFactory.newRow(rowClass, new CursorRowValues(cursor)));
-        }
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                list.add(rowFactory.newRow(rowClass, new CursorRowValues(cursor)));
+            }
 
-        if(cursor != null) cursor.close();
+            cursor.close();
+        }
 
         return list;
     }

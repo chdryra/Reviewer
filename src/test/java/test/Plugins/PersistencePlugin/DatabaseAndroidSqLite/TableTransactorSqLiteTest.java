@@ -10,41 +10,45 @@ package test.Plugins.PersistencePlugin.DatabaseAndroidSqLite;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.EntryToStringConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.RowToValuesConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.SqLiteDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.SqLiteTypeDefinitions;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.TableTransactorSqLite;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
-        .DatabaseAndroidSqLite.Implementation.TablesSql;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.ReviewerDbContract;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase
-        .PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb
-        .Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.EntryToStringConverter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.RowToValuesConverter;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqLiteDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.SqLiteTypeDefinitions;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.TableTransactorSqLite;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin.DatabaseAndroidSqLite.Implementation.TablesSql;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowAuthorImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.RowFactImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewerDbContract;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbColumnDefinition;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.FactoryDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.AdditionalMatchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import test.TestUtils.RandomAuthor;
+import test.TestUtils.RandomReviewData;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
@@ -57,6 +61,8 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TableTransactorSqLiteTest {
+    @Rule
+    public ExpectedException mExpectedException = ExpectedException.none();
     @Mock
     private SqLiteDb mDb;
     private FactoryDbTableRow mRowFactory;
@@ -88,45 +94,293 @@ public class TableTransactorSqLiteTest {
 
     @Test
     public void loadTableWithNullCursor() {
-        DbTable<RowTag> tagsTable = mContract.getTagsTable();
-        TableRowList<RowTag> tags = mTransactor.loadTable(tagsTable, mRowFactory);
-        String expected = "SELECT * FROM " + tagsTable.getName();
+        DbTable<RowTag> table = mContract.getTagsTable();
+        TableRowList<RowTag> rows = mTransactor.loadTable(table, mRowFactory);
+        String expected = "SELECT * FROM " + table.getName();
         verify(mDb).rawQuery(expected, null);
 
         //Cursor is null as not mocked therefore...
-        assertThat(tags.size(), is(0));
+        assertThat(rows.size(), is(0));
     }
 
     @Test
     public void loadTableWithCursorSizeZero() {
-        DbTable<RowTag> tagsTable = mContract.getTagsTable();
-        String expected = "SELECT * FROM " + tagsTable.getName();
-
-        Cursor cursor = mock(Cursor.class);
-        when(mDb.rawQuery(expected, null)).thenReturn(cursor);
-        when(cursor.getCount()).thenReturn(0);
-
-        TableRowList<RowTag> tags = mTransactor.loadTable(tagsTable, mRowFactory);
-
-        assertThat(tags.size(), is(0));
-        verify(cursor).close();
+        checkLoadTableWithSize(0);
     }
 
     @Test
     public void loadTableWithCursorSizeNonZero() {
-        DbTable<RowTag> tagsTable = mContract.getTagsTable();
-        String expected = "SELECT * FROM " + tagsTable.getName();
-        Cursor cursor = mock(Cursor.class);
+        checkLoadTableWithSize(5);
+    }
+
+    @Test
+    public void getRowsWhereReturnsEmptyListIfNullCursorReturned() {
+        DbTable<RowTag> table = mContract.getTagsTable();
+        ColumnInfo<String> column = RowTag.TAG;
+        RowEntry<RowTag, String> clause = asClause(RowTag.class, column, RandomString.nextWord());
+
+        TableRowList<RowTag> rows = mTransactor.getRowsWhere(table, clause, mRowFactory);
+
+        assertThat(rows.size(), is(0));
+    }
+
+    @Test
+    public void getRowsWhereReturnsEmptyListIfNoRowsReturned() {
+        checkGetRowsWhereWithSize(0);
+    }
+
+    @Test
+    public void getRowsWhereReturnsListWithSizeIfRowsFound() {
+        checkGetRowsWhereWithSize(5);
+    }
+
+    @Test
+    public void isIdInTableReturnsTrueIfCursorSizeOne() {
+        DbTable<RowTag> table = mContract.getTagsTable();
+        DbColumnDefinition idCol = table.getColumn(RowTag.TAG.getName());
+        String id = RandomString.nextWord();
+
+        Cursor cursor = setIdInTable(table, idCol, id, true);
+
+        assertThat(mTransactor.isIdInTable(id, idCol, table), is(true));
+        verify(cursor).close();
+    }
+
+    @Test
+    public void isIdInTableReturnsFalseIfCursorIsNull() {
+        DbTable<RowTag> table = mContract.getTagsTable();
+        DbColumnDefinition idCol = table.getColumn(RowTag.TAG.getName());
+        String id = RandomString.nextWord();
+
+        assertThat(mTransactor.isIdInTable(id, idCol, table), is(false));
+    }
+
+    @Test
+    public void isIdInTableReturnsFalseIfCursorSizeZero() {
+        DbTable<RowTag> table = mContract.getTagsTable();
+        DbColumnDefinition idCol = table.getColumn(RowTag.TAG.getName());
+        String id = RandomString.nextWord();
+
+        Cursor cursor = setIdInTable(table, idCol, id, false);
+
+        assertThat(mTransactor.isIdInTable(id, idCol, table), is(false));
+        verify(cursor).close();
+    }
+
+    @Test
+    public void isIdInTableThrowsIllegalStateExceptionIdCursorSizeGreaterThanOne() {
+        DbTable<RowTag> table = mContract.getTagsTable();
+        DbColumnDefinition idCol = table.getColumn(RowTag.TAG.getName());
+        String id = RandomString.nextWord();
+
+        String sql = "SELECT * FROM " + table.getName() + " WHERE "
+                + idCol.getName() + " = ?";
+
+        Cursor cursor = getCursorWithSize(2);
+
+        String[] value = {id};
+        when(mDb.rawQuery(eq(sql), AdditionalMatchers.aryEq(value))).thenReturn(cursor);
+
+        mExpectedException.expect(IllegalStateException.class);
+        mTransactor.isIdInTable(id, idCol, table);
+        verify(cursor).close();
+    }
+
+    @Test
+    public void insertRowDoesNotInsertAndReturnsFalseIfIdInTable() {
+        DbTable<RowAuthor> table = mContract.getAuthorsTable();
+        RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowAuthor.USER_ID.getName());
+
+        setIdInTable(table, idCol, id, true);
+
+        assertThat(mTransactor.insertRow(row, table), is(false));
+        verify(mDb, never()).insertOrThrow(anyString(), eq(mValues), anyString());
+    }
+
+    @Test
+    public void insertRowDoesInsertAndReturnsTrueIfIdNotInTable() {
+        DbTable<RowAuthor> table = mContract.getAuthorsTable();
+        RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowAuthor.USER_ID.getName());
+
+        setIdInTable(table, idCol, id, false);
+
+        assertThat(mTransactor.insertRow(row, table), is(true));
+        verify(mDb).insertOrThrow(table.getName(), mValues, id);
+    }
+
+    @Test
+    public void insertRowReturnsFalseIfInsertTriedAndMinusOneReturned() {
+        DbTable<RowAuthor> table = mContract.getAuthorsTable();
+        RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowAuthor.USER_ID.getName());
+
+        setIdInTable(table, idCol, id, false);
+
+        when(mDb.insertOrThrow(table.getName(), mValues, id)).thenReturn(-1l);
+        assertThat(mTransactor.insertRow(row, table), is(false));
+    }
+
+    @Test
+    public void insertOrReplaceRowDoesReplaceAndReturnsTrueIfIdInTable() {
+        DbTable<RowFact> table = mContract.getFactsTable();
+        RowFact row = new RowFactImpl(RandomReviewData.nextFact(), 1);
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowFact.FACT_ID.getName());
+
+        setIdInTable(table, idCol, id, true);
+
+        assertThat(mTransactor.insertOrReplaceRow(row, table), is(true));
+        verify(mDb).replaceOrThrow(table.getName(), mValues, id);
+    }
+
+    @Test
+    public void insertOrReplaceRowDoesInsertAndReturnsTrueIfIdNotInTable() {
+        DbTable<RowFact> table = mContract.getFactsTable();
+        RowFact row = new RowFactImpl(RandomReviewData.nextFact(), 1);
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowFact.FACT_ID.getName());
+
+        setIdInTable(table, idCol, id, false);
+
+        assertThat(mTransactor.insertOrReplaceRow(row, table), is(true));
+        verify(mDb).insertOrThrow(table.getName(), mValues, id);
+    }
+
+    @Test
+    public void insertOrReplaceRowReturnsFalseIfReplaceTriedAndMinusOneReturned() {
+        DbTable<RowFact> table = mContract.getFactsTable();
+        RowFact row = new RowFactImpl(RandomReviewData.nextFact(), 1);
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowFact.FACT_ID.getName());
+
+
+        setIdInTable(table, idCol, id, true);
+
+        when(mDb.replaceOrThrow(table.getName(), mValues, id)).thenReturn(-1l);
+        assertThat(mTransactor.insertOrReplaceRow(row, table), is(false));
+    }
+
+    @Test
+    public void insertOrReplaceRowReturnsFalseIfInsertTriedAndMinusOneReturned() {
+        DbTable<RowFact> table = mContract.getFactsTable();
+        RowFact row = new RowFactImpl(RandomReviewData.nextFact(), 1);
+        String id = row.getRowId();
+        DbColumnDefinition idCol = table.getColumn(RowFact.FACT_ID.getName());
+
+        setIdInTable(table, idCol, id, false);
+
+        when(mDb.insertOrThrow(table.getName(), mValues, id)).thenReturn(-1l);
+        assertThat(mTransactor.insertOrReplaceRow(row, table), is(false));
+    }
+
+    @Test
+    public void deleteRowsWhereCallsDelete() {
+        DbTable<RowLocation> table = mContract.getLocationsTable();
+        ColumnInfo<String> column = RowLocation.NAME;
+        String value = RandomString.nextWord();
+
+        mTransactor.deleteRowsWhere(table, asClause(table.getRowClass(), column, value));
+
+        String query = column.getName() + " = ?";
+        String[] val = new String[]{value};
+        verify(mDb).delete(eq(table.getName()), eq(query), AdditionalMatchers.aryEq(val));
+    }
+
+    @Test
+    public void deleteRowsThrowsIllegalArgumentExceptionIfClauseHasNullValue() {
+        mExpectedException.expect(IllegalArgumentException.class);
+        DbTable<RowLocation> table = mContract.getLocationsTable();
+        ColumnInfo<String> column = RowLocation.NAME;
+
+        mTransactor.deleteRowsWhere(table, asClause(table.getRowClass(), column, null));
+    }
+
+    @Test
+    public void deleteRowsReturnsNumberRowsDeleted() {
+        DbTable<RowLocation> table = mContract.getLocationsTable();
+        ColumnInfo<String> column = RowLocation.NAME;
+        String value = RandomString.nextWord();
+
+        String query = column.getName() + " = ?";
+        String[] val = new String[]{value};
+        when(mDb.delete(eq(table.getName()), eq(query), AdditionalMatchers.aryEq(val))).thenReturn(10);
+
+        assertThat(mTransactor.deleteRowsWhere(table, asClause(table.getRowClass(), column, value)), is(10));
+    }
+
+    private void checkGetRowsWhereWithSize(int size) {
+        DbTable<RowTag> table = mContract.getTagsTable();
+        ColumnInfo<String> column = RowTag.TAG;
+        RowEntry<RowTag, String> clause = asClause(RowTag.class, column, RandomString.nextWord());
+
+        String sql = "SELECT * FROM " + table.getName() + " WHERE "
+                + clause.getColumnName() + " = ?";
+
+        Cursor cursor = getCursorWithSize(size);
+
+        String[] value = {clause.getValue()};
+        when(mDb.rawQuery(eq(sql), AdditionalMatchers.aryEq(value))).thenReturn(cursor);
+
+        TableRowList<RowTag> rows = mTransactor.getRowsWhere(table, clause, mRowFactory);
+
+        assertThat(rows.size(), is(size));
+        verify(cursor).close();
+    }
+
+    private void checkLoadTableWithSize(int size) {
+        Cursor cursor = getCursorWithSize(size);
+
+        DbTable<RowTag> table = mContract.getTagsTable();
+        String expected = "SELECT * FROM " + table.getName();
+
         when(mDb.rawQuery(expected, null)).thenReturn(cursor);
 
-        int size = 5;
-        when(cursor.getCount()).thenReturn(size);
-        when(cursor.moveToNext()).thenReturn(true, true, true, true, true, false);
+        TableRowList<RowTag> rows = mTransactor.loadTable(table, mRowFactory);
 
-        TableRowList<RowTag> tags = mTransactor.loadTable(tagsTable, mRowFactory);
-
-        assertThat(tags.size(), is(5));
+        assertThat(rows.size(), is(size));
         verify(cursor).close();
+    }
+
+    @NonNull
+    private Cursor getCursorWithSize(int size) {
+        Cursor cursor = mock(Cursor.class);
+        when(cursor.getCount()).thenReturn(size);
+        if (size > 0) {
+            Boolean[] rets = new Boolean[size];
+            for (int i = 0; i < size - 1; ++i) {
+                rets[i] = true;
+            }
+            rets[size - 1] = false;
+            when(cursor.moveToNext()).thenReturn(true, rets);
+        }
+        return cursor;
+    }
+
+    @NonNull
+    private <Row extends DbTableRow> Cursor setIdInTable(DbTable<Row> table,
+                                                         DbColumnDefinition idCol,
+                                                         String id, boolean inTable) {
+        String sql = "SELECT * FROM " + table.getName() + " WHERE "
+                + idCol.getName() + " = ?";
+
+        Cursor cursor = mock(Cursor.class);
+        when(cursor.getCount()).thenReturn(inTable ? 1 : 0);
+        if(inTable) when(cursor.moveToFirst()).thenReturn(true);
+
+        String[] value = {id};
+        when(mDb.rawQuery(eq(sql), AdditionalMatchers.aryEq(value))).thenReturn(cursor);
+        return cursor;
+    }
+
+    private <Row extends DbTableRow, T> RowEntry<Row, T> asClause(Class<Row> rowClass,
+                                                                  ColumnInfo<T> column,
+                                                                  @Nullable T value) {
+        return new RowEntryImpl<>(rowClass, column, value);
     }
 
     //ContentValues not mocked by Android...

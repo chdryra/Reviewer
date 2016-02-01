@@ -82,11 +82,11 @@ public class TablesSql {
         String query = SQL.SELECT + SQL.ALL + SQL.FROM + table.getName() + whereClause;
         String[] args = isNull ? null : new String[]{value};
 
-        return new Query(query.trim(), args);
+        return new Query(query, args);
     }
 
     public Query bindColumnWithValue(String columnName, String val) {
-        return new Query(columnName + SQL.BIND_STRING, new String[]{val});
+        return new Query(columnName + SQL.SPACE + SQL.BIND_STRING, new String[]{val});
     }
 
     private String getColumnDefinitions(DbTable<? extends DbTableRow> table) {
@@ -165,7 +165,7 @@ public class TablesSql {
         private String mArgs[];
 
         public Query(String query, @Nullable String[] args) {
-            mQuery = query;
+            mQuery = query.trim();
             mArgs = args;
         }
 

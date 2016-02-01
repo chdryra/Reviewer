@@ -41,12 +41,12 @@ public interface TableTransactor {
                                                                   RowEntry<Row, Type> clause,
                                                                   FactoryDbTableRow rowFactory);
 
-    <Row extends DbTableRow, Type> void deleteRowsWhere(DbTable<Row> table,
+    <Row extends DbTableRow, Type> int deleteRowsWhere(DbTable<Row> table,
                                                         RowEntry<Row, Type> clause);
 
     <Row extends DbTableRow> boolean insertRow(Row row, DbTable<Row> table);
 
-    <Row extends DbTableRow> void insertOrReplaceRow(Row row, DbTable<Row> table);
+    <Row extends DbTableRow> boolean insertOrReplaceRow(Row row, DbTable<Row> table);
 
     boolean isIdInTable(String id, DbColumnDefinition idCol, DbTable<?> table);
 }

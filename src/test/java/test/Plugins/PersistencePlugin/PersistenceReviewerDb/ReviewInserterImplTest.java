@@ -292,9 +292,10 @@ public class ReviewInserterImplTest {
         }
 
         @Override
-        public <DbRow extends DbTableRow, Type> void deleteRowsWhere(DbTable<DbRow> table,
+        public <DbRow extends DbTableRow, Type> int deleteRowsWhere(DbTable<DbRow> table,
                                                                      RowEntry<DbRow, Type> clause) {
             fail();
+            return 0;
         }
 
         @Override
@@ -307,12 +308,16 @@ public class ReviewInserterImplTest {
         }
 
         @Override
-        public <DbRow extends DbTableRow> void insertOrReplaceRow(DbRow row, DbTable<DbRow> table) {
+        public <DbRow extends DbTableRow> boolean insertOrReplaceRow(DbRow row, DbTable<DbRow> table) {
             if (table.getName() != null && table.getName().equals(mCaptureTableName)) {
                 mInsertOrReplaceCalled = true;
                 mTablesCaptured++;
                 mCapturedRows.add(row);
+
+                return true;
             }
+
+            return false;
         }
 
         @Override

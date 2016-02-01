@@ -110,8 +110,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="ant-launcher-1.8.0" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.4" level="project" />
     <orderEntry type="library" exported="" name="annotations" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="guava-19.0-rc2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-util-5.0.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="guava-19.0-rc2" level="project" />
     <orderEntry type="module" module-name="TestUtils" exported="" scope="TEST" />
     <orderEntry type="module" module-name="MyGeneralLibrary" exported="" />
     <orderEntry type="module" module-name="MyAndroidWidgets" exported="" />
