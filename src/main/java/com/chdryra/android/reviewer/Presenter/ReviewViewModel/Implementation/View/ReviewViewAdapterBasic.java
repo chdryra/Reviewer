@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,8 @@ import java.util.ArrayList;
  * Primary implementation of {@link ReviewViewAdapter}.
  */
 public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T> {
-    final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
+    private final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
+    private GvDataType<T> mDataType;
     private GridDataViewer<T> mWrapper;
     private ReviewView<T> mView;
 
@@ -45,6 +47,12 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     @Override
     public ReviewView<T> getReviewView() {
         return mView;
+    }
+
+    @Override
+    public GvDataType<T> getGvDataType() {
+        if(mDataType == null) mDataType = getGridData().getGvDataType();
+        return mDataType;
     }
 
     @Override

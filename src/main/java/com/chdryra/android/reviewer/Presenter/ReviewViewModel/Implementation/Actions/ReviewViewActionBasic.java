@@ -15,6 +15,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
+        .UnattachedReviewViewException;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +26,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 public abstract class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction<T> {
     private ReviewView<T> mReviewView;
 
-    //public methods
     @Override
     public ReviewView<T> getReviewView() {
         return mReviewView;
@@ -37,7 +38,11 @@ public abstract class ReviewViewActionBasic<T extends GvData> implements ReviewV
 
     @Override
     public Activity getActivity() {
-        return mReviewView != null ? mReviewView.getActivity() : null;
+        if (mReviewView == null) {
+            throw new UnattachedReviewViewException("Can't getActivity(): No ReviewView Attached");
+        }
+
+        return mReviewView.getActivity();
     }
 
     @Override
@@ -57,7 +62,6 @@ public abstract class ReviewViewActionBasic<T extends GvData> implements ReviewV
 
     }
 
-    //protected methods
     protected GvDataList<T> getGridData() {
         return getReviewView().getGridData();
     }

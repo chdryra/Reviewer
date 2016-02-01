@@ -42,7 +42,7 @@ public class FactoryReviewViewAdapter {
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryNodeTraverser mTraverserFactory;
-    private GvDataAggregator mAggregater;
+    private GvDataAggregator mAggregator;
     private ConverterGv mConverter;
     private ReviewsSource mReviewSource;
 
@@ -50,12 +50,12 @@ public class FactoryReviewViewAdapter {
     public FactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                     FactoryVisitorReviewNode visitorFactory,
                                     FactoryNodeTraverser traverserFactory,
-                                    GvDataAggregator aggregater,
+                                    GvDataAggregator aggregator,
                                     ReviewsSource reviewsSource,
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);
         mLaunchableFactory = launchableFactory;
-        mAggregater = aggregater;
+        mAggregator = aggregator;
         mReviewSource = reviewsSource;
         mConverter = converter;
         mVisitorFactory = visitorFactory;
@@ -84,7 +84,7 @@ public class FactoryReviewViewAdapter {
 
     public ReviewViewAdapter<GvData> newNodeDataAdapter(ReviewNode node) {
         GridDataViewer<GvData> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
-                mReviewSource.getTagsManager(), mVisitorFactory, mTraverserFactory, mAggregater);
+                mReviewSource.getTagsManager(), mVisitorFactory, mTraverserFactory, mAggregator);
         return newAdapterReviewNode(node, viewer);
     }
 
@@ -106,14 +106,14 @@ public class FactoryReviewViewAdapter {
             //TODO make type safe
             return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
                     (GvCanonicalCollection<GvComment>) data, mViewerFactory,
-                    mAggregater);
+                    mAggregator);
         }
 
         GridDataViewer<GvCanonical> viewer;
         boolean aggregateToData = type.equals(GvCriterion.TYPE) ||
                 type.equals(GvFact.TYPE) || type.equals(GvImage.TYPE);
         if (aggregateToData) {
-            viewer = mViewerFactory.newAggregateToDataViewer(data, mAggregater);
+            viewer = mViewerFactory.newAggregateToDataViewer(data, mAggregator);
         } else {
             viewer = mViewerFactory.newDataToReviewsViewer(data);
         }
