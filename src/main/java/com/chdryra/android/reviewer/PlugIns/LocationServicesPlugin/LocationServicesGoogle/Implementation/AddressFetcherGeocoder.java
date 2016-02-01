@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -36,24 +37,31 @@ public class AddressFetcherGeocoder {
     }
 
     public ArrayList<String> fetchAddresses(LatLng latLng, int num) {
+        return convert(fetch(latLng, num));
+    }
+
+    private List<Address> fetch(LatLng latLng, int num) {
         Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 
-        List<Address> addresses = null;
+        List<Address> addresses = new ArrayList<>();
         try {
             addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, num);
         } catch (IOException e) {
             Log.e(TAG, "IOException: trying to get address: " + latLng, e);
         }
 
+        return addresses;
+    }
+
+    @NonNull
+    private ArrayList<String> convert(List<Address> addresses) {
         ArrayList<String> results = new ArrayList<>();
-        if(addresses != null) {
-            for(Address address : addresses)
+        for(Address address : addresses) {
             results.add(formatAddress(address));
         }
 
         return results;
     }
-
 
     private String formatAddress(Address address) {
         return String.format(

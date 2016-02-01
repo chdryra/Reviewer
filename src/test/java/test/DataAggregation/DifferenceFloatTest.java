@@ -6,7 +6,7 @@
  *
  */
 
-package test.DataAlgorithms.DataAggregation;
+package test.DataAggregation;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceFloat;
 

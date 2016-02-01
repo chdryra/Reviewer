@@ -31,11 +31,16 @@ public class AddressesProviderGp implements AddressesProvider {
 
     @Override
     public ArrayList<LocatedPlace> fetchAddresses(LatLng latLng, int num) {
+        return convert(latLng, fetch(latLng, num));
+    }
+
+    private ArrayList<String> fetch(LatLng latLng, int num) {
         if (latLng == null || num == 0) return new ArrayList<>();
 
         ArrayList<String> names = GooglePlacesApi.fetchNearestNames(latLng, num);
+        if(names.size() == 0) names = mGeocoder.fetchAddresses(latLng, num);
 
-        return convert(latLng, names.size() > 0 ? names : mGeocoder.fetchAddresses(latLng, num));
+        return names;
     }
 
     private ArrayList<LocatedPlace> convert(LatLng latLng, ArrayList<String> addresses) {
