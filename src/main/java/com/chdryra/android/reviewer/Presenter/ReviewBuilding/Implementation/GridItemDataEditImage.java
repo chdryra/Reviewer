@@ -26,14 +26,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
     private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
-    //Constructors
     public GridItemDataEditImage(LaunchableConfig editorConfig,
                                  LaunchableUiLauncher launchableFactory,
                                  GvDataPacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 
-    //Overridden
     @Override
     public void onGridItemLongClick(GvImage item, int position, View v) {
         if (item.isCover()) {
@@ -42,12 +40,6 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
             showAlertDialog(getActivity().getString(R.string.alert_set_image_as_background),
                     IMAGE_AS_COVER, item);
         }
-    }
-
-    @Override
-    protected void deleteData(GvImage datum) {
-        super.deleteData(datum);
-        if (datum.isCover()) getReviewView().updateCover();
     }
 
     @Override

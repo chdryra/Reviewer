@@ -75,7 +75,7 @@ public class GridItemDataEdit<T extends GvData> extends ReviewDataEditorActionBa
         mAlertDialogRequestCode = requestCode;
         Bundle args = new Bundle();
         if (item != null) mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        DialogShower.showAlert(alert, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG);
+        DialogShower.showAlert(alert, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG, args);
     }
 
     //Overridden

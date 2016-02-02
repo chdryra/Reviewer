@@ -11,14 +11,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,7 +28,6 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
     private float mRating;
     private boolean mRatingIsAverage;
 
-    private FragmentReviewView mParent;
     private DataBuilderAdapter<T> mBuilder;
 
     //Constructors
@@ -68,7 +64,7 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
             mRating = rating;
         } else {
             mRating = rating;
-            mParent.setRating(mRating);
+            getParent().setRating(mRating);
         }
     }
 
@@ -119,11 +115,5 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
     @Override
     public boolean isEditable() {
         return true;
-    }
-
-    @Override
-    public void attachFragment(FragmentReviewView parent) {
-        mParent = parent;
-        super.attachFragment(parent);
     }
 }

@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -23,7 +22,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
-    private static final int EDIT_ON_BROWSER = RequestCodeGenerator.getCode("EditOnBrowser");
     private LaunchableConfig mUrlConfig;
 
     //Constructors
@@ -42,12 +40,12 @@ public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
             super.onGridItemLongClick(item, position, v);
         } else {
             showAlertDialog(getActivity().getString(R.string.alert_edit_on_browser),
-                    EDIT_ON_BROWSER, item);
+                    mUrlConfig.getRequestCode(), item);
         }
     }
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == EDIT_ON_BROWSER) launch(mUrlConfig, args);
+        if (requestCode == mUrlConfig.getRequestCode()) launch(mUrlConfig, args);
     }
 }

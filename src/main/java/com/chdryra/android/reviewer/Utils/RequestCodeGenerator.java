@@ -15,6 +15,7 @@ package com.chdryra.android.reviewer.Utils;
  */
 public class RequestCodeGenerator {
     public static int getCode(String tag) {
-        return tag != null ? tag.hashCode() : 0;
+        int code = tag.hashCode();
+        return code >= 0 ? code : -code;
     }
 }

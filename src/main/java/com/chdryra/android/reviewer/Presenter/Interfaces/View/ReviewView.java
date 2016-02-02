@@ -55,7 +55,7 @@ public interface ReviewView<T extends GvData> extends GridDataObservable.GridDat
 
     void attachFragment(FragmentReviewView parent);
 
-    void resetGridViewData();
+    void detachFragment(FragmentReviewView parent);
 
     void updateCover();
 

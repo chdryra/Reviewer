@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,7 +40,7 @@ public class TagAdjuster {
         GvTag toRemove = mCurrentSubjectTag;
         if(toAdd.equals(toRemove)) return;
 
-        GvTagList tags = (GvTagList) editor.getGridData();
+        GvDataList<GvTag> tags = editor.getGridData();
         if(camel != null && camel.length() > 0) {
             if(!tags.contains(toAdd)) {
                 if(toRemove != null ) {

@@ -88,9 +88,6 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
     void attachFragment(FragmentReviewView parent);
 
     @Override
-    void resetGridViewData();
-
-    @Override
     void updateCover();
 
     @Override

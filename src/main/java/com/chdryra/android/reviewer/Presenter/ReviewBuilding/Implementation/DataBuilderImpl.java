@@ -17,8 +17,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataListImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 import java.util.ArrayList;
@@ -35,24 +34,28 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     
     private GvDataList<T> mResetData;
     private GvDataList<T> mData;
+    private FactoryGvData mCopier;
 
     //Constructors
-    public DataBuilderImpl(GvDataList<T> data) {
-        this(data, new AddConstraintDefault<T>());
+    public DataBuilderImpl(GvDataList<T> data, FactoryGvData copier) {
+        this(data, copier, new AddConstraintDefault<T>());
     }
 
     public DataBuilderImpl(GvDataList<T> data,
+                           FactoryGvData copier,
                            AddConstraint<T> addConstraint) {
-        this(data, addConstraint, new ReplaceConstraintDefault<T>());
+        this(data, copier, addConstraint, new ReplaceConstraintDefault<T>());
     }
 
     public DataBuilderImpl(GvDataList<T> data,
+                           FactoryGvData copier,
                            AddConstraint<T> addConstraint,
                            ReplaceConstraint<T> replaceConstraint) {
         mAddConstraint = addConstraint;
         mReplaceConstraint = replaceConstraint;
         mObservers = new ArrayList<>();
         mResetData = data;
+        mCopier = copier;
         resetData();
     }
 
@@ -109,7 +112,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
 
     @Override
     public void resetData() {
-        mData = new GvDataListImpl<>(mResetData);
+        mData = mCopier.copy(mResetData);
     }
 
     @Override
@@ -119,9 +122,11 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
 
     @Override
     public void publishData() {
+        mResetData = mData;
         for(DataBuilderObserver observer : mObservers) {
             observer.onDataPublished(this);
         }
+        resetData();
     }
 
     private boolean isValid(T datum) {

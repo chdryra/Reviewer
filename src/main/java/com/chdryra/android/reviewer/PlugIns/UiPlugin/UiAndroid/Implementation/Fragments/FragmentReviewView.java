@@ -16,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +36,8 @@ import android.widget.TextView;
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities
+        .ActivityReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -43,7 +46,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -77,69 +79,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     private int mCellHeightDivider = 1;
 
     private boolean mIsModified = false;
-
-    //public methods
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ActivityReviewView activity;
-        try {
-            activity = (ActivityReviewView) getActivity();
-        } catch (ClassCastException e) {
-            Log.e(TAG, "Activity must be an ActivityReviewView");
-            throw new RuntimeException("Activity must be an ActivityReviewView", e);
-        }
-
-        mReviewView = activity.getReviewView();
-        if(mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
-        mReviewView.attachFragment(this);
-        mActions = mReviewView.getActions();
-        mParams = mReviewView.getParams();
-
-        setGridCellDimension(mParams.getGridViewParams().getCellWidth(),
-                mParams.getGridViewParams().getCellHeight());
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        View v = inflater.inflate(LAYOUT, container, false);
-
-        mLinearLayout = (LinearLayout) v.findViewById(LINEAR_LAYOUT);
-        mSubjectView = (ClearableEditText) v.findViewById(SUBJECT);
-        mRatingBar = (RatingBar) v.findViewById(RATING);
-        mBannerButton = (Button) v.findViewById(BUTTON);
-        mGridView = (GridView) v.findViewById(GRID);
-        mGridView.setDrawSelectorOnTop(true);
-
-        initGridCellDimensions();
-        initUi();
-
-        return mReviewView.modifyIfNeccessary(v, inflater, container, savedInstanceState);
-    }
-
-    private void initGridCellDimensions() {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
-        //noinspection SuspiciousNameCombination
-        mMaxGridCellHeight = mMaxGridCellWidth;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        mActions.getMenuAction().inflateMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        return mActions.getMenuAction().onItemSelected(item) || super.onOptionsItemSelected(item);
-    }
+    private boolean mIsAttached = false;
 
     public String getSubject() {
         return mSubjectView.getText().toString().trim();
@@ -168,7 +108,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void setCover(DataImage cover) {
+    public void setCover(@Nullable DataImage cover) {
         if (cover != null && cover.getBitmap() != null) {
             BitmapDrawable bitmap = new BitmapDrawable(getResources(), cover.getBitmap());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -180,6 +120,80 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         } else {
             removeCover();
         }
+    }
+
+    //public methods
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ActivityReviewView activity;
+        try {
+            activity = (ActivityReviewView) getActivity();
+        } catch (ClassCastException e) {
+            Log.e(TAG, "Activity must be an ActivityReviewView");
+            throw new RuntimeException("Activity must be an ActivityReviewView", e);
+        }
+
+        mReviewView = activity.getReviewView();
+        if (mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
+        mActions = mReviewView.getActions();
+        mParams = mReviewView.getParams();
+
+        setGridCellDimension(mParams.getGridViewParams().getCellWidth(),
+                mParams.getGridViewParams().getCellHeight());
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        View v = inflater.inflate(LAYOUT, container, false);
+
+        mLinearLayout = (LinearLayout) v.findViewById(LINEAR_LAYOUT);
+        mSubjectView = (ClearableEditText) v.findViewById(SUBJECT);
+        mRatingBar = (RatingBar) v.findViewById(RATING);
+        mBannerButton = (Button) v.findViewById(BUTTON);
+        mGridView = (GridView) v.findViewById(GRID);
+        mGridView.setDrawSelectorOnTop(true);
+
+        initGridCellDimensions();
+        initUi();
+
+        attachToReviewViewIfNecessary();
+
+        return mReviewView.modifyIfNeccessary(v, inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        attachToReviewViewIfNecessary();
+        updateUi();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        detachFromReviewViewIfNecessary();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        mActions.getMenuAction().inflateMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        return mActions.getMenuAction().onItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onGridDataChanged() {
+        updateUi();
     }
 
     private boolean isEditable() {
@@ -196,6 +210,24 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
     private int getNumberColumns() {
         return mCellWidthDivider;
+    }
+
+    private void attachToReviewViewIfNecessary() {
+        if(!mIsAttached) mReviewView.attachFragment(this);
+        mIsAttached = true;
+    }
+
+    private void detachFromReviewViewIfNecessary() {
+        if(mIsAttached) mReviewView.detachFragment(this);
+        mIsAttached = false;
+    }
+
+    private void initGridCellDimensions() {
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        mMaxGridCellWidth = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
+        //noinspection SuspiciousNameCombination
+        mMaxGridCellHeight = mMaxGridCellWidth;
     }
 
     private void initUi() {
@@ -377,17 +409,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
                                       ReviewViewParams.CellDimension height) {
         mCellWidthDivider = width.getDivider();
         mCellHeightDivider = height.getDivider();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUi();
-    }
-
-    @Override
-    public void onGridDataChanged() {
-        updateUi();
     }
 }
 

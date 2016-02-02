@@ -41,7 +41,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewBuilderImpl implements ReviewBuilder {
-    private final Map<GvDataType, DataBuilder> mDataBuilders;
+    private final Map<GvDataType<?>, DataBuilder<?>> mDataBuilders;
 
     private String mSubject;
     private float mRating;
@@ -127,12 +127,17 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     public <T extends GvData> void onDataPublished(DataBuilder<T> dataBuilder) {
         GvDataType<T> dataType = dataBuilder.getGvDataType();
         if (dataType.equals(GvCriterion.TYPE)) setCriteria(dataBuilder.getData());
-        mDataBuilders.put(dataType, dataBuilder);
     }
 
     @Override
     public GvImageList getCovers() {
-        return ((GvImageList) getData(GvImage.TYPE)).getCovers();
+        GvDataList<GvImage> images = getData(GvImage.TYPE);
+        GvImageList covers = new GvImageList(images.getGvReviewId());
+        for(GvImage image : images) {
+            if(image.isCover()) covers.add(image);
+        }
+
+        return covers;
     }
 
     @Override

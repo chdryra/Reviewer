@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -40,9 +39,9 @@ import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
@@ -397,6 +396,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private void invalidateSuggestions() {
         mSearchView.setSuggestionsAdapter(null);
     }
+
     private void updateSuggestionAdapters() {
         mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
         mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
@@ -474,17 +474,9 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     //Lifecycle methods
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity) {
-            mLocationClient = new LocationClientConnector((Activity) context, this);
-            mLocationClient.connect();
-        }
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
+        mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();
     }
 
@@ -507,9 +499,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     public void onPause() {
         super.onPause();
-        if (mMapView != null) {
-            mMapView.onPause();
-        }
+        if (mMapView != null) mMapView.onPause();
     }
 
     @Override
@@ -520,9 +510,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     @Override
     public void onLowMemory() {
-        if (mMapView != null) {
-            mMapView.onLowMemory();
-        }
+        if (mMapView != null) mMapView.onLowMemory();
         super.onLowMemory();
     }
 
@@ -530,9 +518,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     public void onDestroy() {
         super.onDestroy();
         mLocationClient.disconnect();
-        if (mMapView != null) {
-            mMapView.onDestroy();
-        }
+        if (mMapView != null) mMapView.onDestroy();
     }
 
     private class LocationSuggestionsObserver extends DataSetObserver {

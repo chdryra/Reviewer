@@ -13,14 +13,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +27,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fr
  */
 public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDefault<GC>
         implements ReviewEditor<GC> {
-    private FragmentReviewView mParent;
+    public static final GvImage NULL_COVER = new GvImage();
     private ReviewBuilderAdapter<?> mBuilder;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> builder,
@@ -39,7 +37,6 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
         mBuilder = builder;
     }
 
-    //public methods
     @Override
     public void setSubject() {
         mBuilder.setSubject(getFragmentSubject());
@@ -56,13 +53,14 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
         if (fromUser) {
             mBuilder.setRating(rating);
         } else {
-            mParent.setRating(rating);
+            getParent().setRating(rating);
         }
     }
 
     @Override
     public GvImage getCover() {
-        return mBuilder.getCovers().getItem(0);
+        GvImageList covers = mBuilder.getCovers();
+        return covers.size() > 0 ? covers.getItem(0) : NULL_COVER;
     }
 
     @Override
@@ -100,11 +98,5 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
     @Override
     public boolean isEditable() {
         return true;
-    }
-
-    @Override
-    public void attachFragment(FragmentReviewView parent) {
-        mParent = parent;
-        super.attachFragment(parent);
     }
 }

@@ -37,7 +37,7 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
 
     public GvConverterBasic(Class<T3> listClass) {
         mListClass = listClass;
-        mDataType = newList(null).getGvDataType();
+        setDataType();
     }
 
     protected GvDataType<T2> getDataType() {
@@ -74,6 +74,16 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
         }
 
         return list;
+    }
+
+    private void setDataType() {
+        try {
+            mDataType = mListClass.newInstance().getGvDataType();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + mListClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + mListClass.getName(), e);
+        }
     }
 
     private T3 newList(ReviewId reviewId) {

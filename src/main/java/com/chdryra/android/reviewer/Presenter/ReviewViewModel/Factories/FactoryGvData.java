@@ -100,6 +100,22 @@ public class FactoryGvData {
         }
     }
 
+    public <T1 extends GvData, T2 extends GvDataList<T1>> T2 copy(T2 data) {
+        Class<T2> listClass = (Class<T2>) data.getClass();
+        try {
+            Constructor<T2> ctor = listClass.getConstructor(listClass);
+            return ctor.newInstance(data);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(NO_CTOR_ERR + listClass.getName(), e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(INSTANTIATION_ERR + listClass.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(ILLEGAL_ACCESS_ERR + listClass.getName(), e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(INVOCATION_ERR + listClass.getName());
+        }
+    }
+
     public <T extends GvData> T newNull(Class<T> dataClass) {
         try {
             return dataClass.newInstance();

@@ -118,18 +118,16 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void resetGridViewData() {
-        mGridViewData = null;
-        notifyObservers();
+    public void detachFragment(FragmentReviewView parent) {
+        unregisterGridDataObserver(mFragment);
+        mFragment = null;
     }
 
     @Override
     public void updateCover() {
         if (getParams().manageCover()) {
             GvImageList covers = getAdapter().getCovers();
-            if (covers.size() > 0) {
-                mFragment.setCover(covers.getRandomCover());
-            }
+            mFragment.setCover(covers.size() > 0 ? covers.getRandomCover() : null);
         }
     }
 
@@ -163,7 +161,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public void onGridDataChanged() {
-        resetGridViewData();
+        mGridViewData = null;
         notifyObservers();
     }
 
@@ -175,5 +173,9 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public void launch(LauncherUi launcher) {
         launcher.launch(this);
+    }
+
+    protected FragmentReviewView getParent() {
+        return mFragment;
     }
 }

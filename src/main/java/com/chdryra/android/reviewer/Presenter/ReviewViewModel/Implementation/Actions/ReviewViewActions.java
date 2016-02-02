@@ -73,9 +73,10 @@ public class ReviewViewActions<T extends GvData> {
         mRatingBarAction.attachReviewView(view);
         mBannerButtonAction.attachReviewView(view);
         mGridItemAction.attachReviewView(view);
+        notifyObservers(view);
     }
 
-    public void notifyObservers(ReviewView<T> reviewView) {
+    private void notifyObservers(ReviewView<T> reviewView) {
         for(ReviewViewAttachedObserver observer : mObservers) {
             observer.onReviewViewAttached(reviewView);
         }
