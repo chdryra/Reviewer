@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LauncherUi
  * For UIs that can be launched by a {@link LauncherUiImpl}.
  * Usually by calling "launcher.launch(this)".
  */
-public interface LaunchableUi<T extends LauncherUi> {
+public interface LaunchableUi {
     String getLaunchTag();
 
-    void launch(T launcher);
+    void launch(LauncherUi launcher);
 }
