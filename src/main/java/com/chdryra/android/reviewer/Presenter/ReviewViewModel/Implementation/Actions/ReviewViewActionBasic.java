@@ -23,26 +23,27 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
  * On: 27/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction<T> {
+public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction<T> {
     private ReviewView<T> mReviewView;
+
+    protected GvDataList<T> getGridData() {
+        return getReviewView().getGridData();
+    }
 
     @Override
     public ReviewView<T> getReviewView() {
+        throwIfNoReviewViewAttached();
         return mReviewView;
     }
 
     @Override
     public ReviewViewAdapter<T> getAdapter() {
-        return mReviewView.getAdapter();
+        return getReviewView().getAdapter();
     }
 
     @Override
     public Activity getActivity() {
-        if (mReviewView == null) {
-            throw new UnattachedReviewViewException("Can't getActivity(): No ReviewView Attached");
-        }
-
-        return mReviewView.getActivity();
+        return getReviewView().getActivity();
     }
 
     @Override
@@ -62,7 +63,9 @@ public abstract class ReviewViewActionBasic<T extends GvData> implements ReviewV
 
     }
 
-    protected GvDataList<T> getGridData() {
-        return getReviewView().getGridData();
+    private void throwIfNoReviewViewAttached() {
+        if (mReviewView == null) {
+            throw new UnattachedReviewViewException("Can't getActivity(): No ReviewView Attached");
+        }
     }
 }

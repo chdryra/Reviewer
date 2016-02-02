@@ -24,8 +24,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
-    private static final int REQUEST_CODE = RequestCodeGenerator.getCode
-            ("GiLaunchReviewDataScreen");
+    private static final int REQUEST_CODE = RequestCodeGenerator.getCode("GiLauncherLaunchOnClick");
 
     private FactoryReviewViewLaunchable mLaunchableFactory;
     private LaunchableUiLauncher mLauncher;
@@ -36,7 +35,14 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
         mLaunchableFactory = launchableFactory;
     }
 
-    //Overridden
+    protected LaunchableUiLauncher getLauncher() {
+        return mLauncher;
+    }
+
+    protected void launch(LaunchableUi ui, int requestCode, Bundle args) {
+        mLauncher.launch(ui, getActivity(), requestCode, args);
+    }
+
     @Override
     public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
         launch(getLaunchableUi(expanded), REQUEST_CODE, new Bundle());
@@ -46,13 +52,5 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
         LaunchableUi screen = expanded.getReviewView();
         if (screen == null) screen = mLaunchableFactory.newViewScreen(expanded);
         return screen;
-    }
-
-    protected LaunchableUiLauncher getLauncher() {
-        return mLauncher;
-    }
-
-    protected void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        mLauncher.launch(ui, getActivity(), requestCode, args);
     }
 }

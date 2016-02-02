@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -19,10 +20,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class GridItemExpander<T extends GvData> extends GridItemActionNone<T> {
-    public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
+    public void onClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?> expanded) {
     }
 
-    public void onLongClickExpandable(T item, int position, View v, ReviewViewAdapter<?>
+    public void onLongClickExpandable(T item, int position, View v, @Nullable ReviewViewAdapter<?>
             expanded) {
     }
 

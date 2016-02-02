@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 @SuppressWarnings("EmptyMethod")
 public class SubjectActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         implements SubjectAction<T> {
-    //public methods
     @Override
     public String getSubject() {
         return getAdapter().getSubject();

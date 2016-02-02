@@ -22,7 +22,6 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
         implements BannerButtonAction<T> {
     private String mTitle;
 
-    //Constructors
     public BannerButtonActionNone() {
     }
 
@@ -30,7 +29,6 @@ public class BannerButtonActionNone<T extends GvData> extends ReviewViewActionBa
         mTitle = title;
     }
 
-    //public methods
     @Override
     public String getButtonTitle() {
         return mTitle;

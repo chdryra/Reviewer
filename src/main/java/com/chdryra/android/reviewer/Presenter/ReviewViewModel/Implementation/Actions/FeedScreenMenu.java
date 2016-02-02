@@ -35,7 +35,6 @@ public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
         mBuildScreenConfig = buildScreenConfig;
     }
 
-    //Overridden
     @Override
     protected void addMenuItems() {
         bindMenuActionItem(new MenuActionItem() {
