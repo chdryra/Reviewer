@@ -9,24 +9,19 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 import java.util.ArrayList;
@@ -43,7 +38,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     private FragmentReviewView mFragment;
     private GvDataList<T> mGridViewData;
 
-    //Constructors
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
         mGridObservers = new ArrayList<>();
@@ -54,7 +48,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         mGridViewData = adapter.getGridData();
     }
 
-    //public methods
     @Override
     public ReviewViewAdapter<T> getAdapter() {
         return mPerspective.getAdapter();
@@ -158,8 +151,8 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
-                                  Bundle savedInstanceState) {
+    public View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
         ReviewViewPerspective.ReviewViewModifier modifier = mPerspective.getModifier();
         if (modifier != null) {
             return modifier.modify(mFragment, v, inflater, container, savedInstanceState);
@@ -181,9 +174,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public void launch(LauncherUi launcher) {
-        Activity commissioner = launcher.getCommissioner();
-        Intent i = new Intent(commissioner, ActivityReviewView.class);
-        ReviewViewPacker.packView(commissioner, this, i);
-        commissioner.startActivityForResult(i, launcher.getRequestCode());
+        launcher.launch(this);
     }
 }

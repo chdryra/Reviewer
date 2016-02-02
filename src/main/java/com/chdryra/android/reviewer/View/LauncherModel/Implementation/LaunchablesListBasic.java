@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Implementation;
 
+import android.app.Activity;
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -21,17 +23,21 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class LaunchablesListBasic implements LaunchablesList {
-    private final ArrayList<AddEditViewClasses<?>> mDataLaunchables = new ArrayList<>();
+    private final ArrayList<AddEditViewClasses<?>> mDataLaunchables;
     private final Class<? extends LaunchableUi> mReviewBuilderLaunchable;
     private final Class<? extends LaunchableUi> mMapEditorLaunchable;
     private final Class<? extends LaunchableUi> mShareLaunchable;
+    //TODO make this independent of Android
+    private Class<? extends Activity> mDefaultReviewViewActivity;
 
     public LaunchablesListBasic(Class<? extends LaunchableUi> reviewBuilderLaunchable, Class<?
-            extends
-            LaunchableUi> mapEditorLaunchable, Class<? extends LaunchableUi> shareLaunchable) {
+            extends LaunchableUi> mapEditorLaunchable, Class<? extends LaunchableUi> shareLaunchable,
+                                Class<? extends Activity> defaultReviewViewActivity) {
         mReviewBuilderLaunchable = reviewBuilderLaunchable;
         mMapEditorLaunchable = mapEditorLaunchable;
         mShareLaunchable = shareLaunchable;
+        mDefaultReviewViewActivity = defaultReviewViewActivity;
+        mDataLaunchables = new ArrayList<>();
     }
 
     protected <T extends GvData> void addDataClasses(AddEditViewClasses<T> classes) {
@@ -56,5 +62,10 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     @Override
     public ArrayList<AddEditViewClasses<?>> getDataLaunchableUis() {
         return mDataLaunchables;
+    }
+
+    @Override
+    public Class<? extends Activity> getDefaultReviewViewActivity() {
+        return mDefaultReviewViewActivity;
     }
 }

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
 
+import android.app.Activity;
+
 import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
 
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LaunchablesList {
+    //TODO make this independent of Android
+    Class<? extends Activity> getDefaultReviewViewActivity();
+
     Class<? extends LaunchableUi> getReviewBuilderUi();
 
     Class<? extends LaunchableUi> getMapEditorUi();

@@ -36,7 +36,6 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, 
 
     GvImageList getCovers();
 
-    //Overridden
     @Override
     GvDataType<? extends GvData> getGvDataType();
 

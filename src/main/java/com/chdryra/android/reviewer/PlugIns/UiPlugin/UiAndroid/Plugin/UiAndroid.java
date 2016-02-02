@@ -12,6 +12,9 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityBuildReview;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditUrlBrowser;
+
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities
+        .ActivityReviewView;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityShareReview;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewLocation;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.GvDataDialogs;
@@ -45,11 +48,11 @@ public class UiAndroid implements UiPlugin {
     private static final class AndroidLaunchables extends LaunchablesListBasic {
 
         private AndroidLaunchables() {
-            super(ActivityBuildReview.class, ActivityEditLocationMap.class, ActivityShareReview.class);
+            super(ActivityBuildReview.class, ActivityEditLocationMap.class, ActivityShareReview
+                    .class, ActivityReviewView.class);
 
             addDataClasses(new AddEditViewClasses<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
-                    GvDataDialogs.EditTag
-                            .class, GvDataDialogs.ViewTag.class));
+                    GvDataDialogs.EditTag.class, GvDataDialogs.ViewTag.class));
 
             addDataClasses(new AddEditViewClasses<>(GvCriterion.TYPE,
                     GvDataDialogs.AddCriterion.class, GvDataDialogs.EditCriterion.class,

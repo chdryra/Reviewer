@@ -20,7 +20,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryLauncherUi {
+    private Class<? extends Activity> mReviewViewActivity;
+
+    public FactoryLauncherUi(Class<? extends Activity> reviewViewActivity) {
+        mReviewViewActivity = reviewViewActivity;
+    }
+
     public LauncherUi newLauncher(Activity commissioner, int requestCode, String tag, Bundle args) {
-        return new LauncherUiImpl(commissioner, requestCode, tag, args);
+        return new LauncherUiImpl(commissioner, mReviewViewActivity, requestCode, tag, args);
     }
 }

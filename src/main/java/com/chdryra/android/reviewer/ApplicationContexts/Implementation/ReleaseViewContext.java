@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.View.Configs.FactoryConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryLauncherUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,7 +21,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  */
 public class ReleaseViewContext extends ViewContextBasic{
     public ReleaseViewContext(UiPlugin ui) {
-        setConfigUi(new FactoryConfigUi().newUiConfig(ui.getUiLaunchables()));
-        setLauncher(new LaunchableUiLauncher(new FactoryLauncherUi()));
+        LaunchablesList uiLaunchables = ui.getUiLaunchables();
+        setConfigUi(new FactoryConfigUi().newUiConfig(uiLaunchables));
+        FactoryLauncherUi launcherFactory
+                = new FactoryLauncherUi(uiLaunchables.getDefaultReviewViewActivity());
+        setLauncher(new LaunchableUiLauncher(launcherFactory));
     }
 }

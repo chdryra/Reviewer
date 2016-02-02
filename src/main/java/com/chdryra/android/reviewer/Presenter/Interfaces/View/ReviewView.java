@@ -65,8 +65,8 @@ public interface ReviewView<T extends GvData> extends GridDataObservable.GridDat
 
     void notifyObservers();
 
-    View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container,
-                                  Bundle savedInstanceState);
+    View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container,
+                            Bundle savedInstanceState);
 
     @Override
     void onGridDataChanged();

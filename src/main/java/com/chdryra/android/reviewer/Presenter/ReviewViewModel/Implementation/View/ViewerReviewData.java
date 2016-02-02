@@ -79,8 +79,6 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
         return data;
     }
 
-    //Overridden
-
     @Override
     public GvDataType<GvData> getGvDataType() {
         return TYPE;

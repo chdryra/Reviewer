@@ -119,7 +119,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         initGridCellDimensions();
         initUi();
 
-        return mReviewView.modifyIfNeccesary(v, inflater, container, savedInstanceState);
+        return mReviewView.modifyIfNeccessary(v, inflater, container, savedInstanceState);
     }
 
     private void initGridCellDimensions() {

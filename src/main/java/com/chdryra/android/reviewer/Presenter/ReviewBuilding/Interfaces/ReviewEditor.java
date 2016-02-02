@@ -103,7 +103,8 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
     void notifyObservers();
 
     @Override
-    View modifyIfNeccesary(View v, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+    View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState);
 
     @Override
     void onGridDataChanged();

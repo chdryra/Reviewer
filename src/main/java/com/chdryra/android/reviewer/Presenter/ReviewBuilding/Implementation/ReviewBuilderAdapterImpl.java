@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -44,25 +46,26 @@ import java.util.Map;
 public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList.BUILD_TYPES;
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList
+            .BUILD_TYPES;
 
     private final DataBuildersMap mDataBuilders;
     private final BuildScreenGridUi<GC> mGridUi;
     private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
     private final FactoryFileIncrementor mIncrementorFactory;
-    private FileIncrementor mIncrementor;
     private final FactoryImageChooser mImageChooserFactory;
     private final ReviewBuilder mBuilder;
     private final DataValidator mDataValidator;
+    private FileIncrementor mIncrementor;
     private GvTag mSubjectTag;
 
     //Constructors
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
-                                BuildScreenGridUi<GC> gridUi,
-                                DataValidator dataValidator,
-                                FactoryDataBuilderAdapter dataBuilderAdapterFactory,
-                                FactoryFileIncrementor incrementorFactory,
-                                FactoryImageChooser imageChooserFactory) {
+                                    BuildScreenGridUi<GC> gridUi,
+                                    DataValidator dataValidator,
+                                    FactoryDataBuilderAdapter dataBuilderAdapterFactory,
+                                    FactoryFileIncrementor incrementorFactory,
+                                    FactoryImageChooser imageChooserFactory) {
         mBuilder = builder;
         mDataValidator = dataValidator;
         mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
@@ -111,32 +114,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         return mBuilder;
     }
 
-    //private methods
-    private <T extends GvData> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T> dataType) {
-        return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType, this);
-    }
-
-    private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
-        String camel = TextUtils.toCamelCase(toAdd);
-        GvTag newTag = new GvTag(camel);
-        if (newTag.equals(toRemove)) return toRemove;
-
-        DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag
-                .TYPE);
-        GvTagList tags = (GvTagList) tagBuilder.getGridData();
-        boolean added = mDataValidator.validateString(camel) && !tags.contains(newTag)
-                && tagBuilder.add(newTag);
-        tagBuilder.delete(toRemove);
-        tagBuilder.publishData();
-
-        return added ? newTag : null;
-    }
-
-    private void newIncrementor() {
-        mIncrementor = mIncrementorFactory.newJpgFileIncrementor(mBuilder.getSubject());
-    }
-
-    //Overridden
     @Override
     public String getSubject() {
         return mBuilder.getSubject();
@@ -169,6 +146,28 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         return mBuilder.getCovers();
     }
 
+    //private methods
+    @Nullable
+    private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
+        String camel = TextUtils.toCamelCase(toAdd);
+        GvTag newTag = new GvTag(camel);
+        if (newTag.equals(toRemove)) return toRemove;
+
+        DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag
+                .TYPE);
+        GvTagList tags = (GvTagList) tagBuilder.getGridData();
+        boolean added = mDataValidator.validateString(camel) && !tags.contains(newTag)
+                && tagBuilder.add(newTag);
+        tagBuilder.delete(toRemove);
+        tagBuilder.publishData();
+
+        return added ? newTag : null;
+    }
+
+    private void newIncrementor() {
+        mIncrementor = mIncrementorFactory.newJpgFileIncrementor(mBuilder.getSubject());
+    }
+
     private class DataBuildersMap {
         private final Map<GvDataType<? extends GvData>, DataBuilderAdapter<? extends GvData>>
                 mDataBuilders;
@@ -178,6 +177,12 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
             for (GvDataType<? extends GvData> type : TYPES) {
                 mDataBuilders.put(type, newDataBuilderAdapter(type));
             }
+        }
+
+        private <T extends GvData> DataBuilderAdapter<T> newDataBuilderAdapter(GvDataType<T>
+                                                                                       dataType) {
+            return mDataBuilderAdapterFactory.newDataBuilderAdapter(dataType,
+                    ReviewBuilderAdapterImpl.this);
         }
 
         //TODO make type safe although it is really....

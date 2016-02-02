@@ -50,7 +50,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public GvDataType<T> getGvDataType() {
+    public GvDataType<? extends GvData> getGvDataType() {
         if(mDataType == null) mDataType = getGridData().getGvDataType();
         return mDataType;
     }
