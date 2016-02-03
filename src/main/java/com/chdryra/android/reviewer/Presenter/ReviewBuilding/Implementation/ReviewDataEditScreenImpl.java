@@ -28,7 +28,7 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
     private ReviewDataEditor<T> mEditor;
     private MenuDataEdit<T> mMenu;
     private BannerButtonAdd<T> mBannerButton;
-    private GridItemDataEdit<T> mGriditem;
+    private GridItemDataEdit<T> mGridItem;
 
     public ReviewDataEditScreenImpl(Context context,
                                     ReviewDataEditor<T> editor) {
@@ -38,7 +38,7 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
         ReviewViewActions<T> actions = mEditor.getActions();
         mMenu = (MenuDataEdit<T>) actions.getMenuAction();
         mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
-        mGriditem = (GridItemDataEdit<T>) actions.getGridItemAction();
+        mGridItem = (GridItemDataEdit<T>) actions.getGridItemAction();
     }
 
     protected Context getContext() {
@@ -49,8 +49,10 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
     public void onAlertNegative(int requestCode, Bundle args) {
         if (requestCode == mMenu.getAlertRequestCode()) {
             mMenu.onAlertNegative(requestCode, args);
-        } else if(requestCode == mGriditem.getAlertRequestCode()) {
-            mGriditem.onAlertNegative(requestCode, args);
+        } else if(requestCode == mBannerButton.getAlertRequestCode()) {
+            mBannerButton.onAlertNegative(requestCode, args);
+        } else if(requestCode == mGridItem.getAlertRequestCode()) {
+            mGridItem.onAlertNegative(requestCode, args);
         }
     }
 
@@ -58,46 +60,48 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
     public void onAlertPositive(int requestCode, Bundle args) {
         if (requestCode == mMenu.getAlertRequestCode()) {
             mMenu.onAlertPositive(requestCode, args);
-        } else if(requestCode == mGriditem.getAlertRequestCode()) {
-            mGriditem.onAlertPositive(requestCode, args);
+        } else if(requestCode == mBannerButton.getAlertRequestCode()) {
+            mBannerButton.onAlertPositive(requestCode, args);
+        } else if(requestCode == mGridItem.getAlertRequestCode()) {
+            mGridItem.onAlertPositive(requestCode, args);
         }
     }
 
     @Override
-    public boolean onGvDataAdd(T data, int requestCode) {
+    public boolean onAdd(T data, int requestCode) {
         boolean success = false;
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
-            success = mBannerButton.onGvDataAdd(data, requestCode);
+            success = mBannerButton.onAdd(data, requestCode);
         }
 
         return success;
     }
 
     @Override
-    public void onGvDataCancel(int requestCode) {
+    public void onCancel(int requestCode) {
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
-            mBannerButton.onGvDataCancel(requestCode);
+            mBannerButton.onCancel(requestCode);
         }
     }
 
     @Override
-    public void onGvDataDone(int requestCode) {
+    public void onDone(int requestCode) {
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
-            mBannerButton.onGvDataDone(requestCode);
+            mBannerButton.onDone(requestCode);
         }
     }
 
     @Override
     public void onDelete(T data, int requestCode) {
-        if(requestCode == mGriditem.getLaunchableRequestCode()) {
-            mGriditem.onDelete(data, requestCode);
+        if(requestCode == mGridItem.getLaunchableRequestCode()) {
+            mGridItem.onDelete(data, requestCode);
         }
     }
 
     @Override
     public void onEdit(T oldDatum, T newDatum, int requestCode) {
-        if(requestCode == mGriditem.getLaunchableRequestCode()) {
-            mGriditem.onEdit(oldDatum, newDatum, requestCode);
+        if(requestCode == mGridItem.getLaunchableRequestCode()) {
+            mGridItem.onEdit(oldDatum, newDatum, requestCode);
         }
     }
 
@@ -105,8 +109,8 @@ public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEdi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == mBannerButton.getLaunchableRequestCode()) {
             mBannerButton.onActivityResult(requestCode, resultCode, data);
-        } else if(requestCode == mGriditem.getLaunchableRequestCode()) {
-            mGriditem.onActivityResult(requestCode, resultCode, data);
+        } else if(requestCode == mGridItem.getLaunchableRequestCode()) {
+            mGridItem.onActivityResult(requestCode, resultCode, data);
         }
     }
 

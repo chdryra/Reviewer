@@ -15,6 +15,8 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditActions;
@@ -24,8 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
+
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,8 +35,8 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
  */
 public class ActivityEditData<T extends GvData> extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
-        DialogGvDataEdit.EditListener<T>,
-        DialogGvDataAdd.GvDataAddListener<T>{
+        DataEditListener<T>,
+        DataAddListener<T> {
 
     private static final String GVDATA_TYPE
             = "com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData.gvdata_type";
@@ -114,18 +115,18 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     }
 
     @Override
-    public boolean onGvDataAdd(T data, int requestCode) {
-        return mScreen.onGvDataAdd(data, requestCode);
+    public boolean onAdd(T data, int requestCode) {
+        return mScreen.onAdd(data, requestCode);
     }
 
     @Override
-    public void onGvDataCancel(int requestCode) {
-        mScreen.onGvDataCancel(requestCode);
+    public void onCancel(int requestCode) {
+        mScreen.onCancel(requestCode);
     }
 
     @Override
-    public void onGvDataDone(int requestCode) {
-        mScreen.onGvDataDone(requestCode);
+    public void onDone(int requestCode) {
+        mScreen.onDone(requestCode);
     }
 
     @Override

@@ -14,6 +14,7 @@ import android.view.View;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -21,11 +22,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Created by: Rizwan Choudrey
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
- */ //Classes
+ */
 public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
+    private static final int LAUNCH_MAP = RequestCodeGenerator.getCode("LaunchMapAlert");
     private LaunchableConfig mMapScreenConfig;
 
-    //Constructors
     public BannerButtonAddLocation(LaunchableConfig adderConfig,
                                    LaunchableConfig mapScreenConfig,
                                    LaunchableUiLauncher launchableFactory, String title,
@@ -35,17 +36,14 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
         mMapScreenConfig = mapScreenConfig;
     }
 
-    //Overridden
     @Override
     public boolean onLongClick(View v) {
-        showAlertDialog(getActivity().getString(R.string.alert_add_on_map), mMapScreenConfig.getRequestCode());
+        showAlertDialog(getActivity().getString(R.string.alert_add_on_map), LAUNCH_MAP, new Bundle());
         return true;
     }
 
     @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == mMapScreenConfig.getRequestCode()) {
-            getLauncher().launch(mMapScreenConfig, getActivity(), new Bundle());
-        }
+    public void doAlertPositive(Bundle args) {
+        launch(mMapScreenConfig, new Bundle());
     }
 }

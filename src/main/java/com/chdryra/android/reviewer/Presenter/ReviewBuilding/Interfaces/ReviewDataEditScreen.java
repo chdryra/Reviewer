@@ -13,8 +13,7 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
+
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,8 +22,8 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
  */
 public interface ReviewDataEditScreen<T extends GvData> extends
         DialogAlertFragment.DialogAlertListener,
-        DialogGvDataAdd.GvDataAddListener<T>,
-        DialogGvDataEdit.EditListener<T>,
+        DataAddListener<T>,
+        DataEditListener<T>,
         ActivityResultListener {
 
     ReviewDataEditor<T> getEditor();
@@ -39,13 +38,13 @@ public interface ReviewDataEditScreen<T extends GvData> extends
     void onAlertPositive(int requestCode, Bundle args);
 
     @Override
-    boolean onGvDataAdd(T data, int requestCode);
+    boolean onAdd(T data, int requestCode);
 
     @Override
-    void onGvDataCancel(int requestCode);
+    void onCancel(int requestCode);
 
     @Override
-    void onGvDataDone(int requestCode);
+    void onDone(int requestCode);
 
     @Override
     void onDelete(T data, int requestCode);

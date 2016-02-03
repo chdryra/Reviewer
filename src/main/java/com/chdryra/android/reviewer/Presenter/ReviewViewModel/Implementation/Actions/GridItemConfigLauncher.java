@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDa
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCanonical;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -26,8 +27,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
-    private LaunchableConfig mDataConfig;
-    private GvDataPacker<GvData> mPacker;
+    private static final String TAG = "GridItemConfigLauncher:";
+    private final LaunchableConfig mDataConfig;
+    private final GvDataPacker<GvData> mPacker;
+    private final int mLaunchCode;
 
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
                                   FactoryReviewViewLaunchable launchableFactory,
@@ -36,6 +39,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         super(launchableFactory, launcher);
         mDataConfig = dataConfig;
         mPacker = packer;
+        mLaunchCode = RequestCodeGenerator.getCode(TAG + mDataConfig.getTag());
     }
 
     @Override
@@ -65,6 +69,6 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
         if (item.isVerboseCollection() || mDataConfig == null) return;
         Bundle args = new Bundle();
         mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
-        getLauncher().launch(mDataConfig, getActivity(), args);
+        launch(mDataConfig.getLaunchable(), mLaunchCode, args);
     }
 }

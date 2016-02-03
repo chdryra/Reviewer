@@ -38,24 +38,17 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
             super.onGridItemLongClick(item, position, v);
         } else {
             showAlertDialog(getActivity().getString(R.string.alert_set_image_as_background),
-                    IMAGE_AS_COVER, item);
+                    IMAGE_AS_COVER, packItem(item));
         }
     }
 
     @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == IMAGE_AS_COVER) {
-            GvImage cover = unpackItem(GvDataPacker.CurrentNewDatum.CURRENT, args);
-            setCover(cover);
-        }
-    }
-
-    private void setCover(GvImage image) {
+    protected void doAlertPositive(Bundle args) {
+        GvImage newCover = unpackItem(args);
         ReviewDataEditor<GvImage> editor = getEditor();
         if (editor.getParams().manageCover()) {
-            GvImage cover = editor.getCover();
-            cover.setIsCover(false);
-            image.setIsCover(true);
+            editor.getCover().setIsCover(false);
+            newCover.setIsCover(true);
         }
         editor.notifyObservers();
     }

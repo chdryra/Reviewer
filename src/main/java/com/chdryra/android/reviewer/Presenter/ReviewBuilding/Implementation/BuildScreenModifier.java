@@ -22,6 +22,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
         .ReviewViewPerspective;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -31,17 +33,18 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
+    private static final int LAUNCH_SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
     private static final int BUTTON_DIVIDER = R.layout.horizontal_divider;
     private static final int BUTTON_LAYOUT = R.layout.review_banner_button;
     private static final int SHARE_BUTTON = R.string.button_share;
     private static final int TOAST_ENTER_SUBJECT = R.string.toast_enter_subject;
 
-    private LaunchableUiLauncher mLaunchableUiLauncher;
+    private LaunchableUiLauncher mLauncher;
     private LaunchableConfig mShareScreenConfig;
 
-    public BuildScreenModifier(LaunchableUiLauncher launchableUiLauncher,
+    public BuildScreenModifier(LaunchableUiLauncher launcher,
                                LaunchableConfig shareScreenConfig) {
-        mLaunchableUiLauncher = launchableUiLauncher;
+        mLauncher = launcher;
         mShareScreenConfig = shareScreenConfig;
     }
 
@@ -88,6 +91,6 @@ public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModi
             return;
         }
 
-        mLaunchableUiLauncher.launch(mShareScreenConfig, activity, new Bundle());
+        mLauncher.launch(mShareScreenConfig, activity, LAUNCH_SHARE_SCREEN, new Bundle());
     }
 }

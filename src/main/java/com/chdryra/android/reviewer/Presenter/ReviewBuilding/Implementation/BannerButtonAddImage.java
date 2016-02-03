@@ -24,12 +24,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Created by: Rizwan Choudrey
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
- */ //Classes
+ */
 public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
         implements ImageChooser.ImageChooserListener {
+    private static final String LAUNCH_TAG = "ImageChooser";
     private ImageChooser mImageChooser;
 
-    //Constructors
     public BannerButtonAddImage(LaunchableConfig adderConfig,
                                 LaunchableUiLauncher launchableFactory, String title,
                                 GvDataList<GvImage> emptyImageList,
@@ -39,16 +39,9 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
         mImageChooser = imageChooser;
     }
 
-    private void setCover() {
-        GvImageList images = (GvImageList) getGridData();
-        GvImage cover = images.getItem(0);
-        cover.setIsCover(true);
-        getReviewView().notifyObservers();
-    }
-
-    //Overridden
     @Override
     public void onClick(View v) {
+        setLaunchableRequestCode(LAUNCH_TAG);
         getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
                 getLaunchableRequestCode());
     }
@@ -57,15 +50,21 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         boolean correctCode = requestCode == getLaunchableRequestCode();
         boolean isOk = ActivityResultCode.OK.equals(resultCode);
-        boolean imageExists = mImageChooser.chosenImageExists(ActivityResultCode.get
-                (resultCode), data);
+        boolean exists = mImageChooser.chosenImageExists(ActivityResultCode.get(resultCode), data);
 
-        if (correctCode && isOk && imageExists) mImageChooser.getChosenImage(this);
+        if (correctCode && isOk && exists) mImageChooser.getChosenImage(this);
     }
 
     @Override
     public void onChosenImage(GvImage image) {
         if (getGridData().size() == 0) image.setIsCover(true);
         if (addData(image) && getGridData().size() == 1) setCover();
+    }
+
+    private void setCover() {
+        GvImageList images = (GvImageList) getGridData();
+        GvImage cover = images.getItem(0);
+        cover.setIsCover(true);
+        getReviewView().notifyObservers();
     }
 }

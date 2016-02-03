@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -24,8 +25,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
+    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreen");
+
     public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
+
     private LaunchableUiLauncher mUiLauncher;
     private LaunchableConfig mBuildScreenConfig;
 
@@ -41,7 +45,8 @@ public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
             //Overridden
             @Override
             public void doAction(Context context, MenuItem item) {
-                mUiLauncher.launch(mBuildScreenConfig, getActivity(), new Bundle());
+                mUiLauncher.launch(mBuildScreenConfig, getActivity(), LAUNCH_BUILD_SCREEN,
+                        new Bundle());
             }
         }, MENU_NEW_REVIEW_ID, false);
     }

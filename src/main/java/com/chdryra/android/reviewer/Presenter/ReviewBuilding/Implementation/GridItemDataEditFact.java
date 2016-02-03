@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -22,9 +23,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
+    private static final int LAUNCH_BROWSER
+            = RequestCodeGenerator.getCode("LaunchUrlBrowser");
+
     private LaunchableConfig mUrlConfig;
 
-    //Constructors
     public GridItemDataEditFact(LaunchableConfig factConfig,
                                 LaunchableConfig urlConfig,
                                 LaunchableUiLauncher launchableFactory,
@@ -33,19 +36,18 @@ public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
         mUrlConfig = urlConfig;
     }
 
-    //Overridden
     @Override
     public void onGridItemLongClick(GvFact item, int position, View v) {
         if (!item.isUrl()) {
             super.onGridItemLongClick(item, position, v);
         } else {
-            showAlertDialog(getActivity().getString(R.string.alert_edit_on_browser),
-                    mUrlConfig.getRequestCode(), item);
+            showAlertDialog(getActivity().getString(R.string.alert_edit_on_browser), LAUNCH_BROWSER,
+                    packItem(item));
         }
     }
 
     @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == mUrlConfig.getRequestCode()) launch(mUrlConfig, args);
+    protected void doAlertPositive(Bundle args) {
+        launch(mUrlConfig, args);
     }
 }

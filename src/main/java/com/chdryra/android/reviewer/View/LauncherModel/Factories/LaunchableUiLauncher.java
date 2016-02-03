@@ -34,7 +34,11 @@ public class LaunchableUiLauncher {
         launch(ui, commissioner, requestCode, new Bundle());
     }
 
-    public void launch(LaunchableConfig config, Activity commissioner, Bundle args) {
-        launch(config.getLaunchable(), commissioner, config.getRequestCode(), args);
+    public void launch(LaunchableConfig config, Activity commissioner, int requestCode, Bundle args) {
+        launch(config.getLaunchable(), commissioner, requestCode, args);
+    }
+
+    public void launch(LaunchableConfig config, Activity commissioner, int requestCode) {
+        launch(config.getLaunchable(), commissioner, requestCode, new Bundle());
     }
 }

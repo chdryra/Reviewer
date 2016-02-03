@@ -35,11 +35,11 @@ public class GridItemDataEditLocation extends GridItemDataEdit<GvLocation> {
     @Override
     public void onGridItemLongClick(GvLocation item, int position, View v) {
         showAlertDialog(getActivity().getString(R.string.alert_edit_on_map),
-                mMapEditorConfig.getRequestCode(), item);
+                mMapEditorConfig.getRequestCode(), packItem(item));
     }
 
     @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == mMapEditorConfig.getRequestCode()) launch(mMapEditorConfig, args);
+    public void doAlertPositive(Bundle args) {
+        launch(mMapEditorConfig, args);
     }
 }

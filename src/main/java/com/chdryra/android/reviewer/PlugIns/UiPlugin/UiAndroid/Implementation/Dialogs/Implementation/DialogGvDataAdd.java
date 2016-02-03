@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -40,7 +41,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
  * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
- * <li>{@link GvDataAddListener}: commissioning fragment.
+ * <li>{@link DataAddListener}: commissioning fragment.
  * <li>{@link DataBuilder}: input validation when QUICK_SET = true.
  * </ul>
  * </p>
@@ -60,21 +61,9 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
     private DataBuilderAdapter<T> mBuilder;
-    private GvDataAddListener<T> mAddListener;
+    private DataAddListener<T> mAddListener;
 
     private boolean mQuickSet = false;
-
-    /**
-     * Provides a callback for when the add button is pressed
-     */
-    public interface GvDataAddListener<T extends GvData> {
-        //abstract
-        boolean onGvDataAdd(T data, int requestCode);
-
-        void onGvDataCancel(int requestCode);
-
-        void onGvDataDone(int requestCode);
-    }
 
     //Constructors
     public DialogGvDataAdd(GvDataType<T> dataType) {
@@ -124,7 +113,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         T newDatum = mLayout.createGvDataFromInputs();
 
         boolean added = isQuickSet() ? mBuilder.add(newDatum) :
-                newDatum.isValidForDisplay() && mAddListener.onGvDataAdd(newDatum, getTargetRequestCode());
+                newDatum.isValidForDisplay() && mAddListener.onAdd(newDatum, getTargetRequestCode());
 
         if (added) mLayout.onAdd(newDatum);
     }
@@ -147,7 +136,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         mQuickSet = args != null && args.getBoolean(QUICK_SET);
         if (!mQuickSet) {
             //TODO make type safe
-            mAddListener = getTargetListener(GvDataAddListener.class);
+            mAddListener = getTargetListener(DataAddListener.class);
         } else {
             ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
             mBuilder = app.getDataBuilderAdapter(mDataType);
@@ -170,7 +159,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         if (isQuickSet()) {
             mBuilder.resetData();
         } else {
-            mAddListener.onGvDataCancel(getTargetRequestCode());
+            mAddListener.onCancel(getTargetRequestCode());
         }
     }
 
@@ -179,7 +168,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         if (isQuickSet()) {
             mBuilder.publishData();
         } else {
-            mAddListener.onGvDataDone(getTargetRequestCode());
+            mAddListener.onDone(getTargetRequestCode());
         }
     }
 }

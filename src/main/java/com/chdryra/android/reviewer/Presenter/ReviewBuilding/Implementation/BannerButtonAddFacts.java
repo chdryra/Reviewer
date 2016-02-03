@@ -14,6 +14,7 @@ import android.view.View;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -23,6 +24,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
 public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
+    private static final int LAUNCH_BROWSER
+            = RequestCodeGenerator.getCode("LaunchUrlBrowser");
+
     private LaunchableConfig mUrlAdder;
 
     public BannerButtonAddFacts(String title, LaunchableConfig factAdder,
@@ -35,12 +39,13 @@ public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
 
     @Override
     public boolean onLongClick(View v) {
-        showAlertDialog(getActivity().getString(R.string.alert_add_on_browser), mUrlAdder.getRequestCode());
+        showAlertDialog(getActivity().getString(R.string.alert_add_on_browser),
+                LAUNCH_BROWSER, new Bundle());
         return true;
     }
 
     @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if (requestCode == mUrlAdder.getRequestCode()) launchConfig(mUrlAdder);
+    public void doAlertPositive(Bundle args) {
+        launch(mUrlAdder, new Bundle());
     }
 }

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
-    private static final int REQUEST_CODE = RequestCodeGenerator.getCode("GiLauncherLaunchOnClick");
+    private static final String TAG = "GridItemLauncher:";
 
     private FactoryReviewViewLaunchable mLaunchableFactory;
     private LaunchableUiLauncher mLauncher;
@@ -45,7 +45,8 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
 
     @Override
     public void onClickExpandable(T item, int position, View v, ReviewViewAdapter<?> expanded) {
-        launch(getLaunchableUi(expanded), REQUEST_CODE, new Bundle());
+        LaunchableUi ui = getLaunchableUi(expanded);
+        launch(ui, RequestCodeGenerator.getCode(TAG + ui.getLaunchTag()), new Bundle());
     }
 
     private LaunchableUi getLaunchableUi(ReviewViewAdapter<?> expanded) {

@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.R;
@@ -44,7 +45,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * <ul>
  * <li>{@link GvDataPacker}: Unpacking of received data.</li>
  * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
- * <li>{@link EditListener}: commissioning fragment.
+ * <li>{@link DataEditListener}: commissioning fragment.
  * </ul>
  * </p>
  */
@@ -55,13 +56,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
     private T mDatum;
-    private EditListener<T> mEditListener;
-
-    public interface EditListener<T extends GvData> {
-        void onDelete(T data, int requestCode);
-
-        void onEdit(T oldDatum, T newDatum, int requestCode);
-    }
+    private DataEditListener<T> mDataEditListener;
 
     public DialogGvDataEdit(GvDataType<T> dataType) {
         mDataType = dataType;
@@ -95,7 +90,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onConfirmedDeleteButtonClick() {
-        mEditListener.onDelete(mDatum, getTargetRequestCode());
+        mDataEditListener.onDelete(mDatum, getTargetRequestCode());
     }
 
     @Override
@@ -119,7 +114,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     private void getTargetListener() {
         //TODO make type safe
-        mEditListener = (EditListener<T>) getTargetListener(EditListener.class);
+        mDataEditListener = (DataEditListener<T>) getTargetListener(DataEditListener.class);
     }
 
     private void getDatumToEdit() {
@@ -146,6 +141,6 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     protected void onDoneButtonClick() {
-        mEditListener.onEdit(mDatum, mLayout.createGvDataFromInputs(), getTargetRequestCode());
+        mDataEditListener.onEdit(mDatum, mLayout.createGvDataFromInputs(), getTargetRequestCode());
     }
 }

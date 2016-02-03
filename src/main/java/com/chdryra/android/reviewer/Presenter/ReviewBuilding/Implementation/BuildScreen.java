@@ -28,6 +28,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
+
+import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -160,7 +162,8 @@ public class BuildScreen<GC extends GvDataList<?>> implements
         Bundle args = new Bundle();
         args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
         packLatLng(args);
-        mLauncher.launch(adderConfig, getActivity(), args);
+        mLauncher.launch(adderConfig, getActivity(),
+                RequestCodeGenerator.getCode(adderConfig.getTag()), args);
     }
 
     private void packLatLng(Bundle args) {
