@@ -19,10 +19,9 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  */
 public class MdConverterComments extends MdConverterDataReview<DataComment, MdComment> {
     @Override
-    public MdComment convert(DataComment datum) {
+    public MdComment convert(DataComment datum, ReviewId reviewId) {
         String comment = datum.getComment();
         boolean isHeadline = datum.isHeadline();
-        ReviewId reviewId = datum.getReviewId();
         return new MdComment(newMdReviewId(reviewId), comment, isHeadline);
     }
 }

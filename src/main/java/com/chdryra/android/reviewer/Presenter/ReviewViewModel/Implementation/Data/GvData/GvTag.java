@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -46,7 +47,7 @@ public class GvTag extends GvText<GvTag> implements DataTag {
         super(TYPE, tag);
     }
 
-    public GvTag(GvReviewId id, String tag) {
+    public GvTag(@Nullable GvReviewId id, String tag) {
         super(TYPE, id, tag);
     }
 

@@ -128,18 +128,20 @@ public class FactoryReviews implements ReviewRecreater {
         ReviewPublisher publisher = mPublisherFactory.newPublisher();
         DataAuthor author = publisher.getAuthor();
         DataDate date = publisher.getDate();
+
         MdReviewId id = new MdReviewId(author.getUserId().toString(),
                 date.getTime(), publisher.getPublishedIndex());
+
         if (ratingIsAverage) {
             Review meta = createMetaReview(criteria, "");
             rating = meta.getRating().getRating();
         }
 
         return newReviewUser(id, author, date, subject, rating,
-                mConverter.toMdCommentList(comments, id),
-                mConverter.toMdImageList(images, id),
-                mConverter.toMdFactList(facts, id),
-                mConverter.toMdLocationList(locations, id),
+                comments,
+                images,
+                facts,
+                locations,
                 criteria,
                 ratingIsAverage);
     }

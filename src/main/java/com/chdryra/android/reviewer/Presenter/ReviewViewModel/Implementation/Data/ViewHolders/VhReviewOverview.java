@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.R;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -91,7 +92,7 @@ public class VhReviewOverview extends ViewHolderBasic {
 
         String author = review.getAuthor().getName();
         String date = DateFormat.getDateTimeInstance(DateFormat.SHORT,
-                DateFormat.SHORT).format(review.getPublishDate());
+                DateFormat.SHORT).format(new Date(review.getPublishDate().getTime()));
         String location = review.getLocationString();
         String locationStem = validateString(location) ? " @" + location : "";
         mPublishDate.setText(date + " by " + author + locationStem);

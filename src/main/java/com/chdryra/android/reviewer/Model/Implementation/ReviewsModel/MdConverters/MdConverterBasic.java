@@ -32,7 +32,7 @@ public abstract class MdConverterBasic<T1, T2 extends HasReviewId>
     public MdDataList<T2> convert(Iterable<? extends T1> data, ReviewId reviewId) {
         MdDataList<T2> list = new MdDataList<>(newMdReviewId(reviewId));
         for(T1 datum : data) {
-            list.add(convert(datum));
+            list.add(convert(datum, reviewId));
         }
 
         return list;

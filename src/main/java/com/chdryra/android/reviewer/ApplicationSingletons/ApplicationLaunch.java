@@ -38,12 +38,10 @@ public class ApplicationLaunch {
         intialiseSingletons();
     }
 
-    public static void intitialiseApplication(Context context, LaunchState launchState) {
-        if(sApplicationLaunch != null) {
-            throw new RuntimeException("Can only have 1 new Instance!");
+    public static void intitialiseLaunchIfNecessary(Context context, LaunchState launchState) {
+        if(sApplicationLaunch == null) {
+            sApplicationLaunch = new ApplicationLaunch(context, launchState);
         }
-
-        sApplicationLaunch = new ApplicationLaunch(context, launchState);
     }
 
     private void createApplicationContext(LaunchState launchState) {

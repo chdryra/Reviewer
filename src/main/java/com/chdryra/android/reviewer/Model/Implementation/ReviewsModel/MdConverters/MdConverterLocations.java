@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 
@@ -19,8 +20,8 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  */
 public class MdConverterLocations extends MdConverterDataReview<DataLocation, MdLocation> {
     @Override
-    public MdLocation convert(DataLocation datum) {
-        MdReviewId id = newMdReviewId(datum.getReviewId());
+    public MdLocation convert(DataLocation datum, ReviewId reviewId) {
+        MdReviewId id = newMdReviewId(reviewId);
         return new MdLocation(id, datum.getLatLng(), datum.getName());
     }
 }

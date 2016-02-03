@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
 
@@ -19,8 +20,8 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
  */
 public class MdConverterUrl extends MdConverterDataReview<DataUrl, MdUrl> {
     @Override
-    public MdUrl convert(DataUrl datum) {
-        MdReviewId id = newMdReviewId(datum.getReviewId());
+    public MdUrl convert(DataUrl datum, ReviewId reviewId) {
+        MdReviewId id = newMdReviewId(reviewId);
         return new MdUrl(id, datum.getLabel(), datum.getUrl());
     }
 }

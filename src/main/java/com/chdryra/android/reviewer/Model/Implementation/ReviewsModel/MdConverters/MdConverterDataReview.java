@@ -20,14 +20,10 @@ public abstract class MdConverterDataReview<T1 extends HasReviewId, T2 extends H
         extends MdConverterBasic<T1, T2>{
 
     @Override
-    public T2 convert(T1 datum, ReviewId reviewId) {
-        if(!datum.getReviewId().equals(reviewId)) {
-            throw new IllegalArgumentException("ReviewId must equal datum's getReviewId!");
-        }
-
-        return convert(datum);
-    }
+    public abstract T2 convert(T1 datum, ReviewId reviewId);
 
     @Override
-    public abstract T2 convert(T1 datum);
+    public T2 convert(T1 datum) {
+        return convert(datum, datum.getReviewId());
+    }
 }

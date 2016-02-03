@@ -13,6 +13,7 @@ import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
@@ -33,10 +34,10 @@ public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFact> {
     }
 
     @Override
-    public MdFact convert(DataFact datum) {
-        MdReviewId id = newMdReviewId(datum.getReviewId());
+    public MdFact convert(DataFact datum, ReviewId reviewId) {
+        MdReviewId id = newMdReviewId(reviewId);
         MdFact fact = null;
-        if (datum.isUrl()) fact = getMdUrl(datum);
+        if (datum.isUrl()) fact = getMdUrl(id, datum);
 
         if(fact == null) fact = new MdFact(id, datum.getLabel(), datum.getValue());
 
@@ -44,8 +45,7 @@ public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFact> {
     }
 
     @Nullable
-    private MdUrl getMdUrl(DataFact datum) {
-        MdReviewId id = newMdReviewId(datum.getReviewId());
+    private MdUrl getMdUrl(MdReviewId reviewId, DataFact datum) {
         try {
             DataUrl urlDatum = (DataUrl) datum;
             return mUrlConverter.convert(urlDatum);
@@ -53,7 +53,7 @@ public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFact> {
             String urlGuess = URLUtil.guessUrl(datum.getValue());
             try {
                 URL url = new URL(urlGuess);
-                return new MdUrl(id, datum.getLabel(), url);
+                return new MdUrl(reviewId, datum.getLabel(), url);
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
             }

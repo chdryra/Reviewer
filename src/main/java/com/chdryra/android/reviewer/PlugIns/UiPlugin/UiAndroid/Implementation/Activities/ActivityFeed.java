@@ -31,7 +31,7 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationLaunch.intitialiseApplication(this, ApplicationLaunch.LaunchState.TEST);
+        ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
         mApp = ApplicationInstance.getInstance(this);
 

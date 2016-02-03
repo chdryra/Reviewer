@@ -24,9 +24,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 public class MdConverterCriteria extends MdConverterDataReview<DataCriterionReview, MdCriterion> {
 
     @Override
-    public MdCriterion convert(DataCriterionReview datum) {
-        MdReviewId id = newMdReviewId(datum.getReviewId());
-        return new MdCriterion(id, datum.getReview());
+    public MdCriterion convert(DataCriterionReview datum, ReviewId reviewId) {
+        return new MdCriterion(newMdReviewId(reviewId), datum.getReview());
     }
 
     public MdDataList<MdCriterion> convertReviews(Iterable<? extends Review> reviews, ReviewId parentId) {

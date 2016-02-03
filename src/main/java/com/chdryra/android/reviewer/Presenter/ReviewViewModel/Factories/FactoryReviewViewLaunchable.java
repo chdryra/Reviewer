@@ -38,14 +38,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -73,7 +74,7 @@ public class FactoryReviewViewLaunchable {
     }
 
     public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
-        return newReviewsListScreen(node, adapterFactory, getListScreenActions());
+        return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReviewOverview.TYPE));
     }
 
     public ReviewView<GvReviewOverview> newReviewsListScreen(ReviewNode node,
@@ -94,6 +95,7 @@ public class FactoryReviewViewLaunchable {
     }
 
     private <T extends GvData> ReviewViewActions<T> newViewScreenActions(GvDataType<T> dataType) {
+        if(dataType.equals(GvList.TYPE)) return getDefaultScreenActions(dataType);
         SubjectAction<T> subject = new SubjectActionNone<>();
         RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this, mLauncher);
         BannerButtonAction<T> bannerButton = new BannerButtonActionNone<>();
@@ -122,13 +124,13 @@ public class FactoryReviewViewLaunchable {
     }
 
     @NonNull
-    private ReviewViewActions<GvReviewOverview> getListScreenActions() {
-        SubjectAction<GvReviewOverview> subject = new SubjectActionNone<>();
-        RatingBarAction<GvReviewOverview> rb = new RatingBarExpandGrid<>(this, mLauncher);
-        BannerButtonAction<GvReviewOverview> bb = new BannerButtonActionNone<>();
-        GridItemAction<GvReviewOverview> giAction
+    private <T extends GvData> ReviewViewActions<T> getDefaultScreenActions(GvDataType<T> type) {
+        SubjectAction<T> subject = new SubjectActionNone<>();
+        RatingBarAction<T> rb = new RatingBarExpandGrid<>(this, mLauncher);
+        BannerButtonAction<T> bb = new BannerButtonActionNone<>();
+        GridItemAction<T> giAction
                 = new GridItemLauncher<>(this, mLauncher);
-        MenuAction<GvReviewOverview> menuAction = new MenuActionNone<>();
+        MenuAction<T> menuAction = new MenuActionNone<>();
 
         return new ReviewViewActions<>(subject, rb, bb, giAction, menuAction);
     }
