@@ -23,12 +23,14 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 /**
  * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
  */
-public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi {
+public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi,
+        FragmentEditLocationMap.LocationEditListener {
     private static final String TAG = "ActivityEditLocationMap";
     private static final String KEY = "com.chdryra.android.reviewer.View.LauncherModel.Implementation." +
             "SpecialisedActivities.ActivityEditLocationMap.location";
 
     private FragmentEditLocationMap mFragment;
+    private GvDataPacker<GvLocation> mDataPacker;
 
     //Overridden
     @Override
@@ -43,6 +45,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
 
     @Override
     protected Fragment createFragment() {
+        mDataPacker = new GvDataPacker<>();
         mFragment = FragmentEditLocationMap.newInstance(getBundledLocation());
         return mFragment;
     }
@@ -55,9 +58,19 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     }
 
     private GvLocation getBundledLocation() {
-        GvDataPacker<GvLocation> packer = new GvDataPacker<>();
         Bundle args = getIntent().getBundleExtra(KEY);
         return args != null ?
-                packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
+                mDataPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
+    }
+
+    @Override
+    public void onDelete(GvLocation location, Intent returnResult) {
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, returnResult);
+    }
+
+    @Override
+    public void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult) {
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, currentLocation, returnResult);
+        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, newLocation , returnResult);
     }
 }

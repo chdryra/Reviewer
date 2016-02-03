@@ -24,13 +24,14 @@ public class DialogShower {
         show(dialog, activity, requestCode, tag);
     }
 
-    private static void show(DialogFragment dialog, Activity activity, int requestCode, String tag) {
-        dialog.setTargetFragment(null, requestCode);
-        dialog.show(activity.getFragmentManager(), tag);
-    }
-
     public static void showAlert(String alert, Activity activity, int requestCode, Bundle args) {
         DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, args);
         show(dialog, activity, requestCode, DialogAlertFragment.ALERT_TAG);
+    }
+
+    private static void show(DialogFragment dialog, Activity activity, int requestCode, String
+            tag) {
+        dialog.setTargetFragment(null, requestCode);
+        dialog.show(activity.getFragmentManager(), tag);
     }
 }

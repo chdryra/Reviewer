@@ -42,7 +42,6 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggest
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -112,19 +111,30 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private String mSearchLocationName;
     private PlaceAutoCompleteSuggester mAutoCompleter;
     private StringFilterAdapter mSearchAdapter;
-    private GvDataPacker<GvLocation> mDataPacker;
 
     private PlaceSearcher mPlaceSearcher;
     private AddressesSuggester mAddressSuggester;
+
+    private LocationEditListener mListener;
 
     public static FragmentEditLocationMap newInstance(GvLocation location) {
         return FactoryFragment.newFragment(FragmentEditLocationMap.class, LOCATION, location);
     }
 
+    public interface LocationEditListener {
+        void onDelete(GvLocation location, Intent returnResult);
+        void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDataPacker = new GvDataPacker<>();
+
+        try {
+            mListener = (LocationEditListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Activity must be a LocationEditListener!");
+        }
 
         ReviewerLocationServices services
                 = ApplicationInstance.getInstance(getActivity()).getLocationServices();
@@ -133,6 +143,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
         Bundle args = getArguments();
         if (args != null) mCurrentLocation = args.getParcelable(LOCATION);
+
         MapsInitializer.initialize(getActivity());
         setDeleteWhatTitle(GvLocation.TYPE.getDatumName());
         dismissOnDelete();
@@ -299,7 +310,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         };
     }
 
-    private GvLocation createGvDataFromLocationName() {
+    private GvLocation createNewLocation() {
         return new GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
     }
 
@@ -331,8 +342,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     @Override
     protected void onDeleteSelected() {
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation,
-                getNewReturnData());
+        mListener.onDelete(mCurrentLocation, getNewReturnData());
     }
 
     @Override
@@ -344,9 +354,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
 
         setDismissOnDone(true);
-        Intent i = getNewReturnData();
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrentLocation, i);
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGvDataFromLocationName(), i);
+        mListener.onDone(mCurrentLocation, createNewLocation(), getNewReturnData());
     }
 
     //Searching

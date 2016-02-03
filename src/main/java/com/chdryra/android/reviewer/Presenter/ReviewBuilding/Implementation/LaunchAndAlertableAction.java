@@ -52,7 +52,7 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
 
     protected void launch(LaunchableConfig config, Bundle args) {
         setLaunchableRequestCode(config.getTag());
-        mLauncher.launch(config, getActivity(), getLaunchableRequestCode());
+        mLauncher.launch(config, getActivity(), getLaunchableRequestCode(), args);
     }
 
     public int getAlertRequestCode() {
