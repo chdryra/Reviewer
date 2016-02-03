@@ -50,4 +50,8 @@ public class GvList extends GvDataListImpl<GvData> {
     public GvList(GvList data) {
         super(data);
     }
+
+    @Override
+    public void sort() {
+    }
 }

@@ -8,9 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -196,17 +194,9 @@ public class FragmentViewLocation extends Fragment implements
 
     //Lifecycle methods
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity) {
-            mLocationClient = new LocationClientConnector((Activity) context, this);
-            mLocationClient.connect();
-        }
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
+        mLocationClient = new LocationClientConnector(getActivity(), this);
         mLocationClient.connect();
     }
 
