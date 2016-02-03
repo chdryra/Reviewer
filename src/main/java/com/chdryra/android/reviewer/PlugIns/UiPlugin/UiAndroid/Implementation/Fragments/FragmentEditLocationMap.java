@@ -59,30 +59,20 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 /**
- * UI Fragment: location map. Google Map of location passed in the arguments, or current location
- * if null.
- * <p/>
- * <p>
- * In addition:
- * <ul>
- * <li>Text entry for location name. Autocompletes with nearby suggestions.</li>
- * <li>Search icon in ActionBar to perform search.</li>
- * <li>If location passed to Fragment, then also a revert button to revert back to
- * passed location.</li>
- * </ul>
- * </p>
+ * Created by: Rizwan Choudrey
+ * On: sometime...
+ * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentEditLocationMap extends FragmentDeleteDone implements
         LocationClientConnector.Locatable,
         AddressesSuggester.AddressSuggestionsListener,
         PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback {
 
-    private static final String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments" +
-            ".FragmentEditLocationMap.location";
     private static final String TAG = "FragmentEditLocationMap";
+    private static final String LOCATION = TAG + ".location";
 
     private static final String NO_LOCATION = "no suggestions found...";
-    private static final float DEFAULT_ZOOM = 15;
+    private static final float ZOOM = 15;
     private static final int NUMBER_DEFAULT_NAMES = 5;
 
     private static final int NAME_LOCATION_HINT = R.string.edit_text_name_location_hint;
@@ -118,33 +108,31 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private LocationEditListener mListener;
 
+    public interface LocationEditListener {
+        void onDelete(GvLocation location, Intent returnResult);
+
+        void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult);
+    }
+
     public static FragmentEditLocationMap newInstance(GvLocation location) {
         return FactoryFragment.newFragment(FragmentEditLocationMap.class, LOCATION, location);
     }
 
-    public interface LocationEditListener {
-        void onDelete(GvLocation location, Intent returnResult);
-        void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult);
+    //Searching
+    public void handleSearch() {
+        String query = getQuery();
+        if (query == null || query.length() == 0) return;
+        searchLocation(query);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
-            mListener = (LocationEditListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Activity must be a LocationEditListener!");
-        }
-
-        ReviewerLocationServices services
-                = ApplicationInstance.getInstance(getActivity()).getLocationServices();
-        mPlaceSearcher = services.newPlaceSearcher();
-        mAddressSuggester = services.newAddressesSuggester();
-
         Bundle args = getArguments();
         if (args != null) mCurrentLocation = args.getParcelable(LOCATION);
 
+        extractListener();
+        setLocationServices();
         MapsInitializer.initialize(getActivity());
         setDeleteWhatTitle(GvLocation.TYPE.getDatumName());
         dismissOnDelete();
@@ -155,11 +143,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(LAYOUT, container, false);
-
-        mLocationName = (ClearableAutoCompleteTextView) v.findViewById(LOCATION_NAME_EDIT_TEXT);
-        mRevertButton = (ImageButton) v.findViewById(REVERT_TO_PASSED_LOCATION_BUTTON);
-        mMapView = (MapView) v.findViewById(MAP_VIEW);
+        View v = extractViews(inflater, container);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
 
@@ -186,154 +170,10 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(MENU, menu);
 
-        final MenuItem deleteIcon = menu.findItem(MENU_ITEM_DELETE);
-        final MenuItem doneIcon = menu.findItem(MENU_ITEM_DONE);
         mSearchViewMenuItem = menu.findItem(MENU_ITEM_SEARCH);
         mSearchView = (SearchView) mSearchViewMenuItem.getActionView();
 
-        setupSearchView(deleteIcon, doneIcon);
-    }
-
-    private void setupSearchView(MenuItem deleteIcon, MenuItem doneIcon) {
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context
-                .SEARCH_SERVICE);
-
-        SearchableInfo info = searchManager.getSearchableInfo(getActivity().getComponentName());
-        mSearchView.setSearchableInfo(info);
-        mSearchView.setIconifiedByDefault(false);
-        mSearchView.setQueryHint(getResources().getString(SEARCH_HINT));
-        mSearchView.setOnQueryTextFocusChangeListener(newIconsOrSearchViewListener(deleteIcon,
-                doneIcon));
-        mSearchView.setOnQueryTextListener(newFilterOnTextChangeListener());
-    }
-
-    private void initUi() {
-        initLocationNameUi();
-        initGoogleMapUi();
-        initRevertButtonUi();
-    }
-
-    private void initGoogleMapUi() {
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
-        mGoogleMap.setOnInfoWindowClickListener(newOnInfoWindowClickListener());
-        mGoogleMap.setOnMarkerDragListener(newOnMarkerDragListener());
-    }
-
-    private void initLocationNameUi() {
-        mLocationName.addTextChangedListener(newLocationNameTextWatcher());
-    }
-
-    private void initRevertButtonUi() {
-        if (mCurrentLocation != null) {
-            mRevertButton.setOnClickListener(newRevertButtonClickListener());
-            mRevertButton.performClick();
-        } else {
-            mRevertButton.setVisibility(View.GONE);
-        }
-    }
-
-    @NonNull
-    private GoogleMap.OnMarkerDragListener newOnMarkerDragListener() {
-        return new GoogleMap.OnMarkerDragListener() {
-
-            //Overridden
-            @Override
-            public void onMarkerDragStart(Marker marker) {
-            }
-
-            @Override
-            public void onMarkerDrag(Marker arg0) {
-            }
-
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                setLatLng(marker.getPosition());
-            }
-        };
-    }
-
-    @NonNull
-    private GoogleMap.OnInfoWindowClickListener newOnInfoWindowClickListener() {
-        return new GoogleMap.OnInfoWindowClickListener() {
-
-            //Overridden
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                marker.hideInfoWindow();
-            }
-        };
-    }
-
-    @NonNull
-    private GoogleMap.OnMyLocationButtonClickListener newOnMyLocationButtonClickListener() {
-        return new GoogleMap.OnMyLocationButtonClickListener() {
-            //Overridden
-            @Override
-            public boolean onMyLocationButtonClick() {
-                mLocationClient.locate();
-                return false;
-            }
-        };
-    }
-
-    @NonNull
-    private TextWatcher newLocationNameTextWatcher() {
-        return new TextWatcher() {
-
-            //Overridden
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                updateMapMarker();
-            }
-        };
-    }
-
-    @NonNull
-    private View.OnClickListener newRevertButtonClickListener() {
-        return new View.OnClickListener() {
-            //Overridden
-            @Override
-            public void onClick(View v) {
-                mSearchLocationName = null;
-                setLatLng(mCurrentLocation.getLatLng());
-                mLocationName.setText(mCurrentLocation.getName());
-                mLocationName.hideChrome();
-            }
-        };
-    }
-
-    private GvLocation createNewLocation() {
-        return new GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
-    }
-
-    private void setLatLng(LatLng latlang) {
-        mNewLatLng = latlang;
-        updateSuggestionAdapters();
-        zoomToLatLng();
-    }
-
-    private void zoomToLatLng() {
-        if (mNewLatLng == null) return;
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, DEFAULT_ZOOM));
-        updateMapMarker();
-    }
-
-    private void updateMapMarker() {
-        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
-        markerOptions.title(mLocationName.getText().toString());
-        markerOptions.draggable(true);
-        mGoogleMap.clear();
-        Marker marker = mGoogleMap.addMarker(markerOptions);
-        marker.showInfoWindow();
+        initSearchView(menu.findItem(MENU_ITEM_DELETE), menu.findItem(MENU_ITEM_DONE));
     }
 
     @Override
@@ -358,39 +198,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mListener.onDone(mCurrentLocation, createNewLocation(), getNewReturnData());
     }
 
-    //Searching
-    public void handleSearch() {
-        String query = getQuery();
-        if(query == null || query.length() == 0) return;
-        searchLocation(query);
-    }
-
-    @Nullable
-    private String getQuery() {
-        Intent intent = getActivity().getIntent();
-        String query = null;
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            query = intent.getStringExtra(SearchManager.QUERY);
-        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
-            query = intent.getData().getLastPathSegment();
-        }
-
-        return query;
-    }
-
-    private void searchLocation(String query) {
-        mSearchLocationName = query;
-        mPlaceSearcher.searchQuery(query, this);
-        setSearchViewToSearching();
-    }
-
-    private void setSearchViewToSearching() {
-        mSearchView.setQuery(null, false);
-        mSearchViewMenuItem.collapseActionView();
-        mLocationName.setHint(getResources().getString(R.string
-                .progress_bar_search_location_title));
-    }
-
     @Override
     public void onSearchResultsFound(ArrayList<LocatedPlace> results) {
         if (results.size() == 0) {
@@ -402,25 +209,11 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
     }
 
-    //Search suggestions
-    private void invalidateSuggestions() {
-        mSearchView.setSuggestionsAdapter(null);
-    }
-
-    private void updateSuggestionAdapters() {
-        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
-        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
-        mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
-        mLocationName.setText(null);
-
-        mAddressSuggester.fetchAddresses(mNewLatLng, NUMBER_DEFAULT_NAMES, this);
-    }
-
     @Override
     public void onAddressSuggestionsFound(ArrayList<LocatedPlace> suggestions) {
         ArrayList<String> addresses = new ArrayList<>();
 
-        for(LocatedPlace suggestion : suggestions) {
+        for (LocatedPlace suggestion : suggestions) {
             addresses.add(suggestion.getDescription());
         }
 
@@ -435,51 +228,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             mLocationName.setAdapter(new StringFilterAdapter(getActivity(), addresses,
                     mAutoCompleter));
         }
-    }
-
-    @NonNull
-    private View.OnFocusChangeListener newIconsOrSearchViewListener(final MenuItem deleteIcon,
-                                                                    final MenuItem doneIcon) {
-        return new View.OnFocusChangeListener() {
-            //Overridden
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    deleteIcon.setVisible(false);
-                    doneIcon.setVisible(false);
-                } else {
-                    deleteIcon.setVisible(true);
-                    doneIcon.setVisible(true);
-                    mSearchViewMenuItem.collapseActionView();
-                }
-            }
-        };
-    }
-
-    @NonNull
-    private SearchView.OnQueryTextListener newFilterOnTextChangeListener() {
-        return new SearchView.OnQueryTextListener() {
-            //Overridden
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (newText.length() > 0 && mSearchAdapter != null) {
-                    mSearchAdapter.filter(newText);
-                } else {
-                    invalidateSuggestions();
-                }
-
-                return false;
-            }
-        };
-    }
-
-    private void makeToast(int messageId) {
-        Toast.makeText(getActivity(), getResources().getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     //Lifecycle methods
@@ -529,6 +277,254 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         super.onDestroy();
         mLocationClient.disconnect();
         if (mMapView != null) mMapView.onDestroy();
+    }
+
+    @Nullable
+    private String getQuery() {
+        Intent intent = getActivity().getIntent();
+        String query = null;
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            query = intent.getStringExtra(SearchManager.QUERY);
+        } else if (Intent.ACTION_PICK.equals(intent.getAction())) {
+            query = intent.getData().getLastPathSegment();
+        }
+
+        return query;
+    }
+
+    private void setLocationServices() {
+        ReviewerLocationServices services
+                = ApplicationInstance.getInstance(getActivity()).getLocationServices();
+        mPlaceSearcher = services.newPlaceSearcher();
+        mAddressSuggester = services.newAddressesSuggester();
+    }
+
+    private void extractListener() {
+        try {
+            mListener = (LocationEditListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Activity must be a LocationEditListener!");
+        }
+    }
+
+    @NonNull
+    private View extractViews(LayoutInflater inflater, ViewGroup container) {
+        View v = inflater.inflate(LAYOUT, container, false);
+
+        mLocationName = (ClearableAutoCompleteTextView) v.findViewById(LOCATION_NAME_EDIT_TEXT);
+        mRevertButton = (ImageButton) v.findViewById(REVERT_TO_PASSED_LOCATION_BUTTON);
+        mMapView = (MapView) v.findViewById(MAP_VIEW);
+        return v;
+    }
+
+    private void initSearchView(MenuItem deleteIcon, MenuItem doneIcon) {
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context
+                .SEARCH_SERVICE);
+
+        SearchableInfo info = searchManager.getSearchableInfo(getActivity().getComponentName());
+        mSearchView.setSearchableInfo(info);
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setQueryHint(getResources().getString(SEARCH_HINT));
+        mSearchView.setOnQueryTextFocusChangeListener(newIconsOrSearchViewListener(deleteIcon,
+                doneIcon));
+        mSearchView.setOnQueryTextListener(newFilterOnTextChangeListener());
+    }
+
+    private void initUi() {
+        initLocationNameUi();
+        initGoogleMapUi();
+        initRevertButtonUi();
+    }
+
+    private void initLocationNameUi() {
+        mLocationName.addTextChangedListener(newLocationNameTextWatcher());
+    }
+
+    private void initGoogleMapUi() {
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
+        mGoogleMap.setOnInfoWindowClickListener(newOnInfoWindowClickListener());
+        mGoogleMap.setOnMarkerDragListener(newOnMarkerDragListener());
+    }
+
+    private void initRevertButtonUi() {
+        if (mCurrentLocation != null) {
+            mRevertButton.setOnClickListener(newRevertButtonClickListener());
+            mRevertButton.performClick();
+        } else {
+            mRevertButton.setVisibility(View.GONE);
+        }
+    }
+
+    @NonNull
+    private GoogleMap.OnMarkerDragListener newOnMarkerDragListener() {
+        return new GoogleMap.OnMarkerDragListener() {
+
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+            }
+
+            @Override
+            public void onMarkerDrag(Marker arg0) {
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                setLatLng(marker.getPosition());
+            }
+        };
+    }
+
+    @NonNull
+    private GoogleMap.OnInfoWindowClickListener newOnInfoWindowClickListener() {
+        return new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                marker.hideInfoWindow();
+            }
+        };
+    }
+
+    @NonNull
+    private GoogleMap.OnMyLocationButtonClickListener newOnMyLocationButtonClickListener() {
+        return new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                mLocationClient.locate();
+                return false;
+            }
+        };
+    }
+
+    @NonNull
+    private TextWatcher newLocationNameTextWatcher() {
+        return new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                updateMapMarker();
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener newRevertButtonClickListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSearchLocationName = null;
+                setLatLng(mCurrentLocation.getLatLng());
+                mLocationName.setText(mCurrentLocation.getName());
+                mLocationName.hideChrome();
+            }
+        };
+    }
+
+    private GvLocation createNewLocation() {
+        return new GvLocation(mNewLatLng, mLocationName.getText().toString().trim());
+    }
+
+    private void setLatLng(LatLng latlang) {
+        mNewLatLng = latlang;
+        updateSuggestionAdapters();
+        zoomToLatLng();
+    }
+
+    private void zoomToLatLng() {
+        if (mNewLatLng == null) return;
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mNewLatLng, ZOOM));
+        updateMapMarker();
+    }
+
+    private void updateMapMarker() {
+        MarkerOptions markerOptions = new MarkerOptions().position(mNewLatLng);
+        markerOptions.title(mLocationName.getText().toString());
+        markerOptions.draggable(true);
+        mGoogleMap.clear();
+        Marker marker = mGoogleMap.addMarker(markerOptions);
+        marker.showInfoWindow();
+    }
+
+    private void searchLocation(String query) {
+        mSearchLocationName = query;
+        mPlaceSearcher.searchQuery(query, this);
+        setSearchViewToSearching();
+    }
+
+    private void setSearchViewToSearching() {
+        mSearchView.setQuery(null, false);
+        mSearchViewMenuItem.collapseActionView();
+        mLocationName.setHint(getResources().getString(R.string
+                .progress_bar_search_location_title));
+    }
+
+    //Search suggestions
+    private void invalidateSuggestions() {
+        mSearchView.setSuggestionsAdapter(null);
+    }
+
+    private void updateSuggestionAdapters() {
+        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
+        mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
+        mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
+        mLocationName.setText(null);
+
+        mAddressSuggester.fetchAddresses(mNewLatLng, NUMBER_DEFAULT_NAMES, this);
+    }
+
+    @NonNull
+    private View.OnFocusChangeListener newIconsOrSearchViewListener(final MenuItem deleteIcon,
+                                                                    final MenuItem doneIcon) {
+        return new View.OnFocusChangeListener() {
+            //Overridden
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    deleteIcon.setVisible(false);
+                    doneIcon.setVisible(false);
+                } else {
+                    deleteIcon.setVisible(true);
+                    doneIcon.setVisible(true);
+                    mSearchViewMenuItem.collapseActionView();
+                }
+            }
+        };
+    }
+
+    @NonNull
+    private SearchView.OnQueryTextListener newFilterOnTextChangeListener() {
+        return new SearchView.OnQueryTextListener() {
+            //Overridden
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.length() > 0 && mSearchAdapter != null) {
+                    mSearchAdapter.filter(newText);
+                } else {
+                    invalidateSuggestions();
+                }
+
+                return false;
+            }
+        };
+    }
+
+    private void makeToast(int messageId) {
+        Toast.makeText(getActivity(), getResources().getString(messageId), Toast.LENGTH_SHORT)
+                .show();
     }
 
     private class LocationSuggestionsObserver extends DataSetObserver {
