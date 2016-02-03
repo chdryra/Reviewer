@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -32,7 +33,7 @@ public abstract class GvDataBasic<T extends GvData> implements GvData {
         mType = type;
     }
 
-    protected GvDataBasic(GvDataType<T> type, GvReviewId reviewId) {
+    protected GvDataBasic(GvDataType<T> type, @Nullable GvReviewId reviewId) {
         mType = type;
         mReviewId = reviewId;
     }

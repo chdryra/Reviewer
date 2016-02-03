@@ -27,14 +27,10 @@ public abstract class GvConverterDataReview <T1 extends HasReviewId, T2 extends 
     }
 
     @Override
-    public T2 convert(T1 datum, ReviewId reviewId) {
-        if(!datum.getReviewId().equals(reviewId)) {
-            throw new IllegalArgumentException("reviewId must equal datum's getReviewId!");
-        }
-
-        return convert(datum);
-    }
+    public abstract T2 convert(T1 datum, ReviewId reviewId);
 
     @Override
-    public abstract T2 convert(T1 datum);
+    public T2 convert(T1 datum) {
+        return convert(datum, datum.getReviewId());
+    };
 }

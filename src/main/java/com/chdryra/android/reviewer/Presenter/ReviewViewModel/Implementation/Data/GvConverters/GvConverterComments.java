@@ -9,8 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,8 +26,8 @@ public class GvConverterComments extends GvConverterDataReview<DataComment, GvCo
     }
 
     @Override
-    public GvComment convert(DataComment datum) {
-        return new GvComment(newId(datum.getReviewId()),
+    public GvComment convert(DataComment datum, ReviewId reviewId) {
+        return new GvComment(newId(reviewId),
                 datum.getComment(), datum.isHeadline());
     }
 }

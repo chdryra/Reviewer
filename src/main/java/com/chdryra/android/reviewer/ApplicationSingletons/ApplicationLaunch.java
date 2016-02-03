@@ -10,13 +10,13 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins.Plugins;
+import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationLaunch {
-    private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", AuthorId.generateId());
+    private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumUserId("123"));
 
     private Context mContext;
     private ApplicationContext mApplicationContext;

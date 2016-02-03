@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -53,7 +54,7 @@ public class GvComment extends GvDataBasic<GvComment> implements DataComment {
         this(null, comment, isHeadline);
     }
 
-    public GvComment(GvReviewId id, String comment, boolean isHeadline) {
+    public GvComment(@Nullable GvReviewId id, String comment, boolean isHeadline) {
         super(TYPE, id);
         mComment = comment;
         mIsHeadline = isHeadline;
