@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Utils.AlertListener;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditorActionBasic<T>
-        implements DialogAlertFragment.DialogAlertListener {
+        implements AlertListener {
     private final String mLaunchTag;
     private final LaunchableConfig mConfig;
     private final LaunchableUiLauncher mLauncher;
@@ -79,7 +79,6 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
 
     protected void showAlertDialog(String alert, int requestCode, Bundle args) {
         mAlertDialogRequestCode = requestCode;
-        DialogShower.showAlert(alert, getActivity(), requestCode, DialogAlertFragment.ALERT_TAG,
-                args);
+        DialogShower.showAlert(alert, getActivity(), requestCode, args);
     }
 }

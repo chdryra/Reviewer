@@ -29,12 +29,8 @@ public class DialogShower {
         dialog.show(activity.getFragmentManager(), tag);
     }
 
-    public static void showAlert(String alert, Activity activity, int requestCode, String tag) {
-        showAlert(alert, activity,requestCode, tag, new Bundle());
-    }
-
-    public static void showAlert(String alert, Activity activity, int requestCode, String tag, Bundle args) {
+    public static void showAlert(String alert, Activity activity, int requestCode, Bundle args) {
         DialogAlertFragment dialog = DialogAlertFragment.newDialog(alert, requestCode, args);
-        show(dialog, activity, requestCode, tag);
+        show(dialog, activity, requestCode, DialogAlertFragment.ALERT_TAG);
     }
 }

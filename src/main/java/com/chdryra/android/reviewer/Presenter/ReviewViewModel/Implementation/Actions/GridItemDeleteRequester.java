@@ -51,8 +51,7 @@ public class GridItemDeleteRequester extends GridItemLauncher<GvReviewOverview>
         if (expanded != null) {
             String alert = getActivity().getResources().getString(R.string.alert_delete_review);
             mToDelete = item;
-            DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, DialogAlertFragment
-                    .ALERT_TAG, new Bundle());
+            DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, new Bundle());
         }
     }
 
