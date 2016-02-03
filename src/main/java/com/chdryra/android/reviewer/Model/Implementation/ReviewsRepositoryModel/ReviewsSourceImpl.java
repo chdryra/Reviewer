@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
@@ -48,37 +49,49 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public ReviewNode asMetaReview(ReviewId id) {
-        Review review = getReview(id);
+        ReviewNode review = asMetaReviewNullable(id);
+        return review != null ? review : mReviewFactory.getNullNode();
+    }
+
+    @Nullable
+    private ReviewNode asMetaReviewNullable(ReviewId id) {
+        Review review = getReviewNullable(id);
         return review != null ? mReviewFactory.createMetaReview(review) : null;
     }
 
     @Override
     public ReviewNode asMetaReview(VerboseDataReview datum, String subjectIfMetaOfItems) {
-        ReviewNode node = asMetaReview(datum.getReviewId());
+        ReviewNode node = asMetaReviewNullable(datum.getReviewId());
 
         if (node == null && datum.isVerboseCollection()) {
             node = getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
                     subjectIfMetaOfItems);
         }
 
-        return node;
+        return node != null ? node : mReviewFactory.getNullNode();
     }
 
     @Override
     public ReviewNode getMetaReview(VerboseIdableCollection data, String subject) {
         IdableCollection<Review> reviews = getUniqueReviews(data);
-        return reviews.size() > 0 ? mReviewFactory.createMetaReview(reviews, subject) : null;
+        return reviews.size() > 0 ?
+                mReviewFactory.createMetaReview(reviews, subject) : mReviewFactory.getNullNode();
     }
 
     @Override
     public ReviewNode getFlattenedMetaReview(VerboseIdableCollection data, String subject) {
         ReviewNode node = getMetaReview(data, subject);
-        if (node == null) return null;
         return mReviewFactory.createMetaReview(mTreeFlattener.flatten(node), subject);
     }
 
     @Override
     public Review getReview(ReviewId reviewId) {
+        Review review = getReviewNullable(reviewId);
+        return review != null ? review : mReviewFactory.getNullReview();
+    }
+
+    @Nullable
+    private Review getReviewNullable(ReviewId reviewId) {
         return mRepository.getReview(reviewId);
     }
 
@@ -108,7 +121,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         ArrayList<ReviewId> reviewsAdded = new ArrayList<>();
         for (int i = 0; i < data.size(); ++i) {
             ReviewId reviewId = data.getItem(i).getReviewId();
-            Review review = getReview(reviewId);
+            Review review = getReviewNullable(reviewId);
             if (review != null && !reviewsAdded.contains(reviewId)) {
                 reviews.add(review);
                 reviewsAdded.add(reviewId);

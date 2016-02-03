@@ -47,7 +47,6 @@ public class FactoryReviewViewAdapter {
     private ConverterGv mConverter;
     private ReviewsSource mReviewSource;
 
-    //Constructors
     public FactoryReviewViewAdapter(FactoryReviewViewLaunchable launchableFactory,
                                     FactoryVisitorReviewNode visitorFactory,
                                     FactoryNodeTraverser traverserFactory,

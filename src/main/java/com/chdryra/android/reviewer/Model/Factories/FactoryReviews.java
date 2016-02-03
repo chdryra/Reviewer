@@ -52,6 +52,7 @@ public class FactoryReviews implements ReviewRecreater {
     private FactoryReviewPublisher mPublisherFactory;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
+    private static Review sNullReview;
 
     public FactoryReviews(FactoryReviewPublisher publisherFactory,
                           FactoryReviewNode nodeFactory,
@@ -108,6 +109,14 @@ public class FactoryReviews implements ReviewRecreater {
                 review.getCriteria(), review.isAverage());
     }
 
+    public Review getNullReview() {
+        if(sNullReview == null) sNullReview = createUserReview("NULL_REVIEW", 0f);
+        return sNullReview;
+    }
+
+    public ReviewNode getNullNode() {
+        return getNullReview().getTreeRepresentation();
+    }
     /********************************************************/
     //private methods
     private Review createUserReview(String subject, float rating) {
