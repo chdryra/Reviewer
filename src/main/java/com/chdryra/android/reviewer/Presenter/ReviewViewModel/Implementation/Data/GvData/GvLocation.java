@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -43,7 +44,6 @@ public class GvLocation extends GvDataBasic<GvLocation> implements DataLocation 
     private final LatLng mLatLng;
     private final String mName;
 
-    //Constructors
     public GvLocation() {
         this(null, null, null);
     }
@@ -52,7 +52,7 @@ public class GvLocation extends GvDataBasic<GvLocation> implements DataLocation 
         this(null, latLng, name);
     }
 
-    public GvLocation(GvReviewId id, LatLng latLng, String name) {
+    public GvLocation(@Nullable GvReviewId id, LatLng latLng, String name) {
         super(GvLocation.TYPE, id);
         mLatLng = latLng;
         mName = name;
@@ -68,7 +68,7 @@ public class GvLocation extends GvDataBasic<GvLocation> implements DataLocation 
         mName = in.readString();
     }
 
-    //public methods
+    @Nullable
     public String getShortenedName() {
         String shortened = mName;
         if (mName != null) {
@@ -116,12 +116,13 @@ public class GvLocation extends GvDataBasic<GvLocation> implements DataLocation 
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GvLocation)) return false;
-        if (!super.equals(o)) return false;
 
         GvLocation that = (GvLocation) o;
 
-        if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null)
-            return false;
+        if (!super.equals(that)) return false;
+
+
+        if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) return false;
         return !(mName != null ? !mName.equals(that.mName) : that.mName != null);
 
     }

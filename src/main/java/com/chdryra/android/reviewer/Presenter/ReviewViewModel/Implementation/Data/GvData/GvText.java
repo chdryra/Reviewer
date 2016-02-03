@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.VHDString;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
@@ -60,7 +61,7 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
         mType = type;
     }
 
-    public GvText(GvDataType<T> type, GvReviewId id, String text) {
+    public GvText(GvDataType<T> type, @Nullable GvReviewId id, String text) {
         super(text);
         mId = id;
         mType = type;

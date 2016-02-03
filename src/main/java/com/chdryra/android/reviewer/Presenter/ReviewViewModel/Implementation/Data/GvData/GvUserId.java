@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -42,7 +43,7 @@ public class GvUserId implements GvData, UserId {
     private GvReviewId mReviewId;
     private String mUserId;
 
-    public GvUserId(GvReviewId reviewId, String userId) {
+    public GvUserId(@Nullable GvReviewId reviewId, String userId) {
         mReviewId = reviewId;
         mUserId = userId;
     }

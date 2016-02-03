@@ -34,7 +34,7 @@ public class VisitorReviewDataGetterImpl<T extends HasReviewId>
 
     @Override
     public IdableCollection<T> getData() {
-        return mData;
+        return mData == null ? new IdableDataList<T>(null) : mData;
     }
 
     @Override

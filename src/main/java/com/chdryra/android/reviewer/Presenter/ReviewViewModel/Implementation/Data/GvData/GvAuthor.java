@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -52,7 +53,7 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
         this(null, name, userId);
     }
 
-    public GvAuthor(GvReviewId id, String name, GvUserId userId) {
+    public GvAuthor(@Nullable GvReviewId id, String name, GvUserId userId) {
         super(GvAuthor.TYPE, id);
         mName = name;
         mUserId = userId;

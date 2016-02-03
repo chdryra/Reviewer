@@ -27,7 +27,7 @@ public class GvConverterComments extends GvConverterDataReview<DataComment, GvCo
 
     @Override
     public GvComment convert(DataComment datum, ReviewId reviewId) {
-        return new GvComment(newId(reviewId),
+        return new GvComment(getGvReviewId(datum, reviewId),
                 datum.getComment(), datum.isHeadline());
     }
 }

@@ -61,7 +61,7 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
         super(GvReviewOverview.TYPE);
     }
 
-    public GvReviewOverview(GvReviewId parentId, GvReviewId reviewId, GvAuthor author,
+    public GvReviewOverview(@Nullable GvReviewId parentId, GvReviewId reviewId, GvAuthor author,
                             GvDate publishDate,
                             String subject, float rating, @Nullable Bitmap coverImage, 
                             @Nullable String headline,

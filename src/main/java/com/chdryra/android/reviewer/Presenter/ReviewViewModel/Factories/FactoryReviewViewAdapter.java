@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -118,7 +119,7 @@ public class FactoryReviewViewAdapter {
             viewer = mViewerFactory.newDataToReviewsViewer(data);
         }
 
-        return newMetaReviewAdapter(data, subject, viewer);
+        return newAggregatedMetaReviewAdapter(data, subject, viewer);
     }
 
     public <T extends GvData> ReviewViewAdapter<T> newDataToReviewsAdapter(GvDataCollection<T> data,
@@ -137,5 +138,16 @@ public class FactoryReviewViewAdapter {
                                                                       GridDataViewer<T> viewer) {
         ReviewNode node = mReviewSource.getMetaReview(data, subject);
         return newAdapterReviewNode(node, viewer);
+    }
+
+    private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter(GvCanonicalCollection<T> data,
+                                                                                   String subject,
+                                                                                   GridDataViewer<GvCanonical> viewer) {
+        GvDataCollection<T> allData = new GvDataListImpl<>(data.getGvDataType(), data.getGvReviewId());
+        for(GvCanonical<T> canonical : data) {
+            allData.addAll(canonical.toList());
+        }
+        ReviewNode node = mReviewSource.getMetaReview(allData, subject);
+        return data.size() == 1 ? newReviewsListAdapter(node) : newAdapterReviewNode(node, viewer);
     }
 }

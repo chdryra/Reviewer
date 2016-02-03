@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 
@@ -41,7 +42,7 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
         super(TYPE, subject);
     }
 
-    public GvSubject(GvReviewId id, String subject) {
+    public GvSubject(@Nullable GvReviewId id, String subject) {
         super(TYPE, id, subject);
     }
 

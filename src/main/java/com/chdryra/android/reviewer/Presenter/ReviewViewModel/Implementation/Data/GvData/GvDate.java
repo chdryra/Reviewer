@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -53,7 +54,7 @@ public class GvDate extends GvDataBasic<GvDate> implements DataDateReview {
         this(null, time);
     }
 
-    public GvDate(GvReviewId id, long time) {
+    public GvDate(@Nullable GvReviewId id, long time) {
         super(GvDate.TYPE, id);
         mTime = time;
     }

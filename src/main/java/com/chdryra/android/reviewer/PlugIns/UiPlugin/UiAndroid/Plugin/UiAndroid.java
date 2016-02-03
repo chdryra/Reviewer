@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Ac
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityShareReview;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewLocation;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.GvDataDialogs;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
@@ -66,14 +68,15 @@ public class UiAndroid implements UiPlugin {
                     GvDataDialogs.EditImage.class, GvDataDialogs.ViewImage.class));
 
             addDataClasses(new AddEditViewClasses<>(GvFact.TYPE, GvDataDialogs.AddFact.class,
-                    GvDataDialogs
-                    .EditFact.class, GvDataDialogs.ViewFact.class));
+                    GvDataDialogs.EditFact.class, GvDataDialogs.ViewFact.class));
 
             addDataClasses(new AddEditViewClasses<>(GvLocation.TYPE, GvDataDialogs.AddLocation.class,
                     GvDataDialogs.EditLocation.class, ActivityViewLocation.class));
 
             addDataClasses(new AddEditViewClasses<>(GvUrl.TYPE, ActivityEditUrlBrowser.class,
                     ActivityEditUrlBrowser.class, ActivityEditUrlBrowser.class));
+
+            addDataClasses(new AddEditViewClasses<>(GvAuthor.TYPE, null, null, GvDataDialogs.ViewAuthor.class));
 
             addDataClasses(new AddEditViewClasses<>(GvSubject.TYPE, null, null, GvDataDialogs.ViewSubject.class));
 

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -61,7 +62,7 @@ public class GvImage extends GvDataBasic<GvImage> implements DataImage {
         mIsCover = isCover;
     }
 
-    public GvImage(GvReviewId id, Bitmap bitmap, GvDate date, String caption, boolean isCover) {
+    public GvImage(@Nullable GvReviewId id, Bitmap bitmap, GvDate date, String caption, boolean isCover) {
         super(GvImage.TYPE, id);
         mBitmap = bitmap;
         mDate = date;

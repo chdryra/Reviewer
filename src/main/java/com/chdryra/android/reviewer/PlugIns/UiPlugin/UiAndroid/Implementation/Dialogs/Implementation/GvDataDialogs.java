@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
 
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
@@ -124,6 +125,12 @@ public class GvDataDialogs {
     public static class ViewFact extends DialogGvDataView<GvFact> {
         public ViewFact() {
             super(GvFact.TYPE);
+        }
+    }
+
+    public static class ViewAuthor extends DialogGvDataView<GvAuthor> {
+        public ViewAuthor() {
+            super(GvAuthor.TYPE);
         }
     }
 

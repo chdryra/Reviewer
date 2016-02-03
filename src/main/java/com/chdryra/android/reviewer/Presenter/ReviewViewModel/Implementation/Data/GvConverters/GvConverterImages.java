@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
@@ -31,8 +32,8 @@ public class GvConverterImages extends GvConverterDataReview<DataImage, GvImage,
     }
 
     @Override
-    public GvImage convert(DataImage datum) {
-        GvReviewId id = newId(datum.getReviewId());
+    public GvImage convert(DataImage datum, ReviewId reviewId) {
+        GvReviewId id = getGvReviewId(datum, reviewId);
         GvDate gvDate = mConverter.convert(datum.getDate());
         return new GvImage(id, datum.getBitmap(), gvDate, datum.getCaption(),
                 datum.isCover());

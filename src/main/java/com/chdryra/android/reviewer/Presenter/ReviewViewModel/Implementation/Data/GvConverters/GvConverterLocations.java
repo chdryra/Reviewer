@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,8 +26,7 @@ public class GvConverterLocations extends
     }
 
     @Override
-    public GvLocation convert(DataLocation datum) {
-        GvReviewId id = newId(datum.getReviewId());
-        return new GvLocation(id, datum.getLatLng(), datum.getName());
+    public GvLocation convert(DataLocation datum, ReviewId reviewId) {
+        return new GvLocation(getGvReviewId(datum, reviewId), datum.getLatLng(), datum.getName());
     }
 }

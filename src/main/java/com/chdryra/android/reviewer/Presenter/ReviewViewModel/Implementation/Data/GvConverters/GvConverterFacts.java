@@ -8,10 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
+import android.support.annotation.Nullable;
 import android.webkit.URLUtil;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
@@ -34,18 +36,18 @@ public class GvConverterFacts extends GvConverterDataReview<DataFact, GvFact, Gv
     }
 
     @Override
-    public GvFact convert(DataFact datum) {
-        GvReviewId id = newId(datum.getReviewId());
+    public GvFact convert(DataFact datum, ReviewId reviewId) {
+        GvReviewId id = getGvReviewId(datum, reviewId);
         GvFact fact = null;
-        if (datum.isUrl()) fact = getGvUrl(datum);
+        if (datum.isUrl()) fact = getGvUrl(datum, id);
 
         if(fact == null) fact = new GvFact(id, datum.getLabel(), datum.getValue());
 
         return fact;
     }
 
-    private GvUrl getGvUrl(DataFact datum) {
-        GvReviewId id = newId(datum.getReviewId());
+    @Nullable
+    private GvUrl getGvUrl(DataFact datum, @Nullable GvReviewId id) {
         try {
             DataUrl urlDatum = (DataUrl) datum;
             return mUrlConverter.convert(urlDatum);

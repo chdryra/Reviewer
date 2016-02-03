@@ -76,7 +76,7 @@ public class GvConverterReviews extends GvConverterBasic<Review,
 
         ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
 
-        return new GvReviewOverview(id, newId(reviewId),
+        return new GvReviewOverview(id, new GvReviewId(reviewId),
                 author, publishDate, review.getSubject().getSubject(),
                 review.getRating().getRating(), cover, headline, locationNames,
                 tags.toStringArray());

@@ -95,6 +95,7 @@ public class ViewerTreeData extends ViewerReviewData {
     private GvTagList collectTags() {
         VisitorReviewDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(getTagsManager());
         NodesTraverser traverser = mTraverserFactory.newTreeTraverser(getReviewNode());
+        traverser.addVisitor(visitor);
         traverser.traverse();
         return getConverter().toGvTagList(visitor.getData(), getReviewNode().getReviewId());
     }

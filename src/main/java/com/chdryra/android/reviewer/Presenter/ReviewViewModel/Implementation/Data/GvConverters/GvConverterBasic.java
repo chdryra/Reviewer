@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -44,6 +45,12 @@ public abstract class GvConverterBasic<T1, T2 extends GvData, T3 extends GvDataL
 
     protected GvDataType<T2> getDataType() {
         return mDataType;
+    }
+
+    @Nullable
+    protected GvReviewId getGvReviewId(HasReviewId datum, ReviewId reviewId) {
+        ReviewId id = datum.getReviewId();
+        return id != null ? newId(id) : newId(reviewId);
     }
 
     @Nullable

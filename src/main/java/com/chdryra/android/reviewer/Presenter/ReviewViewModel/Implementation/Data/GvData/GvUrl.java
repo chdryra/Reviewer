@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -40,7 +41,6 @@ public class GvUrl extends GvFact implements DataUrl {
 
     private URL mUrl;
 
-    //Constructors
     public GvUrl() {
         super();
     }
@@ -50,7 +50,7 @@ public class GvUrl extends GvFact implements DataUrl {
         mUrl = url;
     }
 
-    public GvUrl(GvReviewId id, String label, URL url) {
+    public GvUrl(@Nullable GvReviewId id, String label, URL url) {
         super(id, label, TextUtils.toShortenedString(url));
         mUrl = url;
     }
@@ -64,7 +64,6 @@ public class GvUrl extends GvFact implements DataUrl {
         mUrl = (URL) in.readSerializable();
     }
 
-    //Overridden
     @Override
     public GvDataType<GvUrl> getGvDataType() {
         return GvUrl.TYPE;

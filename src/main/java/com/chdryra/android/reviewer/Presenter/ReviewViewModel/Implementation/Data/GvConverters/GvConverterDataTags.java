@@ -26,6 +26,6 @@ public class GvConverterDataTags extends GvConverterBasic<DataTag, GvTag, GvTagL
 
     @Override
     public GvTag convert(DataTag datum, ReviewId reviewId) {
-        return new GvTag(newId(reviewId), datum.getTag());
+        return new GvTag(getGvReviewId(datum, reviewId), datum.getTag());
     }
 }

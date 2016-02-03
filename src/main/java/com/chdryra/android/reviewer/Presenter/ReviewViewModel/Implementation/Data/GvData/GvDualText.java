@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.VHDDualString;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -29,11 +30,12 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 public class GvDualText extends VHDDualString implements GvData {
     public static final Parcelable.Creator<GvDualText> CREATOR = new Parcelable
             .Creator<GvDualText>() {
-        //Overridden
+        @Override
         public GvDualText createFromParcel(Parcel in) {
             return new GvDualText(in);
         }
 
+        @Override
         public GvDualText[] newArray(int size) {
             return new GvDualText[size];
         }
@@ -50,7 +52,7 @@ public class GvDualText extends VHDDualString implements GvData {
         super(upper, lower);
     }
 
-    GvDualText(GvReviewId id, String upper, String lower) {
+    GvDualText(@Nullable GvReviewId id, String upper, String lower) {
         super(upper, lower);
         mId = id;
     }

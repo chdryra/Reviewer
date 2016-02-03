@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -43,14 +44,14 @@ public class GvCriterion extends GvDataBasic<GvCriterion> implements DataCriteri
 
     //Constructors
     public GvCriterion() {
-        this(null, 0f);
+        this("", 0f);
     }
 
     public GvCriterion(String subject, float rating) {
         this(null, subject, rating);
     }
 
-    public GvCriterion(GvReviewId id, String subject, float rating) {
+    public GvCriterion(@Nullable GvReviewId id, String subject, float rating) {
         super(GvCriterion.TYPE, id);
         mSubject = subject;
         mRating = rating;

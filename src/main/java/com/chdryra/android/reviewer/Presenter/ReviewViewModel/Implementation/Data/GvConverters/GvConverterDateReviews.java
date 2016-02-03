@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDateList;
 
@@ -24,7 +25,7 @@ public class GvConverterDateReviews extends GvConverterDataReview<DataDateReview
     }
 
     @Override
-    public GvDate convert(DataDateReview datum) {
-        return new GvDate(newId(datum.getReviewId()), datum.getTime());
+    public GvDate convert(DataDateReview datum, ReviewId reviewId) {
+        return new GvDate(getGvReviewId(datum, reviewId), datum.getTime());
     }
 }

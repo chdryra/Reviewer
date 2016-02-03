@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -37,7 +38,6 @@ public class GvFact extends GvDualText implements DataFact {
     };
     public static GvDataType<GvFact> TYPE = new GvDataType<>(GvFact.class, "fact");
 
-    //Constructors
     public GvFact() {
         super();
     }
@@ -46,7 +46,7 @@ public class GvFact extends GvDualText implements DataFact {
         super(label, value);
     }
 
-    public GvFact(GvReviewId id, String label, String value) {
+    public GvFact(@Nullable GvReviewId id, String label, String value) {
         super(id, label, value);
     }
 
@@ -58,7 +58,6 @@ public class GvFact extends GvDualText implements DataFact {
         super(in);
     }
 
-    //Overridden
     @Override
     public GvDataType<? extends GvFact> getGvDataType() {
         return GvFact.TYPE;

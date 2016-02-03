@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubjectList;
 
@@ -23,7 +24,7 @@ public class GvConverterSubjects extends GvConverterDataReview<DataSubject, GvSu
     }
 
     @Override
-    public GvSubject convert(DataSubject datum) {
-        return new GvSubject(newId(datum.getReviewId()), datum.getSubject());
+    public GvSubject convert(DataSubject datum, ReviewId reviewId) {
+        return new GvSubject(getGvReviewId(datum, reviewId), datum.getSubject());
     }
 }
