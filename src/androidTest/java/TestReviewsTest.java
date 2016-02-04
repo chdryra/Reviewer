@@ -66,13 +66,13 @@ public class TestReviewsTest extends InstrumentationTestCase{
         Iterator<Review> it = reviews.iterator();
         testReview1(it.next());
         testReview2(it.next());
-        //testReview3(it.next(), provider.getTagsManager());
-        //testReview4(it.next(), provider.getTagsManager());
+        testReview3(it.next());
+        testReview4(it.next());
     }
 
     private void testReview1(Review review) {
         ReviewId reviewId = review.getReviewId();
-        checkReviewBasics(review, "Tayyabs", 3.5f, true);
+        checkReviewBasics(review, "Tayyabs", 3.5f, true, date(2015, 1, 25, 19, 30));
 
         //Tags
         checkTags(reviewId, new String[]{"Restaurant", "Pakistani", "London"});
@@ -108,13 +108,13 @@ public class TestReviewsTest extends InstrumentationTestCase{
         //Images
         IdableList<? extends DataImage> images = review.getImages();
         checkSize(images, 2);
-        checkImage(R.raw.tayyabs, "Lovely lamb chops!", date(1, 25, 19, 15), images.getItem(0));
-        checkImage(R.raw.tayyabs_14, "Frontage", date(1, 25, 19, 0), images.getItem(1));
+        checkImage(R.raw.tayyabs, "Lovely lamb chops!", date(2015, 1, 25, 19, 15), images.getItem(0));
+        checkImage(R.raw.tayyabs_14, "Frontage", date(2015, 1, 25, 19, 0), images.getItem(1));
     }
 
     private void testReview2(Review review) {
         ReviewId reviewId = review.getReviewId();
-        checkReviewBasics(review, "The Weekend", 5f, false);
+        checkReviewBasics(review, "The Weekend", 5f, false, date(2015, 4, 26, 14, 30));
 
         //Tags
         checkTags(reviewId, new String[]{"Reading", "Mum", "Kew Gardens", "Baby"});
@@ -160,19 +160,68 @@ public class TestReviewsTest extends InstrumentationTestCase{
         //Images
         IdableList<? extends DataImage> images = review.getImages();
         checkSize(images, 3);
-        checkImage(R.raw.kew, "Selfie in Kew!", date(4, 25, 14, 15), images.getItem(0));
-        checkImage(R.raw.car, "Skoda Octavia", date(4, 26, 13, 0), images.getItem(1));
-        checkImage(R.raw.cot, "Cot", date(4, 26, 14, 15), images.getItem(2));
+        checkImage(R.raw.kew, "Selfie in Kew!", date(2015, 4, 25, 14, 15), images.getItem(0));
+        checkImage(R.raw.car, "Skoda Octavia", date(2015, 4, 26, 13, 0), images.getItem(1));
+        checkImage(R.raw.cot, "Cot", date(2015, 4, 26, 14, 15), images.getItem(2));
     }
 
+    private void testReview3(Review review) {
+        ReviewId reviewId = review.getReviewId();
+        checkReviewBasics(review, "Tayyabs", 8f/3f, true, date(2015, 7, 20, 12, 30));
+
+        //Tags
+        checkTags(reviewId, new String[]{"Restaurant", "Pakistani", "London"});
+
+        //Children
+        IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
+        checkSize(criteria, 3);
+        checkCriterion(criteria.getItem(0), "Food", 3f, reviewId);
+        checkCriterion(criteria.getItem(1), "Service", 1f, reviewId);
+        checkCriterion(criteria.getItem(2), "Value", 4f, reviewId);
+
+
+        //Comments
+        IdableList<? extends DataComment> comments = review.getComments();
+        checkSize(comments, 3);
+        checkComment("Food not so good today. Variable service.", comments.getItem(0));
+        checkComment("Very busy today and they couldn't cope.", comments.getItem(1));
+        checkComment("Food was cold. Food came late.", comments.getItem(2));
+
+        //Locations
+        IdableList<? extends DataLocation> locations = review.getLocations();
+        checkSize(locations, 1);
+        checkLocation(locations.getItem(0), "Tayyabs", 51.517975, -0.063295);
+
+        //Facts
+        IdableList<? extends DataFact> facts = review.getFacts();
+        checkSize(facts, 5);
+        checkFact("Starter", "5", facts.getItem(0));
+        checkFact("Main", "9", facts.getItem(1));
+        checkFact("Desert", "4", facts.getItem(2));
+        checkFact("Link", "http://www.tayyabs.co.uk/", facts.getItem(3));
+
+        //Images
+        IdableList<? extends DataImage> images = review.getImages();
+        checkSize(images, 2);
+        checkImage(R.raw.tayyabs_14, "Lamb chops", date(2015, 7, 20, 12, 15), images.getItem(0));
+        checkImage(R.raw.tayyabs, "Restaurant", date(2015, 1, 25, 19, 0), images.getItem(1));
+    }
+
+    private void testReview4(Review review) {
+        ReviewId reviewId = review.getReviewId();
+        checkReviewBasics(review, "Asda Nappies", 3f, true, date(2015, 7, 20, 12, 45));
+
+        //Tags
+        checkTags(reviewId, new String[]{"Nappies", "Asda"});
+    }
 
     private void checkComment(String comment, DataComment item) {
         assertThat(item.getComment(), is(comment));
     }
 
     @NonNull
-    private Date date(int month, int day, int hour, int minute) {
-        return new GregorianCalendar(2015, month, day, hour, minute).getTime();
+    private Date date(int year, int month, int day, int hour, int minute) {
+        return new GregorianCalendar(year, month, day, hour, minute).getTime();
     }
 
     private void checkImage(int bitmapId, String caption, Date date, DataImage image) {
@@ -195,10 +244,11 @@ public class TestReviewsTest extends InstrumentationTestCase{
         }
     }
 
-    private void checkReviewBasics(Review review, String subject, float rating, boolean isAverage) {
+    private void checkReviewBasics(Review review, String subject, float rating, boolean isAverage, Date date) {
         assertThat(review.getSubject().getSubject(), is(subject));
         assertThat(review.isRatingAverageOfCriteria(), is(isAverage));
         assertThat(review.getRating().getRating(),is(rating));
+        assertThat(review.getPublishDate().getTime(), is(date.getTime()));
     }
 
     private void checkFact(String label, String value, DataFact fact) {

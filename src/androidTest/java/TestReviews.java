@@ -200,7 +200,7 @@ public class TestReviews {
         review.mComments.add("Food not so good today. Variable service.");
         review.mComments.add("Very busy today and they couldn't cope.");
         review.mComments.add("Food was cold. Food came late.");
-        review.mLocations.add(new Location("Tayyabs", 51.517972, -0.063291));
+        review.mLocations.add(new Location("Tayyabs", 51.517975, -0.063295));
         review.mFacts.add(new Fact("Starter", "5"));
         review.mFacts.add(new Fact("Main", "9"));
         review.mFacts.add(new Fact("Desert", "4"));
