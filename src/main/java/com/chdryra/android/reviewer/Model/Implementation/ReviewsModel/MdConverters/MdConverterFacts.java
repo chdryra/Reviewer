@@ -48,7 +48,7 @@ public class MdConverterFacts extends MdConverterDataReview<DataFact, MdFact> {
     private MdUrl getMdUrl(MdReviewId reviewId, DataFact datum) {
         try {
             DataUrl urlDatum = (DataUrl) datum;
-            return mUrlConverter.convert(urlDatum);
+            return mUrlConverter.convert(urlDatum, reviewId);
         } catch (ClassCastException e) {
             String urlGuess = URLUtil.guessUrl(datum.getValue());
             try {
