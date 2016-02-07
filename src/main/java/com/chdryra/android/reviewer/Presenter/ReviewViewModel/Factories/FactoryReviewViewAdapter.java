@@ -31,7 +31,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
 
 /**
  * Created by: Rizwan Choudrey
@@ -76,6 +75,10 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(meta);
     }
 
+    public <T extends GvData> ReviewViewAdapter<?> newFlattenedReviewsListAdapter(GvCanonicalCollection<T> data) {
+        return newReviewsListAdapter(getFlattenedMetaReview(data, data.getStringSummary()));
+    }
+
     public ReviewViewAdapter<GvReviewOverview> newChildListAdapter(ReviewNode node) {
         GridDataViewer<GvReviewOverview> viewer;
         viewer = new ViewerChildList(node, mConverter.getConverterReviews(), this);
@@ -102,7 +105,7 @@ public class FactoryReviewViewAdapter {
         GvDataType<T> type = data.getGvDataType();
 
         if (type.equals(GvComment.TYPE)) {
-            ReviewNode node = mReviewSource.getMetaReview(data, subject);
+            ReviewNode node = getFlattenedMetaReview(data, subject);
             //TODO make type safe
             return new AdapterCommentsAggregate(node, mConverter.getConverterImages(),
                     (GvCanonicalCollection<GvComment>) data, mViewerFactory,
@@ -115,7 +118,7 @@ public class FactoryReviewViewAdapter {
         if (aggregateToData) {
             viewer = mViewerFactory.newAggregateToDataViewer(data, mAggregator);
         } else {
-            viewer = mViewerFactory.newDataToReviewsViewer(data);
+            viewer = mViewerFactory.newAggregateToReviewsViewer(data);
         }
 
         return newAggregatedMetaReviewAdapter(data, subject, viewer);
@@ -123,8 +126,14 @@ public class FactoryReviewViewAdapter {
 
     public <T extends GvData> ReviewViewAdapter<T> newDataToReviewsAdapter(GvDataCollection<T> data,
                                                                         String subject) {
-        ViewerDataToReviews<T> viewer = new ViewerDataToReviews<>(data, this);
+        GridDataViewer<T> viewer = mViewerFactory.newDataToReviewsViewer(data);
         return newMetaReviewAdapter(data, subject, viewer);
+    }
+
+    public <T extends GvData> ReviewViewAdapter<?> newDataToReviewsAdapter(GvCanonicalCollection<T> data,
+                                                                           String subject) {
+        GridDataViewer<GvCanonical> viewer = mViewerFactory.newDataToReviewsViewer(data);
+        return newAggregatedMetaReviewAdapter(data, subject, viewer);
     }
 
     private <T extends GvData> ReviewViewAdapter<T> newAdapterReviewNode(ReviewNode node,
@@ -142,11 +151,17 @@ public class FactoryReviewViewAdapter {
     private <T extends GvData> ReviewViewAdapter<?> newAggregatedMetaReviewAdapter(GvCanonicalCollection<T> data,
                                                                                    String subject,
                                                                                    GridDataViewer<GvCanonical> viewer) {
+
+        ReviewNode node = getFlattenedMetaReview(data, subject);
+        return data.size() == 1 ? newReviewsListAdapter(node) : newAdapterReviewNode(node, viewer);
+    }
+
+    private <T extends GvData> ReviewNode getFlattenedMetaReview(GvCanonicalCollection<T> data,
+                                                                 String subject) {
         GvDataCollection<T> allData = new GvDataListImpl<>(data.getGvDataType(), data.getGvReviewId());
         for(GvCanonical<T> canonical : data) {
             allData.addAll(canonical.toList());
         }
-        ReviewNode node = mReviewSource.getMetaReview(allData, subject);
-        return data.size() == 1 ? newReviewsListAdapter(node) : newAdapterReviewNode(node, viewer);
+        return mReviewSource.getMetaReview(allData, subject);
     }
 }

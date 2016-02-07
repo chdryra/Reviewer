@@ -28,6 +28,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
         .ViewerAggregateCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ViewerAggregateToData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ViewerAggregateToReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ViewerDataToReviews;
@@ -94,5 +96,9 @@ public class FactoryGridDataViewer {
 
     public <T extends GvData> GridDataViewer<T> newDataToReviewsViewer(GvDataCollection<T> data) {
         return new ViewerDataToReviews<>(data, mAdapterFactory);
+    }
+
+    public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToReviewsViewer(GvCanonicalCollection<T> data) {
+        return new ViewerAggregateToReviews<>(data, mAdapterFactory);
     }
 }
