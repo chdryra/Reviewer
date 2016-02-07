@@ -194,7 +194,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
 
         //Facts
         IdableList<? extends DataFact> facts = review.getFacts();
-        checkSize(facts, 5);
+        checkSize(facts, 4);
         checkFact("Starter", "5", facts.getItem(0));
         checkFact("Main", "9", facts.getItem(1));
         checkFact("Desert", "4", facts.getItem(2));
@@ -204,12 +204,12 @@ public class TestReviewsTest extends InstrumentationTestCase{
         IdableList<? extends DataImage> images = review.getImages();
         checkSize(images, 2);
         checkImage(R.raw.tayyabs_14, "Lamb chops", date(2015, 7, 20, 12, 15), images.getItem(0));
-        checkImage(R.raw.tayyabs, "Restaurant", date(2015, 1, 25, 19, 0), images.getItem(1));
+        checkImage(R.raw.tayyabs, "Restaurant", date(2015, 7, 20, 12, 0), images.getItem(1));
     }
 
     private void testReview4(Review review) {
         ReviewId reviewId = review.getReviewId();
-        checkReviewBasics(review, "Asda Nappies", 3f, true, date(2015, 7, 20, 12, 45));
+        checkReviewBasics(review, "Asda Nappies", 0f, true, date(2015, 7, 20, 12, 45));
 
         //Tags
         checkTags(reviewId, new String[]{"Nappies", "Asda"});

@@ -10,43 +10,49 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdAuthor;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDate;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdRating;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdSubject;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewBuilderImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -54,12 +60,13 @@ import junit.framework.Assert;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import static org.junit.Assert.fail;
 
 /**
  * Created by: Rizwan Choudrey
@@ -71,10 +78,16 @@ public class TestReviews {
     private static TestReviews sReviews;
     private Instrumentation mInstr;
     private IdableCollection<Review> mReviews;
+    private FactoryReviewNode mNodeFactory;
+    private FactoryReviews mFactory;
 
     private TestReviews(Instrumentation instr) {
         mInstr = instr;
         mReviews = new IdableDataCollection<>();
+        FactoryMdConverter converter = new FactoryMdConverter();
+        mNodeFactory = new FactoryReviewNode();
+        mFactory = new FactoryReviews(new FactoryReviewPublisher(AUTHOR), mNodeFactory,
+                converter.newMdConverter());
     }
 
     //Static methods
@@ -83,10 +96,10 @@ public class TestReviews {
         IdableCollection<Review> reviews = testReviews.mReviews;
         TagsManager tagsManager = new TagsManagerImpl();
         if (reviews.size() == 0) {
-            reviews.add(testReviews.getReview(testReviews.getReview1(), tagsManager));
-            reviews.add(testReviews.getReview(testReviews.getReview2(), tagsManager));
-            reviews.add(testReviews.getReview(testReviews.getReview3(), tagsManager));
-            reviews.add(testReviews.getReview(testReviews.getReview4(), tagsManager));
+            reviews.add(testReviews.getReview2(testReviews.getReview1(), tagsManager));
+            reviews.add(testReviews.getReview2(testReviews.getReview2(), tagsManager));
+            reviews.add(testReviews.getReview2(testReviews.getReview3(), tagsManager));
+            reviews.add(testReviews.getReview2(testReviews.getReview4(), tagsManager));
             testReviews.mReviews = reviews;
         }
 
@@ -98,7 +111,6 @@ public class TestReviews {
         return sReviews;
     }
 
-    //private methods
     private TestReview getReview1() {
         TestReview review = new TestReview();
         review.mSubject = "Tayyabs";
@@ -235,82 +247,75 @@ public class TestReviews {
         return review;
     }
 
-    private Review getReview(TestReview review, TagsManager tagsManager) {
-        ReviewBuilder builder = getReviewBuilder(tagsManager);
-        builder.setSubject(review.mSubject);
-        builder.setRating(review.mRating);
-        builder.setRatingIsAverage(review.mIsRatingAverage);
+    private Review getReview2(TestReview review, TagsManager tagsManager) {
+        ReviewId id = new MdReviewId(AUTHOR.getUserId().toString(),
+                review.mPublishDate.getTime(), 0);
         
-        DataBuilder<GvComment> commentBuilder
-                = builder.getDataBuilder(GvComment.TYPE);
-        boolean headline = false;
-        for (String comment : review.mComments) {
-            if(!headline) {
-                headline = true;
-                commentBuilder.add(new GvComment(comment, true));
-            } else {
-                commentBuilder.add(new GvComment(comment, false));
-            }
+        ArrayList<DataComment> comments = new ArrayList<>();
+        int i = 0;
+        for(String comment : review.mComments) {
+            DatumComment item = new DatumComment(id, comment, i++ == 0 );
+            comments.add(item);
         }
-        commentBuilder.publishData();
-        
-        DataBuilder<GvFact> factBuilder
-                = builder.getDataBuilder(GvFact.TYPE);
-        for (Fact fact : review.mFacts) {
-            GvFact f = new GvFact(fact.mLabel, fact.mValue);
-            if (fact.mIsUrl) {
+
+        ArrayList<DataImage> images = new ArrayList<>();
+        i = 0;
+        for(Image image : review.mImages) {
+            DatumImage item = new DatumImage(id, image.mBitmap, 
+                    new DatumDateReview(id, image.mDate.getTime()), image.mCaption, i++ == 0 );
+            images.add(item);
+        }
+
+        ArrayList<DataFact> facts = new ArrayList<>();
+        for(Fact fact : review.mFacts) {
+            DataFact item;
+            if(fact.mIsUrl) {
                 try {
-                    f = new GvUrl(fact.mLabel, new URL(fact.mValue));
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
+                    URL url = new URL(URLUtil.guessUrl(fact.mValue));
+                    item = new DatumUrl(id, fact.mLabel, url);
+                } catch (Exception e) {
+                    fail();
+                    item = new DatumFact(id, fact.mLabel,fact.mValue);
                 }
+            } else {
+                item = new DatumFact(id, fact.mLabel,fact.mValue);
             }
-            factBuilder.add(f);
+            facts.add(item);
         }
-        factBuilder.publishData();
-        
-        DataBuilder<GvLocation> locationBuilder
-                = builder.getDataBuilder(GvLocation.TYPE);
-        for (Location Location : review.mLocations) {
-            locationBuilder.add(new GvLocation(Location.mLatLng, Location.mName));
+
+        ArrayList<DataLocation> locations = new ArrayList<>();
+        for(Location location : review.mLocations) {
+            DatumLocation item = new DatumLocation(id, location.mLatLng, location.mName);
+            locations.add(item);
         }
-        locationBuilder.publishData();
 
-        DataBuilder<GvImage> imageBuilder
-                = builder.getDataBuilder(GvImage.TYPE);
-        for (Image image : review.mImages) {
-            GvImage newDatum = new GvImage(image.mBitmap, new GvDate(image.mDate.getTime()), null,
-                    image.mCaption, image.mIsCover);
-            imageBuilder.add(newDatum);
+
+        DatumDateReview publishDate = new DatumDateReview(id, review.mPublishDate.getTime());
+        ArrayList<Review> criteria = new ArrayList<>();
+        i = 1;
+        float avgRating = 0f;
+        for(Criterion criterion : review.mCriteria) {
+            MdReviewId critId = new MdReviewId(AUTHOR.getUserId().toString(),
+                    review.mPublishDate.getTime(), i++);
+            Review item = new ReviewUser(critId, new MdAuthor(critId, AUTHOR.getName(),
+                    AUTHOR.getUserId()), new MdDate(critId, publishDate.getTime()),
+                    new MdSubject(critId,criterion.mSubject),
+                    new MdRating(critId, criterion.mRating, 1), new MdDataList<MdComment>(critId),
+                    new MdDataList<MdImage>(critId), new MdDataList<MdFact>(critId),
+                    new MdDataList<MdLocation>(critId), new MdDataList<MdCriterion>(critId), false,
+                    mNodeFactory);
+            criteria.add(item);
+            avgRating += criterion.mRating / review.mCriteria.size();
         }
-        imageBuilder.publishData();
 
-        DataBuilder<GvCriterion> criterionBuilder
-                = builder.getDataBuilder(GvCriterion.TYPE);
-        for (Criterion child : review.mCriteria) {
-            criterionBuilder.add(new GvCriterion(child.mSubject, child.mRating));
-        }
-        criterionBuilder.publishData();
+        ReviewDataHolder holder = new ReviewDataHolderImpl(id, AUTHOR,
+                publishDate, review.mSubject,
+                review.mIsRatingAverage ? avgRating : review.mRating, 1, comments, images, facts,
+                locations, criteria, review.mIsRatingAverage);
 
-        DataBuilder<GvTag> tagBuilder
-                = builder.getDataBuilder(GvTag.TYPE);
-        for (String tag : review.mTags) {
-            tagBuilder.add(new GvTag(tag));
-        }
-        tagBuilder.publishData();
+        tagsManager.tagItem(id.toString(), review.mTags);
 
-
-        return builder.buildReview();
-    }
-
-    @NonNull
-    private ReviewBuilder getReviewBuilder(TagsManager manager) {
-        FactoryGvConverter gvFactory = new FactoryGvConverter(manager);
-        FactoryMdConverter mdFactory = new FactoryMdConverter();
-        FactoryReviews reviewFactory = new FactoryReviews(new FactoryReviewPublisher(AUTHOR), new
-                FactoryReviewNode(), mdFactory.newMdConverter());
-        FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(new FactoryGvData());
-        return new ReviewBuilderImpl(gvFactory.newGvConverter(), manager, reviewFactory, dataBuilderFactory, new DataValidator());
+        return mFactory.recreateReview(holder);
     }
 
     private Bitmap loadBitmap(int rawResource) {
@@ -444,4 +449,84 @@ public class TestReviews {
 
         }
     }
+
+
+//    private Review getReview(TestReview review, TagsManager tagsManager) {
+//        ReviewBuilder builder = getReviewBuilder(tagsManager);
+//        builder.setSubject(review.mSubject);
+//        builder.setRating(review.mRating);
+//        builder.setRatingIsAverage(review.mIsRatingAverage);
+//
+//        DataBuilder<GvComment> commentBuilder
+//                = builder.getDataBuilder(GvComment.TYPE);
+//        boolean headline = false;
+//        for (String comment : review.mComments) {
+//            if(!headline) {
+//                headline = true;
+//                commentBuilder.add(new GvComment(comment, true));
+//            } else {
+//                commentBuilder.add(new GvComment(comment, false));
+//            }
+//        }
+//        commentBuilder.publishData();
+//
+//        DataBuilder<GvFact> factBuilder
+//                = builder.getDataBuilder(GvFact.TYPE);
+//        for (Fact fact : review.mFacts) {
+//            GvFact f = new GvFact(fact.mLabel, fact.mValue);
+//            if (fact.mIsUrl) {
+//                try {
+//                    f = new GvUrl(fact.mLabel, new URL(fact.mValue));
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            factBuilder.add(f);
+//        }
+//        factBuilder.publishData();
+//
+//        DataBuilder<GvLocation> locationBuilder
+//                = builder.getDataBuilder(GvLocation.TYPE);
+//        for (Location Location : review.mLocations) {
+//            locationBuilder.add(new GvLocation(Location.mLatLng, Location.mName));
+//        }
+//        locationBuilder.publishData();
+//
+//        DataBuilder<GvImage> imageBuilder
+//                = builder.getDataBuilder(GvImage.TYPE);
+//        for (Image image : review.mImages) {
+//            GvImage newDatum = new GvImage(image.mBitmap, new GvDate(image.mDate.getTime()), null,
+//                    image.mCaption, image.mIsCover);
+//            imageBuilder.add(newDatum);
+//        }
+//        imageBuilder.publishData();
+//
+//        DataBuilder<GvCriterion> criterionBuilder
+//                = builder.getDataBuilder(GvCriterion.TYPE);
+//        for (Criterion child : review.mCriteria) {
+//            criterionBuilder.add(new GvCriterion(child.mSubject, child.mRating));
+//        }
+//        criterionBuilder.publishData();
+//
+//        DataBuilder<GvTag> tagBuilder
+//                = builder.getDataBuilder(GvTag.TYPE);
+//        for (String tag : review.mTags) {
+//            tagBuilder.add(new GvTag(tag));
+//        }
+//        tagBuilder.publishData();
+//
+//
+//        return builder.buildReview();
+//    }
+//
+//    @NonNull
+//    private ReviewBuilder getReviewBuilder(TagsManager manager) {
+//        FactoryGvConverter gvFactory = new FactoryGvConverter(manager);
+//        FactoryMdConverter mdFactory = new FactoryMdConverter();
+//        FactoryReviews reviewFactory = new FactoryReviews(new FactoryReviewPublisher(AUTHOR), new
+//                FactoryReviewNode(), mdFactory.newMdConverter());
+//        FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(new FactoryGvData());
+//        return new ReviewBuilderImpl(gvFactory.newGvConverter(), manager, reviewFactory,
+//                dataBuilderFactory, new DataValidator());
+//    }
 }
