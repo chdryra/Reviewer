@@ -37,7 +37,7 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
                                  FactoryReviewViewAdapter adapterFactory) {
         mData = aggregateData;
         mAdapterFactory = adapterFactory;
-        mViewer = viewerfactory.newDataToReviewsViewer(mData);
+        mViewer = viewerfactory.newAggregateToReviewsViewer(mData);
     }
 
     public FactoryReviewViewAdapter getAdapterFactory() {

@@ -31,8 +31,8 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     }
 
     @Override
-    public GvDataType<T> getGvDataType() {
-        return getGridData().getGvDataType();
+    public GvDataType<? extends GvData> getGvDataType() {
+        return mData.getGvDataType();
     }
 
     @Override
@@ -56,6 +56,6 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
 
     @Override
     public ReviewViewAdapter expandGridData() {
-        return mAdapterFactory.newFlattenedReviewsListAdapter(mData);
+        return mAdapterFactory.newReviewsListAdapter(mData);
     }
 }

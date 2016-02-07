@@ -24,6 +24,4 @@ public interface ReviewsSource extends ReviewsRepository{
     ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     ReviewNode getMetaReview(VerboseIdableCollection data, String subject);
-
-    ReviewNode getFlattenedMetaReview(VerboseIdableCollection data, String subject);
 }

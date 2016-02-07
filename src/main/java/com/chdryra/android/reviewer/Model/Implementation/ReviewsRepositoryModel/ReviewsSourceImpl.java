@@ -79,12 +79,6 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public ReviewNode getFlattenedMetaReview(VerboseIdableCollection data, String subject) {
-        ReviewNode node = getMetaReview(data, subject);
-        return mReviewFactory.createMetaReview(mTreeFlattener.flatten(node), subject);
-    }
-
-    @Override
     public Review getReview(ReviewId reviewId) {
         Review review = getReviewNullable(reviewId);
         return review != null ? review : mReviewFactory.getNullReview();

@@ -29,7 +29,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> {
     GvDataAggregator mAggregater;
 
-    //Constructors
     public ViewerAggregateCriteria(GvCanonicalCollection<GvCriterion> data,
                                    FactoryGridDataViewer viewerFactory,
                                    FactoryReviewViewAdapter adapterFactory,
@@ -57,6 +56,6 @@ public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> 
         String diff = diffSubject > 0 ? " + " + String.valueOf(diffSubject) : "";
         String subject = refSubject + diff;
 
-        return getAdapterFactory().newDataToReviewsAdapter(aggregate, subject);
+        return getAdapterFactory().newAggregateToReviewsAdapter(aggregate, subject);
     }
 }

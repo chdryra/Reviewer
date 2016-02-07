@@ -29,7 +29,6 @@ import java.util.ArrayList;
  */
 public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T> {
     private final ArrayList<GridDataObservable.GridDataObserver> mObservers = new ArrayList<>();
-    private GvDataType<T> mDataType;
     private GridDataViewer<T> mWrapper;
     private ReviewView<T> mView;
 
@@ -51,18 +50,17 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     @Override
     public GvDataType<? extends GvData> getGvDataType() {
-        if(mDataType == null) mDataType = getGridData().getGvDataType();
-        return mDataType;
+        return mWrapper.getGvDataType();
     }
 
     @Override
     public GvDataList<T> getGridData() {
-        return mWrapper != null ? mWrapper.getGridData() : null;
+        return mWrapper.getGridData();
     }
 
     @Override
     public boolean isExpandable(T datum) {
-        return mWrapper != null && mWrapper.isExpandable(datum);
+        return mWrapper.isExpandable(datum);
     }
 
     @Override
@@ -72,7 +70,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     @Override
     public ReviewViewAdapter<?> expandGridData() {
-        return mWrapper != null ? mWrapper.expandGridData() : null;
+        return mWrapper.expandGridData();
     }
 
     @Override

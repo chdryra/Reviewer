@@ -85,7 +85,7 @@ public class FactoryReviewViewLaunchable {
 
     public <T extends GvData> LaunchableUi newViewScreen(ReviewViewAdapter<T> adapter) {
         //TODO this is probably expensive...
-        GvDataType<T> dataType = adapter.getGridData().getGvDataType();
+        GvDataType<T> dataType = (GvDataType<T>) adapter.getGvDataType();
 
         ReviewViewParams params = mParamsFactory.getParams(dataType);
         ReviewViewActions<T> actions = newViewScreenActions(dataType);

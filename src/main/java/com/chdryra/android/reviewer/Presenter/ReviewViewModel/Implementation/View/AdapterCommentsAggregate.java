@@ -44,6 +44,11 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
         mAggregater = aggregater;
         setSplit(false);
     }
+//
+//    @Override
+//    public GvDataType<? extends GvData> getGvDataType() {
+//        return GvComment.TYPE;
+//    }
 
     public void setSplit(boolean split) {
         GvCanonicalCollection<GvComment> current;

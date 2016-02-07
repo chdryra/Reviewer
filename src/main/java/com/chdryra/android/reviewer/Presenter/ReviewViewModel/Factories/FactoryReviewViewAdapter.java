@@ -70,8 +70,8 @@ public class FactoryReviewViewAdapter {
         return newReviewsListAdapter(meta);
     }
 
-    public <T extends GvData> ReviewViewAdapter<?> newFlattenedReviewsListAdapter(GvDataCollection<T> data) {
-        ReviewNode meta = mReviewSource.getFlattenedMetaReview(data, data.getStringSummary());
+    public <T extends GvData> ReviewViewAdapter<?> newReviewsListAdapter(GvDataCollection<T> data) {
+        ReviewNode meta = mReviewSource.getMetaReview(data, data.getStringSummary());
         return newReviewsListAdapter(meta);
     }
 
@@ -130,12 +130,6 @@ public class FactoryReviewViewAdapter {
         return newMetaReviewAdapter(data, subject, viewer);
     }
 
-    public <T extends GvData> ReviewViewAdapter<?> newDataToReviewsAdapter(GvCanonicalCollection<T> data,
-                                                                           String subject) {
-        GridDataViewer<GvCanonical> viewer = mViewerFactory.newDataToReviewsViewer(data);
-        return newAggregatedMetaReviewAdapter(data, subject, viewer);
-    }
-
     private <T extends GvData> ReviewViewAdapter<T> newAdapterReviewNode(ReviewNode node,
                                                                       GridDataViewer<T> viewer) {
         return new AdapterReviewNode<>(node, mConverter.getConverterImages(), viewer);
@@ -158,7 +152,8 @@ public class FactoryReviewViewAdapter {
 
     private <T extends GvData> ReviewNode getFlattenedMetaReview(GvCanonicalCollection<T> data,
                                                                  String subject) {
-        GvDataCollection<T> allData = new GvDataListImpl<>(data.getGvDataType(), data.getGvReviewId());
+        GvDataType<T> gvDataType = data.getGvDataType();
+        GvDataListImpl<T> allData = new GvDataListImpl<>(gvDataType, data.getGvReviewId());
         for(GvCanonical<T> canonical : data) {
             allData.addAll(canonical.toList());
         }
