@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
@@ -56,7 +57,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
     public void setUp() throws Exception {
         super.setUp();
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        mRepo = TestReviews.getReviews(getInstrumentation());
+        mRepo = TestReviews.getReviews(getInstrumentation(), new TagsManagerImpl());
     }
 
     @Test

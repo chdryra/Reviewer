@@ -45,7 +45,6 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Model.Implementation.TagsModel.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
@@ -91,15 +90,14 @@ public class TestReviews {
     }
 
     //Static methods
-    public static ReviewsRepository getReviews(Instrumentation instr) {
+    public static ReviewsRepository getReviews(Instrumentation instr, TagsManager tagsManager) {
         TestReviews testReviews = get(instr);
         IdableCollection<Review> reviews = testReviews.mReviews;
-        TagsManager tagsManager = new TagsManagerImpl();
         if (reviews.size() == 0) {
-            reviews.add(testReviews.getReview2(testReviews.getReview1(), tagsManager));
-            reviews.add(testReviews.getReview2(testReviews.getReview2(), tagsManager));
-            reviews.add(testReviews.getReview2(testReviews.getReview3(), tagsManager));
-            reviews.add(testReviews.getReview2(testReviews.getReview4(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview1(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview2(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview3(), tagsManager));
+            reviews.add(testReviews.getReview(testReviews.getReview4(), tagsManager));
             testReviews.mReviews = reviews;
         }
 
@@ -247,7 +245,7 @@ public class TestReviews {
         return review;
     }
 
-    private Review getReview2(TestReview review, TagsManager tagsManager) {
+    private Review getReview(TestReview review, TagsManager tagsManager) {
         ReviewId id = new MdReviewId(AUTHOR.getUserId().toString(),
                 review.mPublishDate.getTime(), 0);
         

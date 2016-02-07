@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabas
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatabaseAndroidSqlLite implements DatabasePlugin {
-    private static final String EXT = ".db";
+    private static final String EXT = "db";
     public static final FactoryContractorSqLite FACTORY = new FactoryContractorSqLite();
 
     @Override
