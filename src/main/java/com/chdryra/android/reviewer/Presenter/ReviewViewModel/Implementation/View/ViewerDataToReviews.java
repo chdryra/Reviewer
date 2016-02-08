@@ -42,7 +42,7 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
 
     @Override
     public boolean isExpandable(T datum) {
-        return datum.hasElements() && mData.contains(datum);
+        return mData.contains(datum);
     }
 
     @Override
