@@ -28,10 +28,9 @@ public class FactoryReviewBuilder {
     private FactoryDataBuilder mDataBuilderFactory;
 
     public FactoryReviewBuilder(ConverterGv converterGv,
-                                TagsManager tagsManager,
+                                DataValidator dataValidator, TagsManager tagsManager,
                                 FactoryReviews factoryReviews,
-                                FactoryDataBuilder dataBuilderfactory,
-                                DataValidator dataValidator) {
+                                FactoryDataBuilder dataBuilderfactory) {
         mConverterGv = converterGv;
         mTagsManager = tagsManager;
         mFactoryReviews = factoryReviews;

@@ -15,14 +15,11 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -31,7 +28,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryIm
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryVhBuildReviewData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
@@ -39,12 +35,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataComparators;
-
-import java.io.File;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataComparators;
 
 /**
  * Created by: Rizwan Choudrey
@@ -69,14 +60,9 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         setAdaptersFactory(modelContext, gvConverter, aggregationPlugin.getAggregatorFactory());
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsFactory());
-        setReviewBuilderAdapterFactory(context, gvConverter,
-                modelContext.getTagsManager(),
-                modelContext.getReviewsFactory(),
-                getGvDataFactory(),
-                modelContext.getDataValidator(),
-                deviceContext.getImageStoragePath(),
-                deviceContext.getImageStorageDirectory(),
-                author.getName());
+
+        setReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
+                getGvDataFactory(), author.getName());
     }
 
     private ConverterGv getConverterGv(TagsManager tagsManager) {
@@ -108,29 +94,30 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private void setReviewBuilderAdapterFactory(Context context,
+                                                ModelContext modelContext,
+                                                DeviceContext deviceContext,
                                                 ConverterGv converter,
-                                                TagsManager tagsManager,
-                                                FactoryReviews reviewsFactory,
                                                 FactoryGvData dataFactory,
-                                                DataValidator validator,
-                                                File extDir, String dir,
                                                 String authorName) {
-        FactoryGridUi<? extends GvDataList> gridUi = new FactoryDataBuildersGridUi();
-        FactoryVhBuildReviewData factoryVhBuildReviewData = new FactoryVhBuildReviewData();
-        FactoryDataBuilderAdapter factoryDataBuilderAdapter = new FactoryDataBuilderAdapter
-                (context);
-        FactoryImageChooser factoryImageChooser = new FactoryImageChooser(context);
-        FactoryDataBuilder dataBuilderFactory = new FactoryDataBuilder(dataFactory);
-        FactoryReviewBuilder factoryReviewBuilder = new FactoryReviewBuilder(converter,
-                tagsManager, reviewsFactory, dataBuilderFactory, validator);
-        FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(extDir, dir,
-                authorName);
+        FactoryReviewBuilder factoryReviewBuilder
+                = new FactoryReviewBuilder(converter,
+                modelContext.getDataValidator(),
+                modelContext.getTagsManager(),
+                modelContext.getReviewsFactory(),
+                new FactoryDataBuilder(dataFactory));
+
+        FactoryFileIncrementor incrementorFactory
+                = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
+                deviceContext.getImageStorageDirectory(), authorName);
+
         FactoryReviewBuilderAdapter builderAdapterFactory
                 = new FactoryReviewBuilderAdapter(factoryReviewBuilder,
-                gridUi,
-                factoryVhBuildReviewData,
-                validator,
-                factoryDataBuilderAdapter, incrementorFactory, factoryImageChooser);
+                new FactoryDataBuildersGridUi(),
+                new FactoryVhBuildReviewData(),
+                modelContext.getDataValidator(),
+                new FactoryDataBuilderAdapter(context),
+                incrementorFactory,
+                new FactoryImageChooser(context));
 
         setFactoryBuilderAdapter(builderAdapterFactory);
     }
