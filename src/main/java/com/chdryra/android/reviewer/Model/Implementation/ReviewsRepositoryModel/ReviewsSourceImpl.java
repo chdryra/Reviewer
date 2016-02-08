@@ -17,12 +17,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
@@ -37,14 +35,11 @@ import java.util.Collection;
 public class ReviewsSourceImpl implements ReviewsSource {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
-    private TreeFlattener mTreeFlattener;
 
     public ReviewsSourceImpl(ReviewsRepository repository,
-                             FactoryReviews reviewFactory,
-                             TreeFlattener treeFlattener) {
+                             FactoryReviews reviewFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
-        mTreeFlattener = treeFlattener;
     }
 
     @Override

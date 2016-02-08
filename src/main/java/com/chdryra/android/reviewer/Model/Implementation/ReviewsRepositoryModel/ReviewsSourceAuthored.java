@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 
@@ -23,9 +22,8 @@ public class ReviewsSourceAuthored extends ReviewsSourceImpl implements ReviewsF
     private DataAuthor mAuthor;
 
     public ReviewsSourceAuthored(ReviewsRepository repository,
-                                 FactoryReviews reviewFactory,
-                                 TreeFlattener flattener) {
-        super(repository, reviewFactory, flattener);
+                                 FactoryReviews reviewFactory) {
+        super(repository, reviewFactory);
         mAuthor = reviewFactory.getAuthor();
     }
 

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
@@ -20,13 +19,12 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Model.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
-import com.chdryra.android.reviewer.Model.Factories.FactoryTreeFlattener;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
 
 /**
@@ -56,22 +54,14 @@ public class ReleaseModelContext extends ModelContextBasic {
         ReviewsRepositoryMutable persistence
                 = persistencePlugin.newPersistenceRepository(context, this);
 
-        TreeFlattener flattener = getTreeFlattener(getVisitorsFactory(), getNodeTraversersFactory());
-        setAuthorsFeed(persistence, getReviewsFactory(), flattener);
+        setAuthorsFeed(persistence, getReviewsFactory());
 
-        setReviewsSource(repoFactory.newReviewsSource(persistence, getReviewsFactory(), flattener));
+        setReviewsSource(repoFactory.newReviewsSource(persistence, getReviewsFactory()));
     }
 
-    private TreeFlattener getTreeFlattener(FactoryVisitorReviewNode visitorFactory,
-                                           FactoryNodeTraverser traverserFactory) {
-        FactoryTreeFlattener flattenerFactory = new FactoryTreeFlattener(visitorFactory,
-                traverserFactory);
-        return flattenerFactory.newFlattener();
-    }
     private void setAuthorsFeed(ReviewsRepositoryMutable sourceAndDestination,
-                                FactoryReviews reviewsFactory,
-                                TreeFlattener flattener) {
-        FactoryReviewsFeed feedFactory = new FactoryReviewsFeed(reviewsFactory, flattener);
+                                FactoryReviews reviewsFactory) {
+        FactoryReviewsFeed feedFactory = new FactoryReviewsFeed(reviewsFactory);
         ReviewsFeedMutable reviewsFeed = feedFactory.newMutableFeed(sourceAndDestination);
 
         setAuthorsFeed(reviewsFeed);

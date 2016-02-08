@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
@@ -24,9 +23,8 @@ public class ReviewsSourceAuthoredMutable extends ReviewsSourceAuthored implemen
     private ReviewsRepositoryMutable mRepository;
 
     public ReviewsSourceAuthoredMutable(ReviewsRepositoryMutable repository,
-                                        FactoryReviews reviewFactory,
-                                        TreeFlattener flattener) {
-        super(repository, reviewFactory, flattener);
+                                        FactoryReviews reviewFactory) {
+        super(repository, reviewFactory);
         mRepository = repository;
     }
 

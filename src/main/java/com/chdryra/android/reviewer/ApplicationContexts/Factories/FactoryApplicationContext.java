@@ -48,6 +48,7 @@ public class FactoryApplicationContext {
                         plugins.getDataAggregatorsPlugin());
 
         ReviewerLocationServices services = getLocationServices(plugins.getLocationServicesPlugin());
+
         return new ApplicationContextImpl(presenterContext, services);
     }
 

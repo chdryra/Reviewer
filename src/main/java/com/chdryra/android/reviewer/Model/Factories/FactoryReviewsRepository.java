@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Interfaces.TreeFlattener;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 
@@ -20,8 +19,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
  */
 public class FactoryReviewsRepository {
     public ReviewsSource newReviewsSource(ReviewsRepository repository,
-                                          FactoryReviews reviewsFactory,
-                                          TreeFlattener flattener) {
-        return new ReviewsSourceImpl(repository, reviewsFactory, flattener);
+                                          FactoryReviews reviewsFactory) {
+        return new ReviewsSourceImpl(repository, reviewsFactory);
     }
 }

@@ -20,7 +20,10 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
  */
 public interface DataAggregatorParams {
     DifferenceBoolean getSimilarBoolean();
+
     DifferencePercentage getSimilarPercentage();
+
     DifferenceDate getSimilarDate();
+
     DifferenceLocation getSimilarLocation();
 }
