@@ -89,6 +89,10 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     }
 
     protected void doUpSelected() {
+        returnToPreviousActivity();
+    }
+
+    private void returnToPreviousActivity() {
         if (NavUtils.getParentActivityName(getActivity()) != null) {
             Intent i = NavUtils.getParentActivityIntent(getActivity());
             NavUtils.navigateUpTo(getActivity(), i);

@@ -48,6 +48,8 @@ public interface PresenterContext {
 
     ReviewBuilderAdapter<?> newReviewBuilderAdapter();
 
+    void discardReviewBuilderAdapter();
+
     ReviewBuilderAdapter<?> getReviewBuilderAdapter();
 
     <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);

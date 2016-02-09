@@ -131,6 +131,11 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
+    public void discardReviewBuilderAdapter() {
+        mReviewBuilderAdapter = null;
+    }
+
+    @Override
     public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
         return mReviewBuilderAdapter;
     }
@@ -139,7 +144,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     public void publishReviewBuilder() {
         Review published = mReviewBuilderAdapter.publishReview();
         mModelContext.getAuthorsFeed().addReview(published);
-        mReviewBuilderAdapter = null;
+        discardReviewBuilderAdapter();
     }
 
     @Override

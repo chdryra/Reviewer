@@ -114,6 +114,10 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.newReviewBuilderAdapter();
     }
 
+    public void discardReviewBuilderAdapter() {
+        mPresenterContext.discardReviewBuilderAdapter();;
+    }
+
     public void publishReviewBuilder() {
         mPresenterContext.publishReviewBuilder();
     }

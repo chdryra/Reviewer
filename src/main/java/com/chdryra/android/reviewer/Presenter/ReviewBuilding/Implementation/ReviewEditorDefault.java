@@ -81,11 +81,6 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
     }
 
     @Override
-    public boolean hasTags() {
-        return mBuilder.hasTags();
-    }
-
-    @Override
     public ImageChooser getImageChooser() {
         return mBuilder.getImageChooser();
     }

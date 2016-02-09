@@ -15,8 +15,8 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
+
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
@@ -48,11 +48,9 @@ public class GridItemDeleteRequester extends GridItemLauncher<GvReviewOverview>
     @Override
     public void onLongClickExpandable(GvReviewOverview item,
                                       int position, View v, ReviewViewAdapter<?> expanded) {
-        if (expanded != null) {
-            String alert = getActivity().getResources().getString(R.string.alert_delete_review);
-            mToDelete = item;
-            DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, new Bundle());
-        }
+        String alert = getActivity().getResources().getString(R.string.alert_delete_review);
+        mToDelete = item;
+        DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, new Bundle());
     }
 
     @Override

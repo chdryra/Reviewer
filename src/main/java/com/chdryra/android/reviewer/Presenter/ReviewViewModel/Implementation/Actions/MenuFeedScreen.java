@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
+public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreen");
 
     public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
@@ -33,7 +33,7 @@ public class FeedScreenMenu extends MenuActionNone<GvReviewOverview> {
     private LaunchableUiLauncher mUiLauncher;
     private LaunchableConfig mBuildScreenConfig;
 
-    public FeedScreenMenu(LaunchableUiLauncher uiLauncher, LaunchableConfig buildScreenConfig) {
+    public MenuFeedScreen(LaunchableUiLauncher uiLauncher, LaunchableConfig buildScreenConfig) {
         super(MENU, null, false);
         mUiLauncher = uiLauncher;
         mBuildScreenConfig = buildScreenConfig;

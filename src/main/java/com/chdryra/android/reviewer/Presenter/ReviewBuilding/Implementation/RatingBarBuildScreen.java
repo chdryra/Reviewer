@@ -21,8 +21,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 public class RatingBarBuildScreen<T extends GvData> extends ReviewEditorActionBasic<T>
         implements RatingBarAction<T>{
-    //Overridden
-
     @Override
     public void onClick(View v) {
 

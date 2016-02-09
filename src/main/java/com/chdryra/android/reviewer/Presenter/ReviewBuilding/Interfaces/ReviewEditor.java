@@ -44,8 +44,6 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
 
     void notifyBuilder();
 
-    boolean hasTags();
-
     ImageChooser getImageChooser();
 
     @Override

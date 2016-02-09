@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Context;
 import android.view.MenuItem;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
@@ -53,5 +54,12 @@ public class MenuBuildScreen<T extends GvData> extends MenuActionNone<T> {
         } catch (ClassCastException e) {
             throw new RuntimeException("Attached ReviewView should be Editor!", e);
         }
+    }
+
+    @Override
+    protected void doUpSelected() {
+        ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
+        instance.discardReviewBuilderAdapter();
+        super.doUpSelected();
     }
 }
