@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfigAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class FactoryConfigUi {
     private static final int EDIT_ON_MAP = RequestCodeGenerator.getCode(EDIT_ON_MAP_TAG);
     private static final String SHARE_REVIEW_TAG = "ShareReview";
     private static final int SHARE_REVIEW = RequestCodeGenerator.getCode(SHARE_REVIEW_TAG);
+    private static final String SHARE_EDIT_REVIEW_TAG = "ShareEditReview";
+    private static final int SHARE_EDIT_REVIEW = RequestCodeGenerator.getCode(SHARE_EDIT_REVIEW_TAG);
 
     public ConfigUi newUiConfig(LaunchablesList launchables) {
         ArrayList<LaunchableConfigsHolder<?>> dataConfigs = new ArrayList<>();
@@ -37,7 +40,8 @@ public class FactoryConfigUi {
         LaunchableConfig builder = getReviewBuilderConfig(launchables);
         LaunchableConfig mapper = getEditOnMapConfig(launchables);
         LaunchableConfig sharer = getShareReviewConfig(launchables);
-        return new ConfigUiImpl(dataConfigs, builder, mapper, sharer);
+        LaunchableConfigAlertable shareEditer = getShareEditReviewConfig(launchables);
+        return new ConfigUiImpl(dataConfigs, builder, mapper, sharer, shareEditer);
     }
 
     private LaunchableConfig getReviewBuilderConfig(LaunchablesList classes) {
@@ -50,5 +54,10 @@ public class FactoryConfigUi {
 
     private LaunchableConfig getShareReviewConfig(LaunchablesList classes) {
         return new LaunchableConfigImpl(classes.getShareReviewUi(), SHARE_REVIEW, SHARE_REVIEW_TAG);
+    }
+
+    private LaunchableConfigAlertable getShareEditReviewConfig(LaunchablesList classes) {
+        return new LaunchableConfigAlertableImpl(classes.getShareEditReviewUi(), SHARE_EDIT_REVIEW,
+                SHARE_EDIT_REVIEW_TAG);
     }
 }

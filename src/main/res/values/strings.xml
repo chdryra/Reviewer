@@ -35,6 +35,11 @@
     <string name="activity_title_feed">feed</string>
     <string name="screen_title_build_review">create</string>
 
+    <!-- TextViews -->
+    <string name="text_view_share">Share</string>
+    <string name="text_view_edit">Edit</string>
+    <string name="text_view_delete">Delete</string>
+
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
     <string name="edit_text_add_criterion_hint">criterion name&#8230;</string>

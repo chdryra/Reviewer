@@ -14,19 +14,16 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,32 +36,34 @@ public class FactoryFeedScreen {
     private FactoryReviewViewAdapter mAdapterFactory;
     private FactoryReviewViewLaunchable mLaunchableFactory;
     private LaunchableUiLauncher mLauncher;
+    private LaunchableUiAlertable mShareEditUi;
+    private LaunchableUi mReviewBuildScreenUi;
     private FactoryReviews mReviewFactory;
-    private LaunchableConfig mReviewBuildScreenConfig;
 
     public FactoryFeedScreen(FactoryReviewViewAdapter adapterFactory,
                              FactoryReviewViewLaunchable launchableFactory,
                              LaunchableUiLauncher launcher,
-                             FactoryReviews reviewFactory,
-                             LaunchableConfig reviewBuildScreenConfig) {
+                             LaunchableUiAlertable shareEditUi,
+                             LaunchableUi reviewBuildScreenUi,
+                             FactoryReviews reviewFactory) {
         mAdapterFactory = adapterFactory;
         mLaunchableFactory = launchableFactory;
         mLauncher = launcher;
         mReviewFactory = reviewFactory;
-        mReviewBuildScreenConfig = reviewBuildScreenConfig;
+        mReviewBuildScreenUi = reviewBuildScreenUi;
+        mShareEditUi = shareEditUi;
     }
 
-    public void buildScreen(ReviewsFeed feed,
-                            FeedScreen.DeleteRequestListener listener) {
+    public void buildScreen(ReviewsFeed feed) {
         String title = feed.getAuthor().getName() + "'s feed";
-        mFeedScreen = new FeedScreen(feed, title, mReviewFactory, listener);
+        mFeedScreen = new FeedScreen(feed, title, mReviewFactory);
 
-        GridItemFeedScreen gi = new GridItemFeedScreen(mLaunchableFactory, mLauncher, mFeedScreen);
+        GridItemFeedScreen gi = new GridItemFeedScreen(mLaunchableFactory, mLauncher, mShareEditUi);
         SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory, mLauncher);
         BannerButtonAction<GvReviewOverview> bba = new BannerButtonActionNone<>();
 
-        MenuFeedScreen ma = new MenuFeedScreen(mLauncher, mReviewBuildScreenConfig);
+        MenuFeedScreen ma = new MenuFeedScreen(mLauncher, mReviewBuildScreenUi);
         feed.registerObserver(mFeedScreen);
 
         mView = mFeedScreen.createView(mLaunchableFactory, mAdapterFactory, sa, rb, bba, gi, ma);

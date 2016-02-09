@@ -94,6 +94,7 @@ public class FactoryReviewViewLaunchable {
         return new ReviewViewDefault<>(perspective);
     }
 
+    //private
     private <T extends GvData> ReviewViewActions<T> newViewScreenActions(GvDataType<T> dataType) {
         if(dataType.equals(GvList.TYPE)) return getDefaultScreenActions(dataType);
         SubjectAction<T> subject = new SubjectActionNone<>();

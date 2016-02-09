@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfigAlertable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,4 +28,6 @@ public interface ConfigUi {
     LaunchableConfig getMapEditorConfig();
 
     LaunchableConfig getShareReviewConfig();
+
+    LaunchableConfigAlertable getShareEditConfig();
 }

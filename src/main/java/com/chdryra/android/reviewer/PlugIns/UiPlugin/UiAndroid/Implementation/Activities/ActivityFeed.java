@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
 
 /**
@@ -24,7 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class ActivityFeed extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
-        FeedScreen.DeleteRequestListener{
+        DeleteRequestListener {
 
     private FeedScreen mScreen;
     private ApplicationInstance mApp;
@@ -36,7 +38,7 @@ public class ActivityFeed extends ActivityReviewView implements
         mApp = ApplicationInstance.getInstance(this);
 
         FactoryFeedScreen feedScreenBuilder = getScreenBuilder();
-        feedScreenBuilder.buildScreen(mApp.getAuthorsFeed(), this);
+        feedScreenBuilder.buildScreen(mApp.getAuthorsFeed());
         mScreen = feedScreenBuilder.getFeedScreen();
 
         return feedScreenBuilder.getView();
@@ -44,8 +46,12 @@ public class ActivityFeed extends ActivityReviewView implements
 
     @NonNull
     private FactoryFeedScreen getScreenBuilder() {
-        return new FactoryFeedScreen(mApp.getReviewViewAdapterFactory(), mApp.getLaunchableFactory(),
-        mApp.getUiLauncher(), mApp.getReviewsFactory(), mApp.getConfigDataUi().getBuildReviewConfig());
+        return new FactoryFeedScreen(mApp.getReviewViewAdapterFactory(),
+                mApp.getLaunchableFactory(),
+                mApp.getUiLauncher(),
+                mApp.getConfigDataUi().getShareEditConfig().getLaunchable(),
+                mApp.getConfigDataUi().getBuildReviewConfig().getLaunchable(),
+                mApp.getReviewsFactory());
     }
 
     //Dialogs send results to host activity

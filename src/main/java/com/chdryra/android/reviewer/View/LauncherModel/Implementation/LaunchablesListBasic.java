@@ -13,6 +13,7 @@ import android.app.Activity;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 import java.util.ArrayList;
@@ -27,15 +28,19 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     private final Class<? extends LaunchableUi> mReviewBuilderLaunchable;
     private final Class<? extends LaunchableUi> mMapEditorLaunchable;
     private final Class<? extends LaunchableUi> mShareLaunchable;
+    private final Class<? extends LaunchableUiAlertable> mShareEditLaunchable;
     //TODO make this independent of Android
     private Class<? extends Activity> mDefaultReviewViewActivity;
 
-    public LaunchablesListBasic(Class<? extends LaunchableUi> reviewBuilderLaunchable, Class<?
-            extends LaunchableUi> mapEditorLaunchable, Class<? extends LaunchableUi> shareLaunchable,
+    public LaunchablesListBasic(Class<? extends LaunchableUi> reviewBuilderLaunchable,
+                                Class<? extends LaunchableUi> mapEditorLaunchable,
+                                Class<? extends LaunchableUi> shareLaunchable,
+                                Class<? extends LaunchableUiAlertable> shareEditLaunchable,
                                 Class<? extends Activity> defaultReviewViewActivity) {
         mReviewBuilderLaunchable = reviewBuilderLaunchable;
         mMapEditorLaunchable = mapEditorLaunchable;
         mShareLaunchable = shareLaunchable;
+        mShareEditLaunchable = shareEditLaunchable;
         mDefaultReviewViewActivity = defaultReviewViewActivity;
         mDataLaunchables = new ArrayList<>();
     }
@@ -57,6 +62,11 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     @Override
     public Class<? extends LaunchableUi> getShareReviewUi() {
         return mShareLaunchable;
+    }
+
+    @Override
+    public Class<? extends LaunchableUiAlertable> getShareEditReviewUi() {
+        return mShareEditLaunchable;
     }
 
     @Override

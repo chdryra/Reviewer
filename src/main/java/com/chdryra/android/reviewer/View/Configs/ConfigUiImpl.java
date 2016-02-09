@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.View.Configs;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfigAlertable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +31,13 @@ public final class ConfigUiImpl implements ConfigUi {
     private LaunchableConfig mBuildReviewConfig;
     private LaunchableConfig mEditOnMapConfig;
     private LaunchableConfig mShareReviewConfig;
+    private LaunchableConfigAlertable mShareEditConfig;
 
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
                         LaunchableConfig buildReviewConfig,
                         LaunchableConfig editOnMapConfig,
-                        LaunchableConfig shareReviewConfig) {
+                        LaunchableConfig shareReviewConfig,
+                        LaunchableConfigAlertable shareEditConfig) {
         mConfigsMap = new HashMap<>();
         for (LaunchableConfigsHolder<?> config : configs) {
             mConfigsMap.put(config.getGvDataType().getDatumName(), config);
@@ -42,6 +45,7 @@ public final class ConfigUiImpl implements ConfigUi {
         mBuildReviewConfig = buildReviewConfig;
         mEditOnMapConfig = editOnMapConfig;
         mShareReviewConfig = shareReviewConfig;
+        mShareEditConfig = shareEditConfig;
     }
 
     @Override
@@ -72,6 +76,11 @@ public final class ConfigUiImpl implements ConfigUi {
     @Override
     public LaunchableConfig getShareReviewConfig() {
         return mShareReviewConfig;
+    }
+
+    @Override
+    public LaunchableConfigAlertable getShareEditConfig() {
+        return mShareEditConfig;
     }
 
     private LaunchableConfigsHolder<?> getConfigs(String datumName) {

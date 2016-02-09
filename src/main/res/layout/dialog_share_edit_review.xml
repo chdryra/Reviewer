@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout
+    style="@style/LineaLayoutVertical.WrappedVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/text_view_share_review"
+        android:text="@string/text_view_share"
+        style="@style/TextView"/>
+
+    <TextView
+        android:id="@+id/text_view_edit_review"
+        android:text="@string/text_view_edit"
+        style="@style/TextView"/>
+
+    <TextView
+        android:id="@+id/text_view_delete_review"
+        android:text="@string/text_view_delete"
+        style="@style/TextView"/>
+
+
+</LinearLayout>

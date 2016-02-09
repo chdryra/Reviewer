@@ -12,12 +12,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,12 +30,12 @@ public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
     private static final int MENU = R.menu.menu_feed;
 
     private LaunchableUiLauncher mUiLauncher;
-    private LaunchableConfig mBuildScreenConfig;
+    private LaunchableUi mBuildScreenUi;
 
-    public MenuFeedScreen(LaunchableUiLauncher uiLauncher, LaunchableConfig buildScreenConfig) {
+    public MenuFeedScreen(LaunchableUiLauncher uiLauncher, LaunchableUi buildScreenUi) {
         super(MENU, null, false);
         mUiLauncher = uiLauncher;
-        mBuildScreenConfig = buildScreenConfig;
+        mBuildScreenUi = buildScreenUi;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
             //Overridden
             @Override
             public void doAction(Context context, MenuItem item) {
-                mUiLauncher.launch(mBuildScreenConfig, getActivity(), LAUNCH_BUILD_SCREEN,
+                mUiLauncher.launch(mBuildScreenUi, getActivity(), LAUNCH_BUILD_SCREEN,
                         new Bundle());
             }
         }, MENU_NEW_REVIEW_ID, false);

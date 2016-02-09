@@ -16,8 +16,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -26,10 +25,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,26 +35,19 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class FeedScreen implements
         DialogAlertFragment.DialogAlertListener,
-        ReviewsRepositoryObserver,
-        GridItemFeedScreen.DeleteRequestListener{
-    private ReviewNodeComponent mNode;
+        ReviewsRepositoryObserver{
+
+    private ReviewNodeComponent mFeedNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
-    private DeleteRequestListener mListener;
-
-    public interface DeleteRequestListener {
-        void onDeleteRequested(ReviewId reviewId);
-    }
 
     public FeedScreen(ReviewsFeed feed,
                       String title,
-                      FactoryReviews reviewsFactory,
-                      DeleteRequestListener listener) {
+                      FactoryReviews reviewsFactory) {
         mReviewsFactory = reviewsFactory;
-        mNode = mReviewsFactory.createMetaReviewMutable(feed.getReviews(), title);
+        mFeedNode = mReviewsFactory.createMetaReviewMutable(feed.getReviews(), title);
         feed.registerObserver(this);
-        mListener = listener;
     }
 
     public ReviewView<GvReviewOverview> createView(FactoryReviewViewLaunchable launchableFactory,
@@ -71,7 +61,8 @@ public class FeedScreen implements
         mGridItem = gridItem;
         ReviewViewActions<GvReviewOverview> actions
                 = new ReviewViewActions<>(subject, ratingBar, bannerButtonAction, gridItem, menuAction);
-        mReviewView = launchableFactory.newReviewsListScreen(mNode, adapterFactory, actions);
+        mReviewView = launchableFactory.newReviewsListScreen(mFeedNode, adapterFactory, actions);
+
         return mReviewView;
     }
 
@@ -86,11 +77,11 @@ public class FeedScreen implements
     }
 
     private void addReviewToNode(Review review) {
-        mNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
+        mFeedNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
     }
 
     private void removeReviewFromNode(ReviewId reviewId) {
-        mNode.removeChild(reviewId);
+        mFeedNode.removeChild(reviewId);
     }
 
     @Override
@@ -103,10 +94,5 @@ public class FeedScreen implements
     public void onReviewRemoved(ReviewId reviewId) {
         removeReviewFromNode(reviewId);
         if(mReviewView != null) mReviewView.onGridDataChanged();
-    }
-
-    @Override
-    public void onDeleteRequested(ReviewId reviewId) {
-        mListener.onDeleteRequested(reviewId);
     }
 }
