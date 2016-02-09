@@ -12,8 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.SortableListImpl;
-import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
@@ -23,18 +21,16 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TreeFlattenerImpl;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
@@ -58,8 +54,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by: Rizwan Choudrey
@@ -85,7 +80,7 @@ public class ReviewsSourceImplTest {
             mReviews.add(RandomReview.nextReview());
         }
         mRepo = new StaticReviewsRepository(mReviews, mMockManager);
-        mSource = new ReviewsSourceImpl(mRepo, getReviewFactory(), getTreeFlattener());
+        mSource = new ReviewsSourceImpl(mRepo, getReviewFactory());
     }
 
     @Test
@@ -240,7 +235,7 @@ public class ReviewsSourceImplTest {
     @Test
     public void registerUnregisterObserverDelegatesToRepository() {
         ReviewsRepository repo = mock(ReviewsRepository.class);
-        ReviewsSource source = new ReviewsSourceImpl(repo, getReviewFactory(), getTreeFlattener());
+        ReviewsSource source = new ReviewsSourceImpl(repo, getReviewFactory());
         ReviewsRepositoryObserver observer = mock(ReviewsRepositoryObserver.class);
         source.registerObserver(observer);
         verify(repo).registerObserver(observer);
@@ -264,11 +259,6 @@ public class ReviewsSourceImplTest {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
         FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(AUTHOR);
         return new FactoryReviews(publisherFactory, new FactoryReviewNode(), converter);
-    }
-
-    @NonNull
-    private TreeFlattenerImpl getTreeFlattener() {
-        return new TreeFlattenerImpl(new FactoryVisitorReviewNode(), new FactoryNodeTraverser());
     }
 
     private Review getRandomReview() {
