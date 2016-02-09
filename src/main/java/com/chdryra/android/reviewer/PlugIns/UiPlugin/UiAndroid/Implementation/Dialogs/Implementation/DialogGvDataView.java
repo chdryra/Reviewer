@@ -8,16 +8,21 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
 
+
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.DialogTwoButtonFragment;
+import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
+        .Configs.DefaultLayoutConfig;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
+        .Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
+        .Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -30,10 +35,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButtonFragment implements
+public abstract class DialogGvDataView<T extends GvData> extends DialogOneButtonFragment implements
         LaunchableUi {
-    public static final ActionType DONE_ACTION = ActionType.DONE;
-
     private GvDataType<T> mDataType;
     private DialogLayout<T> mLayout;
     private T mDatum;
@@ -42,13 +45,11 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
         mDataType = dataType;
     }
 
-//protected methods
     @Override
     protected Intent getReturnData() {
         return null;
     }
 
-    //Overridden
     @Override
     public String getLaunchTag() {
         return "View" + mDataType.getDatumName();
@@ -75,11 +76,8 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
 
     private void setDialogTitle() {
         GvDataType dataType = mDatum.getGvDataType();
-        if (dataType.equals(GvImage.TYPE)) {
-            setDialogTitle(null);
-        } else {
-            setDialogTitle(dataType.getDatumName());
-        }
+        String title = dataType.equals(GvImage.TYPE) ? null : dataType.getDatumName();
+        setDialogTitle(title);
     }
 
     private void setLayout() {
@@ -98,9 +96,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogTwoButton
     }
 
     private void setDialogParameters() {
-        setRightButtonAction(DONE_ACTION);
         dismissDialogOnLeftClick();
-        dismissDialogOnRightClick();
         hideKeyboardOnLaunch();
     }
 }
