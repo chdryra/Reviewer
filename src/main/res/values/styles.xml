@@ -90,6 +90,10 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="Button.LeftLabel">
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
     <!-- TextViews -->
     <style name="TextViewGridCell">
         <item name="android:layout_width">match_parent</item>

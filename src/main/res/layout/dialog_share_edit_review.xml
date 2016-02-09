@@ -10,20 +10,20 @@
     style="@style/LineaLayoutVertical.WrappedVertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/text_view_share_review"
-        android:text="@string/text_view_share"
-        style="@style/TextView"/>
+    <Button
+        android:id="@+id/button_share_review"
+        android:text= "@string/button_share"
+        style="@style/Button.LeftLabel"/>
 
-    <TextView
-        android:id="@+id/text_view_edit_review"
-        android:text="@string/text_view_edit"
-        style="@style/TextView"/>
+    <Button
+        android:id="@+id/button_edit_review"
+        android:text="@string/button_edit"
+        style="@style/Button.LeftLabel"/>
 
-    <TextView
-        android:id="@+id/text_view_delete_review"
-        android:text="@string/text_view_delete"
-        style="@style/TextView"/>
+    <Button
+        android:id="@+id/button_delete_review"
+        android:text="@string/button_delete"
+        style="@style/Button.LeftLabel"/>
 
 
 </LinearLayout>

@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.D
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
@@ -32,20 +32,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class DialogShareEditReview extends DialogOneButtonFragment implements
         LaunchableUiAlertable {
     public static final String SHARE_EDIT_REVIEW = "ShareEditReview";
-    public static final String EDIT_SHARE = "Edit-Share";
     private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
     private static final int ALERT_DELETE_REVIEW = R.string.alert_delete_review;
 
     public static final int LAYOUT = R.layout.dialog_share_edit_review;
-    public static final int SHARE = R.id.text_view_share_review;
-    public static final int EDIT = R.id.text_view_edit_review;
-    public static final int DELETE = R.id.text_view_delete_review;
+    public static final int SHARE = R.id.button_share_review;
+    public static final int EDIT = R.id.button_edit_review;
+    public static final int DELETE = R.id.button_delete_review;
 
     private DeleteRequestListener mDeleteRequestListener;
     private GvReviewId mReviewId;
-
-    private TextView mShare;
-    private TextView mEdit;
 
     @Override
     protected Intent getReturnData() {
@@ -66,9 +62,9 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     protected View createDialogUi() {
         View layout = android.view.LayoutInflater.from(getActivity()).inflate(LAYOUT, null);
 
-        mShare = (TextView)layout.findViewById(SHARE);
-        mEdit = (TextView)layout.findViewById(EDIT);
-        TextView delete = (TextView)layout.findViewById(DELETE);
+        Button share = (Button)layout.findViewById(SHARE);
+        Button edit = (Button)layout.findViewById(EDIT);
+        Button delete = (Button)layout.findViewById(DELETE);
 
         delete.setOnClickListener(launchDeleteAlertOnClick());
 
@@ -89,7 +85,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLeftButtonAction(ActionType.CANCEL);
-        setDialogTitle(EDIT_SHARE);
+        setDialogTitle(null);
         hideKeyboardOnLaunch();
         mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
         Bundle args = getArguments();
