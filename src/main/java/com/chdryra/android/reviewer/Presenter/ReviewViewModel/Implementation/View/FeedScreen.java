@@ -25,8 +25,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemDeleteRequester;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -40,11 +39,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class FeedScreen implements
         DialogAlertFragment.DialogAlertListener,
         ReviewsRepositoryObserver,
-        GridItemDeleteRequester.DeleteRequestListener{
+        GridItemFeedScreen.DeleteRequestListener{
     private ReviewNodeComponent mNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
-    private GridItemDeleteRequester mGridItem;
+    private GridItemFeedScreen mGridItem;
     private DeleteRequestListener mListener;
 
     public interface DeleteRequestListener {
@@ -66,7 +65,7 @@ public class FeedScreen implements
                                  SubjectAction<GvReviewOverview> subject,
                                  RatingBarAction<GvReviewOverview> ratingBar,
                                  BannerButtonAction<GvReviewOverview> bannerButtonAction,
-                                 GridItemDeleteRequester gridItem,
+                                 GridItemFeedScreen gridItem,
                                  MenuAction<GvReviewOverview> menuAction
                                  ) {
         mGridItem = gridItem;

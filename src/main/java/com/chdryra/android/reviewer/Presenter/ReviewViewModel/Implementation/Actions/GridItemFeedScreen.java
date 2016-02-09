@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemDeleteRequester extends GridItemLauncher<GvReviewOverview>
+public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
         implements DialogAlertFragment.DialogAlertListener{
     private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
     private DeleteRequestListener mDeleteRequestListener;
@@ -37,9 +37,9 @@ public class GridItemDeleteRequester extends GridItemLauncher<GvReviewOverview>
         void onDeleteRequested(ReviewId reviewId);
     }
 
-    public GridItemDeleteRequester(FactoryReviewViewLaunchable launchableFactory,
-                                   LaunchableUiLauncher launcher,
-                                   DeleteRequestListener deleteRequestListener) {
+    public GridItemFeedScreen(FactoryReviewViewLaunchable launchableFactory,
+                              LaunchableUiLauncher launcher,
+                              DeleteRequestListener deleteRequestListener) {
         super(launchableFactory, launcher);
         mDeleteRequestListener = deleteRequestListener;
     }

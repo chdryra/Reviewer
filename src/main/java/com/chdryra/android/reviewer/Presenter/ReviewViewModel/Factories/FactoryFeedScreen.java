@@ -17,8 +17,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemDeleteRequester;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .RatingBarExpandGrid;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -60,7 +59,7 @@ public class FactoryFeedScreen {
         String title = feed.getAuthor().getName() + "'s feed";
         mFeedScreen = new FeedScreen(feed, title, mReviewFactory, listener);
 
-        GridItemDeleteRequester gi = new GridItemDeleteRequester(mLaunchableFactory, mLauncher, mFeedScreen);
+        GridItemFeedScreen gi = new GridItemFeedScreen(mLaunchableFactory, mLauncher, mFeedScreen);
         SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverview> rb = new RatingBarExpandGrid<>(mLaunchableFactory, mLauncher);
         BannerButtonAction<GvReviewOverview> bba = new BannerButtonActionNone<>();
