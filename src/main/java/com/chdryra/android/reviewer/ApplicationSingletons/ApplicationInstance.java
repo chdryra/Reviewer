@@ -40,7 +40,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  */
 public class ApplicationInstance extends ApplicationSingleton {
     private static final String NAME = "ApplicationInstance";
-    public static final String APP_NAME = "Reviewer";
+    public static final String APP_NAME = "Teeqr";
 
     private static ApplicationInstance sSingleton;
 

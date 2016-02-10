@@ -152,7 +152,7 @@ public class TestReviews {
         review.mIsRatingAverage = false;
         review.mTags.add("Reading");
         review.mTags.add("Mum");
-        review.mTags.add("Kew Gardens");
+        review.mTags.add("KewGardens");
         review.mTags.add("Baby");
         review.mCriteria.add(new Criterion("Friday", 4f));
         review.mCriteria.add(new Criterion("Saturday", 3.5f));
@@ -235,7 +235,8 @@ public class TestReviews {
         TestReview review = new TestReview();
         review.mSubject = "Asda Nappies";
         review.mRating = 3f; //irrelevant as will be average of criteria
-        review.mIsRatingAverage = true;
+        review.mComments.add("Good value, reasonable fit.");
+        review.mIsRatingAverage = false;
         review.mTags.add("Nappies");
         review.mTags.add("Asda");
 

@@ -18,10 +18,9 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterDefault;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformSharer;
 import com.chdryra.android.reviewer.Utils.DialogShower;
@@ -80,13 +79,13 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLeftButtonAction(ActionType.CANCEL);
+        setLeftButtonAction(ActionType.DONE);
         setDialogTitle(null);
         hideKeyboardOnLaunch();
         mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
         setReviewIdFromArgs();
 
-        mSharer = new SocialPlatformSharer(new ReviewSummariser(), new ReviewFormatterDefault());
+        mSharer = new SocialPlatformSharer(new ReviewSummariser(), new ReviewFormatterTwitter());
     }
 
     @Override

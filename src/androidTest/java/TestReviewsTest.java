@@ -118,7 +118,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
         checkReviewBasics(review, "The Weekend", 5f, false, date(2015, 4, 26, 14, 30));
 
         //Tags
-        checkTags(reviewId, new String[]{"Reading", "Mum", "Kew Gardens", "Baby"});
+        checkTags(reviewId, new String[]{"Reading", "Mum", "KewGardens", "Baby"});
 
         //Children
         IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
@@ -210,7 +210,11 @@ public class TestReviewsTest extends InstrumentationTestCase{
 
     private void testReview4(Review review) {
         ReviewId reviewId = review.getReviewId();
-        checkReviewBasics(review, "Asda Nappies", 0f, true, date(2015, 7, 20, 12, 45));
+        checkReviewBasics(review, "Asda Nappies", 3f, false, date(2015, 7, 20, 12, 45));
+
+        IdableList<? extends DataComment> comments = review.getComments();
+        checkSize(comments, 1);
+        checkComment("Good value, reasonable fit.", comments.getItem(0));
 
         //Tags
         checkTags(reviewId, new String[]{"Nappies", "Asda"});

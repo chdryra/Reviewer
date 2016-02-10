@@ -26,4 +26,8 @@ public class RatingFormatter extends NumberFormatter {
     public static String outOfFive(float rating) {
         return twoSignificantDigits(rating) + "/" + String.valueOf(MAXRATING);
     }
+
+    public static String outOfFiveStars(float rating) {
+        return twoSignificantDigits(rating) + "*/" + String.valueOf(MAXRATING) + "*";
+    }
 }
