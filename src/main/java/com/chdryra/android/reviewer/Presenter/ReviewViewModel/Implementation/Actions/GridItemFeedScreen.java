@@ -23,7 +23,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview> implements DialogAlertFragment.DialogAlertListener{
+public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
+        implements DialogAlertFragment.DialogAlertListener{
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
 
     private LaunchableUiAlertable mShareEditUi;

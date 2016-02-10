@@ -16,14 +16,13 @@
         style="@style/Button.LeftLabel"/>
 
     <Button
-        android:id="@+id/button_edit_review"
-        android:text="@string/button_edit"
-        style="@style/Button.LeftLabel"/>
-
-    <Button
         android:id="@+id/button_delete_review"
         android:text="@string/button_delete"
         style="@style/Button.LeftLabel"/>
 
+    <Button
+        android:id="@+id/button_another_review"
+        android:text="@string/button_another_review"
+        style="@style/Button.LeftLabel"/>
 
 </LinearLayout>

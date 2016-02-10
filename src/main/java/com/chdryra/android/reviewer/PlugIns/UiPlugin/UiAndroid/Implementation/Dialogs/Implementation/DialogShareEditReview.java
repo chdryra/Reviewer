@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation;
-
+package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs
+        .Implementation;
 
 
 import android.content.Intent;
@@ -16,7 +16,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.DialogShower;
@@ -31,14 +32,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public class DialogShareEditReview extends DialogOneButtonFragment implements
         LaunchableUiAlertable {
-    public static final String SHARE_EDIT_REVIEW = "ShareEditReview";
+    private static final String SHARE_EDIT_REVIEW = "ShareEditReview";
+    private static final int LAYOUT = R.layout.dialog_share_edit_review;
+    private static final int SHARE = R.id.button_share_review;
+    private static final int ANOTHER = R.id.button_another_review;
+    private static final int DELETE = R.id.button_delete_review;
     private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
     private static final int ALERT_DELETE_REVIEW = R.string.alert_delete_review;
-
-    public static final int LAYOUT = R.layout.dialog_share_edit_review;
-    public static final int SHARE = R.id.button_share_review;
-    public static final int EDIT = R.id.button_edit_review;
-    public static final int DELETE = R.id.button_delete_review;
 
     private DeleteRequestListener mDeleteRequestListener;
     private GvReviewId mReviewId;
@@ -62,13 +62,45 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     protected View createDialogUi() {
         View layout = android.view.LayoutInflater.from(getActivity()).inflate(LAYOUT, null);
 
-        Button share = (Button)layout.findViewById(SHARE);
-        Button edit = (Button)layout.findViewById(EDIT);
-        Button delete = (Button)layout.findViewById(DELETE);
+        Button share = (Button) layout.findViewById(SHARE);
+        Button another = (Button) layout.findViewById(ANOTHER);
+        Button delete = (Button) layout.findViewById(DELETE);
 
         delete.setOnClickListener(launchDeleteAlertOnClick());
 
         return layout;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setLeftButtonAction(ActionType.CANCEL);
+        setDialogTitle(null);
+        hideKeyboardOnLaunch();
+        mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
+        setReviewIdFromArgs();
+    }
+
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        if (requestCode == DIALOG_ALERT) {
+            mDeleteRequestListener.onDeleteRequested(mReviewId);
+            dismiss();
+        }
+    }
+
+    private void setReviewIdFromArgs() {
+        Bundle args = getArguments();
+        if (args != null) {
+            mReviewId = args.getParcelable(getLaunchTag());
+        } else {
+            throw new IllegalArgumentException("Must pass review id in args!");
+        }
     }
 
     private View.OnClickListener launchDeleteAlertOnClick() {
@@ -79,34 +111,6 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
                 DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, new Bundle());
             }
         };
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setLeftButtonAction(ActionType.CANCEL);
-        setDialogTitle(null);
-        hideKeyboardOnLaunch();
-        mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
-        Bundle args = getArguments();
-        if(args != null) {
-            mReviewId = args.getParcelable(getLaunchTag());
-        } else {
-            throw new IllegalArgumentException("Must pass review id in args!");
-        }
-    }
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        if(requestCode == DIALOG_ALERT) {
-            mDeleteRequestListener.onDeleteRequested(mReviewId);
-            dismiss();
-        }
     }
 }
 

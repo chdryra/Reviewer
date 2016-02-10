@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LauncherUi
  * For UIs that can be launched by a {@link LauncherUiImpl}.
  * Usually by calling "launcher.launch(this)".
  */
-public interface LaunchableUiAlertable extends LaunchableUi, DialogAlertFragment.DialogAlertListener{
+public interface LaunchableUiAlertable extends
+        LaunchableUi, DialogAlertFragment.DialogAlertListener{
 
 }

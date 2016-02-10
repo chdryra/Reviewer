@@ -73,7 +73,7 @@
     <string name="button_add">Add</string>
     <string name="button_goto_review">Review</string>
     <string name="button_goto_google_maps">GMaps</string>
-    <string name="button_edit">Edit</string>
+    <string name="button_another_review">Another like this</string>
     <string name="button_delete">Delete</string>
 
     <!-- Image Buttons -->
