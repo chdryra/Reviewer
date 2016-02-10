@@ -32,13 +32,12 @@ public class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform>
     private GvSocialPlatformList mSocialPlatforms;
     private ReviewViewAdapter<?> mReviewViewAdapter;
 
-    public ShareScreenAdapter(GvSocialPlatformList socialPlatforms, ReviewViewAdapter<?> reviewViewAdapter) {
+    public ShareScreenAdapter(GvSocialPlatformList socialPlatforms,
+                              ReviewViewAdapter<?> reviewViewAdapter) {
         mSocialPlatforms = socialPlatforms;
         mReviewViewAdapter = reviewViewAdapter;
         setViewer(new ShareScreenViewer());
     }
-
-    //Overridden
 
     @Override
     public GvDataType<GvSocialPlatform> getGvDataType() {
@@ -62,7 +61,6 @@ public class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform>
 
     private class ShareScreenViewer implements GridDataViewer<GvSocialPlatform> {
 
-        //Overridden
         @Override
         public GvDataType<GvSocialPlatform> getGvDataType() {
             return TYPE;

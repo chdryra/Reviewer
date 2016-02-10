@@ -14,9 +14,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+        .ReviewViewModifier;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,7 +27,7 @@ public class FactoryReviewEditor {
     public <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC> builder,
                                   ReviewViewParams params,
                                   ReviewViewActions<GC> actions,
-                                  ReviewViewPerspective.ReviewViewModifier modifier) {
+                                  ReviewViewModifier modifier) {
         return new ReviewEditorDefault<>(builder, actions, params, modifier);
     }
 }

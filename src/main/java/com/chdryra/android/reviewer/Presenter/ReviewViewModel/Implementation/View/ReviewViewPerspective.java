@@ -8,16 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,20 +24,15 @@ public class ReviewViewPerspective<T extends GvData> {
     private ReviewViewActions<T> mActions;
     private ReviewViewModifier mModifier;
 
-    public interface ReviewViewModifier {
-        //abstract
-        View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
-                    ViewGroup container, Bundle savedInstanceState);
-    }
-
-    //Constructors
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
-                                 ReviewViewActions<T> actions, ReviewViewParams params) {
+                                 ReviewViewActions<T> actions,
+                                 ReviewViewParams params) {
         this(adapter, actions, params, null);
     }
 
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
-                                 ReviewViewActions<T> actions, ReviewViewParams params,
+                                 ReviewViewActions<T> actions,
+                                 ReviewViewParams params,
                                  ReviewViewModifier modifier) {
         mAdapter = adapter;
         mParams = params;

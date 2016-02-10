@@ -9,11 +9,11 @@
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,9 +27,12 @@ public class ActivityShareReview extends ActivityReviewView {
 
         String title = getResources().getString(R.string.button_social);
         SocialPlatformList socialPlatforms = app.getSocialPlatformList();
+
         ReviewBuilderAdapter reviewInProgress = app.getReviewBuilderAdapter();
         if(reviewInProgress == null) throw new RuntimeException("Builder is null!");
 
-        return new FactoryShareScreenView().buildView(title, socialPlatforms, reviewInProgress);
+        FactoryShareScreenView factory = new FactoryShareScreenView();
+
+        return factory.buildView(title, socialPlatforms, reviewInProgress, ActivityFeed.class);
     }
 }

@@ -18,21 +18,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
-
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModifier {
+public class BuildScreenModifier implements ReviewViewModifier {
     private static final int LAUNCH_SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
     private static final int BUTTON_DIVIDER = R.layout.horizontal_divider;
     private static final int BUTTON_LAYOUT = R.layout.review_banner_button;
@@ -40,12 +38,12 @@ public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModi
     private static final int TOAST_ENTER_SUBJECT = R.string.toast_enter_subject;
 
     private LaunchableUiLauncher mLauncher;
-    private LaunchableConfig mShareScreenConfig;
+    private LaunchableUi mShareScreenUi;
 
     public BuildScreenModifier(LaunchableUiLauncher launcher,
-                               LaunchableConfig shareScreenConfig) {
+                               LaunchableUi shareScreenUi) {
         mLauncher = launcher;
-        mShareScreenConfig = shareScreenConfig;
+        mShareScreenUi = shareScreenUi;
     }
 
     //Overridden
@@ -91,6 +89,6 @@ public class BuildScreenModifier implements ReviewViewPerspective.ReviewViewModi
             return;
         }
 
-        mLauncher.launch(mShareScreenConfig, activity, LAUNCH_SHARE_SCREEN, new Bundle());
+        mLauncher.launch(mShareScreenUi, activity, LAUNCH_SHARE_SCREEN, new Bundle());
     }
 }

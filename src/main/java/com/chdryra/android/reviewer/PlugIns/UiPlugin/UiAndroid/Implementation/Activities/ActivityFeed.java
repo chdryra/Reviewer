@@ -17,16 +17,16 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
  * UI Activity holding published reviews feed.
  */
 public class ActivityFeed extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
-        DeleteRequestListener {
+        DeleteRequestListener{
 
     private FeedScreen mScreen;
     private ApplicationInstance mApp;
@@ -68,5 +68,10 @@ public class ActivityFeed extends ActivityReviewView implements
     @Override
     public void onDeleteRequested(ReviewId reviewId) {
         mApp.deleteFromAuthorsFeed(reviewId);
+    }
+
+    @Override
+    public void launch(LauncherUi launcher) {
+        super.launch(launcher);
     }
 }

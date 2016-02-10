@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewModifier;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
@@ -32,7 +34,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> builder,
                                ReviewViewActions<GC> actions, ReviewViewParams params,
-                               ReviewViewPerspective.ReviewViewModifier modifier) {
+                               ReviewViewModifier modifier) {
         super(new ReviewViewPerspective<>(builder, actions, params, modifier));
         mBuilder = builder;
     }

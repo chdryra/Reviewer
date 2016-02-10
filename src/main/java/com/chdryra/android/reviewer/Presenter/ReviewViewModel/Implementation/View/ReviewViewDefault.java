@@ -151,7 +151,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container,
                                    Bundle savedInstanceState) {
-        ReviewViewPerspective.ReviewViewModifier modifier = mPerspective.getModifier();
+        ReviewViewModifier modifier = mPerspective.getModifier();
         if (modifier != null) {
             return modifier.modify(mFragment, v, inflater, container, savedInstanceState);
         } else {

@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreen;
@@ -20,15 +19,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Rati
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,40 +34,34 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  */
 public class FactoryBuildScreen {
     private static final int SCREEN_TITLE = R.string.screen_title_build_review;
+    public static final int BUTTON_TITLE = R.string.button_add_review_data;
 
     public <GC extends GvDataList<?>> BuildScreen newScreen(Context context,
                                  ConfigUi uiConfig,
                                  ReviewBuilderAdapter<GC> builder,
-                                 LaunchableUiLauncher launchablefactory,
+                                 LaunchableUiLauncher launcher,
                                  FactoryReviewEditor editorFactory) {
-        ReviewEditor<GC> editor = editorFactory.newEditor(builder,
-                getReviewViewParams(),
-                getReviewViewActions(context, builder),
-                getModifier(launchablefactory, uiConfig.getShareReviewConfig()));
+        ReviewEditor<GC> editor = newEditor(context, builder, launcher,
+                uiConfig.getShareEditConfig().getLaunchable(), editorFactory);
 
-        return new BuildScreen(editor, uiConfig, launchablefactory);
+        return new BuildScreen<>(editor, uiConfig, launcher);
     }
 
-    @NonNull
-    private ReviewViewParams getReviewViewParams() {
+    private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(Context context,
+                                                                  ReviewBuilderAdapter<GC> builder,
+                                                                  LaunchableUiLauncher launcher,
+                                                                  LaunchableUi shareScreenUi,
+                                                                  FactoryReviewEditor factory) {
         ReviewViewParams params = new ReviewViewParams();
         params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
-        return params;
-    }
 
-    @NonNull
-    private BuildScreenModifier getModifier(LaunchableUiLauncher launchablefactory,
-                                            LaunchableConfig shareScreenConfig) {
-        return new BuildScreenModifier(launchablefactory, shareScreenConfig);
-    }
-
-    @NonNull
-    private <GC extends GvDataList<?>> ReviewViewActions<GC> getReviewViewActions(Context context,
-                                                                                  ReviewBuilderAdapter<GC> builder) {
         String screenTitle = context.getResources().getString(SCREEN_TITLE);
-        String buttonTitle = context.getResources().getString(R.string.button_add_review_data);
-        return new ReviewViewActions<>(new SubjectEditBuildScreen<GC>(),
+        String buttonTitle = context.getResources().getString(BUTTON_TITLE);
+        ReviewViewActions<GC> actions = new ReviewViewActions<>(new SubjectEditBuildScreen<GC>(),
                 new RatingBarBuildScreen<GC>(), new BannerButtonActionNone<GC>(buttonTitle),
                 new GridItemClickObserved<GC>(), new MenuBuildScreen<GC>(screenTitle));
+
+        return factory.newEditor(builder, params, actions,
+                new BuildScreenModifier(launcher, shareScreenUi));
     }
 }

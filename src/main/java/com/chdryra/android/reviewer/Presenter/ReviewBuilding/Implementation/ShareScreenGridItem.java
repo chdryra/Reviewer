@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class ShareScreenGridItem extends GridItemActionNone<GvSocialPlatform> {
     @Override
-    public void onGridItemClick(GvSocialPlatform platform,
-                                int position, View v) {
+    public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
         platform.press();
         v.setActivated(platform.isChosen());
     }

@@ -24,10 +24,11 @@ public class ReviewFormatterTwitter implements ReviewFormatter {
     @Override
     public FormattedReview format(ReviewSummary summary) {
         String subjectTag = TextUtils.toCamelCase(summary.getSubject());
-        String title = "#" + subjectTag + " " +
-                RatingFormatter.twoSignificantDigits(summary.getRating()) + "*" + ": ";
+        String title = subjectTag + " " +
+                RatingFormatter.twoSignificantDigits(summary.getRating()) + "*";
 
-        String body = title + " " + summary.getHeadlines().get(0);
+        String body = "#" + title + ": ";
+        body += summary.getHeadlines().get(0);
         body += " #" + APP;
         for(String tag : summary.getTags()) {
             if (tag.equalsIgnoreCase(subjectTag)) continue;
