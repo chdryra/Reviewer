@@ -56,7 +56,7 @@ public interface PresenterContext {
 
     <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
-    void publishReviewBuilder();
+    Review publishReviewBuilder();
 
     ReviewsFeed getAuthorsFeed();
 

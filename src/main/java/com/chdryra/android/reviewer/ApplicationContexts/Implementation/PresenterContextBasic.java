@@ -142,10 +142,12 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public void publishReviewBuilder() {
+    public Review publishReviewBuilder() {
         Review published = mReviewBuilderAdapter.publishReview();
         mModelContext.getAuthorsFeed().addReview(published);
         discardReviewBuilderAdapter();
+
+        return published;
     }
 
     @Override

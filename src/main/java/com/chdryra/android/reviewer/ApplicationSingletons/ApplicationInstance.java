@@ -121,8 +121,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.discardReviewBuilderAdapter();;
     }
 
-    public void publishReviewBuilder() {
-        mPresenterContext.publishReviewBuilder();
+    public Review publishReviewBuilder() {
+        return mPresenterContext.publishReviewBuilder();
     }
 
     public void deleteFromAuthorsFeed(ReviewId id) {

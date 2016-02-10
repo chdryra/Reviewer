@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonModifier;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ShareScreenAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ShareScreenGridItem;
@@ -54,7 +55,7 @@ public class FactoryShareScreenView {
                                 ReviewViewAdapter<?> reviewViewAdapter,
                                 Class<? extends Activity> activityOnPublish) {
         return buildView(title, socialPlatforms, reviewViewAdapter,
-                new PublishButtonModifier(activityOnPublish));
+                new PublishButtonModifier(new PublishButtonAction(activityOnPublish)));
     }
 
     public ReviewView buildView(String title,

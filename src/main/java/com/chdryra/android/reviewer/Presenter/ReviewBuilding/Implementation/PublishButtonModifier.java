@@ -10,14 +10,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
 import com.chdryra.android.reviewer.R;
@@ -31,10 +29,10 @@ import com.chdryra.android.reviewer.R;
 public class PublishButtonModifier implements ReviewViewModifier {
 
     public static final int PUBLISH_BUTTON = R.layout.review_banner_button;
-    private Class<? extends Activity> mFeedActivity;
+    private PublishButtonAction mButton;
 
-    public PublishButtonModifier(Class<? extends Activity> feedActivity) {
-        mFeedActivity = feedActivity;
+    public PublishButtonModifier(PublishButtonAction button) {
+        mButton = button;
     }
 
     @Override
@@ -52,10 +50,7 @@ public class PublishButtonModifier implements ReviewViewModifier {
             //Overridden
             @Override
             public void onClick(View v) {
-                ApplicationInstance.getInstance(activity).publishReviewBuilder();
-                Intent intent = new Intent(activity, mFeedActivity);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                parent.startActivity(intent);
+                mButton.onPublishButtonPressed(activity, parent);
             }
         });
 
