@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**

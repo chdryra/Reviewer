@@ -28,7 +28,6 @@ public class GvCommentList extends GvDataListImpl<GvComment> {
         }
     };
 
-    //Constructors
     public GvCommentList() {
         super(GvComment.TYPE, null);
     }
@@ -45,7 +44,6 @@ public class GvCommentList extends GvDataListImpl<GvComment> {
         super(in);
     }
 
-    //public methods
     public GvCommentList getSplitComments() {
         GvCommentList splitComments = new GvCommentList(getGvReviewId());
         for (GvComment comment : this) {

@@ -13,7 +13,7 @@ import android.os.Parcel;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
 
 /**

@@ -18,7 +18,8 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -150,5 +151,15 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mReviewBuilderAdapter.getDataBuilderAdapter(dataType);
+    }
+
+    @Override
+    public Review getReview(ReviewId id) {
+        return mModelContext.getReviewsSource().getReview(id);
+    }
+
+    @Override
+    public TagsManager getTagsManager() {
+        return mModelContext.getReviewsSource().getTagsManager();
     }
 }

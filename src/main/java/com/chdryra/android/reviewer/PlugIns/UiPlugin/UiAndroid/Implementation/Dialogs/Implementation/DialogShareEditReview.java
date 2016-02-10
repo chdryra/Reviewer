@@ -16,10 +16,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .DeleteRequestListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterDefault;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformSharer;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
@@ -41,7 +45,8 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     private static final int ALERT_DELETE_REVIEW = R.string.alert_delete_review;
 
     private DeleteRequestListener mDeleteRequestListener;
-    private GvReviewId mReviewId;
+    private ReviewId mReviewId;
+    private SocialPlatformSharer mSharer;
 
     @Override
     protected Intent getReturnData() {
@@ -66,6 +71,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         Button another = (Button) layout.findViewById(ANOTHER);
         Button delete = (Button) layout.findViewById(DELETE);
 
+        share.setOnClickListener(launchShareIntentOnClick());
         delete.setOnClickListener(launchDeleteAlertOnClick());
 
         return layout;
@@ -79,6 +85,8 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         hideKeyboardOnLaunch();
         mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
         setReviewIdFromArgs();
+
+        mSharer = new SocialPlatformSharer(new ReviewSummariser(), new ReviewFormatterDefault());
     }
 
     @Override
@@ -92,6 +100,11 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
             mDeleteRequestListener.onDeleteRequested(mReviewId);
             dismiss();
         }
+    }
+
+    private void shareIntent() {
+        ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
+        mSharer.share(instance.getReview(mReviewId), instance.getTagsManager(), getActivity());
     }
 
     private void setReviewIdFromArgs() {
@@ -109,6 +122,15 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
             public void onClick(View v) {
                 String alert = getActivity().getResources().getString(ALERT_DELETE_REVIEW);
                 DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, new Bundle());
+            }
+        };
+    }
+
+    private View.OnClickListener launchShareIntentOnClick() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareIntent();
             }
         };
     }

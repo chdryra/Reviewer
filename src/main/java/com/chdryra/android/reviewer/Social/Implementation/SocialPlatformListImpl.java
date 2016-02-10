@@ -6,12 +6,12 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.Implementation.Social;
+package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatform;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.R;
 
 import java.util.Iterator;

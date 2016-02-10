@@ -12,8 +12,10 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -59,4 +61,8 @@ public interface PresenterContext {
     ReviewsFeed getAuthorsFeed();
 
     void deleteFromAuthorsFeed(ReviewId id);
+
+    Review getReview(ReviewId id);
+
+    TagsManager getTagsManager();
 }

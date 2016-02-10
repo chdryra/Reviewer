@@ -8,9 +8,12 @@
 
 package com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 
 /**
@@ -24,4 +27,8 @@ public interface ReviewsSource extends ReviewsRepository{
     ReviewNode asMetaReview(VerboseDataReview datum, String subject);
 
     ReviewNode getMetaReview(VerboseIdableCollection data, String subject);
+
+    @Override
+    @NonNull
+    Review getReview(ReviewId id);
 }

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.Interfaces.Social;
+package com.chdryra.android.reviewer.Social.Interfaces;
 
 import java.util.Iterator;
 

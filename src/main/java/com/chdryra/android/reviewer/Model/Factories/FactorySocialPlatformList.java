@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Model.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Model.Implementation.Social.SocialPlatformListImpl;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformListImpl;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey

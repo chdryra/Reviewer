@@ -16,8 +16,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.Social.SocialPlatformList;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -26,6 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -38,6 +40,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  */
 public class ApplicationInstance extends ApplicationSingleton {
     private static final String NAME = "ApplicationInstance";
+    public static final String APP_NAME = "Reviewer";
 
     private static ApplicationInstance sSingleton;
 
@@ -132,5 +135,13 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public ReviewerLocationServices getLocationServices() {
         return mLocationServices;
+    }
+
+    public Review getReview(ReviewId id) {
+        return mPresenterContext.getReview(id);
+    }
+
+    public TagsManager getTagsManager() {
+        return mPresenterContext.getTagsManager();
     }
 }
