@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformSharer;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
@@ -45,7 +45,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     private DeleteRequestListener mDeleteRequestListener;
     private ReviewId mReviewId;
-    private SocialPlatformSharer mSharer;
+    private PublisherAndroid mSharer;
 
     @Override
     protected Intent getReturnData() {
@@ -85,7 +85,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
         setReviewIdFromArgs();
 
-        mSharer = new SocialPlatformSharer(new ReviewSummariser(), new ReviewFormatterTwitter());
+        mSharer = new PublisherAndroid(new ReviewSummariser(), new ReviewFormatterTwitter());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     private void shareIntent() {
         ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
-        mSharer.share(instance.getReview(mReviewId), instance.getTagsManager(), getActivity());
+        mSharer.publish(instance.getReview(mReviewId), instance.getTagsManager(), getActivity());
     }
 
     private void setReviewIdFromArgs() {

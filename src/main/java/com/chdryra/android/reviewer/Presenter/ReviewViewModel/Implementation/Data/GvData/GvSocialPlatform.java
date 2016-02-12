@@ -14,7 +14,8 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhSocialPlatform;
 
 /**
  * {@link } version of: no equivalent as used for review sharing screen.
@@ -22,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  *
  * @see SocialPlatformList
  */
-public class GvSocialPlatform extends GvDualText implements DataSocialPlatform{
+public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     public static final GvDataType<GvSocialPlatform> TYPE =
             new GvDataType<>(GvSocialPlatform.class, "share", "share");
     public static final Creator<GvSocialPlatform> CREATOR = new Creator<GvSocialPlatform>() {
@@ -39,11 +40,9 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform{
     private int mFollowers = 0;
     private boolean mIsChosen = false;
 
-    //Constructors
     public GvSocialPlatform() {
     }
 
-    //public for testing
     public GvSocialPlatform(String name, int followers) {
         super(name, String.valueOf(followers));
         if (followers < 0) throw new RuntimeException("Should have non-negative followers!");
@@ -56,6 +55,14 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform{
         mIsChosen = in.readByte() != 0;
     }
 
+    public boolean isChosen() {
+        return mIsChosen;
+    }
+
+    public void press() {
+        mIsChosen = !mIsChosen;
+    }
+
     @Override
     public String getName() {
         return getUpper();
@@ -66,15 +73,6 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform{
         return mFollowers;
     }
 
-    public boolean isChosen() {
-        return mIsChosen;
-    }
-
-    public void press() {
-        mIsChosen = !mIsChosen;
-    }
-
-    //Overridden
     @Override
     public GvDataType<GvSocialPlatform> getGvDataType() {
         return GvSocialPlatform.TYPE;
