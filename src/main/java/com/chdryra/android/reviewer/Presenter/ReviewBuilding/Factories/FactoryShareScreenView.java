@@ -40,7 +40,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Social.Implementation.AsyncSocialPlatformImpl;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
  * Created by: Rizwan Choudrey
@@ -79,10 +81,15 @@ public class FactoryShareScreenView {
     }
 
     @NonNull
-    private ShareScreenAdapter getAdapter(SocialPlatformList socialPlatforms,
+    private ShareScreenAdapter getAdapter(SocialPlatformList platforms,
                                           ReviewViewAdapter<?> reviewViewAdapter) {
 
-        return new ShareScreenAdapter(new GvSocialPlatformList(socialPlatforms), reviewViewAdapter);
+        GvSocialPlatformList list = new GvSocialPlatformList();
+        for(SocialPlatform platform : platforms) {
+            list.add(new GvSocialPlatform(new AsyncSocialPlatformImpl(platform)));
+        }
+
+        return new ShareScreenAdapter(list, reviewViewAdapter);
     }
 
     @NonNull

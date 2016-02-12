@@ -8,15 +8,11 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPlatformListener {
-    void onPublished(PublishResults results);
-
-    void onNumberFollowersRetrieved(int numberFollowers);
+public interface FollowersListener {
+    void onNumberFollowers(int followers);
 }

@@ -13,13 +13,13 @@ import android.os.Parcel;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.AsyncSocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 
 /**
  * {@link } version of: no equivalent as used for review sharing screen.
  * {@link ViewHolder}: {@link VhSocialPlatform}
- *
  */
 public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     public static final GvDataType<GvSocialPlatform> TYPE =
@@ -36,22 +36,21 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
         }
     };
 
-    private int mFollowers = 0;
+    private static final String PLACEHOLDER = "--";
+    private AsyncSocialPlatform mPlatform;
     private boolean mIsChosen = false;
+    private int mFollowers = 0;
 
     public GvSocialPlatform() {
     }
 
-    public GvSocialPlatform(String name, int followers) {
-        super(name, String.valueOf(followers));
-        if (followers < 0) throw new RuntimeException("Should have non-negative followers!");
-        mFollowers = followers;
+    public GvSocialPlatform(AsyncSocialPlatform platform) {
+        super(platform.getName(), PLACEHOLDER);
+        mPlatform = platform;
     }
 
     public GvSocialPlatform(Parcel in) {
-        super(in);
-        mFollowers = in.readInt();
-        mIsChosen = in.readByte() != 0;
+        throw new UnsupportedOperationException("Parcelable not supported!");
     }
 
     public boolean isChosen() {
@@ -60,6 +59,14 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
     public void press() {
         mIsChosen = !mIsChosen;
+    }
+
+    public void getFollowers(FollowersListener listener) {
+        mPlatform.getFollowers(listener);
+    }
+
+    public String getPlaceHolder() {
+        return PLACEHOLDER;
     }
 
     @Override
@@ -84,30 +91,9 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        super.writeToParcel(parcel, i);
-        parcel.writeInt(mFollowers);
-        parcel.writeByte((byte) (mIsChosen ? 1 : 0));
+        throw new UnsupportedOperationException("Parcelable not supported!");
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GvSocialPlatform)) return false;
-        if (!super.equals(o)) return false;
-
-        GvSocialPlatform that = (GvSocialPlatform) o;
-
-        return mFollowers == that.mFollowers && mIsChosen == that.mIsChosen;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + mFollowers;
-        result = 31 * result + (mIsChosen ? 1 : 0);
-        return result;
-    }
 
     @Override
     public ViewHolder getViewHolder() {
@@ -122,5 +108,28 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     @Override
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validateString(getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GvSocialPlatform)) return false;
+        if (!super.equals(o)) return false;
+
+        GvSocialPlatform that = (GvSocialPlatform) o;
+
+        if (mIsChosen != that.mIsChosen) return false;
+        if (mFollowers != that.mFollowers) return false;
+        return !(mPlatform != null ? !mPlatform.equals(that.mPlatform) : that.mPlatform != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (mPlatform != null ? mPlatform.hashCode() : 0);
+        result = 31 * result + (mIsChosen ? 1 : 0);
+        result = 31 * result + mFollowers;
+        return result;
     }
 }

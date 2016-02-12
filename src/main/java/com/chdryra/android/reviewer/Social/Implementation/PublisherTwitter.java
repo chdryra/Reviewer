@@ -51,9 +51,8 @@ public class PublisherTwitter extends SocialPublisherBasic {
 
     @Override
     public int getFollowers() {
-//        if(mUser == null) setUser();
-//        return mUser.getFollowersCount();
-        return 0;
+        if(mUser == null) setUser();
+        return mUser.getFollowersCount();
     }
 
     private void setUser() {

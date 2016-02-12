@@ -13,7 +13,6 @@ import android.os.Parcelable;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
  * Used for social sharing screen showing social platforms and number of followers.
@@ -35,21 +34,12 @@ public class GvSocialPlatformList extends GvDataListImpl<GvSocialPlatform> {
         }
     };
 
-    private SocialPlatformList mList;
-
     public GvSocialPlatformList() {
         super(GvSocialPlatform.TYPE, null);
     }
 
     public GvSocialPlatformList(Parcel in) {
         super(in);
-    }
-
-    public GvSocialPlatformList(SocialPlatformList list) {
-        this();
-        mList = list;
-        for (SocialPlatform platform : list) {
-            add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
-        }
+        throw new UnsupportedOperationException("Parcelable not supported!");
     }
 }
