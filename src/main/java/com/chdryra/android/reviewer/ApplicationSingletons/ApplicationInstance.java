@@ -13,6 +13,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -139,6 +140,10 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public Review getReview(ReviewId id) {
         return mPresenterContext.getReview(id);
+    }
+
+    public Review getReview(String reviewId) {
+        return mPresenterContext.getReview(new DatumReviewId(reviewId));
     }
 
     public TagsManager getTagsManager() {

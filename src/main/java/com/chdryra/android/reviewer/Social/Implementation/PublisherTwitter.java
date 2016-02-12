@@ -24,7 +24,6 @@ import twitter4j.User;
  */
 public class PublisherTwitter extends SocialPublisherBasic {
     private static final String NAME = "twitter";
-    private static final PublishResults SUCCESS = new PublishResults(NAME);
     private Twitter mTwitter;
     private User mUser;
 
@@ -39,8 +38,8 @@ public class PublisherTwitter extends SocialPublisherBasic {
         PublishResults results;
         try {
             Status status = mTwitter.updateStatus(review.getBody());
-            if(mUser == null) mUser = status.getUser();
-            results = SUCCESS;
+            mUser = status.getUser();
+            results = new PublishResults(NAME, mUser.getFollowersCount());
         } catch (TwitterException e) {
             e.printStackTrace();
             results = new PublishResults(NAME, e.getErrorMessage());

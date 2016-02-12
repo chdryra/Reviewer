@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  */
 public class PublisherFourSquare extends SocialPublisherBasic {
     private static final String NAME = "foursquare";
-    private static final PublishResults SUCCESS = new PublishResults(NAME);
+    private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
     public PublisherFourSquare(ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);

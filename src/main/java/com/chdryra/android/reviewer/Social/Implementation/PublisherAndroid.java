@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  */
 public class PublisherAndroid extends SocialPublisherBasic {
     private static final String NAME = "Android";
+    private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
     public PublisherAndroid(ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);
@@ -33,7 +34,7 @@ public class PublisherAndroid extends SocialPublisherBasic {
         sharingIntent.putExtra(Intent.EXTRA_TEXT, review.getBody());
         activity.startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
-        return new PublishResults("Android");
+        return SUCCESS;
     }
 
     @Override

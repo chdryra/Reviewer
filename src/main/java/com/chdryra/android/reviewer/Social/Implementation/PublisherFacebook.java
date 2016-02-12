@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  */
 public class PublisherFacebook extends SocialPublisherBasic {
     private static final String NAME = "facebook";
-    private static final PublishResults SUCCESS = new PublishResults(NAME);
+    private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
     public PublisherFacebook(ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);

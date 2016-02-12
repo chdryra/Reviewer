@@ -48,15 +48,10 @@ public class FactoryShareScreenView {
                                 SocialPlatformList socialPlatforms,
                                 ReviewViewAdapter<?> reviewViewAdapter,
                                 Class<? extends Activity> activityOnPublish) {
-        return buildView(title, socialPlatforms, reviewViewAdapter,
-                new PublishButtonModifier(new PublishButtonAction(activityOnPublish)));
-    }
-
-    public ReviewView buildView(String title,
-                                SocialPlatformList socialPlatforms,
-                                ReviewViewAdapter<?> reviewViewAdapter,
-                                ReviewViewModifier modifier) {
-        ShareScreenAdapter adapter = getAdapter(socialPlatforms, reviewViewAdapter);
+        GvSocialPlatformList platforms = getGvSocialPlatforms(socialPlatforms);
+        ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, reviewViewAdapter);
+        PublishButtonAction button = new PublishButtonAction(platforms, activityOnPublish);
+        ReviewViewModifier modifier = new PublishButtonModifier(button);
 
         ReviewViewPerspective<GvSocialPlatform> perspective =
                 new ReviewViewPerspective<>(adapter, getActions(title), getParams(), modifier);
@@ -73,15 +68,12 @@ public class FactoryShareScreenView {
     }
 
     @NonNull
-    private ShareScreenAdapter getAdapter(SocialPlatformList platforms,
-                                          ReviewViewAdapter<?> reviewViewAdapter) {
-
+    private GvSocialPlatformList getGvSocialPlatforms(SocialPlatformList platforms) {
         GvSocialPlatformList list = new GvSocialPlatformList();
         for(SocialPlatform platform : platforms) {
             list.add(new GvSocialPlatform(new FollowersFetcher(platform)));
         }
-
-        return new ShareScreenAdapter(list, reviewViewAdapter);
+        return list;
     }
 
     @NonNull

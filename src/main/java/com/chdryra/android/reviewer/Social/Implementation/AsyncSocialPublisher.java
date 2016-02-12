@@ -13,9 +13,7 @@ import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.AsyncSocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
@@ -23,27 +21,20 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AsyncSocialPlatformImpl implements AsyncSocialPlatform {
-    private SocialPlatform mPlatform;
+public class AsyncSocialPublisher {
+    private SocialPublisher mPublisher;
 
-    public AsyncSocialPlatformImpl(SocialPlatform platform) {
-        mPlatform = platform;
+    public AsyncSocialPublisher(SocialPublisher publisher) {
+        mPublisher = publisher;
     }
 
-    @Override
     public String getName() {
-        return mPlatform.getName();
+        return mPublisher.getName();
     }
 
-    @Override
     public void publish(Review review, TagsManager tagsManager, Activity activity,
                                   SocialPublisherListener listener) {
         new PublisherTask(review, tagsManager, activity, listener).execute();
-    }
-
-    @Override
-    public void getFollowers(FollowersListener listener) {
-        new FollowersTask(listener).execute();
     }
 
     private class PublisherTask extends AsyncTask<Void, Void, PublishResults> {
@@ -62,30 +53,12 @@ public class AsyncSocialPlatformImpl implements AsyncSocialPlatform {
 
         @Override
         protected PublishResults doInBackground(Void... params) {
-            return mPlatform.getPublisher().publish(mReview, mTagsManager, mActivity);
+            return mPublisher.publish(mReview, mTagsManager, mActivity);
         }
 
         @Override
         protected void onPostExecute(PublishResults publishResults) {
             mListener.onPublished(publishResults);
-        }
-    }
-
-    private class FollowersTask extends AsyncTask<Void, Void, Integer> {
-        private FollowersListener mListener;
-
-        public FollowersTask(FollowersListener listener ) {
-            mListener = listener;
-        }
-
-        @Override
-        protected Integer doInBackground(Void... params) {
-            return mPlatform.getPublisher().getFollowers();
-        }
-
-        @Override
-        protected void onPostExecute(Integer followers) {
-            mListener.onNumberFollowers(followers);
         }
     }
 }

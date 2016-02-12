@@ -15,11 +15,13 @@ package com.chdryra.android.reviewer.Social.Implementation;
  */
 public class PublishResults {
     private String mPublisherName;
+    private int mFollowers;
     private String mErrorIfFail;
     private boolean mResult;
 
-    public PublishResults(String publisherName) {
+    public PublishResults(String publisherName, int followers) {
         mPublisherName = publisherName;
+        mFollowers = followers;
         mResult = true;
         mErrorIfFail = "";
     }
@@ -34,11 +36,15 @@ public class PublishResults {
         return mPublisherName;
     }
 
+    public int getFollowers() {
+        return mFollowers;
+    }
+
     public String getErrorIfFail() {
         return mErrorIfFail;
     }
 
-    public boolean isResult() {
+    public boolean isSuccessful() {
         return mResult;
     }
 }
