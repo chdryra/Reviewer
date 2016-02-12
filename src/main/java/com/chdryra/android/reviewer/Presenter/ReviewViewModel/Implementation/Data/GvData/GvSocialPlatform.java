@@ -14,7 +14,7 @@ import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.AsyncSocialPlatform;
+import com.chdryra.android.reviewer.Social.Implementation.FollowersFetcher;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 
 /**
@@ -37,16 +37,16 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     };
 
     private static final String PLACEHOLDER = "--";
-    private AsyncSocialPlatform mPlatform;
+    private FollowersFetcher mFollowersFetcher;
     private boolean mIsChosen = false;
     private int mFollowers = 0;
 
     public GvSocialPlatform() {
     }
 
-    public GvSocialPlatform(AsyncSocialPlatform platform) {
-        super(platform.getName(), PLACEHOLDER);
-        mPlatform = platform;
+    public GvSocialPlatform(FollowersFetcher followersFetcher) {
+        super(followersFetcher.getName(), PLACEHOLDER);
+        mFollowersFetcher = followersFetcher;
     }
 
     public GvSocialPlatform(Parcel in) {
@@ -62,7 +62,7 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     }
 
     public void getFollowers(FollowersListener listener) {
-        mPlatform.getFollowers(listener);
+        mFollowersFetcher.getFollowers(listener);
     }
 
     public String getPlaceHolder() {
@@ -120,14 +120,16 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
         if (mIsChosen != that.mIsChosen) return false;
         if (mFollowers != that.mFollowers) return false;
-        return !(mPlatform != null ? !mPlatform.equals(that.mPlatform) : that.mPlatform != null);
+        return !(mFollowersFetcher != null ? !mFollowersFetcher.equals(that.mFollowersFetcher) :
+                that
+                .mFollowersFetcher != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (mPlatform != null ? mPlatform.hashCode() : 0);
+        result = 31 * result + (mFollowersFetcher != null ? mFollowersFetcher.hashCode() : 0);
         result = 31 * result + (mIsChosen ? 1 : 0);
         result = 31 * result + mFollowers;
         return result;
