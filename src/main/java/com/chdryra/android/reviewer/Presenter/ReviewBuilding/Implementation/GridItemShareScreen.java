@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ShareScreenGridItem extends GridItemActionNone<GvSocialPlatform> {
+public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform> {
     @Override
     public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
         platform.press();

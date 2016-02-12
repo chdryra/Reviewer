@@ -50,7 +50,7 @@ public class PublishButtonModifier implements ReviewViewModifier {
             //Overridden
             @Override
             public void onClick(View v) {
-                mButton.onPublishButtonPressed(activity, parent);
+                mButton.onPublishButtonPressed(activity);
             }
         });
 

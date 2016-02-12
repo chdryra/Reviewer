@@ -13,8 +13,6 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
-        .FragmentReviewView;
 
 //TODO remove android activity and Intent dependency
 public class PublishButtonAction {
@@ -24,18 +22,18 @@ public class PublishButtonAction {
         mActivityOnPublish = activityOnPublish;
     }
 
-    void onPublishButtonPressed(Activity activity, FragmentReviewView parent) {
+    public void onPublishButtonPressed(Activity activity) {
         Review review = publishReviewBuilder(activity);
-        returnToFeedScreen(activity, parent);
+        returnToFeedScreen(activity);
     }
 
-    void returnToFeedScreen(Activity activity, FragmentReviewView parent) {
+    public void returnToFeedScreen(Activity activity) {
         Intent intent = new Intent(activity, mActivityOnPublish);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        parent.startActivity(intent);
+        activity.startActivity(intent);
     }
 
-    Review publishReviewBuilder(Activity activity) {
+    public Review publishReviewBuilder(Activity activity) {
         return ApplicationInstance.getInstance(activity).publishReviewBuilder();
     }
 }

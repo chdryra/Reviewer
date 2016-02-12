@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonModifier;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ShareScreenAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ShareScreenGridItem;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
@@ -89,7 +89,7 @@ public class FactoryShareScreenView {
         SubjectAction<GvSocialPlatform> sa = new SubjectActionNone<>();
         RatingBarAction<GvSocialPlatform> rb = new RatingBarActionNone<>();
         BannerButtonAction<GvSocialPlatform> bba = new BannerButtonActionNone<>(title);
-        ShareScreenGridItem gi = new ShareScreenGridItem();
+        GridItemShareScreen gi = new GridItemShareScreen();
         MenuAction<GvSocialPlatform> ma = new MenuActionNone<>(title);
 
         return new ReviewViewActions<>(sa, rb, bba, gi, ma);
