@@ -12,6 +12,7 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -19,7 +20,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -28,9 +28,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -39,17 +40,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PresenterContextBasic implements PresenterContext{
+    private ModelContext mModelContext;
+    private ViewContext mViewContext;
+    private SocialContext mSocialContext;
+
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private FactoryReviewViewLaunchable mFactoryReviewViewLaunchable;
-    private ModelContext mModelContext;
-    private ViewContext mViewContext;
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
 
-    protected PresenterContextBasic(ModelContext modelContext, ViewContext viewContext) {
+    protected PresenterContextBasic(ModelContext modelContext, ViewContext viewContext,
+                                    SocialContext socialContext) {
         mModelContext = modelContext;
         mViewContext = viewContext;
+        mSocialContext = socialContext;
     }
 
     public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
@@ -97,7 +102,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public SocialPlatformList getSocialPlatformList() {
-        return mModelContext.getSocialPlatformList();
+        return mSocialContext.getSocialPlatforms();
     }
 
     @Override

@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Model.Factories.FactorySocialPlatformList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
@@ -46,8 +45,6 @@ public class ReleaseModelContext extends ModelContextBasic {
         setVisitorsFactory(new FactoryVisitorReviewNode());
 
         setTreeTraversersFactory(new FactoryNodeTraverser());
-
-        setSocialPlatforms(new FactorySocialPlatformList().newList(context));
 
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
 

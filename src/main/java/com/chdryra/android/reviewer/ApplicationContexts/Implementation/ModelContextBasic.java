@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
@@ -27,7 +26,6 @@ public abstract class ModelContextBasic implements ModelContext {
     private FactoryReviews mFactoryReviews;
     private ReviewsFeedMutable mAuthorsFeed;
     private ReviewsSource mReviewsSource;
-    private SocialPlatformList mSocialPlatforms;
     private TagsManager mTagsManager;
     private FactoryVisitorReviewNode mVisitorsFactory;
     private FactoryNodeTraverser mTreeTraversersFactory;
@@ -61,10 +59,6 @@ public abstract class ModelContextBasic implements ModelContext {
         mReviewsSource = reviewsSource;
     }
 
-    public void setSocialPlatforms(SocialPlatformList socialPlatforms) {
-        mSocialPlatforms = socialPlatforms;
-    }
-
     @Override
     public ReviewsFeedMutable getAuthorsFeed() {
         return mAuthorsFeed;
@@ -73,11 +67,6 @@ public abstract class ModelContextBasic implements ModelContext {
     @Override
     public ReviewsSource getReviewsSource() {
         return mReviewsSource;
-    }
-
-    @Override
-    public SocialPlatformList getSocialPlatformList() {
-        return mSocialPlatforms;
     }
 
     @Override

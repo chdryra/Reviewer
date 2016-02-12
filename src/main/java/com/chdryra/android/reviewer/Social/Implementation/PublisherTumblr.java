@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.app.Activity;
-import android.content.Intent;
 
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
@@ -18,22 +17,17 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherAndroid extends SocialPublisherBasic {
-    private static final String NAME = "Android";
+public class PublisherTumblr extends SocialPublisherBasic {
+    private static final String NAME = "tumblr";
+    private static final PublishResults SUCCESS = new PublishResults(NAME);
 
-    public PublisherAndroid(ReviewSummariser summariser, ReviewFormatter formatter) {
+    public PublisherTumblr(ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);
     }
 
     @Override
     protected PublishResults publish(FormattedReview review, Activity activity) {
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, review.getTitle());
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, review.getBody());
-        activity.startActivity(Intent.createChooser(sharingIntent, "Share via"));
-
-        return new PublishResults("Android");
+        return SUCCESS;
     }
 
     @Override

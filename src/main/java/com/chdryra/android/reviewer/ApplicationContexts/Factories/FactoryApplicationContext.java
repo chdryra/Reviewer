@@ -14,11 +14,13 @@ import com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins.Appli
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleasePresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseSocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseViewContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.LocationServices.Factories.FactoryLocationServices;
@@ -41,9 +43,11 @@ public class FactoryApplicationContext {
 
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 
+        SocialContext socialContext = new ReleaseSocialContext();
+
         PresenterContext presenterContext =
                 new ReleasePresenterContext(context, modelContext, viewContext, deviceContext,
-                        author,
+                        socialContext, author,
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin());
 

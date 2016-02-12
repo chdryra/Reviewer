@@ -10,11 +10,15 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.app.Activity;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,23 +26,28 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPlatformsPublisher {
-    private ArrayList<SocialPlatformPublisher> mPublishers;
+    private Map<String, SocialPublisher> mPublishers;
+    private ArrayList<String> mRegistered;
 
-    public SocialPlatformsPublisher() {
-        mPublishers = new ArrayList<>();
+    public SocialPlatformsPublisher(Collection<SocialPublisher> publishers) {
+        mPublishers = new HashMap<>();
+        for(SocialPublisher publisher : publishers) {
+            mPublishers.put(publisher.getName(), publisher);
+        }
     }
 
-    public void registerPublisher(SocialPlatformPublisher publisher) {
-        mPublishers.add(publisher);
+    public void registerPublisher(DataSocialPlatform platform) {
+        String name = platform.getName();
+        if(mPublishers.containsKey(name)) mRegistered.add(name);
     }
 
-    public void unregisterPublisher(SocialPlatformPublisher publisher) {
-        mPublishers.remove(publisher);
+    public void unregisterPublisher(DataSocialPlatform platform) {
+        mRegistered.remove(platform.getName());
     }
 
     public void publish(Review review, TagsManager tagsManager, Activity activity) {
-        for(SocialPlatformPublisher publisher : mPublishers) {
-            publisher.publish(review, tagsManager, activity);
+        for(String publisher : mRegistered) {
+            mPublishers.get(publisher).publish(review, tagsManager, activity);
         }
     }
 }

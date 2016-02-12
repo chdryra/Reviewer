@@ -17,10 +17,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonModifier;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ShareScreenAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
@@ -40,7 +40,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -79,8 +79,9 @@ public class FactoryShareScreenView {
     }
 
     @NonNull
-    private ShareScreenAdapter getAdapter(SocialPlatformList socialPlatforms, ReviewViewAdapter
-                <?> reviewViewAdapter) {
+    private ShareScreenAdapter getAdapter(SocialPlatformList socialPlatforms,
+                                          ReviewViewAdapter<?> reviewViewAdapter) {
+
         return new ShareScreenAdapter(new GvSocialPlatformList(socialPlatforms), reviewViewAdapter);
     }
 

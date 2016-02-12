@@ -12,22 +12,25 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.User;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTwitter extends SocialPlatformPublisherBasic {
-    private static final String NAME = "Twitter";
+public class PublisherTwitter extends SocialPublisherBasic {
+    private static final String NAME = "twitter";
     private static final PublishResults SUCCESS = new PublishResults(NAME);
     private Twitter mTwitter;
+    private User mUser;
 
     public PublisherTwitter(Twitter twitter,
                             ReviewSummariser summariser, ReviewFormatter formatter) {
-        super(summariser, formatter);
+        super(NAME, summariser, formatter);
         mTwitter = twitter;
     }
 
@@ -35,7 +38,8 @@ public class PublisherTwitter extends SocialPlatformPublisherBasic {
     protected PublishResults publish(FormattedReview review, Activity activity) {
         PublishResults results;
         try {
-            mTwitter.updateStatus(review.getBody());
+            Status status = mTwitter.updateStatus(review.getBody());
+            if(mUser == null) mUser = status.getUser();
             results = SUCCESS;
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -43,5 +47,21 @@ public class PublisherTwitter extends SocialPlatformPublisherBasic {
         }
 
         return results;
+    }
+
+    @Override
+    public int getFollowers() {
+//        if(mUser == null) setUser();
+//        return mUser.getFollowersCount();
+        return 0;
+    }
+
+    private void setUser() {
+        try {
+            String screenName = mTwitter.getAccountSettings().getScreenName();
+            mUser = mTwitter.showUser(screenName);
+        } catch (TwitterException e) {
+            e.printStackTrace();
+        }
     }
 }

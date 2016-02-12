@@ -13,7 +13,6 @@ import android.os.Parcel;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhSocialPlatform;
 
@@ -21,7 +20,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * {@link } version of: no equivalent as used for review sharing screen.
  * {@link ViewHolder}: {@link VhSocialPlatform}
  *
- * @see SocialPlatformList
  */
 public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     public static final GvDataType<GvSocialPlatform> TYPE =
@@ -37,6 +35,7 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
             return new GvSocialPlatform[size];
         }
     };
+
     private int mFollowers = 0;
     private boolean mIsChosen = false;
 

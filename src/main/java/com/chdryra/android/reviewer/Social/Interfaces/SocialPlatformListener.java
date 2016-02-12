@@ -8,10 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import android.app.Activity;
-
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 /**
@@ -19,6 +15,8 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPlatformPublisher {
-    PublishResults publish(Review review, TagsManager tagsManager, Activity activity);
+public interface SocialPlatformListener {
+    void onPublished(PublishResults results);
+
+    void onNumberFollowersRetrieved(int numberFollowers);
 }

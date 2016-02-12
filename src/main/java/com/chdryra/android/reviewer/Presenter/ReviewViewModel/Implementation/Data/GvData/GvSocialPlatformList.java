@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 
 /**
  * Used for social sharing screen showing social platforms and number of followers.
@@ -37,8 +37,6 @@ public class GvSocialPlatformList extends GvDataListImpl<GvSocialPlatform> {
 
     private SocialPlatformList mList;
 
-    //Constructors
-    //For testing
     public GvSocialPlatformList() {
         super(GvSocialPlatform.TYPE, null);
     }
@@ -53,9 +51,5 @@ public class GvSocialPlatformList extends GvDataListImpl<GvSocialPlatform> {
         for (SocialPlatform platform : list) {
             add(new GvSocialPlatform(platform.getName(), platform.getFollowers()));
         }
-    }
-
-    public void update() {
-        mList.update();
     }
 }

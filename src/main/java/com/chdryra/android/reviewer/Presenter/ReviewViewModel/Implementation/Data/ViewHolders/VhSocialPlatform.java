@@ -18,11 +18,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * above, number followers below.
  */
 public class VhSocialPlatform extends VhDualText {
-    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
-        GvSocialPlatform platform = (GvSocialPlatform)
-                data;
+        GvSocialPlatform platform = (GvSocialPlatform) data;
         if (platform != null) {
             super.updateView(platform.getName(), String.valueOf(platform.getFollowers()));
         }

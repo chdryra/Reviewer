@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatfor
  * number of followers.
  */
 public interface SocialPlatform extends DataSocialPlatform {
-    void update();
+    SocialPublisher getPublisher();
 
     @Override
     String getName();

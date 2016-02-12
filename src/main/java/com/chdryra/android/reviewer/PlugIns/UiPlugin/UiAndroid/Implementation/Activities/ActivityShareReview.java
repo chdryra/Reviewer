@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey

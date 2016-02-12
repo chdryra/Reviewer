@@ -9,32 +9,31 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
  * Holds the name and number of followers for a social platform. Placeholder to update the
  * number of followers.
  */
 public class SocialPlatformImpl implements SocialPlatform {
-    private final String mName;
-    private int mFollowers;
+    private final SocialPublisher mPublisher;
 
-    public SocialPlatformImpl(String name) {
-        mName = name;
-        update();
+    public SocialPlatformImpl(SocialPublisher publisher) {
+        mPublisher = publisher;
     }
 
     @Override
     public String getName() {
-        return mName;
+        return mPublisher.getName();
     }
 
     @Override
     public int getFollowers() {
-        return mFollowers;
+        return mPublisher.getFollowers();
     }
 
     @Override
-    public void update() {
-        mFollowers = 0;
+    public SocialPublisher getPublisher() {
+        return mPublisher;
     }
 }
