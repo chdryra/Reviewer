@@ -42,7 +42,7 @@ public class FactoryBuildScreen {
                                  LaunchableUiLauncher launcher,
                                  FactoryReviewEditor editorFactory) {
         ReviewEditor<GC> editor = newEditor(context, builder, launcher,
-                uiConfig.getShareEditConfig().getLaunchable(), editorFactory);
+                uiConfig.getShareReviewConfig().getLaunchable(), editorFactory);
 
         return new BuildScreen<>(editor, uiConfig, launcher);
     }
