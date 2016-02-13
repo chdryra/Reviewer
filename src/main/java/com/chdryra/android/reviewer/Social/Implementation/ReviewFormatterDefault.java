@@ -12,6 +12,8 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/02/2016
@@ -26,7 +28,10 @@ public class ReviewFormatterDefault implements ReviewFormatter {
         String title = summary.getAuthor() + " " + RATES + " " + summary.getSubject() + " " +
                 RatingFormatter.outOfFive(summary.getRating()) + " " + APP;
 
-        String body = summary.getHeadlines().get(0);
+        String body = "";
+        ArrayList<String> headlines = summary.getHeadlines();
+        if(headlines.size() > 0) body += headlines.get(0);
+        body += " #" + APP;
         for(String tag : summary.getTags()) {
             body += " " + "#" + tag;
         }

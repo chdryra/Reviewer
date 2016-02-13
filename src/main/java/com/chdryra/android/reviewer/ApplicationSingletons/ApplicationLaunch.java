@@ -38,14 +38,10 @@ public class ApplicationLaunch {
         intialiseSingletons();
     }
 
-    public static boolean intitialiseLaunchIfNecessary(Context context, LaunchState launchState) {
-        boolean launched = false;
+    public static void intitialiseLaunchIfNecessary(Context context, LaunchState launchState) {
         if(sApplicationLaunch == null) {
             sApplicationLaunch = new ApplicationLaunch(context, launchState);
-            launched = true;
         }
-
-        return launched;
     }
 
     private void createApplicationContext(LaunchState launchState) {

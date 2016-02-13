@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils;
 
 /**
  * Created by: Rizwan Choudrey

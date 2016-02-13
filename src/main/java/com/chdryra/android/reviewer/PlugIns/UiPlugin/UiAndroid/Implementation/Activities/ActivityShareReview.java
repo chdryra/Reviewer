@@ -13,12 +13,12 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils
+        .PublishingAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
 import java.util.ArrayList;
 
@@ -28,34 +28,31 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityShareReview extends ActivityReviewView {
+    private static final int SOCIAL = R.string.activity_title_share;
+
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
-        String title = getResources().getString(R.string.button_social);
-        SocialPlatformList socialPlatforms = app.getSocialPlatformList();
-
-        ReviewBuilderAdapter reviewInProgress = app.getReviewBuilderAdapter();
-        if(reviewInProgress == null) throw new RuntimeException("Builder is null!");
-
         FactoryShareScreenView factory = new FactoryShareScreenView();
 
-        return factory.buildView(title, socialPlatforms, reviewInProgress,
+        return factory.buildView(getResources().getString(SOCIAL),
+                app.getSocialPlatformList(),
+                app.getReviewBuilderAdapter(),
                 new SocialReviewSharerAndroid(ActivityFeed.class));
     }
 
     private class SocialReviewSharerAndroid implements SocialReviewSharer {
-        private final Class<? extends Activity> mActivityOnPublish;
+        private final Class<? extends Activity> mActivityToPublish;
 
         private SocialReviewSharerAndroid(Class<? extends Activity> activityToPublish) {
-            mActivityOnPublish = activityToPublish;
+            mActivityToPublish = activityToPublish;
         }
 
         @Override
-        public void share(ReviewId published,
-                          ArrayList<String> selectedPublishers) {
+        public void share(ReviewId published, ArrayList<String> selectedPublishers) {
             Activity activity = ActivityShareReview.this;
-            Intent intent = new Intent(activity, mActivityOnPublish);
+            Intent intent = new Intent(activity, mActivityToPublish);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(PublishingAction.PUBLISHED, published.toString());
             intent.putStringArrayListExtra(PublishingAction.PLATFORMS, selectedPublishers);

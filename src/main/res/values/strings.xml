@@ -33,7 +33,8 @@
     <string name="activity_title_location">location</string>
     <string name="activity_title_url">link</string>
     <string name="activity_title_feed">feed</string>
-    <string name="screen_title_build_review">create</string>
+    <string name="activity_title_build_review">create</string>
+    <string name="activity_title_share">share</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>

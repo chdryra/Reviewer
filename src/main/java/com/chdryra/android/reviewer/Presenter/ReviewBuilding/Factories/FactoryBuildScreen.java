@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBuildScreen {
-    private static final int SCREEN_TITLE = R.string.screen_title_build_review;
+    private static final int SCREEN_TITLE = R.string.activity_title_build_review;
     public static final int BUTTON_TITLE = R.string.button_add_review_data;
 
     public <GC extends GvDataList<?>> BuildScreen newScreen(Context context,
