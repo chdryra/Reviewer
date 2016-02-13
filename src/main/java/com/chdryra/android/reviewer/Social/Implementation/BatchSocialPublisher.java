@@ -15,30 +15,33 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialPlatformsPublisher implements SocialPublisherListener{
-    private Map<String, SocialPublisher> mPublishers;
+public class BatchSocialPublisher implements SocialPublisherListener{
+    private Collection<SocialPublisher> mPublishers;
+    private ArrayList<PublishResults> mResults;
+    private BatchPublisherListener mListener;
 
-    public SocialPlatformsPublisher(Collection<SocialPublisher> publishers) {
-        mPublishers = new HashMap<>();
-        for(SocialPublisher publisher : publishers) {
-            mPublishers.put(publisher.getName(), publisher);
-        }
+    public interface BatchPublisherListener {
+        void onPublished(Collection<PublishResults> results);
     }
 
-    public void publish(Review review, TagsManager tagsManager, Iterable<String> platforms,
-                        Activity activity, SocialPublisherListener listener) {
-        for(String platform : platforms) {
-            SocialPublisher publisher = mPublishers.get(platform);
-            if(publisher != null) doAsyncPublish(publisher, review, tagsManager, activity);
+    public BatchSocialPublisher(Collection<SocialPublisher> publishers) {
+        mPublishers = publishers;
+    }
+
+    public void publish(Review review, TagsManager tagsManager, Activity activity,
+                        BatchPublisherListener listener) {
+        mListener = listener;
+        mResults = new ArrayList<>();
+        for(SocialPublisher publisher : mPublishers) {
+            doAsyncPublish(publisher, review, tagsManager, activity);
         }
     }
 
@@ -50,6 +53,10 @@ public class SocialPlatformsPublisher implements SocialPublisherListener{
 
     @Override
     public void onPublished(PublishResults results) {
-
+        mResults.add(results);
+        if(mResults.size() == mPublishers.size()) {
+            mListener.onPublished(mResults);
+        }
+        mListener = null;
     }
 }

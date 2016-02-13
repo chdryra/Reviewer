@@ -25,8 +25,12 @@ public class SocialPlatformList implements Iterable<SocialPlatform>{
         mPlatforms = new LinkedList<>();
     }
 
-    public void add(SocialPublisher platform) {
-        mPlatforms.add(new SocialPlatformImpl(platform));
+    public void add(SocialPublisher publisher) {
+        mPlatforms.add(new SocialPlatformImpl(publisher));
+    }
+
+    public void add(SocialPlatform platform) {
+        mPlatforms.add(platform);
     }
 
     public int size() {

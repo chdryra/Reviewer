@@ -11,28 +11,36 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
+import com.chdryra.android.reviewer.Social.Implementation.BatchSocialPublisher;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * UI Activity holding published reviews feed.
  */
 public class ActivityFeed extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
-        DeleteRequestListener{
+        DeleteRequestListener,
+        BatchSocialPublisher.BatchPublisherListener{
 
     private FeedScreen mScreen;
     private ApplicationInstance mApp;
@@ -42,9 +50,9 @@ public class ActivityFeed extends ActivityReviewView implements
         boolean launched = ApplicationLaunch.intitialiseLaunchIfNecessary(this,
                 ApplicationLaunch.LaunchState.TEST);
 
-        if(!launched) publishNewReviewfNecessary();
-
         mApp = ApplicationInstance.getInstance(this);
+
+        if(!launched) publishNewReviewfNecessary();
 
         FactoryFeedScreen feedScreenBuilder = getScreenBuilder();
         feedScreenBuilder.buildScreen(mApp.getAuthorsFeed());
@@ -59,8 +67,38 @@ public class ActivityFeed extends ActivityReviewView implements
         ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
         if(reviewId == null || platforms == null || platforms.size() == 0) return;
 
-        Review review = mApp.getReview(reviewId);
+        SocialPlatformList platformList = mApp.getSocialPlatformList();
+        Collection<SocialPublisher> publishers = new ArrayList<>();
+        for(SocialPlatform platform : platformList) {
+            if(platforms.contains(platform.getName())) publishers.add(platform.getPublisher());
+        }
 
+        BatchSocialPublisher publisher = new BatchSocialPublisher(publishers);
+        publisher.publish(mApp.getReview(reviewId), mApp.getTagsManager(), this, this);
+    }
+
+    @Override
+    public void onPublished(Collection<PublishResults> results) {
+        ArrayList<String> platformsOk = new ArrayList<>();
+        ArrayList<String> platformsNotOk = new ArrayList<>();
+        int numFollowers = 0;
+        for(PublishResults result : results) {
+            if(result.isSuccessful()) {
+                platformsOk.add(result.getPublisherName());
+                numFollowers += result.getFollowers();
+            } else {
+                platformsNotOk.add(result.getPublisherName());
+            }
+        }
+
+        String message = "Published to " + String.valueOf(numFollowers) + " on " +
+                StringUtils.join(platformsOk.toArray(), ",");
+
+        if(platformsNotOk.size() > 1) {
+            message += "\nProblems publishing to " + StringUtils.join(platformsNotOk.toArray(), ",");
+        }
+
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @NonNull
