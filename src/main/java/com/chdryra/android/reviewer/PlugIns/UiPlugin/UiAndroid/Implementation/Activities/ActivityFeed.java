@@ -91,8 +91,10 @@ public class ActivityFeed extends ActivityReviewView implements
             }
         }
 
-        String message = "Published to " + String.valueOf(numFollowers) + " on " +
-                StringUtils.join(platformsOk.toArray(), ",");
+        String num = String.valueOf(numFollowers);
+        String followers = numFollowers == 1 ? " follower" : " followers";
+        String message = "Published to " + num + followers + " on " +
+                StringUtils.join(platformsOk.toArray(), ", ");
 
         if(platformsNotOk.size() > 1) {
             message += "\nProblems publishing to " + StringUtils.join(platformsNotOk.toArray(), ",");

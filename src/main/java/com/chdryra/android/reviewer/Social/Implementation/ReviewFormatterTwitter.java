@@ -13,6 +13,8 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/02/2016
@@ -28,7 +30,8 @@ public class ReviewFormatterTwitter implements ReviewFormatter {
                 RatingFormatter.twoSignificantDigits(summary.getRating()) + "*";
 
         String body = "#" + title + ": ";
-        body += summary.getHeadlines().get(0);
+        ArrayList<String> headlines = summary.getHeadlines();
+        if(headlines.size() > 0) body += headlines.get(0);
         body += " #" + APP;
         for(String tag : summary.getTags()) {
             if (tag.equalsIgnoreCase(subjectTag)) continue;

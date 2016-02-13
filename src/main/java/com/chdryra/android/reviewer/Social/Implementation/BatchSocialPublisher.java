@@ -56,7 +56,7 @@ public class BatchSocialPublisher implements SocialPublisherListener{
         mResults.add(results);
         if(mResults.size() == mPublishers.size()) {
             mListener.onPublished(mResults);
+            mListener = null;
         }
-        mListener = null;
     }
 }
