@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fr
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
+//TODO remove android dependency
 public interface ReviewViewModifier {
     View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState);

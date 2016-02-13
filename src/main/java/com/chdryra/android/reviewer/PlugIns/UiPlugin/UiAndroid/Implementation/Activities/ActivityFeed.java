@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
@@ -67,14 +66,19 @@ public class ActivityFeed extends ActivityReviewView implements
         ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
         if(reviewId == null || platforms == null || platforms.size() == 0) return;
 
+        BatchSocialPublisher publisher = getPublisher(platforms);
+        publisher.publish(mApp.getReview(reviewId), mApp.getTagsManager(), this, this);
+    }
+
+    @NonNull
+    private BatchSocialPublisher getPublisher(ArrayList<String> platforms) {
         SocialPlatformList platformList = mApp.getSocialPlatformList();
         Collection<SocialPublisher> publishers = new ArrayList<>();
         for(SocialPlatform platform : platformList) {
             if(platforms.contains(platform.getName())) publishers.add(platform.getPublisher());
         }
 
-        BatchSocialPublisher publisher = new BatchSocialPublisher(publishers);
-        publisher.publish(mApp.getReview(reviewId), mApp.getTagsManager(), this, this);
+        return new BatchSocialPublisher(publishers);
     }
 
     @Override

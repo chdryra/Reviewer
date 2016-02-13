@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -18,9 +17,10 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemShareScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonShareAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishButtonModifier;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ShareScreenAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarActionNone;
@@ -43,14 +43,13 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
  */
 public class FactoryShareScreenView {
 
-    //TODO remove android activity dependency
     public ReviewView buildView(String title,
                                 SocialPlatformList socialPlatforms,
                                 ReviewViewAdapter<?> reviewViewAdapter,
-                                Class<? extends Activity> activityOnPublish) {
+                                SocialReviewSharer sharer) {
         GvSocialPlatformList platforms = getGvSocialPlatforms(socialPlatforms);
         ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, reviewViewAdapter);
-        PublishButtonAction button = new PublishButtonAction(platforms, activityOnPublish);
+        PublishButtonShareAction button = new PublishButtonShareAction(platforms, sharer);
         ReviewViewModifier modifier = new PublishButtonModifier(button);
 
         ReviewViewPerspective<GvSocialPlatform> perspective =

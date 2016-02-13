@@ -11,11 +11,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
 import com.chdryra.android.reviewer.R;
@@ -25,14 +28,15 @@ import com.chdryra.android.reviewer.R;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-//TODO remove android activity and Intent dependency
 public class PublishButtonModifier implements ReviewViewModifier {
+    private static final int PUBLISH_BUTTON = R.layout.review_banner_button;
+    private static final int DIVIDER = R.layout.horizontal_divider;
+    private static final int BUTTON_TEXT = R.string.button_publish;
 
-    public static final int PUBLISH_BUTTON = R.layout.review_banner_button;
-    private PublishButtonAction mButton;
+    private PublishButtonShareAction mSharer;
 
-    public PublishButtonModifier(PublishButtonAction button) {
-        mButton = button;
+    public PublishButtonModifier(PublishButtonShareAction sharer) {
+        mSharer = sharer;
     }
 
     @Override
@@ -41,22 +45,27 @@ public class PublishButtonModifier implements ReviewViewModifier {
 
         final Activity activity = parent.getActivity();
 
-        View divider = inflater.inflate(R.layout.horizontal_divider, container, false);
-
         Button publishButton = (Button) inflater.inflate(PUBLISH_BUTTON, container, false);
-        publishButton.setText(activity.getResources().getString(R.string.button_publish));
+        publishButton.setText(activity.getResources().getString(BUTTON_TEXT));
         publishButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
-        publishButton.setOnClickListener(new View.OnClickListener() {
-            //Overridden
-            @Override
-            public void onClick(View v) {
-                mButton.onPublishButtonPressed(activity);
-            }
-        });
+        publishButton.setOnClickListener(publishAndShare(activity));
+
+        View divider = inflater.inflate(DIVIDER, container, false);
 
         parent.addView(publishButton);
         parent.addView(divider);
 
         return v;
+    }
+
+    @NonNull
+    private View.OnClickListener publishAndShare(final Activity activity) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Review review = ApplicationInstance.getInstance(activity).publishReviewBuilder();
+                mSharer.shareReview(review.getReviewId());
+            }
+        };
     }
 }
