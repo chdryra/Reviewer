@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.content.Context;
+
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
@@ -16,9 +18,11 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * number of followers.
  */
 public class SocialPlatformImpl implements SocialPlatform {
+    private Context mContext;
     private final SocialPublisher mPublisher;
 
-    public SocialPlatformImpl(SocialPublisher publisher) {
+    public SocialPlatformImpl(Context context, SocialPublisher publisher) {
+        mContext = context;
         mPublisher = publisher;
     }
 
@@ -29,7 +33,7 @@ public class SocialPlatformImpl implements SocialPlatform {
 
     @Override
     public int getFollowers() {
-        return mPublisher.getFollowers();
+        return mPublisher.getFollowers(mContext);
     }
 
     @Override

@@ -8,14 +8,14 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.User;
+import twitter4j.auth.AccessToken;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,8 +24,11 @@ import twitter4j.User;
  */
 public class PublisherTwitter extends SocialPublisherBasic {
     private static final String NAME = "twitter";
+    private static final String RIZ_TOKEN = "697073886572212224-B9lKIZPrHvgauqStLIsYpwV6tFiO1Wm";
+    private static final String RIZ_SECRET = "OuErvZFBY5CQrRbDlC40YC2Q7ijv36O8efV720b4JOkFx";
+    
+    private AccessToken mToken = new AccessToken(RIZ_TOKEN, RIZ_SECRET);
     private Twitter mTwitter;
-    private User mUser;
 
     public PublisherTwitter(Twitter twitter,
                             ReviewSummariser summariser, ReviewFormatter formatter) {
@@ -34,12 +37,13 @@ public class PublisherTwitter extends SocialPublisherBasic {
     }
 
     @Override
-    protected PublishResults publish(FormattedReview review, Activity activity) {
+    protected PublishResults publish(FormattedReview review, Context context) {
+        setUser(context);
+
         PublishResults results;
         try {
             Status status = mTwitter.updateStatus(review.getBody());
-            mUser = status.getUser();
-            results = new PublishResults(NAME, mUser.getFollowersCount());
+            results = new PublishResults(NAME, status.getUser().getFollowersCount());
         } catch (TwitterException e) {
             e.printStackTrace();
             results = new PublishResults(NAME, e.getErrorMessage());
@@ -48,18 +52,23 @@ public class PublisherTwitter extends SocialPublisherBasic {
         return results;
     }
 
-    @Override
-    public int getFollowers() {
-        if(mUser == null) setUser();
-        return mUser.getFollowersCount();
+    private AccessToken getAccessToken(Context context) {
+        return mToken;
     }
 
-    private void setUser() {
+    @Override
+    public int getFollowers(Context context) {
+        setUser(context);
         try {
             String screenName = mTwitter.getAccountSettings().getScreenName();
-            mUser = mTwitter.showUser(screenName);
+            return mTwitter.showUser(screenName).getFollowersCount();
         } catch (TwitterException e) {
             e.printStackTrace();
+            return 0;
         }
+    }
+
+    private void setUser(Context context) {
+        mTwitter.setOAuthAccessToken(getAccessToken(context));
     }
 }

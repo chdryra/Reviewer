@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
@@ -29,20 +30,22 @@ public class FollowersFetcher {
         return mPlatform.getName();
     }
 
-    public void getFollowers(FollowersListener listener) {
-        new FollowersTask(listener).execute();
+    public void getFollowers(Context context, FollowersListener listener) {
+        new FollowersTask(context, listener).execute();
     }
 
     private class FollowersTask extends AsyncTask<Void, Void, Integer> {
+        private Context mContext;
         private FollowersListener mListener;
 
-        public FollowersTask(FollowersListener listener ) {
+        public FollowersTask(Context context, FollowersListener listener ) {
+            mContext = context;
             mListener = listener;
         }
 
         @Override
         protected Integer doInBackground(Void... params) {
-            return mPlatform.getPublisher().getFollowers();
+            return mPlatform.getPublisher().getFollowers(mContext);
         }
 
         @Override

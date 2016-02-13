@@ -43,7 +43,7 @@ public class FactoryApplicationContext {
 
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 
-        SocialContext socialContext = new ReleaseSocialContext();
+        SocialContext socialContext = new ReleaseSocialContext(context);
 
         PresenterContext presenterContext =
                 new ReleasePresenterContext(context, modelContext, viewContext, deviceContext,

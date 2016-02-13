@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -25,7 +25,7 @@ public abstract class SocialPublisherBasic implements SocialPublisher {
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
 
-    protected abstract PublishResults publish(FormattedReview review, Activity activity);
+    protected abstract PublishResults publish(FormattedReview review, Context context);
 
     public SocialPublisherBasic(String name, ReviewSummariser summariser, ReviewFormatter formatter) {
         mName = name;
@@ -39,10 +39,10 @@ public abstract class SocialPublisherBasic implements SocialPublisher {
     }
 
     @Override
-    public PublishResults publish(Review review, TagsManager tagsManager, Activity activity) {
+    public PublishResults publish(Review review, TagsManager tagsManager, Context context) {
         ReviewSummary summary = mSummariser.summarise(review, tagsManager);
         FormattedReview formatted = mFormatter.format(summary);
 
-        return publish(formatted, activity);
+        return publish(formatted, context);
     }
 }

@@ -8,12 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
+import android.content.Context;
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhSocialPlatform;
 import com.chdryra.android.reviewer.Social.Implementation.FollowersFetcher;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 
@@ -61,8 +63,8 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
         mIsChosen = !mIsChosen;
     }
 
-    public void getFollowers(FollowersListener listener) {
-        mFollowersFetcher.getFollowers(listener);
+    public void getFollowers(Context context, FollowersListener listener) {
+        mFollowersFetcher.getFollowers(context, listener);
     }
 
     public String getPlaceHolder() {

@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.facebook.FacebookSdk;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,6 +37,7 @@ public class ApplicationLaunch {
         mContext = context;
         createApplicationContext(launchState);
         intialiseSingletons();
+        FacebookSdk.sdkInitialize(context);
     }
 
     public static void intitialiseLaunchIfNecessary(Context context, LaunchState launchState) {

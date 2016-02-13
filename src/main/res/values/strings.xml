@@ -110,4 +110,8 @@
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
 
+    <!-- Keys -->
+    <string name="key_google_maps">AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg</string>
+    <string name="consumer_key_twitter">S1cZ1sRDt4pbUP49MCduMt0IQ</string>
+    <string name="consumer_secret_twitter">mUhFe14zIdh1E3wg9kPrad2hsk6rHHlquZ2eFXjK1p5I3EmqsX</string>
 </resources>

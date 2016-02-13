@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 public interface SocialPublisher {
     String getName();
 
-    PublishResults publish(Review review, TagsManager tagsManager, Activity activity);
+    PublishResults publish(Review review, TagsManager tagsManager, Context context);
 
-    int getFollowers();
+    int getFollowers(Context context);
 }
