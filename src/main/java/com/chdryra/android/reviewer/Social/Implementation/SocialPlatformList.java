@@ -8,10 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,8 +24,8 @@ public class SocialPlatformList implements Iterable<SocialPlatform>{
         mPlatforms = new LinkedList<>();
     }
 
-    public void add(Context context, SocialPublisher publisher) {
-        mPlatforms.add(new SocialPlatformImpl(context, publisher));
+    public void add(SocialPlatform platform) {
+        mPlatforms.add(platform);
     }
 
     public int size() {

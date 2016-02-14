@@ -17,19 +17,20 @@ public class PublishResults {
     private String mPublisherName;
     private int mFollowers;
     private String mErrorIfFail;
-    private boolean mResult;
+    private boolean mSuccess;
 
     public PublishResults(String publisherName, int followers) {
         mPublisherName = publisherName;
         mFollowers = followers;
-        mResult = true;
+        mSuccess = true;
         mErrorIfFail = "";
     }
 
     public PublishResults(String publisherName, String errorIfFail) {
         mPublisherName = publisherName;
+        mFollowers = 0;
+        mSuccess = false;
         mErrorIfFail = errorIfFail;
-        mResult = false;
     }
 
     public String getPublisherName() {
@@ -44,7 +45,7 @@ public class PublishResults {
         return mErrorIfFail;
     }
 
-    public boolean isSuccessful() {
-        return mResult;
+    public boolean wasSuccessful() {
+        return mSuccess;
     }
 }

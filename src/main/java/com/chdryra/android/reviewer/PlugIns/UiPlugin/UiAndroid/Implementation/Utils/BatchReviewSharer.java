@@ -63,7 +63,7 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
         ArrayList<String> platformsNotOk = new ArrayList<>();
         int numFollowers = 0;
         for(PublishResults result : results) {
-            if(result.isSuccessful()) {
+            if(result.wasSuccessful()) {
                 platformsOk.add(result.getPublisherName());
                 numFollowers += result.getFollowers();
             } else {

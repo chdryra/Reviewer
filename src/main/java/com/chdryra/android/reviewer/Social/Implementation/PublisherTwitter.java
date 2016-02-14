@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthoriser;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -24,21 +25,24 @@ import twitter4j.auth.AccessToken;
  */
 public class PublisherTwitter extends SocialPublisherBasic {
     private static final String NAME = "twitter";
-    private static final String RIZ_TOKEN = "697073886572212224-B9lKIZPrHvgauqStLIsYpwV6tFiO1Wm";
-    private static final String RIZ_SECRET = "OuErvZFBY5CQrRbDlC40YC2Q7ijv36O8efV720b4JOkFx";
-    
-    private AccessToken mToken = new AccessToken(RIZ_TOKEN, RIZ_SECRET);
+    public static final PublishResults NO_AUTH_RESULT
+            = new PublishResults(NAME, "No Authorisation");
+
     private Twitter mTwitter;
+    private SocialPlatformAuthoriser<AccessToken> mAuthoriser;
 
     public PublisherTwitter(Twitter twitter,
-                            ReviewSummariser summariser, ReviewFormatter formatter) {
+                            SocialPlatformAuthoriser<AccessToken> authoriser,
+                            ReviewSummariser summariser,
+                            ReviewFormatter formatter) {
         super(NAME, summariser, formatter);
         mTwitter = twitter;
+        mAuthoriser = authoriser;
     }
 
     @Override
     protected PublishResults publish(FormattedReview review, Context context) {
-        setUser(context);
+        if(!setUser(context)) return NO_AUTH_RESULT;
 
         PublishResults results;
         try {
@@ -52,13 +56,10 @@ public class PublisherTwitter extends SocialPublisherBasic {
         return results;
     }
 
-    private AccessToken getAccessToken(Context context) {
-        return mToken;
-    }
-
     @Override
     public int getFollowers(Context context) {
-        setUser(context);
+        if(!setUser(context)) return 0;
+
         try {
             String screenName = mTwitter.getAccountSettings().getScreenName();
             return mTwitter.showUser(screenName).getFollowersCount();
@@ -68,7 +69,13 @@ public class PublisherTwitter extends SocialPublisherBasic {
         }
     }
 
-    private void setUser(Context context) {
-        mTwitter.setOAuthAccessToken(getAccessToken(context));
+    private boolean setUser(Context context) {
+        AccessToken accessToken = mAuthoriser.getAuthorisationToken();
+        if(accessToken != null ) {
+            mTwitter.setOAuthAccessToken(accessToken);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
