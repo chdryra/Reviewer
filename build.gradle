@@ -27,12 +27,13 @@ dependencies {
     compile project(':MyGeneralLibrary')
     compile fileTree(dir: '../libs', include: '*.jar')
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile group: 'com.google.guava', name: 'guava', version: '18.0'
     compile 'com.android.support:support-annotations:23.1.1'
     compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'com.facebook.android:facebook-android-sdk:4.10.0'
     compile 'com.tumblr:jumblr:0.0.11'
+    compile 'com.github.scribejava:scribejava-apis:2.2.2'
 
     //unit tests
     testCompile 'org.hamcrest:hamcrest-library:1.3'
