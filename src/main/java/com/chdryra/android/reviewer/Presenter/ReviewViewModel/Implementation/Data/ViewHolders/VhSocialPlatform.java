@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import com.chdryra.android.mygenerallibrary.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-
-
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 
 /**
@@ -26,8 +24,10 @@ public class VhSocialPlatform extends VhDualText implements FollowersListener{
     @Override
     public void updateView(ViewHolderData data) {
         GvSocialPlatform platform = (GvSocialPlatform) data;
-        if (platform != null) {
-            mName = platform.getName();
+        mName = platform.getName();
+        onNumberFollowers(0);
+
+        if(platform.isAuthorised()) {
             super.updateView(mName, platform.getPlaceHolder());
             platform.getFollowers(getView().getContext(), this);
         }

@@ -6,13 +6,18 @@
  *
  */
 
-package com.chdryra.android.reviewer.Social.Interfaces;
+package com.chdryra.android.reviewer.Social.Implementation;
+
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 14/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPlatformAuthoriser<T> {
-    T getAuthorisationToken();
+public class AuthoriserString implements PlatformAuthoriser<String> {
+    @Override
+    public String getAuthorisationToken() {
+        return "";
+    }
 }

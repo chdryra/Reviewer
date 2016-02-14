@@ -11,18 +11,23 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
  * Holds the name and number of followers for a social platform. Placeholder to update the
  * number of followers.
  */
-public class SocialPlatformImpl implements SocialPlatform {
+public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     private Context mContext;
-    private final SocialPublisher mPublisher;
+    private final SocialPublisher<T> mPublisher;
+    private final PlatformAuthoriser<T> mAuthoriser;
+    private T mAccessToken;
 
-    public SocialPlatformImpl(Context context, SocialPublisher publisher) {
+    public SocialPlatformImpl(Context context, PlatformAuthoriser<T> authoriser,
+                              SocialPublisher<T> publisher) {
         mContext = context;
+        mAuthoriser = authoriser;
         mPublisher = publisher;
     }
 
@@ -39,5 +44,21 @@ public class SocialPlatformImpl implements SocialPlatform {
     @Override
     public SocialPublisher getPublisher() {
         return mPublisher;
+    }
+
+    @Override
+    public PlatformAuthoriser<T> getAuthoriser() {
+        return mAuthoriser;
+    }
+
+    @Override
+    public boolean isAuthorised() {
+        return mAccessToken != null;
+    }
+
+    @Override
+    public void setAccessToken(T token) {
+        mAccessToken = token;
+        mPublisher.setAccessToken(token);
     }
 }

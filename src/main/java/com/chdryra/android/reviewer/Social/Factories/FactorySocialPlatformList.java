@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Social.Factories;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.AuthoriserString;
 import com.chdryra.android.reviewer.Social.Implementation.AuthoriserTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFourSquare;
@@ -26,6 +27,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
+import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
@@ -61,7 +63,7 @@ public class FactorySocialPlatformList {
         return list;
     }
 
-    private SocialPlatform newTwitter() {
+    private SocialPlatform<AccessToken> newTwitter() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(mContext.getString(CONSUMER_KEY_TWITTER))
@@ -69,21 +71,29 @@ public class FactorySocialPlatformList {
 
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        SocialPublisher publisher = new PublisherTwitter(twitter, new AuthoriserTwitter(),
-                SUMMARISER, new ReviewFormatterTwitter());
+        AuthoriserTwitter authoriserTwitter = new AuthoriserTwitter();
+        SocialPublisher<AccessToken> publisher = new PublisherTwitter(twitter, SUMMARISER,
+                new ReviewFormatterTwitter());
 
-        return new SocialPlatformImpl(mContext, publisher);
+        SocialPlatformImpl<AccessToken> platform = new SocialPlatformImpl<>(mContext,
+                authoriserTwitter, publisher);
+        platform.setAccessToken(authoriserTwitter.getAuthorisationToken());
+
+        return platform;
     }
 
-    public SocialPlatform newFacebook() {
-        return new SocialPlatformImpl(mContext, new PublisherFacebook(SUMMARISER, FORMATTER));
+    public SocialPlatform<String> newFacebook() {
+        return new SocialPlatformImpl<>(mContext, new AuthoriserString(),
+                new PublisherFacebook(SUMMARISER, FORMATTER));
     }
 
-    public SocialPlatform newTumblr() {
-        return new SocialPlatformImpl(mContext, new PublisherTumblr(SUMMARISER, FORMATTER));
+    public SocialPlatform<String> newTumblr() {
+        return new SocialPlatformImpl<>(mContext, new AuthoriserString(),
+                new PublisherTumblr(SUMMARISER, FORMATTER));
     }
 
-    public SocialPlatform newFourSquare() {
-        return new SocialPlatformImpl(mContext, new PublisherFourSquare(SUMMARISER, FORMATTER));
+    public SocialPlatform<String> newFourSquare() {
+        return new SocialPlatformImpl<>(mContext, new AuthoriserString(),
+                new PublisherFourSquare(SUMMARISER, FORMATTER));
     }
 }

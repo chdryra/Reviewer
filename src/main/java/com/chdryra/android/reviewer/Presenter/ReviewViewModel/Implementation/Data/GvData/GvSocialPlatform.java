@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .VhSocialPlatform;
 import com.chdryra.android.reviewer.Social.Implementation.FollowersFetcher;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
  * {@link } version of: no equivalent as used for review sharing screen.
@@ -39,6 +40,7 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     };
 
     private static final String PLACEHOLDER = "--";
+    private SocialPlatform<?> mPlatform;
     private FollowersFetcher mFollowersFetcher;
     private boolean mIsChosen = false;
     private int mFollowers = 0;
@@ -46,9 +48,10 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     public GvSocialPlatform() {
     }
 
-    public GvSocialPlatform(FollowersFetcher followersFetcher) {
+    public GvSocialPlatform(SocialPlatform<?> platform, FollowersFetcher followersFetcher) {
         super(followersFetcher.getName(), PLACEHOLDER);
         mFollowersFetcher = followersFetcher;
+        mPlatform = platform;
     }
 
     public GvSocialPlatform(Parcel in) {
@@ -69,6 +72,10 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
     public String getPlaceHolder() {
         return PLACEHOLDER;
+    }
+
+    public boolean isAuthorised() {
+        return mPlatform.isAuthorised();
     }
 
     @Override

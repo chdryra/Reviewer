@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTumblr extends SocialPublisherBasic {
+public class PublisherTumblr extends SocialPublisherBasic<String> {
     private static final String NAME = "tumblr";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
@@ -32,6 +32,12 @@ public class PublisherTumblr extends SocialPublisherBasic {
 
     @Override
     public int getFollowers(Context context) {
+
         return 0;
+    }
+
+    @Override
+    public void setAccessToken(String token) {
+
     }
 }

@@ -19,10 +19,12 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPublisher {
+public interface SocialPublisher<T> {
     String getName();
 
     PublishResults publish(Review review, TagsManager tagsManager, Context context);
 
     int getFollowers(Context context);
+
+    void setAccessToken(T token);
 }

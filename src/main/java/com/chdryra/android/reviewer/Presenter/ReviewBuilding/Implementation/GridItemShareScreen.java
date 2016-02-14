@@ -9,11 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.view.View;
+import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +22,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform> {
     @Override
     public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
-        platform.press();
-        v.setActivated(platform.isChosen());
+        if(platform.isAuthorised()) {
+            platform.press();
+            v.setActivated(platform.isChosen());
+        } else {
+            Toast.makeText(getActivity(), platform.getName() + " not currently authorised",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }

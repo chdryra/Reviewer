@@ -70,7 +70,7 @@ public class FactoryShareScreenView {
     private GvSocialPlatformList getGvSocialPlatforms(SocialPlatformList platforms) {
         GvSocialPlatformList list = new GvSocialPlatformList();
         for(SocialPlatform platform : platforms) {
-            list.add(new GvSocialPlatform(new FollowersFetcher(platform)));
+            list.add(new GvSocialPlatform(platform, new FollowersFetcher(platform)));
         }
         return list;
     }

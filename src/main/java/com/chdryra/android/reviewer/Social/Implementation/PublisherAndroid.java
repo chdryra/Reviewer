@@ -41,4 +41,9 @@ public class PublisherAndroid extends SocialPublisherBasic {
     public int getFollowers(Context context) {
         return 0;
     }
+
+    @Override
+    public void setAccessToken(Object token) {
+
+    }
 }

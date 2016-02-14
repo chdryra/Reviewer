@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherFacebook extends SocialPublisherBasic {
+public class PublisherFacebook extends SocialPublisherBasic<String> {
     private static final String NAME = "facebook";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
@@ -33,5 +33,10 @@ public class PublisherFacebook extends SocialPublisherBasic {
     @Override
     public int getFollowers(Context context) {
         return 0;
+    }
+
+    @Override
+    public void setAccessToken(String token) {
+
     }
 }

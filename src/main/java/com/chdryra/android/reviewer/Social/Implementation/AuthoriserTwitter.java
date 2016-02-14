@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 
 import twitter4j.auth.AccessToken;
 
@@ -17,7 +17,7 @@ import twitter4j.auth.AccessToken;
  * On: 14/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthoriserTwitter implements SocialPlatformAuthoriser<AccessToken>{
+public class AuthoriserTwitter implements PlatformAuthoriser<AccessToken> {
     private static final String RIZ_TOKEN = "697073886572212224-B9lKIZPrHvgauqStLIsYpwV6tFiO1Wm";
     private static final String RIZ_SECRET = "OuErvZFBY5CQrRbDlC40YC2Q7ijv36O8efV720b4JOkFx";
     private static final AccessToken TOKEN = new AccessToken(RIZ_TOKEN, RIZ_SECRET);

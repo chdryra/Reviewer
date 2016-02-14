@@ -14,8 +14,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatfor
  * Holds the name and number of followers for a social platform. Placeholder to update the
  * number of followers.
  */
-public interface SocialPlatform extends DataSocialPlatform {
+public interface SocialPlatform<T> extends DataSocialPlatform {
     SocialPublisher getPublisher();
+
+    PlatformAuthoriser<T> getAuthoriser();
+
+    boolean isAuthorised();
+
+    void setAccessToken(T token);
 
     @Override
     String getName();

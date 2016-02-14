@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SocialPublisherBasic implements SocialPublisher {
+public abstract class SocialPublisherBasic<T> implements SocialPublisher<T> {
     private String mName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
