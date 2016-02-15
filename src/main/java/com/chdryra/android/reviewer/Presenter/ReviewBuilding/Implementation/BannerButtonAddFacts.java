@@ -32,7 +32,7 @@ public class BannerButtonAddFacts extends BannerButtonAdd<GvFact> {
     public BannerButtonAddFacts(String title, LaunchableConfig factAdder,
                                 LaunchableConfig urlAdder, LaunchableUiLauncher launchableFactory,
                                 GvDataList<GvFact> emptyFactList,
-                                GvDataPacker<GvFact> dataPacker) {
+                                ParcelablePacker<GvFact> dataPacker) {
         super(factAdder, launchableFactory, title, emptyFactList, dataPacker);
         mUrlAdder = urlAdder;
     }

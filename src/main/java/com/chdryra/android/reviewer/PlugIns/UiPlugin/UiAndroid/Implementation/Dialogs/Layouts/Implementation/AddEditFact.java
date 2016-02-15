@@ -31,15 +31,14 @@ public class AddEditFact extends AddEditLayoutBasic<GvFact> {
     public static final int LAYOUT = R.layout.dialog_fact_add_edit;
     public static final int LABEL = R.id.fact_label_edit_text;
     public static final int VALUE = R.id.fact_value_edit_text;
-    public static final int[] VIEWS = new int[]{LABEL, VALUE};
 
     //Constructors
     public AddEditFact(GvDataAdder adder) {
-        super(GvFact.class, LAYOUT, VIEWS, VALUE, adder);
+        super(GvFact.class, new LayoutHolder(LAYOUT, LABEL, VALUE), VALUE, adder);
     }
 
     public AddEditFact(GvDataEditor editor) {
-        super(GvFact.class, LAYOUT, VIEWS, VALUE, editor);
+        super(GvFact.class, new LayoutHolder(LAYOUT, LABEL, VALUE), VALUE, editor);
     }
 
     private GvFact newUrl(String label, String urlString) {

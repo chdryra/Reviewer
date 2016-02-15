@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -55,28 +55,28 @@ public class FactoryEditActions {
 
         addFactory(GvComment.TYPE,
                 new FactoryEditActionsComments(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvComment>()));
+                        new ParcelablePacker<GvComment>()));
 
         addFactory(GvCriterion.TYPE,
                 new FactoryEditActionsCriteria(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvCriterion>()));
+                        new ParcelablePacker<GvCriterion>()));
 
         addFactory(GvFact.TYPE,
                 new FactoryEditActionsFacts(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvFact>()));
+                        new ParcelablePacker<GvFact>()));
 
         addFactory(GvImage.TYPE,
                 new FactoryEditActionsImages(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvImage>(),
+                        new ParcelablePacker<GvImage>(),
                         imageChooser));
 
         addFactory(GvLocation.TYPE,
                 new FactoryEditActionsLocations(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvLocation>()));
+                        new ParcelablePacker<GvLocation>()));
 
         addFactory(GvTag.TYPE,
                 new FactoryEditActionsTags(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new GvDataPacker<GvTag>()));
+                        new ParcelablePacker<GvTag>()));
     }
 
     public <T extends GvData> ReviewViewActions<T> newActions(GvDataType<T> dataType) {
@@ -88,7 +88,7 @@ public class FactoryEditActions {
         FactoryEditActionsDefault<T> factory = (FactoryEditActionsDefault<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
             factory = new FactoryEditActionsDefault<>(mContext, dataType, mConfig,
-                    mLaunchableFactory, mDataFactory, new GvDataPacker<T>());
+                    mLaunchableFactory, mDataFactory, new ParcelablePacker<T>());
         }
 
         return factory;

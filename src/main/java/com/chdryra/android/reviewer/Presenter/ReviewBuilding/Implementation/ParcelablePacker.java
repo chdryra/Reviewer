@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 
 /**
- * Takes care of packing and unpacking data into Bundles/Intents between different fragments.
+ * Takes care of packing and unpacking data into Bundles/Intents between different fragments
+ * and activities.
  *
- * @param <T>: {@link GvData} type.
  */
-public class GvDataPacker<T extends GvData>{
+public class ParcelablePacker<T extends Parcelable>{
     private static final String DATUM_CURRENT = "com.chdryra.android.reviewer.data_current";
     private static final String DATUM_NEW = "com.chdryra.android.reviewer.data_new";
 
@@ -38,26 +38,25 @@ public class GvDataPacker<T extends GvData>{
             mTag = tag;
         }
 
-        //private methods
         private String getPackingTag() {
             return mTag;
         }
     }
 
     public void packItem(CurrentNewDatum currentNew, T item, Bundle args) {
-        if (item != null && !item.isValidForDisplay()) item = null;
         args.putParcelable(currentNew.getPackingTag(), item);
     }
 
     public void packItem(CurrentNewDatum currentNew, T item, Intent data) {
-        if (item != null && !item.isValidForDisplay()) item = null;
         data.putExtra(currentNew.getPackingTag(), item);
     }
 
+    @Nullable
     public T unpack(CurrentNewDatum currentNew, Bundle args) {
         return args.getParcelable(currentNew.getPackingTag());
     }
 
+    @Nullable
     public T unpack(CurrentNewDatum currentNew, Intent data) {
         return data.getParcelableExtra(currentNew.getPackingTag());
     }

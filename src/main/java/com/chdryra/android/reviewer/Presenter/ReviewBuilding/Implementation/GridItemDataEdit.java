@@ -31,11 +31,11 @@ public class GridItemDataEdit<T extends GvData> extends LaunchAndAlertableAction
         GridItemAction<T>, DataEditListener<T>, ActivityResultListener {
     private static final String TAG = "GridItemEdit:";
 
-    private final GvDataPacker<T> mDataPacker;
+    private final ParcelablePacker<T> mDataPacker;
 
     public GridItemDataEdit(LaunchableConfig editorConfig,
                             LaunchableUiLauncher launcher,
-                            GvDataPacker<T> dataPacker) {
+                            ParcelablePacker<T> dataPacker) {
         super(TAG, editorConfig, launcher);
         mDataPacker = dataPacker;
     }
@@ -49,13 +49,13 @@ public class GridItemDataEdit<T extends GvData> extends LaunchAndAlertableAction
     }
 
     protected T unpackItem(Bundle args) {
-        return mDataPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        return mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
     }
 
     @NonNull
     protected Bundle packItem(T item) {
         Bundle args = new Bundle();
-        if (item != null) mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+        if (item != null) mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item, args);
         return args;
     }
 
@@ -83,9 +83,9 @@ public class GridItemDataEdit<T extends GvData> extends LaunchAndAlertableAction
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == getLaunchableRequestCode() && data != null) {
-            T oldDatum = mDataPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, data);
+            T oldDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, data);
             if (ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-                T newDatum = mDataPacker.unpack(GvDataPacker.CurrentNewDatum.NEW, data);
+                T newDatum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
                 editData(oldDatum, newDatum);
             } else if (ActivityResultCode.get(resultCode) == ActivityResultCode.DELETE) {
                 deleteData(oldDatum);

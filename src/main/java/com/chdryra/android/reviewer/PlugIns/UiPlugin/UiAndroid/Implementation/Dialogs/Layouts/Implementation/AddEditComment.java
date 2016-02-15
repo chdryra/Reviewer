@@ -23,20 +23,18 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
 public class AddEditComment extends AddEditLayoutBasic<GvComment> {
     public static final int LAYOUT = R.layout.dialog_comment_add_edit;
     public static final int COMMENT = R.id.comment_edit_text;
-    public static final int[] VIEWS = new int[]{COMMENT};
 
     private GvComment mCurrent;
 
-    //Constructors
+    //By refelection
     public AddEditComment(GvDataAdder adder) {
-        super(GvComment.class, LAYOUT, VIEWS, COMMENT, adder);
+        super(GvComment.class, new LayoutHolder(LAYOUT, COMMENT), COMMENT, adder);
     }
 
     public AddEditComment(GvDataEditor editor) {
-        super(GvComment.class, LAYOUT, VIEWS, COMMENT, editor);
+        super(GvComment.class, new LayoutHolder(LAYOUT, COMMENT), COMMENT, editor);
     }
 
-    //Overridden
     @Override
     public GvComment createGvDataFromInputs() {
         EditText commentET = (EditText) getView(COMMENT);

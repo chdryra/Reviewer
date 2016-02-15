@@ -31,7 +31,7 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
                                    LaunchableConfig mapScreenConfig,
                                    LaunchableUiLauncher launchableFactory, String title,
                                    GvDataList<GvLocation> emptyLocationList,
-                                   GvDataPacker<GvLocation> dataPacker) {
+                                   ParcelablePacker<GvLocation> dataPacker) {
         super(adderConfig, launchableFactory, title, emptyLocationList, dataPacker);
         mMapScreenConfig = mapScreenConfig;
     }

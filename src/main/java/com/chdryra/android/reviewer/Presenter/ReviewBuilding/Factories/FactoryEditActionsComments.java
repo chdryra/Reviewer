@@ -13,7 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditComment;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -31,7 +31,7 @@ public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComm
     public FactoryEditActionsComments(Context context, ConfigUi config,
                                       LaunchableUiLauncher launchableFactory,
                                       FactoryGvData dataFactory,
-                                      GvDataPacker<GvComment> packer) {
+                                      ParcelablePacker<GvComment> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);
     }
 

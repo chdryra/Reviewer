@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 
@@ -63,52 +63,52 @@ public class GvDataPackerTest extends TestCase {
                                                            boolean bundle, boolean useUnpacker) {
         assertNotSame(itemCurrent, itemNew);
 
-        GvDataPacker<T> unpacker = useUnpacker ? new GvDataPacker<T>() : null;
+        ParcelablePacker<T> unpacker = useUnpacker ? new ParcelablePacker<T>() : null;
         Bundle args = new Bundle();
         Intent intent = new Intent();
 
-        GvData unpackCurrent = bundle ? unpack(GvDataPacker.CurrentNewDatum.CURRENT,
-                args, null) : unpack(GvDataPacker.CurrentNewDatum.CURRENT, intent, unpacker);
-        GvData unpackNew = bundle ? unpack(GvDataPacker.CurrentNewDatum
-                .NEW, args, null) : unpack(GvDataPacker.CurrentNewDatum.NEW, intent, unpacker);
+        GvData unpackCurrent = bundle ? unpack(ParcelablePacker.CurrentNewDatum.CURRENT,
+                args, null) : unpack(ParcelablePacker.CurrentNewDatum.CURRENT, intent, unpacker);
+        GvData unpackNew = bundle ? unpack(ParcelablePacker.CurrentNewDatum
+                .NEW, args, null) : unpack(ParcelablePacker.CurrentNewDatum.NEW, intent, unpacker);
         assertNull(unpackCurrent);
         assertNull(unpackNew);
 
         if (bundle) {
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, itemCurrent, args);
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, itemNew, args);
+            ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, itemCurrent, args);
+            ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, itemNew, args);
         } else {
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, itemCurrent, intent);
-            GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, itemNew, intent);
+            ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, itemCurrent, intent);
+            ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, itemNew, intent);
         }
 
-        unpackCurrent = bundle ? unpack(GvDataPacker.CurrentNewDatum.CURRENT,
-                args, null) : unpack(GvDataPacker.CurrentNewDatum.CURRENT, intent, unpacker);
-        unpackNew = bundle ? unpack(GvDataPacker.CurrentNewDatum
-                .NEW, args, null) : unpack(GvDataPacker.CurrentNewDatum.NEW, intent, unpacker);
+        unpackCurrent = bundle ? unpack(ParcelablePacker.CurrentNewDatum.CURRENT,
+                args, null) : unpack(ParcelablePacker.CurrentNewDatum.CURRENT, intent, unpacker);
+        unpackNew = bundle ? unpack(ParcelablePacker.CurrentNewDatum
+                .NEW, args, null) : unpack(ParcelablePacker.CurrentNewDatum.NEW, intent, unpacker);
         assertNotNull(unpackCurrent);
         assertNotNull(unpackNew);
         assertSame(itemCurrent, unpackCurrent);
         assertSame(itemNew, unpackNew);
     }
 
-    private <T extends GvData> GvData unpack(GvDataPacker.CurrentNewDatum
-                                                     currentNew, Bundle args, GvDataPacker<T>
+    private <T extends GvData> GvData unpack(ParcelablePacker.CurrentNewDatum
+                                                     currentNew, Bundle args, ParcelablePacker<T>
                                                      unpacker) {
         if (unpacker != null) {
             return unpacker.unpack(currentNew, args);
         } else {
-            return GvDataPacker.unpackItem(currentNew, args);
+            return ParcelablePacker.unpackItem(currentNew, args);
         }
     }
 
-    private <T extends GvData> GvData unpack(GvDataPacker.CurrentNewDatum
-                                                     currentNew, Intent intent, GvDataPacker<T>
+    private <T extends GvData> GvData unpack(ParcelablePacker.CurrentNewDatum
+                                                     currentNew, Intent intent, ParcelablePacker<T>
                                                      unpacker) {
         if (unpacker != null) {
             return unpacker.unpack(currentNew, intent);
         } else {
-            return GvDataPacker.unpackItem(currentNew, intent);
+            return ParcelablePacker.unpackItem(currentNew, intent);
         }
     }
 }

@@ -24,11 +24,10 @@ public class ViewLayoutCriterion extends DialogLayoutBasic<GvCriterion> {
     public static final int LAYOUT = R.layout.dialog_criterion_view;
     public static final int SUBJECT = R.id.child_name_text_view;
     public static final int RATING = R.id.child_rating_bar;
-    public static final int[] VIEWS = new int[]{SUBJECT, RATING};
 
     //Constructors
     public ViewLayoutCriterion() {
-        super(LAYOUT, VIEWS);
+        super(new LayoutHolder(LAYOUT, SUBJECT, RATING));
     }
 
     //Overridden

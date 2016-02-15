@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddFacts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditFact;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
@@ -35,7 +35,7 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
     public FactoryEditActionsFacts(Context context, ConfigUi config,
                                    LaunchableUiLauncher launchableFactory,
                                    FactoryGvData dataFactory,
-                                   GvDataPacker<GvFact> packer) {
+                                   ParcelablePacker<GvFact> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);
     }
 

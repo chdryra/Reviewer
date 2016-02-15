@@ -19,7 +19,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFeed;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataEdit;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LauncherUiImpl;
@@ -177,7 +177,7 @@ public abstract class DialogGvDataEditTest<T extends GvData> extends
     protected GvData launchDialogAndTestShowing() {
         final GvData datum = newDatum();
         Bundle args = new Bundle();
-        GvDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, datum, args);
+        ParcelablePacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, datum, args);
 
         assertFalse(mDialog.isShowing());
 

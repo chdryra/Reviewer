@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCanonical;
@@ -29,13 +29,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T> {
     private static final String TAG = "GridItemConfigLauncher:";
     private final LaunchableConfig mDataConfig;
-    private final GvDataPacker<GvData> mPacker;
+    private final ParcelablePacker<GvData> mPacker;
     private final int mLaunchCode;
 
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
                                   FactoryReviewViewLaunchable launchableFactory,
                                   LaunchableUiLauncher launcher,
-                                  GvDataPacker<GvData> packer) {
+                                  ParcelablePacker<GvData> packer) {
         super(launchableFactory, launcher);
         mDataConfig = dataConfig;
         mPacker = packer;
@@ -68,7 +68,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     private void launchViewer(GvData item) {
         if (item.isVerboseCollection() || mDataConfig == null) return;
         Bundle args = new Bundle();
-        mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, item, args);
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, item, args);
         launch(mDataConfig.getLaunchable(), mLaunchCode, args);
     }
 }

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -109,9 +109,9 @@ public class FactoryReviewViewLaunchable {
     private <T extends GvData> GridItemAction<T> getGridItem(GvDataType<T> dataType) {
         LaunchableConfig viewerConfig = mConfig.getViewerConfig(dataType.getDatumName());
         if (dataType.equals(GvComment.TYPE)) {
-            return (GridItemAction<T>) new GridItemComments(viewerConfig, this, mLauncher, new GvDataPacker<>());
+            return (GridItemAction<T>) new GridItemComments(viewerConfig, this, mLauncher, new ParcelablePacker<GvData>());
         } else {
-            return new GridItemConfigLauncher<>(viewerConfig, this, mLauncher, new GvDataPacker<>());
+            return new GridItemConfigLauncher<>(viewerConfig, this, mLauncher, new ParcelablePacker<GvData>());
         }
     }
 

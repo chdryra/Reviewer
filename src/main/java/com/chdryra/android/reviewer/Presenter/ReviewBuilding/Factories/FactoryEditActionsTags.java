@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditTag;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectDataEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
@@ -36,7 +36,7 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     public FactoryEditActionsTags(Context context, ConfigUi config,
                                   LaunchableUiLauncher launchableFactory,
                                   FactoryGvData dataFactory,
-                                  GvDataPacker<GvTag> packer) {
+                                  ParcelablePacker<GvTag> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);
         mTagAdjuster = new TagAdjuster();
     }

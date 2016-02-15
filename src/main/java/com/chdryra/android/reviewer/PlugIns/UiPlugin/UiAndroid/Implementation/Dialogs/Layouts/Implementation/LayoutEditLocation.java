@@ -23,13 +23,12 @@ import com.google.android.gms.maps.model.LatLng;
 public class LayoutEditLocation extends AddEditLayoutBasic<GvLocation> {
     public static final int LAYOUT = R.layout.dialog_location_edit;
     public static final int LOCATION = R.id.location_edit_edit_text;
-    public static final int[] VIEWS = new int[]{LOCATION};
 
     private LatLng mLatLng;
 
     //Constructors
     public LayoutEditLocation(GvDataEditor editor) {
-        super(GvLocation.class, LAYOUT, VIEWS, LOCATION, editor);
+        super(GvLocation.class, new LayoutHolder(LAYOUT, LOCATION), LOCATION, editor);
     }
 
     //Overridden

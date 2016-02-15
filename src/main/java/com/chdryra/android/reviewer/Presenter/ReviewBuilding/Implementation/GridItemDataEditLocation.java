@@ -27,7 +27,7 @@ public class GridItemDataEditLocation extends GridItemDataEdit<GvLocation> {
     public GridItemDataEditLocation(LaunchableConfig editorConfig,
                                     LaunchableConfig mapEditorConfig,
                                     LaunchableUiLauncher launchableFactory,
-                                    GvDataPacker<GvLocation> dataPacker) {
+                                    ParcelablePacker<GvLocation> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
         mMapEditorConfig = mapEditorConfig;
     }

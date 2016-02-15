@@ -28,7 +28,7 @@ public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
 
     public GridItemDataEditComment(LaunchableConfig editorConfig,
                                    LaunchableUiLauncher launchableFactory,
-                                   GvDataPacker<GvComment> dataPacker) {
+                                   ParcelablePacker<GvComment> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 

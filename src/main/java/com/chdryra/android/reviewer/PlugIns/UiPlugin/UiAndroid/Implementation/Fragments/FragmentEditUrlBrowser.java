@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.myandroidwidgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.R;
 
@@ -67,7 +67,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     private ClearableEditText mUrlEditText;
     private WebView mWebView;
     private String mSearchUrl;
-    private GvDataPacker<GvUrl> mPacker;
+    private ParcelablePacker<GvUrl> mPacker;
 
     public static FragmentEditUrlBrowser newInstance(GvUrl url) {
         return FactoryFragment.newFragment(FragmentEditUrlBrowser.class, URL, url);
@@ -76,7 +76,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPacker = new GvDataPacker<>();
+        mPacker = new ParcelablePacker<>();
         Bundle args = getArguments();
         if (args != null) mCurrent = args.getParcelable(URL);
         setDeleteWhatTitle(GvUrl.TYPE.getDatumName());
@@ -179,15 +179,15 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
 
     @Override
     protected void onDeleteSelected() {
-        mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent,
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent,
                 getNewReturnData());
     }
 
     @Override
     protected void onDoneSelected() {
         Intent i = getNewReturnData();
-        mPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, mCurrent, i);
-        mPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, createGvDataFromBrowser(), i);
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, mCurrent, i);
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, createGvDataFromBrowser(), i);
     }
 
     private GvUrl createGvDataFromBrowser() {

@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAdd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEdit;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingBarDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectDataEdit;
@@ -42,14 +42,14 @@ public class FactoryEditActionsDefault<T extends GvData> {
     private ConfigUi mConfig;
     private LaunchableUiLauncher mLaunchableFactory;
     private FactoryGvData mDataFactory;
-    private GvDataPacker<T> mPacker;
+    private ParcelablePacker<T> mPacker;
 
     public FactoryEditActionsDefault(Context context,
                                      GvDataType<T> dataType,
                                      ConfigUi config,
                                      LaunchableUiLauncher launchableFactory,
                                      FactoryGvData dataFactory,
-                                     GvDataPacker<T> packer) {
+                                     ParcelablePacker<T> packer) {
         mContext = context;
         mDataType = dataType;
         mConfig = config;
@@ -91,7 +91,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
         return mLaunchableFactory;
     }
 
-    protected GvDataPacker<T> getPacker() {
+    protected ParcelablePacker<T> getPacker() {
         return mPacker;
     }
 

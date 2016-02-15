@@ -33,7 +33,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     public BannerButtonAddImage(LaunchableConfig adderConfig,
                                 LaunchableUiLauncher launchableFactory, String title,
                                 GvDataList<GvImage> emptyImageList,
-                                GvDataPacker<GvImage> dataPacker,
+                                ParcelablePacker<GvImage> dataPacker,
                                 ImageChooser imageChooser) {
         super(adderConfig, launchableFactory, title, emptyImageList, dataPacker);
         mImageChooser = imageChooser;

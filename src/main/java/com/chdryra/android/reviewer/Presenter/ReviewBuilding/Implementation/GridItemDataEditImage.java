@@ -28,7 +28,7 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
 
     public GridItemDataEditImage(LaunchableConfig editorConfig,
                                  LaunchableUiLauncher launchableFactory,
-                                 GvDataPacker<GvImage> dataPacker) {
+                                 ParcelablePacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }
 

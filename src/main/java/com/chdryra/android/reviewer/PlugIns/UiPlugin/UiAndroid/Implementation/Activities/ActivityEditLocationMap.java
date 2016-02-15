@@ -13,7 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -30,7 +30,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
             "SpecialisedActivities.ActivityEditLocationMap.location";
 
     private FragmentEditLocationMap mFragment;
-    private GvDataPacker<GvLocation> mDataPacker;
+    private ParcelablePacker<GvLocation> mDataPacker;
 
     //Overridden
     @Override
@@ -45,7 +45,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
 
     @Override
     protected Fragment createFragment() {
-        mDataPacker = new GvDataPacker<>();
+        mDataPacker = new ParcelablePacker<>();
         mFragment = FragmentEditLocationMap.newInstance(getBundledLocation());
         return mFragment;
     }
@@ -60,17 +60,17 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     private GvLocation getBundledLocation() {
         Bundle args = getIntent().getBundleExtra(KEY);
         return args != null ?
-                mDataPacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
+                mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
     }
 
     @Override
     public void onDelete(GvLocation location, Intent returnResult) {
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, location, returnResult);
+        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, location, returnResult);
     }
 
     @Override
     public void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult) {
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.CURRENT, currentLocation, returnResult);
-        mDataPacker.packItem(GvDataPacker.CurrentNewDatum.NEW, newLocation , returnResult);
+        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, currentLocation, returnResult);
+        mDataPacker.packItem(ParcelablePacker.CurrentNewDatum.NEW, newLocation , returnResult);
     }
 }

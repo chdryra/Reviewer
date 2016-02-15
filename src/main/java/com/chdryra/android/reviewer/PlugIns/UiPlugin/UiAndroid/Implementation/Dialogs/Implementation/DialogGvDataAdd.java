@@ -17,7 +17,7 @@ import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * view intialisation and callbacks to the commissioning fragment. All
  * other functionality is outsourced to the appropriate classes:
  * <ul>
- * <li>{@link GvDataPacker}: Unpacking of received data.</li>
+ * <li>{@link ParcelablePacker}: Unpacking of received data.</li>
  * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link DataAddListener}: commissioning fragment.
  * <li>{@link DataBuilder}: input validation when QUICK_SET = true.

@@ -22,11 +22,9 @@ public class ViewLayoutImage extends DialogLayoutBasic<GvImage> {
     public static final int LAYOUT = R.layout.dialog_image_view;
     public static final int IMAGE = R.id.photo_image_view;
     public static final int CAPTION = R.id.caption_text_view;
-    public static final int[] VIEWS = new int[]{IMAGE, CAPTION};
 
-    //Constructors
     public ViewLayoutImage() {
-        super(LAYOUT, VIEWS);
+        super(new LayoutHolder(LAYOUT, IMAGE, CAPTION));
     }
 
     //Overridden

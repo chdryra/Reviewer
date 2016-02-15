@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -32,7 +32,7 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
     public FactoryEditActionsCriteria(Context context, ConfigUi config,
                                       LaunchableUiLauncher launchableFactory,
                                       FactoryGvData dataFactory,
-                                      GvDataPacker<GvCriterion> packer) {
+                                      ParcelablePacker<GvCriterion> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);
     }
 

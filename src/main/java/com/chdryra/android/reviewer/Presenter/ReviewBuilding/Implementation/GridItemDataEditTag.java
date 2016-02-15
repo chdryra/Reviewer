@@ -24,7 +24,7 @@ public class GridItemDataEditTag extends GridItemDataEdit<GvTag> {
 
     public GridItemDataEditTag(LaunchableConfig editorConfig,
                                LaunchableUiLauncher launchableFactory,
-                               GvDataPacker<GvTag> dataPacker,
+                               ParcelablePacker<GvTag> dataPacker,
                                TagAdjuster tagAdjuster) {
         super(editorConfig, launchableFactory, dataPacker);
         mTagAdjuster = tagAdjuster;

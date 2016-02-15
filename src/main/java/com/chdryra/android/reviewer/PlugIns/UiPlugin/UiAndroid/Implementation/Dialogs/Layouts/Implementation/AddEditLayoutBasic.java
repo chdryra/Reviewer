@@ -45,17 +45,17 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
     }
 
     //Constructors
-    public AddEditLayoutBasic(Class<T> gvDataClass, int layoutId, int[] viewIds,
+    public AddEditLayoutBasic(Class<T> gvDataClass, LayoutHolder holder,
                               int keyboardEditTextId, GvDataAdder adder) {
-        super(layoutId, viewIds);
+        super(holder);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerAdd(adder);
         mNullingItem = newNull(gvDataClass);
     }
 
-    public AddEditLayoutBasic(Class<T> gvDataClass, int layoutId, int[] viewIds,
+    public AddEditLayoutBasic(Class<T> gvDataClass, LayoutHolder holder,
                               int keyboardEditTextId, GvDataEditor editor) {
-        super(layoutId, viewIds);
+        super(holder);
         mEditTextId = keyboardEditTextId;
         mViewManager = new GvDataViewManagerEdit(editor);
         mNullingItem = newNull(gvDataClass);

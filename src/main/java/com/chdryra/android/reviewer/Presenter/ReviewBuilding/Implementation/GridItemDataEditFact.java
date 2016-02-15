@@ -31,7 +31,7 @@ public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
     public GridItemDataEditFact(LaunchableConfig factConfig,
                                 LaunchableConfig urlConfig,
                                 LaunchableUiLauncher launchableFactory,
-                                GvDataPacker<GvFact> dataPacker) {
+                                ParcelablePacker<GvFact> dataPacker) {
         super(factConfig, launchableFactory, dataPacker);
         mUrlConfig = urlConfig;
     }

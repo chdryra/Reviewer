@@ -12,7 +12,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentViewLocation;
@@ -44,9 +44,9 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
     }
 
     private GvLocation getBundledLocation() {
-        GvDataPacker<GvLocation> packer = new GvDataPacker<>();
+        ParcelablePacker<GvLocation> packer = new ParcelablePacker<>();
         Bundle args = getIntent().getBundleExtra(KEY);
         return args != null ?
-                packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
+                packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
     }
 }

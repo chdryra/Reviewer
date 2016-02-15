@@ -31,14 +31,14 @@ public class BannerButtonAdd<T extends GvData> extends LaunchAndAlertableAction<
     private static final String TAG = "BannerButtonAdd:";
 
     private final String mTitle;
-    private final GvDataPacker<T> mDataPacker;
+    private final ParcelablePacker<T> mDataPacker;
 
     private GvDataList<T> mAdded;
 
     public BannerButtonAdd(LaunchableConfig adderConfig,
                            LaunchableUiLauncher launcher, String title,
                            GvDataList<T> emptyListToAddTo,
-                           GvDataPacker<T> dataPacker) {
+                           ParcelablePacker<T> dataPacker) {
         super(TAG, adderConfig, launcher);
         mTitle = title;
         mAdded = emptyListToAddTo;
@@ -96,7 +96,7 @@ public class BannerButtonAdd<T extends GvData> extends LaunchAndAlertableAction<
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == getLaunchableRequestCode() && data != null
                 && ActivityResultCode.get(resultCode) == ActivityResultCode.DONE) {
-            T datum = mDataPacker.unpack(GvDataPacker.CurrentNewDatum.NEW, data);
+            T datum = mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
             onAdd(datum, requestCode);
         }
     }

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
         .Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -91,8 +91,8 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogOneButton
 
     private void unpackDatum() {
         Bundle args = getArguments();
-        GvDataPacker<T> unpacker = new GvDataPacker<>();
-        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args);
+        ParcelablePacker<T> unpacker = new ParcelablePacker<>();
+        mDatum = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
     }
 
     private void setDialogParameters() {

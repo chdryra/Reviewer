@@ -21,14 +21,11 @@ import com.chdryra.android.reviewer.R;
 public class ViewLayoutComment extends DialogLayoutBasic<GvComment> {
     public static final int LAYOUT = R.layout.dialog_text_view;
     public static final int COMMENT = R.id.medium_text_view;
-    public static final int[] VIEWS = new int[]{COMMENT};
 
-    //Constructors
     public ViewLayoutComment() {
-        super(LAYOUT, VIEWS);
+        super(new LayoutHolder(LAYOUT, COMMENT));
     }
 
-    //Overridden
     @Override
     public void updateLayout(GvComment comment) {
         ((TextView) getView(COMMENT)).setText(comment.getComment());

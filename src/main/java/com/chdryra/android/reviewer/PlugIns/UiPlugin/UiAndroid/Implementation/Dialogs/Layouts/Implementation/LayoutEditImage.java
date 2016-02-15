@@ -24,13 +24,12 @@ public class LayoutEditImage extends AddEditLayoutBasic<GvImage> {
     public static final int LAYOUT = R.layout.dialog_image_edit;
     public static final int IMAGE = R.id.photo_image_view;
     public static final int CAPTION = R.id.caption_edit_text;
-    public static final int[] VIEWS = new int[]{IMAGE, CAPTION};
 
     private GvImage mCurrent;
 
     //Constructors
     public LayoutEditImage(GvDataEditor editor) {
-        super(GvImage.class, LAYOUT, VIEWS, CAPTION, editor);
+        super(GvImage.class, new LayoutHolder(LAYOUT, IMAGE, CAPTION), CAPTION, editor);
     }
 
     //Overridden

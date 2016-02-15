@@ -50,7 +50,6 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     public static final int LAYOUT = R.layout.dialog_location_add;
     public static final int NAME = R.id.location_add_edit_text;
     public static final int LIST = R.id.suggestions_list_view;
-    public static final int[] VIEWS = new int[]{NAME, LIST};
 
     public static final String LATLNG = "com.chdryra.android.reviewer.latlng";
     public static final String FROM_IMAGE = "com.chdryra.android.reviewer.from_image";
@@ -79,7 +78,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private NearestPlacesSuggester mSuggester;
 
     public AddLocation(GvDataAdder adder, ReviewerLocationServices locationServices) {
-        super(GvLocation.class, LAYOUT, VIEWS, NAME, adder);
+        super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newLocationDetailsFetcher();
         mSuggester = mLocationServices.newNearestPlacesSuggester();

@@ -23,15 +23,14 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
 public class AddEditTag extends AddEditLayoutBasic<GvTag> {
     public static final int LAYOUT = R.layout.dialog_tag_add_edit;
     public static final int TAG = R.id.tag_edit_text;
-    public static final int[] VIEWS = new int[]{TAG};
 
     //Constructors
     public AddEditTag(GvDataAdder adder) {
-        super(GvTag.class, LAYOUT, VIEWS, TAG, adder);
+        super(GvTag.class, new LayoutHolder(LAYOUT, TAG), TAG, adder);
     }
 
     public AddEditTag(GvDataEditor editor) {
-        super(GvTag.class, LAYOUT, VIEWS, TAG, editor);
+        super(GvTag.class, new LayoutHolder(LAYOUT, TAG), TAG, editor);
     }
 
     //Overridden

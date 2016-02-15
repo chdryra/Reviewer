@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
   ~ Unauthorized copying of this file via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -7,18 +8,18 @@
   -->
 
 <LinearLayout
-    android:id="@+id/webFragmentLinearLayout"
+    android:id="@+id/webDialogLinearLayout"
     style="@style/LineaLayoutVertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.chdryra.android.myandroidwidgets.ClearableEditText
-        android:id="@+id/edit_text_url"
-        style="@style/EditTextCapSentences.Go"
+    <TextView
+        android:id="@+id/text_view_url"
+        style="@style/TextView"
         android:hint="@string/edit_text_url_hint"/>
 
     <WebView
-        android:id="@+id/web_view"
+        android:id="@+id/web_view_url"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

@@ -12,7 +12,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditUrlBrowser;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -45,8 +45,8 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
     }
 
     private GvUrl getBundledUrl() {
-        GvDataPacker<GvUrl> packer = new GvDataPacker<>();
+        ParcelablePacker<GvUrl> packer = new ParcelablePacker<>();
         Bundle args = getIntent().getBundleExtra(KEY);
-        return args != null? packer.unpack(GvDataPacker.CurrentNewDatum.CURRENT, args) : new GvUrl();
+        return args != null? packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvUrl();
     }
 }

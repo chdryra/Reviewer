@@ -20,17 +20,14 @@ import com.chdryra.android.reviewer.R;
  */
 public class ViewLayoutText<T extends GvData> extends DialogLayoutBasic<T> {
     public static final int LAYOUT = R.layout.dialog_text_view_large;
-    public static final int TAG = R.id.large_text_view;
-    public static final int[] VIEWS = new int[]{TAG};
+    public static final int TEXT = R.id.large_text_view;
 
-    //Constructors
     public ViewLayoutText() {
-        super(LAYOUT, VIEWS);
+        super(new LayoutHolder(LAYOUT, TEXT));
     }
 
-    //Overridden
     @Override
     public void updateLayout(GvData datum) {
-        ((TextView) getView(TAG)).setText(datum.getStringSummary());
+        ((TextView) getView(TEXT)).setText(datum.getStringSummary());
     }
 }

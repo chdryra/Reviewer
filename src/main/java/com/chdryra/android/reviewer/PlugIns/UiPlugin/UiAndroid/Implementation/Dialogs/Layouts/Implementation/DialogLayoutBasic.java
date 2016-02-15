@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.D
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.SparseArray;
 import android.view.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -25,9 +24,8 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
 public abstract class DialogLayoutBasic<T extends GvData> implements DialogLayout<T> {
     private final LayoutHolder mHolder;
 
-    //Constructors
-    public DialogLayoutBasic(int layoutId, int[] viewIds) {
-        mHolder = new LayoutHolder(layoutId, viewIds);
+    public DialogLayoutBasic(LayoutHolder holder) {
+        mHolder = holder;
     }
 
     @Override
@@ -50,41 +48,5 @@ public abstract class DialogLayoutBasic<T extends GvData> implements DialogLayou
     @Override
     public View getView(int viewId) {
         return mHolder.getView(viewId);
-    }
-
-    /**
-     * Concerned with inflating layouts and
-     * holding Views on some {@link GvData}.
-     */
-    private static class LayoutHolder {
-        private final int mLayout;
-        private final int[] mUpdateableViewIds;
-        private final SparseArray<View> mUpdateableViews;
-        private View mInflated;
-
-        //Constructors
-        private LayoutHolder(int layoutId, int[] viewIds) {
-            mLayout = layoutId;
-            mUpdateableViewIds = viewIds;
-            mUpdateableViews = new SparseArray<>(mUpdateableViewIds.length);
-        }
-
-        //public methods
-        private View getView() {
-            return mInflated;
-        }
-
-        private void inflate(Context context) {
-            mInflated = android.view.LayoutInflater.from(context).inflate(mLayout, null);
-            if (mInflated != null) {
-                for (int viewId : mUpdateableViewIds) {
-                    mUpdateableViews.put(viewId, mInflated.findViewById(viewId));
-                }
-            }
-        }
-
-        private final View getView(int viewId) {
-            return mUpdateableViews.get(viewId);
-        }
     }
 }

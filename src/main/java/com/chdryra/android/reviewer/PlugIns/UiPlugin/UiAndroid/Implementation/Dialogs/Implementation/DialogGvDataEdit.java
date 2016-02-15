@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Di
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GvDataPacker;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -43,7 +43,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * view intialisation and callbacks to the commissioning fragment. All
  * other functionality is outsourced to the appropriate classes:
  * <ul>
- * <li>{@link GvDataPacker}: Unpacking of received data.</li>
+ * <li>{@link ParcelablePacker}: Unpacking of received data.</li>
  * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
  * <li>{@link DataEditListener}: commissioning fragment.
  * </ul>
@@ -118,8 +118,8 @@ public abstract class DialogGvDataEdit<T extends GvData>
     }
 
     private void getDatumToEdit() {
-        GvDataPacker<T> unpacker = new GvDataPacker<>();
-        mDatum = unpacker.unpack(GvDataPacker.CurrentNewDatum.CURRENT, getArguments());
+        ParcelablePacker<T> unpacker = new ParcelablePacker<>();
+        mDatum = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, getArguments());
     }
 
     private void setLayout() {
