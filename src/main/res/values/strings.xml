@@ -117,4 +117,6 @@
     <string name="consumer_key_tumblr">5DQowY8DHyhvKycydG2bJc6RytQ6OjSzgFB0XvzjB9rKTVkgx5</string>
     <string name="consumer_secret_tumblr">YPX5LE3T7XujtGg6kCpPnyXtPUUF8TYfRCqBnwMHZrs78rtFwR</string>
     <string name="facebook_app_id">1671165596505199</string>
+    <string name="callback">www.reviewer.com</string>
+
 </resources>

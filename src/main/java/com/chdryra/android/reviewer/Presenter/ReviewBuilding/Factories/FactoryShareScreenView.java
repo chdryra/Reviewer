@@ -34,6 +34,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.Social.Implementation.FollowersFetcher;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
@@ -46,6 +47,7 @@ public class FactoryShareScreenView {
     public ReviewView buildView(String title,
                                 SocialPlatformList socialPlatforms,
                                 ReviewViewAdapter<?> reviewViewAdapter,
+                                PlatformAuthoriser authoriser,
                                 SocialReviewSharer sharer) {
         GvSocialPlatformList platforms = getGvSocialPlatforms(socialPlatforms);
         ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, reviewViewAdapter);
@@ -53,7 +55,7 @@ public class FactoryShareScreenView {
         ReviewViewModifier modifier = new PublishButtonModifier(button);
 
         ReviewViewPerspective<GvSocialPlatform> perspective =
-                new ReviewViewPerspective<>(adapter, getActions(title), getParams(), modifier);
+                new ReviewViewPerspective<>(adapter, getActions(title, authoriser), getParams(), modifier);
 
         return new ReviewViewDefault<>(perspective);
     }
@@ -76,11 +78,11 @@ public class FactoryShareScreenView {
     }
 
     @NonNull
-    private ReviewViewActions<GvSocialPlatform> getActions(String title) {
+    private ReviewViewActions<GvSocialPlatform> getActions(String title, PlatformAuthoriser authoriser) {
         SubjectAction<GvSocialPlatform> sa = new SubjectActionNone<>();
         RatingBarAction<GvSocialPlatform> rb = new RatingBarActionNone<>();
         BannerButtonAction<GvSocialPlatform> bba = new BannerButtonActionNone<>(title);
-        GridItemShareScreen gi = new GridItemShareScreen();
+        GridItemShareScreen gi = new GridItemShareScreen(authoriser);
         MenuAction<GvSocialPlatform> ma = new MenuActionNone<>(title);
 
         return new ReviewViewActions<>(sa, rb, bba, gi, ma);

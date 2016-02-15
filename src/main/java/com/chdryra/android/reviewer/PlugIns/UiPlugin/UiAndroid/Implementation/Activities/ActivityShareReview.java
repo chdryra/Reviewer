@@ -13,12 +13,14 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils
-        .PublishingAction;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.PlatformAuthorisationSeeker;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 import java.util.ArrayList;
 
@@ -27,19 +29,29 @@ import java.util.ArrayList;
  * On: 19/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityShareReview extends ActivityReviewView {
+public class ActivityShareReview extends ActivityReviewView implements
+        PlatformAuthoriser {
     private static final int SOCIAL = R.string.activity_title_share;
 
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
+
         FactoryShareScreenView factory = new FactoryShareScreenView();
 
         return factory.buildView(getResources().getString(SOCIAL),
                 app.getSocialPlatformList(),
                 app.getReviewBuilderAdapter(),
+                this,
                 new SocialReviewSharerAndroid(ActivityFeed.class));
+    }
+
+    @Override
+    public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
+        PlatformAuthorisationSeeker<?> seeker
+                = new PlatformAuthorisationSeeker<>(this, platform, listener);
+        seeker.seekAuthorisation();
     }
 
     private class SocialReviewSharerAndroid implements SocialReviewSharer {

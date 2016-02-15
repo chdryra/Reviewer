@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherFourSquare extends SocialPublisherBasic<String> {
+public class PublisherFourSquare extends SocialPublisherBasic<AccessTokenDefault> {
     private static final String NAME = "foursquare";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
@@ -36,7 +36,7 @@ public class PublisherFourSquare extends SocialPublisherBasic<String> {
     }
 
     @Override
-    public void setAccessToken(String token) {
+    public void setAccessToken(AccessTokenDefault token) {
 
     }
 }

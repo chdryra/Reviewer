@@ -8,17 +8,15 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
+import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 14/02/2016
+ * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface PlatformAuthoriser {
-    void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener);
+public interface OAuthRequester<Token>  {
+    OAuthRequest generateAuthorisationRequest();
 
-    interface AuthorisationListener {
-        void onAuthorisationGiven(SocialPlatform<?> platform);
-
-        void onAuthorisationRefused(SocialPlatform<?> platform);
-    }
+    Token parseRequestResponse(OAuthRequest returned);
 }

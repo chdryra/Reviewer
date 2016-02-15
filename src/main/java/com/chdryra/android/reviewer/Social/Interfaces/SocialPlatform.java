@@ -9,19 +9,26 @@
 package com.chdryra.android.reviewer.Social.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
+import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 
 /**
  * Holds the name and number of followers for a social platform. Placeholder to update the
  * number of followers.
  */
-public interface SocialPlatform<T> extends DataSocialPlatform {
+public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
     SocialPublisher getPublisher();
 
-    PlatformAuthoriser<T> getAuthoriser();
-
+    @Override
     boolean isAuthorised();
 
-    void setAccessToken(T token);
+    @Override
+    void setAccessToken(T t);
+
+    @Override
+    OAuthRequest generateAuthorisationRequest();
+
+    @Override
+    T parseRequestResponse(OAuthRequest returned);
 
     @Override
     String getName();

@@ -28,8 +28,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogAuthSharing extends DialogOneButtonFragment implements
-        LaunchableUi {
+public class DialogAuthSharing extends DialogOneButtonFragment implements LaunchableUi {
     private static final String TAG = "AuthoriseSocialPlatform";
     private static final int LAYOUT = R.layout.dialog_webview;
     private static final int TEXT = R.id.text_view_url;
@@ -39,8 +38,8 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements
     private OAuthRequest mRequest;
     private AuthorisationListener mListener;
 
-    private interface AuthorisationListener {
-        void onAuthorisationCallback(String callbackUrl);
+    public interface AuthorisationListener {
+        void onAuthorisationCallback(OAuthRequest response);
     }
 
     public static DialogAuthSharing newDialog(OAuthRequest request) {
@@ -120,7 +119,8 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements
     }
 
     private void captureCallbackAndReturn(String callback) {
-        mListener.onAuthorisationCallback(callback);
+        mRequest.setCallbackResult(callback);
+        mListener.onAuthorisationCallback(mRequest);
         dismiss();
     }
 }

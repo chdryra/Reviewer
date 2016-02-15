@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 /**
@@ -21,14 +21,13 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     private Context mContext;
     private final SocialPublisher<T> mPublisher;
-    private final PlatformAuthoriser<T> mAuthoriser;
+    private final OAuthRequester<T> mRequester;
     private T mAccessToken;
 
-    public SocialPlatformImpl(Context context, PlatformAuthoriser<T> authoriser,
-                              SocialPublisher<T> publisher) {
+    public SocialPlatformImpl(Context context, SocialPublisher<T> publisher, OAuthRequester<T> requester) {
         mContext = context;
-        mAuthoriser = authoriser;
         mPublisher = publisher;
+        mRequester = requester;
     }
 
     @Override
@@ -47,8 +46,13 @@ public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public PlatformAuthoriser<T> getAuthoriser() {
-        return mAuthoriser;
+    public OAuthRequest generateAuthorisationRequest() {
+        return mRequester.generateAuthorisationRequest();
+    }
+
+    @Override
+    public T parseRequestResponse(OAuthRequest returned) {
+        return mRequester.parseRequestResponse(returned);
     }
 
     @Override

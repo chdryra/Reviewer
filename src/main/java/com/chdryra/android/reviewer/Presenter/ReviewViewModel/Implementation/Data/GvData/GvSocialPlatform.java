@@ -70,12 +70,16 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
         mFollowersFetcher.getFollowers(context, listener);
     }
 
+    public boolean isAuthorised() {
+        return mPlatform.isAuthorised();
+    }
+
     public String getPlaceHolder() {
         return PLACEHOLDER;
     }
 
-    public boolean isAuthorised() {
-        return mPlatform.isAuthorised();
+    public SocialPlatform<?> getPlatform() {
+        return mPlatform;
     }
 
     @Override
