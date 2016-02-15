@@ -7,22 +7,8 @@
   ~
   -->
 
-<LinearLayout
-    android:id="@+id/webDialogLinearLayout"
-    style="@style/LineaLayoutVertical"
+<WebView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <TextView
-        android:id="@+id/text_view_url"
-        style="@style/TextView"
-        android:hint="@string/edit_text_url_hint"/>
-
-    <WebView
-        android:id="@+id/web_view_url"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        tools:ignore="InefficientWeight"/>
-
-</LinearLayout>
+    android:id="@+id/web_view_url"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>

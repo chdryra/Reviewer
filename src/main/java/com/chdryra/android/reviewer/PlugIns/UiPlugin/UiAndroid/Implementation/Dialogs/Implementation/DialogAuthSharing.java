@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.LayoutHolder;
@@ -31,7 +30,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class DialogAuthSharing extends DialogOneButtonFragment implements LaunchableUi {
     private static final String TAG = "AuthoriseSocialPlatform";
     private static final int LAYOUT = R.layout.dialog_webview;
-    private static final int TEXT = R.id.text_view_url;
     private static final int WEB = R.id.web_view_url;
 
     private LayoutHolder mHolder;
@@ -52,7 +50,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
     }
 
     public DialogAuthSharing() {
-        mHolder = new LayoutHolder(LAYOUT, TEXT, WEB);
+        mHolder = new LayoutHolder(LAYOUT, WEB);
     }
 
     @Override
@@ -74,17 +72,14 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
     }
 
     private void loadRequest() {
-        String url = mRequest.getAuthorisationUrl();
-        getWebView().setWebViewClient(new UrlWebViewClient());
-        getWebView().loadUrl(url);
+        WebView webView = getWebView();
+        webView.setWebViewClient(new UrlWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(mRequest.getAuthorisationUrl());
     }
 
     private WebView getWebView() {
         return (WebView) mHolder.getView(WEB);
-    }
-
-    private TextView getTextView() {
-        return (TextView) mHolder.getView(TEXT);
     }
 
     @Override
@@ -93,7 +88,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
         unpackRequest();
         setLeftButtonAction(ActionType.CANCEL);
         dismissDialogOnLeftClick();
-        setDialogTitle(mRequest.getName() + " authorisation");
+        setDialogTitle("Loading " + mRequest.getName() + " authorisation");
     }
 
     private void unpackRequest() {
@@ -109,8 +104,8 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            setDialogTitle(mRequest.getName() + " authorisation");
             String viewUrl = view.getUrl();
-            getTextView().setText(viewUrl);
             super.onPageFinished(view, url);
             if(viewUrl.contains(mRequest.getCallbackUrl())) {
                 captureCallbackAndReturn(viewUrl);

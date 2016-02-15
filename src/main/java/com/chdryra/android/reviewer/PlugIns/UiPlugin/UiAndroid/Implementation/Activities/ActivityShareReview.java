@@ -13,12 +13,14 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogAuthSharing;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.PlatformAuthorisationSeeker;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
@@ -30,8 +32,9 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityShareReview extends ActivityReviewView implements
-        PlatformAuthoriser {
+        PlatformAuthoriser, DialogAuthSharing.AuthorisationListener {
     private static final int SOCIAL = R.string.activity_title_share;
+    private PlatformAuthorisationSeeker<?> mSeeker;
 
     @Override
     protected ReviewView createReviewView() {
@@ -49,9 +52,13 @@ public class ActivityShareReview extends ActivityReviewView implements
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
-        PlatformAuthorisationSeeker<?> seeker
-                = new PlatformAuthorisationSeeker<>(this, platform, listener);
-        seeker.seekAuthorisation();
+        mSeeker = new PlatformAuthorisationSeeker<>(this, platform, listener);
+        mSeeker.seekAuthorisation();
+    }
+
+    @Override
+    public void onAuthorisationCallback(OAuthRequest response) {
+        mSeeker.onAuthorisationCallback(response);
     }
 
     private class SocialReviewSharerAndroid implements SocialReviewSharer {

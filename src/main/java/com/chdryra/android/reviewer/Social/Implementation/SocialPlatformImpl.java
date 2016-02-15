@@ -46,13 +46,8 @@ public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public OAuthRequest generateAuthorisationRequest() {
-        return mRequester.generateAuthorisationRequest();
-    }
-
-    @Override
-    public T parseRequestResponse(OAuthRequest returned) {
-        return mRequester.parseRequestResponse(returned);
+    public OAuthRequester<T> getAuthorisationRequester() {
+        return mRequester;
     }
 
     @Override

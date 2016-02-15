@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.os.AsyncTask;
+
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
@@ -31,7 +33,6 @@ public class AuthorisationRequesterDefault implements OAuthRequester<AccessToken
     private String mCallBack;
     private OAuth10aService mService;
     private Token mCurrentRequest;
-    private boolean mLocked;
 
     public AuthorisationRequesterDefault(String consumerKey, String consumerSecret, String callBack,
                                          DefaultApi10a api, String platformName) {
@@ -43,24 +44,16 @@ public class AuthorisationRequesterDefault implements OAuthRequester<AccessToken
                 .build(api);
 
         mPlatformName = platformName;
-        mLocked = false;
     }
 
     @Override
-    public OAuthRequest generateAuthorisationRequest() {
-        if(mLocked) throw new RuntimeException("Authorisation request already in progress!");
-        mLocked = true;
-        mCurrentRequest = mService.getRequestToken();
-        String authorisationUrl = mService.getAuthorizationUrl(mCurrentRequest);
-
-        return new OAuthRequest(mPlatformName, authorisationUrl, mCallBack);
+    public void generateAuthorisationRequest(RequestListener<AccessTokenDefault> listener) {
+        new OAuthRequestTask(listener).execute();
     }
 
     @Override
-    public AccessTokenDefault parseRequestResponse(OAuthRequest returned) {
-        if(!mLocked) throw new RuntimeException("Authorisation request not in progress!");
-
-        String callback = returned.getCallbackResult();
+    public void parseRequestResponse(OAuthRequest response, RequestListener<AccessTokenDefault> listener) {
+        String callback = response.getCallbackResult();
 
         String result = StringUtils.remove(callback, mCallBack + "?");
         StringTokenizer tokenizer = new StringTokenizer(result, TOKEN_DELIMETER);
@@ -69,10 +62,50 @@ public class AuthorisationRequesterDefault implements OAuthRequester<AccessToken
         String token = tokenizer.nextToken();
 
         String verifierString = StringUtils.remove(token, "oauth_verifier=");
-        Token accessToken = mService.getAccessToken(mCurrentRequest, new Verifier(verifierString));
 
-        mLocked = false;
+        Verifier verifier = new Verifier(verifierString);
+        new OAuthResponseTask(verifier, listener).execute();
+    }
 
-        return new AccessTokenDefault(accessToken.getToken(), accessToken.getSecret());
+    private class OAuthRequestTask extends AsyncTask<Void, Void, OAuthRequest> {
+        private RequestListener<AccessTokenDefault> mListener;
+
+        public OAuthRequestTask(RequestListener<AccessTokenDefault> listener ) {
+            mListener = listener;
+        }
+
+        @Override
+        protected OAuthRequest doInBackground(Void... params) {
+            mCurrentRequest = mService.getRequestToken();
+            String authorisationUrl = mService.getAuthorizationUrl(mCurrentRequest);
+
+            return new OAuthRequest(mPlatformName, authorisationUrl, mCallBack);
+        }
+
+        @Override
+        protected void onPostExecute(OAuthRequest request) {
+            mListener.onRequestGenerated(request);
+        }
+    }
+
+    private class OAuthResponseTask extends AsyncTask<Void, Void, AccessTokenDefault> {
+        private Verifier mVerifier;
+        private RequestListener<AccessTokenDefault> mListener;
+
+        public OAuthResponseTask (Verifier verifier, RequestListener<AccessTokenDefault> listener ) {
+            mVerifier = verifier;
+            mListener = listener;
+        }
+
+        @Override
+        protected AccessTokenDefault doInBackground(Void... params) {
+            Token accessToken = mService.getAccessToken(mCurrentRequest, mVerifier);
+            return new AccessTokenDefault(accessToken.getToken(), accessToken.getSecret());
+        }
+
+        @Override
+        protected void onPostExecute(AccessTokenDefault token) {
+            mListener.onResponseParsed(token);
+        }
     }
 }

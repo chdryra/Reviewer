@@ -99,6 +99,20 @@
                 android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView"/>
         </activity>
 
+        <!-- Browser View link -->
+        <activity
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityViewUrlBrowser"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:label="@string/activity_title_url"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Reviewer"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView"/>
+        </activity>
+
         <!-- Map choose location -->
         <activity
             android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap"

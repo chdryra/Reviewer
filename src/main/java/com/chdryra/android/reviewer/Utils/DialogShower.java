@@ -29,7 +29,7 @@ public class DialogShower {
         show(dialog, activity, requestCode, DialogAlertFragment.ALERT_TAG);
     }
 
-    private static void show(DialogFragment dialog, Activity activity, int requestCode, String
+    public static void show(DialogFragment dialog, Activity activity, int requestCode, String
             tag) {
         dialog.setTargetFragment(null, requestCode);
         dialog.show(activity.getFragmentManager(), tag);

@@ -16,7 +16,13 @@ import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface OAuthRequester<Token>  {
-    OAuthRequest generateAuthorisationRequest();
+    interface RequestListener<Token> {
+        void onRequestGenerated(OAuthRequest request);
 
-    Token parseRequestResponse(OAuthRequest returned);
+        void onResponseParsed(Token token);
+    }
+
+    void generateAuthorisationRequest(RequestListener<Token> listener);
+
+    void parseRequestResponse(OAuthRequest response, RequestListener<Token> listener);
 }

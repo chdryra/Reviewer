@@ -8,21 +8,13 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface OAuthorisable<Token> extends OAuthRequester<Token>{
+public interface OAuthorisable<Token> {
     boolean isAuthorised();
 
     void setAccessToken(Token token);
-
-    @Override
-    OAuthRequest generateAuthorisationRequest();
-
-    @Override
-    Token parseRequestResponse(OAuthRequest returned);
 }

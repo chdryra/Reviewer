@@ -9,10 +9,15 @@
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils;
 
 import android.app.Activity;
-import android.os.Bundle;
+import android.content.Intent;
 
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogAuthSharing;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities
+        .ActivityViewUrlBrowser;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs
+        .Implementation.DialogAuthSharing;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Utils.DialogShower;
@@ -23,7 +28,8 @@ import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlatformAuthorisationSeeker<T> implements DialogAuthSharing.AuthorisationListener {
+public class PlatformAuthorisationSeeker<T> implements
+        DialogAuthSharing.AuthorisationListener, OAuthRequester.RequestListener<T> {
     private static final String AuthTag = "PlatformAuthorisation";
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
@@ -39,18 +45,42 @@ public class PlatformAuthorisationSeeker<T> implements DialogAuthSharing.Authori
     }
 
     public void seekAuthorisation() {
-        DialogAuthSharing dialog = DialogAuthSharing.newDialog(mPlatform.generateAuthorisationRequest());
-        DialogShower.show(dialog, mActivity, AUTHORISATION, AuthTag, new Bundle());
+        OAuthRequester<T> requester = mPlatform.getAuthorisationRequester();
+        requester.generateAuthorisationRequest(this);
+
     }
 
     @Override
-    public void onAuthorisationCallback(OAuthRequest response) {
-        T token = mPlatform.parseRequestResponse(response);
+    public void onRequestGenerated(OAuthRequest request) {
+//        launchActivity(request);
+        launchDialog(request);
+    }
+
+    @Override
+    public void onResponseParsed(T token) {
         if (token != null) {
             mPlatform.setAccessToken(token);
             mListener.onAuthorisationGiven(mPlatform);
         } else {
             mListener.onAuthorisationRefused(mPlatform);
         }
+    }
+
+    @Override
+    public void onAuthorisationCallback(OAuthRequest response) {
+        OAuthRequester<T> requester = mPlatform.getAuthorisationRequester();
+        requester.parseRequestResponse(response, this);
+    }
+
+    private void launchDialog(OAuthRequest request) {
+        DialogAuthSharing dialog = DialogAuthSharing.newDialog(request);
+        DialogShower.show(dialog, mActivity, AUTHORISATION, AuthTag);
+    }
+
+    private void launchActivity(OAuthRequest request) {
+        Intent intent = new Intent(mActivity, ActivityViewUrlBrowser.class);
+        ParcelablePacker<OAuthRequest> packer = new ParcelablePacker<>();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, request, intent);
+        mActivity.startActivityForResult(intent, AUTHORISATION);
     }
 }
