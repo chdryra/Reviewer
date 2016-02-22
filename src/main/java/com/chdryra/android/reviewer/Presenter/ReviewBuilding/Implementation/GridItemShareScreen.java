@@ -37,7 +37,7 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
         if(platform.isAuthorised()) {
             pressPlatform(platform, v);
-        } else if(platform.getName().equals("tumblr")) {
+        } else if(platform.getName().equals("tumblr") || platform.getName().equals("twitter")) {
             mPlatformSeekingAuthorisation = platform;
             mViewForAuthorisation = v;
             mAuthoriser.seekAuthorisation(platform.getPlatform(), this);
@@ -54,9 +54,10 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
 
     @Override
     public void onAuthorisationGiven(SocialPlatform<?> platform) {
+        pressPlatform(mPlatformSeekingAuthorisation, mViewForAuthorisation);
+        getReviewView().onGridDataChanged();
         Toast.makeText(getActivity(), platform.getName() + ": authorisation received",
                 Toast.LENGTH_SHORT).show();
-        pressPlatform(mPlatformSeekingAuthorisation, mViewForAuthorisation);
     }
 
     @Override

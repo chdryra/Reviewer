@@ -19,23 +19,23 @@ import com.github.scribejava.core.oauth.OAuth10aService;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.StringTokenizer;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorisationRequesterDefault implements OAuthRequester<AccessTokenDefault>{
-    private static final String TOKEN_DELIMETER = "&";
+public abstract class OAuthRequester10a<T> implements OAuthRequester<T>{
+    private static final String OAUTH_VERIFIER = "oauth_verifier=";
 
     private String mPlatformName;
     private String mCallBack;
     private OAuth10aService mService;
     private Token mCurrentRequest;
 
-    public AuthorisationRequesterDefault(String consumerKey, String consumerSecret, String callBack,
-                                         DefaultApi10a api, String platformName) {
+    protected abstract T newAccessToken(Token token);
+
+    public OAuthRequester10a(String consumerKey, String consumerSecret, String callBack,
+                             DefaultApi10a api, String platformName) {
         mCallBack= callBack;
         mService = new ServiceBuilder()
                 .apiKey(consumerKey)
@@ -47,30 +47,21 @@ public class AuthorisationRequesterDefault implements OAuthRequester<AccessToken
     }
 
     @Override
-    public void generateAuthorisationRequest(RequestListener<AccessTokenDefault> listener) {
+    public void generateAuthorisationRequest(RequestListener<T> listener) {
         new OAuthRequestTask(listener).execute();
     }
 
     @Override
-    public void parseRequestResponse(OAuthRequest response, RequestListener<AccessTokenDefault> listener) {
+    public void parseRequestResponse(OAuthRequest response, RequestListener<T> listener) {
         String callback = response.getCallbackResult();
-
-        String result = StringUtils.remove(callback, mCallBack + "?");
-        StringTokenizer tokenizer = new StringTokenizer(result, TOKEN_DELIMETER);
-
-        tokenizer.nextToken();
-        String token = tokenizer.nextToken();
-
-        String verifierString = StringUtils.remove(token, "oauth_verifier=");
-
-        Verifier verifier = new Verifier(verifierString);
-        new OAuthResponseTask(verifier, listener).execute();
+        String verifier = StringUtils.substringAfter(callback, OAUTH_VERIFIER);
+        new OAuthResponseTask(new Verifier(verifier), listener).execute();
     }
 
     private class OAuthRequestTask extends AsyncTask<Void, Void, OAuthRequest> {
-        private RequestListener<AccessTokenDefault> mListener;
+        private RequestListener<T> mListener;
 
-        public OAuthRequestTask(RequestListener<AccessTokenDefault> listener ) {
+        public OAuthRequestTask(RequestListener<T> listener ) {
             mListener = listener;
         }
 
@@ -88,23 +79,23 @@ public class AuthorisationRequesterDefault implements OAuthRequester<AccessToken
         }
     }
 
-    private class OAuthResponseTask extends AsyncTask<Void, Void, AccessTokenDefault> {
+    private class OAuthResponseTask extends AsyncTask<Void, Void, T> {
         private Verifier mVerifier;
-        private RequestListener<AccessTokenDefault> mListener;
+        private RequestListener<T> mListener;
 
-        public OAuthResponseTask (Verifier verifier, RequestListener<AccessTokenDefault> listener ) {
+        public OAuthResponseTask (Verifier verifier, RequestListener<T> listener ) {
             mVerifier = verifier;
             mListener = listener;
         }
 
         @Override
-        protected AccessTokenDefault doInBackground(Void... params) {
+        protected T doInBackground(Void... params) {
             Token accessToken = mService.getAccessToken(mCurrentRequest, mVerifier);
-            return new AccessTokenDefault(accessToken.getToken(), accessToken.getSecret());
+            return newAccessToken(accessToken);
         }
 
         @Override
-        protected void onPostExecute(AccessTokenDefault token) {
+        protected void onPostExecute(T token) {
             mListener.onResponseParsed(token);
         }
     }

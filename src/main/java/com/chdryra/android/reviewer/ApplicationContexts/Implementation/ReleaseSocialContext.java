@@ -24,7 +24,7 @@ public class ReleaseSocialContext implements SocialContext {
     private SocialPlatformList mPlatforms;
 
     public ReleaseSocialContext(Context context) {
-        mPlatforms = new FactorySocialPlatformList(context).getPlatfomrs();
+        mPlatforms = new FactorySocialPlatformList(context).getPlatforms();
     }
 
     @Override
