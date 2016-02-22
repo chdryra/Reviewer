@@ -119,6 +119,8 @@
     <string name="consumer_key_4square">PKIX2W00YPV0F02QBTEV0V3MUDTKUDFV1RTVW3LKRFHIHS2V</string>
     <string name="consumer_secret_4square">AUIB1SGHZMCNHWGLI1JCL3XTZJ0U5J0UYWJLMM1VLVBFWDUE</string>
     <string name="facebook_app_id">1671165596505199</string>
+    <string name="consumer_key_facebook">e19654d535b42693fbcb6fa45628c653</string>
+    <string name="consumer_secret_facebook">3c4f4f17a09bcc16cf49674facc56fb0</string>
     <string name="callback">http://oauth.callback.url</string>
 
 </resources>

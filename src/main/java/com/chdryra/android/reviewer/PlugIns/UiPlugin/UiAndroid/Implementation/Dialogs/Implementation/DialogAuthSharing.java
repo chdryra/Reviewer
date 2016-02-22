@@ -75,6 +75,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
         WebView webView = getWebView();
         webView.setWebViewClient(new UrlWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.loadUrl(mRequest.getAuthorisationUrl());
     }
 
@@ -107,7 +108,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
             setDialogTitle(mRequest.getName() + " authorisation");
             String viewUrl = view.getUrl();
             super.onPageFinished(view, url);
-            if(viewUrl.contains(mRequest.getCallbackUrl())) {
+            if(viewUrl != null && viewUrl.contains(mRequest.getCallbackUrl())) {
                 captureCallbackAndReturn(viewUrl);
             }
         }

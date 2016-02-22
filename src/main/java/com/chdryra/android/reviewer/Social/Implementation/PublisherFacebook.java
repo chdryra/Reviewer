@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
+import com.facebook.AccessToken;
+
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,6 +22,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 public class PublisherFacebook extends SocialPublisherBasic<AccessTokenDefault> {
     private static final String NAME = "facebook";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
+    private AccessToken mToken;
 
     public PublisherFacebook(ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);
@@ -37,6 +40,5 @@ public class PublisherFacebook extends SocialPublisherBasic<AccessTokenDefault> 
 
     @Override
     public void setAccessToken(AccessTokenDefault token) {
-
     }
 }
