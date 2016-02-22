@@ -74,6 +74,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
     private void loadRequest() {
         WebView webView = getWebView();
         webView.setWebViewClient(new UrlWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(mRequest.getAuthorisationUrl());
     }
 

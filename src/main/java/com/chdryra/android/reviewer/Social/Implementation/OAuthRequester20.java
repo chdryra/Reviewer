@@ -25,7 +25,8 @@ import org.apache.commons.lang3.StringUtils;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class OAuthRequester20<T> implements OAuthRequester<T>{
-    private static final String OAUTH_VERIFIER = "oauth_verifier=";
+    private static final String CODE_START = "code=";
+    private static final String CODE_END = "#";
 
     private String mPlatformName;
     private String mCallBack;
@@ -53,7 +54,8 @@ public abstract class OAuthRequester20<T> implements OAuthRequester<T>{
     @Override
     public void parseRequestResponse(OAuthRequest response, RequestListener<T> listener) {
         String callback = response.getCallbackResult();
-        String verifier = StringUtils.substringAfter(callback, OAUTH_VERIFIER);
+        String verifier = StringUtils.substringAfter(callback, CODE_START);
+        verifier = StringUtils.substringBefore(verifier, CODE_END);
         new OAuthResponseTask(new Verifier(verifier), listener).execute();
     }
 
