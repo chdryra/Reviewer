@@ -11,8 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.view.View;
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
 
 
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
@@ -24,7 +26,10 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
-        implements PlatformAuthoriser.AuthorisationListener{
+        implements PlatformAuthoriser.AuthorisationListener {
+    private static final String AUTHORISATION_RECEIVED = "authorisation received";
+    private static final String AUTHORISATION_NOT_RECEIVED = "authorisation not received";
+
     private PlatformAuthoriser mAuthoriser;
     private GvSocialPlatform mPlatformSeekingAuthorisation;
     private View mViewForAuthorisation;
@@ -35,16 +40,29 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
 
     @Override
     public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
-        if(platform.isAuthorised()) {
+        if (platform.isAuthorised()) {
             pressPlatform(platform, v);
-        } else if(platform.getName().equals("tumblr") || platform.getName().equals("twitter")) {
+        } else if (platform.getName().equals("tumblr") || platform.getName().equals("twitter")) {
             mPlatformSeekingAuthorisation = platform;
             mViewForAuthorisation = v;
             mAuthoriser.seekAuthorisation(platform.getPlatform(), this);
         } else {
-            Toast.makeText(getActivity(), platform.getName() + " not currently authorised",
-                    Toast.LENGTH_SHORT).show();
+            makeToast(platform.getPlatform(), "not currently authorised");
         }
+    }
+
+    @Override
+    public void onAuthorisationGiven(SocialPlatform<?> platform) {
+        pressPlatform(mPlatformSeekingAuthorisation, mViewForAuthorisation);
+        getReviewView().onGridDataChanged();
+        makeToast(platform, AUTHORISATION_RECEIVED);
+        mPlatformSeekingAuthorisation = null;
+        mViewForAuthorisation = null;
+    }
+
+    @Override
+    public void onAuthorisationRefused(SocialPlatform<?> platform) {
+        makeToast(platform, AUTHORISATION_NOT_RECEIVED);
     }
 
     private void pressPlatform(GvSocialPlatform platform, View v) {
@@ -52,17 +70,8 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
         v.setActivated(platform.isChosen());
     }
 
-    @Override
-    public void onAuthorisationGiven(SocialPlatform<?> platform) {
-        pressPlatform(mPlatformSeekingAuthorisation, mViewForAuthorisation);
-        getReviewView().onGridDataChanged();
-        Toast.makeText(getActivity(), platform.getName() + ": authorisation received",
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAuthorisationRefused(SocialPlatform<?> platform) {
-        Toast.makeText(getActivity(), platform.getName() + ": authorisation not received",
+    private void makeToast(SocialPlatform<?> platform, String message) {
+        Toast.makeText(getActivity(), platform.getName() + ": " + message,
                 Toast.LENGTH_SHORT).show();
     }
 }
