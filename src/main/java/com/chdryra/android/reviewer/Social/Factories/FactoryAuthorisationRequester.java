@@ -8,16 +8,20 @@
 
 package com.chdryra.android.reviewer.Social.Factories;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.AccessTokenDefault;
-import com.chdryra.android.reviewer.Social.Implementation.OAuthRequesterDefault;
+import com.chdryra.android.reviewer.Social.Implementation.OAuthRequester10aDefault;
+import com.chdryra.android.reviewer.Social.Implementation.OAuthRequester20Default;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequesterTwitter;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
-import com.github.scribejava.apis.FoursquareApi;
+import com.github.scribejava.apis.Foursquare2Api;
 import com.github.scribejava.apis.TumblrApi;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.builder.api.DefaultApi20;
 
 import twitter4j.auth.AccessToken;
 
@@ -27,43 +31,53 @@ import twitter4j.auth.AccessToken;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorisationRequester {
+    private static final int CALLBACK = R.string.callback;
+
+    private String mCallback;
+
+    public FactoryAuthorisationRequester(Context context) {
+        mCallback = context.getString(CALLBACK);
+    }
+
     @NonNull
     public OAuthRequester<AccessToken> newTwitterAuthorisationRequester(String key,
-                                                                           String secret,
-                                                                           String callBack,
-                                                                           String platformName) {
-        return new OAuthRequesterTwitter(key, secret, callBack, TwitterApi.instance(), platformName);
+                                                                        String secret,
+                                                                        String platformName) {
+        return new OAuthRequesterTwitter(key, secret, mCallback, TwitterApi.instance(), platformName);
     }
 
     @NonNull
     public OAuthRequester<AccessTokenDefault> newTumblrAuthorisationRequester(String key,
                                                                           String secret,
-                                                                          String callBack,
                                                                           String platformName) {
-        return newDefaultRequester(key, secret, callBack, platformName, TumblrApi.instance());
+        return newDefault10aRequester(key, secret, platformName, TumblrApi.instance());
     }
 
     @NonNull
     public OAuthRequester<AccessTokenDefault> newFacebookAuthorisationRequester(String key,
                                                                               String secret,
-                                                                              String callBack,
                                                                               String platformName) {
-        return newDefaultRequester(key, secret, callBack, platformName, TumblrApi.instance());
+        return newDefault10aRequester(key, secret, platformName, TumblrApi.instance());
     }
 
     @NonNull
     public OAuthRequester<AccessTokenDefault> newFoursquareAuthorisationRequester(String key,
                                                                                 String secret,
-                                                                                String callBack,
                                                                                 String platformName) {
-        return newDefaultRequester(key, secret, callBack, platformName, FoursquareApi.instance());
+        return newDefault20Requester(key, secret, platformName, Foursquare2Api.instance());
     }
 
     @NonNull
-    private OAuthRequester<AccessTokenDefault> newDefaultRequester(String key, String secret,
-                                                                   String callBack, String platform,
-                                                                   DefaultApi10a api) {
-        return new OAuthRequesterDefault(key, secret, callBack, api, platform);
+    private OAuthRequester<AccessTokenDefault> newDefault20Requester(String key, String secret,
+                                                                      String platform,
+                                                                      DefaultApi20 api) {
+        return new OAuthRequester20Default(key, secret, mCallback, api, platform);
     }
 
+    @NonNull
+    private OAuthRequester<AccessTokenDefault> newDefault10aRequester(String key, String secret,
+                                                                      String platform,
+                                                                      DefaultApi10a api) {
+        return new OAuthRequester10aDefault(key, secret, mCallback, api, platform);
+    }
 }

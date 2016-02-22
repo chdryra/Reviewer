@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.github.scribejava.core.builder.api.DefaultApi10a;
+import com.github.scribejava.core.builder.api.DefaultApi20;
 import com.github.scribejava.core.model.Token;
 
 /**
@@ -18,10 +18,10 @@ import com.github.scribejava.core.model.Token;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class OAuthRequesterDefault extends OAuthRequester10a<AccessTokenDefault> {
+public class OAuthRequester20Default extends OAuthRequester20<AccessTokenDefault> {
 
-    public OAuthRequesterDefault(String consumerKey, String consumerSecret,
-                                 String callBack, DefaultApi10a api, String platformName) {
+    public OAuthRequester20Default(String consumerKey, String consumerSecret,
+                                   String callBack, DefaultApi20 api, String platformName) {
         super(consumerKey, consumerSecret, callBack, api, platformName);
     }
 

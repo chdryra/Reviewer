@@ -42,6 +42,9 @@ public class FactorySocialPlatformList {
     private static final int CONSUMER_SECRET_TWITTER = R.string.consumer_secret_twitter;
     private static final int CONSUMER_KEY_TUMBLR = R.string.consumer_key_tumblr;
     private static final int CONSUMER_SECRET_TUMBLR = R.string.consumer_secret_tumblr;
+    private static final int CONSUMER_KEY_4SQUARE = R.string.consumer_key_4square;
+    private static final int CONSUMER_SECRET_4SQUARE = R.string.consumer_secret_4square;
+
     private static final int CALLBACK = R.string.callback;
 
     private static SocialPlatformList sPlatforms;
@@ -50,7 +53,7 @@ public class FactorySocialPlatformList {
 
     public FactorySocialPlatformList(Context context) {
         mContext = context;
-        mRequesterFactory = new FactoryAuthorisationRequester();
+        mRequesterFactory = new FactoryAuthorisationRequester(mContext);
     }
 
     public SocialPlatformList getPlatforms() {
@@ -99,28 +102,28 @@ public class FactorySocialPlatformList {
 
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newTwitterAuthorisationRequester(string(CONSUMER_KEY_TWITTER),
-                        string(CONSUMER_SECRET_TWITTER), string(CALLBACK), publisher.getName()));
+                        string(CONSUMER_SECRET_TWITTER), publisher.getName()));
     }
 
     public SocialPlatform<AccessTokenDefault> newFacebook() {
         PublisherFacebook publisher = new PublisherFacebook(SUMMARISER, FORMATTER);
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newFacebookAuthorisationRequester(string(CONSUMER_KEY_TUMBLR),
-                        string(CONSUMER_SECRET_TUMBLR), string(CALLBACK), publisher.getName()));
+                        string(CONSUMER_SECRET_TUMBLR), publisher.getName()));
     }
 
     public SocialPlatform<AccessTokenDefault> newTumblr() {
         PublisherTumblr publisher = new PublisherTumblr(SUMMARISER, FORMATTER);
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newTumblrAuthorisationRequester(string(CONSUMER_KEY_TUMBLR),
-                        string(CONSUMER_SECRET_TUMBLR), string(CALLBACK), publisher.getName()));
+                        string(CONSUMER_SECRET_TUMBLR), publisher.getName()));
     }
 
     public SocialPlatform<AccessTokenDefault> newFourSquare() {
         PublisherFourSquare publisher = new PublisherFourSquare(SUMMARISER, FORMATTER);
         return new SocialPlatformImpl<>(mContext, publisher,
-                mRequesterFactory.newFoursquareAuthorisationRequester(string(CONSUMER_KEY_TUMBLR),
-                        string(CONSUMER_SECRET_TUMBLR), string(CALLBACK), publisher.getName()));
+                mRequesterFactory.newFoursquareAuthorisationRequester(string(CONSUMER_KEY_4SQUARE),
+                        string(CONSUMER_SECRET_4SQUARE), publisher.getName()));
     }
 
     private String string(int id) {

@@ -42,12 +42,10 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     public void onGridItemClick(GvSocialPlatform platform, int position, View v) {
         if (platform.isAuthorised()) {
             pressPlatform(platform, v);
-        } else if (platform.getName().equals("tumblr") || platform.getName().equals("twitter")) {
+        } else {
             mPlatformSeekingAuthorisation = platform;
             mViewForAuthorisation = v;
             mAuthoriser.seekAuthorisation(platform.getPlatform(), this);
-        } else {
-            makeToast(platform.getPlatform(), "not currently authorised");
         }
     }
 
