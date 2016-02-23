@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -46,7 +45,6 @@ public class FragmentFacebookLogin extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         View view = inflater.inflate(LAYOUT, container, false);
-        if(!FacebookSdk.isInitialized()) FacebookSdk.sdkInitialize(getActivity());
 
         LoginButton button = (LoginButton) view.findViewById(LOGIN);
         button.setFragment(this);
@@ -65,7 +63,7 @@ public class FragmentFacebookLogin extends Fragment{
 
             @Override
             public void onCancel() {
-
+                int x = 0;
             }
 
             @Override
@@ -79,7 +77,6 @@ public class FragmentFacebookLogin extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

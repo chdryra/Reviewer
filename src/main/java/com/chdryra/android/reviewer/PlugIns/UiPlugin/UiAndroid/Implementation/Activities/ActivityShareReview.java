@@ -44,8 +44,8 @@ public class ActivityShareReview extends ActivityReviewView implements
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
         mSeekerFactory = new FactoryAuthorisationSeeker();
-        FactoryShareScreenView factory = new FactoryShareScreenView();
 
+        FactoryShareScreenView factory = new FactoryShareScreenView();
         return factory.buildView(getResources().getString(SOCIAL),
                 app.getSocialPlatformList(),
                 app.getReviewBuilderAdapter(),

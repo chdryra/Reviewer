@@ -127,6 +127,13 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         ActivityReviewView activity;
         try {
             activity = (ActivityReviewView) getActivity();
@@ -142,13 +149,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
 
         setGridCellDimension(mParams.getGridViewParams().getCellWidth(),
                 mParams.getGridViewParams().getCellHeight());
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(LAYOUT, container, false);
 
@@ -174,11 +174,11 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         updateUi();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        detachFromReviewViewIfNecessary();
-    }
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        detachFromReviewViewIfNecessary();
+//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {

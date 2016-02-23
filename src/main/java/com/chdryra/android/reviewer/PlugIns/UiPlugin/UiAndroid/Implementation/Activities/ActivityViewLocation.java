@@ -28,7 +28,6 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
     private static final String TAG = "ActivityViewReviewLocation";
     private static final String KEY = "com.chdryra.android.reviewer.View.LauncherModel.Implementation.Activities.SpecialisedActivities.ActivityViewLocation.location";
 
-    //Overridden
     @Override
     public String getLaunchTag() {
         return TAG;

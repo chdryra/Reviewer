@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Social.Implementation.OAuthRequester10aDefau
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequester20Default;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequesterTwitter;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
-import com.github.scribejava.apis.FacebookApi;
 import com.github.scribejava.apis.Foursquare2Api;
 import com.github.scribejava.apis.TumblrApi;
 import com.github.scribejava.apis.TwitterApi;
@@ -55,12 +54,10 @@ public class FactoryAuthorisationRequester {
     }
 
     @NonNull
-    public OAuthRequester<AccessTokenDefault> newFacebookAuthorisationRequester(String key,
+    public OAuthRequester<com.facebook.AccessToken> newFacebookAuthorisationRequester(String key,
                                                                               String secret,
                                                                               String platformName) {
-        return new OAuthRequester20Default(key, secret,
-                "https://www.facebook.com/connect/login_success.html",
-                FacebookApi.instance(), platformName);
+        return null;
     }
 
     @NonNull

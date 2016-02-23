@@ -12,7 +12,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.AccessTokenDefault;
-import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFourSquare;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTumblr;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitter;
@@ -23,7 +23,6 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformImpl;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
-import com.facebook.FacebookSdk;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -44,8 +43,6 @@ public class FactorySocialPlatformList {
     private static final int CONSUMER_SECRET_TUMBLR = R.string.consumer_secret_tumblr;
     private static final int CONSUMER_KEY_4SQUARE = R.string.consumer_key_4square;
     private static final int CONSUMER_SECRET_4SQUARE = R.string.consumer_secret_4square;
-    private static final int CONSUMER_KEY_FACEBOOK = R.string.facebook_app_id   ;
-    private static final int CONSUMER_SECRET_FACEBOOK = R.string.consumer_secret_facebook;
 
     private static SocialPlatformList sPlatforms;
     private Context mContext;
@@ -105,17 +102,10 @@ public class FactorySocialPlatformList {
                         string(CONSUMER_SECRET_TWITTER), publisher.getName()));
     }
 
-    public SocialPlatform<AccessTokenDefault> newFacebook() {
-        if(!FacebookSdk.isInitialized()) initialiseFacebook();
-        PublisherFacebook publisher = new PublisherFacebook(SUMMARISER, FORMATTER);
-        return new SocialPlatformImpl<>(mContext, publisher,
-                mRequesterFactory.newFacebookAuthorisationRequester(string(CONSUMER_KEY_FACEBOOK),
-                        string(CONSUMER_SECRET_FACEBOOK), publisher.getName()));
+    public SocialPlatform<com.facebook.AccessToken> newFacebook() {
+        return PlatformFacebook.getInstance(mContext);
     }
 
-    private void initialiseFacebook() {
-        FacebookSdk.sdkInitialize(mContext);
-    }
 
     public SocialPlatform<AccessTokenDefault> newTumblr() {
         PublisherTumblr publisher = new PublisherTumblr(SUMMARISER, FORMATTER);

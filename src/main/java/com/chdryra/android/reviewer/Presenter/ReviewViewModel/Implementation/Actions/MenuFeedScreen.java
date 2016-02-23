@@ -41,7 +41,6 @@ public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
     @Override
     protected void addMenuItems() {
         bindMenuActionItem(new MenuActionItem() {
-            //Overridden
             @Override
             public void doAction(Context context, MenuItem item) {
                 mUiLauncher.launch(mBuildScreenUi, getActivity(), LAUNCH_BUILD_SCREEN,
