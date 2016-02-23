@@ -20,7 +20,7 @@ import com.facebook.AccessToken;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherFacebook extends SocialPublisherBasic<AccessTokenDefault> {
-    private static final String NAME = "facebook";
+    public static final String NAME = "facebook";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
     private AccessToken mToken;
 
@@ -40,5 +40,6 @@ public class PublisherFacebook extends SocialPublisherBasic<AccessTokenDefault> 
 
     @Override
     public void setAccessToken(AccessTokenDefault token) {
+
     }
 }

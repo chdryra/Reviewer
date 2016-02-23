@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformImpl;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.facebook.FacebookSdk;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -105,10 +106,15 @@ public class FactorySocialPlatformList {
     }
 
     public SocialPlatform<AccessTokenDefault> newFacebook() {
+        if(!FacebookSdk.isInitialized()) initialiseFacebook();
         PublisherFacebook publisher = new PublisherFacebook(SUMMARISER, FORMATTER);
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newFacebookAuthorisationRequester(string(CONSUMER_KEY_FACEBOOK),
                         string(CONSUMER_SECRET_FACEBOOK), publisher.getName()));
+    }
+
+    private void initialiseFacebook() {
+        FacebookSdk.sdkInitialize(mContext);
     }
 
     public SocialPlatform<AccessTokenDefault> newTumblr() {

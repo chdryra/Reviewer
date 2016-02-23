@@ -47,7 +47,6 @@ public class FragmentViewUrlBrowser extends Fragment {
     private static final int LAYOUT = R.layout.fragment_review_url_browser;
     private static final int WEB_VIEW = R.id.web_view;
     private static final int URL_EDIT_TEXT = R.id.edit_text_url;
-    private static final int DEFAULT_URL = R.string.google_search;
 
     private OAuthRequest mCurrent;
     private ClearableEditText mUrlEditText;

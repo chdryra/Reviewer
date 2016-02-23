@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -43,6 +44,7 @@ public class ActivityViewLocation extends ActivitySingleFragment implements Laun
         return FragmentViewLocation.newInstance(getBundledLocation());
     }
 
+    @Nullable
     private GvLocation getBundledLocation() {
         ParcelablePacker<GvLocation> packer = new ParcelablePacker<>();
         Bundle args = getIntent().getBundleExtra(KEY);
