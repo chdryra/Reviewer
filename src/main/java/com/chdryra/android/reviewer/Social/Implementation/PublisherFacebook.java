@@ -35,20 +35,21 @@ import org.json.JSONArray;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherFacebook implements SocialPublisher<AccessToken> {
-    public static final String NAME = "facebook";
-
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
+    private String mPlatformName;
     private AccessToken mToken;
 
-    public PublisherFacebook(ReviewSummariser summariser, ReviewFormatter formatter) {
+    public PublisherFacebook(String platformName, ReviewSummariser summariser,
+                             ReviewFormatter formatter) {
+        mPlatformName = platformName;
         mSummariser = summariser;
         mFormatter = formatter;
     }
 
     @Override
     public String getPlatformName() {
-        return NAME;
+        return mPlatformName;
     }
 
     @Override
@@ -97,17 +98,17 @@ public class PublisherFacebook implements SocialPublisher<AccessToken> {
         return new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                listener.onPublished(new PublishResults(NAME, 0));
+                listener.onPublished(new PublishResults(getPlatformName(), 0));
             }
 
             @Override
             public void onCancel() {
-                listener.onPublished(new PublishResults(NAME, "Canceled"));
+                listener.onPublished(new PublishResults(getPlatformName(), "Canceled"));
             }
 
             @Override
             public void onError(FacebookException error) {
-                listener.onPublished(new PublishResults(NAME, error.toString()));
+                listener.onPublished(new PublishResults(getPlatformName(), error.toString()));
             }
         };
     }

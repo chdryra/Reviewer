@@ -17,16 +17,14 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherFourSquare extends SocialPublisherBasic<AccessTokenDefault> {
-    private static final String NAME = "foursquare";
-    private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
-
-    public PublisherFourSquare(ReviewSummariser summariser, ReviewFormatter formatter) {
-        super(NAME, summariser, formatter);
+    public PublisherFourSquare(String platformName, ReviewSummariser summariser,
+                               ReviewFormatter formatter) {
+        super(platformName, summariser, formatter);
     }
 
     @Override
     protected PublishResults publish(FormattedReview review) {
-        return SUCCESS;
+        return new PublishResults(getPlatformName(), 0);
     }
 
     @Override

@@ -23,31 +23,30 @@ import twitter4j.auth.AccessToken;
  */
 public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
         implements FollowersFetcher.FollowersGetter, AsyncSocialPublisher.SyncSocialPublisher {
-    private static final String NAME = "twitter";
-    private static final PublishResults NO_AUTH_RESULT
-            = new PublishResults(NAME, "No Authorisation");
 
     private Twitter mTwitter;
     private AccessToken mToken;
+    private String mPlatformName;
 
-    public PublisherTwitter(Twitter twitter,
+    public PublisherTwitter(String platformName, Twitter twitter,
                             ReviewSummariser summariser,
                             ReviewFormatter formatter) {
-        super(NAME, summariser, formatter);
+        super(platformName, summariser, formatter);
         mTwitter = twitter;
+        mPlatformName = platformName;
     }
 
     @Override
     protected PublishResults publish(FormattedReview review) {
-        if (mToken == null) return NO_AUTH_RESULT;
+        if (mToken == null) return new PublishResults(mPlatformName, "No Authorisation");
 
         PublishResults results;
         try {
             Status status = mTwitter.updateStatus(review.getBody());
-            results = new PublishResults(NAME, status.getUser().getFollowersCount());
+            results = new PublishResults(mPlatformName, status.getUser().getFollowersCount());
         } catch (TwitterException e) {
             e.printStackTrace();
-            results = new PublishResults(NAME, e.getErrorMessage());
+            results = new PublishResults(mPlatformName, e.getErrorMessage());
         }
 
         return results;

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.U
 
 import android.app.Activity;
 
-import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.facebook.AccessToken;
@@ -23,7 +23,7 @@ import com.facebook.AccessToken;
 public class FactoryAuthorisationSeeker {
     public PlatformAuthorisationSeeker newAuthorisationSeeker(Activity activity, SocialPlatform<?> platform,
                                                               PlatformAuthoriser.AuthorisationListener listener) {
-        if(platform.getName().equals(PublisherFacebook.NAME)) {
+        if(platform.getName().equals(PlatformFacebook.NAME)) {
             return new FacebookAuthorisationSeeker(activity, (SocialPlatform<AccessToken>) platform, listener);
         } else {
             return new DialogAuthorisationSeeker<>(activity, platform, listener);

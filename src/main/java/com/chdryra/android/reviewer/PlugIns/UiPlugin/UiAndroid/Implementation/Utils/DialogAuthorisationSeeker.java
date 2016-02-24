@@ -43,7 +43,7 @@ public class DialogAuthorisationSeeker<T> implements
 
     @Override
     public void seekAuthorisation() {
-        OAuthRequester<T> requester = mPlatform.getAuthorisationRequester();
+        OAuthRequester<T> requester = mPlatform.getOAuthRequester();
         requester.generateAuthorisationRequest(this);
 
     }
@@ -65,7 +65,7 @@ public class DialogAuthorisationSeeker<T> implements
 
     @Override
     public void onAuthorisationCallback(OAuthRequest response) {
-        OAuthRequester<T> requester = mPlatform.getAuthorisationRequester();
+        OAuthRequester<T> requester = mPlatform.getOAuthRequester();
         requester.parseRequestResponse(response, this);
     }
 

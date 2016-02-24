@@ -19,8 +19,12 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  */
 public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     private final SocialPublisher<T> mPublisher;
-    private final OAuthRequester<T> mRequester;
+    private OAuthRequester<T> mRequester;
     private T mAccessToken;
+
+    public SocialPlatformImpl(SocialPublisher<T> publisher) {
+        mPublisher = publisher;
+    }
 
     public SocialPlatformImpl(SocialPublisher<T> publisher, OAuthRequester<T> requester) {
         mPublisher = publisher;
@@ -43,7 +47,7 @@ public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public OAuthRequester<T> getAuthorisationRequester() {
+    public OAuthRequester<T> getOAuthRequester() {
         return mRequester;
     }
 

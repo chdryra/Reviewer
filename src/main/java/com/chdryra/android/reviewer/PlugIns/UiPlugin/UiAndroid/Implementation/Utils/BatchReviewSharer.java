@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Implementation.BatchSocialPublisher;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -82,9 +82,11 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
                                ArrayList<String> platformsNotOk,
                                int numFollowers) {
         String num = String.valueOf(numFollowers);
-        String fb = platformsOk.contains(PublisherFacebook.NAME) ? "+ " : "";
+        boolean fb = platformsOk.contains(PlatformFacebook.NAME);
+        String plus = fb ? "+ " : "";
+        String followers = numFollowers == 1 && !fb ? " follower" : " followers";
 
-        String followersString = num + fb + (numFollowers == 1 ? " follower" : " followers");
+        String followersString = num + plus + followers;
         String message = "Published to " +  followersString + " on " +
                 StringUtils.join(platformsOk.toArray(), ", ");
 

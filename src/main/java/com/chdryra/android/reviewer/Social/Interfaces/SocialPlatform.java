@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatfor
 public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
     SocialPublisher getPublisher();
 
-    OAuthRequester<T> getAuthorisationRequester();
+    OAuthRequester<T> getOAuthRequester();
 
     @Override
     boolean isAuthorised();

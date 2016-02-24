@@ -10,19 +10,23 @@ package com.chdryra.android.reviewer.Social.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.AccessTokenDefault;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFoursquare;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformTumblr;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFourSquare;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTumblr;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterDefault;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformImpl;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -35,16 +39,8 @@ import twitter4j.conf.ConfigurationBuilder;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactorySocialPlatformList {
-    private static final ReviewSummariser SUMMARISER = new ReviewSummariser();
-    private static final ReviewFormatterDefault FORMATTER = new ReviewFormatterDefault();
-    private static final int CONSUMER_KEY_TWITTER = R.string.consumer_key_twitter;
-    private static final int CONSUMER_SECRET_TWITTER = R.string.consumer_secret_twitter;
-    private static final int CONSUMER_KEY_TUMBLR = R.string.consumer_key_tumblr;
-    private static final int CONSUMER_SECRET_TUMBLR = R.string.consumer_secret_tumblr;
-    private static final int CONSUMER_KEY_4SQUARE = R.string.consumer_key_4square;
-    private static final int CONSUMER_SECRET_4SQUARE = R.string.consumer_secret_4square;
-
     private static SocialPlatformList sPlatforms;
+
     private Context mContext;
     private FactoryAuthorisationRequester mRequesterFactory;
 
@@ -68,39 +64,64 @@ public class FactorySocialPlatformList {
         return list;
     }
 
-    private SocialPlatform<AccessToken> newTwitter() {
-        ConfigurationBuilder cb = new ConfigurationBuilder();
-        cb.setDebugEnabled(true)
-                .setOAuthConsumerKey(string(CONSUMER_KEY_TWITTER))
-                .setOAuthConsumerSecret(string(CONSUMER_SECRET_TWITTER));
+    public SocialPlatform<twitter4j.auth.AccessToken> newTwitter() {
+        String key = string(PlatformTwitter.CONSUMER_KEY);
+        String secret = string(PlatformTwitter.CONSUMER_SECRET);
 
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true).setOAuthConsumerKey(key).setOAuthConsumerSecret(secret);
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
-        SocialPublisher<AccessToken> publisher = new PublisherTwitter(twitter, SUMMARISER,
-                new ReviewFormatterTwitter());
 
-        return new SocialPlatformImpl<>(publisher,
-                mRequesterFactory.newTwitterAuthorisationRequester(string(CONSUMER_KEY_TWITTER),
-                        string(CONSUMER_SECRET_TWITTER), publisher.getPlatformName()));
+        String name = PlatformTwitter.NAME;
+
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatter formatter = new ReviewFormatterTwitter();
+        PublisherTwitter publisher = new PublisherTwitter(name, twitter, summariser, formatter);
+
+        OAuthRequester<AccessToken> authRequester = mRequesterFactory
+                .newTwitterAuthorisationRequester(key, secret, name);
+
+        return new PlatformTwitter(publisher, authRequester);
     }
 
     public SocialPlatform<com.facebook.AccessToken> newFacebook() {
-        return PlatformFacebook.getInstance(mContext);
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatter formatter = new ReviewFormatterFacebook();
+        PublisherFacebook publisher
+                = new PublisherFacebook(PlatformFacebook.NAME, summariser, formatter);
+
+        return new PlatformFacebook(mContext, publisher);
     }
 
-
     public SocialPlatform<AccessTokenDefault> newTumblr() {
-        PublisherTumblr publisher = new PublisherTumblr(SUMMARISER, FORMATTER);
-        return new SocialPlatformImpl<>(publisher,
-                mRequesterFactory.newTumblrAuthorisationRequester(string(CONSUMER_KEY_TUMBLR),
-                        string(CONSUMER_SECRET_TUMBLR), publisher.getPlatformName()));
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatterDefault formatter = new ReviewFormatterDefault();
+
+        String name = PlatformTumblr.NAME;
+        PublisherTumblr publisher = new PublisherTumblr(name, summariser, formatter);
+
+        String key = string(PlatformTumblr.CONSUMER_KEY);
+        String secret = string(PlatformTumblr.CONSUMER_SECRET);
+        OAuthRequester<AccessTokenDefault> authRequester = mRequesterFactory
+                .newTumblrAuthorisationRequester(key, secret, name);
+
+        return new PlatformTumblr(publisher, authRequester);
     }
 
     public SocialPlatform<AccessTokenDefault> newFourSquare() {
-        PublisherFourSquare publisher = new PublisherFourSquare(SUMMARISER, FORMATTER);
-        return new SocialPlatformImpl<>(publisher,
-                mRequesterFactory.newFoursquareAuthorisationRequester(string(CONSUMER_KEY_4SQUARE),
-                        string(CONSUMER_SECRET_4SQUARE), publisher.getPlatformName()));
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatterDefault formatter = new ReviewFormatterDefault();
+
+        String name = PlatformFoursquare.NAME;
+        PublisherFourSquare publisher = new PublisherFourSquare(name, summariser, formatter);
+
+        String key = string(PlatformFoursquare.CONSUMER_KEY);
+        String secret = string(PlatformFoursquare.CONSUMER_SECRET);
+        OAuthRequester<AccessTokenDefault> authRequester = mRequesterFactory
+                .newFoursquareAuthorisationRequester(key, secret, name);
+
+        return new PlatformFoursquare(publisher, authRequester);
     }
 
     private String string(int id) {
