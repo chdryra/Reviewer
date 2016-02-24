@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
@@ -57,16 +58,46 @@ public class PublisherFacebook implements SocialPublisher<AccessToken> {
         FormattedReview formatted = mFormatter.format(summary);
 
         ShareLinkContent content = new ShareLinkContent.Builder()
-                .setContentUrl(Uri.parse("http://www.teeqr.com"))
+                .setContentUrl(getAppLink())
                 .setContentTitle(formatted.getTitle())
                 .setContentDescription(formatted.getBody())
                 .build();
 
+        ShareApi.share(content, getShareCallback(listener));
+    }
 
-        ShareApi.share(content, new FacebookCallback<Sharer.Result>() {
+    @Override
+    public void getFollowersAsync(final FollowersListener listener) {
+        //Pointless as facebook only returns friends who have also given their permission
+        // to the app via Facebook Login.
+        GraphRequest request = GraphRequest.newMyFriendsRequest(
+                mToken, new GraphRequest.GraphJSONArrayCallback() {
+                    @Override
+                    public void onCompleted(JSONArray objects, GraphResponse response) {
+                        listener.onNumberFollowers(objects.length());
+                    }
+                }
+        );
+
+        request.executeAsync();
+    }
+
+    @Override
+    public void setAccessToken(AccessToken token) {
+        mToken = token;
+    }
+
+    private Uri getAppLink() {
+        return Uri.parse("http://www.teeqr.com");
+    }
+
+    @NonNull
+    private FacebookCallback<Sharer.Result> getShareCallback(final SocialPublisherListener
+                                                                     listener) {
+        return new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                listener.onPublished(new PublishResults(NAME, -1));
+                listener.onPublished(new PublishResults(NAME, 0));
             }
 
             @Override
@@ -78,24 +109,6 @@ public class PublisherFacebook implements SocialPublisher<AccessToken> {
             public void onError(FacebookException error) {
                 listener.onPublished(new PublishResults(NAME, error.toString()));
             }
-        });
-    }
-
-    @Override
-    public void getFollowersAsync(final FollowersListener listener) {
-        GraphRequest request = GraphRequest.newMyFriendsRequest(
-                mToken, new GraphRequest.GraphJSONArrayCallback() {
-                    @Override
-                    public void onCompleted(JSONArray objects, GraphResponse response) {
-                        listener.onNumberFollowers(objects.length());
-                    }
-                }
-        );
-        request.executeAsync();
-    }
-
-    @Override
-    public void setAccessToken(AccessToken token) {
-        mToken = token;
+        };
     }
 }

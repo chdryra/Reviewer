@@ -63,10 +63,8 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
         ArrayList<String> platformsOk = new ArrayList<>();
         ArrayList<String> platformsNotOk = new ArrayList<>();
         int numFollowers = 0;
-        boolean facebook = false;
         for(PublishResults result : results) {
             if(result.wasSuccessful()) {
-                if(result.getPublisherName().equals(PublisherFacebook.NAME)) facebook = true;
                 platformsOk.add(result.getPublisherName());
                 numFollowers += result.getFollowers();
             } else {
@@ -74,16 +72,26 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
             }
         }
 
+        String message = makeMessage(platformsOk, platformsNotOk, numFollowers);
+
+        Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @NonNull
+    private String makeMessage(ArrayList<String> platformsOk,
+                               ArrayList<String> platformsNotOk,
+                               int numFollowers) {
         String num = String.valueOf(numFollowers);
-        String fb = facebook ? "+ " : "";
-        String followers = numFollowers == 1 ? " follower" : " followers";
-        String message = "Published to " + num + fb + followers + " on " +
+        String fb = platformsOk.contains(PublisherFacebook.NAME) ? "+ " : "";
+
+        String followersString = num + fb + (numFollowers == 1 ? " follower" : " followers");
+        String message = "Published to " +  followersString + " on " +
                 StringUtils.join(platformsOk.toArray(), ", ");
 
         if(platformsNotOk.size() > 0) {
             message += "\nProblems publishing to " + StringUtils.join(platformsNotOk.toArray(), ",");
         }
 
-        Toast.makeText(mActivity, message, Toast.LENGTH_SHORT).show();
+        return message;
     }
 }

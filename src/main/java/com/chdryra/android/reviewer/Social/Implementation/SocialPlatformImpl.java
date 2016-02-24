@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -20,13 +18,11 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * number of followers.
  */
 public class SocialPlatformImpl<T> implements SocialPlatform<T> {
-    private Context mContext;
     private final SocialPublisher<T> mPublisher;
     private final OAuthRequester<T> mRequester;
     private T mAccessToken;
 
-    public SocialPlatformImpl(Context context, SocialPublisher<T> publisher, OAuthRequester<T> requester) {
-        mContext = context;
+    public SocialPlatformImpl(SocialPublisher<T> publisher, OAuthRequester<T> requester) {
         mPublisher = publisher;
         mRequester = requester;
     }

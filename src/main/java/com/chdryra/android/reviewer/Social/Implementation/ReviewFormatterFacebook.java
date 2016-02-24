@@ -19,13 +19,13 @@ import java.util.ArrayList;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewFormatterDefault implements ReviewFormatter {
+public class ReviewFormatterFacebook implements ReviewFormatter {
     private static final String RATES = "rates";
     private static final String APP = ApplicationInstance.APP_NAME;
 
     @Override
     public FormattedReview format(ReviewSummary summary) {
-        String title = summary.getAuthor() + " " + RATES + " " + summary.getSubject() + " " +
+        String title = summary.getSubject() + " " +
                 RatingFormatter.outOfFive(summary.getRating()) + " stars";
 
         String body = "";

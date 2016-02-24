@@ -67,24 +67,6 @@ public class FactorySocialPlatformList {
 
         return list;
     }
-//
-//    private SocialPlatform<AccessToken> newTwitter() {
-//        ConfigurationBuilder cb = new ConfigurationBuilder();
-//        cb.setDebugEnabled(true)
-//                .setOAuthConsumerKey(string(CONSUMER_KEY_TWITTER))
-//                .setOAuthConsumerSecret(string(CONSUMER_SECRET_TWITTER));
-//
-//        TwitterFactory tf = new TwitterFactory(cb.build());
-//        Twitter twitter = tf.getInstance();
-//        SocialPublisher<AccessToken> publisher = new PublisherTwitter(twitter, SUMMARISER,
-//                new ReviewFormatterTwitter());
-//
-//        SocialPlatform<AccessToken> platform = new SocialPlatformImpl<>(mContext, publisher, null);
-//
-//        platform.setAccessToken(TwitterToken.getToken());
-//
-//        return platform;
-//    }
 
     private SocialPlatform<AccessToken> newTwitter() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -97,7 +79,7 @@ public class FactorySocialPlatformList {
         SocialPublisher<AccessToken> publisher = new PublisherTwitter(twitter, SUMMARISER,
                 new ReviewFormatterTwitter());
 
-        return new SocialPlatformImpl<>(mContext, publisher,
+        return new SocialPlatformImpl<>(publisher,
                 mRequesterFactory.newTwitterAuthorisationRequester(string(CONSUMER_KEY_TWITTER),
                         string(CONSUMER_SECRET_TWITTER), publisher.getPlatformName()));
     }
@@ -109,14 +91,14 @@ public class FactorySocialPlatformList {
 
     public SocialPlatform<AccessTokenDefault> newTumblr() {
         PublisherTumblr publisher = new PublisherTumblr(SUMMARISER, FORMATTER);
-        return new SocialPlatformImpl<>(mContext, publisher,
+        return new SocialPlatformImpl<>(publisher,
                 mRequesterFactory.newTumblrAuthorisationRequester(string(CONSUMER_KEY_TUMBLR),
                         string(CONSUMER_SECRET_TUMBLR), publisher.getPlatformName()));
     }
 
     public SocialPlatform<AccessTokenDefault> newFourSquare() {
         PublisherFourSquare publisher = new PublisherFourSquare(SUMMARISER, FORMATTER);
-        return new SocialPlatformImpl<>(mContext, publisher,
+        return new SocialPlatformImpl<>(publisher,
                 mRequesterFactory.newFoursquareAuthorisationRequester(string(CONSUMER_KEY_4SQUARE),
                         string(CONSUMER_SECRET_4SQUARE), publisher.getPlatformName()));
     }

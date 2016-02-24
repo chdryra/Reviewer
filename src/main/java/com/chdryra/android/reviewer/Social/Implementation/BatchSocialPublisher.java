@@ -38,12 +38,8 @@ public class BatchSocialPublisher implements SocialPublisherListener{
         mListener = listener;
         mResults = new ArrayList<>();
         for(SocialPublisher publisher : mPublishers) {
-            doAsyncPublish(publisher, review, tagsManager);
+            publisher.publishAsync(review, tagsManager, this);
         }
-    }
-
-    private void doAsyncPublish(SocialPublisher publisher, Review review, TagsManager tagsManager) {
-        publisher.publishAsync(review, tagsManager, this);
     }
 
     @Override

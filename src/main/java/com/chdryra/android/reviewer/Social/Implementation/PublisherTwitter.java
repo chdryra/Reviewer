@@ -22,9 +22,9 @@ import twitter4j.auth.AccessToken;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
-        implements FollowersFetcher.FollowersGetter, AsyncSocialPublisher.SyncSocialPublisher{
+        implements FollowersFetcher.FollowersGetter, AsyncSocialPublisher.SyncSocialPublisher {
     private static final String NAME = "twitter";
-    public static final PublishResults NO_AUTH_RESULT
+    private static final PublishResults NO_AUTH_RESULT
             = new PublishResults(NAME, "No Authorisation");
 
     private Twitter mTwitter;
@@ -39,7 +39,7 @@ public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
 
     @Override
     protected PublishResults publish(FormattedReview review) {
-        if(mToken == null) return NO_AUTH_RESULT;
+        if (mToken == null) return NO_AUTH_RESULT;
 
         PublishResults results;
         try {
@@ -60,7 +60,7 @@ public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
 
     @Override
     public int getFollowers() {
-        if(mToken == null) return 0;
+        if (mToken == null) return 0;
 
         try {
             String screenName = mTwitter.getAccountSettings().getScreenName();

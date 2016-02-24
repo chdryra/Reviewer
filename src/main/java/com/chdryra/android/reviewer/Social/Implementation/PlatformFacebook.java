@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -24,13 +25,13 @@ import java.util.Set;
  */
 public class PlatformFacebook extends SocialPlatformImpl<AccessToken>{
     private static final ReviewSummariser SUMMARISER = new ReviewSummariser();
-    private static final ReviewFormatterDefault FORMATTER = new ReviewFormatterDefault();
+    private static final ReviewFormatter FORMATTER = new ReviewFormatterFacebook();
     public static final String PUBLISH_PERMISSION = "publish_actions";
     private static PlatformFacebook sFacebook;
     private AccessTokenTracker mTracker;
 
     private PlatformFacebook(Context context) {
-        super(context, new PublisherFacebook(SUMMARISER, FORMATTER), null);
+        super(new PublisherFacebook(SUMMARISER, FORMATTER), null);
 
         if (!FacebookSdk.isInitialized()) {
             initialiseFacebook(context);

@@ -54,13 +54,6 @@ public class FactoryAuthorisationRequester {
     }
 
     @NonNull
-    public OAuthRequester<com.facebook.AccessToken> newFacebookAuthorisationRequester(String key,
-                                                                              String secret,
-                                                                              String platformName) {
-        return null;
-    }
-
-    @NonNull
     public OAuthRequester<AccessTokenDefault> newFoursquareAuthorisationRequester(String key,
                                                                                 String secret,
                                                                                 String platformName) {
