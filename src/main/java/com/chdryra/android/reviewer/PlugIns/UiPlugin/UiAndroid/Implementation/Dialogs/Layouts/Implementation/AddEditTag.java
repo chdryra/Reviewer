@@ -24,7 +24,6 @@ public class AddEditTag extends AddEditLayoutBasic<GvTag> {
     public static final int LAYOUT = R.layout.dialog_tag_add_edit;
     public static final int TAG = R.id.tag_edit_text;
 
-    //Constructors
     public AddEditTag(GvDataAdder adder) {
         super(GvTag.class, new LayoutHolder(LAYOUT, TAG), TAG, adder);
     }
@@ -33,7 +32,6 @@ public class AddEditTag extends AddEditLayoutBasic<GvTag> {
         super(GvTag.class, new LayoutHolder(LAYOUT, TAG), TAG, editor);
     }
 
-    //Overridden
     @Override
     public GvTag createGvDataFromInputs() {
         return new GvTag(((EditText) getView(TAG)).getText().toString().trim());

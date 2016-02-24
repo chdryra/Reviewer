@@ -42,7 +42,7 @@ public class PublisherAndroid extends SocialPublisherBasic {
     }
 
     @Override
-    public void getFollowers(FollowersListener listener) {
+    public void getFollowersAsync(FollowersListener listener) {
         listener.onNumberFollowers(0);
     }
 

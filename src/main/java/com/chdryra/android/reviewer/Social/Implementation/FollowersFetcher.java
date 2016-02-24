@@ -22,6 +22,7 @@ public class FollowersFetcher {
 
     public interface FollowersGetter {
         String getPlatformName();
+
         int getFollowers();
     }
 
@@ -40,7 +41,7 @@ public class FollowersFetcher {
     private class FollowersTask extends AsyncTask<Void, Void, Integer> {
         private FollowersListener mListener;
 
-        public FollowersTask(FollowersListener listener ) {
+        public FollowersTask(FollowersListener listener) {
             mListener = listener;
         }
 

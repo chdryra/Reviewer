@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
@@ -38,13 +39,12 @@ public class GvTag extends GvText<GvTag> implements DataTag {
         }
     };
 
-    //Constructors
     public GvTag() {
         super(TYPE);
     }
 
     public GvTag(String tag) {
-        super(TYPE, tag);
+        super(TYPE, TextUtils.toCamelCase(tag));
     }
 
     public GvTag(@Nullable GvReviewId id, String tag) {
@@ -59,7 +59,6 @@ public class GvTag extends GvText<GvTag> implements DataTag {
         super(in);
     }
 
-    //Overridden
     @Override
     public GvDataType<GvTag> getGvDataType() {
         return GvTag.TYPE;
@@ -77,6 +76,6 @@ public class GvTag extends GvText<GvTag> implements DataTag {
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhTag(false);
+        return new VhTag();
     }
 }

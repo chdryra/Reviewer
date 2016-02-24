@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Implementation.BatchSocialPublisher;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -62,8 +63,10 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
         ArrayList<String> platformsOk = new ArrayList<>();
         ArrayList<String> platformsNotOk = new ArrayList<>();
         int numFollowers = 0;
+        boolean facebook = false;
         for(PublishResults result : results) {
             if(result.wasSuccessful()) {
+                if(result.getPublisherName().equals(PublisherFacebook.NAME)) facebook = true;
                 platformsOk.add(result.getPublisherName());
                 numFollowers += result.getFollowers();
             } else {
@@ -72,11 +75,12 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
         }
 
         String num = String.valueOf(numFollowers);
+        String fb = facebook ? "+ " : "";
         String followers = numFollowers == 1 ? " follower" : " followers";
-        String message = "Published to " + num + followers + " on " +
+        String message = "Published to " + num + fb + followers + " on " +
                 StringUtils.join(platformsOk.toArray(), ", ");
 
-        if(platformsNotOk.size() > 1) {
+        if(platformsNotOk.size() > 0) {
             message += "\nProblems publishing to " + StringUtils.join(platformsNotOk.toArray(), ",");
         }
 

@@ -18,15 +18,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * string.
  */
 public class VhTag extends VhText {
-    //Constructors
-    public VhTag(final boolean hashTag) {
+    public VhTag() {
         super(new VHDataStringGetter() {
             //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvTag tag = (GvTag) data;
-                String hash = hashTag ? "#" : "";
-                return tag != null ? hash + tag.getString() : null;
+                return "#" + tag.getString();
             }
         });
     }

@@ -8,11 +8,22 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.net.Uri;
+
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 import com.facebook.AccessToken;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.share.ShareApi;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
 
 import org.json.JSONArray;
 
@@ -22,27 +33,61 @@ import org.json.JSONArray;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherFacebook extends SocialPublisherBasic<AccessToken> {
+public class PublisherFacebook implements SocialPublisher<AccessToken> {
     public static final String NAME = "facebook";
-    private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
+
+    private ReviewSummariser mSummariser;
+    private ReviewFormatter mFormatter;
     private AccessToken mToken;
 
     public PublisherFacebook(ReviewSummariser summariser, ReviewFormatter formatter) {
-        super(NAME, summariser, formatter);
+        mSummariser = summariser;
+        mFormatter = formatter;
     }
 
     @Override
-    protected PublishResults publish(FormattedReview review) {
-        return SUCCESS;
+    public String getPlatformName() {
+        return NAME;
     }
 
     @Override
-    public void getFollowers(final FollowersListener listener) {
+    public void publishAsync(Review review, TagsManager tagsManager,
+                             final SocialPublisherListener listener) {
+        ReviewSummary summary = mSummariser.summarise(review, tagsManager);
+        FormattedReview formatted = mFormatter.format(summary);
+
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse("http://www.teeqr.com"))
+                .setContentTitle(formatted.getTitle())
+                .setContentDescription(formatted.getBody())
+                .build();
+
+
+        ShareApi.share(content, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                listener.onPublished(new PublishResults(NAME, -1));
+            }
+
+            @Override
+            public void onCancel() {
+                listener.onPublished(new PublishResults(NAME, "Canceled"));
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                listener.onPublished(new PublishResults(NAME, error.toString()));
+            }
+        });
+    }
+
+    @Override
+    public void getFollowersAsync(final FollowersListener listener) {
         GraphRequest request = GraphRequest.newMyFriendsRequest(
                 mToken, new GraphRequest.GraphJSONArrayCallback() {
                     @Override
                     public void onCompleted(JSONArray objects, GraphResponse response) {
-                        parseFriends(objects, response, listener);
+                        listener.onNumberFollowers(objects.length());
                     }
                 }
         );
@@ -52,9 +97,5 @@ public class PublisherFacebook extends SocialPublisherBasic<AccessToken> {
     @Override
     public void setAccessToken(AccessToken token) {
         mToken = token;
-    }
-
-    private void parseFriends(JSONArray objects, GraphResponse response, FollowersListener listener) {
-        listener.onNumberFollowers(objects.length());
     }
 }

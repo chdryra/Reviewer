@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -145,14 +144,12 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
     //private methods
     @Nullable
     private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
-        String camel = TextUtils.toCamelCase(toAdd);
-        GvTag newTag = new GvTag(camel);
+        GvTag newTag = new GvTag(toAdd);
         if (newTag.equals(toRemove)) return toRemove;
 
-        DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag
-                .TYPE);
+        DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag.TYPE);
         GvDataList<GvTag> tags = tagBuilder.getGridData();
-        boolean added = mDataValidator.validateString(camel) && !tags.contains(newTag)
+        boolean added = mDataValidator.validateString(toAdd) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
         tagBuilder.delete(toRemove);
         tagBuilder.publishData();

@@ -12,13 +12,14 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SocialPublisherBasic<T> implements SocialPublisher<T> {
+public abstract class SocialPublisherBasic<T> implements SocialPublisher<T>, AsyncSocialPublisher.SyncSocialPublisher {
     private String mName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
@@ -32,7 +33,7 @@ public abstract class SocialPublisherBasic<T> implements SocialPublisher<T> {
     }
 
     @Override
-    public String getName() {
+    public String getPlatformName() {
         return mName;
     }
 
@@ -42,5 +43,11 @@ public abstract class SocialPublisherBasic<T> implements SocialPublisher<T> {
         FormattedReview formatted = mFormatter.format(summary);
 
         return publish(formatted);
+    }
+
+    @Override
+    public void publishAsync(Review review, TagsManager tagsManager, SocialPublisherListener
+            listener) {
+        new AsyncSocialPublisher(this).publish(review, tagsManager, listener);
     }
 }

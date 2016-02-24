@@ -21,12 +21,12 @@ import java.util.ArrayList;
  */
 public class ReviewFormatterDefault implements ReviewFormatter {
     private static final String RATES = "rates";
-    private static final String APP = "on " + ApplicationInstance.APP_NAME;
+    private static final String APP = ApplicationInstance.APP_NAME;
 
     @Override
     public FormattedReview format(ReviewSummary summary) {
         String title = summary.getAuthor() + " " + RATES + " " + summary.getSubject() + " " +
-                RatingFormatter.outOfFive(summary.getRating()) + " " + APP;
+                RatingFormatter.outOfFive(summary.getRating()) + " on " + APP;
 
         String body = "";
         ArrayList<String> headlines = summary.getHeadlines();

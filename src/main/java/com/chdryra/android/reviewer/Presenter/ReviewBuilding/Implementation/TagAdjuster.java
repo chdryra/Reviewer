@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.mygenerallibrary.TextUtils;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
@@ -35,13 +34,13 @@ public class TagAdjuster {
     }
 
     public void adjustTagsIfNecessary(ReviewDataEditor<GvTag> editor) {
-        String camel = TextUtils.toCamelCase(editor.getFragmentSubject());
-        GvTag toAdd = new GvTag(camel);
+        String subject = editor.getFragmentSubject();
+        GvTag toAdd = new GvTag(subject);
         GvTag toRemove = mCurrentSubjectTag;
         if(toAdd.equals(toRemove)) return;
 
         GvDataList<GvTag> tags = editor.getGridData();
-        if(camel != null && camel.length() > 0) {
+        if(subject != null && subject.length() > 0) {
             if(!tags.contains(toAdd)) {
                 if(toRemove != null ) {
                     editor.replace(toRemove, toAdd);

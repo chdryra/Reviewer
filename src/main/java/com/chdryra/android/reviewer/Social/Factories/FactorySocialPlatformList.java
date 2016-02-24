@@ -99,7 +99,7 @@ public class FactorySocialPlatformList {
 
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newTwitterAuthorisationRequester(string(CONSUMER_KEY_TWITTER),
-                        string(CONSUMER_SECRET_TWITTER), publisher.getName()));
+                        string(CONSUMER_SECRET_TWITTER), publisher.getPlatformName()));
     }
 
     public SocialPlatform<com.facebook.AccessToken> newFacebook() {
@@ -111,14 +111,14 @@ public class FactorySocialPlatformList {
         PublisherTumblr publisher = new PublisherTumblr(SUMMARISER, FORMATTER);
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newTumblrAuthorisationRequester(string(CONSUMER_KEY_TUMBLR),
-                        string(CONSUMER_SECRET_TUMBLR), publisher.getName()));
+                        string(CONSUMER_SECRET_TUMBLR), publisher.getPlatformName()));
     }
 
     public SocialPlatform<AccessTokenDefault> newFourSquare() {
         PublisherFourSquare publisher = new PublisherFourSquare(SUMMARISER, FORMATTER);
         return new SocialPlatformImpl<>(mContext, publisher,
                 mRequesterFactory.newFoursquareAuthorisationRequester(string(CONSUMER_KEY_4SQUARE),
-                        string(CONSUMER_SECRET_4SQUARE), publisher.getName()));
+                        string(CONSUMER_SECRET_4SQUARE), publisher.getPlatformName()));
     }
 
     private String string(int id) {

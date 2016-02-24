@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Social.Interfaces;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,11 +17,11 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SocialPublisher<T> {
-    String getName();
+    String getPlatformName();
 
-    PublishResults publish(Review review, TagsManager tagsManager);
+    void publishAsync(Review review, TagsManager tagsManager, SocialPublisherListener listener);
 
-    void getFollowers(FollowersListener listener);
+    void getFollowersAsync(FollowersListener listener);
 
     void setAccessToken(T token);
 }

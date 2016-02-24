@@ -33,12 +33,12 @@ public class SocialPlatformImpl<T> implements SocialPlatform<T> {
 
     @Override
     public String getName() {
-        return mPublisher.getName();
+        return mPublisher.getPlatformName();
     }
 
     @Override
     public void getFollowers(FollowersListener listener) {
-        mPublisher.getFollowers(listener);
+        mPublisher.getFollowersAsync(listener);
     }
 
     @Override

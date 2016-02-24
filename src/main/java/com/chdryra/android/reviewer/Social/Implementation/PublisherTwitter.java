@@ -22,7 +22,7 @@ import twitter4j.auth.AccessToken;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
-        implements FollowersFetcher.FollowersGetter{
+        implements FollowersFetcher.FollowersGetter, AsyncSocialPublisher.SyncSocialPublisher{
     private static final String NAME = "twitter";
     public static final PublishResults NO_AUTH_RESULT
             = new PublishResults(NAME, "No Authorisation");
@@ -54,13 +54,8 @@ public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
     }
 
     @Override
-    public void getFollowers(FollowersListener listener) {
+    public void getFollowersAsync(FollowersListener listener) {
         new FollowersFetcher(this).getFollowers(listener);
-    }
-
-    @Override
-    public String getPlatformName() {
-        return getName();
     }
 
     @Override

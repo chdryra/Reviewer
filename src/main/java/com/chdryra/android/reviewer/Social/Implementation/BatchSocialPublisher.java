@@ -43,8 +43,7 @@ public class BatchSocialPublisher implements SocialPublisherListener{
     }
 
     private void doAsyncPublish(SocialPublisher publisher, Review review, TagsManager tagsManager) {
-        AsyncSocialPublisher asyncPublisher = new AsyncSocialPublisher(publisher);
-        asyncPublisher.publish(review, tagsManager, this);
+        publisher.publishAsync(review, tagsManager, this);
     }
 
     @Override
