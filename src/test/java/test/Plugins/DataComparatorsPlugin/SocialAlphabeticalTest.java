@@ -8,8 +8,9 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialMostFollowersThenAlphabetical;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -21,30 +22,15 @@ import java.util.Random;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialMostFollowersThenAlphabeticalTest extends ComparatorTest<DataSocialPlatform>{
+public class SocialAlphabeticalTest extends ComparatorTest<DataSocialPlatform>{
     private static final Random RAND = new Random();
 
-    public SocialMostFollowersThenAlphabeticalTest() {
-        super(new SocialMostFollowersThenAlphabetical());
+    public SocialAlphabeticalTest() {
+        super(new SocialAlphabetical());
     }
 
     @Test
-    public void isFollowersFirstThenAlphabeticalAscendingName() {
-        DataSocialPlatform platformF200 = new Platform("F", 200);
-        DataSocialPlatform platformD100 = new Platform("D", 100);
-        DataSocialPlatform platformE100 = new Platform("E", 100);
-        DataSocialPlatform platformB50 = new Platform("B", 50);
-        DataSocialPlatform platformA10 = new Platform("A", 10);
-
-        ComparatorTester<DataSocialPlatform> tester = newComparatorTester();
-        tester.testFirstSecond(platformF200, platformD100);
-        tester.testFirstSecond(platformD100, platformE100);
-        tester.testFirstSecond(platformE100, platformB50);
-        tester.testFirstSecond(platformB50, platformA10);
-    }
-
-    @Test
-    public void alphabeticalAscendingDifferentFirstLetter_SameIsHeadline() {
+    public void alphabeticalAscendingDifferentFirstLetter() {
         int followers = Math.abs(RAND.nextInt());
         DataSocialPlatform platformA = new Platform("a" + RandomString.nextWord(), followers);
         DataSocialPlatform platformB = new Platform("B" + RandomString.nextWord(), followers);
@@ -57,7 +43,7 @@ public class SocialMostFollowersThenAlphabeticalTest extends ComparatorTest<Data
     }
 
     @Test
-    public void alphabeticalAscendingStartingNameStemSame_SameFollowers() {
+    public void alphabeticalAscendingStartingNameStemSame() {
         String name1 = RandomString.nextSentence();
         String name2 = name1 + RandomString.nextSentence();
         int followers = Math.abs(RAND.nextInt());
@@ -75,7 +61,7 @@ public class SocialMostFollowersThenAlphabeticalTest extends ComparatorTest<Data
     }
 
     @Test
-    public void comparatorEqualitySameFollowersSameName() {
+    public void comparatorEqualitySameName() {
         String name = RandomString.nextSentence();
         int followers = Math.abs(RAND.nextInt());
         DataSocialPlatform platform1 = new Platform(name, followers);
@@ -87,7 +73,7 @@ public class SocialMostFollowersThenAlphabeticalTest extends ComparatorTest<Data
     }
 
     @Test
-    public void comparatorEqualitySameFollowersSameNameRegardlessOfCase() {
+    public void comparatorEqualitySameNameRegardlessOfCase() {
         String name = RandomString.nextSentence();
         int followers = Math.abs(RAND.nextInt());
         DataSocialPlatform platform1 = new Platform(name, followers);
@@ -114,8 +100,8 @@ public class SocialMostFollowersThenAlphabeticalTest extends ComparatorTest<Data
         }
 
         @Override
-        public int getFollowers() {
-            return mFollowers;
+        public void getFollowers(FollowersListener listener) {
+            listener.onNumberFollowers(mFollowers);
         }
     }
 }

@@ -15,20 +15,22 @@ import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
 
+import java.util.Set;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlatformFacebook {
+public class PlatformFacebook extends SocialPlatformImpl<AccessToken>{
+    private static final ReviewSummariser SUMMARISER = new ReviewSummariser();
+    private static final ReviewFormatterDefault FORMATTER = new ReviewFormatterDefault();
+    public static final String PUBLISH_PERMISSION = "publish_actions";
     private static PlatformFacebook sFacebook;
-    private SocialPlatform<AccessToken> mPlatform;
     private AccessTokenTracker mTracker;
 
-    public PlatformFacebook(Context context) {
-        PublisherFacebook publisher = new PublisherFacebook(new ReviewSummariser(),
-                new ReviewFormatterDefault());
-        mPlatform = new SocialPlatformImpl<>(context, publisher, null);
+    private PlatformFacebook(Context context) {
+        super(context, new PublisherFacebook(SUMMARISER, FORMATTER), null);
 
         if (!FacebookSdk.isInitialized()) {
             initialiseFacebook(context);
@@ -50,11 +52,17 @@ public class PlatformFacebook {
 
     public static SocialPlatform<AccessToken> getInstance(Context context) {
         if (sFacebook == null) sFacebook = new PlatformFacebook(context);
-        return sFacebook.mPlatform;
+        return sFacebook;
     }
 
     private void setAccessToken() {
-        mPlatform.setAccessToken(AccessToken.getCurrentAccessToken());
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Set<String> permissions = accessToken.getPermissions();
+        if(permissions.contains(PUBLISH_PERMISSION)) {
+            setAccessToken(accessToken);
+        } else {
+            setAccessToken(null);
+        }
     }
 
     private void setAccessTracker() {

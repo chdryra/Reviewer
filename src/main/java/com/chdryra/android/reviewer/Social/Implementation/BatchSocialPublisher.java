@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
-
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -36,19 +34,17 @@ public class BatchSocialPublisher implements SocialPublisherListener{
         mPublishers = publishers;
     }
 
-    public void publish(Review review, TagsManager tagsManager, Activity activity,
-                        BatchPublisherListener listener) {
+    public void publish(Review review, TagsManager tagsManager, BatchPublisherListener listener) {
         mListener = listener;
         mResults = new ArrayList<>();
         for(SocialPublisher publisher : mPublishers) {
-            doAsyncPublish(publisher, review, tagsManager, activity);
+            doAsyncPublish(publisher, review, tagsManager);
         }
     }
 
-    private void doAsyncPublish(SocialPublisher publisher, Review review, TagsManager tagsManager,
-                                Activity activity) {
+    private void doAsyncPublish(SocialPublisher publisher, Review review, TagsManager tagsManager) {
         AsyncSocialPublisher asyncPublisher = new AsyncSocialPublisher(publisher);
-        asyncPublisher.publish(review, tagsManager, activity, this);
+        asyncPublisher.publish(review, tagsManager, this);
     }
 
     @Override

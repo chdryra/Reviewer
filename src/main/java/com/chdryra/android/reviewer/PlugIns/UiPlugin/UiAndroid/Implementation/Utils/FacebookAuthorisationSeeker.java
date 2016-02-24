@@ -47,10 +47,11 @@ public class FacebookAuthorisationSeeker implements PlatformAuthorisationSeeker,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AUTHORISATION) {
-            if(requestCode == Activity.RESULT_OK) {
-                mPlatform.setAccessToken(AccessToken.getCurrentAccessToken());
+            AccessToken currentAccessToken = AccessToken.getCurrentAccessToken();
+            if (currentAccessToken != null) {
+                mPlatform.setAccessToken(currentAccessToken);
                 mListener.onAuthorisationGiven(mPlatform);
-            } else if(requestCode == Activity.RESULT_FIRST_USER){
+            } else {
                 mListener.onAuthorisationRefused(mPlatform);
             }
         }

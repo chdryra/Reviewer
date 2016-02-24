@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -36,8 +37,8 @@ public class SocialPlatformImpl<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public int getFollowers() {
-        return mPublisher.getFollowers(mContext);
+    public void getFollowers(FollowersListener listener) {
+        mPublisher.getFollowers(listener);
     }
 
     @Override

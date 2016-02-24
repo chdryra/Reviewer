@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.content.Context;
-
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 import twitter4j.Status;
@@ -22,7 +21,8 @@ import twitter4j.auth.AccessToken;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTwitter extends SocialPublisherBasic<AccessToken> {
+public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
+        implements FollowersFetcher.FollowersGetter{
     private static final String NAME = "twitter";
     public static final PublishResults NO_AUTH_RESULT
             = new PublishResults(NAME, "No Authorisation");
@@ -38,7 +38,7 @@ public class PublisherTwitter extends SocialPublisherBasic<AccessToken> {
     }
 
     @Override
-    protected PublishResults publish(FormattedReview review, Context context) {
+    protected PublishResults publish(FormattedReview review) {
         if(mToken == null) return NO_AUTH_RESULT;
 
         PublishResults results;
@@ -54,7 +54,17 @@ public class PublisherTwitter extends SocialPublisherBasic<AccessToken> {
     }
 
     @Override
-    public int getFollowers(Context context) {
+    public void getFollowers(FollowersListener listener) {
+        new FollowersFetcher(this).getFollowers(listener);
+    }
+
+    @Override
+    public String getPlatformName() {
+        return getName();
+    }
+
+    @Override
+    public int getFollowers() {
         if(mToken == null) return 0;
 
         try {

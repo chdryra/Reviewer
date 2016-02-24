@@ -34,8 +34,7 @@ import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparator
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ImageCoversThenMostRecent;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.LocationNameAlphabetical;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewMostRecentPublished;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
-        .Implementation.SocialMostFollowersThenAlphabetical;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialAlphabetical;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
         .Implementation.SubjectAlphabetical;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
@@ -92,7 +91,7 @@ public class FactoryDataComparatorsDefault implements FactoryDataComparators {
 
     @Override
     public ComparatorCollection<DataSocialPlatform> getSocialPlatformComparators() {
-        return new ComparatorCollectionImpl<>(new SocialMostFollowersThenAlphabetical());
+        return new ComparatorCollectionImpl<>(new SocialAlphabetical());
     }
 
     @Override

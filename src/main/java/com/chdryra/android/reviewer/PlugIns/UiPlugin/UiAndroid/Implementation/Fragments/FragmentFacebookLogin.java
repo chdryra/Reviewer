@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -48,6 +49,9 @@ public class FragmentFacebookLogin extends Fragment{
 
         LoginButton button = (LoginButton) view.findViewById(LOGIN);
         button.setFragment(this);
+        button.setPublishPermissions(PlatformFacebook.PUBLISH_PERMISSION);
+        
+
         mCallbackManager = CallbackManager.Factory.create();
         try {
             mListener = (FacebookLoginListener) getActivity();

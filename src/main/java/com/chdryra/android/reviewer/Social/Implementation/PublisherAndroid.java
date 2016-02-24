@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 /**
@@ -22,24 +23,27 @@ public class PublisherAndroid extends SocialPublisherBasic {
     private static final String NAME = "Android";
     private static final PublishResults SUCCESS = new PublishResults(NAME, 0);
 
-    public PublisherAndroid(ReviewSummariser summariser, ReviewFormatter formatter) {
+    private Context mContext;
+
+    public PublisherAndroid(Context context, ReviewSummariser summariser, ReviewFormatter formatter) {
         super(NAME, summariser, formatter);
+        mContext = context;
     }
 
     @Override
-    protected PublishResults publish(FormattedReview review, Context context) {
+    protected PublishResults publish(FormattedReview review) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, review.getTitle());
         sharingIntent.putExtra(Intent.EXTRA_TEXT, review.getBody());
-        context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        mContext.startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
         return SUCCESS;
     }
 
     @Override
-    public int getFollowers(Context context) {
-        return 0;
+    public void getFollowers(FollowersListener listener) {
+        listener.onNumberFollowers(0);
     }
 
     @Override

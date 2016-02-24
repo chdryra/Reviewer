@@ -8,15 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.content.Context;
 import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhSocialPlatform;
-import com.chdryra.android.reviewer.Social.Implementation.FollowersFetcher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
@@ -41,16 +38,14 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
     private static final String PLACEHOLDER = "--";
     private SocialPlatform<?> mPlatform;
-    private FollowersFetcher mFollowersFetcher;
     private boolean mIsChosen = false;
     private int mFollowers = 0;
 
     public GvSocialPlatform() {
     }
 
-    public GvSocialPlatform(SocialPlatform<?> platform, FollowersFetcher followersFetcher) {
-        super(followersFetcher.getName(), PLACEHOLDER);
-        mFollowersFetcher = followersFetcher;
+    public GvSocialPlatform(SocialPlatform<?> platform) {
+        super(platform.getName(), PLACEHOLDER);
         mPlatform = platform;
     }
 
@@ -66,8 +61,9 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
         mIsChosen = !mIsChosen;
     }
 
-    public void getFollowers(Context context, FollowersListener listener) {
-        mFollowersFetcher.getFollowers(context, listener);
+    @Override
+    public void getFollowers(FollowersListener listener) {
+        mPlatform.getFollowers(listener);
     }
 
     public boolean isAuthorised() {
@@ -88,18 +84,13 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
     }
 
     @Override
-    public int getFollowers() {
-        return mFollowers;
-    }
-
-    @Override
     public GvDataType<GvSocialPlatform> getGvDataType() {
         return GvSocialPlatform.TYPE;
     }
 
     @Override
     public String getStringSummary() {
-        return getName() + ": " + getFollowers();
+        return getName();
     }
 
     @Override
@@ -133,16 +124,14 @@ public class GvSocialPlatform extends GvDualText implements DataSocialPlatform {
 
         if (mIsChosen != that.mIsChosen) return false;
         if (mFollowers != that.mFollowers) return false;
-        return !(mFollowersFetcher != null ? !mFollowersFetcher.equals(that.mFollowersFetcher) :
-                that
-                .mFollowersFetcher != null);
+        return !(mPlatform != null ? !mPlatform.equals(that.mPlatform) : that.mPlatform != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (mFollowersFetcher != null ? mFollowersFetcher.hashCode() : 0);
+        result = 31 * result + (mPlatform != null ? mPlatform.hashCode() : 0);
         result = 31 * result + (mIsChosen ? 1 : 0);
         result = 31 * result + mFollowers;
         return result;

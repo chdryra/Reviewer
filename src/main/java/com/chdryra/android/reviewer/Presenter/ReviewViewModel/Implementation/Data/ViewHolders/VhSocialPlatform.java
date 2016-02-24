@@ -29,7 +29,7 @@ public class VhSocialPlatform extends VhDualText implements FollowersListener{
 
         if(platform.isAuthorised()) {
             super.updateView(mName, platform.getPlaceHolder());
-            platform.getFollowers(getView().getContext(), this);
+            platform.getFollowers(this);
         }
     }
 

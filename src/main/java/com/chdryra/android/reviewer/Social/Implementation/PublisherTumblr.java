@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.content.Context;
-
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 /**
@@ -26,14 +25,13 @@ public class PublisherTumblr extends SocialPublisherBasic<AccessTokenDefault> {
     }
 
     @Override
-    protected PublishResults publish(FormattedReview review, Context context) {
+    protected PublishResults publish(FormattedReview review) {
         return SUCCESS;
     }
 
     @Override
-    public int getFollowers(Context context) {
-
-        return 0;
+    public void getFollowers(FollowersListener listener) {
+        listener.onNumberFollowers(0);
     }
 
     @Override

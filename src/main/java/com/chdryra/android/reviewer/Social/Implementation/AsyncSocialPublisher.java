@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -32,28 +31,25 @@ public class AsyncSocialPublisher {
         return mPublisher.getName();
     }
 
-    public void publish(Review review, TagsManager tagsManager, Activity activity,
-                                  SocialPublisherListener listener) {
-        new PublisherTask(review, tagsManager, activity, listener).execute();
+    public void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener) {
+        new PublisherTask(review, tagsManager, listener).execute();
     }
 
     private class PublisherTask extends AsyncTask<Void, Void, PublishResults> {
         private final Review mReview;
         private final TagsManager mTagsManager;
-        private Activity mActivity;
         private SocialPublisherListener mListener;
 
-        public PublisherTask(Review review, TagsManager tagsManager, Activity activity,
+        public PublisherTask(Review review, TagsManager tagsManager,
                              SocialPublisherListener listener) {
             mReview = review;
             mTagsManager = tagsManager;
-            mActivity = activity;
             mListener = listener;
         }
 
         @Override
         protected PublishResults doInBackground(Void... params) {
-            return mPublisher.publish(mReview, mTagsManager, mActivity);
+            return mPublisher.publish(mReview, mTagsManager);
         }
 
         @Override

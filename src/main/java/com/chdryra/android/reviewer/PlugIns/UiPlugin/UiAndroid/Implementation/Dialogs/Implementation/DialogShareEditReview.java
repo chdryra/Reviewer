@@ -85,7 +85,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
         setReviewIdFromArgs();
 
-        mSharer = new PublisherAndroid(new ReviewSummariser(), new ReviewFormatterTwitter());
+        mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new ReviewFormatterTwitter());
     }
 
     @Override
@@ -103,7 +103,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     private void shareIntent() {
         ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
-        mSharer.publish(instance.getReview(mReviewId), instance.getTagsManager(), getActivity());
+        mSharer.publish(instance.getReview(mReviewId), instance.getTagsManager());
     }
 
     private void setReviewIdFromArgs() {

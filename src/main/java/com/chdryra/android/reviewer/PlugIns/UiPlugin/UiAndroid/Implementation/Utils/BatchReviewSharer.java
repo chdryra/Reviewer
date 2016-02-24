@@ -43,7 +43,7 @@ public class BatchReviewSharer implements BatchSocialPublisher.BatchPublisherLis
         if(reviewId == null || platforms == null || platforms.size() == 0) return;
 
         BatchSocialPublisher publisher = getPublisher(platforms, app.getSocialPlatformList());
-        publisher.publish(app.getReview(reviewId), app.getTagsManager(), mActivity, this);
+        publisher.publish(app.getReview(reviewId), app.getTagsManager(), this);
     }
 
     @NonNull

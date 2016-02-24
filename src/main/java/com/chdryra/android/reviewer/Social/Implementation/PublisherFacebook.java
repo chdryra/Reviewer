@@ -8,10 +8,13 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.content.Context;
-
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+
+import org.json.JSONArray;
 
 
 /**
@@ -29,17 +32,29 @@ public class PublisherFacebook extends SocialPublisherBasic<AccessToken> {
     }
 
     @Override
-    protected PublishResults publish(FormattedReview review, Context context) {
+    protected PublishResults publish(FormattedReview review) {
         return SUCCESS;
     }
 
     @Override
-    public int getFollowers(Context context) {
-        return 0;
+    public void getFollowers(final FollowersListener listener) {
+        GraphRequest request = GraphRequest.newMyFriendsRequest(
+                mToken, new GraphRequest.GraphJSONArrayCallback() {
+                    @Override
+                    public void onCompleted(JSONArray objects, GraphResponse response) {
+                        parseFriends(objects, response, listener);
+                    }
+                }
+        );
+        request.executeAsync();
     }
 
     @Override
     public void setAccessToken(AccessToken token) {
         mToken = token;
+    }
+
+    private void parseFriends(JSONArray objects, GraphResponse response, FollowersListener listener) {
+        listener.onNumberFollowers(objects.length());
     }
 }

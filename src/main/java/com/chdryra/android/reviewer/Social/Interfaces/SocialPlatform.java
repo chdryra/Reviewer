@@ -29,5 +29,5 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
     String getName();
 
     @Override
-    int getFollowers();
+    void getFollowers(FollowersListener listener);
 }
