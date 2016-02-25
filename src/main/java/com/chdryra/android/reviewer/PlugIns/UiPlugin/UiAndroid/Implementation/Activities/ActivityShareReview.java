@@ -17,11 +17,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.DefaultOAuthUi;
-import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
-import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
@@ -34,8 +31,7 @@ import java.util.ArrayList;
  * On: 19/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivityShareReview extends ActivityReviewView implements
-        PlatformAuthoriser, OAuthListener {
+public class ActivityShareReview extends ActivityReviewView implements PlatformAuthoriser {
     private static final int SOCIAL = R.string.activity_title_share;
     private SocialPlatformAuthUi mAuthUi;
 
@@ -55,11 +51,6 @@ public class ActivityShareReview extends ActivityReviewView implements
         LaunchableUiLauncher launcher = ApplicationInstance.getInstance(this).getUiLauncher();
         mAuthUi = platform.getAuthUi(this, new ActivitySocialAuthUi(), launcher, listener);
         mAuthUi.launchUi();
-    }
-
-    @Override
-    public void onAuthorisationCallback(OAuthRequest response) {
-        ((DefaultOAuthUi) mAuthUi).onAuthorisationCallback(response);
     }
 
     @Override
