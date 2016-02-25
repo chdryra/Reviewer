@@ -55,7 +55,7 @@ public class DefaultOAuthUi<T> implements
     }
 
     @Override
-    public void launchAuthorisationUi() {
+    public void launchUi() {
         OAuthRequester<T> requester = mPlatform.getOAuthRequester();
         requester.generateAuthorisationRequest(this);
     }
@@ -90,10 +90,11 @@ public class DefaultOAuthUi<T> implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AUTHORISATION) {
-            if(requestCode == Activity.RESULT_OK) {
-                mListener.onAuthorisationGiven(mPlatform);
-            } else {
+            OAuthRequest response = mPacker.unpack(ParcelablePacker.CurrentNewDatum.NEW, data);
+            if(response == null) {
                 mListener.onAuthorisationRefused(mPlatform);
+            } else {
+                onAuthorisationCallback(response);
             }
         }
     }

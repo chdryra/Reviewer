@@ -11,12 +11,17 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
         .FragmentFacebookLogin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
+        .FragmentOAuthLogin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
         .FragmentTwitterLogin;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -32,16 +37,21 @@ import com.twitter.sdk.android.core.TwitterSession;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivitySocialLogin extends ActivitySingleFragment
+public class ActivitySocialAuthUi extends ActivitySingleFragment
         implements FragmentFacebookLogin.FacebookLoginListener,
         FragmentTwitterLogin.TwitterLoginListener, LaunchableUi {
     private static final String TAG = "ActivitySocialLogin";
-    private static final String KEY = "ActivitySocialLogin.platform";
+    private static final String PLATFORM = "ActivitySocialLogin.platform";
 
     private Fragment mFragment;
 
     @Override
     protected Fragment createFragment() {
+        OAuthRequest request = getBundledRequest();
+        if(request != null) {
+            return FragmentOAuthLogin.newInstance(request);
+        }
+
         String platform = getBundledPlatform();
         if (platform.equals(PlatformFacebook.NAME)) {
             return new FragmentFacebookLogin();
@@ -80,11 +90,18 @@ public class ActivitySocialLogin extends ActivitySingleFragment
 
     @Override
     public void launch(LauncherUi launcher) {
-        launcher.launch(getClass(), KEY);
+        launcher.launch(getClass(), PLATFORM);
+    }
+
+    @Nullable
+    private OAuthRequest getBundledRequest() {
+        Bundle args = getIntent().getBundleExtra(PLATFORM);
+        ParcelablePacker<OAuthRequest> unpacker = new ParcelablePacker<>();
+        return unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
     }
 
     private String getBundledPlatform() {
-        Bundle args = getIntent().getBundleExtra(KEY);
+        Bundle args = getIntent().getBundleExtra(PLATFORM);
         if (args == null) throwError();
         String platform = args.getString(TAG);
         if (platform == null || platform.length() == 0) throwError();

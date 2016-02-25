@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Social.Factories;
 
 import android.app.Activity;
 
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
@@ -24,15 +22,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryAuthorisationUi {
-    private LaunchableUi mDefaultUi;
+    private LaunchableUi mUi;
     private LaunchableUi mFacebookTwitterUi;
     private LaunchableUiLauncher mLauncher;
 
-    public FactoryAuthorisationUi(LaunchableUi defaultUi,
-                                  LaunchableUi facebookTwitterUi,
+    public FactoryAuthorisationUi(LaunchableUi ui,
                                   LaunchableUiLauncher launcher) {
-        mDefaultUi = defaultUi;
-        mFacebookTwitterUi = facebookTwitterUi;
+        mUi = ui;
         mLauncher = launcher;
     }
 
@@ -40,10 +36,7 @@ public class FactoryAuthorisationUi {
                                                             SocialPlatform<?> platform,
                                                             AuthorisationListener
                                                                     listener) {
-        boolean fb_twittter = platform.getName().equals(PlatformFacebook.NAME)
-                || platform.getName().equals(PlatformTwitter.NAME);
-        LaunchableUi ui = fb_twittter ? mFacebookTwitterUi : mDefaultUi;
-        return platform.getAuthUi(activity, ui, mLauncher, listener);
+        return platform.getAuthUi(activity, mUi, mLauncher, listener);
     }
 
 }

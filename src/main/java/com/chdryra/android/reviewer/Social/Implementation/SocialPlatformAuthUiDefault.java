@@ -49,7 +49,7 @@ public class SocialPlatformAuthUiDefault<T> implements SocialPlatformAuthUi {
     }
 
     @Override
-    public void launchAuthorisationUi() {
+    public void launchUi() {
         Bundle args = new Bundle();
         args.putString(mAuthorisationUi.getLaunchTag(), mPlatform.getName());
         mLauncher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);

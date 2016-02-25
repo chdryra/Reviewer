@@ -13,21 +13,19 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogSocialLogin;
-
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
-import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
-import com.chdryra.android.reviewer.Social.Factories.FactoryAuthorisationUi;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
-import com.chdryra.android.reviewer.Social.Implementation.DefaultOAuthUi;
-import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.DefaultOAuthUi;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
+import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 import java.util.ArrayList;
 
@@ -40,27 +38,23 @@ public class ActivityShareReview extends ActivityReviewView implements
         PlatformAuthoriser, OAuthListener {
     private static final int SOCIAL = R.string.activity_title_share;
     private SocialPlatformAuthUi mAuthUi;
-    private FactoryAuthorisationUi mAuthUiFactory;
 
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
-        mAuthUiFactory = new FactoryAuthorisationUi(new DialogSocialLogin(),
-                new ActivitySocialLogin(), app.getUiLauncher());
-
         FactoryShareScreenView factory = new FactoryShareScreenView();
         return factory.buildView(getResources().getString(SOCIAL),
                 app.getSocialPlatformList(),
-                app.getReviewBuilderAdapter(),
-                this,
+                app.getReviewBuilderAdapter(), this,
                 new SocialReviewSharerAndroid(ActivityFeed.class));
     }
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
-        mAuthUi = mAuthUiFactory.newAuthorisationUi(this, platform, listener);
-        mAuthUi.launchAuthorisationUi();
+        LaunchableUiLauncher launcher = ApplicationInstance.getInstance(this).getUiLauncher();
+        mAuthUi = platform.getAuthUi(this, new ActivitySocialAuthUi(), launcher, listener);
+        mAuthUi.launchUi();
     }
 
     @Override

@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SocialPlatformAuthUi extends ActivityResultListener {
-    void launchAuthorisationUi();
+    void launchUi();
 
     @Override
     void onActivityResult(int requestCode, int resultCode, Intent data);
