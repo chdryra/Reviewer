@@ -65,8 +65,8 @@ public class FactorySocialPlatformList {
     }
 
     public SocialPlatform<twitter4j.auth.AccessToken> newTwitter() {
-        String key = string(PlatformTwitter.CONSUMER_KEY);
-        String secret = string(PlatformTwitter.CONSUMER_SECRET);
+        String key = string(PlatformTwitter.KEY);
+        String secret = string(PlatformTwitter.SECRET);
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true).setOAuthConsumerKey(key).setOAuthConsumerSecret(secret);
@@ -82,7 +82,7 @@ public class FactorySocialPlatformList {
         OAuthRequester<AccessToken> authRequester = mRequesterFactory
                 .newTwitterAuthorisationRequester(key, secret, name);
 
-        return new PlatformTwitter(publisher, authRequester);
+        return new PlatformTwitter(mContext, publisher, authRequester);
     }
 
     public SocialPlatform<com.facebook.AccessToken> newFacebook() {

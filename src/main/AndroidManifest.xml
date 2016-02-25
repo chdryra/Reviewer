@@ -177,6 +177,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8da4736859f5fafc0973444794bad88ff8307bf6" />
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </application>
 </manifest>
