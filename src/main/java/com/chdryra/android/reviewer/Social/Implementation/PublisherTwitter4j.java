@@ -21,16 +21,16 @@ import twitter4j.auth.AccessToken;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTwitter extends SocialPublisherBasic<AccessToken>
+public class PublisherTwitter4j extends SocialPublisherBasic<AccessToken>
         implements FollowersFetcher.FollowersGetter, AsyncSocialPublisher.SyncSocialPublisher {
 
     private Twitter mTwitter;
     private AccessToken mToken;
     private String mPlatformName;
 
-    public PublisherTwitter(String platformName, Twitter twitter,
-                            ReviewSummariser summariser,
-                            ReviewFormatter formatter) {
+    public PublisherTwitter4j(String platformName, Twitter twitter,
+                              ReviewSummariser summariser,
+                              ReviewFormatter formatter) {
         super(platformName, summariser, formatter);
         mTwitter = twitter;
         mPlatformName = platformName;

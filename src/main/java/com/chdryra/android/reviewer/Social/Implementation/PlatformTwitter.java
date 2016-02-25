@@ -8,33 +8,56 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
+import com.chdryra.android.reviewer.Social.Interfaces.AccessTokenGetter;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import io.fabric.sdk.android.Fabric;
-import twitter4j.auth.AccessToken;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 23/02/2016
+ * On: 25/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlatformTwitter extends SocialPlatformImpl<AccessToken>{
+public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     public static final String NAME = "twitter";
     public static final int KEY = R.string.consumer_key_twitter;
     public static final int SECRET = R.string.consumer_secret_twitter;
 
-    public PlatformTwitter(Context context, PublisherTwitter publisher,
-                           OAuthRequester<AccessToken> authRequester) {
-        super(publisher, authRequester);
+    @Nullable
+    protected abstract T getAccessToken();
+
+    public PlatformTwitter(Context context, SocialPublisher<T> publisher) {
+        super(publisher);
         TwitterAuthConfig authConfig
                 = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));
         Fabric.with(context, new Twitter(authConfig));
         Fabric.with(context, new Crashlytics());
+    }
+
+    @Override
+    public SocialPlatformAuthUi getAuthUi(Activity activity, LaunchableUi authorisationUi,
+                                          LaunchableUiLauncher launcher,
+                                          AuthorisationListener listener) {
+        return new SocialPlatformAuthUiDefault<>(activity, authorisationUi, launcher,
+                this, listener, new AccessTokenGetter<T>() {
+            @Override
+            public T getAccessToken() {
+                return PlatformTwitter.this.getAccessToken();
+            }
+        });
     }
 }

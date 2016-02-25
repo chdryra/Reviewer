@@ -14,11 +14,13 @@ import com.chdryra.android.reviewer.Social.Implementation.AccessTokenDefault;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFoursquare;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTumblr;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter4j;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFourSquare;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTumblr;
-import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitter;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitter4j;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitterFabric;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterDefault;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
@@ -27,6 +29,7 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.twitter.sdk.android.core.TwitterAuthToken;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -56,7 +59,7 @@ public class FactorySocialPlatformList {
 
     private SocialPlatformList newPlatforms() {
         SocialPlatformList list = new SocialPlatformList();
-        list.add(newTwitter());
+        list.add(newTwitter4j());
         list.add(newTumblr());
         list.add(newFacebook());
         list.add(newFourSquare());
@@ -64,27 +67,33 @@ public class FactorySocialPlatformList {
         return list;
     }
 
-    public SocialPlatform<twitter4j.auth.AccessToken> newTwitter() {
-        String key = string(PlatformTwitter.KEY);
-        String secret = string(PlatformTwitter.SECRET);
+    public SocialPlatform<AccessToken> newTwitter4j() {
+        String key = string(PlatformTwitterFabric.KEY);
+        String secret = string(PlatformTwitterFabric.SECRET);
+        String name = PlatformTwitterFabric.NAME;
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true).setOAuthConsumerKey(key).setOAuthConsumerSecret(secret);
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
 
-        String name = PlatformTwitter.NAME;
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatter formatter = new ReviewFormatterTwitter();
+        PublisherTwitter4j publisher = new PublisherTwitter4j(name, twitter, summariser, formatter);
+
+        return new PlatformTwitter4j(mContext, publisher);
+    }
+
+    public SocialPlatform<TwitterAuthToken> newTwitterFabric() {
+        String name = PlatformTwitterFabric.NAME;
 
         ReviewSummariser summariser = new ReviewSummariser();
         ReviewFormatter formatter = new ReviewFormatterTwitter();
-        PublisherTwitter publisher = new PublisherTwitter(name, twitter, summariser, formatter);
+        PublisherTwitterFabric publisher = new PublisherTwitterFabric(name, summariser, formatter);
 
-        OAuthRequester<AccessToken> authRequester = mRequesterFactory
-                .newTwitterAuthorisationRequester(key, secret, name);
-
-        return new PlatformTwitter(mContext, publisher, authRequester);
+        return new PlatformTwitterFabric(mContext, publisher);
     }
-
+    
     public SocialPlatform<com.facebook.AccessToken> newFacebook() {
         ReviewSummariser summariser = new ReviewSummariser();
         ReviewFormatter formatter = new ReviewFormatterFacebook();

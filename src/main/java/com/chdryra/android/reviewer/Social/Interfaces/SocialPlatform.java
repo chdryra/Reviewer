@@ -8,7 +8,11 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
+import android.app.Activity;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Holds the name and number of followers for a social platform. Placeholder to update the
@@ -18,6 +22,11 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
     SocialPublisher getPublisher();
 
     OAuthRequester<T> getOAuthRequester();
+
+    SocialPlatformAuthUi getAuthUi(Activity activity,
+                                   LaunchableUi authorisationUi,
+                                   LaunchableUiLauncher launcher,
+                                   AuthorisationListener listener);
 
     @Override
     boolean isAuthorised();

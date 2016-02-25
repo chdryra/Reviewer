@@ -17,16 +17,16 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * Holds the name and number of followers for a social platform. Placeholder to update the
  * number of followers.
  */
-public class SocialPlatformImpl<T> implements SocialPlatform<T> {
+public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     private final SocialPublisher<T> mPublisher;
     private OAuthRequester<T> mRequester;
     private T mAccessToken;
 
-    public SocialPlatformImpl(SocialPublisher<T> publisher) {
+    public SocialPlatformBasic(SocialPublisher<T> publisher) {
         mPublisher = publisher;
     }
 
-    public SocialPlatformImpl(SocialPublisher<T> publisher, OAuthRequester<T> requester) {
+    public SocialPlatformBasic(SocialPublisher<T> publisher, OAuthRequester<T> requester) {
         mPublisher = publisher;
         mRequester = requester;
     }

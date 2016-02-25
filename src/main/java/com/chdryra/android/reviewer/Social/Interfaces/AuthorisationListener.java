@@ -10,9 +10,11 @@ package com.chdryra.android.reviewer.Social.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 14/02/2016
+ * On: 25/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface PlatformAuthoriser {
-    void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener);
+public interface AuthorisationListener {
+    void onAuthorisationGiven(SocialPlatform<?> platform);
+
+    void onAuthorisationRefused(SocialPlatform<?> platform);
 }

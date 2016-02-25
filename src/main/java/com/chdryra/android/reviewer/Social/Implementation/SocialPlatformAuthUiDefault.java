@@ -10,10 +10,11 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthorisationSeeker;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.AccessTokenGetter;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -24,40 +25,42 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class PlatformAuthorisationSeekerBasic<T> implements PlatformAuthorisationSeeker,
-        ActivityResultListener{
-    private static final int AUTHORISATION = RequestCodeGenerator.getCode("FacebookAuthorisation");
+public class SocialPlatformAuthUiDefault<T> implements SocialPlatformAuthUi {
+    private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
     private Activity mActivity;
     private LaunchableUi mAuthorisationUi;
     private LaunchableUiLauncher mLauncher;
     private SocialPlatform<T> mPlatform;
-    private PlatformAuthoriser.AuthorisationListener mListener;
+    private AccessTokenGetter<T> mGetter;
+    private AuthorisationListener mListener;
 
-    protected abstract T getAccessToken();
-
-    public PlatformAuthorisationSeekerBasic(Activity activity, LaunchableUi authorisationUi,
-                                            LaunchableUiLauncher launcher,
-                                            SocialPlatform<T> platform,
-                                            PlatformAuthoriser.AuthorisationListener listener) {
+    public SocialPlatformAuthUiDefault(Activity activity, LaunchableUi authorisationUi,
+                                       LaunchableUiLauncher launcher,
+                                       SocialPlatform<T> platform,
+                                       AuthorisationListener listener,
+                                       AccessTokenGetter<T> getter) {
         mActivity = activity;
         mAuthorisationUi = authorisationUi;
         mLauncher = launcher;
         mPlatform = platform;
+        mGetter = getter;
         mListener = listener;
     }
 
     @Override
-    public void seekAuthorisation() {
-        mLauncher.launch(mAuthorisationUi, mActivity, AUTHORISATION);
+    public void launchAuthorisationUi() {
+        Bundle args = new Bundle();
+        args.putString(mAuthorisationUi.getLaunchTag(), mPlatform.getName());
+        mLauncher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AUTHORISATION) {
-            T currentAccessToken = getAccessToken();
-            if (currentAccessToken != null) {
-                mPlatform.setAccessToken(currentAccessToken);
+            T accessToken = mGetter.getAccessToken();
+            if (accessToken != null) {
+                mPlatform.setAccessToken(accessToken);
                 mListener.onAuthorisationGiven(mPlatform);
             } else {
                 mListener.onAuthorisationRefused(mPlatform);

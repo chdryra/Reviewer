@@ -8,8 +8,14 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.app.Activity;
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Social.Interfaces.AccessTokenGetter;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
@@ -21,7 +27,7 @@ import java.util.Set;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlatformFacebook extends SocialPlatformImpl<AccessToken>{
+public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     public static final String NAME = "facebook";
     public static final String PUBLISH_PERMISSION = "publish_actions";
 
@@ -66,5 +72,19 @@ public class PlatformFacebook extends SocialPlatformImpl<AccessToken>{
                 setAccessToken();
             }
         };
+    }
+
+    @Override
+    public SocialPlatformAuthUi getAuthUi(Activity activity, LaunchableUi authorisationUi,
+                                          LaunchableUiLauncher launcher,
+                                          AuthorisationListener listener) {
+        return new SocialPlatformAuthUiDefault<>(activity, authorisationUi, launcher, this,
+                listener,
+                new AccessTokenGetter<AccessToken>() {
+            @Override
+            public AccessToken getAccessToken() {
+                return AccessToken.getCurrentAccessToken();
+            }
+        });
     }
 }

@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogAuthSharing extends DialogOneButtonFragment implements LaunchableUi {
+public class DialogSocialLogin extends DialogOneButtonFragment implements LaunchableUi {
     private static final String TAG = "AuthoriseSocialPlatform";
     private static final int LAYOUT = R.layout.dialog_webview;
     private static final int WEB = R.id.web_view_url;
@@ -39,7 +39,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
     private OAuthRequest mRequest;
     private OAuthListener mListener;
 
-    public DialogAuthSharing() {
+    public DialogSocialLogin() {
         mHolder = new LayoutHolder(LAYOUT, WEB);
     }
 

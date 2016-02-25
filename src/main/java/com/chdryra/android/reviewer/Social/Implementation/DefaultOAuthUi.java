@@ -13,10 +13,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthorisationSeeker;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -27,25 +27,25 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DefaultOAuthSeeker<T> implements
+public class DefaultOAuthUi<T> implements
         OAuthListener,
         OAuthRequester.RequestListener<T>,
-        PlatformAuthorisationSeeker {
+        SocialPlatformAuthUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
     private Activity mActivity;
     private LaunchableUi mAuthorisationUi;
     private LaunchableUiLauncher mLauncher;
     private SocialPlatform<T> mPlatform;
-    private PlatformAuthoriser.AuthorisationListener mListener;
+    private AuthorisationListener mListener;
     private ParcelablePacker<OAuthRequest>mPacker;
 
-    public DefaultOAuthSeeker(Activity activity,
-                              LaunchableUi authorisationUi,
-                              LaunchableUiLauncher launcher,
-                              SocialPlatform<T> platform,
-                              PlatformAuthoriser.AuthorisationListener listener,
-                              ParcelablePacker<OAuthRequest> packer) {
+    public DefaultOAuthUi(Activity activity,
+                          LaunchableUi authorisationUi,
+                          LaunchableUiLauncher launcher,
+                          SocialPlatform<T> platform,
+                          AuthorisationListener listener,
+                          ParcelablePacker<OAuthRequest> packer) {
         mActivity = activity;
         mAuthorisationUi = authorisationUi;
         mLauncher = launcher;
@@ -55,7 +55,7 @@ public class DefaultOAuthSeeker<T> implements
     }
 
     @Override
-    public void seekAuthorisation() {
+    public void launchAuthorisationUi() {
         OAuthRequester<T> requester = mPlatform.getOAuthRequester();
         requester.generateAuthorisationRequest(this);
     }

@@ -35,9 +35,9 @@ import org.json.JSONArray;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublisherFacebook implements SocialPublisher<AccessToken> {
+    private String mPlatformName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
-    private String mPlatformName;
     private AccessToken mToken;
 
     public PublisherFacebook(String platformName, ReviewSummariser summariser,
