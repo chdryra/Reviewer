@@ -17,8 +17,11 @@ import android.webkit.WebViewClient;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.LayoutHolder;
+
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -34,20 +37,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
 
     private LayoutHolder mHolder;
     private OAuthRequest mRequest;
-    private AuthorisationListener mListener;
-
-    public interface AuthorisationListener {
-        void onAuthorisationCallback(OAuthRequest response);
-    }
-
-    public static DialogAuthSharing newDialog(OAuthRequest request) {
-        Bundle args = new Bundle();
-        args.putParcelable(TAG, request);
-        DialogAuthSharing dialog = new DialogAuthSharing();
-        dialog.setArguments(args);
-
-        return dialog;
-    }
+    private OAuthListener mListener;
 
     public DialogAuthSharing() {
         mHolder = new LayoutHolder(LAYOUT, WEB);
@@ -65,7 +55,7 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
 
     @Override
     protected View createDialogUi() {
-        mListener = getTargetListener(AuthorisationListener.class);
+        mListener = getTargetListener(OAuthListener.class);
         mHolder.inflate(getActivity());
         loadRequest();
         return mHolder.getView();
@@ -95,10 +85,11 @@ public class DialogAuthSharing extends DialogOneButtonFragment implements Launch
     private void unpackRequest() {
         Bundle args = getArguments();
         if(args == null) {
-            throw new IllegalArgumentException("Must pass OAuthRequest! Use static constructor!");
+            throw new IllegalArgumentException("Must pass OAuthRequest!");
         }
 
-        mRequest = args.getParcelable(TAG);
+        ParcelablePacker<OAuthRequest> unpacker = new ParcelablePacker<>();
+        mRequest = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args);
     }
 
     private class UrlWebViewClient extends WebViewClient {

@@ -150,7 +150,7 @@
 
         <!-- Facebook login -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFacebookLogin"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialLogin"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"

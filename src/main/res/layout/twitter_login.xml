@@ -7,11 +7,9 @@
   ~
   -->
 
-<com.facebook.login.widget.LoginButton
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/login_button_facebook"
+<com.twitter.sdk.android.core.identity.TwitterLoginButton
+    android:id="@+id/login_button_twitter"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginTop="30dp"
-    android:layout_marginBottom="30dp"/>
+    android:layout_centerInParent="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

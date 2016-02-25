@@ -6,51 +6,63 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils;
+package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogAuthSharing;
-import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthorisationSeeker;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DialogAuthorisationSeeker<T> implements
-        DialogAuthSharing.AuthorisationListener,
-        OAuthRequester.RequestListener<T>, PlatformAuthorisationSeeker {
-    private static final String AuthTag = "PlatformAuthorisation";
+public class DefaultOAuthSeeker<T> implements
+        OAuthListener,
+        OAuthRequester.RequestListener<T>,
+        PlatformAuthorisationSeeker {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
     private Activity mActivity;
+    private LaunchableUi mAuthorisationUi;
+    private LaunchableUiLauncher mLauncher;
     private SocialPlatform<T> mPlatform;
     private PlatformAuthoriser.AuthorisationListener mListener;
+    private ParcelablePacker<OAuthRequest>mPacker;
 
-    public DialogAuthorisationSeeker(Activity activity, SocialPlatform<T> platform,
-                                     PlatformAuthoriser.AuthorisationListener listener) {
+    public DefaultOAuthSeeker(Activity activity,
+                              LaunchableUi authorisationUi,
+                              LaunchableUiLauncher launcher,
+                              SocialPlatform<T> platform,
+                              PlatformAuthoriser.AuthorisationListener listener,
+                              ParcelablePacker<OAuthRequest> packer) {
         mActivity = activity;
+        mAuthorisationUi = authorisationUi;
+        mLauncher = launcher;
         mPlatform = platform;
         mListener = listener;
+        mPacker = packer;
     }
 
     @Override
     public void seekAuthorisation() {
         OAuthRequester<T> requester = mPlatform.getOAuthRequester();
         requester.generateAuthorisationRequest(this);
-
     }
 
     @Override
     public void onRequestGenerated(OAuthRequest request) {
-        launchDialog(request);
+        launchUi(request);
     }
 
     @Override
@@ -69,9 +81,10 @@ public class DialogAuthorisationSeeker<T> implements
         requester.parseRequestResponse(response, this);
     }
 
-    private void launchDialog(OAuthRequest request) {
-        DialogAuthSharing dialog = DialogAuthSharing.newDialog(request);
-        DialogShower.show(dialog, mActivity, AUTHORISATION, AuthTag);
+    private void launchUi(OAuthRequest request) {
+        Bundle args = new Bundle();
+        mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, request, args);
+        mLauncher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);
     }
 
     @Override

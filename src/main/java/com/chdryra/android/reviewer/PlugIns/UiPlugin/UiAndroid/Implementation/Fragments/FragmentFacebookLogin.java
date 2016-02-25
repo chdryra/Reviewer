@@ -31,7 +31,7 @@ import com.facebook.login.widget.LoginButton;
  */
 public class FragmentFacebookLogin extends Fragment{
     private static final int LAYOUT = R.layout.facebook_login;
-    private static final int LOGIN = R.id.loginbutton_facebook;
+    private static final int LOGIN = R.id.login_button_facebook;
 
     private CallbackManager mCallbackManager;
     private FacebookLoginListener mListener;

@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
  */
 public class ActivityViewLocation extends ActivitySingleFragment implements LaunchableUi {
-    private static final String TAG = "ActivityViewReviewLocation";
-    private static final String KEY = "com.chdryra.android.reviewer.View.LauncherModel.Implementation.Activities.SpecialisedActivities.ActivityViewLocation.location";
+    private static final String TAG = "ActivityViewLocation";
+    private static final String KEY = "ActivityViewLocation.location";
 
     @Override
     public String getLaunchTag() {

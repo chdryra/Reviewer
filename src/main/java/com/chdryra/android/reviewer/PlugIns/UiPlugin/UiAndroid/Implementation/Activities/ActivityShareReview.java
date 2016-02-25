@@ -13,11 +13,13 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogAuthSharing;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.FactoryAuthorisationSeeker;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.PlatformAuthorisationSeeker;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.DialogAuthorisationSeeker;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Utils.PublishingAction;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs
+        .Implementation.DialogAuthSharing;
+import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
+import com.chdryra.android.reviewer.Social.Factories.FactoryAuthorisationSeeker;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthorisationSeeker;
+import com.chdryra.android.reviewer.Social.Implementation.DefaultOAuthSeeker;
+import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
@@ -34,7 +36,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityShareReview extends ActivityReviewView implements
-        PlatformAuthoriser, DialogAuthSharing.AuthorisationListener {
+        PlatformAuthoriser, OAuthListener {
     private static final int SOCIAL = R.string.activity_title_share;
     private PlatformAuthorisationSeeker mSeeker;
     private FactoryAuthorisationSeeker mSeekerFactory;
@@ -43,7 +45,8 @@ public class ActivityShareReview extends ActivityReviewView implements
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
 
-        mSeekerFactory = new FactoryAuthorisationSeeker();
+        mSeekerFactory = new FactoryAuthorisationSeeker(new DialogAuthSharing(),
+                new ActivitySocialLogin(), app.getUiLauncher());
 
         FactoryShareScreenView factory = new FactoryShareScreenView();
         return factory.buildView(getResources().getString(SOCIAL),
@@ -61,7 +64,7 @@ public class ActivityShareReview extends ActivityReviewView implements
 
     @Override
     public void onAuthorisationCallback(OAuthRequest response) {
-        ((DialogAuthorisationSeeker)mSeeker).onAuthorisationCallback(response);
+        ((DefaultOAuthSeeker)mSeeker).onAuthorisationCallback(response);
     }
 
     @Override
