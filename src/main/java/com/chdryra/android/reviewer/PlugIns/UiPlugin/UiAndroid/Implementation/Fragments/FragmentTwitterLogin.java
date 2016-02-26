@@ -30,7 +30,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentTwitterLogin extends Fragment {
-    private static final int LAYOUT = R.layout.twitter_login;
+    private static final int LAYOUT = R.layout.login_twitter;
     private static final int LOGIN = R.id.login_button_twitter;
 
     private TwitterLoginButton mLoginButton;
