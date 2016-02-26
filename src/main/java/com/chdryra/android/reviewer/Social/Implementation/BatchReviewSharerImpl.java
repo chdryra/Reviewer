@@ -73,17 +73,23 @@ public class BatchReviewSharerImpl implements BatchReviewSharer {
     private String makeMessage(ArrayList<String> platformsOk,
                                ArrayList<String> platformsNotOk,
                                int numFollowers) {
-        String num = String.valueOf(numFollowers);
-        boolean fb = platformsOk.contains(PlatformFacebook.NAME);
-        String plus = fb ? "+ " : "";
-        String followers = numFollowers == 1 && !fb ? " follower" : " followers";
+        String message = "";
 
-        String followersString = num + plus + followers;
-        String message = "Published to " +  followersString + " on " +
-                StringUtils.join(platformsOk.toArray(), ", ");
+        if(platformsOk.size() > 0) {
+            String num = String.valueOf(numFollowers);
+            boolean fb = platformsOk.contains(PlatformFacebook.NAME);
+            String plus = fb ? "+ " : "";
+            String followers = numFollowers == 1 && !fb ? " follower" : " followers";
+            String followersString = num + plus + followers;
 
+            message = "Published to " + followersString + " on " +
+                    StringUtils.join(platformsOk.toArray(), ", ");
+        }
+
+        String notOkMessage = "";
         if(platformsNotOk.size() > 0) {
-            message += "\nProblems publishing to " + StringUtils.join(platformsNotOk.toArray(), ",");
+            notOkMessage = "Problems publishing to " + StringUtils.join(platformsNotOk.toArray(), ",");
+            if(platformsOk.size() > 0) message += "\n" + notOkMessage;
         }
 
         return message;
