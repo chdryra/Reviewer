@@ -61,4 +61,8 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
         mAccessToken = token;
         mPublisher.setAccessToken(token);
     }
+
+    protected T getAccessToken() {
+        return mAccessToken;
+    }
 }

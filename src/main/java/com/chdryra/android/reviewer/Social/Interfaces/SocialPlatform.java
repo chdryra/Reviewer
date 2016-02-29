@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Social.Interfaces;
 
 import android.app.Activity;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -32,7 +33,7 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
     boolean isAuthorised();
 
     @Override
-    void setAccessToken(T t);
+    void setAccessToken(@Nullable T t);
 
     @Override
     String getName();

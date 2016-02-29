@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
-import com.facebook.AccessToken;
 
 
 /**
@@ -22,11 +21,11 @@ import com.facebook.AccessToken;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherGoogle implements SocialPublisher<AccessToken> {
+public class PublisherGoogle implements SocialPublisher<String> {
     private String mPlatformName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
-    private AccessToken mToken;
+    private String mToken;
 
     public PublisherGoogle(String platformName, ReviewSummariser summariser,
                            ReviewFormatter formatter) {
@@ -53,7 +52,7 @@ public class PublisherGoogle implements SocialPublisher<AccessToken> {
     }
 
     @Override
-    public void setAccessToken(AccessToken token) {
+    public void setAccessToken(String token) {
         mToken = token;
     }
 }

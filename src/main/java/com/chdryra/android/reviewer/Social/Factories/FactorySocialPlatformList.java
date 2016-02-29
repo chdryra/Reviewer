@@ -13,11 +13,13 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Social.Implementation.AccessTokenDefault;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFoursquare;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTumblr;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter4j;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFourSquare;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTumblr;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitter4j;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherTwitterFabric;
@@ -60,7 +62,7 @@ public class FactorySocialPlatformList {
     private SocialPlatformList newPlatforms() {
         SocialPlatformList list = new SocialPlatformList();
         list.add(newTwitter4j());
-        list.add(newTumblr());
+        list.add(newGooglePlus());
         list.add(newFacebook());
         list.add(newFourSquare());
 
@@ -131,6 +133,15 @@ public class FactorySocialPlatformList {
                 .newFoursquareAuthorisationRequester(key, secret, name);
 
         return new PlatformFoursquare(publisher, authRequester);
+    }
+
+    public SocialPlatform<String> newGooglePlus() {
+        ReviewSummariser summariser = new ReviewSummariser();
+        ReviewFormatter formatter = new ReviewFormatterFacebook();
+
+        PublisherGoogle publisher = new PublisherGoogle(PlatformGoogle.NAME, summariser, formatter);
+
+        return new PlatformGoogle(publisher);
     }
 
     private String string(int id) {

@@ -8,11 +8,14 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 25/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AccessTokenGetter<T> {
+    @Nullable
     T getAccessToken();
 }
