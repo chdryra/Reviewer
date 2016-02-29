@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
@@ -22,7 +23,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BatchSocialPublisher implements SocialPublisherListener{
-    private Collection<SocialPublisher> mPublishers;
+    private Collection<SocialPlatform<?>> mPlatforms;
     private ArrayList<PublishResults> mResults;
     private BatchPublisherListener mListener;
 
@@ -30,22 +31,22 @@ public class BatchSocialPublisher implements SocialPublisherListener{
         void onPublished(Collection<PublishResults> results);
     }
 
-    public BatchSocialPublisher(Collection<SocialPublisher> publishers) {
-        mPublishers = publishers;
+    public BatchSocialPublisher(Collection<SocialPlatform<?>> platforms) {
+        mPlatforms = platforms;
     }
 
     public void publish(Review review, TagsManager tagsManager, BatchPublisherListener listener) {
         mListener = listener;
         mResults = new ArrayList<>();
-        for(SocialPublisher publisher : mPublishers) {
-            publisher.publishAsync(review, tagsManager, this);
+        for(SocialPlatform<?> platform : mPlatforms) {
+            platform.publish(review, tagsManager, this);
         }
     }
 
     @Override
     public void onPublished(PublishResults results) {
         mResults.add(results);
-        if(mResults.size() == mPublishers.size()) {
+        if(mResults.size() == mPlatforms.size()) {
             mListener.onPublished(mResults);
             mListener = null;
         }

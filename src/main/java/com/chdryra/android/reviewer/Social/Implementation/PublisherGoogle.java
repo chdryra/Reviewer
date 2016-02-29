@@ -40,7 +40,6 @@ public class PublisherGoogle implements SocialPublisher {
     @Override
     public void publishAsync(Review review, TagsManager tagsManager,
                              final SocialPublisherListener listener) {
-        ReviewSummary summary = mSummariser.summarise(review, tagsManager);
-        FormattedReview formatted = mFormatter.format(summary);
+
     }
 }

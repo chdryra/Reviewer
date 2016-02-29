@@ -12,6 +12,8 @@ import android.app.Activity;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -28,6 +30,9 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
                                    LaunchableUi authorisationUi,
                                    LaunchableUiLauncher launcher,
                                    AuthorisationListener listener);
+
+
+    void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener);
 
     @Override
     boolean isAuthorised();

@@ -10,9 +10,12 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
 /**
  * Holds the name and number of followers for a social platform. Placeholder to update the
@@ -55,6 +58,11 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     @Override
     public void setAccessToken(T token) {
         mAccessToken = token;
+    }
+
+    @Override
+    public void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener) {
+        mPublisher.publishAsync(review, tagsManager, listener);
     }
 
     @Nullable

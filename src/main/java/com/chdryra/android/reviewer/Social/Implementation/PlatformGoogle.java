@@ -32,7 +32,8 @@ import com.google.android.gms.plus.model.people.PersonBuffer;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PlatformGoogle extends SocialPlatformBasic<String> implements ResultCallback<People.LoadPeopleResult> {
+public class PlatformGoogle extends SocialPlatformBasic<String>
+        implements ResultCallback<People.LoadPeopleResult> {
     public static final String NAME = "google+";
     private GoogleSignInOptions mSignInOptions;
     private GoogleApiClient mGoogleApiClient;
