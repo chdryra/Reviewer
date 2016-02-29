@@ -16,25 +16,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 
 /**
  * Created by: Rizwan Choudrey
@@ -46,32 +46,42 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private static final int LAYOUT = R.layout.login_google;
     private static final int LOGIN = R.id.login_button_google;
 
+    private static final int SIGN_IN = RequestCodeGenerator.getCode("SignIn");
     private static final int REQUEST_RESOLVE_ERROR = RequestCodeGenerator.getCode("ResolveError");
     private static final String DIALOG_ERROR = "dialog_error";
     private boolean mResolvingError = false;
 
     private CallbackManager mCallbackManager;
+    private GoogleSignInOptions mOptions;
     private GoogleLoginListener mListener;
     private GoogleApiClient mGoogleApiClient;
 
     public interface GoogleLoginListener {
-        void onSuccess(LoginResult loginResult);
-        void onError(FacebookException error);
+        void onSuccess(GoogleSignInResult result);
+        void onFailure(GoogleSignInResult result);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+
+        mOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, mOptions)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
 
+
+        try {
+            mListener = (GoogleLoginListener) getActivity();
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Activity should be a FacebookLoginListener!", e);
+        }
     }
 
     @Override
@@ -97,19 +107,19 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        if (mResolvingError) {
-            return;
-        } else if (result.hasResolution()) {
-            try {
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
+        if (!mResolvingError) {
+            if (result.hasResolution()) {
+                try {
+                    mResolvingError = true;
+                    result.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
+                } catch (IntentSender.SendIntentException e) {
+                    mGoogleApiClient.connect();
+                }
+            } else {
+                showErrorDialog(result.getErrorCode());
                 mResolvingError = true;
-                result.startResolutionForResult(getActivity(), REQUEST_RESOLVE_ERROR);
-            } catch (IntentSender.SendIntentException e) {
-                mGoogleApiClient.connect();
             }
-        } else {
-            showErrorDialog(result.getErrorCode());
-            mResolvingError = true;
         }
     }
 
@@ -148,36 +158,27 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
             savedInstanceState) {
         View view = inflater.inflate(LAYOUT, container, false);
 
-        LoginButton button = (LoginButton) view.findViewById(LOGIN);
-        button.setFragment(this);
-        button.setPublishPermissions(PlatformFacebook.PUBLISH_PERMISSION);
-        
+        SignInButton button = (SignInButton) view.findViewById(LOGIN);
+        button.setSize(SignInButton.SIZE_STANDARD);
+        button.setScopes(mOptions.getScopeArray());
 
-        mCallbackManager = CallbackManager.Factory.create();
-        try {
-            mListener = (GoogleLoginListener) getActivity();
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Activity should be a FacebookLoginListener!", e);
-        }
-
-        button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                mListener.onSuccess(loginResult);
-            }
-
-            @Override
-            public void onCancel() {
-                int x = 0;
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                mListener.onError(error);
-            }
-        });
+        button.setOnClickListener(newSignInListener());
 
         return view;
+    }
+
+    private View.OnClickListener newSignInListener() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signIn();
+            }
+        };
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, SIGN_IN);
     }
 
     @Override
@@ -189,6 +190,19 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
                     mGoogleApiClient.connect();
                 }
             }
+        }
+
+        if (requestCode == SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            mListener.onSuccess(result);
+        } else {
+            mListener.onFailure(result);
         }
     }
 }
