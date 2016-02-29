@@ -12,18 +12,15 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterApiClient;
-import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.core.services.StatusesService;
 
 /**
@@ -31,12 +28,10 @@ import com.twitter.sdk.android.core.services.StatusesService;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTwitterFabric implements SocialPublisher<TwitterAuthToken>{
-
+public class PublisherTwitterFabric implements SocialPublisher{
     private String mPlatformName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
-    private TwitterAuthToken mToken;
 
     public PublisherTwitterFabric(String platformName,
                                   ReviewSummariser summariser,
@@ -83,26 +78,5 @@ public class PublisherTwitterFabric implements SocialPublisher<TwitterAuthToken>
 
     private void failure(final SocialPublisherListener listener, TwitterException e) {
         listener.onPublished(new PublishResults(mPlatformName, e.toString()));
-    }
-
-    @Override
-    public void getFollowersAsync(final FollowersListener listener) {
-        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-        twitterApiClient.getAccountService().verifyCredentials(null, null, new Callback<User>() {
-            @Override
-            public void success(Result<User> result) {
-                listener.onNumberFollowers(result.data.followersCount);
-            }
-
-            @Override
-            public void failure(TwitterException e) {
-                listener.onNumberFollowers(0);
-            }
-        });
-    }
-
-    @Override
-    public void setAccessToken(TwitterAuthToken token) {
-        mToken = token;
     }
 }

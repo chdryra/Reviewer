@@ -22,7 +22,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.google.android.gms.auth.api.Auth;
@@ -30,10 +33,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,6 +56,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private GoogleSignInOptions mOptions;
     private GoogleLoginListener mListener;
     private GoogleApiClient mGoogleApiClient;
+    private PlatformGoogle mGoogle;
 
     public interface GoogleLoginListener {
         void onSuccess(GoogleSignInResult result);
@@ -69,17 +72,12 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addApi(Auth.GOOGLE_SIGN_IN_API, mOptions)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        SocialPlatformList platforms = app.getSocialPlatformList();
+        mGoogle = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
+        if(mGoogle == null) throw new RuntimeException("Google not found!");
+        mOptions = mGoogle.getSignInOptions();
+        mGoogleApiClient = mGoogle.getGoogleApiClient();
 
         try {
             mListener = (GoogleLoginListener) getActivity();
@@ -91,18 +89,22 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     @Override
     public void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        mGoogleApiClient.registerConnectionCallbacks(this);
+        mGoogleApiClient.registerConnectionFailedListener(this);
+        mGoogleApiClient.connect(GoogleApiClient.SIGN_IN_MODE_OPTIONAL);
     }
 
     @Override
     public void onStop() {
         mGoogleApiClient.disconnect();
+        mGoogleApiClient.unregisterConnectionCallbacks(this);
+        mGoogleApiClient.unregisterConnectionCallbacks(this);
         super.onStop();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
+        mGoogle.setConnected(mGoogleApiClient.hasConnectedApi(Plus.API));
     }
 
     @Override

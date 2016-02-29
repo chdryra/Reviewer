@@ -62,9 +62,9 @@ public class FactorySocialPlatformList {
     private SocialPlatformList newPlatforms() {
         SocialPlatformList list = new SocialPlatformList();
         list.add(newTwitter4j());
-        list.add(newGooglePlus());
+        list.add(newTumblr());
         list.add(newFacebook());
-        list.add(newFourSquare());
+        list.add(newGooglePlus());
 
         return list;
     }
@@ -141,7 +141,7 @@ public class FactorySocialPlatformList {
 
         PublisherGoogle publisher = new PublisherGoogle(PlatformGoogle.NAME, summariser, formatter);
 
-        return new PlatformGoogle(publisher);
+        return new PlatformGoogle(mContext, publisher);
     }
 
     private String string(int id) {

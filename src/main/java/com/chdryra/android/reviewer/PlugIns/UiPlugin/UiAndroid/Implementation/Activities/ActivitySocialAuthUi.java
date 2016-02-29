@@ -15,21 +15,16 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
-        .FragmentFacebookLogin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
-        .FragmentGoogleLogin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
-        .FragmentOAuthLogin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
-        .FragmentTwitterLogin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFacebookLogin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentGoogleLogin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentTwitterLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 import com.facebook.FacebookException;
@@ -39,8 +34,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
-
-import java.util.Iterator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -103,15 +96,11 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
     public void onSuccess(GoogleSignInResult result) {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         SocialPlatformList platforms = app.getSocialPlatformList();
-        Iterator<SocialPlatform> iterator = platforms.iterator();
-        while(iterator.hasNext()) {
-            SocialPlatform platform = iterator.next();
-            if(platform.getName().equals(PlatformGoogle.NAME)) {
-                SocialPlatform<String> google = (SocialPlatform<String>) platform;
-                GoogleSignInAccount signInAccount = result.getSignInAccount();
-                if(signInAccount != null) google.setAccessToken(signInAccount.getId());
-                break;
-            }
+        PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
+        GoogleSignInAccount signInAccount = result.getSignInAccount();
+        if(google != null && signInAccount != null) {
+            String id = signInAccount.getId();
+            if(id != null) google.setAccessToken(id);
         }
 
         success();

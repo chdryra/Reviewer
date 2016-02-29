@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.content.Context;
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 /**
@@ -39,15 +38,5 @@ public class PublisherAndroid extends SocialPublisherBasic {
         mContext.startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
         return SUCCESS;
-    }
-
-    @Override
-    public void getFollowersAsync(FollowersListener listener) {
-        listener.onNumberFollowers(0);
-    }
-
-    @Override
-    public void setAccessToken(Object token) {
-
     }
 }

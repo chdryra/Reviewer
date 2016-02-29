@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Social.Interfaces.AccessTokenGetter;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -32,14 +32,14 @@ public class SocialPlatformAuthUiDefault<T> implements SocialPlatformAuthUi {
     private LaunchableUi mAuthorisationUi;
     private LaunchableUiLauncher mLauncher;
     private SocialPlatform<T> mPlatform;
-    private AccessTokenGetter<T> mGetter;
+    private AuthorisationTokenGetter<T> mGetter;
     private AuthorisationListener mListener;
 
     public SocialPlatformAuthUiDefault(Activity activity, LaunchableUi authorisationUi,
                                        LaunchableUiLauncher launcher,
                                        SocialPlatform<T> platform,
                                        AuthorisationListener listener,
-                                       AccessTokenGetter<T> getter) {
+                                       AuthorisationTokenGetter<T> getter) {
         mActivity = activity;
         mAuthorisationUi = authorisationUi;
         mLauncher = launcher;
@@ -58,7 +58,7 @@ public class SocialPlatformAuthUiDefault<T> implements SocialPlatformAuthUi {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AUTHORISATION) {
-            T accessToken = mGetter.getAccessToken();
+            T accessToken = mGetter.getAuthorisationToken();
             if (accessToken != null) {
                 mPlatform.setAccessToken(accessToken);
                 mListener.onAuthorisationGiven(mPlatform);

@@ -10,9 +10,16 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
 import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.models.User;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,5 +35,21 @@ public class PlatformTwitterFabric extends PlatformTwitter<TwitterAuthToken> {
     protected TwitterAuthToken getAccessToken() {
         TwitterSession session = Twitter.getSessionManager().getActiveSession();
         return session.getAuthToken();
+    }
+
+    @Override
+    public void getFollowers(final FollowersListener listener) {
+        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
+        twitterApiClient.getAccountService().verifyCredentials(null, null, new Callback<User>() {
+            @Override
+            public void success(Result<User> result) {
+                listener.onNumberFollowers(result.data.followersCount);
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                listener.onNumberFollowers(0);
+            }
+        });
     }
 }

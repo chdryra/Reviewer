@@ -8,7 +8,8 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
@@ -18,15 +19,15 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
  * number of followers.
  */
 public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
-    private final SocialPublisher<T> mPublisher;
+    private final SocialPublisher mPublisher;
     private OAuthRequester<T> mRequester;
     private T mAccessToken;
 
-    public SocialPlatformBasic(SocialPublisher<T> publisher) {
+    public SocialPlatformBasic(SocialPublisher publisher) {
         mPublisher = publisher;
     }
 
-    public SocialPlatformBasic(SocialPublisher<T> publisher, OAuthRequester<T> requester) {
+    public SocialPlatformBasic(SocialPublisher publisher, OAuthRequester<T> requester) {
         mPublisher = publisher;
         mRequester = requester;
     }
@@ -34,11 +35,6 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     @Override
     public String getName() {
         return mPublisher.getPlatformName();
-    }
-
-    @Override
-    public void getFollowers(FollowersListener listener) {
-        mPublisher.getFollowersAsync(listener);
     }
 
     @Override
@@ -59,9 +55,9 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     @Override
     public void setAccessToken(T token) {
         mAccessToken = token;
-        mPublisher.setAccessToken(token);
     }
 
+    @Nullable
     protected T getAccessToken() {
         return mAccessToken;
     }

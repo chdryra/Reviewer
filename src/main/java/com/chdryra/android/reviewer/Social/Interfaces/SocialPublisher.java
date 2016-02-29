@@ -16,12 +16,8 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPublisher<T> {
+public interface SocialPublisher {
     String getPlatformName();
 
     void publishAsync(Review review, TagsManager tagsManager, SocialPublisherListener listener);
-
-    void getFollowersAsync(FollowersListener listener);
-
-    void setAccessToken(T token);
 }

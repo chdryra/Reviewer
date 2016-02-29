@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 import java.util.Iterator;
@@ -17,14 +19,14 @@ import java.util.LinkedList;
  * Singleton that holds the list of social platforms on which reviews can be shared. Placeholders
  * for finding latest number of followers on each platform.
  */
-public class SocialPlatformList implements Iterable<SocialPlatform>{
-    private final LinkedList<SocialPlatform> mPlatforms;
+public class SocialPlatformList implements Iterable<SocialPlatform<?>>{
+    private final LinkedList<SocialPlatform<?>> mPlatforms;
 
     public SocialPlatformList() {
         mPlatforms = new LinkedList<>();
     }
 
-    public void add(SocialPlatform platform) {
+    public void add(SocialPlatform<?> platform) {
         mPlatforms.add(platform);
     }
 
@@ -32,8 +34,21 @@ public class SocialPlatformList implements Iterable<SocialPlatform>{
         return mPlatforms.size();
     }
 
+    @Nullable
+    public SocialPlatform<?> getPlatform(String name) {
+        SocialPlatform<?> platform = null;
+        for(SocialPlatform<?> p : mPlatforms) {
+            if(p.getName().equals(name)) {
+                platform = p;
+                break;
+            }
+        }
+
+        return platform;
+    }
+
     @Override
-    public Iterator<SocialPlatform> iterator() {
+    public Iterator<SocialPlatform<?>> iterator() {
         return mPlatforms.iterator();
     }
 }

@@ -19,7 +19,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * On: 12/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class SocialPublisherBasic<T> implements SocialPublisher<T>, AsyncSocialPublisher.SyncSocialPublisher {
+public abstract class SocialPublisherBasic implements SocialPublisher,
+        AsyncSocialPublisher.SyncSocialPublisher {
     private String mName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;

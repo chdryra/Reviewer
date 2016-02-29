@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
  * On: 25/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AccessTokenGetter<T> {
+public interface AuthorisationTokenGetter<T> {
     @Nullable
-    T getAccessToken();
+    T getAuthorisationToken();
 }

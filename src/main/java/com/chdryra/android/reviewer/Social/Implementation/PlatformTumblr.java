@@ -13,6 +13,7 @@ import android.app.Activity;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -41,5 +42,10 @@ public class PlatformTumblr extends SocialPlatformBasic<AccessTokenDefault> {
                                           AuthorisationListener listener) {
         return new DefaultOAuthUi<>(activity, authorisationUi, launcher, this, listener,
                 new ParcelablePacker<OAuthRequest>());
+    }
+
+    @Override
+    public void getFollowers(FollowersListener listener) {
+        listener.onNumberFollowers(0);
     }
 }

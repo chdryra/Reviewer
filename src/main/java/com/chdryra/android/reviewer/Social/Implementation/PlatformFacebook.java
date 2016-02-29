@@ -11,14 +11,19 @@ package com.chdryra.android.reviewer.Social.Implementation;
 import android.app.Activity;
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Social.Interfaces.AccessTokenGetter;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+
+import org.json.JSONArray;
 
 import java.util.Set;
 
@@ -75,14 +80,28 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     }
 
     @Override
+    public void getFollowers(final FollowersListener listener) {
+        GraphRequest request = GraphRequest.newMyFriendsRequest(
+                getAccessToken(), new GraphRequest.GraphJSONArrayCallback() {
+                    @Override
+                    public void onCompleted(JSONArray objects, GraphResponse response) {
+                        listener.onNumberFollowers(objects.length());
+                    }
+                }
+        );
+
+        request.executeAsync();
+    }
+
+    @Override
     public SocialPlatformAuthUi getAuthUi(Activity activity, LaunchableUi authorisationUi,
                                           LaunchableUiLauncher launcher,
                                           AuthorisationListener listener) {
         return new SocialPlatformAuthUiDefault<>(activity, authorisationUi, launcher, this,
                 listener,
-                new AccessTokenGetter<AccessToken>() {
+                new AuthorisationTokenGetter<AccessToken>() {
             @Override
-            public AccessToken getAccessToken() {
+            public AccessToken getAuthorisationToken() {
                 return AccessToken.getCurrentAccessToken();
             }
         });

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterSession;
@@ -31,5 +32,11 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
         TwitterSession session = Twitter.getSessionManager().getActiveSession();
         TwitterAuthToken authToken = session.getAuthToken();
         return authToken != null ? new AccessToken(authToken.token, authToken.secret) : null;
+    }
+
+    @Override
+    public void getFollowers(FollowersListener listener) {
+        FollowersFetcher.FollowersGetter getter = (FollowersFetcher.FollowersGetter)getPublisher();
+        new FollowersFetcher(getter).getFollowers(listener);
     }
 }

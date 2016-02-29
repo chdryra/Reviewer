@@ -10,11 +10,10 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Interfaces.AccessTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -22,8 +21,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterSession;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -37,10 +34,7 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     public static final int KEY = R.string.consumer_key_twitter;
     public static final int SECRET = R.string.consumer_secret_twitter;
 
-    @Nullable
-    protected abstract T getAccessToken();
-
-    public PlatformTwitter(Context context, SocialPublisher<T> publisher) {
+    public PlatformTwitter(Context context, SocialPublisher publisher) {
         super(publisher);
         TwitterAuthConfig authConfig
                 = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));
@@ -53,9 +47,9 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
                                           LaunchableUiLauncher launcher,
                                           AuthorisationListener listener) {
         return new SocialPlatformAuthUiDefault<>(activity, authorisationUi, launcher,
-                this, listener, new AccessTokenGetter<T>() {
+                this, listener, new AuthorisationTokenGetter<T>() {
             @Override
-            public T getAccessToken() {
+            public T getAuthorisationToken() {
                 return PlatformTwitter.this.getAccessToken();
             }
         });

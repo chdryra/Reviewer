@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 import twitter4j.Status;
@@ -21,8 +20,9 @@ import twitter4j.auth.AccessToken;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTwitter4j extends SocialPublisherBasic<AccessToken>
-        implements FollowersFetcher.FollowersGetter, AsyncSocialPublisher.SyncSocialPublisher {
+public class PublisherTwitter4j extends SocialPublisherBasic implements
+        FollowersFetcher.FollowersGetter,
+        AsyncSocialPublisher.SyncSocialPublisher {
 
     private Twitter mTwitter;
     private AccessToken mToken;
@@ -53,11 +53,6 @@ public class PublisherTwitter4j extends SocialPublisherBasic<AccessToken>
     }
 
     @Override
-    public void getFollowersAsync(FollowersListener listener) {
-        new FollowersFetcher(this).getFollowers(listener);
-    }
-
-    @Override
     public int getFollowers() {
         if (mToken == null) return 0;
 
@@ -68,11 +63,5 @@ public class PublisherTwitter4j extends SocialPublisherBasic<AccessToken>
             e.printStackTrace();
             return 0;
         }
-    }
-
-    @Override
-    public void setAccessToken(AccessToken token) {
-        mToken = token;
-        mTwitter.setOAuthAccessToken(mToken);
     }
 }

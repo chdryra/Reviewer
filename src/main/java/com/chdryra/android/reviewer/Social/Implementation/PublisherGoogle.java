@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
@@ -21,11 +20,10 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherGoogle implements SocialPublisher<String> {
+public class PublisherGoogle implements SocialPublisher {
     private String mPlatformName;
     private ReviewSummariser mSummariser;
     private ReviewFormatter mFormatter;
-    private String mToken;
 
     public PublisherGoogle(String platformName, ReviewSummariser summariser,
                            ReviewFormatter formatter) {
@@ -44,15 +42,5 @@ public class PublisherGoogle implements SocialPublisher<String> {
                              final SocialPublisherListener listener) {
         ReviewSummary summary = mSummariser.summarise(review, tagsManager);
         FormattedReview formatted = mFormatter.format(summary);
-    }
-
-    @Override
-    public void getFollowersAsync(final FollowersListener listener) {
-
-    }
-
-    @Override
-    public void setAccessToken(String token) {
-        mToken = token;
     }
 }

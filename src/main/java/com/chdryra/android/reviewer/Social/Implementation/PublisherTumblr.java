@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 /**
@@ -16,7 +15,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
  * On: 10/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublisherTumblr extends SocialPublisherBasic<AccessTokenDefault> {
+public class PublisherTumblr extends SocialPublisherBasic {
     public PublisherTumblr(String platformName, ReviewSummariser summariser, ReviewFormatter formatter) {
         super(platformName, summariser, formatter);
     }
@@ -24,15 +23,5 @@ public class PublisherTumblr extends SocialPublisherBasic<AccessTokenDefault> {
     @Override
     protected PublishResults publish(FormattedReview review) {
         return new PublishResults(getPlatformName(), 0);
-    }
-
-    @Override
-    public void getFollowersAsync(FollowersListener listener) {
-        listener.onNumberFollowers(0);
-    }
-
-    @Override
-    public void setAccessToken(AccessTokenDefault token) {
-
     }
 }
