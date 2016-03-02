@@ -15,100 +15,65 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentFacebookLogin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentGoogleLogin;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentAuthLogin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentTwitterLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
+import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
+import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivitySocialAuthUi extends ActivitySingleFragment
-        implements
-        FragmentFacebookLogin.FacebookLoginListener,
-        FragmentTwitterLogin.TwitterLoginListener,
-        FragmentGoogleLogin.GoogleLoginListener,
+public class ActivitySocialAuthUi extends ActivitySingleFragment implements LoginResultHandler,
         LaunchableUi {
     private static final String TAG = "ActivitySocialLogin";
     private static final String PLATFORM = "ActivitySocialLogin.platform";
 
     private Fragment mFragment;
+    private FactoryFragmentAuthLogin mFragmentFactory;
+    private FactoryLoginResultHandler mHandlerFactory;
+
+    private LoginResultHandler mHandler;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        mFragmentFactory = new FactoryFragmentAuthLogin();
+        mHandlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
+    }
 
     @Override
     protected Fragment createFragment() {
         OAuthRequest request = getBundledRequest();
-        if(request != null) {
-            return FragmentOAuthLogin.newInstance(request);
-        }
+        if(request != null) return FragmentOAuthLogin.newInstance(request);
 
         String platform = getBundledPlatform();
-        if (platform.equals(PlatformFacebook.NAME)) {
-            return new FragmentFacebookLogin();
-        } else if (platform.equals(PlatformGoogle.NAME)) {
-            mFragment = new FragmentGoogleLogin();
-            return mFragment;
-        } else if (platform.equals(PlatformTwitterFabric.NAME)) {
-            mFragment = new FragmentTwitterLogin();
-            return mFragment;
-        }
+        mFragment = mFragmentFactory.newFragment(platform);
+        mHandler = mHandlerFactory.newHandler(platform);
 
-        return null;
+        return mFragment;
     }
 
     @Override
-    public void onSuccess(LoginResult loginResult) {
-        success();
+    public void onSuccess(LoginSuccess<?> loginSuccess) {
+        mHandler.onSuccess(loginSuccess);
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
-    public void onError(FacebookException error) {
-        failure();
-    }
-
-    @Override
-    public void onSuccess(Result<TwitterSession> result) {
-        success();
-    }
-
-    @Override
-    public void onFailure(TwitterException error) {
-        failure();
-    }
-
-    @Override
-    public void onSuccess(GoogleSignInResult result) {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
-        SocialPlatformList platforms = app.getSocialPlatformList();
-        PlatformGoogle google = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
-        GoogleSignInAccount signInAccount = result.getSignInAccount();
-        if(google != null && signInAccount != null) {
-            String id = signInAccount.getId();
-            if(id != null) google.setAccessToken(id);
-        }
-
-        success();
-    }
-
-    @Override
-    public void onFailure(GoogleSignInResult result) {
-        failure();
+    public void onFailure(LoginFailure<?> loginFailure) {
+        mHandler.onFailure(loginFailure);
+        setResult(RESULT_FIRST_USER);
+        finish();
     }
 
     @Override
@@ -137,24 +102,12 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
         return platform;
     }
 
-    private void success() {
-        setResult(RESULT_OK);
-        finish();
-    }
-
-    private void failure() {
-        setResult(RESULT_FIRST_USER);
-        finish();
-    }
-
     private String throwError() {
         throw new RuntimeException("No platform specified!");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(mFragment != null) {
-            mFragment.onActivityResult(requestCode, resultCode, data);
-        }
+        mFragment.onActivityResult(requestCode, resultCode, data);
     }
 }

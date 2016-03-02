@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
@@ -98,7 +98,7 @@ public class FactoryReviewsTest extends TestCase {
         }
         String subject = RandomString.nextWord();
 
-        ReviewPublisher publisher = RandomPublisher.nextPublisher();
+        ReviewStamp publisher = RandomPublisher.nextPublisher();
         ReviewNode meta = FactoryReviews.createMetaReview(reviews, subject);
 
         assertEquals(publisher.getAuthor(), meta.getAuthor());
@@ -122,7 +122,7 @@ public class FactoryReviewsTest extends TestCase {
         GvFactList facts = GvDataMocker.newFactList(NUM, false);
         GvLocationList locations = GvDataMocker.newLocationList(NUM, false);
 
-        ReviewPublisher publisher = new ReviewPublisher(author, date);
+        ReviewStamp publisher = new ReviewStamp(author, date);
         return FactoryReviews.createUserReview(subject, rating,
                 comments, images, facts, locations, new MdIdableCollection<Review>(), false);
     }
@@ -158,7 +158,7 @@ public class FactoryReviewsTest extends TestCase {
         for (int i = 0; i < NUM; ++i) {
             mCriteria.add(nextReview());
         }
-        ReviewPublisher publisher = new ReviewPublisher(mAuthor, mDate);
+        ReviewStamp publisher = new ReviewStamp(mAuthor, mDate);
         mReview = FactoryReviews.createUserReview(mSubject, mRating,
                 mComments, mImages, mFacts, mLocations, mCriteria, false);
     }

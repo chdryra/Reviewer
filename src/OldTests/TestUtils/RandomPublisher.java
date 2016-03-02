@@ -2,7 +2,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 
 /**
  * Created by: Rizwan Choudrey
@@ -11,9 +11,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPu
  */
 public class RandomPublisher {
     //Static methods
-    public static ReviewPublisher nextPublisher() {
+    public static ReviewStamp nextPublisher() {
         DatumAuthor author = RandomAuthor.nextAuthor();
         PublishDate date = RandomPublishDate.nextDate();
-        return new ReviewPublisher(author, date);
+        return new ReviewStamp(author, date);
     }
 }

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewPublisherImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewStampImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 
 import java.util.Date;
 
@@ -20,19 +20,19 @@ import java.util.Date;
  * On: 13/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewPublisher {
+public class AuthorsStamp {
     private final DataAuthor mAuthor;
 
     public DataAuthor getAuthor() {
         return mAuthor;
     }
 
-    public FactoryReviewPublisher(DataAuthor author) {
+    public AuthorsStamp(DataAuthor author) {
         mAuthor = author;
     }
 
-    public ReviewPublisher newPublisher() {
+    public ReviewStamp newStamp() {
         PublishDate publishDate = new PublishDate(new Date().getTime());
-        return new ReviewPublisherImpl(mAuthor, publishDate);
+        return new ReviewStampImpl(mAuthor, publishDate);
     }
 }

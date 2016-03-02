@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 import java.util.Iterator;
@@ -34,7 +32,6 @@ public class SocialPlatformList implements Iterable<SocialPlatform<?>>{
         return mPlatforms.size();
     }
 
-    @Nullable
     public SocialPlatform<?> getPlatform(String name) {
         SocialPlatform<?> platform = null;
         for(SocialPlatform<?> p : mPlatforms) {
@@ -43,6 +40,8 @@ public class SocialPlatformList implements Iterable<SocialPlatform<?>>{
                 break;
             }
         }
+
+        if(platform == null) throw new IllegalArgumentException("Platform " + name + " not found!");
 
         return platform;
     }

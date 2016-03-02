@@ -15,12 +15,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 
 import java.util.ArrayList;
 
-public class PublishButtonShareAction {
+public class ShareCommand {
     private final GvSocialPlatformList mPlatforms;
     private final SocialReviewSharer mSharer;
 
-    public PublishButtonShareAction(GvSocialPlatformList platforms,
-                                    SocialReviewSharer sharer) {
+    public ShareCommand(GvSocialPlatformList platforms, SocialReviewSharer sharer) {
         mPlatforms = platforms;
         mSharer = sharer;
     }

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementa
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -31,7 +31,7 @@ public class ReviewMocker {
     }
 
     //Static methods
-    public static Review newReview(ReviewPublisher publisher) {
+    public static Review newReview(ReviewStamp publisher) {
         return getNewReview(publisher, true);
     }
 
@@ -62,7 +62,7 @@ public class ReviewMocker {
         return getNewReview(RandomPublisher.nextPublisher(), withCriteria);
     }
 
-    private static Review getNewReview(ReviewPublisher publisher, boolean withCriteria) {
+    private static Review getNewReview(ReviewStamp publisher, boolean withCriteria) {
         Review review;
         if (withCriteria) {
             review = new MockReview(publisher, getCriteria(publisher));
@@ -74,7 +74,7 @@ public class ReviewMocker {
         return review;
     }
 
-    private static MdIdableCollection<Review> getCriteria(ReviewPublisher publisher) {
+    private static MdIdableCollection<Review> getCriteria(ReviewStamp publisher) {
         MdIdableCollection<Review> criteria = new MdIdableCollection<>();
         if (publisher != null) {
             for (int i = 0; i < NUM; ++i) {
@@ -86,7 +86,7 @@ public class ReviewMocker {
     }
 
     static class MockReview extends ReviewUser {
-        private MockReview(ReviewPublisher publisher, MdIdableCollection<Review> criteria) {
+        private MockReview(ReviewStamp publisher, MdIdableCollection<Review> criteria) {
             super(MdReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
                     RandomString.nextWord(),
                     RandomRating.nextRating(),
@@ -97,7 +97,7 @@ public class ReviewMocker {
                     criteria, false);
         }
 
-        private MockReview(ReviewPublisher publisher) {
+        private MockReview(ReviewStamp publisher) {
             super(MdReviewId.newId(publisher), publisher.getAuthor(), publisher.getDate(),
                     RandomString.nextWord(),
                     RandomRating.nextRating(),

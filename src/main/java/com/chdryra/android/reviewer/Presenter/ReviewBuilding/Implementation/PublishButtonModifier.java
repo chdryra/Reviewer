@@ -33,9 +33,9 @@ public class PublishButtonModifier implements ReviewViewModifier {
     private static final int DIVIDER = R.layout.horizontal_divider;
     private static final int BUTTON_TEXT = R.string.button_publish;
 
-    private PublishButtonShareAction mSharer;
+    private ShareCommand mSharer;
 
-    public PublishButtonModifier(PublishButtonShareAction sharer) {
+    public PublishButtonModifier(ShareCommand sharer) {
         mSharer = sharer;
     }
 

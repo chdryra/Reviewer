@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.test.TestUtils.RandomAuthor;
 
 import junit.framework.TestCase;
@@ -29,7 +29,7 @@ public class MdReviewIdTest extends TestCase {
     public void testReviewId() {
         DatumAuthor author = RandomAuthor.nextAuthor();
         PublishDate date = PublishDate.now();
-        ReviewPublisher publisher = new ReviewPublisher(author, date);
+        ReviewStamp publisher = new ReviewStamp(author, date);
         MdReviewId id1 = MdReviewId.newId(publisher);
         assertNotNull(id1);
         assertTrue(id1.hasData());

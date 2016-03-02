@@ -24,8 +24,11 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
+import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.google.android.gms.auth.api.Auth;
@@ -54,15 +57,9 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private boolean mResolvingError = false;
 
     private GoogleSignInOptions mOptions;
-    private GoogleLoginListener mListener;
+    private LoginResultHandler mListener;
     private GoogleApiClient mGoogleApiClient;
     private PlatformGoogle mGoogle;
-
-    public interface GoogleLoginListener {
-        void onSuccess(GoogleSignInResult result);
-
-        void onFailure(GoogleSignInResult result);
-    }
 
     public void onDialogDismissed() {
         mResolvingError = false;
@@ -80,7 +77,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         mGoogleApiClient = mGoogle.getGoogleApiClient();
 
         try {
-            mListener = (GoogleLoginListener) getActivity();
+            mListener = (LoginResultHandler) getActivity();
         } catch (ClassCastException e) {
             throw new RuntimeException("Activity should be a FacebookLoginListener!", e);
         }
@@ -185,9 +182,9 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            mListener.onSuccess(result);
+            mListener.onSuccess(new LoginSuccess<>(result));
         } else {
-            mListener.onFailure(result);
+            mListener.onFailure(new LoginFailure<>(result));
         }
     }
 

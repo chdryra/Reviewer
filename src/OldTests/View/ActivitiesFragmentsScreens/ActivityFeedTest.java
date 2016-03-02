@@ -46,7 +46,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryCo
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryImageChooser;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -193,7 +193,7 @@ public class ActivityFeedTest extends
         FactoryConfiguredGridUi gridUiFactory = new FactoryConfiguredGridUi(gridCellFactory);
         FactoryFileIncrementor incrementorFactory = new FactoryFileIncrementor(FILE_DIR_EXT, "ActivityFeedTest", "test", validator);
         FactoryImageChooser chooserFactory = new FactoryImageChooser();
-        FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(author);
+        AuthorsStamp publisherFactory = new AuthorsStamp(author);
         for (int i = 0; i < NUM; ++i) {
             ReviewBuilder builder = new ReviewBuilder(converterGv, tagsManager, reviewFactory, dataBuilderFactory, validator);
             ReviewBuilderAdapter adapter = new ReviewBuilderAdapter(getActivity(),

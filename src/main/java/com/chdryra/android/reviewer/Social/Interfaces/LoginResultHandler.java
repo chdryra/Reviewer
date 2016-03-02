@@ -8,18 +8,16 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import android.content.Intent;
-
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
+import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 23/02/2016
+ * On: 02/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPlatformAuthUi extends ActivityResultListener {
-    void launchUi();
+public interface LoginResultHandler {
+    void onSuccess(LoginSuccess<?> loginSuccess);
 
-    @Override
-    void onActivityResult(int requestCode, int resultCode, Intent data);
+    void onFailure(LoginFailure<?> loginFailure);
 }

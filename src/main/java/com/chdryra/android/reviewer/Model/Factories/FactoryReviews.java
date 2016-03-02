@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -35,8 +37,8 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverte
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 
 import java.util.ArrayList;
 
@@ -49,21 +51,24 @@ import java.util.ArrayList;
  * </p>
  */
 public class FactoryReviews implements ReviewRecreater {
-    private FactoryReviewPublisher mPublisherFactory;
+    private AuthorsStamp mAuthorsStamp;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
     private static Review sNullReview;
 
-    public FactoryReviews(FactoryReviewPublisher publisherFactory,
-                          FactoryReviewNode nodeFactory,
+    public FactoryReviews(FactoryReviewNode nodeFactory,
                           ConverterMd converter) {
-        mPublisherFactory = publisherFactory;
         mNodeFactory = nodeFactory;
         mConverter = converter;
     }
 
+    public void setAuthorsStamp(AuthorsStamp authorsStamp) {
+        mAuthorsStamp = authorsStamp;
+    }
+
+    @Nullable
     public DataAuthor getAuthor() {
-        return mPublisherFactory.getAuthor();
+        return mAuthorsStamp != null ? mAuthorsStamp.getAuthor() : null;
     }
 
     public Review createUserReview(String subject, float rating,
@@ -117,6 +122,8 @@ public class FactoryReviews implements ReviewRecreater {
     public ReviewNode getNullNode() {
         return getNullReview().getTreeRepresentation();
     }
+
+
     /********************************************************/
     //private methods
     private Review createUserReview(String subject, float rating) {
@@ -134,12 +141,14 @@ public class FactoryReviews implements ReviewRecreater {
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
                                  Iterable<Review> criteria, boolean ratingIsAverage) {
-        ReviewPublisher publisher = mPublisherFactory.newPublisher();
-        DataAuthor author = publisher.getAuthor();
-        DataDate date = publisher.getDate();
+        if(mAuthorsStamp == null) throw new IllegalStateException("No author stamp!");
+        
+        ReviewStamp stamp = mAuthorsStamp.newStamp();
+        DataAuthor author = stamp.getAuthor();
+        DataDate date = stamp.getDate();
 
         MdReviewId id = new MdReviewId(author.getUserId().toString(),
-                date.getTime(), publisher.getPublishedIndex());
+                date.getTime(), stamp.getPublishedIndex());
 
         if (ratingIsAverage) {
             Review meta = createMetaReview(criteria, "");

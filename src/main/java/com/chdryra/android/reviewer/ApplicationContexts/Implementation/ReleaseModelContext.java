@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverte
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 
 /**
  * Created by: Rizwan Choudrey
@@ -65,8 +65,9 @@ public class ReleaseModelContext extends ModelContextBasic {
     }
 
     private void setReviewsFactory(DataAuthor author) {
-        FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(author);
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        setFactoryReviews(new FactoryReviews(publisherFactory, new FactoryReviewNode(), converter));
+        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter);
+        factoryReviews.setAuthorsStamp(new AuthorsStamp(author));
+        setFactoryReviews(factoryReviews);
     }
 }

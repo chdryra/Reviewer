@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Parc
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -30,33 +30,33 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class DefaultOAuthUi<T> implements
         OAuthListener,
         OAuthRequester.RequestListener<T>,
-        SocialPlatformAuthUi {
+        AuthorisationUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
     private Activity mActivity;
     private LaunchableUi mAuthorisationUi;
-    private LaunchableUiLauncher mLauncher;
     private SocialPlatform<T> mPlatform;
     private AuthorisationListener mListener;
     private ParcelablePacker<OAuthRequest>mPacker;
 
+    private LaunchableUiLauncher mLauncher;
+
     public DefaultOAuthUi(Activity activity,
                           LaunchableUi authorisationUi,
-                          LaunchableUiLauncher launcher,
                           SocialPlatform<T> platform,
                           AuthorisationListener listener,
                           ParcelablePacker<OAuthRequest> packer) {
         mActivity = activity;
         mAuthorisationUi = authorisationUi;
-        mLauncher = launcher;
         mPlatform = platform;
         mListener = listener;
         mPacker = packer;
     }
 
     @Override
-    public void launchUi() {
+    public void launchUi(LaunchableUiLauncher launcher) {
         OAuthRequester<T> requester = mPlatform.getOAuthRequester();
+        mLauncher = launcher;
         requester.generateAuthorisationRequest(this);
     }
 
@@ -85,6 +85,7 @@ public class DefaultOAuthUi<T> implements
         Bundle args = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, request, args);
         mLauncher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);
+        mLauncher = null;
     }
 
     @Override

@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -95,7 +95,7 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
     }
 
     private void setAdapter() {
-        ReviewPublisher publisher = new ReviewPublisher(mAuthor, PublishDate.now());
+        ReviewStamp publisher = new ReviewStamp(mAuthor, PublishDate.now());
         FactoryReviews reviewFactory = new FactoryReviews(new MdGvConverter());
         Review review = reviewFactory.createUserReview(RandomString.nextWord(), 0f);
         ReviewTreeComponent collection = reviewFactory.createReviewNodeComponent(review, true);

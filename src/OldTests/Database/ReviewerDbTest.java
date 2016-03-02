@@ -48,7 +48,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomPublisher;
@@ -523,7 +523,7 @@ public class ReviewerDbTest extends AndroidTestCase {
         mTagsManager = new TagsManager();
         mDatabase = ReviewerPersistence.getTestDatabase(getContext(), mTagsManager);
         mReviews = new ArrayList<>();
-        ReviewPublisher publisher = RandomPublisher.nextPublisher();
+        ReviewStamp publisher = RandomPublisher.nextPublisher();
         for (int i = 0; i < NUM; ++i) {
             if (i > 1) publisher = RandomPublisher.nextPublisher();
             mReviews.add(ReviewMocker.newReview(publisher));

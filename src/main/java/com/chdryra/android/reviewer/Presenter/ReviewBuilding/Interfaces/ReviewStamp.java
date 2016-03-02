@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
  * On: 18/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewPublisher {
+public interface ReviewStamp {
     DataAuthor getAuthor();
 
     DataDate getDate();

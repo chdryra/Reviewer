@@ -15,8 +15,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -53,11 +52,9 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
     }
 
     @Override
-    public SocialPlatformAuthUi getAuthUi(Activity activity, LaunchableUi authorisationUi,
-                                          LaunchableUiLauncher launcher,
-                                          AuthorisationListener listener) {
-        return new SocialPlatformAuthUiDefault<>(activity, authorisationUi, launcher, this,
-                listener,
+    public AuthorisationUi getAuthorisationUi(Activity activity, LaunchableUi authLaunchable,
+                                              AuthorisationListener listener) {
+        return new AuthorisationUiDefault<>(activity, authLaunchable, this, listener,
                 new AuthorisationTokenGetter<String>() {
             @Override
             public String getAuthorisationToken() {

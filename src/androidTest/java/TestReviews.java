@@ -51,7 +51,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.PersistenceReviewerDb.Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -85,7 +85,7 @@ public class TestReviews {
         mReviews = new IdableDataCollection<>();
         FactoryMdConverter converter = new FactoryMdConverter();
         mNodeFactory = new FactoryReviewNode();
-        mFactory = new FactoryReviews(new FactoryReviewPublisher(AUTHOR), mNodeFactory,
+        mFactory = new FactoryReviews(new AuthorsStamp(AUTHOR), mNodeFactory,
                 converter.newMdConverter());
     }
 

@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFactList;
@@ -59,7 +59,7 @@ public class ReviewUserTest extends TestCase {
     private GvFactList mFacts;
     private GvLocationList mLocations;
 
-    private ReviewPublisher mPublisher;
+    private ReviewStamp mPublisher;
     private Review mReview;
     private MdIdableCollection<Review> mCriteria;
 
@@ -137,7 +137,7 @@ public class ReviewUserTest extends TestCase {
         assertFalse(node.isRatingAverageOfChildren());
     }
 
-    private Review newCriterion(ReviewPublisher publisher) {
+    private Review newCriterion(ReviewStamp publisher) {
         return FactoryReviews.createUserReview(RandomString.nextWord(), RandomRating
                 .nextRating());
     }
@@ -155,7 +155,7 @@ public class ReviewUserTest extends TestCase {
         mFacts = GvDataMocker.newFactList(NUM, false);
         mLocations = GvDataMocker.newLocationList(NUM, false);
 
-        mPublisher = new ReviewPublisher(mAuthor, mDate);
+        mPublisher = new ReviewStamp(mAuthor, mDate);
 
         mCriteria = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {

@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformAuthUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -35,11 +34,10 @@ public class PlatformFoursquare extends SocialPlatformBasic<AccessTokenDefault> 
     }
 
     @Override
-    public SocialPlatformAuthUi getAuthUi(Activity activity,
-                                          LaunchableUi authorisationUi,
-                                          LaunchableUiLauncher launcher,
-                                          AuthorisationListener listener) {
-        return new DefaultOAuthUi<>(activity, authorisationUi, launcher, this, listener,
+    public AuthorisationUi getAuthorisationUi(Activity activity,
+                                                   LaunchableUi authorisationUi,
+                                                   AuthorisationListener listener) {
+        return new DefaultOAuthUi<>(activity, authorisationUi, this, listener,
                 new ParcelablePacker<OAuthRequest>());
     }
 

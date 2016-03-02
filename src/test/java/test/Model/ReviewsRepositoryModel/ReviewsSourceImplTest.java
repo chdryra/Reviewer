@@ -33,7 +33,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewPublisher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -257,8 +257,9 @@ public class ReviewsSourceImplTest {
     @NonNull
     private FactoryReviews getReviewFactory() {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        FactoryReviewPublisher publisherFactory = new FactoryReviewPublisher(AUTHOR);
-        return new FactoryReviews(publisherFactory, new FactoryReviewNode(), converter);
+        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter);
+        factoryReviews.setAuthorsStamp(new AuthorsStamp(AUTHOR));
+        return factoryReviews;
     }
 
     private Review getRandomReview() {
