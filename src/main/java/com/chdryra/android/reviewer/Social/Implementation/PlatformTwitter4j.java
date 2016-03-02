@@ -31,6 +31,7 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
     @Override
     protected AccessToken getAccessToken() {
         TwitterSession session = Twitter.getSessionManager().getActiveSession();
+
         if(session == null) return null;
 
         TwitterAuthToken authToken = session.getAuthToken();
@@ -48,5 +49,14 @@ public class PlatformTwitter4j extends PlatformTwitter<AccessToken> {
         PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
         publisher.setAccessToken(token);
         super.setAccessToken(token);
+    }
+
+    @Override
+    public void logout() {
+        PublisherTwitter4j publisher = (PublisherTwitter4j)getPublisher();
+        publisher.logout();
+        Twitter.getSessionManager().clearActiveSession();
+        Twitter.logOut();
+        setAccessToken(null);
     }
 }

@@ -14,7 +14,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.crashlytics.android.Crashlytics;
@@ -43,9 +43,9 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     }
 
     @Override
-    public AuthorisationUi getAuthorisationUi(Activity activity, LaunchableUi authorisationUi,
-                                                   AuthorisationListener listener) {
-        return new AuthorisationUiDefault<>(activity, authorisationUi, this,
+    public LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
+                                      AuthorisationListener listener) {
+        return new LoginUiDefault<>(activity, loginLaunchable, this,
                 listener, new AuthorisationTokenGetter<T>() {
             @Override
             public T getAuthorisationToken() {

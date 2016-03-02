@@ -44,10 +44,10 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment implements Logi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         mFragmentFactory = new FactoryFragmentAuthLogin();
         mHandlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
+        super.onCreate(savedInstanceState);
     }
 
     @Override

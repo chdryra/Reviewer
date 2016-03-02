@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorisationUi extends ActivityResultListener {
+public interface LoginUi extends ActivityResultListener {
     void launchUi(LaunchableUiLauncher launcher);
 
     @Override

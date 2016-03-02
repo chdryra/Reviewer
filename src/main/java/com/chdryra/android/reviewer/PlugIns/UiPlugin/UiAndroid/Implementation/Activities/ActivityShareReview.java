@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
  */
 public class ActivityShareReview extends ActivityReviewView implements PlatformAuthoriser {
     private static final int SOCIAL = R.string.activity_title_share;
-    private AuthorisationUi mAuthUi;
+    private LoginUi mAuthUi;
 
     @Override
     protected ReviewView createReviewView() {
@@ -49,7 +49,7 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
         LaunchableUiLauncher launcher = ApplicationInstance.getInstance(this).getUiLauncher();
-        mAuthUi = platform.getAuthorisationUi(this, new ActivitySocialAuthUi(), listener);
+        mAuthUi = platform.getLoginUi(this, new ActivitySocialAuthUi(), listener);
         mAuthUi.launchUi(launcher);
     }
 

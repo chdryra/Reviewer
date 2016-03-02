@@ -20,7 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GoogleLoginResultHandler implements LoginResultHandler {
-    private static final String TAG = "GoogleLoginResultListener";
+    private static final String TAG = "GoogleLoginHandler";
 
     private PlatformGoogle mPlatform;
 
@@ -34,7 +34,7 @@ public class GoogleLoginResultHandler implements LoginResultHandler {
         try {
             success = (LoginSuccess<GoogleSignInResult>) loginSuccess;
         } catch (ClassCastException e) {
-            Log.e(TAG, "loginSuccess not a GoogleSignInResult type", e);
+            Log.e(TAG, "Not a GoogleSignInResult type", e);
             return;
         }
 

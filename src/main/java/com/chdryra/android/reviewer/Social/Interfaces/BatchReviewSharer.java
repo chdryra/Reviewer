@@ -19,6 +19,5 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BatchReviewSharer extends BatchSocialPublisher.BatchPublisherListener {
-    void shareReview(String reviewId, ArrayList<String> platforms,
-                     ApplicationInstance app);
+    void shareReview(String reviewId, ArrayList<String> platforms, ApplicationInstance app);
 }

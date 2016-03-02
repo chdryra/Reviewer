@@ -14,13 +14,14 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 
@@ -60,9 +61,13 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
 
     private void setAccessToken() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Set<String> permissions = accessToken.getPermissions();
-        if(permissions.contains(PUBLISH_PERMISSION)) {
-            setAccessToken(accessToken);
+        if(accessToken != null) {
+            Set<String> permissions = accessToken.getPermissions();
+            if (permissions.contains(PUBLISH_PERMISSION)) {
+                setAccessToken(accessToken);
+            } else {
+                setAccessToken(null);
+            }
         } else {
             setAccessToken(null);
         }
@@ -93,14 +98,20 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     }
 
     @Override
-    public AuthorisationUi getAuthorisationUi(Activity activity, LaunchableUi authorisationUi,
-                                                   AuthorisationListener listener) {
-        return new AuthorisationUiDefault<>(activity, authorisationUi, this,
+    public LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
+                                      AuthorisationListener listener) {
+        return new LoginUiDefault<>(activity, loginLaunchable, this,
                 listener, new AuthorisationTokenGetter<AccessToken>() {
             @Override
             public AccessToken getAuthorisationToken() {
                 return AccessToken.getCurrentAccessToken();
             }
         });
+    }
+
+    @Override
+    public void logout() {
+        LoginManager.getInstance().logOut();
+        setAccessToken(null);
     }
 }

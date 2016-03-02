@@ -52,4 +52,10 @@ public class PlatformTwitterFabric extends PlatformTwitter<TwitterAuthToken> {
             }
         });
     }
+
+    @Override
+    public void logout() {
+        Twitter.getSessionManager().clearActiveSession();
+        Twitter.logOut();
+    }
 }

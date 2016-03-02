@@ -65,4 +65,8 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
     public void setAccessToken(@Nullable AccessToken token) {
         mTwitter.setOAuthAccessToken(token);
     }
+
+    public void logout() {
+        mTwitter.setOAuthAccessToken(null);
+    }
 }

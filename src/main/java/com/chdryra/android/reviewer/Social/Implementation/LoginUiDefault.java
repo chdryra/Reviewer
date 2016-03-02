@@ -14,7 +14,7 @@ import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 15/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorisationUiDefault<T> implements AuthorisationUi {
+public class LoginUiDefault<T> implements LoginUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
     private Activity mActivity;
@@ -34,10 +34,10 @@ public class AuthorisationUiDefault<T> implements AuthorisationUi {
     private AuthorisationTokenGetter<T> mGetter;
     private AuthorisationListener mListener;
 
-    public AuthorisationUiDefault(Activity activity, LaunchableUi authorisationUi,
-                                  SocialPlatform<T> platform,
-                                  AuthorisationListener listener,
-                                  AuthorisationTokenGetter<T> getter) {
+    public LoginUiDefault(Activity activity, LaunchableUi authorisationUi,
+                          SocialPlatform<T> platform,
+                          AuthorisationListener listener,
+                          AuthorisationTokenGetter<T> getter) {
         mActivity = activity;
         mAuthorisationUi = authorisationUi;
         mPlatform = platform;

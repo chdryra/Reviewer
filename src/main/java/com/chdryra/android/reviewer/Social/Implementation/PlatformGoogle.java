@@ -15,7 +15,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationUi;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -37,7 +37,6 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
     private GoogleSignInOptions mSignInOptions;
     private GoogleApiClient mGoogleApiClient;
     private FollowersListener mListener;
-    private boolean mConnected = false;
 
     public PlatformGoogle(Context context, PublisherGoogle publisher) {
         super(publisher);
@@ -52,9 +51,9 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
     }
 
     @Override
-    public AuthorisationUi getAuthorisationUi(Activity activity, LaunchableUi authLaunchable,
-                                              AuthorisationListener listener) {
-        return new AuthorisationUiDefault<>(activity, authLaunchable, this, listener,
+    public LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
+                                      AuthorisationListener listener) {
+        return new LoginUiDefault<>(activity, loginLaunchable, this, listener,
                 new AuthorisationTokenGetter<String>() {
             @Override
             public String getAuthorisationToken() {
@@ -73,7 +72,7 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
 
     @Override
     public void getFollowers(FollowersListener listener) {
-        if(mConnected) {
+        if(mGoogleApiClient.isConnected()) {
             mListener = listener;
             Plus.PeopleApi.loadVisible(mGoogleApiClient, null).setResultCallback(this);
         }
@@ -95,7 +94,10 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
         mListener = null;
     }
 
-    public void setConnected(boolean connected) {
-        mConnected = connected;
+    @Override
+    public void logout() {
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 }

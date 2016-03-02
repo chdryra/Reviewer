@@ -25,8 +25,10 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
 
     OAuthRequester<T> getOAuthRequester();
 
-    AuthorisationUi getAuthorisationUi(Activity activity, LaunchableUi authLaunchable,
-                                       AuthorisationListener listener);
+    LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
+                       AuthorisationListener listener);
+
+    void logout();
 
     void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener);
 

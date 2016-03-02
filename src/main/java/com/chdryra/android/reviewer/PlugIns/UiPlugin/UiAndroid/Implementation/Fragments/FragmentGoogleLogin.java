@@ -38,7 +38,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 
 /**
  * Created by: Rizwan Choudrey
@@ -101,7 +100,6 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        mGoogle.setConnected(mGoogleApiClient.hasConnectedApi(Plus.API));
     }
 
     @Override
