@@ -31,7 +31,6 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
                                    LaunchableUiLauncher launcher,
                                    AuthorisationListener listener);
 
-
     void publish(Review review, TagsManager tagsManager, SocialPublisherListener listener);
 
     @Override

@@ -36,7 +36,8 @@ public class ReviewFormatterFacebook implements ReviewFormatter {
             body += " " + "#" + tag;
         }
 
-        body += " " + getLocationString(summary.getLocations());
+        String location = getLocationString(summary.getLocations());
+        body += location.length() > 0 ? " @" + location : "";
 
         return new FormattedReview(title, body);
     }
@@ -52,6 +53,6 @@ public class ReviewFormatterFacebook implements ReviewFormatter {
             }
         }
 
-        return "@" + location;
+        return location;
     }
 }

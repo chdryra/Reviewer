@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharer;
 import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharerListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisher;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -44,9 +43,9 @@ public class BatchReviewSharerImpl implements BatchReviewSharer {
     @NonNull
     private BatchSocialPublisher getPublisher(ArrayList<String> chosen,
                                               SocialPlatformList platformList) {
-        Collection<SocialPublisher> publishers = new ArrayList<>();
-        for(SocialPlatform platform : platformList) {
-            if(chosen.contains(platform.getName())) publishers.add(platform.getPublisher());
+        Collection<SocialPlatform<?>> publishers = new ArrayList<>();
+        for(SocialPlatform<?> platform : platformList) {
+            if(chosen.contains(platform.getName())) publishers.add(platform);
         }
 
         return new BatchSocialPublisher(publishers);

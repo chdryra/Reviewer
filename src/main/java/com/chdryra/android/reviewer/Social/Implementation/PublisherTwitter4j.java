@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 
 import twitter4j.Status;
@@ -25,7 +27,6 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
         AsyncSocialPublisher.SyncSocialPublisher {
 
     private Twitter mTwitter;
-    private AccessToken mToken;
     private String mPlatformName;
 
     public PublisherTwitter4j(String platformName, Twitter twitter,
@@ -38,8 +39,6 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
 
     @Override
     protected PublishResults publish(FormattedReview review) {
-        if (mToken == null) return new PublishResults(mPlatformName, "No Authorisation");
-
         PublishResults results;
         try {
             Status status = mTwitter.updateStatus(review.getBody());
@@ -54,8 +53,6 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
 
     @Override
     public int getFollowers() {
-        if (mToken == null) return 0;
-
         try {
             String screenName = mTwitter.getAccountSettings().getScreenName();
             return mTwitter.showUser(screenName).getFollowersCount();
@@ -63,5 +60,9 @@ public class PublisherTwitter4j extends SocialPublisherBasic implements
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public void setAccessToken(@Nullable AccessToken token) {
+        mTwitter.setOAuthAccessToken(token);
     }
 }

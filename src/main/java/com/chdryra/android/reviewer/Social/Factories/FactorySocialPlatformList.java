@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFoursquare;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTumblr;
+import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter4j;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitterFabric;
 import com.chdryra.android.reviewer.Social.Implementation.PublisherFacebook;
@@ -62,17 +63,15 @@ public class FactorySocialPlatformList {
     private SocialPlatformList newPlatforms() {
         SocialPlatformList list = new SocialPlatformList();
         list.add(newTwitter4j());
-        list.add(newTumblr());
         list.add(newFacebook());
-        list.add(newGooglePlus());
 
         return list;
     }
 
     public SocialPlatform<AccessToken> newTwitter4j() {
-        String key = string(PlatformTwitterFabric.KEY);
-        String secret = string(PlatformTwitterFabric.SECRET);
-        String name = PlatformTwitterFabric.NAME;
+        String key = string(PlatformTwitter.KEY);
+        String secret = string(PlatformTwitter.SECRET);
+        String name = PlatformTwitter.NAME;
 
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true).setOAuthConsumerKey(key).setOAuthConsumerSecret(secret);
@@ -87,7 +86,7 @@ public class FactorySocialPlatformList {
     }
 
     public SocialPlatform<TwitterAuthToken> newTwitterFabric() {
-        String name = PlatformTwitterFabric.NAME;
+        String name = PlatformTwitter.NAME;
 
         ReviewSummariser summariser = new ReviewSummariser();
         ReviewFormatter formatter = new ReviewFormatterTwitter();

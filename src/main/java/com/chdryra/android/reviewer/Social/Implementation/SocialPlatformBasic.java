@@ -56,7 +56,7 @@ public abstract class SocialPlatformBasic<T> implements SocialPlatform<T> {
     }
 
     @Override
-    public void setAccessToken(T token) {
+    public void setAccessToken(@Nullable T token) {
         mAccessToken = token;
     }
 

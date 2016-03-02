@@ -57,7 +57,8 @@ public class PublisherFacebook implements SocialPublisher {
                 .setContentDescription(formatted.getBody())
                 .build();
 
-        ShareApi.share(content, getShareCallback(listener));
+        ShareApi api = new ShareApi(content);
+        if(api.canShare()) api.share(getShareCallback(listener));
     }
 
     private Uri getAppLink() {

@@ -40,6 +40,7 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
                 = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));
         Fabric.with(context, new Twitter(authConfig));
         Fabric.with(context, new Crashlytics());
+        setAccessToken(getAccessToken());
     }
 
     @Override

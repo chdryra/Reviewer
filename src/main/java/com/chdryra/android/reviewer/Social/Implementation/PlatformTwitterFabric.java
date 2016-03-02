@@ -34,7 +34,7 @@ public class PlatformTwitterFabric extends PlatformTwitter<TwitterAuthToken> {
     @Override
     protected TwitterAuthToken getAccessToken() {
         TwitterSession session = Twitter.getSessionManager().getActiveSession();
-        return session.getAuthToken();
+        return session != null ? session.getAuthToken() : null;
     }
 
     @Override
