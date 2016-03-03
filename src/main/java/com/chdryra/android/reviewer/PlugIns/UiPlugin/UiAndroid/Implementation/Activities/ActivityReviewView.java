@@ -9,11 +9,12 @@
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
 import android.app.Fragment;
+import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -23,9 +24,23 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi {
+    private static final String RETAIN_VIEW = "ActivityReviewView.RetainView";
     private static final String TAG = "ActivityReviewView";
-    private FragmentReviewView mFragment;
     private ReviewView mView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       if(savedInstanceState != null) {
+           mView = ((FragmentReviewView) getFragment()).getReviewView();
+       }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(RETAIN_VIEW, true);
+        super.onSaveInstanceState(outState);
+    }
 
     protected ReviewView createReviewView() {
         return ReviewViewPacker.unpackView(this, getIntent());
@@ -35,16 +50,11 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         return mView;
     }
 
-    public FragmentReviewView getFragment() {
-        return mFragment;
-    }
-
     @Override
     protected Fragment createFragment() {
         mView = createReviewView();
         if(mView == null) throw new RuntimeException("View is null!");
-        mFragment = new FragmentReviewView();
-        return mFragment;
+        return new FragmentReviewView();
     }
 
     @Override

@@ -69,7 +69,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     private Button mBannerButton;
     private GridView mGridView;
 
-    private ReviewView mReviewView;
+    private ReviewView<?> mReviewView;
     private ReviewViewActions mActions;
     private ReviewViewParams mParams;
 
@@ -106,6 +106,10 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         mBannerButton.setClickable(false);
     }
 
+    public ReviewView<?> getReviewView() {
+        return mReviewView;
+    }
+
     @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void setCover(@Nullable DataImage cover) {
@@ -128,6 +132,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+        setRetainInstance(true);
     }
 
     @Override
@@ -142,8 +147,11 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
             throw new RuntimeException("Activity must be an ActivityReviewView", e);
         }
 
-        mReviewView = activity.getReviewView();
-        if (mReviewView == null) throw new IllegalStateException("ReviewView cannot be null!");
+        if (mReviewView == null) mReviewView = activity.getReviewView();
+        if (mReviewView == null) {
+            throw new IllegalStateException("ReviewView cannot be null!");
+        }
+
         mActions = mReviewView.getActions();
         mParams = mReviewView.getParams();
 
@@ -173,12 +181,6 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
         attachToReviewViewIfNecessary();
         updateUi();
     }
-
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        detachFromReviewViewIfNecessary();
-//    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, android.view.MenuInflater inflater) {
