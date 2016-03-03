@@ -22,13 +22,11 @@ public class MenuComments extends MenuActionNone<GvComment> {
 
     private final MaiSplitComments<GvComment> mSplitter;
 
-    //Constructors
     public MenuComments() {
         super(MENU, GvComment.TYPE.getDataName(), true);
         mSplitter = new MaiSplitComments<>(this);
     }
 
-    //Overridden
     @Override
     protected void addMenuItems() {
         bindMenuActionItem(mSplitter, MENU_SPLIT_ID, false);

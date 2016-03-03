@@ -32,7 +32,7 @@ public class MenuDataEditComments extends MenuDataEdit<GvComment>
 
     //Constructors
     public MenuDataEditComments() {
-        super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+        super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         mSplitter = new MaiSplitComments<>(this);
     }
 

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
@@ -27,8 +28,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreen");
 
-    public static final int MENU_LOGOUT = R.id.menu_item_settings_logout;
-    public static final int MENU_NEW_REVIEW_ID = R.id.menu_item_new_review;
+    public static final int LOGOUT = R.id.menu_item_settings_logout;
+    public static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 
     private LaunchableUiLauncher mUiLauncher;
@@ -43,19 +44,28 @@ public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
 
     @Override
     protected void addMenuItems() {
-        bindMenuActionItem(new MenuActionItem() {
+        bindMenuActionItem(launchBuildScreen(), NEW_REVIEW, false);
+        bindMenuActionItem(logoutOfSocialPlatforms(), LOGOUT, false);
+    }
+
+    @NonNull
+    private MenuActionItem logoutOfSocialPlatforms() {
+        return new MenuActionItem() {
+            @Override
+            public void doAction(Context context, MenuItem item) {
+                ApplicationInstance.getInstance(context).getSocialPlatformList().logout();
+            }
+        };
+    }
+
+    @NonNull
+    private MenuActionItem launchBuildScreen() {
+        return new MenuActionItem() {
             @Override
             public void doAction(Context context, MenuItem item) {
                 mUiLauncher.launch(mBuildScreenUi, getActivity(), LAUNCH_BUILD_SCREEN,
                         new Bundle());
             }
-        }, MENU_NEW_REVIEW_ID, false);
-
-        bindMenuActionItem(new MenuActionItem() {
-            @Override
-            public void doAction(Context context, MenuItem item) {
-                ApplicationInstance.getInstance(context).getSocialPlatformList().logout();
-            }
-        }, MENU_LOGOUT, false);
+        };
     }
 }

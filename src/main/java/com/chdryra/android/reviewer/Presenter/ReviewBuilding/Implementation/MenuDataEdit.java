@@ -46,27 +46,23 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T>
     private final boolean mDismissOnDelete;
     private final boolean mDismissOnDone;
 
-    private GvDataType<T> mDataType;
     private ReviewDataEditor<T> mEditor;
 
-    //Constructors
     public MenuDataEdit(GvDataType<T> dataType) {
-        this(dataType, dataType.getDataName(), dataType.getDataName());
+        this(dataType.getDataName(), dataType.getDataName());
     }
 
-    public MenuDataEdit(GvDataType<T> dataType, String title, String deleteWhat) {
-        this(dataType, title, deleteWhat, false);
+    public MenuDataEdit(String title, String deleteWhat) {
+        this(title, deleteWhat, false);
     }
 
-    public MenuDataEdit(GvDataType<T> dataType, String title, String deleteWhat,
-                        boolean dismissOnDelete) {
-        this(dataType, title, deleteWhat, dismissOnDelete, true, MENU);
+    public MenuDataEdit(String title, String deleteWhat, boolean dismissOnDelete) {
+        this(title, deleteWhat, dismissOnDelete, true, MENU);
     }
 
-    public MenuDataEdit(GvDataType<T> dataType, String title, String deleteWhat,
+    public MenuDataEdit(String title, String deleteWhat,
                         boolean dismissOnDelete, boolean dismissOnDone, int menuId) {
         super(menuId, title, true);
-        mDataType = dataType;
 
         mDeleteWhat = deleteWhat;
         mDismissOnDelete = dismissOnDelete;

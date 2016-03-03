@@ -36,7 +36,7 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
 
     //Constructors
     public MenuDataEditCriteria() {
-        super(TYPE, TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
+        super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         mActionItem = new MenuItemCriteriaRatingAverage();
     }
 
