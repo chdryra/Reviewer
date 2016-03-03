@@ -50,4 +50,10 @@ public class SocialPlatformList implements Iterable<SocialPlatform<?>>{
     public Iterator<SocialPlatform<?>> iterator() {
         return mPlatforms.iterator();
     }
+
+    public void logout() {
+        for(SocialPlatform<?> platform : mPlatforms) {
+            platform.logout();
+        }
+    }
 }

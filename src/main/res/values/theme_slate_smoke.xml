@@ -22,14 +22,7 @@
         <item name="viewHolderStyle">@style/Widget.GridCell.SlateSmoke</item>
         <item name="android:alertDialogTheme">@style/Theme.Dialog.SlateSmoke</item>
         <item name="android:dialogTheme">@style/Theme.Dialog.SlateSmoke</item>
-
-        <!--<item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>-->
     </style>
-
-    <!--
-    <style name="MyTheme.ActionBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar">
-    </style>
-    -->
 
     <style name="Widget.AutoCompleteTextView.SlateSmoke">
         <item name="android:textColor">@color/Smoke</item>
