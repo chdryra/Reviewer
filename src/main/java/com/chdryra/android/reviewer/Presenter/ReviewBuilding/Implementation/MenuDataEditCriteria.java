@@ -30,7 +30,7 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
     private static final int MENU_DONE_ID = R.id.menu_item_done;
     private static final int MENU_AVERAGE_ID = R.id.menu_item_average_rating;
-    private static final int MENU = R.menu.menu_edit_children;
+    private static final int MENU = R.menu.menu_edit_criteria;
 
     private final MenuItemCriteriaRatingAverage mActionItem;
 

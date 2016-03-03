@@ -88,6 +88,8 @@
     <string name="menu_search">search</string>
     <string name="menu_average_rating">average rating</string>
     <string name="menu_new_review">new review</string>
+    <string name="menu_settings">settings</string>
+    <string name="menu_logout">log out</string>
 
     <!-- Toasts -->
     <string name="toast_enter_subject">Please enter a subject&#8230;</string>
