@@ -72,6 +72,7 @@ import java.util.Map;
 public class ConverterGv {
     private ConvertersMap mMap;
     private GvConverterItemTags mItemTagsConverter;
+    private GvConverterCriteriaSubjects mCriteriaSubjectsConverter;
 
     public ConverterGv(GvConverterComments converterComments,
                        GvConverterFacts converterFacts,
@@ -79,6 +80,7 @@ public class ConverterGv {
                        GvConverterLocations converterLocations,
                        GvConverterUrls converterUrl,
                        GvConverterCriteria converterCriteria,
+                       GvConverterCriteriaSubjects converterCriteriaSubjects,
                        GvConverterReviews converterReview,
                        GvConverterSubjects converterSubjects,
                        GvConverterAuthors converterAuthors,
@@ -98,6 +100,7 @@ public class ConverterGv {
         mMap.add(converterDates.getDataType(), converterDates);
         mMap.add(converterTags.getDataType(), converterTags);
         mItemTagsConverter = converterItemTags;
+        mCriteriaSubjectsConverter = converterCriteriaSubjects;
     }
 
     public <T extends GvData> DataConverter<?, T, ? extends GvDataList<T>>
@@ -137,6 +140,10 @@ public class ConverterGv {
 
     public GvConverterCriteria getConverterCriteria() {
         return (GvConverterCriteria) getConverter(GvCriterion.TYPE);
+    }
+
+    public GvConverterCriteriaSubjects getConverterCriteriaSubjects() {
+        return mCriteriaSubjectsConverter;
     }
 
     public GvConverterSubjects getConverterSubjects() {

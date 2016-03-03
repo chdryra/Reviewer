@@ -137,6 +137,12 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
+    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(Review template) {
+        mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter(template);
+        return mReviewBuilderAdapter;
+    }
+
+    @Override
     public void discardReviewBuilderAdapter() {
         mReviewBuilderAdapter = null;
     }

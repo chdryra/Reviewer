@@ -8,12 +8,16 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
         .ReviewBuilderAdapterImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryGridUi;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 
 /**
@@ -47,8 +51,16 @@ public class FactoryReviewBuilderAdapter {
     }
 
     public ReviewBuilderAdapter<?> newAdapter() {
+        return newReviewBuilderAdapter(mBuilderFactory.newBuilder());
+    }
 
-        return new ReviewBuilderAdapterImpl<>(mBuilderFactory.newBuilder(),
+    public ReviewBuilderAdapter<?> newAdapter(Review template) {
+        return newReviewBuilderAdapter(mBuilderFactory.newBuilder(template));
+    }
+
+    @NonNull
+    private ReviewBuilderAdapter<?> newReviewBuilderAdapter(ReviewBuilder builder) {
+        return new ReviewBuilderAdapterImpl<>(builder,
                 mGridUiFactory.newGridUiWrapper(mVhFactory),
                 mDataValidator,
                 mDataBuilderAdapterFactory,

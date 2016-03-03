@@ -77,7 +77,8 @@ public class FactoryFeedScreen {
 
     @NonNull
     private FeedScreen.Actions getActions() {
-        GridItemFeedScreen gi = new GridItemFeedScreen(mLaunchableFactory, mLauncher, mShareEditUi);
+        GridItemFeedScreen gi = new GridItemFeedScreen(mLaunchableFactory, mLauncher, mShareEditUi,
+                mReviewBuildScreenUi);
         SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReviewOverview> rb
                 = new RatingBarExpandGrid<>(mLaunchableFactory, mLauncher);

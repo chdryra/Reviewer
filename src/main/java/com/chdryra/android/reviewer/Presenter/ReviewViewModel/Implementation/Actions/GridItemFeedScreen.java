@@ -12,10 +12,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
 /**
@@ -24,16 +26,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
-        implements DialogAlertFragment.DialogAlertListener{
+        implements DialogAlertFragment.DialogAlertListener,
+        NewReviewListener {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
+    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenTemplateReview");
 
     private LaunchableUiAlertable mShareEditUi;
+    private LaunchableUi mBuildScreenUi;
 
     public GridItemFeedScreen(FactoryReviewViewLaunchable launchableFactory,
                               LaunchableUiLauncher launcher,
-                              LaunchableUiAlertable shareEditUi) {
+                              LaunchableUiAlertable shareEditUi,
+                              LaunchableUi buildScreenUi) {
         super(launchableFactory, launcher);
         mShareEditUi = shareEditUi;
+        mBuildScreenUi = buildScreenUi;
     }
 
     @Override
@@ -45,6 +52,13 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
         Bundle args = new Bundle();
         args.putParcelable(mShareEditUi.getLaunchTag(), item.getGvReviewId());
         launch(mShareEditUi, SHARE_EDIT, args);
+    }
+
+    @Override
+    public void onNewReviewUsingTemplate(ReviewId template) {
+        Bundle args = new Bundle();
+        args.putString(NewReviewListener.TEMPLATE_ID, template.toString());
+        launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, args);
     }
 
     @Override

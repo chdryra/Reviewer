@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -16,6 +17,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryBu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,6 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
  */
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = "BuildScreen";
+    private static final String TEMPLATE_ID = "TemplateId";
     private BuildScreen mBuildScreen;
 
     @Override
@@ -35,7 +40,12 @@ public class ActivityBuildReview extends ActivityReviewView {
 
     private ReviewBuilderAdapter<?> getAdapter(ApplicationInstance app) {
         ReviewBuilderAdapter<?> adapter = app.getReviewBuilderAdapter();
-        if (adapter == null) adapter = app.newReviewBuilderAdapter();
+        if (adapter == null) {
+            Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
+            String id = args.getString(NewReviewListener.TEMPLATE_ID);
+            adapter = id != null ? app.newReviewBuilderAdapter(id) : app.newReviewBuilderAdapter();
+        }
+
         return adapter;
     }
 
@@ -54,5 +64,10 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     public String getLaunchTag() {
         return TAG;
+    }
+
+    @Override
+    public void launch(LauncherUi launcher) {
+        launcher.launch(getClass(), TEMPLATE_ID);
     }
 }

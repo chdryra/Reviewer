@@ -50,6 +50,8 @@ public interface PresenterContext {
 
     ReviewBuilderAdapter<?> newReviewBuilderAdapter();
 
+    ReviewBuilderAdapter<?> newReviewBuilderAdapter(Review template);
+
     void discardReviewBuilderAdapter();
 
     ReviewBuilderAdapter<?> getReviewBuilderAdapter();

@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuFeedScreen extends MenuActionNone<GvReviewOverview> {
-    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreen");
+    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenNewReview");
 
     public static final int LOGOUT = R.id.menu_item_settings_logout;
     public static final int NEW_REVIEW = R.id.menu_item_new_review;

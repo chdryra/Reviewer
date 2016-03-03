@@ -12,6 +12,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterCriteria;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterCriteriaSubjects;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDataTags;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDateReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDates;
@@ -43,6 +46,7 @@ public class FactoryGvConverter {
         GvConverterImages converterImages = new GvConverterImages(new GvConverterDates());
         GvConverterLocations converterLocations = new GvConverterLocations();
         GvConverterCriteria converterCriteria = new GvConverterCriteria();
+        GvConverterCriteriaSubjects converterCriteriaSubjects = new GvConverterCriteriaSubjects();
         GvConverterSubjects converterSubjects = new GvConverterSubjects();
         GvConverterAuthors converterAuthors = new GvConverterAuthors();
         GvConverterDateReviews converterDates = new GvConverterDateReviews();
@@ -52,8 +56,8 @@ public class FactoryGvConverter {
         GvConverterItemTags converterItemTags = new GvConverterItemTags();
 
         return new ConverterGv(converterComments, converterFacts, converterImages,
-                converterLocations, converterUrl, converterCriteria, converterReview,
-                converterSubjects, converterAuthors, converterDates, converterTags,
+                converterLocations, converterUrl, converterCriteria, converterCriteriaSubjects,
+                converterReview, converterSubjects, converterAuthors, converterDates, converterTags,
                 converterItemTags);
     }
 }

@@ -19,6 +19,8 @@ import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
@@ -44,6 +46,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     private static final int ALERT_DELETE_REVIEW = R.string.alert_delete_review;
 
     private DeleteRequestListener mDeleteRequestListener;
+    private NewReviewListener mNewReviewListener;
     private ReviewId mReviewId;
     private PublisherAndroid mSharer;
 
@@ -72,8 +75,17 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
         share.setOnClickListener(launchShareIntentOnClick());
         delete.setOnClickListener(launchDeleteAlertOnClick());
-
+        another.setOnClickListener(requestNewReviewUsingTemplate());
         return layout;
+    }
+
+    private View.OnClickListener requestNewReviewUsingTemplate() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNewReviewListener.onNewReviewUsingTemplate(mReviewId);
+            }
+        };
     }
 
     @Override
@@ -83,6 +95,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         setDialogTitle(null);
         hideKeyboardOnLaunch();
         mDeleteRequestListener = getTargetListener(DeleteRequestListener.class);
+        mNewReviewListener = getTargetListener(NewReviewListener.class);
         setReviewIdFromArgs();
 
         mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new ReviewFormatterTwitter());

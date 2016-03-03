@@ -85,8 +85,9 @@ public class TestReviews {
         mReviews = new IdableDataCollection<>();
         FactoryMdConverter converter = new FactoryMdConverter();
         mNodeFactory = new FactoryReviewNode();
-        mFactory = new FactoryReviews(new AuthorsStamp(AUTHOR), mNodeFactory,
+        mFactory = new FactoryReviews(mNodeFactory,
                 converter.newMdConverter());
+        mFactory.setAuthorsStamp(new AuthorsStamp(AUTHOR));
     }
 
     //Static methods

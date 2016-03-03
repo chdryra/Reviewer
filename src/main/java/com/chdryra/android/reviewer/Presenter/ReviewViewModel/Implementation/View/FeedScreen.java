@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .GridItemFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -39,6 +40,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class FeedScreen implements
         DialogAlertFragment.DialogAlertListener,
+        NewReviewListener,
         ReviewsRepositoryObserver {
 
     private ReviewNodeComponent mFeedNode;
@@ -81,6 +83,11 @@ public class FeedScreen implements
     public void onReviewRemoved(ReviewId reviewId) {
         removeReviewFromNode(reviewId);
         if (mReviewView != null) mReviewView.onGridDataChanged();
+    }
+
+    @Override
+    public void onNewReviewUsingTemplate(ReviewId template) {
+        mGridItem.onNewReviewUsingTemplate(template);
     }
 
     private void addReviewToNode(Review review) {

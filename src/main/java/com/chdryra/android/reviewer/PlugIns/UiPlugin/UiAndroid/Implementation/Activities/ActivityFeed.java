@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 public class ActivityFeed extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
         DeleteRequestListener,
+        NewReviewListener,
         BatchReviewSharerListener{
 
     private FeedScreen mScreen;
@@ -72,6 +74,11 @@ public class ActivityFeed extends ActivityReviewView implements
     @Override
     public void onDeleteRequested(ReviewId reviewId) {
         mApp.deleteFromAuthorsFeed(reviewId);
+    }
+
+    @Override
+    public void onNewReviewUsingTemplate(ReviewId template) {
+        mScreen.onNewReviewUsingTemplate(template);
     }
 
     @NonNull
