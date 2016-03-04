@@ -8,11 +8,17 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+
+import java.util.Collection;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 25/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BatchReviewSharerListener {
-    void onPublished(String message);
+    void onStatusUpdate(double percentage, PublishResults results);
+
+    void onPublished(Collection<PublishResults> publishedOk, Collection<PublishResults> publishedNotOk);
 }

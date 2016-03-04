@@ -79,7 +79,6 @@ public class GvLocation extends GvDataBasic<GvLocation> implements DataLocation 
         return shortened != null ? shortened.trim() : mName;
     }
 
-    //Overridden
     @Override
     public ViewHolder getViewHolder() {
         return new VhLocation(false);
