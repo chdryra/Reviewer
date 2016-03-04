@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -29,6 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -70,11 +72,11 @@ public class ApplicationInstance extends ApplicationSingleton {
         return sSingleton;
     }
 
-    public ReviewBuilderAdapter<?> getReviewBuilderAdapter() {
+    public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
         return mPresenterContext.getReviewBuilderAdapter();
     }
 
-    public ReviewsFeed getAuthorsFeed() {
+    public ReviewsFeed getUsersFeed() {
         return mPresenterContext.getAuthorsFeed();
     }
 
@@ -130,8 +132,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.publishReviewBuilder();
     }
 
-    public void deleteFromAuthorsFeed(ReviewId id) {
-        mPresenterContext.deleteFromAuthorsFeed(id);
+    public void deleteFromUsersFeed(ReviewId id) {
+        mPresenterContext.deleteFromUsersFeed(id);
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
@@ -152,5 +154,9 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public TagsManager getTagsManager() {
         return mPresenterContext.getTagsManager();
+    }
+
+    public ReviewUploader newReviewUploader() {
+        return mPresenterContext.newReviewUploader();
     }
 }

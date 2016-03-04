@@ -13,12 +13,14 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseModelContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseNetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleasePresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseSocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseViewContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
@@ -45,9 +47,12 @@ public class FactoryApplicationContext {
 
         SocialContext socialContext = new ReleaseSocialContext(context);
 
+        NetworkContext networkContext
+                = new ReleaseNetworkContext(context, plugins.getNetworkServicesPlugin());
+
         PresenterContext presenterContext =
                 new ReleasePresenterContext(context, modelContext, viewContext, deviceContext,
-                        socialContext, author,
+                        socialContext, networkContext, author,
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin());
 

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 import android.app.Activity;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
@@ -29,6 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
@@ -43,6 +45,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     private ModelContext mModelContext;
     private ViewContext mViewContext;
     private SocialContext mSocialContext;
+    private NetworkContext mNetworkContext;
 
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
@@ -50,11 +53,14 @@ public abstract class PresenterContextBasic implements PresenterContext{
     private FactoryReviewViewLaunchable mFactoryReviewViewLaunchable;
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
 
-    protected PresenterContextBasic(ModelContext modelContext, ViewContext viewContext,
-                                    SocialContext socialContext) {
+    protected PresenterContextBasic(ModelContext modelContext,
+                                    ViewContext viewContext,
+                                    SocialContext socialContext,
+                                    NetworkContext networkContext) {
         mModelContext = modelContext;
         mViewContext = viewContext;
         mSocialContext = socialContext;
+        mNetworkContext = networkContext;
     }
 
     public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
@@ -116,7 +122,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public void deleteFromAuthorsFeed(ReviewId id) {
+    public void deleteFromUsersFeed(ReviewId id) {
         mModelContext.getAuthorsFeed().removeReview(id);
     }
 
@@ -174,5 +180,10 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public TagsManager getTagsManager() {
         return mModelContext.getReviewsSource().getTagsManager();
+    }
+
+    @Override
+    public ReviewUploader newReviewUploader() {
+        return mNetworkContext.getReviewUploaderFactory().newReviewUploader();
     }
 }

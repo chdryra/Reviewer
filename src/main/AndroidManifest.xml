@@ -39,7 +39,7 @@
 
         <!-- Main -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFeed"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed"
             android:label="@string/activity_title_feed"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">

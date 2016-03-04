@@ -13,12 +13,9 @@ import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryBuildScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -29,36 +26,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = "BuildScreen";
     private static final String TEMPLATE_ID = "TemplateId";
-    private BuildScreen mBuildScreen;
+    private PresenterReviewBuild mPresenter;
 
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
-        mBuildScreen = newBuildScreen(app, getAdapter(app));
-        return mBuildScreen.getEditor();
-    }
+        Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
+        String id = args != null ? args.getString(NewReviewListener.TEMPLATE_ID) : null;
 
-    private ReviewBuilderAdapter<?> getAdapter(ApplicationInstance app) {
-        ReviewBuilderAdapter<?> adapter = app.getReviewBuilderAdapter();
-        if (adapter == null) {
-            Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
-            String id = args.getString(NewReviewListener.TEMPLATE_ID);
-            adapter = id != null ? app.newReviewBuilderAdapter(id) : app.newReviewBuilderAdapter();
-        }
+        mPresenter = new PresenterReviewBuild.Builder(app, new FactoryReviewEditor())
+                .setTemplateReview(id)
+                .build();
 
-        return adapter;
-    }
-
-    private BuildScreen newBuildScreen(ApplicationInstance app, ReviewBuilderAdapter<?> adapter) {
-        FactoryReviewEditor editorFactory = new FactoryReviewEditor();
-        FactoryBuildScreen builder = new FactoryBuildScreen();
-        return builder.newScreen(this, app.getConfigDataUi(), adapter,
-                app.getUiLauncher(), editorFactory);
+        return mPresenter.getEditor();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mBuildScreen.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

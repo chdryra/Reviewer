@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
@@ -53,10 +54,11 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    ViewContext viewContext,
                                    DeviceContext deviceContext,
                                    SocialContext socialContext,
+                                   NetworkContext networkContext,
                                    DataAuthor author,
                                    DataComparatorsPlugin comparatorsPlugin,
                                    DataAggregatorsPlugin aggregationPlugin) {
-        super(modelContext, viewContext, socialContext);
+        super(modelContext, viewContext, socialContext, networkContext);
 
         setLaunchablesFactory(viewContext);
 

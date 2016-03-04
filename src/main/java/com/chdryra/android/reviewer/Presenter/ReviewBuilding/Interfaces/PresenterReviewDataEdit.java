@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDataEditScreen<T extends GvData> extends
+public interface PresenterReviewDataEdit<T extends GvData> extends
         DialogAlertFragment.DialogAlertListener,
         DataAddListener<T>,
         DataEditListener<T>,

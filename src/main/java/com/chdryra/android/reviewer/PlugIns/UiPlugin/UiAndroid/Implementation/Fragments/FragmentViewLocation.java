@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,7 @@ public class FragmentViewLocation extends Fragment implements
 
     private LocationClientConnector mLocationClient;
 
-    public static Fragment newInstance(GvLocation location) {
+    public static Fragment newInstance(@Nullable GvLocation location) {
         return FactoryFragment.newFragment(FragmentViewLocation.class, LOCATION, location);
     }
 

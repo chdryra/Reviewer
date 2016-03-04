@@ -43,7 +43,7 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         return factory.buildView(getResources().getString(SOCIAL),
                 app.getSocialPlatformList(),
                 app.getReviewBuilderAdapter(), this,
-                new SocialReviewSharerAndroid(ActivityFeed.class));
+                new SocialReviewSharerAndroid(ActivityUsersFeed.class));
     }
 
     @Override

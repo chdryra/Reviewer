@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityFeed;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.RandomRating;
@@ -69,16 +69,16 @@ public class ActivityShareReviewTest extends ActivityReviewViewTest {
 
     @SmallTest
     public void testPublishButton() {
-        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityFeed.class
+        Instrumentation.ActivityMonitor monitor = getInstrumentation().addMonitor(ActivityUsersFeed.class
                 .getName(), null, false);
 
         mSolo.clickOnText(getActivity().getResources().getString(R
                 .string.button_publish));
         getInstrumentation().waitForIdleSync();
 
-        ActivityFeed feedActivity = (ActivityFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
+        ActivityUsersFeed feedActivity = (ActivityUsersFeed) monitor.waitForActivityWithTimeout(TIMEOUT);
         assertNotNull(feedActivity);
-        assertEquals(ActivityFeed.class, feedActivity.getClass());
+        assertEquals(ActivityUsersFeed.class, feedActivity.getClass());
         feedActivity.finish();
     }
 

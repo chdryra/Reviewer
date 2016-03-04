@@ -114,7 +114,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         void onDone(GvLocation currentLocation, GvLocation newLocation, Intent returnResult);
     }
 
-    public static FragmentEditLocationMap newInstance(GvLocation location) {
+    public static FragmentEditLocationMap newInstance(@Nullable GvLocation location) {
         return FactoryFragment.newFragment(FragmentEditLocationMap.class, LOCATION, location);
     }
 

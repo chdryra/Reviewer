@@ -16,6 +16,10 @@ import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataCompar
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin.DataComparatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Plugin.LocationServicesGoogle;
+
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Implementation
+        .NetworkServicesAndroid;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.PersistenceDatabase.DatabasePlugin
         .Api.DatabasePlugin;
@@ -58,6 +62,11 @@ public class ApplicationPluginsTest implements ApplicationPlugins {
     @Override
     public LocationServicesPlugin getLocationServicesPlugin() {
         return new LocationServicesGoogle(mContext);
+    }
+
+    @Override
+    public NetworkServicesPlugin getNetworkServicesPlugin() {
+        return new NetworkServicesAndroid(mContext);
     }
 
     @Override

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -57,6 +58,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
         mFragment.handleSearch();
     }
 
+    @Nullable
     private GvLocation getBundledLocation() {
         Bundle args = getIntent().getBundleExtra(KEY);
         return args != null ?

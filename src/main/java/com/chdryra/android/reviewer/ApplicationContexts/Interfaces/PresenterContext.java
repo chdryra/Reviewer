@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -62,9 +63,11 @@ public interface PresenterContext {
 
     ReviewsFeed getAuthorsFeed();
 
-    void deleteFromAuthorsFeed(ReviewId id);
+    void deleteFromUsersFeed(ReviewId id);
 
     Review getReview(ReviewId id);
 
     TagsManager getTagsManager();
+
+    ReviewUploader newReviewUploader();
 }

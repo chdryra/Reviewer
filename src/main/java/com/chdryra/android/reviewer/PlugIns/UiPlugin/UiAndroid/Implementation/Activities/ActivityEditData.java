@@ -11,20 +11,18 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditActions;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataEditPresenter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewDataEditor;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 
@@ -41,7 +39,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     private static final String GVDATA_TYPE
             = "com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData.gvdata_type";
     private GvDataType<T> mDataType;
-    private ReviewDataEditScreen<T> mScreen;
+    private PresenterReviewDataEdit<T> mPresenter;
 
     public ActivityEditData() {
 
@@ -68,69 +66,60 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
-        mScreen = newEditScreen(app);
-        return mScreen.getEditor();
+        mPresenter = newPresenter(app);
+        return mPresenter.getEditor();
     }
 
-    private ReviewDataEditScreen<T> newEditScreen(ApplicationInstance app) {
-        ReviewBuilderAdapter parentBuilder = app.getReviewBuilderAdapter();
+    private PresenterReviewDataEdit<T> newPresenter(ApplicationInstance app) {
+        ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
 
-        FactoryEditActions actionsFactory = newActionsFactory(app, parentBuilder);
-        FactoryReviewDataEditor editorFactory = newEditorFactory(app.getParamsFactory(), actionsFactory);
+        FactoryEditActions actionsFactory
+                = new FactoryEditActions(this, app.getConfigDataUi(), app.getUiLauncher(),
+                app.getGvDataFactory(), parentBuilder.getImageChooser());
 
-        return new FactoryEditScreen(this, parentBuilder, editorFactory).newScreen(mDataType);
-    }
+        FactoryReviewDataEditor editorFactory
+                = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
 
-    @NonNull
-    private FactoryReviewDataEditor newEditorFactory(FactoryReviewViewParams paramsFactory,
-                                                     FactoryEditActions actionsFactory) {
-        return new FactoryReviewDataEditor(paramsFactory, actionsFactory);
-    }
-
-    @NonNull
-    private FactoryEditActions newActionsFactory(ApplicationInstance app, ReviewBuilderAdapter
-            parentBuilder) {
-        return new FactoryEditActions(this, app.getConfigDataUi(),
-                    app.getUiLauncher(), app.getGvDataFactory(), parentBuilder.getImageChooser());
+        return new FactoryDataEditPresenter(this, parentBuilder, editorFactory).newPresenter(mDataType);
     }
 
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
-        mScreen.onAlertNegative(requestCode, args);
+        mPresenter.onAlertNegative(requestCode, args);
     }
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        mScreen.onAlertPositive(requestCode, args);
+        mPresenter.onAlertPositive(requestCode, args);
     }
 
     @Override
     public void onDelete(T data, int requestCode) {
-        mScreen.onDelete(data, requestCode);
+        mPresenter.onDelete(data, requestCode);
     }
 
     @Override
     public void onEdit(T oldDatum, T newDatum, int requestCode) {
-        mScreen.onEdit(oldDatum, newDatum, requestCode);
+        mPresenter.onEdit(oldDatum, newDatum, requestCode);
     }
 
     @Override
     public boolean onAdd(T data, int requestCode) {
-        return mScreen.onAdd(data, requestCode);
+        return mPresenter.onAdd(data, requestCode);
     }
 
     @Override
     public void onCancel(int requestCode) {
-        mScreen.onCancel(requestCode);
+        mPresenter.onCancel(requestCode);
     }
 
     @Override
     public void onDone(int requestCode) {
-        mScreen.onDone(requestCode);
+        mPresenter.onDone(requestCode);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mScreen.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 }

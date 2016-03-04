@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
-        .ReviewDataEditScreenImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -166,7 +165,7 @@ public abstract class ActivityEditScreenTest<T extends GvData> extends ActivityR
 
     @Override
     protected ReviewView getView() {
-        return ReviewDataEditScreenImpl.newScreen(getInstrumentation().getTargetContext(),
+        return PresenterReviewDataEditImpl.newScreen(getInstrumentation().getTargetContext(),
                 mDataType).getEditor();
     }
 

@@ -63,7 +63,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvReviewOverviewList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryFileIncrementor;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
@@ -171,8 +171,9 @@ public class ActivityFeedTest extends
         GvDataAggregator aggregator = new GvDataAggregator();
         ReviewsFeed feed = createFeed(converterGv, tagsManager, reviewFactory);
         FactoryReviewViewAdapter adapterFactory = new FactoryReviewViewAdapter(builder, viewerFactory, aggregator, feed, converterGv);
-        FeedScreen screen = new FeedScreen(new GridItemFeedScreen());
-        ReviewView feedScreen = screen.createView(feed, publishDate, reviewFactory, converterGv, builder, adapterFactory, new MenuFeedScreen());
+        PresenterUsersFeed screen = new PresenterUsersFeed(new GridItemFeedScreen());
+        ReviewView feedScreen = screen.getView(feed, publishDate, reviewFactory, converterGv,
+                builder, adapterFactory, new MenuFeedScreen());
         mAdapter = feedScreen.getAdapter();
 
         Intent i = new Intent();

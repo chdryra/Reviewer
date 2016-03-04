@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.WrapperGridData;
@@ -68,7 +68,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
     private String mOriginalSubject;
     private float mOriginalRating;
     private CallBackSignaler mSignaler;
-    private BuildScreen mScreen;
+    private PresenterReviewBuild mScreen;
 
     @SmallTest
     public void testSubjectRatingChange() {
@@ -632,7 +632,7 @@ public class ActivityBuildReviewTest extends ActivityReviewViewTest {
         ReviewBuilder builder =
                 new ReviewBuilder(getActivity(), RandomAuthor.nextAuthor(), new TagsManager());
         mAdapter = new ReviewBuilderAdapter(builder);
-        mScreen = new BuildScreen(getActivity(), (ReviewBuilderAdapter) mAdapter);
+        mScreen = new PresenterReviewBuild(getActivity(), (ReviewBuilderAdapter) mAdapter);
     }
 
     @SmallTest

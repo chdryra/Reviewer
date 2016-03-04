@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
 
@@ -27,6 +28,8 @@ public interface ApplicationPlugins {
     PersistencePlugin getPersistencePlugin();
 
     LocationServicesPlugin getLocationServicesPlugin();
+
+    NetworkServicesPlugin getNetworkServicesPlugin();
 
     UiPlugin getUiPlugin();
 }

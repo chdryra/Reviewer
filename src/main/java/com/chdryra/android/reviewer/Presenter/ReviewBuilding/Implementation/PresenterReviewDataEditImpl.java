@@ -13,7 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.PresenterReviewDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
@@ -23,15 +23,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDataEditScreenImpl<T extends GvData> implements ReviewDataEditScreen<T> {
+public class PresenterReviewDataEditImpl<T extends GvData> implements PresenterReviewDataEdit<T> {
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
     private MenuDataEdit<T> mMenu;
     private BannerButtonAdd<T> mBannerButton;
     private GridItemDataEdit<T> mGridItem;
 
-    public ReviewDataEditScreenImpl(Context context,
-                                    ReviewDataEditor<T> editor) {
+    public PresenterReviewDataEditImpl(Context context,
+                                       ReviewDataEditor<T> editor) {
         mContext = context;
         mEditor = editor;
 

@@ -23,8 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
-        .ReviewDataEditScreenImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewDataEditImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
@@ -241,7 +240,7 @@ public abstract class DialogGvDataAddTest<T extends GvData> extends
 
         Intent i = new Intent();
         Context context = getInstrumentation().getTargetContext();
-        ReviewView screen = ReviewDataEditScreenImpl.newScreen(context, mDialog.getGvDataType()).getEditor();
+        ReviewView screen = PresenterReviewDataEditImpl.newScreen(context, mDialog.getGvDataType()).getEditor();
         ReviewViewPacker.packView(context, screen, i);
         setActivityIntent(i);
         mActivity = getActivity();

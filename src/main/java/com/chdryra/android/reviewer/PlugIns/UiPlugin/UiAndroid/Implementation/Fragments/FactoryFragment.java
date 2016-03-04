@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.F
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 /**
@@ -21,7 +22,8 @@ import android.util.Log;
 public class FactoryFragment {
     private static final String TAG = "FragmentInstanceCreator";
 
-    public static <T extends Fragment, P extends Parcelable> T newFragment(Class<T> fragmentClass, String key, P data) {
+    public static <T extends Fragment, P extends Parcelable> T newFragment(Class<T> fragmentClass,
+                                                                           String key, @Nullable P data) {
         T fragment = newInstance(fragmentClass);
 
         Bundle args = new Bundle();

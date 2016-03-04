@@ -63,8 +63,7 @@ public abstract class ApplicationSingleton {
         }
     }
 
-    //protected methods
-    protected Context getContext() {
+    public Context getContext() {
         return mContext;
     }
 
