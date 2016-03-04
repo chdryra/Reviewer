@@ -8,10 +8,11 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.BatchSocialPublisher;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,5 +20,5 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BatchReviewSharer extends BatchSocialPublisher.BatchPublisherListener {
-    void shareReview(String reviewId, ArrayList<String> platforms, ApplicationInstance app);
+    void shareReview(Review review, TagsManager tagsManager, Collection<SocialPlatform<?>> platforms);
 }

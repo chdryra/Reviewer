@@ -121,7 +121,7 @@ public class DataBuilderImpl<T extends GvData> implements DataBuilder<T> {
     }
 
     @Override
-    public void publishData() {
+    public void buildData() {
         mResetData = mData;
         for(DataBuilderObserver observer : mObservers) {
             observer.onDataPublished(this);

@@ -65,7 +65,6 @@ public class FactoryReviewBuilder {
                 mDataValidator);
 
         builder.setSubject(template.getSubject().getSubject());
-        builder.setRatingIsAverage(template.isRatingAverageOfCriteria());
 
         setTags(template, builder);
         setCriteria(template, builder);
@@ -84,7 +83,7 @@ public class FactoryReviewBuilder {
             dataBuilder.add(tag);
         }
 
-        dataBuilder.publishData();
+        dataBuilder.buildData();
     }
 
     private void setCriteria(Review template, ReviewBuilder builder) {
@@ -93,7 +92,7 @@ public class FactoryReviewBuilder {
             dataBuilder.add(datum);
         }
 
-        dataBuilder.publishData();
+        dataBuilder.buildData();
     }
 
     private void setCovers(Review template, ReviewBuilder builder) {
@@ -103,7 +102,7 @@ public class FactoryReviewBuilder {
             dataBuilder.add(datum);
         }
 
-        dataBuilder.publishData();
+        dataBuilder.buildData();
     }
 
     private void setLocations(Review template, ReviewBuilder builder) {
@@ -113,7 +112,7 @@ public class FactoryReviewBuilder {
             dataBuilder.add(datum);
         }
 
-        dataBuilder.publishData();
+        dataBuilder.buildData();
     }
 
     private void setFacts(Review template, ReviewBuilder builder) {
@@ -123,6 +122,6 @@ public class FactoryReviewBuilder {
             dataBuilder.add(datum);
         }
 
-        dataBuilder.publishData();
+        dataBuilder.buildData();
     }
 }

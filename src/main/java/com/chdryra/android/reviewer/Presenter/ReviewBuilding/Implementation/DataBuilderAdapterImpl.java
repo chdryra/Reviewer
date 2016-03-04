@@ -118,7 +118,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
 
     @Override
     public void publishData() {
-        mDataBuilder.publishData();
+        mDataBuilder.buildData();
         getParentBuilder().notifyGridDataObservers();
     }
 

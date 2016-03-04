@@ -17,13 +17,13 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.FeedScreen;
-import com.chdryra.android.reviewer.Social.Implementation.BatchReviewSharerImpl;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewSharerService;
 import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharerListener;
 
 import java.util.ArrayList;
@@ -96,8 +96,15 @@ public class ActivityFeed extends ActivityReviewView implements
         String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
         ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
         if(reviewId != null && platforms != null && platforms.size() > 0) {
-            new BatchReviewSharerImpl(this).shareReview(reviewId, platforms, mApp);
+            shareViaService(reviewId, platforms);
         }
+    }
+
+    private void shareViaService(String reviewId, ArrayList<String> platforms) {
+        Intent shareService = new Intent(this, ReviewSharerService.class);
+        shareService.putExtra(PublishingAction.PUBLISHED, reviewId);
+        shareService.putStringArrayListExtra(PublishingAction.PLATFORMS, platforms);
+        startService(shareService);
     }
 
     @Override

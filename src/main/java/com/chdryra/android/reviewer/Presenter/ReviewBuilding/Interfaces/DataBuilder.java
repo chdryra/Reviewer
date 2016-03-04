@@ -42,7 +42,7 @@ public interface DataBuilder<T extends GvData> {
 
     void resetData();
 
-    void publishData();
+    void buildData();
 
     void registerObserver(DataBuilderObserver observer);
 

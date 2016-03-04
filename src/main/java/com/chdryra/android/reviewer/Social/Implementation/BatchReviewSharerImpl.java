@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharer;
 import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharerListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -33,22 +34,9 @@ public class BatchReviewSharerImpl implements BatchReviewSharer {
     }
 
     @Override
-    public void shareReview(String reviewId, ArrayList<String> platforms, ApplicationInstance app) {
+    public void shareReview(Review review, TagsManager tagsManager, Collection<SocialPlatform<?>> platforms) {
         if(platforms.size() == 0) return;
-
-        BatchSocialPublisher publisher = getPublisher(platforms, app.getSocialPlatformList());
-        publisher.publish(app.getReview(reviewId), app.getTagsManager(), this);
-    }
-
-    @NonNull
-    private BatchSocialPublisher getPublisher(ArrayList<String> chosen,
-                                              SocialPlatformList platformList) {
-        Collection<SocialPlatform<?>> publishers = new ArrayList<>();
-        for(SocialPlatform<?> platform : platformList) {
-            if(chosen.contains(platform.getName())) publishers.add(platform);
-        }
-
-        return new BatchSocialPublisher(publishers);
+        new BatchSocialPublisher(platforms).publish(review, tagsManager, this);
     }
 
     @Override
