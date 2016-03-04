@@ -80,7 +80,7 @@ public class FactoryReviewViewLaunchable {
     public ReviewView<GvReviewOverview> newReviewsListScreen(ReviewNode node,
                                                              FactoryReviewViewAdapter adapterFactory,
                                              ReviewViewActions<GvReviewOverview> actions) {
-        return mChildListScreenBuilder.buildView(node, adapterFactory, actions);
+        return mChildListScreenBuilder.newView(node, adapterFactory, actions);
     }
 
     public <T extends GvData> LaunchableUi newViewScreen(ReviewViewAdapter<T> adapter) {

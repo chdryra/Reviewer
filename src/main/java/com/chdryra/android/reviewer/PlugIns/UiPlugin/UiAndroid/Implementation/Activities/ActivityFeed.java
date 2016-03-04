@@ -48,6 +48,7 @@ public class ActivityFeed extends ActivityReviewView implements
 
     private FeedScreen mScreen;
     private ApplicationInstance mApp;
+    private String mFeedTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +57,25 @@ public class ActivityFeed extends ActivityReviewView implements
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        uploadNewReviewIfNecessary();
+    }
+
+    @Override
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
         mApp = ApplicationInstance.getInstance(this);
 
-        uploadNewReviewIfNecessary();
-
         FactoryFeedScreen feedScreenBuilder = getScreenBuilder();
         feedScreenBuilder.buildScreen(mApp.getAuthorsFeed());
         mScreen = feedScreenBuilder.getFeedScreen();
 
-        return feedScreenBuilder.getView();
+        ReviewView view = feedScreenBuilder.getView();
+        mFeedTitle = view.getSubject();
+
+        return view;
     }
 
     @Override
@@ -97,26 +105,26 @@ public class ActivityFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onStatusUpdate(double percentage, PublishResults justUploaded) {
+    public void onUploadStatus(double percentage, PublishResults justUploaded) {
 
     }
 
     @Override
     public void onUploadCompleted(Collection<PublishResults> publishedOk,
                                   Collection<PublishResults> publishedNotOk) {
-        ArrayList<String> platformsOk = new ArrayList<>();
-        ArrayList<String> platformsNotOk = new ArrayList<>();
         int numFollowers = 0;
+        ArrayList<String> platformsOk = new ArrayList<>();
         for (PublishResults result : publishedOk) {
             platformsOk.add(result.getPublisherName());
             numFollowers += result.getFollowers();
         }
 
+        ArrayList<String> platformsNotOk = new ArrayList<>();
         for (PublishResults result : publishedNotOk) {
             platformsNotOk.add(result.getPublisherName());
         }
 
-        String message = makeMessage(platformsOk, platformsNotOk, numFollowers);
+        String message = getReviewUploadedMessage(platformsOk, platformsNotOk, numFollowers);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
@@ -155,9 +163,9 @@ public class ActivityFeed extends ActivityReviewView implements
         startService(shareService);
     }
 
-    private String makeMessage(ArrayList<String> platformsOk,
-                               ArrayList<String> platformsNotOk,
-                               int numFollowers) {
+    private String getReviewUploadedMessage(ArrayList<String> platformsOk,
+                                            ArrayList<String> platformsNotOk,
+                                            int numFollowers) {
         String message = "";
 
         if (platformsOk.size() > 0) {

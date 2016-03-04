@@ -28,7 +28,7 @@ public class UploadReviewServiceReceiver extends BroadcastReceiver {
     }
 
     public interface UploadReviewServiceListener {
-        void onStatusUpdate(double percentage, PublishResults justUploaded);
+        void onUploadStatus(double percentage, PublishResults justUploaded);
 
         void onUploadCompleted(Collection<PublishResults> publishedOk,
                                Collection<PublishResults> publishedNotOk);
@@ -55,6 +55,6 @@ public class UploadReviewServiceReceiver extends BroadcastReceiver {
     private void updateListenerOnStatus(Intent intent) {
         double percentage = intent.getDoubleExtra(ReviewUploadService.STATUS_PERCENTAGE, 0.);
         PublishResults results = intent.getParcelableExtra(ReviewUploadService.STATUS_RESULTS);
-        mListener.onStatusUpdate(percentage, results);
+        mListener.onUploadStatus(percentage, results);
     }
 }

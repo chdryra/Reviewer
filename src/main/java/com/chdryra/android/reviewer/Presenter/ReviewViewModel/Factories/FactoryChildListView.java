@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class FactoryChildListView {
     public ReviewView<GvReviewOverview>
-    buildView(ReviewNode node, FactoryReviewViewAdapter adapterFactory,
-              ReviewViewActions<GvReviewOverview> actions) {
+    newView(ReviewNode node, FactoryReviewViewAdapter adapterFactory,
+            ReviewViewActions<GvReviewOverview> actions) {
         ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
