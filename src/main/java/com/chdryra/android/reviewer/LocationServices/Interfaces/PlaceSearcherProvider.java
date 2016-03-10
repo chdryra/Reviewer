@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 /**
@@ -16,5 +18,5 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PlaceSearcherProvider {
-    ArrayList<LocatedPlace> fetchResults(String searchQuery);
+    ArrayList<LocatedPlace> fetchResults(String searchQuery, LatLng nearLatLng);
 }

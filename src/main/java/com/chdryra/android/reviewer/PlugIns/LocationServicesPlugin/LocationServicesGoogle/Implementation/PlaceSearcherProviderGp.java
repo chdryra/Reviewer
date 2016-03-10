@@ -9,9 +9,11 @@
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation;
 
 
+
 import com.chdryra.android.remoteapifetchers.PlacesApi;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcherProvider;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  */
 public class PlaceSearcherProviderGp implements PlaceSearcherProvider {
     @Override
-    public ArrayList<LocatedPlace> fetchResults(String searchQuery) {
+    public ArrayList<LocatedPlace> fetchResults(String searchQuery, LatLng nearLatLng) {
         return GpLocatedPlaceConverter.convert(PlacesApi.fetchTextSearchResults(searchQuery));
     }
 }

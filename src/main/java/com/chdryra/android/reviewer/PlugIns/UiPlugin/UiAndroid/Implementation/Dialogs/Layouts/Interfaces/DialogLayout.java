@@ -25,6 +25,8 @@ public interface DialogLayout<T extends GvData> {
 
     void onActivityAttached(Activity activity, Bundle args);
 
+    void onActivityStopped();
+
     View createLayoutUi(Context context, T data);
 
     void initialise(T data);

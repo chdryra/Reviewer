@@ -13,6 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryReviewUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
+import com.firebase.client.Firebase;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,6 +25,7 @@ public class ReleaseNetworkContext implements NetworkContext {
 
     public ReleaseNetworkContext(Context context, NetworkServicesPlugin plugin) {
         mUploaderFactory = plugin.getUploaderFactory(context);
+        Firebase.setAndroidContext(context);
     }
 
     @Override

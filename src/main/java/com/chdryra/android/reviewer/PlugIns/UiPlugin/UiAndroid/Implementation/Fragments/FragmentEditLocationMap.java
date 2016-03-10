@@ -341,6 +341,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void initGoogleMapUi() {
+        //TODO permissions
         mGoogleMap.setMyLocationEnabled(true);
         mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
         mGoogleMap.setOnInfoWindowClickListener(newOnInfoWindowClickListener());
@@ -456,7 +457,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private void searchLocation(String query) {
         mSearchLocationName = query;
-        mPlaceSearcher.searchQuery(query, this);
+        mPlaceSearcher.searchQuery(query, mNewLatLng, this);
         setSearchViewToSearching();
     }
 
@@ -503,7 +504,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @NonNull
     private SearchView.OnQueryTextListener newFilterOnTextChangeListener() {
         return new SearchView.OnQueryTextListener() {
-            //Overridden
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -559,5 +559,10 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
             return new SimpleCursorAdapter(getActivity(), android.R.layout.simple_list_item_1,
                     suggestions_cursor, from, to, 0);
         }
+    }
+
+    @Override
+    public void onNotPermissioned() {
+
     }
 }

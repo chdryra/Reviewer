@@ -46,6 +46,11 @@ public abstract class DialogLayoutBasic<T extends GvData> implements DialogLayou
     }
 
     @Override
+    public void onActivityStopped() {
+
+    }
+
+    @Override
     public View getView(int viewId) {
         return mHolder.getView(viewId);
     }

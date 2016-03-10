@@ -18,5 +18,7 @@ public interface LocationDetailsFetcher {
 
     interface LocationDetailsListener {
         void onPlaceDetailsFound(LocationDetails details);
+
+        void onNotPermissioned();
     }
 }

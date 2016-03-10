@@ -20,4 +20,6 @@ import java.util.ArrayList;
  */
 public interface AutoCompleterProvider {
     ArrayList<LocatedPlace> fetchPredictions(String query, LatLng latLng);
+
+    void disconnect();
 }

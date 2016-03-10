@@ -39,4 +39,9 @@ public class AutoCompleterProviderGp implements AutoCompleterProvider {
 
         return places;
     }
+
+    @Override
+    public void disconnect() {
+
+    }
 }

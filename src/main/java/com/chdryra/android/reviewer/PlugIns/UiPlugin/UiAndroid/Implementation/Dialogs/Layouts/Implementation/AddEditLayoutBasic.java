@@ -37,14 +37,11 @@ public abstract class AddEditLayoutBasic<T extends GvData> extends DialogLayoutB
     private final int mEditTextId;
 
     private interface GvDataEditManager<T extends GvData> {
-        //abstract methods
-        //abstract
         void initialise(T data);
 
         void onAddEdit(T data);
     }
 
-    //Constructors
     public AddEditLayoutBasic(Class<T> gvDataClass, LayoutHolder holder,
                               int keyboardEditTextId, GvDataAdder adder) {
         super(holder);

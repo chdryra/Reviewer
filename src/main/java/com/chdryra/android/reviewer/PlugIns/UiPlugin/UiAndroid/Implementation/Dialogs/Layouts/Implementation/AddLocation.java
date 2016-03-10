@@ -24,6 +24,7 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
@@ -76,6 +77,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private ReviewerLocationServices mLocationServices;
     private LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
+    private AutoCompleter mAutocompleter;
 
     public AddLocation(GvDataAdder adder, ReviewerLocationServices locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
@@ -102,8 +104,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
         LocatedPlace place = new GooglePlace(mCurrentLatLng);
-        ViewHolderAdapterFiltered.QueryFilter filter = mLocationServices.newAutoCompleter(place);
-        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, filter);
+        mAutocompleter = mLocationServices.newAutoCompleter(place);
+        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutocompleter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 
@@ -217,9 +219,20 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
+    public void onNotPermissioned() {
+
+    }
+
+    @Override
     public void onPlaceDetailsFound(LocationDetails details) {
         mSelectedLatLng = details.getLatLng();
         mNameEditText.setText(details.getDescription());
         mNameEditText.setHint(mHint);
+    }
+
+    @Override
+    public void onActivityStopped() {
+        mAutocompleter.disconnectFromProvider();
+        super.onActivityStopped();
     }
 }

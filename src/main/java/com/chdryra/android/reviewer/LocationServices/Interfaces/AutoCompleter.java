@@ -16,4 +16,5 @@ import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AutoCompleter extends ViewHolderAdapterFiltered.QueryFilter {
+    void disconnectFromProvider();
 }

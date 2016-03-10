@@ -27,11 +27,11 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcherPro
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerLocationServicesImpl implements ReviewerLocationServices {
-    AddressesProvider mAddressProvider;
-    LocationDetailsProvider mDetailsProvider;
-    AutoCompleterProvider mAutoCompleteProvider;
-    NearestPlacesProvider mNearestPlacesProvider;
-    PlaceSearcherProvider mSearchProvider;
+    private AddressesProvider mAddressProvider;
+    private LocationDetailsProvider mDetailsProvider;
+    private AutoCompleterProvider mAutoCompleteProvider;
+    private NearestPlacesProvider mNearestPlacesProvider;
+    private PlaceSearcherProvider mSearchProvider;
 
     public ReviewerLocationServicesImpl(AddressesProvider addressProvider,
                                         LocationDetailsProvider detailsProvider,

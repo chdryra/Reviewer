@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcherProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces
         .PlaceSearcher;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -31,22 +32,24 @@ public class PlaceSearcherImpl implements PlaceSearcher {
     }
 
     @Override
-    public void searchQuery(String query, PlaceSearcherListener listener) {
-        new SearchQueryTask(query, listener).execute();
+    public void searchQuery(String query, LatLng nearLatLng, PlaceSearcherListener listener) {
+        new SearchQueryTask(query, nearLatLng, listener).execute();
     }
 
     private class SearchQueryTask extends AsyncTask<Void, Void, ArrayList<LocatedPlace>> {
+        private final LatLng mLatLng;
         private final String mQuery;
         private final PlaceSearcherListener mListener;
 
-        public SearchQueryTask(String query, PlaceSearcherListener listener) {
+        public SearchQueryTask(String query, LatLng nearLatLng, PlaceSearcherListener listener) {
             mQuery = query;
+            mLatLng = nearLatLng;
             mListener = listener;
         }
 
         @Override
         protected ArrayList<LocatedPlace> doInBackground(Void... params) {
-            return mFetcher.fetchResults(mQuery);
+            return mFetcher.fetchResults(mQuery, mLatLng);
         }
 
         @Override

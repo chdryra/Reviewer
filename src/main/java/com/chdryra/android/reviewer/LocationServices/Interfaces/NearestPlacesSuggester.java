@@ -20,5 +20,7 @@ public interface NearestPlacesSuggester {
 
     interface NearestPlacesListener {
         void onNearestPlacesFound(ArrayList<LocatedPlace> suggestions);
+
+        void onNotPermissioned();
     }
 }

@@ -15,8 +15,12 @@ package com.chdryra.android.reviewer.LocationServices.Interfaces;
  */
 public interface ReviewerLocationServices {
     AddressesSuggester newAddressesSuggester();
+
     AutoCompleter newAutoCompleter(LocatedPlace locatedPlace);
+
     LocationDetailsFetcher newLocationDetailsFetcher();
+
     NearestPlacesSuggester newNearestPlacesSuggester();
+
     PlaceSearcher newPlaceSearcher();
 }

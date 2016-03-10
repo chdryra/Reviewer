@@ -42,4 +42,9 @@ public class AutoCompleterImpl implements AutoCompleter {
 
         return filtered;
     }
+
+    @Override
+    public void disconnectFromProvider() {
+        mProvider.disconnect();
+    }
 }

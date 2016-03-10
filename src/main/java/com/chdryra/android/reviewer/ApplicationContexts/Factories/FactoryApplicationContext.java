@@ -25,10 +25,8 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.LocationServices.Factories.FactoryLocationServices;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.FactoryLocationProviders;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.GooglePlacesApi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -56,19 +54,12 @@ public class FactoryApplicationContext {
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin());
 
-        ReviewerLocationServices services = getLocationServices(plugins.getLocationServicesPlugin());
+        ReviewerLocationServices services = getLocationServices(context);
 
         return new ApplicationContextImpl(presenterContext, services);
     }
 
-    public ReviewerLocationServices getLocationServices(LocationServicesPlugin plugin) {
-        FactoryLocationServices servicesFactory = new FactoryLocationServices();
-        FactoryLocationProviders providersFactory = plugin.getLocationProvidersFactory();
-
-        return servicesFactory.newServices(providersFactory.newAddressesProvider(),
-                providersFactory.newLocationDetailsProvider(),
-                providersFactory.newAutoCompleterProvider(),
-                providersFactory.newNearestPlacesProvider(),
-                providersFactory.newPlaceSearcherProvider());
+    public ReviewerLocationServices getLocationServices(Context context) {
+        return new GooglePlacesApi(context);
     }
 }

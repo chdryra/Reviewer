@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 /**
@@ -16,9 +18,11 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PlaceSearcher {
-    void searchQuery(String query, PlaceSearcherListener listener);
+    void searchQuery(String query, LatLng nearLatLng, PlaceSearcherListener listener);
 
     interface PlaceSearcherListener {
         void onSearchResultsFound(ArrayList<LocatedPlace> results);
+
+        void onNotPermissioned();
     }
 }
