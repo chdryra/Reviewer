@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.Utils.LatLngDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
@@ -41,7 +41,7 @@ import static org.hamcrest.MatcherAssert.*;
 public class AggregatorLocationsTest extends AggregatedDistinctItemsTest<DataLocation>{
     @NonNull
     @Override
-    protected DataAggregator<DataLocation> newAggregator(FactoryDataAggregator factory, DataAggregatorParams params) {
+    protected DataAggregator<DataLocation> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
         return factory.newLocationsAggregator(params.getSimilarLocation());
     }
 

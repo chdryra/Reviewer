@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatfor
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.FactoryDataComparators;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
         .Implementation.AuthorAlphabetical;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault
@@ -46,7 +46,7 @@ import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparator
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryDataComparatorsDefault implements FactoryDataComparators {
+public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
     public ComparatorCollection<DataAuthor> getAuthorComparators() {

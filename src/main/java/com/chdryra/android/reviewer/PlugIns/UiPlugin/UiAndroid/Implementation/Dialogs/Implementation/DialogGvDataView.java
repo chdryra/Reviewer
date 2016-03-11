@@ -16,7 +16,7 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
         .Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
@@ -81,7 +81,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogOneButton
     }
 
     private void setLayout() {
-        ReviewerLocationServices services
+        LocationServicesApi services
                 = ApplicationInstance.getInstance(getActivity()).getLocationServices();
         FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), services);
         //TODO make type safe

@@ -14,5 +14,5 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LocationServicesPlugin {
-    FactoryLocationProviders getLocationProvidersFactory();
+    LocationServicesApi getLocationServices();
 }

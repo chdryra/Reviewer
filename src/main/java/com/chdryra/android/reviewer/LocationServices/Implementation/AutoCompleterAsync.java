@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleterProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,11 +22,17 @@ import java.util.ArrayList;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AutoCompleterImpl implements AutoCompleter {
+public class AutoCompleterAsync implements AutoCompleter {
     private final LatLng mLatLng;
     private AutoCompleterProvider mProvider;
 
-    public AutoCompleterImpl(LocatedPlace place, AutoCompleterProvider provider) {
+    public interface AutoCompleterProvider {
+        ArrayList<LocatedPlace> fetchPredictions(String query, LatLng latLng);
+
+        void disconnect();
+    }
+
+    public AutoCompleterAsync(LocatedPlace place, AutoCompleterProvider provider) {
         mLatLng = place.getLatLng();
         mProvider = provider;
     }

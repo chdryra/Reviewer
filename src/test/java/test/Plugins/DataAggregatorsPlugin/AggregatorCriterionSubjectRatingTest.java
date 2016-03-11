@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import test.TestUtils.RandomRating;
@@ -29,7 +29,7 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorCriterionSubjectRatingTest extends AggregatedDistinctItemsTest<DataCriterion>{
     @NonNull
     @Override
-    protected DataAggregator<DataCriterion> newAggregator(FactoryDataAggregator factory, DataAggregatorParams params) {
+    protected DataAggregator<DataCriterion> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
         return factory.newCriteriaAggregatorSameSubjectRating(params.getSimilarBoolean());
     }
 

@@ -15,7 +15,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesProvider;
+import com.chdryra.android.reviewer.LocationServices.Implementation.AddressesSuggesterAsync;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -29,7 +29,7 @@ import java.util.Locale;
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddressesProviderGp implements AddressesProvider {
+public class AddressesProviderGp implements AddressesSuggesterAsync.AddressesProvider {
     private final static String TAG = "AddressesProviderGoogle";
     private Context mContext;
 

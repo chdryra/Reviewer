@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalAuthor;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
@@ -72,10 +72,10 @@ import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregatio
  * On: 28/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryDataAggregatorDefault implements FactoryDataAggregator {
+public class DataAggregatorsApiDefault implements DataAggregatorsApi {
     private final ComparitorString mStringComparitor;
     
-    public FactoryDataAggregatorDefault(ComparitorString stringComparitor) {
+    public DataAggregatorsApiDefault(ComparitorString stringComparitor) {
         mStringComparitor = stringComparitor;
     }
 

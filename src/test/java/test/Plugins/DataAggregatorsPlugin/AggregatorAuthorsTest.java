@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 
 import test.TestUtils.RandomAuthor;
 
@@ -27,7 +27,7 @@ import test.TestUtils.RandomAuthor;
 public class AggregatorAuthorsTest extends AggregatedDistinctItemsTest<DataAuthorReview>{
     @NonNull
     @Override
-    protected DataAggregator<DataAuthorReview> newAggregator(FactoryDataAggregator factory, DataAggregatorParams params) {
+    protected DataAggregator<DataAuthorReview> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
         return factory.newAuthorsAggregator(params.getSimilarBoolean());
     }
 

@@ -14,5 +14,5 @@ package com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComparatorsPlugin {
-    FactoryDataComparators getComparatorsFactory();
+    DataComparatorsApi getComparatorsApi();
 }

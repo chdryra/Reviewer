@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocation
  */
 public class ApplicationContextImpl implements ApplicationContext {
     private PresenterContext mPresenterContext;
-    private ReviewerLocationServices mLocationServices;
+    private LocationServicesApi mLocationServices;
 
-    public ApplicationContextImpl(PresenterContext presenterContext, ReviewerLocationServices locationServices) {
+    public ApplicationContextImpl(PresenterContext presenterContext, LocationServicesApi locationServices) {
         mPresenterContext = presenterContext;
         mLocationServices = locationServices;
     }
@@ -32,7 +32,7 @@ public class ApplicationContextImpl implements ApplicationContext {
     }
 
     @Override
-    public ReviewerLocationServices getLocationServices() {
+    public LocationServicesApi getLocationServices() {
         return mLocationServices;
     }
 }

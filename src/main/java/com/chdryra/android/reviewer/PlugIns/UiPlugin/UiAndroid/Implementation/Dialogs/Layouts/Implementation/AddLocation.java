@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
@@ -24,16 +25,19 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Implementation.GooglePlace;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
+        .Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -74,12 +78,12 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private EditText mNameEditText;
     private ViewHolderDataList<VhdLocatedPlace> mCurrentLatLngPlaces;
 
-    private ReviewerLocationServices mLocationServices;
+    private LocationServicesApi mLocationServices;
     private LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
     private AutoCompleter mAutocompleter;
 
-    public AddLocation(GvDataAdder adder, ReviewerLocationServices locationServices) {
+    public AddLocation(GvDataAdder adder, LocationServicesApi locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
         mLocationServices = locationServices;
         mFetcher = mLocationServices.newLocationDetailsFetcher();
@@ -94,7 +98,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     private void findPlaceSuggestions() {
         //Initial suggestions
-        mSuggester.fetchSuggestions(new GooglePlace(mCurrentLatLng), this);
+        mSuggester.fetchSuggestions(new UserLocatedPlace(mCurrentLatLng), this);
 
         //Whilst initial suggestions are being found....
         ViewHolderDataList<VhdLocatedPlace> message = new VhDataList<>();
@@ -103,7 +107,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
-        LocatedPlace place = new GooglePlace(mCurrentLatLng);
+        LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
         mAutocompleter = mLocationServices.newAutoCompleter(place);
         mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutocompleter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
@@ -117,8 +121,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setMessages() {
-        mNoLocationMessage = new VhdLocatedPlace(new GooglePlace(mCurrentLatLng, mNoLocation));
-        mSearchingMessage = new VhdLocatedPlace(new GooglePlace(mCurrentLatLng, mSearching));
+        mNoLocationMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, mNoLocation));
+        mSearchingMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, mSearching));
     }
 
     @Override
@@ -234,5 +238,53 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     public void onActivityStopped() {
         mAutocompleter.disconnectFromProvider();
         super.onActivityStopped();
+    }
+
+    private static class UserLocatedPlace implements LocatedPlace {
+        private static final String SEPARATOR = ":";
+        private static final LocationProvider USER = new LocationProvider("User");
+
+        private final LatLng mLatLng;
+        private final String mDescription;
+        private final LocationId mId;
+
+        public UserLocatedPlace(LatLng latLng) {
+            this(latLng, "");
+        }
+
+        public UserLocatedPlace(LatLng latLng, String description) {
+            mLatLng = latLng;
+            mDescription = description;
+            mId = new LocationId(USER, generateId());
+        }
+
+        @Override
+        public LatLng getLatLng() {
+            return mLatLng;
+        }
+
+        @Override
+        public String getDescription() {
+            return mDescription;
+        }
+
+        @Override
+        public LocationId getId() {
+            return mId;
+        }
+
+        private String generateId() {
+            return String.valueOf(mLatLng.hashCode()) + SEPARATOR + String.valueOf(mDescription
+                    .hashCode());
+        }
+
+        @Override
+        public int hashCode() {
+            int result = mLatLng.hashCode();
+            result = 31 * result + mDescription.hashCode();
+            result = 31 * result + mId.hashCode();
+            return result;
+        }
+
     }
 }

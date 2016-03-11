@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
@@ -35,13 +35,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataAggregator {
-    private final FactoryDataAggregator mAggregatorFactory;
+    private final DataAggregatorsApi mAggregatorFactory;
     private final DataAggregatorParams mParams;
     private final ConverterGv mConverter;
 
     public enum CriterionAggregation { SUBJECT, SUBJECT_RATING}
     
-    public GvDataAggregator(FactoryDataAggregator aggregatorFactory,
+    public GvDataAggregator(DataAggregatorsApi aggregatorFactory,
                             DataAggregatorParams params,
                             ConverterGv converter) {
         mAggregatorFactory = aggregatorFactory;

@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -293,7 +293,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void setLocationServices() {
-        ReviewerLocationServices services
+        LocationServicesApi services
                 = ApplicationInstance.getInstance(getActivity()).getLocationServices();
         mPlaceSearcher = services.newPlaceSearcher();
         mAddressSuggester = services.newAddressesSuggester();

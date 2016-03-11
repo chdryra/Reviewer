@@ -80,12 +80,7 @@ public class PlaceSearcherGp implements PlaceSearcher, GoogleApiClient.Connectio
     }
 
     private void doFetch() {
-        boolean permission = ContextCompat.checkSelfPermission(mClient.getContext(), android
-                .Manifest.permission
-                .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( mClient.getContext(),
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-        if(!permission) {
+        if(!hasPermission()) {
             mListener.onNotPermissioned();
             return;
         }
@@ -98,6 +93,14 @@ public class PlaceSearcherGp implements PlaceSearcher, GoogleApiClient.Connectio
         Places.GeoDataApi
                 .getAutocompletePredictions(mClient, mQuery, bounds, filter)
                 .setResultCallback(this);}
+
+    private boolean hasPermission() {
+        return ContextCompat.checkSelfPermission(mClient.getContext(), android
+                .Manifest.permission
+                .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission( mClient.getContext(),
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
 
     @Override
     public void onResult(@NonNull AutocompletePredictionBuffer predictions) {

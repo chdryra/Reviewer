@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
@@ -65,9 +65,9 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         setFactoryGvData(new FactoryGvData());
 
         ConverterGv gvConverter = getConverterGv(modelContext.getTagsManager());
-        setAdaptersFactory(modelContext, gvConverter, aggregationPlugin.getAggregatorFactory());
+        setAdaptersFactory(modelContext, gvConverter, aggregationPlugin.getAggregatorsApi());
 
-        GvDataComparators.initialise(comparatorsPlugin.getComparatorsFactory());
+        GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
 
         setReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
                 getGvDataFactory(), author.getName());
@@ -80,7 +80,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
 
     private void setAdaptersFactory(ModelContext modelContext, ConverterGv gvConverter,
-                                    FactoryDataAggregator aggregator) {
+                                    DataAggregatorsApi aggregator) {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams params = paramsFactory.getDefaultParams();
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);

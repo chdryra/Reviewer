@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorCommentsTest extends AggregatedDistinctItemsTest<DataComment> {
     @NonNull
     @Override
-    protected DataAggregator<DataComment> newAggregator(FactoryDataAggregator factory, DataAggregatorParams params) {
+    protected DataAggregator<DataComment> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
         return factory.newCommentsAggregator(params.getSimilarPercentage());
     }
 

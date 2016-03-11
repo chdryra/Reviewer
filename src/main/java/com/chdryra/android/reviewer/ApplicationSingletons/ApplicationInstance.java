@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
@@ -48,7 +48,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static ApplicationInstance sSingleton;
 
     private final PresenterContext mPresenterContext;
-    private ReviewerLocationServices mLocationServices;
+    private LocationServicesApi mLocationServices;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -140,7 +140,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.launchReview(activity, reviewId);
     }
 
-    public ReviewerLocationServices getLocationServices() {
+    public LocationServicesApi getLocationServices() {
         return mLocationServices;
     }
 

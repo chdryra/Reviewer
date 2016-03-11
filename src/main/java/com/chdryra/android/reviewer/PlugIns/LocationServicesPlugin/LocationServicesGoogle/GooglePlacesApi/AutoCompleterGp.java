@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleterProvider;
+import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterAsync;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AutoCompleterGp implements AutoCompleterProvider, GoogleApiClient.ConnectionCallbacks,
+public class AutoCompleterGp implements AutoCompleterAsync.AutoCompleterProvider, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     private CallBackSignaler mSignaler;

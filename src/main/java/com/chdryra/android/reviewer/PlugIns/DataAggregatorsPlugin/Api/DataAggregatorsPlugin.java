@@ -14,5 +14,5 @@ package com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataAggregatorsPlugin {
-    FactoryDataAggregator getAggregatorFactory();
+    DataAggregatorsApi getAggregatorsApi();
 }

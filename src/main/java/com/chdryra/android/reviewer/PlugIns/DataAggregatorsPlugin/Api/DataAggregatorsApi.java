@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
  * On: 20/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FactoryDataAggregator {
+public interface DataAggregatorsApi {
     DataAggregator<DataAuthorReview> newAuthorsAggregator(DifferenceBoolean threshold);
 
     DataAggregator<DataSubject> newSubjectsAggregator(DifferencePercentage threshold);

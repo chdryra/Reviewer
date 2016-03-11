@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.testutils.RandomString;
 
 import test.TestUtils.RandomReviewId;
@@ -28,7 +28,7 @@ import test.TestUtils.RandomReviewId;
 public class AggregatorTagsTest extends AggregatedDistinctItemsTest<DataTag>{
     @NonNull
     @Override
-    protected DataAggregator<DataTag> newAggregator(FactoryDataAggregator factory, DataAggregatorParams params) {
+    protected DataAggregator<DataTag> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params) {
         return factory.newTagsAggregator(params.getSimilarPercentage());
     }
 

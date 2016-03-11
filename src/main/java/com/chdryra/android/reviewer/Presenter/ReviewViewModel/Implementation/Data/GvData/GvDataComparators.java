@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.FactoryDataComparators;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 import java.util.Comparator;
@@ -28,7 +28,7 @@ public class GvDataComparators {
     private static GvDataComparators sComparator;
     private ComparatorMappings mMap = new ComparatorMappings();
 
-    private GvDataComparators(FactoryDataComparators comparatorsFactory) {
+    private GvDataComparators(DataComparatorsApi comparatorsFactory) {
         mMap = new ComparatorMappings();
         mMap.put(GvSubject.TYPE, comparatorsFactory.getSubjectComparators());
         mMap.put(GvAuthor.TYPE, comparatorsFactory.getAuthorComparators());
@@ -45,7 +45,7 @@ public class GvDataComparators {
     }
 
     //Static methods
-    public static void initialise(FactoryDataComparators comparators) {
+    public static void initialise(DataComparatorsApi comparators) {
         if (sComparator == null) sComparator = new GvDataComparators(comparators);
     }
 

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.FactoryLocationProviders;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationS
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationServicesGoogle implements LocationServicesPlugin {
-    private static FactoryLocationProviders sFactory;
+    private static LocationServicesApi sServices;
     private Context mContext;
 
     public LocationServicesGoogle(Context context) {
@@ -27,8 +27,8 @@ public class LocationServicesGoogle implements LocationServicesPlugin {
     }
 
     @Override
-    public FactoryLocationProviders getLocationProvidersFactory() {
-        if(sFactory == null) sFactory = new FactoryLocationProvidersGp(mContext);
-        return sFactory;
+    public LocationServicesApi getLocationServices() {
+        if(sServices == null) sServices = new GooglePlacesApi(mContext);
+        return sServices;
     }
 }

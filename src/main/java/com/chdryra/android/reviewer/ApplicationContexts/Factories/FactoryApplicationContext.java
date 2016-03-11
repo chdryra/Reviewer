@@ -25,8 +25,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.ReviewerLocationServices;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.GooglePlacesApi;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,12 +53,8 @@ public class FactoryApplicationContext {
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin());
 
-        ReviewerLocationServices services = getLocationServices(context);
+        LocationServicesApi services = plugins.getLocationServicesPlugin().getLocationServices();
 
         return new ApplicationContextImpl(presenterContext, services);
-    }
-
-    public ReviewerLocationServices getLocationServices(Context context) {
-        return new GooglePlacesApi(context);
     }
 }

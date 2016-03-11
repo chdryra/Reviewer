@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
  * On: 22/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FactoryDataComparators {
+public interface DataComparatorsApi {
     ComparatorCollection<DataAuthor> getAuthorComparators();
 
     ComparatorCollection<DataComment> getCommentComparators();

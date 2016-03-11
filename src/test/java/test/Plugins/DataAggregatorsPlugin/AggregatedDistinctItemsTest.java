@@ -20,10 +20,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.FactoryDataAggregator;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorLevenshteinDistance;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.FactoryDataAggregatorDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsApiDefault;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +56,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     protected Map<T, Integer> mCanonicalsMap;
 
     @NonNull
-    protected abstract DataAggregator<T> newAggregator(FactoryDataAggregator factory, DataAggregatorParams params);
+    protected abstract DataAggregator<T> newAggregator(DataAggregatorsApi factory, DataAggregatorParams params);
     @NonNull
     protected abstract T randomDatum();
     @NonNull
@@ -70,7 +70,7 @@ public abstract class AggregatedDistinctItemsTest<T extends HasReviewId> {
     public void setUp() {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams defaultParams = paramsFactory.getDefaultParams();
-        mAggregator = newAggregator(new FactoryDataAggregatorDefault(new ComparitorLevenshteinDistance()), defaultParams);
+        mAggregator = newAggregator(new DataAggregatorsApiDefault(new ComparitorLevenshteinDistance()), defaultParams);
         mCanonicalsMap = new HashMap<>();
     }
 

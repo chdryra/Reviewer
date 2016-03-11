@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin;
 
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.FactoryDataComparators;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.FactoryDat
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataComparatorsDefault implements DataComparatorsPlugin{
-    private static final FactoryDataComparators FACTORY = new FactoryDataComparatorsDefault();
+    private static final DataComparatorsApi FACTORY = new DataComparatorsApiDefault();
     @Override
-    public FactoryDataComparators getComparatorsFactory() {
+    public DataComparatorsApi getComparatorsApi() {
         return FACTORY;
     }
 }

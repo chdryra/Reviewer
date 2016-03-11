@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.LocationServices.Implementation;
 import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
-import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -22,10 +21,14 @@ import java.util.ArrayList;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AddressesSuggesterImpl implements AddressesSuggester {
+public class AddressesSuggesterAsync implements AddressesSuggester {
     private AddressesProvider mProvider;
 
-    public AddressesSuggesterImpl(AddressesProvider provider) {
+    public interface AddressesProvider {
+        ArrayList<LocatedPlace> fetchAddresses(LatLng latLng, int num);
+    }
+
+    public AddressesSuggesterAsync(AddressesProvider provider) {
         mProvider = provider;
     }
 
