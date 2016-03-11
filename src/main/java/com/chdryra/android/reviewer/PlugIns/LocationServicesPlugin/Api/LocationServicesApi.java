@@ -14,6 +14,8 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
+        .VhdLocatedPlace;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,7 +25,7 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 public interface LocationServicesApi {
     AddressesSuggester newAddressesSuggester();
 
-    AutoCompleter newAutoCompleter(LocatedPlace locatedPlace);
+    AutoCompleter<VhdLocatedPlace> newAutoCompleter(LocatedPlace locatedPlace);
 
     LocationDetailsFetcher newLocationDetailsFetcher();
 

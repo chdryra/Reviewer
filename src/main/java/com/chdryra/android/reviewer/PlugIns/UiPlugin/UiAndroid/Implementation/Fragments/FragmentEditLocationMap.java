@@ -36,7 +36,7 @@ import android.widget.Toast;
 import com.chdryra.android.myandroidwidgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.mygenerallibrary.PlaceAutoCompleteSuggester;
+import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
 import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
@@ -44,6 +44,7 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -101,7 +102,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private LatLng mNewLatLng;
     private LocationClientConnector mLocationClient;
     private String mSearchLocationName;
-    private PlaceAutoCompleteSuggester mAutoCompleter;
+    private StringAutoCompleterLocation mAutoCompleter;
     private StringFilterAdapter mSearchAdapter;
 
     private PlaceSearcher mPlaceSearcher;
@@ -476,7 +477,9 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void updateSuggestionAdapters() {
-        mAutoCompleter = new PlaceAutoCompleteSuggester(mNewLatLng);
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        LocationServicesApi api = app.getLocationServices();
+        mAutoCompleter = new StringAutoCompleterLocation(api.newAutoCompleter(new UserLocatedPlace(mNewLatLng)));
         mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
         mSearchAdapter.registerDataSetObserver(new LocationSuggestionsObserver());
         mLocationName.setText(null);
@@ -567,4 +570,5 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     public void onNotPermissioned() {
 
     }
+
 }

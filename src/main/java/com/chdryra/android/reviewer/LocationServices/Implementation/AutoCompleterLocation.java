@@ -22,23 +22,23 @@ import java.util.ArrayList;
  * On: 12/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AutoCompleterAsync implements AutoCompleter {
+public class AutoCompleterLocation implements AutoCompleter<VhdLocatedPlace> {
     private final LatLng mLatLng;
-    private AutoCompleterProvider mProvider;
+    private LocationPredicter mProvider;
 
-    public interface AutoCompleterProvider {
+    public interface LocationPredicter {
         ArrayList<LocatedPlace> fetchPredictions(String query, LatLng latLng);
 
         void disconnect();
     }
 
-    public AutoCompleterAsync(LocatedPlace place, AutoCompleterProvider provider) {
+    public AutoCompleterLocation(LocatedPlace place, LocationPredicter provider) {
         mLatLng = place.getLatLng();
         mProvider = provider;
     }
 
     @Override
-    public ViewHolderDataList filter(String query) {
+    public ViewHolderDataList<VhdLocatedPlace> filter(String query) {
         ArrayList<LocatedPlace> places = mProvider.fetchPredictions(query, mLatLng);
         ViewHolderDataList<VhdLocatedPlace> filtered = new VhDataList<>();
         for (LocatedPlace place : places) {

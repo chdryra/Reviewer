@@ -25,8 +25,6 @@ import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.VhDataList;
 import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
-import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
@@ -35,6 +33,7 @@ import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSug
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
         .Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhdLocatedPlace;
@@ -81,7 +80,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private LocationServicesApi mLocationServices;
     private LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
-    private AutoCompleter mAutoCompleter;
+    private AutoCompleter<VhdLocatedPlace> mAutoCompleter;
 
     public AddLocation(GvDataAdder adder, LocationServicesApi locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
@@ -240,51 +239,4 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         super.onActivityStopped();
     }
 
-    private static class UserLocatedPlace implements LocatedPlace {
-        private static final String SEPARATOR = ":";
-        private static final LocationProvider USER = new LocationProvider("User");
-
-        private final LatLng mLatLng;
-        private final String mDescription;
-        private final LocationId mId;
-
-        public UserLocatedPlace(LatLng latLng) {
-            this(latLng, "");
-        }
-
-        public UserLocatedPlace(LatLng latLng, String description) {
-            mLatLng = latLng;
-            mDescription = description;
-            mId = new LocationId(USER, generateId());
-        }
-
-        @Override
-        public LatLng getLatLng() {
-            return mLatLng;
-        }
-
-        @Override
-        public String getDescription() {
-            return mDescription;
-        }
-
-        @Override
-        public LocationId getId() {
-            return mId;
-        }
-
-        private String generateId() {
-            return String.valueOf(mLatLng.hashCode()) + SEPARATOR + String.valueOf(mDescription
-                    .hashCode());
-        }
-
-        @Override
-        public int hashCode() {
-            int result = mLatLng.hashCode();
-            result = 31 * result + mDescription.hashCode();
-            result = 31 * result + mId.hashCode();
-            return result;
-        }
-
-    }
 }

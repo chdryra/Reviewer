@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.Utils;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
-import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterAsync;
+import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,7 +31,7 @@ public class GpAutoCompleterTest extends TestCase {
 
     @SmallTest
     public void testFilter() {
-        AutoCompleter filter = new AutoCompleterAsync(TAYYABS.getLatLng());
+        AutoCompleter filter = new AutoCompleterLocation(TAYYABS.getLatLng());
         ViewHolderDataList filtered = filter.filter("Ta");
         assertTrue(filtered.size() > 2);
         filtered = filter.filter("Tayyabs");
