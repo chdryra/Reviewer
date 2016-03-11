@@ -6,7 +6,7 @@
   ~
   -->
 
-<com.chdryra.android.myandroidwidgets.ClearableEditText
+<com.chdryra.android.mygenerallibrary.ClearableEditText
     android:id="@+id/url_edit_text"
     style="@style/EditTextCapSentences.Done"
     xmlns:android="http://schemas.android.com/apk/res/android"
