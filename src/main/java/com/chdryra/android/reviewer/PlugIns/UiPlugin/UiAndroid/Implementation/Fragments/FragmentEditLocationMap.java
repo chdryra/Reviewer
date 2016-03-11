@@ -41,6 +41,7 @@ import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -199,14 +200,15 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onSearchResultsFound(ArrayList<LocatedPlace> results) {
+    public void onSearchResultsFound(ArrayList<LocationDetails> results) {
         if (results.size() == 0) {
             makeToast(TOAST_SEARCH_FAILED);
+            mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
         } else {
-            setLatLng(results.get(0).getLatLng());
+            LocationDetails firstHit = results.get(0);
+            setLatLng(firstHit.getLatLng());
+            mLocationName.setText(firstHit.getName());
         }
-
-        mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
     }
 
     @Override

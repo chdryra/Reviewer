@@ -230,7 +230,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     @Override
     public void onPlaceDetailsFound(LocationDetails details) {
         mSelectedLatLng = details.getLatLng();
-        mNameEditText.setText(details.getDescription());
+        mNameEditText.setText(details.getName());
         mNameEditText.setHint(mHint);
     }
 

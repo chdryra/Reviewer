@@ -21,7 +21,7 @@ public interface PlaceSearcher {
     void searchQuery(String query, LatLng nearLatLng, PlaceSearcherListener listener);
 
     interface PlaceSearcherListener {
-        void onSearchResultsFound(ArrayList<LocatedPlace> results);
+        void onSearchResultsFound(ArrayList<LocationDetails> results);
 
         void onNotPermissioned();
     }

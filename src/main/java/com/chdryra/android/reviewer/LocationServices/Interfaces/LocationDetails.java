@@ -8,7 +8,12 @@
 
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
+import android.net.Uri;
+
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Locale;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +21,21 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LocationDetails {
+    String getId();
+
+    LocationProvider getProvider();
+
     LatLng getLatLng();
 
-    String getDescription();
+    String getName();
+
+    String getAddress();
+
+    String getAttributions();
+
+    Locale getLocale();
+
+    String getPhoneNumber();
+
+    Uri getWebsiteUri();
 }

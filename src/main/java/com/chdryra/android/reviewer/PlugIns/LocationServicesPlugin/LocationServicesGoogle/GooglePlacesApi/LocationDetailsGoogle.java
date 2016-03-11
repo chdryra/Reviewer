@@ -9,22 +9,28 @@
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi;
 
 
+import android.net.Uri;
+
+import com.chdryra.android.reviewer.LocationServices.Implementation.LocationProvider;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Locale;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LocationDetailsGoogle implements LocationDetails {
-    private static final LatLng NULL_LAT_LNG = new LatLng(0,0);
-    private static final String NULL_DESC = "NULL_PLACE";
+public class LocationDetailsGoogle implements LocationDetails{
+    private static final Place NULL_PLACE = new NullPlace();
+    private static final LocationProvider GOOGLE = GoogleLocationProvider.GOOGLE;
 
     private Place mPlace;
 
     public LocationDetailsGoogle() {
+        mPlace = NULL_PLACE;
     }
 
     public LocationDetailsGoogle(Place place) {
@@ -33,11 +39,46 @@ public class LocationDetailsGoogle implements LocationDetails {
 
     @Override
     public LatLng getLatLng() {
-        return mPlace != null ? mPlace.getLatLng() : NULL_LAT_LNG;
+        return mPlace.getLatLng();
     }
 
     @Override
-    public String getDescription() {
-        return mPlace != null ? mPlace.getName().toString() : NULL_DESC;
+    public String getId() {
+        return mPlace.getId();
+    }
+
+    @Override
+    public LocationProvider getProvider() {
+        return GOOGLE;
+    }
+
+    @Override
+    public String getName() {
+        return mPlace.getName().toString();
+    }
+
+    @Override
+    public String getAddress() {
+        return mPlace.getAddress().toString();
+    }
+
+    @Override
+    public String getAttributions() {
+        return mPlace.getAttributions().toString();
+    }
+
+    @Override
+    public Locale getLocale() {
+        return mPlace.getLocale();
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return mPlace.getPhoneNumber().toString();
+    }
+
+    @Override
+    public Uri getWebsiteUri() {
+        return mPlace.getWebsiteUri();
     }
 }

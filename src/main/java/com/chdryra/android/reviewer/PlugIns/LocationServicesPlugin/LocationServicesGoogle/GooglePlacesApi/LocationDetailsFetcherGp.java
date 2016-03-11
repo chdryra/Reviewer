@@ -68,5 +68,7 @@ public class LocationDetailsFetcherGp extends GoogleLocationServiceBasic impleme
         mListener.onPlaceDetailsFound(details);
 
         places.release();
+
+        disconnect();
     }
 }

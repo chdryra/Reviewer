@@ -12,13 +12,14 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBuffer;
+import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
-        PlaceSearcher, ResultCallback<AutocompletePredictionBuffer> {
+        PlaceSearcher, ResultCallback<AutocompletePredictionBuffer>{
     private PlaceSearcherListener mListener;
     private LatLng mLatLng;
     private String mQuery;
@@ -50,11 +51,11 @@ public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
 
     @Override
     protected void onNotConnected() {
-        mListener.onSearchResultsFound(new ArrayList<LocatedPlace>());
+        mListener.onSearchResultsFound(new ArrayList<LocationDetails>());
     }
 
     @Override
-    protected void onNotPermissioned() {
+    public void onNotPermissioned() {
         mListener.onNotPermissioned();
     }
 
@@ -72,13 +73,44 @@ public class PlaceSearcherGp extends GoogleLocationServiceBasic implements
 
     @Override
     public void onResult(@NonNull AutocompletePredictionBuffer predictions) {
-        ArrayList<LocatedPlace> results = new ArrayList<>();
+        ArrayList<AutocompletePrediction> idable = new ArrayList<>();
+        int numPredictions = 0;
         for(AutocompletePrediction prediction : predictions) {
-            results.add(new GoogleAutoCompletePlace(prediction.freeze(), mLatLng));
+            if(prediction.getPlaceId() != null) {
+                idable.add(prediction.freeze());
+                numPredictions++;
+            }
         }
 
         predictions.release();
 
-        mListener.onSearchResultsFound(results);
+        DetailsCallback callback = new DetailsCallback(numPredictions);
+        for(AutocompletePrediction prediction : idable) {
+            Places.GeoDataApi.getPlaceById(getClient(), prediction.getPlaceId()).setResultCallback(callback);
+        }
+    }
+
+    private class DetailsCallback implements ResultCallback<PlaceBuffer> {
+        private ArrayList<LocationDetails> mDetails;
+        private int mNumDetailsToExpect = 0;
+
+        public DetailsCallback(int numDetailsToExpect) {
+            mDetails = new ArrayList<>();
+            mNumDetailsToExpect = numDetailsToExpect;
+        }
+
+        @Override
+        public void onResult(@NonNull PlaceBuffer places) {
+            if (places.getStatus().isSuccess() && places.getCount() > 0) {
+                mDetails.add(new LocationDetailsGoogle(places.get(0).freeze()));
+                places.release();
+            }
+
+            mNumDetailsToExpect--;
+            if(mNumDetailsToExpect == 0) {
+                mListener.onSearchResultsFound(mDetails);
+                disconnect();
+            }
+        }
     }
 }

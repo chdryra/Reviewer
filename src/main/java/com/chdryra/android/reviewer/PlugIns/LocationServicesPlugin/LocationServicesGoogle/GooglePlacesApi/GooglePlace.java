@@ -20,7 +20,14 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GooglePlace implements LocatedPlace {
+    private static final LatLng NULL_LAT_LNG = new LatLng(0,0);
+    private static final String NULL_ID = "NULL_ID";
+    private static final String NULL_DESC = "NULL_PLACE";
+
     private Place mPlace;
+
+    public GooglePlace() {
+    }
 
     public GooglePlace(Place place) {
         mPlace = place.freeze();
@@ -28,17 +35,18 @@ public class GooglePlace implements LocatedPlace {
 
     @Override
     public LatLng getLatLng() {
-        return mPlace.getLatLng();
+        return mPlace != null ? mPlace.getLatLng() : NULL_LAT_LNG;
     }
 
     @Override
     public String getDescription() {
-        return mPlace.getName().toString() + ", " + mPlace.getAddress().toString();
+        return mPlace != null ?
+                mPlace.getName().toString() + ", " + mPlace.getAddress().toString() : NULL_DESC;
     }
 
     @Override
     public LocationId getId() {
-        return new LocationId(GoogleLocationProvider.GOOGLE, mPlace.getId());
+        return new LocationId(GoogleLocationProvider.GOOGLE, mPlace != null ? mPlace.getId() : NULL_ID);
     }
 
     @Override
