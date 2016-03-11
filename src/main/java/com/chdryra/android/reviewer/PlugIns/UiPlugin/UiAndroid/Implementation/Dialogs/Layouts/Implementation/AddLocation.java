@@ -81,7 +81,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private LocationServicesApi mLocationServices;
     private LocationDetailsFetcher mFetcher;
     private NearestPlacesSuggester mSuggester;
-    private AutoCompleter mAutocompleter;
+    private AutoCompleter mAutoCompleter;
 
     public AddLocation(GvDataAdder adder, LocationServicesApi locationServices) {
         super(GvLocation.class, new LayoutHolder(LAYOUT, NAME, LIST), NAME, adder);
@@ -108,8 +108,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
         LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
-        mAutocompleter = mLocationServices.newAutoCompleter(place);
-        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutocompleter);
+        mAutoCompleter = mLocationServices.newAutoCompleter(place);
+        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 
@@ -236,7 +236,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public void onActivityStopped() {
-        mAutocompleter.disconnectFromProvider();
+        mAutoCompleter.disconnectFromProvider();
         super.onActivityStopped();
     }
 

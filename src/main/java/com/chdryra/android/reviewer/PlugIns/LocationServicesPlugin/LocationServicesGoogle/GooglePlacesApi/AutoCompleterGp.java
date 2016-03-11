@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServ
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.LocationServices.Implementation.AutoCompleterAsync;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
@@ -61,8 +62,7 @@ public class AutoCompleterGp implements AutoCompleterAsync.AutoCompleterProvider
         AutocompletePredictionBuffer predictions = result.await();
 
         for(AutocompletePrediction prediction : predictions) {
-            results.add(new GoogleAutoCompletePlace(prediction.getPlaceId(),
-                    prediction.getPrimaryText(null).toString(), latLng));
+            results.add(new GoogleAutoCompletePlace(prediction.freeze(), latLng));
         }
 
         predictions.release();
@@ -87,7 +87,7 @@ public class AutoCompleterGp implements AutoCompleterAsync.AutoCompleterProvider
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         mSignaler.doNotSignal();
     }
 

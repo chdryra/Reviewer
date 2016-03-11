@@ -8,8 +8,10 @@
 
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi;
 
+
 import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -18,29 +20,25 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GooglePlace implements LocatedPlace {
-    private LatLng mLatLng;
-    private String mDescription;
-    private String mId;
+    private Place mPlace;
 
-    public GooglePlace(String id, String description, LatLng latLng) {
-        mLatLng = latLng;
-        mDescription = description;
-        mId = id;
+    public GooglePlace(Place place) {
+        mPlace = place.freeze();
     }
 
     @Override
     public LatLng getLatLng() {
-        return mLatLng;
+        return mPlace.getLatLng();
     }
 
     @Override
     public String getDescription() {
-        return mDescription;
+        return mPlace.getName().toString() + ", " + mPlace.getAddress().toString();
     }
 
     @Override
     public LocationId getId() {
-        return new LocationId(GoogleLocationProvider.GOOGLE, mId);
+        return new LocationId(GoogleLocationProvider.GOOGLE, mPlace.getId());
     }
 
     @Override
@@ -50,19 +48,12 @@ public class GooglePlace implements LocatedPlace {
 
         GooglePlace that = (GooglePlace) o;
 
-        if (mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null) return false;
-        if (mDescription != null ? !mDescription.equals(that.mDescription) : that.mDescription !=
-                null)
-            return false;
-        return !(mId != null ? !mId.equals(that.mId) : that.mId != null);
+        return !(mPlace != null ? !mPlace.equals(that.mPlace) : that.mPlace != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mLatLng != null ? mLatLng.hashCode() : 0;
-        result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
-        result = 31 * result + (mId != null ? mId.hashCode() : 0);
-        return result;
+        return mPlace != null ? mPlace.hashCode() : 0;
     }
 }

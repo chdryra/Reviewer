@@ -28,7 +28,7 @@ public class LocationDetailsGoogle implements LocationDetails {
     }
 
     public LocationDetailsGoogle(Place place) {
-        mPlace = place;
+        mPlace = place.freeze();
     }
 
     @Override

@@ -8,18 +8,21 @@
 
 package com.chdryra.android.reviewer.LocationServices.Implementation;
 
+import android.support.annotation.Nullable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 12/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class LocationId {
+    private static final String NULL_ID = "NULL_LOCATION_ID";
     private LocationProvider mProvider;
     private String mId;
 
-    public LocationId(LocationProvider provider, String providerId) {
+    public LocationId(LocationProvider provider, @Nullable String providerId) {
         mProvider = provider;
-        mId = providerId;
+        mId = providerId != null ? providerId : NULL_ID;
     }
 
     public String getId() {

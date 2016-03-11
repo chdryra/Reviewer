@@ -38,10 +38,10 @@ import com.google.android.gms.location.places.Places;
  * On: 14/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GooglePlacesApi implements LocationServicesApi {
+public class GoogleLocationServicesApi implements LocationServicesApi {
     private Context mContext;
 
-    public GooglePlacesApi(Context context) {
+    public GoogleLocationServicesApi(Context context) {
         mContext = context;
     }
 

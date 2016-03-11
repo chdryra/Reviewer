@@ -28,7 +28,7 @@ public class LocationServicesGoogle implements LocationServicesPlugin {
 
     @Override
     public LocationServicesApi getLocationServices() {
-        if(sServices == null) sServices = new GooglePlacesApi(mContext);
+        if(sServices == null) sServices = new GoogleLocationServicesApi(mContext);
         return sServices;
     }
 }

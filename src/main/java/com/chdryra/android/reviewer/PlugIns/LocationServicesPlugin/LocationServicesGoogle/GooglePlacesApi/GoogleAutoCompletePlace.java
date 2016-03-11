@@ -8,10 +8,9 @@
 
 package com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.LocationServices.Implementation.LocationId;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
+import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -20,13 +19,11 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GoogleAutoCompletePlace implements LocatedPlace {
-    private String mId;
-    private String mDescription;
+    private AutocompletePrediction mPrediction;
     private LatLng mLatLng;
 
-    public GoogleAutoCompletePlace(@Nullable String id, String description, LatLng latLng) {
-        mId = id == null ? "" : id;
-        mDescription = description;
+    public GoogleAutoCompletePlace(AutocompletePrediction prediction, LatLng latLng) {
+        mPrediction = prediction.freeze();
         mLatLng = latLng;
     }
 
@@ -37,12 +34,12 @@ public class GoogleAutoCompletePlace implements LocatedPlace {
 
     @Override
     public String getDescription() {
-        return mDescription;
+        return mPrediction.getPrimaryText(null).toString() + ", " + mPrediction.getSecondaryText(null).toString();
     }
 
     @Override
     public LocationId getId() {
-        return new LocationId(GoogleLocationProvider.GOOGLE, mId);
+        return new LocationId(GoogleLocationProvider.GOOGLE, mPrediction.getPlaceId());
     }
 
     @Override
@@ -52,9 +49,7 @@ public class GoogleAutoCompletePlace implements LocatedPlace {
 
         GoogleAutoCompletePlace that = (GoogleAutoCompletePlace) o;
 
-        if (mId != null ? !mId.equals(that.mId) : that.mId != null) return false;
-        if (mDescription != null ? !mDescription.equals(that.mDescription) : that.mDescription !=
-                null)
+        if (mPrediction != null ? !mPrediction.equals(that.mPrediction) : that.mPrediction != null)
             return false;
         return !(mLatLng != null ? !mLatLng.equals(that.mLatLng) : that.mLatLng != null);
 
@@ -62,8 +57,7 @@ public class GoogleAutoCompletePlace implements LocatedPlace {
 
     @Override
     public int hashCode() {
-        int result = mId != null ? mId.hashCode() : 0;
-        result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
+        int result = mPrediction != null ? mPrediction.hashCode() : 0;
         result = 31 * result + (mLatLng != null ? mLatLng.hashCode() : 0);
         return result;
     }
