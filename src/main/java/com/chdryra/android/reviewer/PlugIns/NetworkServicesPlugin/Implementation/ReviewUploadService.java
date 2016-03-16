@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Social.Implementation;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Implementation;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -15,7 +15,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharerListener;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.Collection;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploadService extends IntentService implements BatchReviewSharerListener {
+public class ReviewUploadService extends IntentService implements BatchReviewSharer.BatchReviewSharerListener {
     public static final String STATUS_UPDATE = "ReviewSharerService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "ReviewSharerService.Percentage";
     public static final String STATUS_RESULTS = "ReviewSharerService.PublishResults";
@@ -80,6 +81,7 @@ public class ReviewUploadService extends IntentService implements BatchReviewSha
             if (platformNames.contains(platform.getName())) platforms.add(platform);
         }
 
-        new BatchReviewSharerImpl(platforms, this).shareReview(review, tagsManager);
+        BatchReviewSharer sharer = new BatchReviewSharer(platforms, this);
+        sharer.shareReview(review, tagsManager);
     }
 }

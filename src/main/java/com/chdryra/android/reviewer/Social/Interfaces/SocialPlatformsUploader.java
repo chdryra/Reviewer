@@ -8,14 +8,17 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/02/2016
+ * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BatchReviewSharer extends SocialPublisherListener{
-    void shareReview(Review review, TagsManager tagsManager);
+public interface SocialPlatformsUploader {
+    void registerListener(SocialPlatformsUploaderListener listener);
+
+    void unregisterListener(SocialPlatformsUploaderListener listener);
+
+    void upload(String reviewId, ArrayList<String> platformNames);
 }

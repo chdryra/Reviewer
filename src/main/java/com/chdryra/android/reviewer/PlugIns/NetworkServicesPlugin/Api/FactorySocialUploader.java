@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FactoryReviewUploader {
-    ReviewUploader newReviewUploader();
+public interface FactorySocialUploader {
+    SocialPlatformsUploader newReviewUploader();
 }

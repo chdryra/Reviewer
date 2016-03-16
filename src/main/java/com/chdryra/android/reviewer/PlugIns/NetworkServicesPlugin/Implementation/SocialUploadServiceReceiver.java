@@ -13,8 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.Social.Implementation.ReviewUploadService;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploaderListener;
 
 import java.util.ArrayList;
 
@@ -23,18 +22,18 @@ import java.util.ArrayList;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploadServiceReceiver extends BroadcastReceiver {
-    private ArrayList<ReviewUploaderListener> mListeners;
+public class SocialUploadServiceReceiver extends BroadcastReceiver {
+    private ArrayList<SocialPlatformsUploaderListener> mListeners;
 
-    public ReviewUploadServiceReceiver() {
+    public SocialUploadServiceReceiver() {
         mListeners = new ArrayList<>();
     }
 
-    public void registerListener(ReviewUploaderListener listener) {
+    public void registerListener(SocialPlatformsUploaderListener listener) {
         if(!mListeners.contains(listener)) mListeners.add(listener);
     }
 
-    public void unregisterListener(ReviewUploaderListener listener) {
+    public void unregisterListener(SocialPlatformsUploaderListener listener) {
         if(mListeners.contains(listener)) mListeners.remove(listener);
     }
 
@@ -53,7 +52,7 @@ public class ReviewUploadServiceReceiver extends BroadcastReceiver {
                 .PUBLISH_RESULTS_OK);
         ArrayList<PublishResults> notOk = intent.getParcelableArrayListExtra(ReviewUploadService
                 .PUBLISH_RESULTS_NOT_OK);
-        for(ReviewUploaderListener listener : mListeners) {
+        for(SocialPlatformsUploaderListener listener : mListeners) {
             listener.onUploadCompleted(ok, notOk);
         }
     }
@@ -61,7 +60,7 @@ public class ReviewUploadServiceReceiver extends BroadcastReceiver {
     private void updateListenersOnStatus(Intent intent) {
         double percentage = intent.getDoubleExtra(ReviewUploadService.STATUS_PERCENTAGE, 0.);
         PublishResults results = intent.getParcelableExtra(ReviewUploadService.STATUS_RESULTS);
-        for(ReviewUploaderListener listener : mListeners) {
+        for(SocialPlatformsUploaderListener listener : mListeners) {
             listener.onUploadStatus(percentage, results);
         }
     }

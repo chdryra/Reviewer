@@ -14,9 +14,8 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
-import com.chdryra.android.reviewer.Social.Implementation.ReviewUploadService;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploaderListener;
 
 import java.util.ArrayList;
 
@@ -25,16 +24,16 @@ import java.util.ArrayList;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploaderAndroid implements ReviewUploader {
+public class SocialPlatformsUploaderAndroid implements SocialPlatformsUploader {
     private Context mContext;
-    private ReviewUploadServiceReceiver mReceiver;
+    private SocialUploadServiceReceiver mReceiver;
 
-    public ReviewUploaderAndroid(Context context, ReviewUploadServiceReceiver receiver) {
+    public SocialPlatformsUploaderAndroid(Context context, SocialUploadServiceReceiver receiver) {
         mContext = context;
         mReceiver = receiver;
+
         IntentFilter statusUpdateFilter = new IntentFilter(ReviewUploadService.STATUS_UPDATE);
         IntentFilter uploadCompletedFilter = new IntentFilter(ReviewUploadService.UPLOAD_COMPLETED);
-
 
         LocalBroadcastManager.getInstance(mContext).registerReceiver(receiver, statusUpdateFilter);
         LocalBroadcastManager.getInstance(mContext).registerReceiver(receiver, uploadCompletedFilter);
@@ -42,12 +41,12 @@ public class ReviewUploaderAndroid implements ReviewUploader {
     }
 
     @Override
-    public void registerListener(ReviewUploaderListener listener) {
+    public void registerListener(SocialPlatformsUploaderListener listener) {
         mReceiver.registerListener(listener);
     }
 
     @Override
-    public void unregisterListener(ReviewUploaderListener listener) {
+    public void unregisterListener(SocialPlatformsUploaderListener listener) {
         mReceiver.unregisterListener(listener);
     }
 

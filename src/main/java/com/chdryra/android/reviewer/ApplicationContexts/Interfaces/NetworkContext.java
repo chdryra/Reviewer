@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryReviewUploader;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialUploader;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryRev
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NetworkContext {
-    FactoryReviewUploader getReviewUploaderFactory();
+    FactorySocialUploader getReviewUploaderFactory();
 }

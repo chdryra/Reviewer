@@ -35,8 +35,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploaderListener;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -55,14 +55,14 @@ public class PresenterUsersFeed implements
         DialogAlertFragment.DialogAlertListener,
         NewReviewListener,
         ReviewsRepositoryObserver,
-        ReviewUploaderListener{
+        SocialPlatformsUploaderListener {
 
     private ApplicationInstance mApp;
     private ReviewNodeComponent mFeedNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
-    private ReviewUploader mUploader;
+    private SocialPlatformsUploader mUploader;
     private ReviewUploadedListener mUploadedListener;
 
     public interface ReviewUploadedListener {

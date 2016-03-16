@@ -6,12 +6,11 @@
  *
  */
 
-package com.chdryra.android.reviewer.Social.Implementation;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Implementation;
 
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharer;
-import com.chdryra.android.reviewer.Social.Interfaces.BatchReviewSharerListener;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPublisherListener;
 
@@ -23,18 +22,24 @@ import java.util.Collection;
  * On: 13/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BatchReviewSharerImpl implements BatchReviewSharer, SocialPublisherListener {
+public class BatchReviewSharer implements SocialPublisherListener {
     private BatchReviewSharerListener mListener;
     private Collection<SocialPlatform<?>> mPlatforms;
     private ArrayList<PublishResults> mResults;
 
-    public BatchReviewSharerImpl(Collection<SocialPlatform<?>> platforms,
-                                 BatchReviewSharerListener listener) {
+    public interface BatchReviewSharerListener {
+        void onStatusUpdate(double percentage, PublishResults results);
+
+        void onPublished(Collection<PublishResults> publishedOk, Collection<PublishResults>
+                publishedNotOk);
+    }
+
+    public BatchReviewSharer(Collection<SocialPlatform<?>> platforms,
+                             BatchReviewSharerListener listener) {
         mListener = listener;
         mPlatforms = platforms;
     }
 
-    @Override
     public void shareReview(Review review, TagsManager tagsManager) {
         if (mPlatforms.size() == 0) return;
         mResults = new ArrayList<>();

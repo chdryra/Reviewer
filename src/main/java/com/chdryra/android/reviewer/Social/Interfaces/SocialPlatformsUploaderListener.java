@@ -14,11 +14,12 @@ import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/02/2016
+ * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BatchReviewSharerListener {
-    void onStatusUpdate(double percentage, PublishResults results);
+public interface SocialPlatformsUploaderListener {
+    void onUploadStatus(double percentage, PublishResults justUploaded);
 
-    void onPublished(Collection<PublishResults> publishedOk, Collection<PublishResults> publishedNotOk);
+    void onUploadCompleted(Collection<PublishResults> publishedOk,
+                           Collection<PublishResults> publishedNotOk);
 }

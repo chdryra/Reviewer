@@ -10,23 +10,23 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Implementatio
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryReviewUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploader;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewUploaderService implements FactoryReviewUploader{
+public class FactorySocialUploaderService implements FactorySocialUploader {
     private Context mContext;
 
-    public FactoryReviewUploaderService(Context context) {
+    public FactorySocialUploaderService(Context context) {
         mContext = context;
     }
 
     @Override
-    public ReviewUploader newReviewUploader() {
-        return new ReviewUploaderAndroid(mContext, new ReviewUploadServiceReceiver());
+    public SocialPlatformsUploader newReviewUploader() {
+        return new SocialPlatformsUploaderAndroid(mContext, new SocialUploadServiceReceiver());
     }
 }

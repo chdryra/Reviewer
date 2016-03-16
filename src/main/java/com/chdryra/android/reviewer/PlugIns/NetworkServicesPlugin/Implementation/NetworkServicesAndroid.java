@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Implementatio
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryReviewUploader;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
 
 /**
@@ -20,14 +20,14 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkSer
  */
 public class NetworkServicesAndroid implements NetworkServicesPlugin {
     private Context mContext;
-    private final FactoryReviewUploaderService mFactory;
+    private final FactorySocialUploaderService mFactory;
 
     public NetworkServicesAndroid(Context context) {
-        mFactory = new FactoryReviewUploaderService(context);
+        mFactory = new FactorySocialUploaderService(context);
     }
 
     @Override
-    public FactoryReviewUploader getUploaderFactory(Context context) {
+    public FactorySocialUploader getUploaderFactory(Context context) {
         return mFactory;
     }
 }
