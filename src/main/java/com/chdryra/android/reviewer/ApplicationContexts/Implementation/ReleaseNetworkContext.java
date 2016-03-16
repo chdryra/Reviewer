@@ -25,7 +25,6 @@ public class ReleaseNetworkContext implements NetworkContext {
 
     public ReleaseNetworkContext(Context context, NetworkServicesPlugin plugin) {
         mUploaderFactory = plugin.getUploaderFactory(context);
-        Firebase.setAndroidContext(context);
     }
 
     @Override

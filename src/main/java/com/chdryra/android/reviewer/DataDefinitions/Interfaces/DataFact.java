@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataFact extends HasReviewId, Validatable{
-    //abstract
     String getLabel();
 
     String getValue();

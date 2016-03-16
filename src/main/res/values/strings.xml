@@ -111,6 +111,7 @@
 
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
+    <string name="firebase">https://teeqr.firebaseio.com/</string>
 
     <!-- Keys -->
     <string name="key_google_maps">AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg</string>

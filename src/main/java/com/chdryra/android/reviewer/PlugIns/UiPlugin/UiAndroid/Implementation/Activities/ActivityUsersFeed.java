@@ -46,6 +46,9 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
+        //Firebase cloud = new Firebase("https://fiery-heat-1802.firebaseio.com/");
+        //cloud.child("message").setValue("Do you have data? You'll love Firebase.");
+
         mApp = ApplicationInstance.getInstance(this);
 
         mPresenter = new PresenterUsersFeed.Builder(mApp)

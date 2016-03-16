@@ -179,7 +179,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public TagsManager getTagsManager() {
-        return mModelContext.getReviewsSource().getTagsManager();
+        return mModelContext.getTagsManager();
     }
 
     @Override
