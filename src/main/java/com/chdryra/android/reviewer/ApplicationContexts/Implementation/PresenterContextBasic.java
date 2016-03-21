@@ -12,6 +12,7 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
@@ -20,6 +21,8 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
@@ -47,6 +50,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     private ViewContext mViewContext;
     private SocialContext mSocialContext;
     private NetworkContext mNetworkContext;
+    private PersistenceContext mPersistenceContext;
 
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
@@ -57,11 +61,13 @@ public abstract class PresenterContextBasic implements PresenterContext{
     protected PresenterContextBasic(ModelContext modelContext,
                                     ViewContext viewContext,
                                     SocialContext socialContext,
-                                    NetworkContext networkContext) {
+                                    NetworkContext networkContext,
+                                    PersistenceContext persistenceContext) {
         mModelContext = modelContext;
         mViewContext = viewContext;
         mSocialContext = socialContext;
         mNetworkContext = networkContext;
+        mPersistenceContext = persistenceContext;
     }
 
     public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
@@ -99,7 +105,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public ReviewsFeed getAuthorsFeed() {
-        return mModelContext.getAuthorsFeed();
+        return mPersistenceContext.getAuthorsFeed();
     }
 
     @Override
@@ -124,12 +130,12 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public void deleteFromUsersFeed(ReviewId id) {
-        mModelContext.getAuthorsFeed().removeReview(id);
+        mPersistenceContext.getAuthorsFeed().removeReview(id);
     }
 
     @Override
     public void launchReview(Activity activity, ReviewId reviewId) {
-        ReviewNode reviewNode = mModelContext.getReviewsSource().asMetaReview(reviewId);
+        ReviewNode reviewNode = mPersistenceContext.getReviewsSource().asMetaReview(reviewId);
         if(reviewNode == null) return;
         LaunchableUi ui = mFactoryReviewViewLaunchable.newReviewsListScreen(reviewNode,
                 mFactoryReviewViewAdapter);
@@ -162,7 +168,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public Review publishReviewBuilder() {
         Review published = mReviewBuilderAdapter.publishReview();
-        mModelContext.getAuthorsFeed().addReview(published);
+        mPersistenceContext.getAuthorsFeed().addReview(published);
         discardReviewBuilderAdapter();
 
         return published;
@@ -175,7 +181,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public Review getReview(ReviewId id) {
-        return mModelContext.getReviewsSource().getReview(id);
+        return mPersistenceContext.getReviewsSource().getReview(id);
     }
 
     @Override
@@ -191,5 +197,10 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public BackendUploader newBackendUploader() {
         return mNetworkContext.getBackendUploaderFactory().newUploader();
+    }
+
+    @Override
+    public ReviewsRepositoryMutable getBackendRepository() {
+        return mPersistenceContext.getBackendRepository();
     }
 }

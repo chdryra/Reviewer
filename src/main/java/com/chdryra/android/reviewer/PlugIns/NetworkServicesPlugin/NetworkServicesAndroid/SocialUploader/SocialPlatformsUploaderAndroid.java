@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploaderListener;
@@ -49,9 +50,9 @@ public class SocialPlatformsUploaderAndroid implements SocialPlatformsUploader {
     }
 
     @Override
-    public void uploadToSocialPlatforms(String reviewId, ArrayList<String> platformNames) {
+    public void uploadToSocialPlatforms(ReviewId reviewId, ArrayList<String> platformNames) {
         Intent shareService = new Intent(mContext, SocialUploadService.class);
-        shareService.putExtra(PublishingAction.PUBLISHED, reviewId);
+        shareService.putExtra(PublishingAction.PUBLISHED, reviewId.toString());
         shareService.putStringArrayListExtra(PublishingAction.PLATFORMS, platformNames);
         mContext.startService(shareService);
     }

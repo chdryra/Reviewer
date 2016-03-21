@@ -40,7 +40,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Plugin.FactoryPers
  * On: 21/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewerDb implements FactoryPersistence {
+public class FactoryLocalReviewerDb implements FactoryPersistence {
     private FactoryContractor mContractorFactory;
     private DbSpecification<ReviewerDbContract> mSpec;
     private FactoryReviewerDb mDbFactory;

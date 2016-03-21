@@ -12,8 +12,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
@@ -22,10 +20,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ModelContext {
-    ReviewsFeedMutable getAuthorsFeed();
-
-    ReviewsSource getReviewsSource();
-
     TagsManager getTagsManager();
 
     FactoryReviews getReviewsFactory();

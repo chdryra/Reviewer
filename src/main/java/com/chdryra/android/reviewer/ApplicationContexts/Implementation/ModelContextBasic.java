@@ -13,8 +13,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsSource;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
 
 /**
@@ -24,8 +22,6 @@ import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
  */
 public abstract class ModelContextBasic implements ModelContext {
     private FactoryReviews mFactoryReviews;
-    private ReviewsFeedMutable mAuthorsFeed;
-    private ReviewsSource mReviewsSource;
     private TagsManager mTagsManager;
     private FactoryVisitorReviewNode mVisitorsFactory;
     private FactoryNodeTraverser mTreeTraversersFactory;
@@ -49,24 +45,6 @@ public abstract class ModelContextBasic implements ModelContext {
 
     public void setFactoryReviews(FactoryReviews factoryReviews) {
         mFactoryReviews = factoryReviews;
-    }
-
-    public void setAuthorsFeed(ReviewsFeedMutable authorsFeed) {
-        mAuthorsFeed = authorsFeed;
-    }
-
-    public void setReviewsSource(ReviewsSource reviewsSource) {
-        mReviewsSource = reviewsSource;
-    }
-
-    @Override
-    public ReviewsFeedMutable getAuthorsFeed() {
-        return mAuthorsFeed;
-    }
-
-    @Override
-    public ReviewsSource getReviewsSource() {
-        return mReviewsSource;
     }
 
     @Override

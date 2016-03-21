@@ -15,14 +15,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 
@@ -45,23 +41,6 @@ public class ReleaseModelContext extends ModelContextBasic {
         setVisitorsFactory(new FactoryVisitorReviewNode());
 
         setTreeTraversersFactory(new FactoryNodeTraverser());
-
-        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
-
-        ReviewsRepositoryMutable persistence
-                = persistencePlugin.newLocalPersistence(context, this);
-
-        setAuthorsFeed(persistence, getReviewsFactory());
-
-        setReviewsSource(repoFactory.newReviewsSource(persistence, getReviewsFactory()));
-    }
-
-    private void setAuthorsFeed(ReviewsRepositoryMutable sourceAndDestination,
-                                FactoryReviews reviewsFactory) {
-        FactoryReviewsFeed feedFactory = new FactoryReviewsFeed(reviewsFactory);
-        ReviewsFeedMutable reviewsFeed = feedFactory.newMutableFeed(sourceAndDestination);
-
-        setAuthorsFeed(reviewsFeed);
     }
 
     private void setReviewsFactory(DataAuthor author) {
