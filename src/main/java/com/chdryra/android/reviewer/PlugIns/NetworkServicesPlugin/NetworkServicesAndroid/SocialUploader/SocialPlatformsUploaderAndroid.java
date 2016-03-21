@@ -44,6 +44,7 @@ public class SocialPlatformsUploaderAndroid implements SocialPlatformsUploader {
         mReceiver.registerListener(listener);
     }
 
+
     @Override
     public void unregisterListener(SocialPlatformsUploaderListener listener) {
         mReceiver.unregisterListener(listener);
