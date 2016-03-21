@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
-import com.firebase.client.Firebase;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
@@ -21,7 +19,6 @@ public class ReviewerApp extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Firebase.setAndroidContext(this);
         mIsInitialised = true;
     }
 

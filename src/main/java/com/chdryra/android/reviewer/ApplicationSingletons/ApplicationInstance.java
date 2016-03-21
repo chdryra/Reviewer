@@ -121,7 +121,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewBuilderAdapter<?> newReviewBuilderAdapter(String reviewId) {
-        return mPresenterContext.newReviewBuilderAdapter(getReview(reviewId));
+        return mPresenterContext.newReviewBuilderAdapter(getReviewFromLocalRepo(reviewId));
     }
 
     public void discardReviewBuilderAdapter() {
@@ -144,11 +144,11 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mLocationServices;
     }
 
-    public Review getReview(ReviewId id) {
+    public Review getReviewFromLocalRepo(ReviewId id) {
         return mPresenterContext.getReview(id);
     }
 
-    public Review getReview(String reviewId) {
+    public Review getReviewFromLocalRepo(String reviewId) {
         return mPresenterContext.getReview(new DatumReviewId(reviewId));
     }
 

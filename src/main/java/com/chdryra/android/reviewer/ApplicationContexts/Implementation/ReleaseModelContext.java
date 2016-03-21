@@ -49,7 +49,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
 
         ReviewsRepositoryMutable persistence
-                = persistencePlugin.newPersistenceRepository(context, this);
+                = persistencePlugin.newLocalPersistence(context, this);
 
         setAuthorsFeed(persistence, getReviewsFactory());
 

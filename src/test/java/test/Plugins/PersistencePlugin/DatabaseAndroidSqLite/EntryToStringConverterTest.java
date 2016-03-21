@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin
-        .DatabaseAndroidSqLite.Implementation.EntryToStringConverter;
+        .AndroidSqLiteDb.Implementation.EntryToStringConverter;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
         .PersistenceReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase

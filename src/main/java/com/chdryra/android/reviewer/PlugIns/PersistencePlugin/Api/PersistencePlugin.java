@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,5 +20,7 @@ import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistencePlugin {
-    ReviewsRepositoryMutable newPersistenceRepository(Context context, ModelContext modelContext);
+    ReviewsRepositoryMutable newLocalPersistence(Context context, ModelContext modelContext);
+
+    ReviewsRepositoryMutable newBackendPersistence(Context context, ModelContext modelContext);
 }

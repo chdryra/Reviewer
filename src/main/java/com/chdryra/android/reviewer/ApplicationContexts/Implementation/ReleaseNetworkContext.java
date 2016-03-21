@@ -23,7 +23,7 @@ public class ReleaseNetworkContext implements NetworkContext {
     private FactorySocialUploader mUploaderFactory;
 
     public ReleaseNetworkContext(Context context, NetworkServicesPlugin plugin) {
-        mUploaderFactory = plugin.getUploaderFactory(context);
+        mUploaderFactory = plugin.getSocialUploaderFactory(context);
     }
 
     @Override

@@ -116,7 +116,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     private void shareIntent() {
         ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
-        mSharer.publish(instance.getReview(mReviewId), instance.getTagsManager());
+        mSharer.publish(instance.getReviewFromLocalRepo(mReviewId), instance.getTagsManager());
     }
 
     private void setReviewIdFromArgs() {

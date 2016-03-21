@@ -16,15 +16,14 @@ import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataCompar
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin.DataComparatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Plugin.LocationServicesGoogle;
-
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Implementation
-        .NetworkServicesAndroid;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.SocialUploader.NetworkServicesAndroid;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin
-        .Api.DatabasePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin.DatabaseAndroidSqLite.Plugin.DatabaseAndroidSqlLite;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Plugin.PersistenceReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendDatabase.Factories.FactoryBackendFirebase;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Factories.FactoryReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Plugin.FactoryPersistence;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Plugin.PersistencePluginImpl;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 
@@ -54,8 +53,10 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
 
     @Override
     public PersistencePlugin getPersistencePlugin() {
-        DatabasePlugin dbPlugin = new DatabaseAndroidSqlLite();
-        return new PersistenceReviewerDb(PERSISTENCE_NAME, PERSISTENCE_VER, dbPlugin);
+        FactoryPersistence local
+                = new FactoryReviewerDb(PERSISTENCE_NAME, PERSISTENCE_VER, new AndroidSqlLiteDb());
+        FactoryPersistence backend = new FactoryBackendFirebase();
+        return new PersistencePluginImpl(local, backend);
     }
 
     @Override
