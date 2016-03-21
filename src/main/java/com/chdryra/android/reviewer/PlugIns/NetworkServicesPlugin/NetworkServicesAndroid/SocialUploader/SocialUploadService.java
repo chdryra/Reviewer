@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.SocialUploader;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.SocialUploader;
 
 import android.app.IntentService;
 import android.content.Intent;

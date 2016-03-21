@@ -13,28 +13,39 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverview;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendUploaderListener;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploaderListener;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -55,23 +66,29 @@ public class PresenterUsersFeed implements
         DialogAlertFragment.DialogAlertListener,
         NewReviewListener,
         ReviewsRepositoryObserver,
-        SocialPlatformsUploaderListener {
+        SocialPlatformsUploaderListener,
+        BackendUploaderListener{
 
     private ApplicationInstance mApp;
     private ReviewNodeComponent mFeedNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
-    private SocialPlatformsUploader mUploader;
+    private SocialPlatformsUploader mSocialUploader;
+    private BackendUploader mBackendUploader;
     private ReviewUploadedListener mUploadedListener;
 
     public interface ReviewUploadedListener {
-        void onReviewUploaded(String message);
+        void onReviewUploadedToSocialPlatforms(String message);
+
+        void onReviewUploadedToBackend(String message);
+
+        void onReviewDeletedFromBackend(String message);
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
-                              ReviewUploadedListener uploadedListener,
-                              Actions actions) {
+                               ReviewUploadedListener uploadedListener,
+                               Actions actions) {
         mApp = app;
 
         mReviewsFactory = app.getReviewsFactory();
@@ -82,8 +99,13 @@ public class PresenterUsersFeed implements
         mGridItem = (GridItemFeedScreen) actions.getGridItemAction();
         mReviewView = app.getLaunchableFactory().newReviewsListScreen(mFeedNode,
                 app.getReviewViewAdapterFactory(), actions);
-        mUploader = app.newReviewUploader();
-        mUploader.registerListener(this);
+
+        mSocialUploader = app.newSocialUploader();
+        mSocialUploader.registerListener(this);
+
+        mBackendUploader = app.newBackendUploader();
+        mBackendUploader.registerListener(this);
+
         mUploadedListener = uploadedListener;
     }
 
@@ -93,6 +115,14 @@ public class PresenterUsersFeed implements
 
     public void deleteFromUsersFeed(ReviewId id) {
         mApp.deleteFromUsersFeed(id);
+        mBackendUploader.deleteReview(id);
+    }
+
+    public void publish(String reviewId, ArrayList<String> platforms) {
+        mBackendUploader.uploadReview(new DatumReviewId(reviewId));
+        if(platforms != null && platforms.size() > 0) {
+            mSocialUploader.uploadToSocialPlatforms(new DatumReviewId(reviewId), platforms);
+        }
     }
 
     @Override
@@ -122,10 +152,6 @@ public class PresenterUsersFeed implements
         mGridItem.onNewReviewUsingTemplate(template);
     }
 
-    public void upload(String reviewId, ArrayList<String> platformNames) {
-        mUploader.upload(reviewId, platformNames);
-    }
-
     @Override
     public void onUploadStatus(double percentage, PublishResults justUploaded) {
 
@@ -147,7 +173,17 @@ public class PresenterUsersFeed implements
         }
 
         String message = getReviewUploadedMessage(platformsOk, platformsNotOk, numFollowers);
-        mUploadedListener.onReviewUploaded(message);
+        mUploadedListener.onReviewUploadedToSocialPlatforms(message);
+    }
+
+    @Override
+    public void onUploadCompleted(ReviewId reviewId) {
+        mUploadedListener.onReviewUploadedToBackend("Review uploaded");
+    }
+
+    @Override
+    public void onDeleteCompleted(ReviewId reviewId) {
+        mUploadedListener.onReviewDeletedFromBackend("Review deleted");
     }
 
     private String getReviewUploadedMessage(ArrayList<String> platformsOk,
@@ -201,7 +237,8 @@ public class PresenterUsersFeed implements
             mApp = app;
         }
 
-        public Builder setReviewUploadedListener(PresenterUsersFeed.ReviewUploadedListener listener) {
+        public Builder setReviewUploadedListener(PresenterUsersFeed.ReviewUploadedListener
+                                                         listener) {
             mListener = listener;
             return this;
         }

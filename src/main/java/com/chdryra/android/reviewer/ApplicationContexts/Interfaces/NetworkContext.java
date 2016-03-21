@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialUploader;
 
 /**
@@ -16,5 +17,7 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySoc
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NetworkContext {
-    FactorySocialUploader getReviewUploaderFactory();
+    FactorySocialUploader getSocialUploaderFactory();
+
+    FactoryBackendUploader getBackendUploaderFactory();
 }

@@ -39,15 +39,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     @Override
     protected void onStart() {
         super.onStart();
-        uploadNewReviewIfNecessary();
+        publishNewReviewIfNecessary();
     }
 
     @Override
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
-
-        //Firebase cloud = new Firebase("https://fiery-heat-1802.firebaseio.com/");
-        //cloud.child("message").setValue("Do you have data? You'll love Firebase.");
 
         mApp = ApplicationInstance.getInstance(this);
 
@@ -85,17 +82,30 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onReviewUploaded(String message) {
+    public void onReviewUploadedToSocialPlatforms(String message) {
+        makeToast(message);
+    }
+
+    @Override
+    public void onReviewUploadedToBackend(String message) {
+        makeToast(message);
+    }
+
+    @Override
+    public void onReviewDeletedFromBackend(String message) {
+        makeToast(message);
+    }
+
+    private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void uploadNewReviewIfNecessary() {
+    private void publishNewReviewIfNecessary() {
         Intent intent = getIntent();
         String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
-        ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
-        if (reviewId != null && platforms != null && platforms.size() > 0) {
-            mPresenter.upload(reviewId, platforms);
+        if (reviewId != null) {
+            ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
+            mPresenter.publish(reviewId, platforms);
         }
     }
-
 }

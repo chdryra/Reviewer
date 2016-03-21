@@ -6,18 +6,18 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.BackendUploader;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.BackendUploader;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,20 +26,26 @@ import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
  */
 public class BackendUploadService extends IntentService implements ReviewsRepositoryObserver {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
+    public static final String REQUEST_SERVICE = "BackendUploadService.RequestService";
     public static final String UPLOAD_COMPLETED = "BackendUploadService.UploadFinished";
     public static final String DELETE_COMPLETED = "BackendUploadService.DeleteFinished";
 
-    private static final String SERVICE = "ReviewSharerService";
+    private static final String SERVICE = "BackendUploadService";
 
     public BackendUploadService() {
         super(SERVICE);
     }
 
+    public enum Service {UPLOAD, DELETE}
+
     @Override
     protected void onHandleIntent(Intent intent) {
-        String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
+        String reviewId = intent.getStringExtra(REVIEW_ID);
+        Service service = (Service) intent.getSerializableExtra(REQUEST_SERVICE);
 
-        if (reviewId != null) uploadToBackend(reviewId);
+        if (reviewId != null && service != null) {
+            requestBackendService(reviewId, service);
+        }
     }
 
     @Override
@@ -58,11 +64,15 @@ public class BackendUploadService extends IntentService implements ReviewsReposi
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
-    private void uploadToBackend(String reviewId) {
+    private void requestBackendService(String reviewId, Service service) {
         ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        Review review = app.getReviewFromLocalRepo(reviewId);
-        TagsManager tagsManager = app.getTagsManager();
+        ReviewsRepositoryMutable repo = app.getBackendRepository();
 
-
+        if(service == Service.UPLOAD) {
+            Review review = app.getReviewFromLocalRepo(reviewId);
+            repo.addReview(review);
+        } else if(service == Service.DELETE) {
+            repo.removeReview(new DatumReviewId(reviewId));
+        }
     }
 }

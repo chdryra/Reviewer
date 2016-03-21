@@ -30,6 +30,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -183,7 +184,12 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public SocialPlatformsUploader newReviewUploader() {
-        return mNetworkContext.getReviewUploaderFactory().newUploader();
+    public SocialPlatformsUploader newSocialUploader() {
+        return mNetworkContext.getSocialUploaderFactory().newUploader();
+    }
+
+    @Override
+    public BackendUploader newBackendUploader() {
+        return mNetworkContext.getBackendUploaderFactory().newUploader();
     }
 }

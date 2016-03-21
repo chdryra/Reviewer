@@ -10,17 +10,17 @@ package com.chdryra.android.reviewer.Social.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
-import java.util.ArrayList;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPlatformsUploader {
-    void registerListener(SocialPlatformsUploaderListener listener);
+public interface BackendUploader {
+    void registerListener(BackendUploaderListener listener);
 
-    void unregisterListener(SocialPlatformsUploaderListener listener);
+    void unregisterListener(BackendUploaderListener listener);
 
-    void uploadToSocialPlatforms(ReviewId reviewId, ArrayList<String> platformNames);
+    void uploadReview(ReviewId id);
+
+    void deleteReview(ReviewId id);
 }

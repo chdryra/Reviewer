@@ -6,17 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
+package com.chdryra.android.reviewer.Social.Interfaces;
 
-import android.content.Context;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NetworkServicesPlugin {
-    FactorySocialUploader getSocialUploaderFactory(Context context);
+public interface BackendUploaderListener {
+    void onUploadCompleted(ReviewId reviewId);
 
-    FactoryBackendUploader getBackendUploaderFactory(Context context);
+    void onDeleteCompleted(ReviewId reviewId);
 }

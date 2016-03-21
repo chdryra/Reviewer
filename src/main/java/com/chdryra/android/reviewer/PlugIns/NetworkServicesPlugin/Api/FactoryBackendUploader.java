@@ -8,15 +8,13 @@
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
-import android.content.Context;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NetworkServicesPlugin {
-    FactorySocialUploader getSocialUploaderFactory(Context context);
-
-    FactoryBackendUploader getBackendUploaderFactory(Context context);
+public interface FactoryBackendUploader {
+    BackendUploader newUploader();
 }

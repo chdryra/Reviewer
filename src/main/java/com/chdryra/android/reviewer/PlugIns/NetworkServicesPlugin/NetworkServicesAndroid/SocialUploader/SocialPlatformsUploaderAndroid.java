@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.SocialUploader;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.SocialUploader;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,9 +36,7 @@ public class SocialPlatformsUploaderAndroid implements SocialPlatformsUploader {
         IntentFilter uploadCompletedFilter = new IntentFilter(SocialUploadService.UPLOAD_COMPLETED);
 
         LocalBroadcastManager.getInstance(mContext).registerReceiver(receiver, statusUpdateFilter);
-        LocalBroadcastManager.getInstance(mContext).registerReceiver(receiver, uploadCompletedFilter);
-
-    }
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(receiver, uploadCompletedFilter);    }
 
     @Override
     public void registerListener(SocialPlatformsUploaderListener listener) {
@@ -51,7 +49,7 @@ public class SocialPlatformsUploaderAndroid implements SocialPlatformsUploader {
     }
 
     @Override
-    public void upload(String reviewId, ArrayList<String> platformNames) {
+    public void uploadToSocialPlatforms(String reviewId, ArrayList<String> platformNames) {
         Intent shareService = new Intent(mContext, SocialUploadService.class);
         shareService.putExtra(PublishingAction.PUBLISHED, reviewId);
         shareService.putStringArrayListExtra(PublishingAction.PLATFORMS, platformNames);
