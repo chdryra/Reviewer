@@ -8,11 +8,11 @@
 
 package test.Plugins.PersistencePlugin.RelationalDb;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Implementation.DbColumnNotNullable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Implementation.DbEntryType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Implementation.ValueNullable;
 import com.chdryra.android.testutils.RandomString;
 

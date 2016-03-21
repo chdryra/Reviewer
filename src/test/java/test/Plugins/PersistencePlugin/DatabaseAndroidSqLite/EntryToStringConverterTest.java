@@ -11,17 +11,17 @@ package test.Plugins.PersistencePlugin.DatabaseAndroidSqLite;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin
         .AndroidSqLiteDb.Implementation.EntryToStringConverter;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Implementation.DbEntryType;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.RowEntry;
 import com.chdryra.android.testutils.RandomString;
 

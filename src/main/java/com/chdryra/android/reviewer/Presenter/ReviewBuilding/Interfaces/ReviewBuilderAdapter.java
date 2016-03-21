@@ -42,7 +42,7 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewVi
 
     boolean hasTags();
 
-    Review publishReview();
+    Review buildReview();
 
     @Override
     GvDataType<? extends GvData> getGvDataType();

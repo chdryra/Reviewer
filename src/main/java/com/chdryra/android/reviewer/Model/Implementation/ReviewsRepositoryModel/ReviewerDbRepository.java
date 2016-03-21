@@ -11,25 +11,25 @@ package com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.Api.TableTransactor;
 
 
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
         .Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;

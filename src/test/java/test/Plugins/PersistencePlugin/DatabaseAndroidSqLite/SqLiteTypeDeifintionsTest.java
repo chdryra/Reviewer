@@ -8,9 +8,9 @@
 
 package test.Plugins.PersistencePlugin.DatabaseAndroidSqLite;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin
         .AndroidSqLiteDb.Implementation.SqLiteTypeDefinitions;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Implementation.DbEntryType;
 
 import org.junit.Before;

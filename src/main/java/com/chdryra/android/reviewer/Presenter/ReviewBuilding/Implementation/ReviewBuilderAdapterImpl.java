@@ -100,7 +100,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
     }
 
     @Override
-    public Review publishReview() {
+    public Review buildReview() {
         return mBuilder.buildReview();
     }
 

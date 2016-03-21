@@ -11,12 +11,8 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 import android.content.Context;
 
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialUploader;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.BackendUploader
-        .FactoryBackendUploaderService;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.SocialUploader
-        .FactorySocialUploaderService;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,16 +20,16 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
  * Email: rizwan.choudrey@gmail.com
  */
 public class NetworkServicesAndroid implements NetworkServicesPlugin {
-    private final FactorySocialUploaderService mSocial;
+    private final FactorySocialPublisherService mSocial;
     private final FactoryBackendUploaderService mBackend;
 
     public NetworkServicesAndroid(Context context) {
-        mSocial = new FactorySocialUploaderService(context);
+        mSocial = new FactorySocialPublisherService(context);
         mBackend = new FactoryBackendUploaderService(context);
     }
 
     @Override
-    public FactorySocialUploader getSocialUploaderFactory(Context context) {
+    public FactorySocialPublisher getSocialUploaderFactory(Context context) {
         return mSocial;
     }
 

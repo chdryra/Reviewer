@@ -117,7 +117,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         setBuilderData(children);
         setBuilderData(tags);
 
-        Review published = mAdapter.publishReview();
+        Review published = mAdapter.buildReview();
         assertEquals(mAuthor, published.getAuthor());
         assertEquals(subject, published.getSubject().getSubject());
         assertEquals(rating, published.getRating().getRating());

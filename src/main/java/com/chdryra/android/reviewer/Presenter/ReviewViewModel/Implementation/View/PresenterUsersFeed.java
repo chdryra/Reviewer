@@ -44,10 +44,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvReviewOverview;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.BackendUploaderListener;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploaderListener;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPublishingListener;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -66,16 +66,16 @@ public class PresenterUsersFeed implements
         DialogAlertFragment.DialogAlertListener,
         NewReviewListener,
         ReviewsRepositoryObserver,
-        SocialPlatformsUploaderListener,
-        BackendUploaderListener{
+        SocialPublishingListener,
+        ReviewUploaderListener {
 
     private ApplicationInstance mApp;
     private ReviewNodeComponent mFeedNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
-    private SocialPlatformsUploader mSocialUploader;
-    private BackendUploader mBackendUploader;
+    private SocialPlatformsPublisher mSocialUploader;
+    private BackendReviewUploader mBackendReviewUploader;
     private ReviewUploadedListener mUploadedListener;
 
     public interface ReviewUploadedListener {
@@ -100,11 +100,11 @@ public class PresenterUsersFeed implements
         mReviewView = app.getLaunchableFactory().newReviewsListScreen(mFeedNode,
                 app.getReviewViewAdapterFactory(), actions);
 
-        mSocialUploader = app.newSocialUploader();
+        mSocialUploader = app.newSocialPublisher();
         mSocialUploader.registerListener(this);
 
-        mBackendUploader = app.newBackendUploader();
-        mBackendUploader.registerListener(this);
+        mBackendReviewUploader = app.newBackendUploader();
+        mBackendReviewUploader.registerListener(this);
 
         mUploadedListener = uploadedListener;
     }
@@ -115,13 +115,13 @@ public class PresenterUsersFeed implements
 
     public void deleteFromUsersFeed(ReviewId id) {
         mApp.deleteFromUsersFeed(id);
-        mBackendUploader.deleteReview(id);
+        mBackendReviewUploader.deleteReview(id);
     }
 
     public void publish(String reviewId, ArrayList<String> platforms) {
-        mBackendUploader.uploadReview(new DatumReviewId(reviewId));
+        mBackendReviewUploader.uploadReview(new DatumReviewId(reviewId));
         if(platforms != null && platforms.size() > 0) {
-            mSocialUploader.uploadToSocialPlatforms(new DatumReviewId(reviewId), platforms);
+            mSocialUploader.publishToSocialPlatforms(new DatumReviewId(reviewId), platforms);
         }
     }
 

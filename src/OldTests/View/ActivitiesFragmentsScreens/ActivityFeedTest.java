@@ -211,7 +211,7 @@ public class ActivityFeedTest extends
             }
             dataBuilderAdapter.publishData();
 
-            reviews.add(adapter.publishReview());
+            reviews.add(adapter.buildReview());
         }
 
         ReviewsRepository provider = new StaticReviewsRepository(reviews, tagsManager);

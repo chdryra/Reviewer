@@ -12,7 +12,7 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialUploader;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
 
 /**
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkSer
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseNetworkContext implements NetworkContext {
-    private FactorySocialUploader mSocial;
+    private FactorySocialPublisher mSocial;
     private FactoryBackendUploader mBackend;
 
     public ReleaseNetworkContext(Context context, NetworkServicesPlugin plugin) {
@@ -30,7 +30,7 @@ public class ReleaseNetworkContext implements NetworkContext {
     }
 
     @Override
-    public FactorySocialUploader getSocialUploaderFactory() {
+    public FactorySocialPublisher getSocialUploaderFactory() {
         return mSocial;
     }
 

@@ -19,11 +19,11 @@ import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServi
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin.NetworkServicesAndroid;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendDatabase.Factories.FactoryBackendFirebase;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Factories.FactoryLocalReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Plugin.FactoryPersistence;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Plugin.PersistencePluginImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Plugin.FactoryBackendFirebase;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Plugin.FactoryLocalReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePluginImpl;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 

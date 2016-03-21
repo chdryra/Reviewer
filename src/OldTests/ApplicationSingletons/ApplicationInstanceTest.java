@@ -14,7 +14,7 @@ import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.PersistenceReviewerDb.Interfaces.ReviewerPersistence;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerPersistence;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
@@ -83,7 +83,7 @@ public class ApplicationInstanceTest extends InstrumentationTestCase {
             tagBuilder.add(tag);
         }
         tagBuilder.publishData();
-        mAdmin.publishReviewBuilder();
+        mAdmin.executeReviewBuilder();
 
         MdIdableCollection<Review> reviews = repo.getReviews();
         int newSize = reviews.size();

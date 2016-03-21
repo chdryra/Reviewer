@@ -48,7 +48,7 @@ public class PublishButtonModifier implements ReviewViewModifier {
         Button publishButton = (Button) inflater.inflate(PUBLISH_BUTTON, container, false);
         publishButton.setText(activity.getResources().getString(BUTTON_TEXT));
         publishButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
-        publishButton.setOnClickListener(publishAndShare(activity));
+        publishButton.setOnClickListener(buildAndShare(activity));
 
         View divider = inflater.inflate(DIVIDER, container, false);
 
@@ -59,11 +59,13 @@ public class PublishButtonModifier implements ReviewViewModifier {
     }
 
     @NonNull
-    private View.OnClickListener publishAndShare(final Activity activity) {
+    private View.OnClickListener buildAndShare(final Activity activity) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Review review = ApplicationInstance.getInstance(activity).publishReviewBuilder();
+                ApplicationInstance app = ApplicationInstance.getInstance(activity);
+                Review review = app.executeReviewBuilder();
+                app.addToUsersFeed(review);
                 mSharer.shareReview(review.getReviewId());
             }
         };

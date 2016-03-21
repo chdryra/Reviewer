@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
-import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryBackendUploader {
-    BackendUploader newUploader();
+    BackendReviewUploader newUploader();
 }

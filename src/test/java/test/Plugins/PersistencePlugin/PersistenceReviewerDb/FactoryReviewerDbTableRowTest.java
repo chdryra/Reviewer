@@ -12,27 +12,27 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase
-        .PersistenceReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
+        .ReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Implementation.ByteArray;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDatabase.RelationalDb
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.FactoryDbTableRow;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;

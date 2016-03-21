@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -62,9 +62,11 @@ public interface PresenterContext {
 
     <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
-    Review publishReviewBuilder();
+    Review executeReviewBuilder();
 
     ReviewsFeed getAuthorsFeed();
+
+    void addToUsersFeed(Review review);
 
     void deleteFromUsersFeed(ReviewId id);
 
@@ -72,9 +74,9 @@ public interface PresenterContext {
 
     TagsManager getTagsManager();
 
-    SocialPlatformsUploader newSocialUploader();
+    SocialPlatformsPublisher newSocialPublisher();
 
-    BackendUploader newBackendUploader();
+    BackendReviewUploader newBackendUploader();
 
     ReviewsRepositoryMutable getBackendRepository();
 }

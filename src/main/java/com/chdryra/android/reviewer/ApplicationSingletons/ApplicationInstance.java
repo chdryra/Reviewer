@@ -32,8 +32,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.BackendUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -124,15 +124,19 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewBuilderAdapter<?> newReviewBuilderAdapter(String reviewId) {
-        return mPresenterContext.newReviewBuilderAdapter(getReviewFromLocalRepo(reviewId));
+        return mPresenterContext.newReviewBuilderAdapter(getReview(reviewId));
     }
 
     public void discardReviewBuilderAdapter() {
         mPresenterContext.discardReviewBuilderAdapter();;
     }
 
-    public Review publishReviewBuilder() {
-        return mPresenterContext.publishReviewBuilder();
+    public Review executeReviewBuilder() {
+        return mPresenterContext.executeReviewBuilder();
+    }
+
+    public void addToUsersFeed(Review review) {
+        mPresenterContext.addToUsersFeed(review);
     }
 
     public void deleteFromUsersFeed(ReviewId id) {
@@ -147,11 +151,11 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mLocationServices;
     }
 
-    public Review getReviewFromLocalRepo(ReviewId id) {
+    public Review getReview(ReviewId id) {
         return mPresenterContext.getReview(id);
     }
 
-    public Review getReviewFromLocalRepo(String reviewId) {
+    public Review getReview(String reviewId) {
         return mPresenterContext.getReview(new DatumReviewId(reviewId));
     }
 
@@ -159,11 +163,11 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getTagsManager();
     }
 
-    public SocialPlatformsUploader newSocialUploader() {
-        return mPresenterContext.newSocialUploader();
+    public SocialPlatformsPublisher newSocialPublisher() {
+        return mPresenterContext.newSocialPublisher();
     }
 
-    public BackendUploader newBackendUploader() {
+    public BackendReviewUploader newBackendUploader() {
         return mPresenterContext.newBackendUploader();
     }
 
