@@ -27,16 +27,15 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
 
     public ReleasePersistenceContext(Context context,
                                      ModelContext model,
-                                     PersistencePlugin persistencePlugin) {
-        ReviewsRepositoryMutable localPersistence
-                = persistencePlugin.newLocalPersistence(context, model);
+                                     PersistencePlugin plugin) {
+        ReviewsRepositoryMutable local = plugin.newLocalPersistence(context, model);
 
-        setAuthorsFeed(localPersistence, model.getReviewsFactory());
-
-        setBackendRepository(persistencePlugin.newBackendPersistence(context, model));
+        setAuthorsFeed(local, model.getReviewsFactory());
 
         FactoryReviewsRepository repoFactory = new FactoryReviewsRepository();
-        setReviewsSource(repoFactory.newReviewsSource(localPersistence, model.getReviewsFactory()));
+        setReviewsSource(repoFactory.newReviewsSource(local, model.getReviewsFactory()));
+
+        setBackendRepository(plugin.newBackendPersistence(context, model));
     }
 
     private void setAuthorsFeed(ReviewsRepositoryMutable sourceAndDestination,

@@ -39,8 +39,7 @@ public class FactoryApplicationContext {
                                                 DeviceContext deviceContext,
                                                 ApplicationPlugins plugins,
                                                 DataAuthor author) {
-        ModelContext modelContext =
-                new ReleaseModelContext(context, author, plugins.getPersistencePlugin());
+        ModelContext modelContext = new ReleaseModelContext(author);
 
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 

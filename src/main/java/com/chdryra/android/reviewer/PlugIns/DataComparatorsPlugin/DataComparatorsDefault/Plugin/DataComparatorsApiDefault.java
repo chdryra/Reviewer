@@ -69,7 +69,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     @Override
-    public ComparatorCollection<DataFact> getFactCompartors() {
+    public ComparatorCollection<DataFact> getFactComparators() {
         return new ComparatorCollectionImpl<>(new FactLabelThenValue());
     }
 

@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
@@ -19,7 +17,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 
 /**
@@ -29,9 +26,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
  */
 public class ReleaseModelContext extends ModelContextBasic {
 
-    public ReleaseModelContext(Context context,
-                               DataAuthor author,
-                               PersistencePlugin persistencePlugin) {
+    public ReleaseModelContext(DataAuthor author) {
         setReviewsFactory(author);
 
         setTagsManager(new FactoryTagsManager().newTagsManager());
