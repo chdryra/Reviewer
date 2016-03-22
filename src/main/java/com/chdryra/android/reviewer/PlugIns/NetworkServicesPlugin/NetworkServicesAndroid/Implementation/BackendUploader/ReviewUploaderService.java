@@ -53,7 +53,14 @@ public class ReviewUploaderService extends IntentService implements ReviewsRepos
         Intent update = new Intent(UPLOAD_COMPLETED);
         update.putExtra(REVIEW_ID, review.getReviewId().toString());
 
+        unregisterWithRepo();
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
+    }
+
+    private void unregisterWithRepo() {
+        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
+        ReviewsRepositoryMutable repo = app.getBackendRepository();
+        repo.unregisterObserver(this);
     }
 
     @Override
@@ -61,6 +68,7 @@ public class ReviewUploaderService extends IntentService implements ReviewsRepos
         Intent update = new Intent(DELETE_COMPLETED);
         update.putExtra(REVIEW_ID, reviewId.toString());
 
+        unregisterWithRepo();
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 

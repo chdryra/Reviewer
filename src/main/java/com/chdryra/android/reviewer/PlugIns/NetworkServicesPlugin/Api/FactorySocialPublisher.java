@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactorySocialPublisher {
-    SocialPlatformsPublisher newPublisher();
+    SocialPlatformsPublisher getPublisher();
 }

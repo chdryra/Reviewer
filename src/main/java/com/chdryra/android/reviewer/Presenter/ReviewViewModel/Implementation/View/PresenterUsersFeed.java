@@ -125,6 +125,11 @@ public class PresenterUsersFeed implements
         }
     }
 
+    public void detach() {
+        mSocialUploader.unregisterListener(this);
+        mBackendReviewUploader.unregisterListener(this);
+    }
+
     @Override
     public void onAlertNegative(int requestCode, Bundle args) {
 

@@ -68,10 +68,11 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         @Override
         public void share(ReviewId published, ArrayList<String> selectedPublishers) {
             Activity activity = ActivityShareReview.this;
+
             Intent intent = new Intent(activity, mActivityToPublish);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(PublishingAction.PUBLISHED, published.toString());
             intent.putStringArrayListExtra(PublishingAction.PLATFORMS, selectedPublishers);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             activity.startActivity(intent);
         }

@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryBackendUploader {
-    BackendReviewUploader newUploader();
+    BackendReviewUploader getUploader();
 }

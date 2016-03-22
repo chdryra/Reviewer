@@ -85,7 +85,6 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable{
     public void removeReview(ReviewId reviewId) {
         Firebase ref = mDataRoot.child(REVIEWS_ROOT).child(reviewId.toString());
         ref.removeValue(newDeleteListener(reviewId));
-        notifyOnDeleteReview(reviewId);
     }
 
     @Override

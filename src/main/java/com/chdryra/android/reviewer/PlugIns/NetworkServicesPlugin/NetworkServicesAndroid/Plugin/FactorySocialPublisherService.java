@@ -21,14 +21,15 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactorySocialPublisherService implements FactorySocialPublisher {
-    private Context mContext;
+    private static final SocialPublishingReceiver RECEIVER = new SocialPublishingReceiver();
+    private final SocialPlatformsPublisherAndroid mPublisher;
 
     public FactorySocialPublisherService(Context context) {
-        mContext = context;
+        mPublisher = new SocialPlatformsPublisherAndroid(context, RECEIVER);
     }
 
     @Override
-    public SocialPlatformsPublisher newPublisher() {
-        return new SocialPlatformsPublisherAndroid(mContext, new SocialPublishingReceiver());
+    public SocialPlatformsPublisher getPublisher() {
+        return mPublisher;
     }
 }

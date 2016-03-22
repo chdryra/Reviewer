@@ -195,12 +195,12 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public SocialPlatformsPublisher newSocialPublisher() {
-        return mNetworkContext.getSocialUploaderFactory().newPublisher();
+        return mNetworkContext.getSocialUploaderFactory().getPublisher();
     }
 
     @Override
     public BackendReviewUploader newBackendUploader() {
-        return mNetworkContext.getBackendUploaderFactory().newUploader();
+        return mNetworkContext.getBackendUploaderFactory().getUploader();
     }
 
     @Override

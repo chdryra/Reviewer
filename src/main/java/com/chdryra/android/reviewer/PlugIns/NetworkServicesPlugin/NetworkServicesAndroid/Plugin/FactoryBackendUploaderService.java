@@ -11,8 +11,11 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 import android.content.Context;
 
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploader.BackendReviewUploaderAndroid;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploader.ReviewUploaderReceiver;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.BackendUploader.BackendReviewUploaderAndroid;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.BackendUploader.ReviewUploaderReceiver;
+import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,14 +23,15 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBackendUploaderService implements FactoryBackendUploader {
-    private Context mContext;
+    private static final ReviewUploaderReceiver RECEIVER = new ReviewUploaderReceiver();
+    private final BackendReviewUploaderAndroid mUploader;
 
     public FactoryBackendUploaderService(Context context) {
-        mContext = context;
+        mUploader = new BackendReviewUploaderAndroid(context, RECEIVER);
     }
 
     @Override
-    public com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader newUploader() {
-        return new BackendReviewUploaderAndroid(mContext, new ReviewUploaderReceiver());
+    public BackendReviewUploader getUploader() {
+        return mUploader;
     }
 }

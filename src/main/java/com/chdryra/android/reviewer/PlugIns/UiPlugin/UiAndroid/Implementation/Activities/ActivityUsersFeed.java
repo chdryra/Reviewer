@@ -37,6 +37,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     private ApplicationInstance mApp;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         publishNewReviewIfNecessary();
@@ -59,6 +65,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     protected void onResume() {
         mApp.discardReviewBuilderAdapter();
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.detach();
+        super.onDestroy();
     }
 
     @Override
@@ -106,6 +118,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         if (reviewId != null) {
             ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
             mPresenter.publish(reviewId, platforms);
+            intent.removeExtra(PublishingAction.PUBLISHED);
         }
     }
 }
