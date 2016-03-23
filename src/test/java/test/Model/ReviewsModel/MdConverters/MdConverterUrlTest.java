@@ -11,8 +11,8 @@ package test.Model.ReviewsModel.MdConverters;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrl;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.MdConverterUrl;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
+import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterUrl;
 import com.chdryra.android.testutils.RandomString;
 
 import java.net.MalformedURLException;

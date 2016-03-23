@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.test.Model.ReviewData;
 import android.graphics.Bitmap;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataUtils;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;

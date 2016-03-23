@@ -15,21 +15,21 @@ import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.R;
 
 import java.io.IOException;

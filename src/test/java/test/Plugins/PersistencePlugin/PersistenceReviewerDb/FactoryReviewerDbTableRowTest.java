@@ -11,7 +11,7 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .ReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb

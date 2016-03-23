@@ -14,12 +14,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.ReviewTreeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNodeComponent;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

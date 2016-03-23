@@ -11,8 +11,8 @@ package test.Model.ReviewsModel.MdConverters;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.MdConverterBasic;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterBasic;
 
 import org.junit.Rule;
 import org.junit.Test;

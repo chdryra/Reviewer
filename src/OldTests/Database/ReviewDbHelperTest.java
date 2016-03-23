@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerPersistence;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;

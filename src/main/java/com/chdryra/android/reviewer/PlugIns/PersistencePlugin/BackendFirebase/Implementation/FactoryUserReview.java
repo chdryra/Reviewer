@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation.UserReview;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey

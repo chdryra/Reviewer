@@ -10,9 +10,9 @@ package test.Model.TagsModel;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagImpl;
-import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagList;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagList;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Rule;

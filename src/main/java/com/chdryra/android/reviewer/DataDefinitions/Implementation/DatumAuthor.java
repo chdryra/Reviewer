@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
+import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 
 /**
  * Holds Author data. Currently only wraps a name and unique {@link AuthorId}.

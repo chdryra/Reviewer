@@ -32,22 +32,22 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 import com.chdryra.android.reviewer.test.TestUtils.GvDataMocker;

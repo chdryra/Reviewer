@@ -13,9 +13,9 @@ import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterionList;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterionList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
 import junit.framework.TestCase;

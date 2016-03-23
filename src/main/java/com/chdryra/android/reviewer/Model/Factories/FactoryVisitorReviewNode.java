@@ -9,12 +9,12 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.ReviewGetter;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.TagsGetter;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.VisitorReviewDataGetterImpl;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ReviewGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TagsGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorReviewDataGetterImpl;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewDataGetter;
 
 /**
  * Created by: Rizwan Choudrey

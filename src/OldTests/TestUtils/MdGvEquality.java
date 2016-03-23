@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.test.TestUtils;
 
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCommentList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdFactList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImageList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocationList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdUrlList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFactList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrlList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;

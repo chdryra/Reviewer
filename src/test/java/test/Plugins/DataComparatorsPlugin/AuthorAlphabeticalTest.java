@@ -11,7 +11,7 @@ package test.Plugins.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.AuthorAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
+import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

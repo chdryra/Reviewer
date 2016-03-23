@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.test.Model.TreeMethods;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation.ReviewGetter;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ReviewGetter;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.Interfaces.VisitorReviewsGetter;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 

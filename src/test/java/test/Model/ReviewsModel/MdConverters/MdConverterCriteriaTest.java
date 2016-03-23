@@ -11,10 +11,10 @@ package test.Model.ReviewsModel.MdConverters;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.MdConverterCriteria;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterCriteria;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 import org.junit.Test;
 

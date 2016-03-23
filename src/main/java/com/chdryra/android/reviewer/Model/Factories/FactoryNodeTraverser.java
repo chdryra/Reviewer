@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
         .DepthFirstPreIterator;
-import com.chdryra.android.reviewer.Model.Implementation.TreeMethods.Implementation
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
         .NodesTraverserIterated;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.ReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TreeMethods.NodesTraverser;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodesTraverser;
 
 import java.util.Iterator;
 

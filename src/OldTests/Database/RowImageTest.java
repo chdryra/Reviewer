@@ -15,7 +15,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdImage;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 
 import junit.framework.TestCase;

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .ReviewerDb.Implementation.ReviewDeleterImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb

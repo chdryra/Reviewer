@@ -8,8 +8,8 @@
 
 package test.Model.TagsModel;
 
-import com.chdryra.android.reviewer.Model.Implementation.TagsModel.ItemTagImpl;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 
 import org.junit.Test;
 

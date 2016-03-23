@@ -11,8 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.P
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation
         .FactoryUserReview;

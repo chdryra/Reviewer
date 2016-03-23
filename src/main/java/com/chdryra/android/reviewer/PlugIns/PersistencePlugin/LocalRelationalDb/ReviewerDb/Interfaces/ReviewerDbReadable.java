@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .Interfaces;
 
 
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin
         .Api.TableTransactor;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb

@@ -9,8 +9,8 @@
 package test.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 
 import org.junit.Test;
 

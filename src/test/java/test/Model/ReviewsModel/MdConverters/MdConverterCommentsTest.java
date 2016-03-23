@@ -11,8 +11,8 @@ package test.Model.ReviewsModel.MdConverters;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.MdConverters.MdConverterComments;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
+import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterComments;
 import com.chdryra.android.testutils.RandomString;
 
 import java.util.Random;

@@ -14,7 +14,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Factories.FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.Model.Implementation.ReviewsModel.Implementation.MdLocation;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 import com.google.android.gms.maps.model.LatLng;
 

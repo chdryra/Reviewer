@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.Model.UserData;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.Model.Implementation.UserModel.AuthorId;
+import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 
 import junit.framework.TestCase;
 
