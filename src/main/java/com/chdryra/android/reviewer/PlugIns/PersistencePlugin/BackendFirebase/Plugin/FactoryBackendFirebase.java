@@ -11,13 +11,15 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.P
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
-
-
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
+        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation
         .FactoryUserReview;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseReviewsRepo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation
+        .FirebaseDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation
+        .FirebaseReviewsRepo;
 import com.firebase.client.Firebase;
 
 /**
@@ -36,6 +38,7 @@ public class FactoryBackendFirebase implements FactoryPersistence{
     @Override
     public ReviewsRepositoryMutable newPersistence(Context context, ModelContext model) {
         Firebase.setAndroidContext(context);
-        return new FirebaseReviewsRepo(new Firebase(ROOT), mReviewFactory, model.getTagsManager());
+        FirebaseDb db = new FirebaseDb(new Firebase(ROOT), mReviewFactory);
+        return new FirebaseReviewsRepo(db, model.getTagsManager());
     }
 }

@@ -9,16 +9,13 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Interfaces.ReviewsModel.Review;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel
-        .ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.Interfaces.ReviewsRepositoryModel.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.Interfaces.TagsModel.TagsManager;
-import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
@@ -29,62 +26,26 @@ import java.util.Collection;
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseReviewsRepo implements ReviewsRepositoryMutable{
-    private static final String REVIEWS_ROOT = "Reviews";
-    private Firebase mDataRoot;
-    private FactoryUserReview mReviewFactory;
+public class FirebaseReviewsRepo implements ReviewsRepositoryMutable {
+    private FirebaseDb mDb;
     private TagsManager mTagsManager;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
-    public FirebaseReviewsRepo(Firebase dataRoot,
-                               FactoryUserReview reviewFactory,
+    public FirebaseReviewsRepo(FirebaseDb db,
                                TagsManager tagsManager) {
-        mDataRoot = dataRoot;
-        mReviewFactory = reviewFactory;
+        mDb = db;
         mTagsManager = tagsManager;
         mObservers = new ArrayList<>();
     }
 
     @Override
     public void addReview(final Review review) {
-        UserReview fbReview = mReviewFactory.newReview(review);
-        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
-        Firebase ref = mDataRoot.child(REVIEWS_ROOT).child(review.getReviewId().toString());
-        ref.setValue(fbReview, newAddListener(review));
-    }
-
-    @NonNull
-    private Firebase.CompletionListener newAddListener(final Review review) {
-        return new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                if (firebaseError != null) {
-                    System.out.println("Data could not be saved. " + firebaseError.getMessage());
-                } else {
-                    notifyOnAddReview(review);
-                }
-            }
-        };
-    }
-
-    @NonNull
-    private Firebase.CompletionListener newDeleteListener(final ReviewId reviewId) {
-        return new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                if (firebaseError != null) {
-                    System.out.println("Data could not be deleted. " + firebaseError.getMessage());
-                } else {
-                    notifyOnDeleteReview(reviewId);
-                }
-            }
-        };
+        mDb.addReview(review, mTagsManager, addListener());
     }
 
     @Override
     public void removeReview(ReviewId reviewId) {
-        Firebase ref = mDataRoot.child(REVIEWS_ROOT).child(reviewId.toString());
-        ref.removeValue(newDeleteListener(reviewId));
+        mDb.deleteReview(reviewId, deleteListener());
     }
 
     @Override
@@ -104,12 +65,44 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable{
 
     @Override
     public void registerObserver(ReviewsRepositoryObserver observer) {
-        if(!mObservers.contains(observer)) mObservers.add(observer);
+        if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
     public void unregisterObserver(ReviewsRepositoryObserver observer) {
         mObservers.remove(observer);
+    }
+
+    @NonNull
+    private FirebaseDb.AddListener addListener() {
+        return new FirebaseDb.AddListener() {
+            @Override
+            public void onReviewAdded(Review review, @Nullable FirebaseError error) {
+                if (error != null) {
+                    handleFirebaseError(error);
+                } else {
+                    notifyOnAddReview(review);
+                }
+            }
+        };
+    }
+
+    @NonNull
+    private FirebaseDb.DeleteListener deleteListener() {
+        return new FirebaseDb.DeleteListener() {
+            @Override
+            public void onReviewDeleted(ReviewId reviewId, @Nullable FirebaseError error) {
+                if (error != null) {
+                    handleFirebaseError(error);
+                } else {
+                    notifyOnDeleteReview(reviewId);
+                }
+            }
+        };
+    }
+
+    private void handleFirebaseError(FirebaseError error) {
+        //TODO handle firebase error
     }
 
     private void notifyOnAddReview(Review review) {
