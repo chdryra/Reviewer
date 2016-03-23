@@ -8,14 +8,10 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,17 +23,16 @@ public interface ReviewsFeedMutable extends ReviewsRepositoryMutable, ReviewsFee
     DataAuthor getAuthor();
 
     @Override
-    void addReview(Review review);
+    void addReview(Review review, RepositoryMutableCallback callback);
 
     @Override
-    void removeReview(ReviewId reviewId);
-
-    @Nullable
-    @Override
-    Review getReview(ReviewId id);
+    void removeReview(ReviewId reviewId, RepositoryMutableCallback callback);
 
     @Override
-    Collection<Review> getReviews();
+    void getReview(ReviewId id, RepositoryCallback callback);
+
+    @Override
+    void getReviews(RepositoryCallback callback);
 
     @Override
     TagsManager getTagsManager();

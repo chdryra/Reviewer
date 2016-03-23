@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
@@ -17,8 +18,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -36,6 +42,8 @@ import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
+import java.util.Collection;
+
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
  * <ul>
@@ -44,13 +52,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  * <p/>
  */
 public class ApplicationInstance extends ApplicationSingleton {
-    private static final String NAME = "ApplicationInstance";
     public static final String APP_NAME = "Teeqr";
-
+    private static final String NAME = "ApplicationInstance";
     private static ApplicationInstance sSingleton;
 
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
+
+    public interface ReviewBuilderAdapterCallback {
+        void onAdapterBuilt(ReviewBuilderAdapter<?> adapter, RepositoryError error);
+    }
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -114,52 +125,68 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getGvDataFactory();
     }
 
+    public LocationServicesApi getLocationServices() {
+        return mLocationServices;
+    }
+
+    public TagsManager getTagsManager() {
+        return mPresenterContext.getTagsManager();
+    }
+
+    public ReviewsRepositoryMutable getBackendRepository() {
+        return mPresenterContext.getBackendRepository();
+    }
+
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mPresenterContext.getDataBuilderAdapter(dataType);
     }
 
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter() {
-        return mPresenterContext.newReviewBuilderAdapter();
-    }
+    public void newReviewBuilderAdapter(final ReviewBuilderAdapterCallback callback,
+                                        @Nullable String templateId) {
+        if (templateId == null) {
+            doReviewBuildAdapterCallback(null, RepositoryError.none(), callback);
+            return;
+        }
 
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(String reviewId) {
-        return mPresenterContext.newReviewBuilderAdapter(getReview(reviewId));
+        getReview(templateId, new RepositoryCallback() {
+            @Override
+            public void onFetched(@Nullable Review review, RepositoryError error) {
+                doReviewBuildAdapterCallback(review, error, callback);
+            }
+
+            @Override
+            public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+
+            }
+        });
     }
 
     public void discardReviewBuilderAdapter() {
-        mPresenterContext.discardReviewBuilderAdapter();;
+        mPresenterContext.discardReviewBuilderAdapter();
     }
 
     public Review executeReviewBuilder() {
         return mPresenterContext.executeReviewBuilder();
     }
 
-    public void addToUsersFeed(Review review) {
-        mPresenterContext.addToUsersFeed(review);
+    public void addToUsersFeed(Review review, RepositoryMutableCallback callback) {
+        mPresenterContext.addToUsersFeed(review, callback);
     }
 
-    public void deleteFromUsersFeed(ReviewId id) {
-        mPresenterContext.deleteFromUsersFeed(id);
+    public void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback) {
+        mPresenterContext.deleteFromUsersFeed(id, callback);
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
         mPresenterContext.launchReview(activity, reviewId);
     }
 
-    public LocationServicesApi getLocationServices() {
-        return mLocationServices;
+    public void getReview(ReviewId id, RepositoryCallback callback) {
+        mPresenterContext.getReview(id, callback);
     }
 
-    public Review getReview(ReviewId id) {
-        return mPresenterContext.getReview(id);
-    }
-
-    public Review getReview(String reviewId) {
-        return mPresenterContext.getReview(new DatumReviewId(reviewId));
-    }
-
-    public TagsManager getTagsManager() {
-        return mPresenterContext.getTagsManager();
+    public void getReview(String reviewId, RepositoryCallback callback) {
+        mPresenterContext.getReview(new DatumReviewId(reviewId), callback);
     }
 
     public SocialPlatformsPublisher newSocialPublisher() {
@@ -170,7 +197,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.newBackendUploader();
     }
 
-    public ReviewsRepositoryMutable getBackendRepository() {
-        return mPresenterContext.getBackendRepository();
+    private void doReviewBuildAdapterCallback(@Nullable Review review,
+                                              RepositoryError error,
+                                              ReviewBuilderAdapterCallback callback) {
+        ReviewBuilderAdapter<?> adapter = review != null ?
+                mPresenterContext.newReviewBuilderAdapter(review)
+                : mPresenterContext.newReviewBuilderAdapter();
+        callback.onAdapterBuilt(adapter, error);
     }
 }

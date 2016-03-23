@@ -6,34 +6,26 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation;
 
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.Api.TableTransactor;
-
-
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
-        .ReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
-        .ReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowTag;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,16 +58,23 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     }
 
     @Override
-    public void addReview(Review review) {
+    public void addReview(Review review, RepositoryMutableCallback callback) {
         TableTransactor db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.addReviewToDb(review, mTagsManager, db);
         mDatabase.endTransaction(db);
 
-        if (success) notifyOnAddReview(review);
+        RepositoryError error = RepositoryError.none();
+        if (success) {
+            notifyOnAddReview(review);
+        } else {
+            error = RepositoryError.error("Problem adding review to database");
+        }
+
+        callback.onAdded(review, error);
     }
 
     @Override
-    public Review getReview(ReviewId reviewId) {
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
         RowEntry<RowReview, String> clause
                 = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
 
@@ -87,30 +86,41 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         Iterator<Review> iterator = reviews.iterator();
 
         Review review = null;
+        RepositoryError error = RepositoryError.none();
         if(iterator.hasNext()) review = iterator.next();
         if(iterator.hasNext()) {
-            throw new IllegalStateException("There is more than 1 review with id " + reviewId);
+            error = RepositoryError.error("There is more than 1 review with id " + reviewId);
+        } else if(review == null) {
+            error = RepositoryError.error("Review not found: " + reviewId);
         }
 
-        return review;
+        callback.onFetched(review, error);
     }
 
     @Override
-    public Collection<Review> getReviews() {
+    public void getReviews(RepositoryCallback callback) {
         TableTransactor transactor = mDatabase.beginReadTransaction();
         Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
         loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
 
-        return reviews;
+        callback.onCollectionFetched(reviews, RepositoryError.none());
     }
 
     @Override
-    public void removeReview(ReviewId reviewId) {
+    public void removeReview(ReviewId reviewId, RepositoryMutableCallback callback) {
         TableTransactor transactor = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
         mDatabase.endTransaction(transactor);
-        if (success) notifyOnDeleteReview(reviewId);
+
+        RepositoryError error = RepositoryError.none();
+        if (success) {
+            notifyOnDeleteReview(reviewId);
+        } else{
+            error = RepositoryError.error("Problems deleting review: " + reviewId);
+        }
+
+        callback.onRemoved(reviewId, error);
     }
 
     private void loadTagsIfNecessary(TableTransactor transactor) {

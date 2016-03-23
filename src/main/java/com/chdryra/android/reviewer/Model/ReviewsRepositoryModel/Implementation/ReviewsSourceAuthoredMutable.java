@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeedMutable;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -30,12 +30,12 @@ public class ReviewsSourceAuthoredMutable extends ReviewsSourceAuthored implemen
     }
 
     @Override
-    public void addReview(Review review) {
-        mRepository.addReview(review);
+    public void addReview(Review review, RepositoryMutableCallback callback) {
+        mRepository.addReview(review, callback);
     }
 
     @Override
-    public void removeReview(ReviewId reviewId) {
-        mRepository.removeReview(reviewId);
+    public void removeReview(ReviewId reviewId, RepositoryMutableCallback callback) {
+        mRepository.removeReview(reviewId, callback);
     }
 }

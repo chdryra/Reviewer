@@ -13,8 +13,12 @@ import android.app.Activity;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -65,11 +69,11 @@ public interface PresenterContext {
 
     ReviewsFeed getAuthorsFeed();
 
-    void addToUsersFeed(Review review);
+    void addToUsersFeed(Review review, RepositoryMutableCallback callback);
 
-    void deleteFromUsersFeed(ReviewId id);
+    void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback);
 
-    Review getReview(ReviewId id);
+    void getReview(ReviewId id, RepositoryCallback callback);
 
     TagsManager getTagsManager();
 

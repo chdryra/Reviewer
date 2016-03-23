@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.app.Activity;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
@@ -20,8 +21,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
+
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
@@ -128,19 +135,27 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public void addToUsersFeed(Review review) {
-        mPersistenceContext.getAuthorsFeed().addReview(review);
+    public void addToUsersFeed(Review review, RepositoryMutableCallback callback) {
+        mPersistenceContext.getAuthorsFeed().addReview(review, callback);
     }
 
     @Override
-    public void deleteFromUsersFeed(ReviewId id) {
-        mPersistenceContext.getAuthorsFeed().removeReview(id);
+    public void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback) {
+        mPersistenceContext.getAuthorsFeed().removeReview(id, callback);
     }
 
     @Override
-    public void launchReview(Activity activity, ReviewId reviewId) {
-        ReviewNode reviewNode = mPersistenceContext.getReviewsSource().asMetaReview(reviewId);
-        if(reviewNode == null) return;
+    public void launchReview(final Activity activity, ReviewId reviewId) {
+        mPersistenceContext.getReviewsSource().asMetaReview(reviewId, new ReviewsSourceCallback() {
+            @Override
+            public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
+                if (review != null) launchReview(activity, review);
+            }
+        });
+
+    }
+
+    private void launchReview(Activity activity, ReviewNode reviewNode) {
         LaunchableUi ui = mFactoryReviewViewLaunchable.newReviewsListScreen(reviewNode,
                 mFactoryReviewViewAdapter);
         String tag = reviewNode.getSubject().getSubject();
@@ -183,8 +198,8 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public Review getReview(ReviewId id) {
-        return mPersistenceContext.getReviewsSource().getReview(id);
+    public void getReview(ReviewId id, RepositoryCallback callback) {
+        mPersistenceContext.getReviewsSource().getReview(id, callback);
     }
 
     @Override

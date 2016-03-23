@@ -11,7 +11,7 @@ package test.Model.ReviewsRepositoryModel;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.ReviewerDbRepository;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;

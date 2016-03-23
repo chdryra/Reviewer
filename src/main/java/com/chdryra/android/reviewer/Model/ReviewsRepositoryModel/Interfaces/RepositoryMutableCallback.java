@@ -9,21 +9,16 @@
 package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepository {
-    void getReview(ReviewId id, RepositoryCallback callback);
+public interface RepositoryMutableCallback {
+    void onAdded(Review review, RepositoryError error);
 
-    void getReviews(RepositoryCallback callback);
-
-    TagsManager getTagsManager();
-    
-    void registerObserver(ReviewsRepositoryObserver observer);
-
-    void unregisterObserver(ReviewsRepositoryObserver observer);
+    void onRemoved(ReviewId reviewId, RepositoryError error);
 }

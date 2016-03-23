@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Social.Interfaces;
 
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPublishingError;
 
 import java.util.Collection;
 
@@ -21,5 +22,5 @@ public interface SocialPublishingListener {
     void onUploadStatus(double percentage, PublishResults justUploaded);
 
     void onUploadCompleted(Collection<PublishResults> publishedOk,
-                           Collection<PublishResults> publishedNotOk);
+                           Collection<PublishResults> publishedNotOk, SocialPublishingError error);
 }

@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Social.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Social.Implementation.ReviewUploaderError;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewUploaderListener {
-    void onUploadCompleted(ReviewId reviewId);
+    void onReviewUploaded(ReviewId reviewId, ReviewUploaderError error);
 
-    void onDeleteCompleted(ReviewId reviewId);
+    void onReviewDeleted(ReviewId reviewId, ReviewUploaderError error);
 }

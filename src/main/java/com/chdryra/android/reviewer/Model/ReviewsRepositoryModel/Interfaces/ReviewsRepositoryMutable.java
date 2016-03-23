@@ -12,23 +12,21 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
-import java.util.Collection;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepositoryMutable extends ReviewsRepository{
-    void addReview(Review review);
+    void addReview(Review review, RepositoryMutableCallback callback);
 
-    void removeReview(ReviewId reviewId);
-
-    @Override
-    Review getReview(ReviewId id);
+    void removeReview(ReviewId reviewId, RepositoryMutableCallback callback);
 
     @Override
-    Collection<Review> getReviews();
+    void getReview(ReviewId id, RepositoryCallback callback);
+
+    @Override
+    void getReviews(RepositoryCallback callback);
 
     @Override
     TagsManager getTagsManager();

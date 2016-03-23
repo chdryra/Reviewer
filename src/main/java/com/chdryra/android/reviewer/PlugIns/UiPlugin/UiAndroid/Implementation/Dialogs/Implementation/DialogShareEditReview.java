@@ -12,15 +12,24 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.D
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .DeleteRequestListener;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
@@ -29,6 +38,8 @@ import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
+
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -79,15 +90,6 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         return layout;
     }
 
-    private View.OnClickListener requestNewReviewUsingTemplate() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mNewReviewListener.onNewReviewUsingTemplate(mReviewId);
-            }
-        };
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,8 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         mNewReviewListener = getTargetListener(NewReviewListener.class);
         setReviewIdFromArgs();
 
-        mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new ReviewFormatterTwitter());
+        mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new
+                ReviewFormatterTwitter());
     }
 
     @Override
@@ -114,9 +117,39 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         }
     }
 
+    private View.OnClickListener requestNewReviewUsingTemplate() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mNewReviewListener.onNewReviewUsingTemplate(mReviewId);
+            }
+        };
+    }
+
     private void shareIntent() {
-        ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
-        mSharer.publish(instance.getReview(mReviewId), instance.getTagsManager());
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        app.getReview(mReviewId, fetchReviewCallback(app.getTagsManager()));
+    }
+
+    @NonNull
+    private RepositoryCallback fetchReviewCallback(final TagsManager tagsManager) {
+        return new RepositoryCallback() {
+            @Override
+            public void onFetched(@Nullable Review review, RepositoryError error) {
+                if (review != null) {
+                    mSharer.publish(review, tagsManager);
+                } else {
+                    String message = "Review not found";
+                    if (error.isError()) message += ": " + error.getMessage();
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+
+            }
+        };
     }
 
     private void setReviewIdFromArgs() {

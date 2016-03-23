@@ -16,10 +16,16 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle
+        .GooglePlacesApi.CallBackSignaler;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .PresenterUsersFeed;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 
 import java.util.ArrayList;
@@ -33,8 +39,11 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         NewReviewListener,
         PresenterUsersFeed.ReviewUploadedListener {
 
-    private PresenterUsersFeed mPresenter;
+    private static final int TIMEOUT = 10;
+
     private ApplicationInstance mApp;
+    private PresenterUsersFeed mPresenter;
+    private CallBackSignaler mSignaler;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -52,13 +61,16 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
-        mApp = ApplicationInstance.getInstance(this);
+        buildPresenterAsync();
 
-        mPresenter = new PresenterUsersFeed.Builder(mApp)
-                .setReviewUploadedListener(this)
-                .build();
-
-        return mPresenter.getView();
+        mSignaler.waitForSignal();
+        if (mSignaler.timedOut()) {
+            //TODO deal with this more elegantly
+            finish();
+            return null;
+        } else {
+            return mPresenter.getView();
+        }
     }
 
     @Override
@@ -108,6 +120,21 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         makeToast(message);
     }
 
+    private void buildPresenterAsync() {
+        mApp = ApplicationInstance.getInstance(this);
+        mSignaler = new CallBackSignaler(TIMEOUT);
+        new PresenterUsersFeed.Builder(mApp)
+                .setReviewUploadedListener(this)
+                .build(new PresenterUsersFeed.Builder.BuildCallback() {
+                    @Override
+                    public void onBuildFinished(PresenterUsersFeed presenter, RepositoryError
+                            error) {
+                        mPresenter = presenter;
+                        mSignaler.signal();
+                    }
+                });
+    }
+
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -116,7 +143,8 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         Intent intent = getIntent();
         String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
         if (reviewId != null) {
-            ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
+            ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction
+                    .PLATFORMS);
             mPresenter.publish(reviewId, platforms);
             intent.removeExtra(PublishingAction.PUBLISHED);
         }

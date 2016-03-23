@@ -10,10 +10,13 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
@@ -28,16 +31,21 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublishingService extends IntentService 
-        implements BatchSocialPublisher.BatchSocialPublisherListener {
+        implements BatchSocialPublisher.BatchSocialPublisherListener,
+        RepositoryCallback{
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "SocialPublishingService.Percentage";
     public static final String STATUS_RESULTS = "SocialPublishingService.PublishResults";
 
     public static final String PUBLISHING_COMPLETED = "SocialPublishingService.PublishFinished";
-    public static final String PUBLISH_RESULTS_OK = "SocialPublishingService.PublishResultsOk";
-    public static final String PUBLISH_RESULTS_NOT_OK = "SocialPublishingService.PublishResultsNotOk";
+    public static final String PUBLISHING_ERROR = "SocialPublishingService.PublishError";
+    public static final String PUBLISH_OK = "SocialPublishingService.PublishResultsOk";
+    public static final String PUBLISH_NOT_OK = "SocialPublishingService.PublishResultsNotOk";
 
     private static final String SERVICE = "SocialPublishingService";
+
+    private String mReviewId;
+    private ArrayList<String> mPlatforms;
 
     public SocialPublishingService() {
         super(SERVICE);
@@ -45,11 +53,11 @@ public class SocialPublishingService extends IntentService
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
-        ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
+        mReviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
+        mPlatforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
 
-        if (reviewId != null && platforms != null && platforms.size() > 0) {
-            batchPublish(reviewId, platforms);
+        if (mReviewId != null && mPlatforms != null && mPlatforms.size() > 0) {
+            batchPublish();
         }
     }
 
@@ -66,23 +74,45 @@ public class SocialPublishingService extends IntentService
     public void onPublished(Collection<PublishResults> publishedOk,
                             Collection<PublishResults> publishedNotOk) {
         Intent update = new Intent(PUBLISHING_COMPLETED);
-        update.putParcelableArrayListExtra(PUBLISH_RESULTS_OK, new ArrayList<>(publishedOk));
-        update.putParcelableArrayListExtra(PUBLISH_RESULTS_NOT_OK, new ArrayList<>(publishedNotOk));
+        update.putParcelableArrayListExtra(PUBLISH_OK, new ArrayList<>(publishedOk));
+        update.putParcelableArrayListExtra(PUBLISH_NOT_OK, new ArrayList<>(publishedNotOk));
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
-    private void batchPublish(String reviewId, ArrayList<String> platformNames) {
+    private void batchPublish() {
         ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        Review review = app.getReview(reviewId);
+        app.getReview(mReviewId, this);
+    }
+
+    @Override
+    public void onFetched(@Nullable Review review, RepositoryError error) {
+        if(review != null && !error.isError()) {
+            doPublish(review);
+        } else {
+            Intent update = new Intent(PUBLISHING_COMPLETED);
+            String message = error.isError() ? error.getMessage() :
+                    review == null ? "Review not found" : "Error publishing to social platforms";
+            update.putExtra(PUBLISHING_ERROR, message);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(update);
+        }
+    }
+
+    private void doPublish(Review review) {
+        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
         TagsManager tagsManager = app.getTagsManager();
 
         Collection<SocialPlatform<?>> platforms = new ArrayList<>();
         for (SocialPlatform<?> platform : app.getSocialPlatformList()) {
-            if (platformNames.contains(platform.getName())) platforms.add(platform);
+            if (mPlatforms.contains(platform.getName())) platforms.add(platform);
         }
 
         BatchSocialPublisher publisher = new BatchSocialPublisher(platforms, this);
         publisher.publishReview(review, tagsManager);
+    }
+
+    @Override
+    public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+
     }
 }
