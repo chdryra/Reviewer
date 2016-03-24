@@ -54,6 +54,6 @@ public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
         for (GvComment comment : getGridData()) {
             comment.setIsHeadline(comment == headline);
         }
-        getReviewView().notifyObservers();
+        getReviewView().notifyDataObservers();
     }
 }

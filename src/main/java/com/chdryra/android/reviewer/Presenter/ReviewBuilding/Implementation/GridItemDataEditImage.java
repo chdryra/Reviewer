@@ -50,6 +50,6 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
             editor.getCover().setIsCover(false);
             newCover.setIsCover(true);
         }
-        editor.notifyObservers();
+        editor.notifyDataObservers();
     }
 }

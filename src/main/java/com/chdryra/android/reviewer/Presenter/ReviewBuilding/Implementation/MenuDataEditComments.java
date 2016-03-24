@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .MaiSplitComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuDataEditComments extends MenuDataEdit<GvComment>
-        implements GridDataObservable.GridDataObserver {
+        implements DataObservable.DataObserver {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
     private static final int MENU_DONE_ID = R.id.menu_item_done;
@@ -36,9 +36,8 @@ public class MenuDataEditComments extends MenuDataEdit<GvComment>
         mSplitter = new MaiSplitComments<>(this);
     }
 
-    //Overridden
     @Override
-    public void onGridDataChanged() {
+    public void onDataChanged() {
         mSplitter.updateGridDataUi();
     }
 
@@ -52,12 +51,12 @@ public class MenuDataEditComments extends MenuDataEdit<GvComment>
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        getReviewView().registerGridDataObserver(this);
+        getReviewView().registerDataObserver(this);
     }
 
     @Override
     public void onUnattachReviewView() {
-        getReviewView().unregisterGridDataObserver(this);
+        getReviewView().unregisterDataObserver(this);
         super.onUnattachReviewView();
     }
 }

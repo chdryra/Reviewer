@@ -175,8 +175,13 @@ public class ReviewsSourceImpl implements ReviewsSource {
         @Override
         public void onFetched(@Nullable Review review, RepositoryError error) {
             mCurrentIndex++;
-            mErrors.add(error);
-            if (review != null) mFetched.add(review);
+
+            if (review != null && !error.isError()) {
+                mFetched.add(review);
+            } else{
+                mErrors.add(error);
+            }
+
             if(mCurrentIndex == mMaxReviews) {
                 RepositoryError finalError = mErrors.size() > 0 ?
                         RepositoryError.error("Errors fetching some reviews")

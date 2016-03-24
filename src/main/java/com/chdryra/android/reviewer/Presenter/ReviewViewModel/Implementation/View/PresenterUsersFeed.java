@@ -162,13 +162,13 @@ public class PresenterUsersFeed implements
     @Override
     public void onReviewAdded(Review review) {
         addReviewToNode(review);
-        if (mReviewView != null) mReviewView.onGridDataChanged();
+        if (mReviewView != null) mReviewView.onDataChanged();
     }
 
     @Override
     public void onReviewRemoved(ReviewId reviewId) {
         removeReviewFromNode(reviewId);
-        if (mReviewView != null) mReviewView.onGridDataChanged();
+        if (mReviewView != null) mReviewView.onDataChanged();
     }
 
     @Override
@@ -292,7 +292,7 @@ public class PresenterUsersFeed implements
 
         @Override
         public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
-            String title = mApp.getUsersFeed().getAuthor() + "'s feed";
+            String title = mApp.getUsersFeed().getAuthor().getName() + "'s feed";
             PresenterUsersFeed presenter = new PresenterUsersFeed(mApp, title, reviews, mListener,getActions());
             mCallback.onBuildFinished(presenter, error);
         }

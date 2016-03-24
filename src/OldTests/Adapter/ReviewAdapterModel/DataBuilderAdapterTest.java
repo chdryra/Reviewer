@@ -7,7 +7,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -272,7 +272,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
 
         if(observer != null) {
             observer.reset();
-            adapter.registerGridDataObserver(observer);
+            adapter.registerDataObserver(observer);
         }
 
         assertTrue(adapter.add(datum));
@@ -313,7 +313,7 @@ public class DataBuilderAdapterTest extends AndroidTestCase {
         mSignaler = new CallBackSignaler(5000);
     }
 
-    private static class GridObserver implements GridDataObservable.GridDataObserver {
+    private static class GridObserver implements DataObservable.DataObserver {
         private CallBackSignaler mCallBack;
 
         private GridObserver(CallBackSignaler signaler) {

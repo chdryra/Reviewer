@@ -77,11 +77,11 @@ public interface DataBuilderAdapter<T extends GvData> extends ReviewViewAdapter<
     ReviewViewAdapter<?> expandGridData();
 
     @Override
-    void registerGridDataObserver(GridDataObserver observer);
+    void registerDataObserver(DataObserver observer);
 
     @Override
-    void unregisterGridDataObserver(GridDataObserver observer);
+    void unregisterDataObserver(DataObserver observer);
 
     @Override
-    void notifyGridDataObservers();
+    void notifyDataObservers();
 }

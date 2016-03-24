@@ -13,7 +13,7 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryVhDataCollection;
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
-        implements GridDataObservable.GridDataObserver {
+        implements DataObservable.DataObserver {
 
     public static final Parcelable.Creator<DataBuilderGridCell> CREATOR = new Parcelable.Creator<DataBuilderGridCell>() {
         @Override
@@ -52,15 +52,14 @@ public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
         super(dataAdapter.getGvDataType(), null);
         mDataAdapter = dataAdapter;
         mViewHolderFactory = viewHolderFactory;
-        mDataAdapter.registerGridDataObserver(this);
-        onGridDataChanged();
+        mDataAdapter.registerDataObserver(this);
+        onDataChanged();
     }
 
     private DataBuilderGridCell(Parcel in) {
         super(in);
     }
 
-    //Overridden
     @Override
     public String getStringSummary() {
         return getGvDataType().getDataName();
@@ -72,7 +71,7 @@ public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
     }
 
     @Override
-    public void onGridDataChanged() {
+    public void onDataChanged() {
         mData = mDataAdapter.getGridData().toArrayList();
     }
 }

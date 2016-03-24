@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities
         .ActivityReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -53,7 +53,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 @SuppressWarnings("EmptyMethod")
-public class FragmentReviewView extends Fragment implements GridDataObservable.GridDataObserver {
+public class FragmentReviewView extends Fragment implements DataObservable.DataObserver {
     private static final String TAG = "FragmentReviewView";
 
     private static final int LAYOUT = R.layout.fragment_view_review;
@@ -194,7 +194,7 @@ public class FragmentReviewView extends Fragment implements GridDataObservable.G
     }
 
     @Override
-    public void onGridDataChanged() {
+    public void onDataChanged() {
         updateUi();
     }
 

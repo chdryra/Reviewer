@@ -65,6 +65,6 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
         GvImageList images = (GvImageList) getGridData();
         GvImage cover = images.getItem(0);
         cover.setIsCover(true);
-        getReviewView().notifyObservers();
+        getReviewView().notifyDataObservers();
     }
 }

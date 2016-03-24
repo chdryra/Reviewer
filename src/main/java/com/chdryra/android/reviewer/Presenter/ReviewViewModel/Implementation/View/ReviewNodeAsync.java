@@ -6,13 +6,9 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-/**
- * Created by: Rizwan Choudrey
- * On: 03/10/2014
- * Email: rizwan.choudrey@gmail.com
- */
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -27,25 +23,26 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.ArrayList;
 
 /**
- * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
- * more editing or expanding of the node. Has the same {@link MdReviewId} as the wrapped node.
- * <p/>
- * <p>
- * Although a ReviewTree is unchangeable it may still be wrapped by another
- * {@link ReviewTree},
- * thus acting as a fixed, published component of a new review tree with its own {@link MdReviewId}.
- * </p>
+ * Created by: Rizwan Choudrey
+ * On: 24/03/2016
+ * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTree implements ReviewNode {
-    private ReviewNode mNode;
+public class ReviewNodeAsync implements ReviewNode, ReviewsSourceCallback, DataObservable {
 
-    public ReviewTree(@NotNull ReviewNode node) {
-        mNode = node;
+    private ReviewNode mNode;
+    private ArrayList<DataObservable.DataObserver> mObservers;
+
+    public ReviewNodeAsync(ReviewNode initial) {
+        mNode = initial;
+        mObservers = new ArrayList<>();
     }
 
     @Override
@@ -164,18 +161,47 @@ public class ReviewTree implements ReviewNode {
     }
 
     @Override
+    public void registerDataObserver(DataObservable.DataObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterDataObserver(DataObservable.DataObserver observer) {
+        if (mObservers.contains(observer)) mObservers.remove(observer);
+    }
+
+    @Override
+    public void notifyDataObservers() {
+        for (DataObservable.DataObserver observer : mObservers) {
+            observer.onDataChanged();
+        }
+    }
+
+    @Override
+    public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
+        if(review!= null && !error.isError()) {
+            mNode = review;
+            notifyDataObservers();
+        }
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewTree)) return false;
+        if (!(o instanceof ReviewNodeAsync)) return false;
 
-        ReviewTree that = (ReviewTree) o;
+        ReviewNodeAsync that = (ReviewNodeAsync) o;
 
-        return mNode.equals(that.mNode);
+        if (mNode != null ? !mNode.equals(that.mNode) : that.mNode != null) return false;
+        return !(mObservers != null ? !mObservers.equals(that.mObservers) : that.mObservers !=
+                null);
 
     }
 
     @Override
     public int hashCode() {
-        return mNode.hashCode();
+        int result = mNode != null ? mNode.hashCode() : 0;
+        result = 31 * result + (mObservers != null ? mObservers.hashCode() : 0);
+        return result;
     }
 }

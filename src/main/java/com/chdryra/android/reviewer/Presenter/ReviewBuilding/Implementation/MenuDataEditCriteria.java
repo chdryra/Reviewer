@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.content.Context;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
 public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
-        implements GridDataObservable.GridDataObserver {
+        implements DataObservable.DataObserver {
     private static final GvDataType<GvCriterion> TYPE = GvCriterion.TYPE;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
     private static final int MENU_DONE_ID = R.id.menu_item_done;
@@ -34,15 +34,13 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
 
     private final MenuItemCriteriaRatingAverage mActionItem;
 
-    //Constructors
     public MenuDataEditCriteria() {
         super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         mActionItem = new MenuItemCriteriaRatingAverage();
     }
 
-    //Overridden
     @Override
-    public void onGridDataChanged() {
+    public void onDataChanged() {
         if (getEditor().isRatingAverage()) mActionItem.setAverageRating();
     }
 
@@ -56,12 +54,12 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        getReviewView().registerGridDataObserver(this);
+        getReviewView().registerDataObserver(this);
     }
 
     @Override
     public void onUnattachReviewView() {
-        getReviewView().unregisterGridDataObserver(this);
+        getReviewView().unregisterDataObserver(this);
         super.onUnattachReviewView();
     }
 
@@ -76,7 +74,6 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
             getEditor().setRating(rating, false);
         }
 
-        //Overridden
         @Override
         public void doAction(Context context, MenuItem item) {
             getEditor().setRatingIsAverage(true);

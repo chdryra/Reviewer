@@ -13,14 +13,14 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.View;
  * On: 29/04/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GridDataObservable {
-    interface GridDataObserver {
-        void onGridDataChanged();
+public interface DataObservable {
+    interface DataObserver {
+        void onDataChanged();
     }
 
-    void registerGridDataObserver(GridDataObserver observer);
+    void registerDataObserver(DataObserver observer);
 
-    void unregisterGridDataObserver(GridDataObserver observer);
+    void unregisterDataObserver(DataObserver observer);
 
-    void notifyGridDataObservers();
+    void notifyDataObservers();
 }

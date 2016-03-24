@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
@@ -34,17 +34,17 @@ import java.util.ArrayList;
 public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     private static final String TAG = "ReviewViewDefault";
     private ReviewViewPerspective<T> mPerspective;
-    private ArrayList<GridDataObservable.GridDataObserver> mGridObservers;
+    private ArrayList<DataObservable.DataObserver> mObservers;
     private FragmentReviewView mFragment;
     private GvDataList<T> mGridViewData;
 
     public ReviewViewDefault(ReviewViewPerspective<T> perspective) {
         mPerspective = perspective;
-        mGridObservers = new ArrayList<>();
+        mObservers = new ArrayList<>();
 
         ReviewViewAdapter<T> adapter = mPerspective.getAdapter();
         adapter.attachReviewView(this);
-        adapter.registerGridDataObserver(this);
+        adapter.registerDataObserver(this);
         mGridViewData = adapter.getGridData();
     }
 
@@ -86,7 +86,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public void setGridViewData(GvDataList<T> dataToShow) {
         mGridViewData = dataToShow;
-        if(mFragment != null) mFragment.onGridDataChanged();
+        if(mFragment != null) mFragment.onDataChanged();
     }
 
     @Override
@@ -114,12 +114,12 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         if (mFragment != null) throw new RuntimeException("There is a Fragment already attached");
         mFragment = parent;
         mPerspective.getActions().attachReviewView(this);
-        registerGridDataObserver(mFragment);
+        registerDataObserver(mFragment);
     }
 
     @Override
     public void detachFragment(FragmentReviewView parent) {
-        unregisterGridDataObserver(mFragment);
+        unregisterDataObserver(mFragment);
         mFragment = null;
     }
 
@@ -132,19 +132,19 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void registerGridDataObserver(GridDataObservable.GridDataObserver observer) {
-        if (!mGridObservers.contains(observer)) mGridObservers.add(observer);
+    public void registerDataObserver(DataObservable.DataObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
-    public void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer) {
-        if (mGridObservers.contains(observer)) mGridObservers.remove(observer);
+    public void unregisterDataObserver(DataObservable.DataObserver observer) {
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     @Override
-    public void notifyObservers() {
-        for (GridDataObservable.GridDataObserver observer : mGridObservers) {
-            observer.onGridDataChanged();
+    public void notifyDataObservers() {
+        for (DataObservable.DataObserver observer : mObservers) {
+            observer.onDataChanged();
         }
     }
 
@@ -160,9 +160,9 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void onGridDataChanged() {
+    public void onDataChanged() {
         mGridViewData = null;
-        notifyObservers();
+        notifyDataObservers();
     }
 
     @Override

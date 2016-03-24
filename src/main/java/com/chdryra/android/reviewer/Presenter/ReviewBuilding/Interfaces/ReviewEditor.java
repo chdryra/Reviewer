@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -89,20 +89,20 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
     void updateCover();
 
     @Override
-    void registerGridDataObserver(GridDataObservable.GridDataObserver observer);
+    void registerDataObserver(DataObservable.DataObserver observer);
 
     @Override
-    void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer);
+    void unregisterDataObserver(DataObservable.DataObserver observer);
 
     @Override
-    void notifyObservers();
+    void notifyDataObservers();
 
     @Override
     View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState);
 
     @Override
-    void onGridDataChanged();
+    void onDataChanged();
 
     @Override
     String getLaunchTag();

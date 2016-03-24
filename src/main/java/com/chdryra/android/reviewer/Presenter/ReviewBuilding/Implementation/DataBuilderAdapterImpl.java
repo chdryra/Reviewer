@@ -82,7 +82,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
     public boolean add(T datum) {
         DataBuilder.ConstraintResult res = mDataBuilder.add(datum);
         if (res == DataBuilder.ConstraintResult.PASSED) {
-            this.notifyGridDataObservers();
+            this.notifyDataObservers();
             return true;
         } else {
             if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
@@ -95,20 +95,20 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
     @Override
     public void delete(T datum) {
         mDataBuilder.delete(datum);
-        this.notifyGridDataObservers();
+        this.notifyDataObservers();
     }
 
     @Override
     public void deleteAll() {
         mDataBuilder.deleteAll();
-        this.notifyGridDataObservers();
+        this.notifyDataObservers();
     }
 
     @Override
     public void replace(T oldDatum, T newDatum) {
         DataBuilder.ConstraintResult res = mDataBuilder.replace(oldDatum, newDatum);
         if (res == DataBuilder.ConstraintResult.PASSED) {
-            this.notifyGridDataObservers();
+            this.notifyDataObservers();
         } else {
             if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
                 makeToastHasItem(mContext, newDatum);
@@ -119,13 +119,13 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
     @Override
     public void publishData() {
         mDataBuilder.buildData();
-        getParentBuilder().notifyGridDataObservers();
+        getParentBuilder().notifyDataObservers();
     }
 
     @Override
     public void resetData() {
         mDataBuilder.resetData();
-        this.notifyGridDataObservers();
+        this.notifyDataObservers();
     }
 
     @Override

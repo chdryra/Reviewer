@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataObservable;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -164,7 +164,7 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         DataBuilderAdapter<GvTag> tagBuilder
                 = mAdapter.getDataBuilderAdapter(GvTag.TYPE);
         CallBackSignaler tagSignaler = new CallBackSignaler(5000);
-        tagBuilder.registerGridDataObserver(new GridObserver(tagSignaler));
+        tagBuilder.registerDataObserver(new GridObserver(tagSignaler));
 
         //Make sure observers signaled
         String subject = RandomString.nextWord();
@@ -242,10 +242,10 @@ public class ReviewBuilderAdapterTest extends AndroidTestCase {
         mBuilder = new ReviewBuilder(getContext(), mAuthor, mTagsManager);
         mAdapter = new ReviewBuilderAdapter(mBuilder);
         mSignaler = new CallBackSignaler(5000);
-        mAdapter.registerGridDataObserver(new GridObserver(mSignaler));
+        mAdapter.registerDataObserver(new GridObserver(mSignaler));
     }
 
-    private static class GridObserver implements GridDataObservable.GridDataObserver {
+    private static class GridObserver implements DataObservable.DataObserver {
         private CallBackSignaler mCallBack;
 
         private GridObserver(CallBackSignaler signaler) {

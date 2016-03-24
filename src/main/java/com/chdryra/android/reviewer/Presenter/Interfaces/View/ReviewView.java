@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewView<T extends GvData> extends GridDataObservable.GridDataObserver, LaunchableUi {
+public interface ReviewView<T extends GvData> extends DataObservable, DataObservable.DataObserver, LaunchableUi {
     String getSubject();
 
     float getRating();
@@ -59,17 +59,20 @@ public interface ReviewView<T extends GvData> extends GridDataObservable.GridDat
 
     void updateCover();
 
-    void registerGridDataObserver(GridDataObservable.GridDataObserver observer);
-
-    void unregisterGridDataObserver(GridDataObservable.GridDataObserver observer);
-
-    void notifyObservers();
-
     View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container,
                             Bundle savedInstanceState);
 
     @Override
-    void onGridDataChanged();
+    void registerDataObserver(DataObservable.DataObserver observer);
+
+    @Override
+    void unregisterDataObserver(DataObservable.DataObserver observer);
+
+    @Override
+    void notifyDataObservers();
+
+    @Override
+    void onDataChanged();
 
     @Override
     void launch(LauncherUi launcher);

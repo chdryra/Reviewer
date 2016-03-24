@@ -75,11 +75,11 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewVi
     ReviewViewAdapter<?> expandGridData();
 
     @Override
-    void registerGridDataObserver(GridDataObserver observer);
+    void registerDataObserver(DataObserver observer);
 
     @Override
-    void unregisterGridDataObserver(GridDataObserver observer);
+    void unregisterDataObserver(DataObserver observer);
 
     @Override
-    void notifyGridDataObservers();
+    void notifyDataObservers();
 }

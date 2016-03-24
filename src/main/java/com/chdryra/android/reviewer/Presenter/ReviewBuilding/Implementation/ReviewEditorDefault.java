@@ -79,7 +79,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
 
     @Override
     public void notifyBuilder() {
-        mBuilder.notifyGridDataObservers();
+        mBuilder.notifyDataObservers();
     }
 
     @Override

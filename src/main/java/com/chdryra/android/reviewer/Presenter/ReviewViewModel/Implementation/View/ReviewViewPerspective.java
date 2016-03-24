@@ -40,7 +40,6 @@ public class ReviewViewPerspective<T extends GvData> {
         mModifier = modifier;
     }
 
-    //public methods
     public ReviewViewAdapter<T> getAdapter() {
         return mAdapter;
     }

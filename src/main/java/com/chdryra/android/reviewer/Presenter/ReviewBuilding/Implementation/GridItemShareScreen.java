@@ -53,7 +53,7 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     @Override
     public void onAuthorisationGiven(SocialPlatform<?> platform) {
         pressPlatform(mPlatformSeekingAuthorisation, mViewForAuthorisation);
-        getReviewView().onGridDataChanged();
+        getReviewView().onDataChanged();
         makeToast(platform, AUTHORISATION_RECEIVED);
         mPlatformSeekingAuthorisation = null;
         mViewForAuthorisation = null;
