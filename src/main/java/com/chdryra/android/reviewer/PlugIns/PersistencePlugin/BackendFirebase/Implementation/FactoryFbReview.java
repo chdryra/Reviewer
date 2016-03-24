@@ -53,6 +53,10 @@ public class FactoryFbReview {
         return toReviewDataHolder(fbReview);
     }
 
+    public ReviewDataHolder nullReview() {
+        return NULL_REVIEW;
+    }
+
     private ReviewDataHolder toReviewDataHolder(FbReview review) {
         if(!review.isValid()) return NULL_REVIEW;
 
