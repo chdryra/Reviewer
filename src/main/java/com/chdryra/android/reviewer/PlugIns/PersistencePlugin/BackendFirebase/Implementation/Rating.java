@@ -34,4 +34,8 @@ public class Rating {
     public long getRatingWeight() {
         return mRatingWeight;
     }
+
+    public boolean isValid() {
+        return mRatingWeight > 0;
+    }
 }

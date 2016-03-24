@@ -27,6 +27,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .PresenterUsersFeed;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -39,7 +43,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         NewReviewListener,
         PresenterUsersFeed.ReviewUploadedListener {
 
-    private static final int TIMEOUT = 10;
+    private static final int TIMEOUT = 100;
 
     private ApplicationInstance mApp;
     private PresenterUsersFeed mPresenter;
@@ -61,13 +65,29 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
+        mSignaler = new CallBackSignaler(TIMEOUT);
+        Firebase ref = new Firebase("https://docs-examples.firebaseio.com/web/saving-data/fireblog/posts");
+        // Attach an listener to read the data at our posts reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot.getValue());
+                mSignaler.signal();
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+                mSignaler.signal();
+            }
+        });
+
+        mSignaler.waitForSignal();
         buildPresenterAsync();
 
         mSignaler.waitForSignal();
         if (mSignaler.timedOut()) {
             //TODO deal with this more elegantly
-            finish();
-            return null;
+            throw new RuntimeException("ActivityUsersFeed timed out!");
         } else {
             return mPresenter.getView();
         }

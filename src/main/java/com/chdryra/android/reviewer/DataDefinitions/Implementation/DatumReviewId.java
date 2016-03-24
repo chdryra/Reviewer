@@ -9,17 +9,26 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.Validatable;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumReviewId implements ReviewId {
+public class DatumReviewId implements ReviewId, Validatable {
     private String mId;
+
+    public DatumReviewId() {
+    }
 
     public DatumReviewId(String id) {
         mId = id;
+    }
+
+    @Override
+    public boolean hasData(DataValidator validator) {
+        return validator.validate(this);
     }
 
     @Override

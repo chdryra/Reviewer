@@ -10,13 +10,14 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
 import android.webkit.URLUtil;
 
 import com.chdryra.android.mygenerallibrary.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
@@ -25,6 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -33,24 +35,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDate;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.ReviewDataHolderImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,7 +54,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -86,7 +78,7 @@ public class TestReviews {
         FactoryMdConverter converter = new FactoryMdConverter();
         mNodeFactory = new FactoryReviewNode();
         mFactory = new FactoryReviews(mNodeFactory,
-                converter.newMdConverter());
+                converter.newMdConverter(), new DataValidator());
         mFactory.setAuthorsStamp(new AuthorsStamp(AUTHOR));
     }
 
@@ -291,20 +283,11 @@ public class TestReviews {
 
 
         DatumDateReview publishDate = new DatumDateReview(id, review.mPublishDate.getTime());
-        ArrayList<Review> criteria = new ArrayList<>();
-        i = 1;
+
+        ArrayList<DataCriterion> criteria = new ArrayList<>();
         float avgRating = 0f;
         for(Criterion criterion : review.mCriteria) {
-            MdReviewId critId = new MdReviewId(AUTHOR.getUserId().toString(),
-                    review.mPublishDate.getTime(), i++);
-            Review item = new ReviewUser(critId, new MdAuthor(critId, AUTHOR.getName(),
-                    AUTHOR.getUserId()), new MdDate(critId, publishDate.getTime()),
-                    new MdSubject(critId,criterion.mSubject),
-                    new MdRating(critId, criterion.mRating, 1), new MdDataList<MdComment>(critId),
-                    new MdDataList<MdImage>(critId), new MdDataList<MdFact>(critId),
-                    new MdDataList<MdLocation>(critId), new MdDataList<MdCriterion>(critId), false,
-                    mNodeFactory);
-            criteria.add(item);
+            criteria.add(new DatumCriterion(id, criterion.mSubject, criterion.mRating));
             avgRating += criterion.mRating / review.mCriteria.size();
         }
 
@@ -416,9 +399,8 @@ public class TestReviews {
             mManger = manger;
         }
 
-        @Nullable
         @Override
-        public Review getReview(ReviewId id) {
+        public void getReview(ReviewId id, RepositoryCallback callback) {
             Review ret = null;
             for(Review review : mReviews) {
                 if(review.getReviewId().equals(id)) {
@@ -426,12 +408,12 @@ public class TestReviews {
                     break;
                 }
             }
-            return ret;
+            callback.onFetched(ret, RepositoryError.none());
         }
 
         @Override
-        public Collection<Review> getReviews() {
-            return mReviews;
+        public void getReviews(RepositoryCallback callback) {
+            callback.onCollectionFetched(mReviews, RepositoryError.none());
         }
 
         @Override

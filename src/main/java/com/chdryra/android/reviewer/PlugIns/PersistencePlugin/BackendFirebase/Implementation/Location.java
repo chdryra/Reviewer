@@ -34,4 +34,8 @@ public class Location {
     public String getName() {
         return mName;
     }
+
+    public boolean isValid() {
+        return mLatLng.isValid() && mName != null && mName.length() > 0;
+    }
 }

@@ -32,6 +32,11 @@ public class DatumUrl extends DatumFact implements DataUrl{
     }
 
     @Override
+    public boolean isUrl() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DatumUrl)) return false;

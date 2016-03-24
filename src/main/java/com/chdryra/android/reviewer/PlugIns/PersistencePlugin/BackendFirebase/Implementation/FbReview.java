@@ -23,7 +23,7 @@ import java.util.List;
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserReview {
+public class FbReview {
     private String mReviewId;
     private String mSubject;
     private Rating mRating;
@@ -37,10 +37,10 @@ public class UserReview {
 
     private boolean mIsAverageOfCriteria;
 
-    public UserReview() {
+    public FbReview() {
     }
 
-    public UserReview(Review review) {
+    public FbReview(Review review) {
         mReviewId = review.getReviewId().toString();
         mSubject = review.getSubject().getSubject();
         mRating = new Rating(review.getRating());
@@ -112,5 +112,14 @@ public class UserReview {
 
     public String getReviewId() {
         return mReviewId;
+    }
+
+    public boolean isValid() {
+        return validateString(mReviewId) && validateString(mSubject) && mRating.isValid()
+                && mAuthor.isValid() ;
+    }
+
+    private boolean validateString(String string) {
+        return string != null && string.length() > 0;
     }
 }

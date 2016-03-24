@@ -20,11 +20,17 @@ public class DatumFact implements DataFact {
     private ReviewId mReviewId;
     private String mLabel;
     private String mValue;
+    private boolean mIsUrl;
 
     public DatumFact(ReviewId reviewId, String label, String value) {
+        this(reviewId, label, value, false);
+    }
+
+    public DatumFact(ReviewId reviewId, String label, String value, boolean isUrl) {
         mReviewId = reviewId;
         mLabel = label;
         mValue = value;
+        mIsUrl = isUrl;
     }
 
     @Override
@@ -39,7 +45,7 @@ public class DatumFact implements DataFact {
 
     @Override
     public boolean isUrl() {
-        return false;
+        return mIsUrl;
     }
 
     @Override

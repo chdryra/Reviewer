@@ -41,4 +41,11 @@ public class Fact {
         return mIsUrl;
     }
 
+    public boolean isValid(){
+        return validateString(mLabel) && validateString(mValue);
+    }
+
+    private boolean validateString(String string) {
+        return string != null && string.length() > 0;
+    }
 }

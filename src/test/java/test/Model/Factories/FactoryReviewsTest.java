@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.ReviewDataHolderImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.testutils.RandomString;

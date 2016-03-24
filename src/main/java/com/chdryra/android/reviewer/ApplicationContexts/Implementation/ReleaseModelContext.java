@@ -27,8 +27,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
 public class ReleaseModelContext extends ModelContextBasic {
 
     public ReleaseModelContext(DataAuthor author) {
-        setReviewsFactory(author);
-
         setTagsManager(new FactoryTagsManager().newTagsManager());
 
         setDataValidator(new DataValidator());
@@ -36,11 +34,14 @@ public class ReleaseModelContext extends ModelContextBasic {
         setVisitorsFactory(new FactoryVisitorReviewNode());
 
         setTreeTraversersFactory(new FactoryNodeTraverser());
+
+        setReviewsFactory(author);
     }
 
     private void setReviewsFactory(DataAuthor author) {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter);
+        FactoryReviews factoryReviews
+                = new FactoryReviews(new FactoryReviewNode(), converter, getDataValidator());
         factoryReviews.setAuthorsStamp(new AuthorsStamp(author));
         setFactoryReviews(factoryReviews);
     }

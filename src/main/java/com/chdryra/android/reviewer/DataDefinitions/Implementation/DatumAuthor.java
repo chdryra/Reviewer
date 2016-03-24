@@ -16,8 +16,11 @@ import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
  * Holds Author data. Currently only wraps a name and unique {@link AuthorId}.
  */
 public class DatumAuthor implements DataAuthor{
-    private final UserId mId;
-    private final String mName;
+    private UserId mId;
+    private String mName;
+
+    public DatumAuthor() {
+    }
 
     public DatumAuthor(String name, UserId id) {
         mName = name;

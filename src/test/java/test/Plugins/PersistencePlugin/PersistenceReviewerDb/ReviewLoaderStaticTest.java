@@ -44,8 +44,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .ReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .ReviewerDb.Implementation.TableTags;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
-        .ReviewerDb.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .ReviewerDb.Interfaces.ReviewRecreater;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb

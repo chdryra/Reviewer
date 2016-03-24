@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = "BuildScreen";
     private static final String TEMPLATE_ID = "TemplateId";
-    private static final int TIMEOUT = 10;
+    private static final int TIMEOUT = 100;
     private PresenterReviewBuild mPresenter;
     private CallBackSignaler mSignaler;
 
@@ -40,8 +40,7 @@ public class ActivityBuildReview extends ActivityReviewView {
         mSignaler.waitForSignal();
         if (mSignaler.timedOut()) {
             //TODO deal with this more elegantly
-            finish();
-            return null;
+            throw new RuntimeException("ActivityBuildReview timed out!");
         } else {
             return mPresenter.getEditor();
         }

@@ -6,16 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,7 +44,9 @@ public interface ReviewDataHolder {
 
     Iterable<? extends DataLocation> getLocations();
 
-    Iterable<Review> getCriteria();
+    Iterable<? extends DataCriterion> getCriteria();
 
     boolean isAverage();
+
+    boolean isValid(DataValidator validator);
 }

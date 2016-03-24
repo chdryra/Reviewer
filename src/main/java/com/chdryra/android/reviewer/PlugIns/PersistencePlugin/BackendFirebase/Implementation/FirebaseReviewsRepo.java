@@ -15,13 +15,21 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
+        .Interfaces.ReviewRecreater;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,33 +39,36 @@ import java.util.ArrayList;
 public class FirebaseReviewsRepo implements ReviewsRepositoryMutable {
     private FirebaseDb mDb;
     private TagsManager mTagsManager;
+    private ReviewRecreater mRecreater;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
     public FirebaseReviewsRepo(FirebaseDb db,
-                               TagsManager tagsManager) {
+                               TagsManager tagsManager,
+                               ReviewRecreater recreater) {
         mDb = db;
         mTagsManager = tagsManager;
+        mRecreater = recreater;
         mObservers = new ArrayList<>();
     }
 
     @Override
     public void addReview(final Review review, RepositoryMutableCallback callback) {
-        mDb.addReview(review, mTagsManager, addListener(callback));
+        mDb.addReview(review, mTagsManager, addCallback(callback));
     }
 
     @Override
     public void removeReview(ReviewId reviewId, RepositoryMutableCallback callback) {
-        mDb.deleteReview(reviewId, deleteListener(callback));
+        mDb.deleteReview(reviewId, deleteCallback(callback));
     }
 
     @Override
-    public void getReview(ReviewId id, RepositoryCallback callback) {
-
+    public void getReview(ReviewId id, final RepositoryCallback callback) {
+        mDb.getReview(id, reviewCallback(callback));
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
-
+    public void getReviews(final RepositoryCallback callback) {
+        mDb.getReviews(reviewCollectionCallback(callback));
     }
 
     @Override
@@ -76,8 +87,41 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable {
     }
 
     @NonNull
-    private FirebaseDb.AddListener addListener(final RepositoryMutableCallback callback) {
-        return new FirebaseDb.AddListener() {
+    private FirebaseDb.GetCallback reviewCallback(final RepositoryCallback callback) {
+        return new FirebaseDb.GetCallback() {
+            @Override
+            public void onReview(ReviewDataHolder review, @Nullable FirebaseError error) {
+                RepositoryError repoError = RepositoryError.none();
+                if (error != null) repoError = RepositoryError.error(error.getMessage());
+                callback.onFetched(mRecreater.recreateReview(review), repoError);
+            }
+        };
+    }
+
+    @NonNull
+    private FirebaseDb.GetCollectionCallback reviewCollectionCallback(final RepositoryCallback
+                                                                                  callback) {
+        final ArrayList<Review> reviews = new ArrayList<>();
+        return new FirebaseDb.GetCollectionCallback() {
+            @Override
+            public void onReviewCollection(Collection<ReviewDataHolder> data, @Nullable
+            FirebaseError error) {
+                for (ReviewDataHolder holder : data) {
+                    reviews.add(mRecreater.recreateReview(holder));
+                }
+                RepositoryError repoError = RepositoryError.none();
+                if (error != null) {
+                    repoError = RepositoryError.error(error.getMessage());
+                }
+
+                callback.onCollectionFetched(reviews, repoError);
+            }
+        };
+    }
+
+    @NonNull
+    private FirebaseDb.AddCallback addCallback(final RepositoryMutableCallback callback) {
+        return new FirebaseDb.AddCallback() {
             @Override
             public void onReviewAdded(Review review, @Nullable FirebaseError error) {
                 if (error != null) {
@@ -91,8 +135,8 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable {
     }
 
     @NonNull
-    private FirebaseDb.DeleteListener deleteListener(final RepositoryMutableCallback callback) {
-        return new FirebaseDb.DeleteListener() {
+    private FirebaseDb.DeleteCallback deleteCallback(final RepositoryMutableCallback callback) {
+        return new FirebaseDb.DeleteCallback() {
             @Override
             public void onReviewDeleted(ReviewId reviewId, @Nullable FirebaseError error) {
                 if (error != null) {

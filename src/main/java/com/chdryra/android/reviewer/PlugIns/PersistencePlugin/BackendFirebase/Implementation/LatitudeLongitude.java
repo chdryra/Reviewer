@@ -34,4 +34,9 @@ public class LatitudeLongitude {
     double getLongitude() {
         return mLongitude;
     }
+
+    public boolean isValid() {
+        return mLatitude >= -90. && mLatitude <= 90.
+                && mLongitude >= -180. && mLongitude <= 180.;
+    }
 }

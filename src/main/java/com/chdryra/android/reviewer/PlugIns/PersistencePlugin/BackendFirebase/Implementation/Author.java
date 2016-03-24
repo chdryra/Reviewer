@@ -34,4 +34,12 @@ public class Author {
     public String getUserId() {
         return mId;
     }
+
+    public boolean isValid(){
+        return validateString(mName) && validateString(mId);
+    }
+
+    private boolean validateString(String string) {
+        return string != null && string.length() > 0;
+    }
 }

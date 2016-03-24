@@ -34,4 +34,8 @@ public class Comment {
     public boolean isHeadline() {
         return mIsHeadline;
     }
+
+    public boolean isValid(){
+        return mComment != null && mComment.length() > 0;
+    }
 }

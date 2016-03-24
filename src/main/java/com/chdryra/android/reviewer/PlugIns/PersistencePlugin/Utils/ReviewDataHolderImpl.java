@@ -6,17 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation;
+package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewDataHolder;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,7 +34,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     private final Iterable<? extends DataImage> mImages;
     private final Iterable<? extends DataFact> mFacts;
     private final Iterable<? extends DataLocation> mLocations;
-    private final Iterable<Review> mCritList;
+    private final Iterable<? extends DataCriterion> mCriteria;
     private final boolean mIsAverage;
 
     public ReviewDataHolderImpl(ReviewId id, DataAuthor author, DataDate publishDate,
@@ -43,7 +43,8 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
                                 Iterable<? extends DataImage> images,
                                 Iterable<? extends DataFact> facts,
                                 Iterable<? extends DataLocation> locations,
-                                Iterable<Review> critList, boolean isAverage) {
+                                Iterable<? extends DataCriterion> criteria,
+                                boolean isAverage) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -54,7 +55,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
         mImages = images;
         mFacts = facts;
         mLocations = locations;
-        mCritList = critList;
+        mCriteria = criteria;
         mIsAverage = isAverage;
     }
 
@@ -109,12 +110,18 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     }
 
     @Override
-    public Iterable<Review> getCriteria() {
-        return mCritList;
+    public Iterable<? extends DataCriterion> getCriteria() {
+        return mCriteria;
     }
 
     @Override
     public boolean isAverage() {
         return mIsAverage;
+    }
+
+    @Override
+    public boolean isValid(DataValidator validator) {
+        return validator.validate(mId) && validator.validate(mAuthor)
+                && validator.validateString(mSubject) && mRatingWeight > 0;
     }
 }

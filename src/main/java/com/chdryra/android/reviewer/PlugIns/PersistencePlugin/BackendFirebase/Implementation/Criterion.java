@@ -34,4 +34,8 @@ public class Criterion {
     public double getRating() {
         return mRating;
     }
+
+    public boolean isValid() {
+        return mSubject != null && mSubject.length() > 0;
+    }
 }

@@ -13,37 +13,29 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Interfaces.DbTable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin
-        .Api.TableTransactor;
-
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Interfaces.RowEntry;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewRecreater;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.ReviewDataHolder;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.RowComment;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.RowFact;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.RowImage;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.RowLocation;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.RowReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.Api.TableTransactor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewLoader;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewRecreater;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.RowReview;
+
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolderImpl;
 
 import java.util.ArrayList;
 
@@ -94,15 +86,23 @@ public class ReviewLoaderStatic implements ReviewLoader {
                                                      Iterable<RowImage> images,
                                                      Iterable<Review> critList,
                                                      DataAuthor author) {
+        ReviewId reviewId = reviewRow.getReviewId();
         String subject = reviewRow.getSubject();
         float rating = reviewRow.getRating();
         int ratingWeight = reviewRow.getRatingWeight();
         boolean isAverage = reviewRow.isRatingIsAverage();
         PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
 
-        return new ReviewDataHolderImpl(reviewRow.getReviewId(), author,
+        ArrayList<DataCriterion> criteria = new ArrayList<>();
+        for(Review crit : critList) {
+            String critSubject = crit.getSubject().getSubject();
+            float critRating = crit.getRating().getRating();
+            criteria.add(new DatumCriterion(reviewId, critSubject, critRating));
+        }
+
+        return new ReviewDataHolderImpl(reviewId, author,
                 publishDate, subject, rating, ratingWeight, comments, images, facts, locations,
-                critList, isAverage);
+                criteria, isAverage);
     }
 
     private <DbRow extends DbTableRow> Iterable<DbRow> loadData(DbTable<DbRow> table,

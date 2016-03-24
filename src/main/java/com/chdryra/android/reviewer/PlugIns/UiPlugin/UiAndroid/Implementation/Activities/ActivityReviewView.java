@@ -31,7 +31,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       if(savedInstanceState != null) {
+        if(savedInstanceState != null) {
            mView = ((FragmentReviewView) getFragment()).getReviewView();
        }
     }

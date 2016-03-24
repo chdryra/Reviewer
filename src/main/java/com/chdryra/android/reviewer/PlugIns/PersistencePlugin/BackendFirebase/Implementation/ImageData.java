@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -58,9 +57,7 @@ public class ImageData {
         return mIsCover;
     }
 
-    //Here as a reminder...
-    private Bitmap decode() {
-        byte[] imageAsBytes = Base64.decode(mBitmap, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+    public boolean isValid(){
+        return mBitmap != null && mBitmap.length() > 0;
     }
 }

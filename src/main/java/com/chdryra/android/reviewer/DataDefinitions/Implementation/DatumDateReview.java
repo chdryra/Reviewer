@@ -20,6 +20,9 @@ public class DatumDateReview implements DataDateReview {
     private ReviewId mReviewId;
     private long mTime;
 
+    public DatumDateReview() {
+    }
+
     public DatumDateReview(ReviewId reviewId, long time) {
         mReviewId = reviewId;
         mTime = time;

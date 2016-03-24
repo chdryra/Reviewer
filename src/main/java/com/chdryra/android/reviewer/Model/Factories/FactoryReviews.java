@@ -10,15 +10,17 @@ package com.chdryra.android.reviewer.Model.Factories;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewRecreater;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
@@ -54,12 +56,15 @@ public class FactoryReviews implements ReviewRecreater {
     private AuthorsStamp mAuthorsStamp;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
+    private DataValidator mValidator;
     private static Review sNullReview;
 
     public FactoryReviews(FactoryReviewNode nodeFactory,
-                          ConverterMd converter) {
+                          ConverterMd converter,
+                          DataValidator validator) {
         mNodeFactory = nodeFactory;
         mConverter = converter;
+        mValidator = validator;
     }
 
     public void setAuthorsStamp(AuthorsStamp authorsStamp) {
@@ -108,10 +113,18 @@ public class FactoryReviews implements ReviewRecreater {
 
     @Override
     public Review recreateReview(ReviewDataHolder review) {
+        if(!review.isValid(mValidator)) return sNullReview;
+
+        Iterable<? extends DataCriterion> criteria = review.getCriteria();
+        ArrayList<Review> critList = new ArrayList<>();
+        for(DataCriterion criterion : criteria) {
+            critList.add(createUserReview(criterion.getSubject(), criterion.getRating()));
+        }
+
         return newReviewUser(new MdReviewId(review.getReviewId()), review.getAuthor(),
                 review.getPublishDate(), review.getSubject(), review.getRating(),
                 review.getComments(), review.getImages(), review.getFacts(), review.getLocations(),
-                review.getCriteria(), review.isAverage());
+                critList, review.isAverage());
     }
 
     public Review getNullReview() {
