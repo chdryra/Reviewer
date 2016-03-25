@@ -11,8 +11,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-        .ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -46,13 +45,13 @@ public class ReviewMocker {
     private static ReviewNode getNewNode(boolean ratingIsAverage) {
         Review root = getNewReview(true);
         Review parent = getNewReview(false);
-        ReviewTreeComponent rootNode = new ReviewTreeComponent(root, ratingIsAverage, root.getMdReviewId());
-        ReviewTreeComponent parentNode = new ReviewTreeComponent(parent, false, parent.getMdReviewId());
+        ReviewTreeMutable rootNode = new ReviewTreeMutable(root, ratingIsAverage, root.getMdReviewId());
+        ReviewTreeMutable parentNode = new ReviewTreeMutable(parent, false, parent.getMdReviewId());
         rootNode.setParent(parentNode);
 
         for (int i = 0; i < NUM; ++i) {
             Review review = getNewReview(true);
-            rootNode.addChild(new ReviewTreeComponent(review, false, review.getMdReviewId()));
+            rootNode.addChild(new ReviewTreeMutable(review, false, review.getMdReviewId()));
         }
 
         return rootNode;

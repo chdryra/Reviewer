@@ -31,6 +31,8 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /**
  * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
  * more editing or expanding of the node. Has the same {@link MdReviewId} as the wrapped node.
@@ -41,11 +43,29 @@ import org.jetbrains.annotations.NotNull;
  * thus acting as a fixed, published component of a new review tree with its own {@link MdReviewId}.
  * </p>
  */
-public class ReviewTree implements ReviewNode {
+public class ReviewTree implements ReviewNode, ReviewNode.NodeObserver {
+    private final ArrayList<NodeObserver> mObservers;
     private ReviewNode mNode;
 
     public ReviewTree(@NotNull ReviewNode node) {
         mNode = node;
+        mObservers = new ArrayList<>();
+        node.registerNodeObserver(this);
+    }
+
+    @Override
+    public void onNodeChanged() {
+        notifyNodeChanged();
+    }
+
+    @Override
+    public void registerNodeObserver(NodeObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterNodeObserver(NodeObserver observer) {
+        mObservers.remove(observer);
     }
 
     @Override
@@ -177,5 +197,11 @@ public class ReviewTree implements ReviewNode {
     @Override
     public int hashCode() {
         return mNode.hashCode();
+    }
+
+    private void notifyNodeChanged() {
+        for (NodeObserver observer : mObservers) {
+            observer.onNodeChanged();
+        }
     }
 }

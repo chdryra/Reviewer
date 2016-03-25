@@ -12,8 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-        .ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.test.TestUtils.RandomReviewId;
@@ -34,10 +33,10 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testSetParent() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, false, mReview.getMdReviewId());
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, false, mReview.getMdReviewId());
         assertNull(node.getParent());
 
-        ReviewTreeComponent parentNode = new ReviewTreeComponent(mParent, false, mParent.getMdReviewId());
+        ReviewTreeMutable parentNode = new ReviewTreeMutable(mParent, false, mParent.getMdReviewId());
         assertEquals(0, parentNode.getChildren().size());
 
         node.setParent(parentNode);
@@ -50,13 +49,13 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testAddChild() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, false, mReview.getMdReviewId());
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, false, mReview.getMdReviewId());
         assertEquals(0, node.getChildren().size());
 
-        MdIdableCollection<ReviewTreeComponent> children = new MdIdableCollection<>();
+        MdIdableCollection<ReviewTreeMutable> children = new MdIdableCollection<>();
         int i = 0;
         for (Review child : mChildren) {
-            ReviewTreeComponent childNode = new ReviewTreeComponent(child, false, child.getMdReviewId());
+            ReviewTreeMutable childNode = new ReviewTreeMutable(child, false, child.getMdReviewId());
             children.add(childNode);
 
             assertNull(childNode.getParent());
@@ -77,7 +76,7 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testReviewGetters() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, false, mReview.getMdReviewId());
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, false, mReview.getMdReviewId());
 
         assertEquals(mReview.getMdReviewId(), node.getMdReviewId());
         assertEquals(mReview.getSubject(), node.getSubject());
@@ -93,9 +92,9 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testGetRatingAverage() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, true, mReview.getMdReviewId());
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, true, mReview.getMdReviewId());
         for (Review child : mChildren) {
-            node.addChild(new ReviewTreeComponent(child, false, child.getMdReviewId()));
+            node.addChild(new ReviewTreeMutable(child, false, child.getMdReviewId()));
         }
 
         float rating = 0;
@@ -107,17 +106,17 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testGetIdUnique() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, false, RandomReviewId.nextId());
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, false, RandomReviewId.nextId());
         assertFalse(mReview.getMdReviewId().equals(node.getMdReviewId()));
     }
 
     @SmallTest
     public void testRemoveChild() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, true, mReview.getMdReviewId());
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, true, mReview.getMdReviewId());
         Review child1 = mChildren.getItem(0);
         Review child2 = mChildren.getItem(1);
-        ReviewTreeComponent childNode1 = new ReviewTreeComponent(child1, false, child1.getMdReviewId());
-        ReviewTreeComponent childNode2 = new ReviewTreeComponent(child2, false, child2.getMdReviewId());
+        ReviewTreeMutable childNode1 = new ReviewTreeMutable(child1, false, child1.getMdReviewId());
+        ReviewTreeMutable childNode2 = new ReviewTreeMutable(child2, false, child2.getMdReviewId());
 
         assertEquals(0, node.getChildren().size());
         assertNull(childNode1.getParent());
@@ -144,10 +143,10 @@ public class ReviewTreeNodeTest extends TestCase {
 
     @SmallTest
     public void testCreateTree() {
-        ReviewTreeComponent node = new ReviewTreeComponent(mReview, false, mReview.getMdReviewId());
-        node.setParent(new ReviewTreeComponent(mParent, false, mParent.getMdReviewId()));
+        ReviewTreeMutable node = new ReviewTreeMutable(mReview, false, mReview.getMdReviewId());
+        node.setParent(new ReviewTreeMutable(mParent, false, mParent.getMdReviewId()));
         for (Review child : mChildren) {
-            node.addChild(new ReviewTreeComponent(child, false, child.getMdReviewId()));
+            node.addChild(new ReviewTreeMutable(child, false, child.getMdReviewId()));
         }
 
         ReviewNode tree = node.makeTree();

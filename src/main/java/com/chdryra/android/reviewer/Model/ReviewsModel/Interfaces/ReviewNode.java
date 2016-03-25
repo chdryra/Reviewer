@@ -33,6 +33,14 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * </p>
  */
 public interface ReviewNode extends Review {
+    interface NodeObserver {
+        void onNodeChanged();
+    }
+
+    void registerNodeObserver(NodeObserver observer);
+
+    void unregisterNodeObserver(NodeObserver observer);
+
     Review getReview();
 
     @Nullable

@@ -15,10 +15,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.junit.Test;
@@ -43,14 +43,14 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void newComponentHasNoParent() {
-        ReviewTreeComponent component = newComponent();
+        ReviewTreeMutable component = newComponent();
         assertThat(component.getParent(), is(nullValue()));
         assertThat(component.getChildren().size(), is(0));
     }
 
     @Test
     public void newComponentHasNoChildren() {
-        ReviewTreeComponent component = newComponent();
+        ReviewTreeMutable component = newComponent();
         assertThat(component.getChildren().size(), is(0));
     }
 
@@ -62,8 +62,8 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void addChildAddsChildIfNotAlreadyChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         assertThat(parent.getChildren().size(), is(0));
 
@@ -75,8 +75,8 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void addChildDoesNotAddChildIfAlreadyChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         parent.addChild(child);
         assertThat(parent.getChildren().size(), is(1));
@@ -87,8 +87,8 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void addChildSetsParentOfChildIfNotAlreadyChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         assertThat(child.getParent(), is(nullValue()));
 
@@ -99,9 +99,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void addChildSwitchesParentOfChild() {
-        ReviewTreeComponent parentOld = newComponent();
-        ReviewTreeComponent parentNew = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parentOld = newComponent();
+        ReviewTreeMutable parentNew = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         parentOld.addChild(child);
         parentNew.addChild(child);
@@ -110,10 +110,10 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void addChildToNewParentRemovesCorrectChildFromOldParent() {
-        ReviewTreeComponent parentOld = newComponent();
-        ReviewTreeComponent parentNew = newComponent();
-        ReviewTreeComponent child1 = newComponent();
-        ReviewTreeComponent child2 = newComponent();
+        ReviewTreeMutable parentOld = newComponent();
+        ReviewTreeMutable parentNew = newComponent();
+        ReviewTreeMutable child1 = newComponent();
+        ReviewTreeMutable child2 = newComponent();
 
         parentOld.addChild(child1);
         parentOld.addChild(child2);
@@ -126,9 +126,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void removeChildRemovesCorrectChildIfAlreadyAChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child1 = newComponent();
-        ReviewTreeComponent child2 = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child1 = newComponent();
+        ReviewTreeMutable child2 = newComponent();
 
         parent.addChild(child1);
         parent.addChild(child2);
@@ -141,9 +141,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void removeChildDoesNotRemoveADifferentChildIfNotAChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child1 = newComponent();
-        ReviewTreeComponent child2 = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child1 = newComponent();
+        ReviewTreeMutable child2 = newComponent();
 
         parent.addChild(child1);
         assertThat(parent.getChildren().size(), is(1));
@@ -154,8 +154,8 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void removeChildRemovesChildsParentIfAlreadyAChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         parent.addChild(child);
         assertThat(child.getParent(), is((ReviewNode) parent));
@@ -166,8 +166,8 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void setParentSetsParent() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         assertThat(child.getParent(), is(nullValue()));
 
@@ -177,8 +177,8 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void setParentAddsChildToParent() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         assertThat(parent.getChildren().size(), is(0));
 
@@ -189,10 +189,10 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void setParentRemovesChildFromOldParent() {
-        ReviewTreeComponent parentOld = newComponent();
-        ReviewTreeComponent parentNew = newComponent();
-        ReviewTreeComponent child1 = newComponent();
-        ReviewTreeComponent child2 = newComponent();
+        ReviewTreeMutable parentOld = newComponent();
+        ReviewTreeMutable parentNew = newComponent();
+        ReviewTreeMutable child1 = newComponent();
+        ReviewTreeMutable child2 = newComponent();
 
         parentOld.addChild(child1);
         parentOld.addChild(child2);
@@ -205,10 +205,10 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getRootGetsRoot() {
-        ReviewTreeComponent greatGrandParent = newComponent();
-        ReviewTreeComponent grandParent = newComponent();
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable greatGrandParent = newComponent();
+        ReviewTreeMutable grandParent = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         assertThat(child.getRoot(), is((ReviewNode) child));
 
@@ -222,28 +222,28 @@ public class ReviewTreeComponentTest {
     @Test
     public void simpleReviewIsNotExpandable() {
         Review review = RandomReview.nextReview();
-        ReviewNode node = new ReviewTreeComponent(new MdReviewId(review.getReviewId()), review, false);
+        ReviewNode node = new ReviewTreeMutable(new MdReviewId(review.getReviewId()), review, false);
         assertThat(node.isExpandable(), is(false));
     }
 
     @Test
     public void reviewTreeReviewIsExpandable() {
         ReviewNode review = RandomReview.nextReviewNode();
-        ReviewNode node = new ReviewTreeComponent(new MdReviewId(review.getReviewId()), review, false);
+        ReviewNode node = new ReviewTreeMutable(new MdReviewId(review.getReviewId()), review, false);
         assertThat(node.isExpandable(), is(true));
     }
 
     @Test
     public void expandExpandsReview() {
         ReviewNode review = RandomReview.nextReviewNode();
-        ReviewNode node = new ReviewTreeComponent(new MdReviewId(review.getReviewId()), review, false);
+        ReviewNode node = new ReviewTreeMutable(new MdReviewId(review.getReviewId()), review, false);
         assertThat(node.expand(), is(review.getTreeRepresentation()));
     }
 
     @Test
     public void hasChildReturnsFalseIfNotChildOrTrueIfChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child = newComponent();
 
         assertThat(parent.hasChild(child.getReviewId()), is(false));
         parent.addChild(child);
@@ -252,9 +252,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getChildGivenReviewIdReturnsCorrectChild() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child1 = newComponent();
-        ReviewTreeComponent child2 = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child1 = newComponent();
+        ReviewTreeMutable child2 = newComponent();
 
         assertThat(parent.getChild(child1.getReviewId()), is(nullValue()));
         parent.addChild(child1);
@@ -265,9 +265,9 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getChildrenReturnsAllChildren() {
-        ReviewTreeComponent parent = newComponent();
-        ReviewTreeComponent child1 = newComponent();
-        ReviewTreeComponent child2 = newComponent();
+        ReviewTreeMutable parent = newComponent();
+        ReviewTreeMutable child1 = newComponent();
+        ReviewTreeMutable child2 = newComponent();
 
         assertThat(parent.getChildren().size(), is(0));
         parent.addChild(child1);
@@ -311,10 +311,10 @@ public class ReviewTreeComponentTest {
     @Test
     public void getRatingIsReviewsRatingWhenAverageOfChildrenIsFalse() {
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent node = newComponent(RandomReviewId.nextMdReviewId(), review, false);
-        ReviewNodeComponent child1 = newComponent();
-        ReviewNodeComponent child2 = newComponent();
-        ReviewNodeComponent child3 = newComponent();
+        ReviewNodeMutable node = newComponent(RandomReviewId.nextMdReviewId(), review, false);
+        ReviewNodeMutable child1 = newComponent();
+        ReviewNodeMutable child2 = newComponent();
+        ReviewNodeMutable child3 = newComponent();
         node.addChild(child1);
         node.addChild(child2);
         node.addChild(child3);
@@ -324,11 +324,11 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getRatingIsChildrensAverageWhenAverageOfChildrenIsTrue() {
-        ReviewNodeComponent node
+        ReviewNodeMutable node
                 = newComponent(RandomReviewId.nextMdReviewId(), RandomReview.nextReview(), true);
-        ReviewNodeComponent child1 = newComponent();
-        ReviewNodeComponent child2 = newComponent();
-        ReviewNodeComponent child3 = newComponent();
+        ReviewNodeMutable child1 = newComponent();
+        ReviewNodeMutable child2 = newComponent();
+        ReviewNodeMutable child3 = newComponent();
 
         assertThat(node.getRating().getRating(), is(0f));
         assertThat(node.getRating().getRatingWeight(), is(0));
@@ -346,13 +346,13 @@ public class ReviewTreeComponentTest {
 
     @Test
     public void getRatingIsWeightedAverageOfAveragesForTreeWhenAverageOfChildrenIsTrue() {
-        ReviewNodeComponent node
+        ReviewNodeMutable node
                 = newComponent(RandomReviewId.nextMdReviewId(), RandomReview.nextReview(), true);
 
         assertThat(node.getRating().getRating(), is(0f));
         assertThat(node.getRating().getRatingWeight(), is(0));
 
-        IdableList<ReviewNodeComponent> children = addChildren(node, 3, true);
+        IdableList<ReviewNodeMutable> children = addChildren(node, 3, true);
         addChildren(children.getItem(0), 10, false);
         addChildren(children.getItem(1), 5, false);
         addChildren(children.getItem(2), 2, false);
@@ -444,7 +444,7 @@ public class ReviewTreeComponentTest {
     }
 
     private <T extends HasReviewId> void getDataIsForWholeTree(DataGetter<T> getter) {
-        ReviewNodeComponent node = newComponent(RandomReviewId.nextMdReviewId(), RandomReview.nextReview(), true);
+        ReviewNodeMutable node = newComponent(RandomReviewId.nextMdReviewId(), RandomReview.nextReview(), true);
         IdableList<Review> reviews = makeTree(node);
         IdableList<? extends T> dataNode = getter.getData(node);
         IdableList<T> allData = new IdableDataList<>(node.getReviewId());
@@ -458,14 +458,14 @@ public class ReviewTreeComponentTest {
     }
 
     @NonNull
-    private IdableList<Review> makeTree(ReviewNodeComponent node) {
-        IdableList<ReviewNodeComponent> children = addChildren(node, 3, true);
-        IdableList<ReviewNodeComponent> grandChildren0 = addChildren(children.getItem(0), 3, false);
-        IdableList<ReviewNodeComponent> grandChildren1 = addChildren(children.getItem(1), 3, false);
-        IdableList<ReviewNodeComponent> grandChildren2 = addChildren(children.getItem(2), 2, false);
-        IdableList<ReviewNodeComponent> ggc = addChildren(grandChildren2.getItem(0), 3, false);
+    private IdableList<Review> makeTree(ReviewNodeMutable node) {
+        IdableList<ReviewNodeMutable> children = addChildren(node, 3, true);
+        IdableList<ReviewNodeMutable> grandChildren0 = addChildren(children.getItem(0), 3, false);
+        IdableList<ReviewNodeMutable> grandChildren1 = addChildren(children.getItem(1), 3, false);
+        IdableList<ReviewNodeMutable> grandChildren2 = addChildren(children.getItem(2), 2, false);
+        IdableList<ReviewNodeMutable> ggc = addChildren(grandChildren2.getItem(0), 3, false);
 
-        IdableList<ReviewNodeComponent> allNodes = new IdableDataList<>(node.getReviewId());
+        IdableList<ReviewNodeMutable> allNodes = new IdableDataList<>(node.getReviewId());
         allNodes.add(node);
         allNodes.addAll(children);
         allNodes.addAll(grandChildren0);
@@ -474,7 +474,7 @@ public class ReviewTreeComponentTest {
         allNodes.addAll(ggc);
 
         IdableList<Review> reviews = new IdableDataList<>(node.getReviewId());
-        for(ReviewNodeComponent component : allNodes) {
+        for(ReviewNodeMutable component : allNodes) {
             reviews.add(component.getReview());
         }
         return reviews;
@@ -491,11 +491,11 @@ public class ReviewTreeComponentTest {
         return weights > 0 ? rating / weights : 0f;
     }
 
-    private IdableList<ReviewNodeComponent> addChildren(ReviewNodeComponent parent, int num,
+    private IdableList<ReviewNodeMutable> addChildren(ReviewNodeMutable parent, int num,
                                                         boolean isAverage) {
-        IdableList<ReviewNodeComponent> children = new IdableDataList<>(parent.getReviewId());
+        IdableList<ReviewNodeMutable> children = new IdableDataList<>(parent.getReviewId());
         for(int i = 0; i < num ; ++i) {
-            ReviewNodeComponent child = newComponent(RandomReviewId.nextMdReviewId(),
+            ReviewNodeMutable child = newComponent(RandomReviewId.nextMdReviewId(),
                     RandomReview.nextReview(), isAverage);
             parent.addChild(child);
             children.add(child);
@@ -505,16 +505,16 @@ public class ReviewTreeComponentTest {
     }
 
     @NonNull
-    private ReviewTreeComponent newComponent() {
+    private ReviewTreeMutable newComponent() {
         return newComponent(RandomReviewId.nextMdReviewId());
     }
 
-    private ReviewTreeComponent newComponent(MdReviewId id) {
+    private ReviewTreeMutable newComponent(MdReviewId id) {
         return newComponent(id, RandomReview.nextReview(), false);
     }
 
-    private ReviewTreeComponent newComponent(MdReviewId id, Review review, boolean isAverage) {
-        return new ReviewTreeComponent(id, review, isAverage);
+    private ReviewTreeMutable newComponent(MdReviewId id, Review review, boolean isAverage) {
+        return new ReviewTreeMutable(id, review, isAverage);
     }
 
     private class VisitorForTest implements VisitorReviewNode {

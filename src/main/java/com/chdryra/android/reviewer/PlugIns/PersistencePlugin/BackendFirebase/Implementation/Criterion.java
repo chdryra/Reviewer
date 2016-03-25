@@ -16,26 +16,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Criterion {
-    private String mSubject;
-    private float mRating;
+    private String subject;
+    private float rating;
 
     public Criterion() {
     }
 
     public Criterion(DataCriterion criterion) {
-        mSubject = criterion.getSubject();
-        mRating = criterion.getRating();
+        subject = criterion.getSubject();
+        rating = criterion.getRating();
     }
 
     public String getSubject() {
-        return mSubject;
+        return subject;
     }
 
     public double getRating() {
-        return mRating;
-    }
-
-    public boolean isValid() {
-        return mSubject != null && mSubject.length() > 0;
+        return rating;
     }
 }

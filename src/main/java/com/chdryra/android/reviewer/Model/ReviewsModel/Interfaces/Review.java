@@ -20,8 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-        .ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 
 /**
  * The fundamental interface for all review classes.
@@ -48,7 +47,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
  * <p/>
  * Reviews may or may not be published (have non-null Author and Publish Date). Published reviews
  * should not be editable reviews or expandable nodes themselves. They may, however, be passed to a
- * {@link ReviewTreeComponent} as the root review for a different
+ * {@link ReviewTreeMutable} as the root review for a different
  * review structure that may be expanded.
  *
  * @see ReviewNode

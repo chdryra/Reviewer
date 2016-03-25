@@ -16,7 +16,6 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.CallBackSignaler;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
@@ -57,27 +56,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
-//        Firebase ref = new Firebase("https://docs-examples.firebaseio.com/web/saving-data/fireblog/posts");
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                System.out.println(snapshot.getValue());
-//            }
-//            @Override
-//            public void onCancelled(FirebaseError firebaseError) {
-//                System.out.println("The read failed: " + firebaseError.getMessage());
-//            }
-//        });
+        mApp = ApplicationInstance.getInstance(this);
+        mPresenter = new PresenterUsersFeed.Builder(mApp)
+                .setReviewUploadedListener(this)
+                .build();
 
-        buildPresenterAsync();
-
-        mSignaler.waitForSignal();
-        if (mSignaler.timedOut()) {
-            //TODO deal with this more elegantly
-            throw new RuntimeException("ActivityUsersFeed timed out!");
-        } else {
-            return mPresenter.getView();
-        }
+        return mPresenter.getView();
     }
 
     @Override
@@ -125,21 +109,6 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     @Override
     public void onReviewDeletedFromBackend(String message) {
         makeToast(message);
-    }
-
-    private void buildPresenterAsync() {
-        mApp = ApplicationInstance.getInstance(this);
-        mSignaler = new CallBackSignaler(TIMEOUT);
-        new PresenterUsersFeed.Builder(mApp)
-                .setReviewUploadedListener(this)
-                .build(new PresenterUsersFeed.Builder.BuildCallback() {
-                    @Override
-                    public void onBuildFinished(PresenterUsersFeed presenter, RepositoryError
-                            error) {
-                        mPresenter = presenter;
-                        mSignaler.signal();
-                    }
-                });
     }
 
     private void makeToast(String message) {

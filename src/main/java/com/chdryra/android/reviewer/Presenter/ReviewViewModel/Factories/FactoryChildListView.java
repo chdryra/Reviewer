@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -27,20 +30,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class FactoryChildListView {
     public ReviewView<GvReviewOverview>
-    newView(ReviewNode node, FactoryReviewViewAdapter adapterFactory,
-            ReviewViewActions<GvReviewOverview> actions) {
-        ReviewViewParams params = new ReviewViewParams();
-        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
-        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-        params.setSubjectVisible(true).setRatingVisible(true).setBannerButtonVisible(true)
-                .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
-
-        ReviewViewAdapter<GvReviewOverview> adapter;
-        adapter = adapterFactory.newChildListAdapter(node);
+    newView(ReviewViewAdapter<GvReviewOverview> adapter, ReviewViewActions<GvReviewOverview> actions) {
+        ReviewViewParams params = getReviewViewParams();
 
         ReviewViewPerspective<GvReviewOverview> perspective;
         perspective = new ReviewViewPerspective<>(adapter, actions, params);
 
         return new ReviewViewDefault<>(perspective);
+    }
+
+    @NonNull
+    private ReviewViewParams getReviewViewParams() {
+        ReviewViewParams params = new ReviewViewParams();
+        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
+        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
+        params.setSubjectVisible(true).setRatingVisible(true).setBannerButtonVisible(true)
+                .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+        return params;
     }
 }

@@ -8,9 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -21,14 +22,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 24/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AdapterAsyncWrapper<T extends GvData> implements ReviewViewAdapter<T>, DataObservable.DataObserver {
-    private ReviewNodeAsync mTrigger;
+public class AdapterAsyncWrapper<T extends GvData> implements ReviewViewAdapter<T>, ReviewNode.NodeObserver {
+    private ReviewNodeAsync<?> mTrigger;
     private ReviewViewAdapter<T> mAdapter;
 
-    public AdapterAsyncWrapper(ReviewNodeAsync trigger, ReviewViewAdapter<T> adapter) {
+    public AdapterAsyncWrapper(ReviewNodeAsync<?> trigger, ReviewViewAdapter<T> adapter) {
         mTrigger = trigger;
         mAdapter = adapter;
-        mTrigger.registerDataObserver(this);
+        mTrigger.registerNodeObserver(this);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class AdapterAsyncWrapper<T extends GvData> implements ReviewViewAdapter<
     }
 
     @Override
-    public void onDataChanged() {
+    public void onNodeChanged() {
         notifyDataObservers();
     }
 }

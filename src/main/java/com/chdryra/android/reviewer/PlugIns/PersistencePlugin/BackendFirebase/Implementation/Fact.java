@@ -16,36 +16,28 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Fact {
-    private String mLabel;
-    private String mValue;
-    private boolean mIsUrl;
+    private String label;
+    private String value;
+    private boolean url;
 
     public Fact() {
     }
 
     public Fact(DataFact fact) {
-        mLabel = fact.getLabel();
-        mValue = fact.getValue();
-        mIsUrl = fact.isUrl();
+        label = fact.getLabel();
+        value = fact.getValue();
+        url = fact.isUrl();
     }
 
     public String getLabel() {
-        return mLabel;
+        return label;
     }
 
     public String getValue() {
-        return mValue;
+        return value;
     }
 
     public boolean isUrl() {
-        return mIsUrl;
-    }
-
-    public boolean isValid(){
-        return validateString(mLabel) && validateString(mValue);
-    }
-
-    private boolean validateString(String string) {
-        return string != null && string.length() > 0;
+        return url;
     }
 }

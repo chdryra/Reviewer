@@ -16,26 +16,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Comment {
-    private String mComment;
-    private boolean mIsHeadline;
+    private String comment;
+    private boolean headline;
 
     public Comment() {
     }
 
     public Comment(DataComment comment) {
-        mComment = comment.getComment();
-        mIsHeadline = comment.isHeadline();
+        this.comment = comment.getComment();
+        headline = comment.isHeadline();
     }
 
     public String getComment() {
-        return mComment;
+        return comment;
     }
 
     public boolean isHeadline() {
-        return mIsHeadline;
-    }
-
-    public boolean isValid(){
-        return mComment != null && mComment.length() > 0;
+        return headline;
     }
 }

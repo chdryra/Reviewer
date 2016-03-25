@@ -11,7 +11,7 @@ package test.Model.ReviewsModel.Factories;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 
 import org.junit.Test;
 
@@ -31,7 +31,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeComponentNotAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent node = factory.createReviewNodeComponent(review, false);
+        ReviewNodeMutable node = factory.createReviewNodeComponent(review, false);
         assertThat(node, notNullValue());
         assertThat(node.getReview(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(false));
@@ -41,7 +41,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeComponentAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent node = factory.createReviewNodeComponent(review, true);
+        ReviewNodeMutable node = factory.createReviewNodeComponent(review, true);
         assertThat(node, notNullValue());
         assertThat(node.getReview(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(true));
@@ -71,7 +71,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent component = factory.createReviewNodeComponent(review, false);
+        ReviewNodeMutable component = factory.createReviewNodeComponent(review, false);
         ReviewNode node = factory.createReviewNode(component);
         assertThat(node, notNullValue());
         assertThat(node.getReview(), is(review));

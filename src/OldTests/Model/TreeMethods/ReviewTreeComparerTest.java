@@ -12,8 +12,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .ReviewTreeComparer;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-        .ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.test.TestUtils.ReviewMocker;
 
@@ -30,9 +29,9 @@ public class ReviewTreeComparerTest extends TestCase {
     public void testCompareNodes() {
         ReviewNode node1 = ReviewMocker.newReviewNode(true);
 
-        ReviewTreeComponent node2 = new ReviewTreeComponent(node1.getReview(), true, node1.getMdReviewId());
+        ReviewTreeMutable node2 = new ReviewTreeMutable(node1.getReview(), true, node1.getMdReviewId());
         assertFalse(ReviewTreeComparer.compareNodes(node1, node2));
-        node2.setParent((ReviewTreeComponent) node1.getParent());
+        node2.setParent((ReviewTreeMutable) node1.getParent());
         assertFalse(ReviewTreeComparer.compareNodes(node1, node2));
         assertTrue(ReviewTreeComparer.compareNodes(node1, node1));
         assertTrue(ReviewTreeComparer.compareNodes(node2, node2));

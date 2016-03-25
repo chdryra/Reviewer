@@ -16,30 +16,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Author {
-    private String mName;
-    private String mId;
+    private String name;
+    private String userId;
 
     public Author() {
     }
 
     public Author(DataAuthor author) {
-        mName = author.getName();
-        mId = author.getUserId().toString();
+        name = author.getName();
+        userId = author.getUserId().toString();
     }
 
     public String getName(){
-        return mName;
+        return name;
     }
 
     public String getUserId() {
-        return mId;
-    }
-
-    public boolean isValid(){
-        return validateString(mName) && validateString(mId);
-    }
-
-    private boolean validateString(String string) {
-        return string != null && string.length() > 0;
+        return userId;
     }
 }

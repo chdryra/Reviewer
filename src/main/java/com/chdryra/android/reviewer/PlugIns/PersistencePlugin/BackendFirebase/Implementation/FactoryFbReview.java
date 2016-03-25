@@ -44,6 +44,11 @@ import java.util.ArrayList;
  */
 public class FactoryFbReview {
     private static final ReviewDataHolder NULL_REVIEW = new NullReviewDataHolder();
+    private FirebaseValidator mValidator;
+
+    public FactoryFbReview(FirebaseValidator validator) {
+        mValidator = validator;
+    }
 
     public FbReview newFirebaseReview(Review review) {
         return new FbReview(review);
@@ -58,7 +63,7 @@ public class FactoryFbReview {
     }
 
     private ReviewDataHolder toReviewDataHolder(FbReview review) {
-        if(!review.isValid()) return NULL_REVIEW;
+        if(!mValidator.isValid(review)) return NULL_REVIEW;
 
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
 

@@ -16,27 +16,22 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class LatitudeLongitude {
-    private double mLatitude;
-    private double mLongitude;
+    private double latitude;
+    private double longitude;
 
     public LatitudeLongitude() {
     }
 
     public LatitudeLongitude(LatLng latLng) {
-        mLatitude = latLng.latitude;
-        mLongitude = latLng.longitude;
+        latitude = latLng.latitude;
+        longitude = latLng.longitude;
     }
 
     double getLatitude() {
-        return mLatitude;
+        return latitude;
     }
 
     double getLongitude() {
-        return mLongitude;
-    }
-
-    public boolean isValid() {
-        return mLatitude >= -90. && mLatitude <= 90.
-                && mLongitude >= -180. && mLongitude <= 180.;
+        return longitude;
     }
 }

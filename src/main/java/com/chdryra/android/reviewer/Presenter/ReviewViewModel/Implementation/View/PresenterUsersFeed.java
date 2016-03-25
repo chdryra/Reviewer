@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
@@ -18,9 +17,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -65,13 +64,12 @@ public class PresenterUsersFeed implements
         ReviewsRepositoryObserver,
         SocialPublishingListener,
         ReviewUploaderListener,
-        RepositoryCallback{
+        ReviewNodeMutable.NodeObserver{
 
     private ApplicationInstance mApp;
-    private ReviewNodeComponent mFeedNode;
+    private ReviewNodeMutableAsync mFeedNode;
     private FactoryReviews mReviewsFactory;
     private ReviewView<GvReviewOverview> mReviewView;
-    private Actions mActions;
     private GridItemFeedScreen mGridItem;
     private SocialPlatformsPublisher mSocialUploader;
     private BackendReviewUploader mBackendReviewUploader;
@@ -86,19 +84,18 @@ public class PresenterUsersFeed implements
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
-                               String title,
-                               Collection<Review> feedReviews,
+                               ReviewNodeMutableAsync feedNode,
                                ReviewUploadedListener uploadedListener,
                                Actions actions) {
         mApp = app;
-        mActions = actions;
-
+        mFeedNode = feedNode;
         mReviewsFactory = mApp.getReviewsFactory();
 
-        mFeedNode = mReviewsFactory.createMetaReviewMutable(feedReviews, title);
-        mGridItem = (GridItemFeedScreen) mActions.getGridItemAction();
+        mGridItem = (GridItemFeedScreen) actions.getGridItemAction();
         mReviewView = mApp.getLaunchableFactory().newReviewsListScreen(mFeedNode,
-                mApp.getReviewViewAdapterFactory(), mActions);
+                mApp.getReviewViewAdapterFactory(), actions);
+
+        mFeedNode.registerNodeObserver(this);
 
         mSocialUploader = app.newSocialPublisher();
         mSocialUploader.registerListener(this);
@@ -111,16 +108,6 @@ public class PresenterUsersFeed implements
 
     public ReviewView<GvReviewOverview> getView() {
         return mReviewView;
-    }
-
-    @Override
-    public void onFetched(@Nullable Review review, RepositoryError error) {
-
-    }
-
-    @Override
-    public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
-
     }
 
     public void deleteFromUsersFeed(final ReviewId id) {
@@ -147,6 +134,7 @@ public class PresenterUsersFeed implements
     public void detach() {
         mSocialUploader.unregisterListener(this);
         mBackendReviewUploader.unregisterListener(this);
+        mFeedNode.unregisterNodeObserver(this);
     }
 
     @Override
@@ -161,14 +149,23 @@ public class PresenterUsersFeed implements
 
     @Override
     public void onReviewAdded(Review review) {
-        addReviewToNode(review);
+        mFeedNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
+        notifyReviewView();
+    }
+
+    private void notifyReviewView() {
         if (mReviewView != null) mReviewView.onDataChanged();
     }
 
     @Override
+    public void onNodeChanged() {
+        notifyReviewView();
+    }
+
+    @Override
     public void onReviewRemoved(ReviewId reviewId) {
-        removeReviewFromNode(reviewId);
-        if (mReviewView != null) mReviewView.onDataChanged();
+        mFeedNode.removeChild(reviewId);
+        notifyReviewView();
     }
 
     @Override
@@ -244,14 +241,6 @@ public class PresenterUsersFeed implements
         return message;
     }
 
-    private void addReviewToNode(Review review) {
-        mFeedNode.addChild(mReviewsFactory.createReviewNodeComponent(review, false));
-    }
-
-    private void removeReviewFromNode(ReviewId reviewId) {
-        mFeedNode.removeChild(reviewId);
-    }
-
     public static class Actions extends ReviewViewActions<GvReviewOverview> {
         public Actions(SubjectAction<GvReviewOverview> subjectAction, RatingBarAction
                 <GvReviewOverview> ratingBarAction, BannerButtonAction<GvReviewOverview>
@@ -261,14 +250,10 @@ public class PresenterUsersFeed implements
         }
     }
 
-    public static class Builder implements RepositoryCallback{
+    public static class Builder {
+        private static final String FETCHING = "Fetching...";
         private PresenterUsersFeed.ReviewUploadedListener mListener;
         private ApplicationInstance mApp;
-        private BuildCallback mCallback;
-
-        public interface BuildCallback {
-            void onBuildFinished(PresenterUsersFeed presenter, RepositoryError error);
-        }
 
         public Builder(ApplicationInstance app) {
             mApp = app;
@@ -280,21 +265,12 @@ public class PresenterUsersFeed implements
             return this;
         }
 
-        public void build(BuildCallback callback) {
-            mCallback = callback;
-            mApp.getUsersFeed().getReviews(this);
-        }
-
-        @Override
-        public void onFetched(@Nullable Review review, RepositoryError error) {
-
-        }
-
-        @Override
-        public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
-            String title = mApp.getUsersFeed().getAuthor().getName() + "'s feed";
-            PresenterUsersFeed presenter = new PresenterUsersFeed(mApp, title, reviews, mListener,getActions());
-            mCallback.onBuildFinished(presenter, error);
+        public PresenterUsersFeed build() {
+            FactoryReviews reviewsFactory = mApp.getReviewsFactory();
+            Collection<Review> initial = new ArrayList<>();
+            ReviewTreeRepoCallback callback = new ReviewTreeRepoCallback(initial, reviewsFactory, FETCHING);
+            mApp.getUsersFeed().getReviews(callback);
+            return new PresenterUsersFeed(mApp, callback, mListener, getActions());
         }
 
         @NonNull

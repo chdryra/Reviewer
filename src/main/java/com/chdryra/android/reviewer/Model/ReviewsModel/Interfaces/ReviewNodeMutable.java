@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
@@ -26,12 +28,13 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewNodeComponent extends ReviewNode {
-    boolean addChild(ReviewNodeComponent childNode);
+public interface ReviewNodeMutable extends ReviewNode {
+
+    boolean addChild(ReviewNodeMutable childNode);
 
     void removeChild(ReviewId reviewId);
 
-    void setParent(ReviewNodeComponent parent);
+    void setParent(@Nullable ReviewNodeMutable parent);
 
     @Override
     Review getReview();

@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNo
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 
@@ -205,7 +205,7 @@ public class FactoryReviewsTest {
         }
 
         String subject = RandomString.nextWord();
-        ReviewNodeComponent meta = mFactory.createMetaReviewMutable(reviews, subject);
+        ReviewNodeMutable meta = mFactory.createMetaReviewMutable(reviews, subject);
 
         checkAuthor(mAuthor, meta);
         checkSubject(subject, meta);
@@ -229,7 +229,7 @@ public class FactoryReviewsTest {
     public void createReviewNodeComponentNotAverageOfChildrenHasExpectedAttributes() {
         Review review = RandomReview.nextReview();
 
-        ReviewNodeComponent node = mFactory.createReviewNodeComponent(review, false);
+        ReviewNodeMutable node = mFactory.createReviewNodeComponent(review, false);
 
         assertThat(node.getReviewId(), is(review.getReviewId()));
         assertThat(node.isRatingAverageOfChildren(), is(false));
@@ -240,7 +240,7 @@ public class FactoryReviewsTest {
         checkNodeAgainstReview(review, node);
 
         Review review2 = RandomReview.nextReview();
-        ReviewNodeComponent child = mFactory.createReviewNodeComponent(review2, false);
+        ReviewNodeMutable child = mFactory.createReviewNodeComponent(review2, false);
         node.addChild(child);
         assertThat(node.getChildren().size(), is(1));
         checkRating(review.getRating().getRating(), node);
@@ -250,7 +250,7 @@ public class FactoryReviewsTest {
     public void createReviewNodeComponentAverageOfChildrenHasRatingDependentOnChildren() {
         Review review = RandomReview.nextReview();
 
-        ReviewNodeComponent node = mFactory.createReviewNodeComponent(review, true);
+        ReviewNodeMutable node = mFactory.createReviewNodeComponent(review, true);
 
         assertThat(node.getReviewId(), is(review.getReviewId()));
         assertThat(node.isRatingAverageOfChildren(), is(true));
@@ -260,7 +260,7 @@ public class FactoryReviewsTest {
         checkRating(0f, node);
 
         Review review2 = RandomReview.nextReview();
-        ReviewNodeComponent child = mFactory.createReviewNodeComponent(review2, false);
+        ReviewNodeMutable child = mFactory.createReviewNodeComponent(review2, false);
         node.addChild(child);
         assertThat(node.getChildren().size(), is(1));
         checkRating(review2.getRating().getRating(), node);

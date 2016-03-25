@@ -24,102 +24,93 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReview {
-    private String mReviewId;
-    private String mSubject;
-    private Rating mRating;
-    private Author mAuthor;
-    private long mDate;
-    private List<Criterion> mCriteria;
-    private List<Comment> mComments;
-    private List<Fact> mFacts;
-    private List<ImageData> mImages;
-    private List<Location> mLocations;
+    private String reviewId;
+    private String subject;
+    private Rating rating;
+    private Author author;
+    private long publishDate;
+    private List<Criterion> criteria;
+    private List<Comment> comments;
+    private List<Fact> facts;
+    private List<ImageData> images;
+    private List<Location> locations;
 
-    private boolean mIsAverageOfCriteria;
+    private boolean ratingAverageOfCriteria;
 
     public FbReview() {
     }
 
     public FbReview(Review review) {
-        mReviewId = review.getReviewId().toString();
-        mSubject = review.getSubject().getSubject();
-        mRating = new Rating(review.getRating());
-        mAuthor = new Author(review.getAuthor());
-        mDate = review.getPublishDate().getTime();
-        mCriteria = new ArrayList<>();
+        reviewId = review.getReviewId().toString();
+        subject = review.getSubject().getSubject();
+        rating = new Rating(review.getRating());
+        author = new Author(review.getAuthor());
+        publishDate = review.getPublishDate().getTime();
+        criteria = new ArrayList<>();
         for(DataCriterion criterion : review.getCriteria()) {
-            mCriteria.add(new Criterion(criterion));
+            criteria.add(new Criterion(criterion));
         }
-        mComments = new ArrayList<>();
+        comments = new ArrayList<>();
         for(DataComment comment : review.getComments()) {
-            mComments.add(new Comment(comment));
+            comments.add(new Comment(comment));
         }
-        mFacts = new ArrayList<>();
+        facts = new ArrayList<>();
         for(DataFact fact : review.getFacts()) {
-            mFacts.add(new Fact(fact));
+            facts.add(new Fact(fact));
         }
-        mImages = new ArrayList<>();
+        images = new ArrayList<>();
         for(DataImage image : review.getImages()) {
-            mImages.add(new ImageData(image));
+            images.add(new ImageData(image));
         }
-        mLocations = new ArrayList<>();
+        locations = new ArrayList<>();
         for(DataLocation location : review.getLocations()) {
-            mLocations.add(new Location(location));
+            locations.add(new Location(location));
         }
         
-        mIsAverageOfCriteria = review.isRatingAverageOfCriteria();
+        ratingAverageOfCriteria = review.isRatingAverageOfCriteria();
     }
 
     public String getSubject() {
-        return mSubject;
+        return subject;
     }
 
     public Rating getRating() {
-        return mRating;
+        return rating;
     }
 
     public Author getAuthor() {
-        return mAuthor;
+        return author;
     }
 
     public long getPublishDate() {
-        return mDate;
+        return publishDate;
     }
 
     public boolean isRatingAverageOfCriteria() {
-        return mIsAverageOfCriteria;
+        return ratingAverageOfCriteria;
     }
 
     public List<Criterion> getCriteria() {
-        return mCriteria;
+        return criteria != null ? criteria : new ArrayList<Criterion>();
     }
 
     public List<Comment> getComments() {
-        return mComments;
+        return comments != null ? comments : new ArrayList<Comment>();
     }
 
     public List<Fact> getFacts() {
-        return mFacts;
+        return facts != null ? facts : new ArrayList<Fact>();
     }
 
     public List<ImageData> getImages() {
-        return mImages;
+        return images != null ? images : new ArrayList<ImageData>();
     }
 
     public List<Location> getLocations() {
-        return mLocations;
+        return locations != null ? locations : new ArrayList<Location>();
     }
 
     public String getReviewId() {
-        return mReviewId;
-    }
-
-    public boolean isValid() {
-        return validateString(mReviewId) && validateString(mSubject) && mRating.isValid()
-                && mAuthor.isValid() ;
-    }
-
-    private boolean validateString(String string) {
-        return string != null && string.length() > 0;
+        return reviewId;
     }
 }

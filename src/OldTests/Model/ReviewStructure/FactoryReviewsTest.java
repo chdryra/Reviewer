@@ -16,8 +16,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-        .ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -79,7 +78,7 @@ public class FactoryReviewsTest extends TestCase {
 
     @SmallTest
     public void testCreateReviewTreeNode() {
-        ReviewTreeComponent node = FactoryReviews.createReviewNodeComponent(mReview, true);
+        ReviewTreeMutable node = FactoryReviews.createReviewNodeComponent(mReview, true);
         checkNode(node);
         assertTrue(node.isRatingAverageOfChildren());
         node = FactoryReviews.createReviewNodeComponent(mReview, false);

@@ -38,7 +38,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
 
@@ -97,9 +97,9 @@ public class FactoryReviews implements ReviewRecreater {
         return mNodeFactory.createReviewNode(createMetaReviewMutable(reviews, subject));
     }
 
-    public ReviewNodeComponent createMetaReviewMutable(Iterable<Review> reviews, String subject) {
+    public ReviewNodeMutable createMetaReviewMutable(Iterable<Review> reviews, String subject) {
         Review meta = createUserReview(subject, 0f);
-        ReviewNodeComponent parent = mNodeFactory.createReviewNodeComponent(meta, true);
+        ReviewNodeMutable parent = mNodeFactory.createReviewNodeComponent(meta, true);
         for (Review review : reviews) {
             parent.addChild(createReviewNodeComponent(review, false));
         }
@@ -107,7 +107,7 @@ public class FactoryReviews implements ReviewRecreater {
         return parent;
     }
 
-    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
+    public ReviewNodeMutable createReviewNodeComponent(Review review, boolean isAverage) {
         return mNodeFactory.createReviewNodeComponent(review, isAverage);
     }
 

@@ -6,9 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
-
-import android.support.annotation.Nullable;
+package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -23,10 +21,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 
 import java.util.ArrayList;
 
@@ -35,14 +31,41 @@ import java.util.ArrayList;
  * On: 24/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewNodeAsync implements ReviewNode, ReviewsSourceCallback, DataObservable {
+public abstract class ReviewNodeAsyncBasic<T extends ReviewNode> implements ReviewNodeAsync<T> {
+    private final ArrayList<NodeObserver> mNodeObservers;
+    private T mNode;
 
-    private ReviewNode mNode;
-    private ArrayList<DataObservable.DataObserver> mObservers;
-
-    public ReviewNodeAsync(ReviewNode initial) {
+    public ReviewNodeAsyncBasic(T initial) {
         mNode = initial;
-        mObservers = new ArrayList<>();
+        mNodeObservers = new ArrayList<>();
+        mNode.registerNodeObserver(this);
+    }
+
+    protected T getNode(){
+        return mNode;
+    }
+
+    @Override
+    public void updateNode(T node) {
+        mNode.unregisterNodeObserver(this);
+        mNode = node;
+        mNode.registerNodeObserver(this);
+        notifyNodeObservers();
+    }
+
+    @Override
+    public void onNodeChanged() {
+        notifyNodeObservers();
+    }
+
+    @Override
+    public void registerNodeObserver(NodeObserver observer) {
+        if (!mNodeObservers.contains(observer)) mNodeObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterNodeObserver(NodeObserver observer) {
+        mNodeObservers.remove(observer);
     }
 
     @Override
@@ -161,47 +184,27 @@ public class ReviewNodeAsync implements ReviewNode, ReviewsSourceCallback, DataO
     }
 
     @Override
-    public void registerDataObserver(DataObservable.DataObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterDataObserver(DataObservable.DataObserver observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
-    }
-
-    @Override
-    public void notifyDataObservers() {
-        for (DataObservable.DataObserver observer : mObservers) {
-            observer.onDataChanged();
-        }
-    }
-
-    @Override
-    public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
-        if(review!= null && !error.isError()) {
-            mNode = review;
-            notifyDataObservers();
-        }
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewNodeAsync)) return false;
+        if (!(o instanceof ReviewNodeAsyncBasic)) return false;
 
-        ReviewNodeAsync that = (ReviewNodeAsync) o;
+        ReviewNodeAsyncBasic<?> that = (ReviewNodeAsyncBasic<?>) o;
 
-        if (mNode != null ? !mNode.equals(that.mNode) : that.mNode != null) return false;
-        return !(mObservers != null ? !mObservers.equals(that.mObservers) : that.mObservers !=
-                null);
+        if (!mNodeObservers.equals(that.mNodeObservers)) return false;
+        return mNode.equals(that.mNode);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mNode != null ? mNode.hashCode() : 0;
-        result = 31 * result + (mObservers != null ? mObservers.hashCode() : 0);
+        int result = mNodeObservers.hashCode();
+        result = 31 * result + mNode.hashCode();
         return result;
+    }
+
+    protected void notifyNodeObservers() {
+        for (NodeObserver observer : mNodeObservers) {
+            observer.onNodeChanged();
+        }
     }
 }

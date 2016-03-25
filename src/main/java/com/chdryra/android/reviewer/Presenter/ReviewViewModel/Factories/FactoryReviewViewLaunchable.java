@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -77,10 +78,16 @@ public class FactoryReviewViewLaunchable {
         return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReviewOverview.TYPE));
     }
 
+    public ReviewView<GvReviewOverview> newReviewsListScreen(ReviewNodeAsync<?> node,
+                                                             FactoryReviewViewAdapter adapterFactory,
+                                                             ReviewViewActions<GvReviewOverview> actions) {
+        return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
+    }
+
     public ReviewView<GvReviewOverview> newReviewsListScreen(ReviewNode node,
                                                              FactoryReviewViewAdapter adapterFactory,
                                              ReviewViewActions<GvReviewOverview> actions) {
-        return mChildListScreenBuilder.newView(node, adapterFactory, actions);
+        return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
     }
 
     public <T extends GvData> LaunchableUi newViewScreen(ReviewViewAdapter<T> adapter) {

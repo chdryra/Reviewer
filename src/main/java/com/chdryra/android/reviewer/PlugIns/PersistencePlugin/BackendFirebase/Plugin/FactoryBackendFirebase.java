@@ -14,6 +14,9 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FactoryFbReview;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation
+        .FirebaseValidator;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseDbImpl;
@@ -27,16 +30,13 @@ import com.firebase.client.Firebase;
  */
 public class FactoryBackendFirebase implements FactoryPersistence{
     private static final String ROOT = "https://teeqr.firebaseio.com/";
-    private FactoryFbReview mReviewFactory;
-
-    public FactoryBackendFirebase() {
-        mReviewFactory = new FactoryFbReview();
-    }
+    private static final FirebaseValidator VALIDATOR = new FirebaseValidator();
+    private static final FactoryFbReview FACTORY = new FactoryFbReview(VALIDATOR);
 
     @Override
     public ReviewsRepositoryMutable newPersistence(Context context, ModelContext model) {
         Firebase.setAndroidContext(context);
-        FirebaseDb db = new FirebaseDbImpl(new Firebase(ROOT), mReviewFactory);
+        FirebaseDb db = new FirebaseDbImpl(new Firebase(ROOT), FACTORY, VALIDATOR);
         return new FirebaseReviewsRepo(db, model.getTagsManager(), model.getReviewsFactory());
     }
 }

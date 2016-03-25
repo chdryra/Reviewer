@@ -31,10 +31,12 @@ public class FirebaseDbImpl implements FirebaseDb {
     private static final String REVIEWS_ROOT = "Reviews";
     private Firebase mDataRoot;
     private FactoryFbReview mReviewsFactory;
+    private FirebaseValidator mValidator;
 
-    public FirebaseDbImpl(Firebase dataRoot, FactoryFbReview reviewsFactory) {
+    public FirebaseDbImpl(Firebase dataRoot, FactoryFbReview reviewsFactory, FirebaseValidator validator) {
         mDataRoot = dataRoot;
         mReviewsFactory = reviewsFactory;
+        mValidator = validator;
     }
 
     @Override
@@ -85,8 +87,9 @@ public class FirebaseDbImpl implements FirebaseDb {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Author author = postSnapshot.child("author").getValue(Author.class);
                     FbReview review = postSnapshot.getValue(FbReview.class);
-                    if (review.isValid()) reviews.add(mReviewsFactory.newReview(review));
+                    if (mValidator.isValid(review)) reviews.add(mReviewsFactory.newReview(review));
                 }
 
                 listener.onReviewCollection(reviews, null);

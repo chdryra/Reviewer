@@ -24,8 +24,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
+
+import java.util.ArrayList;
 
 /**
  * Creates a new unique {@link MdReviewId} if required so can represent a new review structure even
@@ -36,21 +38,23 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * Wraps a {@link Review} object in a node structure with potential children and a parent.
  * </p>
  */
-public class ReviewTreeComponent implements ReviewNodeComponent {
+public class ReviewTreeMutable implements ReviewNodeMutable, ReviewNode.NodeObserver {
     private final MdReviewId mId;
     private final Review mReview;
-    private final MdDataList<ReviewNode> mChildren;
-    private ReviewNodeComponent mParent;
-
+    private final MdDataList<ReviewNodeMutable> mChildren;
+    private final ArrayList<NodeObserver> mObservers;
+    private ReviewNodeMutable mParent;
     private boolean mRatingIsAverage = false;
 
-    //Constructors
-    public ReviewTreeComponent(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
+    public ReviewTreeMutable(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
         mId = nodeId;
         mReview = review;
         mChildren = new MdDataList<>(nodeId);
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
+        mObservers = new ArrayList<>();
+        ReviewNode treeRepresentation = mReview.getTreeRepresentation();
+        if(treeRepresentation != null) treeRepresentation.registerNodeObserver(this);
     }
 
     @Override
@@ -59,22 +63,39 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     }
 
     @Override
-    public boolean addChild(ReviewNodeComponent childNode) {
+    public boolean addChild(ReviewNodeMutable childNode) {
         if (mChildren.containsId(childNode.getReviewId())) {
             return false;
         }
         mChildren.add(childNode);
         childNode.setParent(this);
 
+        notifyNodeChanged();
         return true;
     }
 
     @Override
     public void removeChild(ReviewId reviewId) {
         if (!mChildren.containsId(reviewId)) return;
-        ReviewNodeComponent childNode = (ReviewNodeComponent) mChildren.getItem(reviewId);
+        ReviewNodeMutable childNode = mChildren.getItem(reviewId);
         mChildren.remove(reviewId);
-        childNode.setParent(null);
+        if (childNode != null) childNode.setParent(null);
+        notifyNodeChanged();
+    }
+
+    @Override
+    public void registerNodeObserver(NodeObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterNodeObserver(NodeObserver observer) {
+        mObservers.remove(observer);
+    }
+
+    @Override
+    public void onNodeChanged() {
+        notifyNodeChanged();
     }
 
     @Override
@@ -88,14 +109,16 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     }
 
     @Override
-    public void setParent(ReviewNodeComponent parentNode) {
-        if (mParent != null && parentNode != null && mParent.getReviewId().equals(parentNode.getReviewId())) {
+    public void setParent(ReviewNodeMutable parentNode) {
+        if (mParent != null && parentNode != null
+                && mParent.getReviewId().equals(parentNode.getReviewId())) {
             return;
         }
 
         if (mParent != null) mParent.removeChild(mId);
         mParent = parentNode;
         if (mParent != null) mParent.addChild(this);
+        notifyNodeChanged();
     }
 
     @Override
@@ -125,7 +148,9 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
 
     @Override
     public IdableList<ReviewNode> getChildren() {
-        return mChildren;
+        MdDataList<ReviewNode> children = new MdDataList<>(mChildren.getReviewId());
+        children.addAll(mChildren);
+        return children;
     }
 
     @Override
@@ -147,19 +172,6 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
     @Override
     public DataRating getRating() {
         return mRatingIsAverage ? getAverageRating() : mReview.getRating();
-    }
-
-    @NonNull
-    private DataRating getAverageRating() {
-        float rating = 0f;
-        int weight = 0;
-        for(ReviewNode child : getChildren()) {
-            DataRating childRating = child.getRating();
-            rating += childRating.getRating() * childRating.getRatingWeight();
-            weight += childRating.getRatingWeight();
-        }
-        if(weight > 0) rating /= weight;
-        return new MdRating(mId, rating, weight);
     }
 
     @Override
@@ -242,22 +254,12 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
         });
     }
 
-    private <T extends HasReviewId> IdableList<T> getReviewData(DataGetter<T> getter) {
-        MdDataList<T> data = new MdDataList<>(mId);
-        data.addAll(getter.getData(mReview));
-        for(ReviewNode child : getChildren()) {
-            data.addAll(getter.getData(child));
-        }
-
-        return data;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewTreeComponent)) return false;
+        if (!(o instanceof ReviewTreeMutable)) return false;
 
-        ReviewTreeComponent that = (ReviewTreeComponent) o;
+        ReviewTreeMutable that = (ReviewTreeMutable) o;
 
         if (mRatingIsAverage != that.mRatingIsAverage) return false;
         if (!mId.equals(that.mId)) return false;
@@ -275,6 +277,35 @@ public class ReviewTreeComponent implements ReviewNodeComponent {
         result = 31 * result + (mParent != null ? mParent.hashCode() : 0);
         result = 31 * result + (mRatingIsAverage ? 1 : 0);
         return result;
+    }
+
+    @NonNull
+    private DataRating getAverageRating() {
+        float rating = 0f;
+        int weight = 0;
+        for (ReviewNode child : getChildren()) {
+            DataRating childRating = child.getRating();
+            rating += childRating.getRating() * childRating.getRatingWeight();
+            weight += childRating.getRatingWeight();
+        }
+        if (weight > 0) rating /= weight;
+        return new MdRating(mId, rating, weight);
+    }
+
+    private void notifyNodeChanged() {
+        for (NodeObserver observer : mObservers) {
+            observer.onNodeChanged();
+        }
+    }
+
+    private <T extends HasReviewId> IdableList<T> getReviewData(DataGetter<T> getter) {
+        MdDataList<T> data = new MdDataList<>(mId);
+        data.addAll(getter.getData(mReview));
+        for (ReviewNode child : getChildren()) {
+            data.addAll(getter.getData(child));
+        }
+
+        return data;
     }
 
     private abstract class DataGetter<T extends HasReviewId> {

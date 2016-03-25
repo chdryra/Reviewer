@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
-        .ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Model.UserModel.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -98,10 +97,10 @@ public class AdapterReviewNodeTest extends AndroidTestCase {
         ReviewStamp publisher = new ReviewStamp(mAuthor, PublishDate.now());
         FactoryReviews reviewFactory = new FactoryReviews(new MdGvConverter());
         Review review = reviewFactory.createUserReview(RandomString.nextWord(), 0f);
-        ReviewTreeComponent collection = reviewFactory.createReviewNodeComponent(review, true);
+        ReviewTreeMutable collection = reviewFactory.createReviewNodeComponent(review, true);
         mReviews = new MdIdableCollection<>();
         for (int i = 0; i < NUM; ++i) {
-            ReviewTreeComponent child = (ReviewTreeComponent) ReviewMocker.newReviewNode(false);
+            ReviewTreeMutable child = (ReviewTreeMutable) ReviewMocker.newReviewNode(false);
             mReviews.add(child);
             collection.addChild(child);
         }

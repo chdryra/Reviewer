@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,16 +21,16 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
-    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
+    public ReviewNodeMutable createReviewNodeComponent(Review review, boolean isAverage) {
         MdReviewId id = new MdReviewId(review.getReviewId());
-        return new ReviewTreeComponent(id, review, isAverage);
+        return new ReviewTreeMutable(id, review, isAverage);
     }
 
     public ReviewNode createReviewNode(Review review, boolean isAverage) {
         return createReviewNode(createReviewNodeComponent(review, isAverage));
     }
 
-    public ReviewNode createReviewNode(ReviewNodeComponent node) {
+    public ReviewNode createReviewNode(ReviewNodeMutable node) {
         return new ReviewTree(node);
     }
 }

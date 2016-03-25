@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 
 import java.util.ArrayList;
 
@@ -45,28 +45,28 @@ public class RandomReview {
         return NODE_FACTORY.createReviewNode(review, isAverage);
     }
 
-    public static ReviewNodeComponent nextReviewNodeComponent() {
+    public static ReviewNodeMutable nextReviewNodeComponent() {
         return nextReviewNodeComponent(false);
     }
 
-    public static ReviewNodeComponent nextReviewNodeComponent(boolean isAverage) {
+    public static ReviewNodeMutable nextReviewNodeComponent(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);
         return NODE_FACTORY.createReviewNodeComponent(review, isAverage);
     }
 
-    public static ArrayList<Review> constructTreeAndGetReviews(ReviewNodeComponent root) {
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild11 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild12 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild21 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild31 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild111 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild112 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild211 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild212 = RandomReview.nextReviewNodeComponent();
+    public static ArrayList<Review> constructTreeAndGetReviews(ReviewNodeMutable root) {
+        ReviewNodeMutable child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild11 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild12 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild21 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild31 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild111 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild112 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild211 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild212 = RandomReview.nextReviewNodeComponent();
 
         root.addChild(child1);
         root.addChild(child2);

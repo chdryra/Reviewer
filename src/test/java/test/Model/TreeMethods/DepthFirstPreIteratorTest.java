@@ -11,7 +11,7 @@ package test.Model.TreeMethods;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
         .DepthFirstPreIterator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -74,10 +74,10 @@ public class DepthFirstPreIteratorTest {
 
     @Test
     public void nextReturnsRootThenChildrenIfOnlyChildren() {
-        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable root = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child3 = RandomReview.nextReviewNodeComponent();
         root.addChild(child1);
         root.addChild(child2);
         root.addChild(child3);
@@ -91,10 +91,10 @@ public class DepthFirstPreIteratorTest {
 
     @Test
     public void nextReturnsRootThenChildThenGrandChildren() {
-        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable root = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child3 = RandomReview.nextReviewNodeComponent();
         root.addChild(child1);
         child1.addChild(child2);
         child2.addChild(child3);
@@ -108,18 +108,18 @@ public class DepthFirstPreIteratorTest {
 
     @Test
     public void nextGoesNodeFirstThenDescendantsThenSiblings() {
-        ReviewNodeComponent root = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild11 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild12 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild21 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent grandchild31 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild111 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild112 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild211 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeComponent greatgrandchild212 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable root = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild11 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild12 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild21 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable grandchild31 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild111 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild112 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild211 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeMutable greatgrandchild212 = RandomReview.nextReviewNodeComponent();
 
         root.addChild(child1);
         root.addChild(child2);

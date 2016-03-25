@@ -16,26 +16,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Rating {
-    private float mRating;
-    private int mRatingWeight;
+    private float rating;
+    private int ratingWeight;
 
     public Rating() {
     }
 
     public Rating(DataRating rating) {
-        mRating = rating.getRating();
-        mRatingWeight = rating.getRatingWeight();
+        this.rating = rating.getRating();
+        ratingWeight = rating.getRatingWeight();
     }
 
     public double getRating() {
-        return mRating;
+        return rating;
     }
 
     public long getRatingWeight() {
-        return mRatingWeight;
-    }
-
-    public boolean isValid() {
-        return mRatingWeight > 0;
+        return ratingWeight;
     }
 }

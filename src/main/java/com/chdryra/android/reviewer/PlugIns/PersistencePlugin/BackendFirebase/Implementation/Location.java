@@ -16,26 +16,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Location {
-    private LatitudeLongitude mLatLng;
-    private String mName;
+    private LatitudeLongitude latLng;
+    private String name;
 
     public Location() {
     }
 
     public Location(DataLocation location) {
-        mLatLng = new LatitudeLongitude(location.getLatLng());
-        mName = location.getName();
+        latLng = new LatitudeLongitude(location.getLatLng());
+        name = location.getName();
     }
 
     LatitudeLongitude getLatLng() {
-        return mLatLng;
+        return latLng;
     }
 
     public String getName() {
-        return mName;
-    }
-
-    public boolean isValid() {
-        return mLatLng.isValid() && mName != null && mName.length() > 0;
+        return name;
     }
 }

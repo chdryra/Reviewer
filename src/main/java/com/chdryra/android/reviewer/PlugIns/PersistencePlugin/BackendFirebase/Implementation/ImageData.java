@@ -21,10 +21,10 @@ import java.io.ByteArrayOutputStream;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ImageData {
-    private String mBitmap;
-    private long mDate;
-    private String mCaption;
-    private boolean mIsCover;
+    private String bitmap;
+    private long date;
+    private String caption;
+    private boolean cover;
 
     public ImageData() {
     }
@@ -35,29 +35,25 @@ public class ImageData {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         bitmap.recycle();
         byte[] byteArray = stream.toByteArray();
-        mBitmap = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        mDate = image.getDate().getTime();
-        mCaption = image.getCaption();
-        mIsCover = image.isCover();
+        this.bitmap = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        date = image.getDate().getTime();
+        caption = image.getCaption();
+        cover = image.isCover();
     }
 
     public String getBitmap() {
-        return mBitmap;
+        return bitmap;
     }
 
     public long getDate() {
-        return mDate;
+        return date;
     }
 
     public String getCaption() {
-        return mCaption;
+        return caption;
     }
 
     public boolean isCover() {
-        return mIsCover;
-    }
-
-    public boolean isValid(){
-        return mBitmap != null && mBitmap.length() > 0;
+        return cover;
     }
 }
