@@ -39,6 +39,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities
         .ActivityReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
@@ -404,7 +405,8 @@ public class FragmentReviewView extends Fragment implements DataObservable.DataO
     }
 
     private void updateGridDataUi() {
-        ((ViewHolderAdapter) mGridView.getAdapter()).setData(mReviewView.getGridViewData());
+        GvDataList<? extends GvData> gridViewData = mReviewView.getGridViewData();
+        ((ViewHolderAdapter) mGridView.getAdapter()).setData(gridViewData);
     }
 
     private void setGridCellDimension(ReviewViewParams.CellDimension width,

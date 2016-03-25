@@ -21,6 +21,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMuta
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
+
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -251,7 +253,6 @@ public class PresenterUsersFeed implements
     }
 
     public static class Builder {
-        private static final String FETCHING = "Fetching...";
         private PresenterUsersFeed.ReviewUploadedListener mListener;
         private ApplicationInstance mApp;
 
@@ -268,9 +269,14 @@ public class PresenterUsersFeed implements
         public PresenterUsersFeed build() {
             FactoryReviews reviewsFactory = mApp.getReviewsFactory();
             Collection<Review> initial = new ArrayList<>();
-            ReviewTreeRepoCallback callback = new ReviewTreeRepoCallback(initial, reviewsFactory, FETCHING);
-            mApp.getUsersFeed().getReviews(callback);
-            return new PresenterUsersFeed(mApp, callback, mListener, getActions());
+            ReviewsFeed usersFeed = mApp.getUsersFeed();
+            String title = usersFeed.getAuthor().getName() + "'s feed";
+            ReviewTreeRepoCallback callback = new ReviewTreeRepoCallback(initial, reviewsFactory, title);
+            usersFeed.getReviews(callback);
+            PresenterUsersFeed presenter = new PresenterUsersFeed(mApp, callback, mListener, getActions());
+            usersFeed.registerObserver(presenter);
+
+            return  presenter;
         }
 
         @NonNull

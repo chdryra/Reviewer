@@ -64,12 +64,12 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable {
 
     @Override
     public void getReview(ReviewId id, final RepositoryCallback callback) {
-        mDb.getReview(id, reviewCallback(callback));
+        mDb.getReview(id, mTagsManager, reviewCallback(callback));
     }
 
     @Override
     public void getReviews(final RepositoryCallback callback) {
-        mDb.getReviews(reviewCollectionCallback(callback));
+        mDb.getReviews(mTagsManager, reviewCollectionCallback(callback));
     }
 
     @Override

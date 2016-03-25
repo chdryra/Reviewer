@@ -45,7 +45,7 @@ public interface FirebaseDb {
 
     void deleteReview(ReviewId reviewId, DeleteCallback callback);
 
-    void getReview(ReviewId id, GetCallback callback);
+    void getReview(ReviewId id, TagsManager tagsManager, GetCallback callback);
 
-    void getReviews(GetCollectionCallback callback);
+    void getReviews(TagsManager tagsManager, GetCollectionCallback callback);
 }

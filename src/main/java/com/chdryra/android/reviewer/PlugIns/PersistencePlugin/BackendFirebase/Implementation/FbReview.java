@@ -14,6 +14,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +37,14 @@ public class FbReview {
     private List<Fact> facts;
     private List<ImageData> images;
     private List<Location> locations;
+    private List<String> tags;
 
     private boolean ratingAverageOfCriteria;
 
     public FbReview() {
     }
 
-    public FbReview(Review review) {
+    public FbReview(Review review, TagsManager tagsManager) {
         reviewId = review.getReviewId().toString();
         subject = review.getSubject().getSubject();
         rating = new Rating(review.getRating());
@@ -68,6 +72,16 @@ public class FbReview {
         }
         
         ratingAverageOfCriteria = review.isRatingAverageOfCriteria();
+
+        tags = new ArrayList<>();
+        ItemTagCollection itemtags = tagsManager.getTags(reviewId);
+        for(ItemTag tag : itemtags) {
+            tags.add(tag.getTag());
+        }
+    }
+
+    public String getReviewId() {
+        return reviewId;
     }
 
     public String getSubject() {
@@ -90,6 +104,10 @@ public class FbReview {
         return ratingAverageOfCriteria;
     }
 
+    public List<String> getTags() {
+        return tags;
+    }
+    
     public List<Criterion> getCriteria() {
         return criteria != null ? criteria : new ArrayList<Criterion>();
     }
@@ -108,9 +126,5 @@ public class FbReview {
 
     public List<Location> getLocations() {
         return locations != null ? locations : new ArrayList<Location>();
-    }
-
-    public String getReviewId() {
-        return reviewId;
     }
 }

@@ -46,7 +46,7 @@ public class ReviewTreeRepoCallback extends ReviewTreeMutableAsync implements Re
 
     @Override
     public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
-        if(error.isError()) updateNode(reviews);
+        if(!error.isError()) updateNode(reviews);
     }
 
     private void updateNode(Collection<Review> reviews) {

@@ -80,7 +80,8 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public GvDataList<T> getGridViewData() {
-        return mGridViewData != null ? mGridViewData : getGridData();
+        if(mGridViewData == null) mGridViewData = getGridData();
+        return mGridViewData;
     }
 
     @Override

@@ -115,6 +115,11 @@ public class ReviewDataHolderImpl implements ReviewDataHolder{
     }
 
     @Override
+    public Iterable<String> getTags() {
+        return null;
+    }
+
+    @Override
     public boolean isAverage() {
         return mIsAverage;
     }

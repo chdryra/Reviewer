@@ -53,24 +53,25 @@ public class FirebaseDbImpl implements FirebaseDb {
     }
 
     @Override
-    public void getReview(ReviewId id, GetCallback callback) {
+    public void getReview(ReviewId id, TagsManager tagsManager, GetCallback callback) {
         Firebase root = mDataRoot.child(REVIEWS_ROOT).child(id.toString());
-        root.addValueEventListener(newGetListener(callback));
+        root.addValueEventListener(newGetListener(tagsManager, callback));
     }
 
     @Override
-    public void getReviews(GetCollectionCallback callback) {
+    public void getReviews(TagsManager tagsManager, GetCollectionCallback callback) {
         Firebase root = mDataRoot.child(REVIEWS_ROOT);
         root.addValueEventListener(newGetCollectionListener(callback));
     }
 
     @NonNull
-    private ValueEventListener newGetListener(final GetCallback listener) {
+    private ValueEventListener newGetListener(final TagsManager tagsManager, final GetCallback listener) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                FbReview review = dataSnapshot.getValue(FbReview.class);
-                listener.onReview(mReviewsFactory.newReview(review), null);
+                FbReview fbReview = dataSnapshot.getValue(FbReview.class);
+                ReviewDataHolder review = mReviewsFactory.newReview(fbReview);
+                listener.onReview(review, null);
             }
 
             @Override
