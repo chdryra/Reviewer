@@ -135,11 +135,6 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public void addToUsersFeed(Review review, RepositoryMutableCallback callback) {
-        mPersistenceContext.getAuthorsFeed().addReview(review, callback);
-    }
-
-    @Override
     public void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback) {
         mPersistenceContext.getAuthorsFeed().removeReview(id, callback);
     }
@@ -215,6 +210,11 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public BackendReviewUploader newBackendUploader() {
         return mNetworkContext.getBackendUploaderFactory().getUploader();
+    }
+
+    @Override
+    public ReviewsRepositoryMutable getLocalRepository() {
+        return mPersistenceContext.getLocalRepository();
     }
 
     @Override

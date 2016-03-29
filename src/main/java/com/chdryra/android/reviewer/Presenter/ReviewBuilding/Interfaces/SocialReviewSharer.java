@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 import java.util.ArrayList;
 
@@ -18,5 +18,5 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SocialReviewSharer {
-    void share(ReviewId published, ArrayList<String> selectedPublishers);
+    void share(Review toPublish, ArrayList<String> selectedPublishers);
 }

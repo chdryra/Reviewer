@@ -13,15 +13,21 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 import java.util.ArrayList;
@@ -58,23 +64,38 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         mAuthUi.onActivityResult(requestCode, resultCode, data);
     }
 
-    private class SocialReviewSharerAndroid implements SocialReviewSharer {
+    private class SocialReviewSharerAndroid implements SocialReviewSharer, RepositoryMutableCallback {
         private final Class<? extends Activity> mActivityToPublish;
+        private ArrayList<String> mSelectedPublishers;
 
         private SocialReviewSharerAndroid(Class<? extends Activity> activityToPublish) {
             mActivityToPublish = activityToPublish;
         }
 
         @Override
-        public void share(ReviewId published, ArrayList<String> selectedPublishers) {
+        public void share(Review toPublish, ArrayList<String> selectedPublishers) {
+            mSelectedPublishers = selectedPublishers;
+            ApplicationInstance app = ApplicationInstance.getInstance(ActivityShareReview.this);
+            ReviewsRepositoryMutable localRepository = app.getLocalRepository();
+            localRepository.addReview(toPublish, this);
+        }
+
+        @Override
+        public void onAdded(Review review, RepositoryError error) {
             Activity activity = ActivityShareReview.this;
 
             Intent intent = new Intent(activity, mActivityToPublish);
-            intent.putExtra(PublishingAction.PUBLISHED, published.toString());
-            intent.putStringArrayListExtra(PublishingAction.PLATFORMS, selectedPublishers);
+            intent.putExtra(PublishingAction.PUBLISHED, review.getReviewId().toString());
+            intent.putStringArrayListExtra(PublishingAction.PLATFORMS, mSelectedPublishers);
+            if(error.isError()) intent.putExtra(PublishingAction.RepoError, error.getMessage());
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             activity.startActivity(intent);
+        }
+
+        @Override
+        public void onRemoved(ReviewId reviewId, RepositoryError error) {
+
         }
     }
 }

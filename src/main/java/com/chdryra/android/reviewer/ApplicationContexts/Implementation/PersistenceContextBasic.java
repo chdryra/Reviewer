@@ -20,11 +20,16 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Revi
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
     private ReviewsFeedMutable mAuthorsFeed;
+    private ReviewsRepositoryMutable mLocalRepo;
     private ReviewsRepositoryMutable mBackendRepo;
     private ReviewsSource mReviewsSource;
 
     public void setAuthorsFeed(ReviewsFeedMutable authorsFeed) {
         mAuthorsFeed = authorsFeed;
+    }
+
+    public void setLocalRepository(ReviewsRepositoryMutable localRepo) {
+        mLocalRepo = localRepo;
     }
 
     public void setBackendRepository(ReviewsRepositoryMutable backendRepo) {
@@ -43,6 +48,11 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     @Override
     public ReviewsSource getReviewsSource() {
         return mReviewsSource;
+    }
+
+    @Override
+    public ReviewsRepositoryMutable getLocalRepository() {
+        return mLocalRepo;
     }
 
     @Override

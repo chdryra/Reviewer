@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMuta
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
-
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -78,7 +77,7 @@ public class PresenterUsersFeed implements
     private ReviewUploadedListener mUploadedListener;
 
     public interface ReviewUploadedListener {
-        void onReviewUploadedToSocialPlatforms(String message);
+        void onReviewPublishedToSocialPlatforms(String message);
 
         void onReviewUploadedToBackend(String message);
 
@@ -127,9 +126,10 @@ public class PresenterUsersFeed implements
     }
 
     public void publish(String reviewId, ArrayList<String> platforms) {
-        mBackendReviewUploader.uploadReview(new DatumReviewId(reviewId));
+        DatumReviewId id = new DatumReviewId(reviewId);
+        mBackendReviewUploader.uploadReview(id);
         if(platforms != null && platforms.size() > 0) {
-            mSocialUploader.publishToSocialPlatforms(new DatumReviewId(reviewId), platforms);
+            mSocialUploader.publishToSocialPlatforms(id, platforms);
         }
     }
 
@@ -176,14 +176,14 @@ public class PresenterUsersFeed implements
     }
 
     @Override
-    public void onUploadStatus(double percentage, PublishResults justUploaded) {
+    public void onPublishStatus(double percentage, PublishResults justUploaded) {
 
     }
 
     @Override
-    public void onUploadCompleted(Collection<PublishResults> publishedOk,
-                                  Collection<PublishResults> publishedNotOk,
-                                  SocialPublishingError error) {
+    public void onPublishCompleted(Collection<PublishResults> publishedOk,
+                                   Collection<PublishResults> publishedNotOk,
+                                   SocialPublishingError error) {
         int numFollowers = 0;
         ArrayList<String> platformsOk = new ArrayList<>();
         for (PublishResults result : publishedOk) {
@@ -198,7 +198,7 @@ public class PresenterUsersFeed implements
 
         String message = getReviewUploadedMessage(platformsOk,
                 platformsNotOk, numFollowers, error);
-        mUploadedListener.onReviewUploadedToSocialPlatforms(message);
+        mUploadedListener.onReviewPublishedToSocialPlatforms(message);
     }
 
     @Override

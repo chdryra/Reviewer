@@ -86,7 +86,7 @@ public class SocialPublishingService extends IntentService
     }
 
     @Override
-    public void onFetched(@Nullable Review review, RepositoryError error) {
+    public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
         if(review != null && !error.isError()) {
             doPublish(review);
         } else {
@@ -112,7 +112,7 @@ public class SocialPublishingService extends IntentService
     }
 
     @Override
-    public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
 
     }
 }

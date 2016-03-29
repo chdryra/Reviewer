@@ -46,8 +46,6 @@ public interface ReviewDataHolder {
 
     Iterable<? extends DataCriterion> getCriteria();
 
-    Iterable<String> getTags();
-
     boolean isAverage();
 
     boolean isValid(DataValidator validator);

@@ -14,6 +14,7 @@ package com.chdryra.android.reviewer.Social.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublishingAction {
-    public static final String PUBLISHED = "PublishingActionPublishedReview";
-    public static final String PLATFORMS = "PublishingActionPlatforms";
+    public static final String PUBLISHED = "PublishingAction.Review";
+    public static final String PLATFORMS = "PublishingAction.Platforms";
+    public static final String RepoError = "PublishingAction.Error";
 }

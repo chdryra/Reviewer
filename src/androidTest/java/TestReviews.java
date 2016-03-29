@@ -408,12 +408,12 @@ public class TestReviews {
                     break;
                 }
             }
-            callback.onFetched(ret, RepositoryError.none());
+            callback.onFetchedFromRepo(ret, RepositoryError.none());
         }
 
         @Override
         public void getReviews(RepositoryCallback callback) {
-            callback.onCollectionFetched(mReviews, RepositoryError.none());
+            callback.onCollectionFetchedFromRepo(mReviews, RepositoryError.none());
         }
 
         @Override

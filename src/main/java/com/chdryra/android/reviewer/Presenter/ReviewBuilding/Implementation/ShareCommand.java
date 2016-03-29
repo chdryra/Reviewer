@@ -8,10 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvSocialPlatformList;
 
 import java.util.ArrayList;
 
@@ -24,12 +26,12 @@ public class ShareCommand {
         mSharer = sharer;
     }
 
-    public void shareReview(ReviewId reviewId) {
+    public void shareReview(Review toPublish) {
         ArrayList<String> publishers = new ArrayList<>();
         for(GvSocialPlatform platform : mPlatforms) {
             if(platform.isChosen()) publishers.add(platform.getName());
         }
 
-        mSharer.share(reviewId, publishers);
+        mSharer.share(toPublish, publishers);
     }
 }

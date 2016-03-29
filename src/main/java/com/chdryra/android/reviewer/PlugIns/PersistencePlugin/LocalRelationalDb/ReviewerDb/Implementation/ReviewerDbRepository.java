@@ -94,7 +94,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
             error = RepositoryError.error("Review not found: " + reviewId);
         }
 
-        callback.onFetched(review, error);
+        callback.onFetchedFromRepo(review, error);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
 
-        callback.onCollectionFetched(reviews, RepositoryError.none());
+        callback.onCollectionFetchedFromRepo(reviews, RepositoryError.none());
     }
 
     @Override

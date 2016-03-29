@@ -18,11 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
 import com.chdryra.android.reviewer.R;
@@ -69,22 +65,7 @@ public class PublishButtonModifier implements ReviewViewModifier {
             public void onClick(View v) {
                 ApplicationInstance app = ApplicationInstance.getInstance(activity);
                 Review review = app.executeReviewBuilder();
-                app.addToUsersFeed(review, getAddToFeedCallback());
-            }
-        };
-    }
-
-    @NonNull
-    private RepositoryMutableCallback getAddToFeedCallback() {
-        return new RepositoryMutableCallback() {
-            @Override
-            public void onAdded(Review review, RepositoryError error) {
-                mSharer.shareReview(review.getReviewId());
-            }
-
-            @Override
-            public void onRemoved(ReviewId reviewId, RepositoryError error) {
-
+                mSharer.shareReview(review);
             }
         };
     }

@@ -69,8 +69,6 @@ public interface PresenterContext {
 
     ReviewsFeed getAuthorsFeed();
 
-    void addToUsersFeed(Review review, RepositoryMutableCallback callback);
-
     void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback);
 
     void getReview(ReviewId id, RepositoryCallback callback);
@@ -80,6 +78,8 @@ public interface PresenterContext {
     SocialPlatformsPublisher newSocialPublisher();
 
     BackendReviewUploader newBackendUploader();
+
+    ReviewsRepositoryMutable getLocalRepository();
 
     ReviewsRepositoryMutable getBackendRepository();
 }

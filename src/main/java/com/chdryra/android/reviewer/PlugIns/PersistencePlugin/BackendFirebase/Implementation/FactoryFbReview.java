@@ -30,6 +30,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.NullReviewDataHolder;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
@@ -50,12 +51,20 @@ public class FactoryFbReview {
         mValidator = validator;
     }
 
-    public FbReview newFirebaseReview(Review review) {
-        return new FbReview(review);
+    public FbReview newFbReview(Review review, TagsManager tagsManager) {
+        return new FbReview(review, tagsManager);
     }
 
-    public ReviewDataHolder newReview(FbReview fbReview) {
-        return toReviewDataHolder(fbReview);
+    public ReviewDataHolder newReviewDataHolder(FbReview fbReview, TagsManager tagsManager) {
+        ReviewDataHolder reviewDataHolder = toReviewDataHolder(fbReview);
+        String reviewId = fbReview.getReviewId();
+        if(mValidator.validateString(reviewId)) {
+            for(String tag : fbReview.getTags()) {
+                if(!tagsManager.tagsItem(reviewId, tag)) tagsManager.tagItem(reviewId, tag);
+            }
+        }
+
+        return reviewDataHolder;
     }
 
     public ReviewDataHolder nullReview() {

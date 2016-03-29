@@ -50,28 +50,32 @@ public class FbReview {
         rating = new Rating(review.getRating());
         author = new Author(review.getAuthor());
         publishDate = review.getPublishDate().getTime();
+        ratingAverageOfCriteria = review.isRatingAverageOfCriteria();
+
         criteria = new ArrayList<>();
         for(DataCriterion criterion : review.getCriteria()) {
             criteria.add(new Criterion(criterion));
         }
+
         comments = new ArrayList<>();
         for(DataComment comment : review.getComments()) {
             comments.add(new Comment(comment));
         }
+
         facts = new ArrayList<>();
         for(DataFact fact : review.getFacts()) {
             facts.add(new Fact(fact));
         }
+
         images = new ArrayList<>();
         for(DataImage image : review.getImages()) {
             images.add(new ImageData(image));
         }
+
         locations = new ArrayList<>();
         for(DataLocation location : review.getLocations()) {
             locations.add(new Location(location));
         }
-        
-        ratingAverageOfCriteria = review.isRatingAverageOfCriteria();
 
         tags = new ArrayList<>();
         ItemTagCollection itemtags = tagsManager.getTags(reviewId);

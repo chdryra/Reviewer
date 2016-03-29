@@ -97,7 +97,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onReviewUploadedToSocialPlatforms(String message) {
+    public void onReviewPublishedToSocialPlatforms(String message) {
         makeToast(message);
     }
 
@@ -118,9 +118,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     private void publishNewReviewIfNecessary() {
         Intent intent = getIntent();
         String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
-        if (reviewId != null) {
-            ArrayList<String> platforms = intent.getStringArrayListExtra(PublishingAction
-                    .PLATFORMS);
+        String error = intent.getStringExtra(PublishingAction.RepoError);
+        if(error != null) {
+            Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
+        } else if (reviewId != null) {
+            ArrayList<String> platforms
+                    = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
             mPresenter.publish(reviewId, platforms);
             intent.removeExtra(PublishingAction.PUBLISHED);
         }

@@ -135,7 +135,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     private RepositoryCallback fetchReviewCallback(final TagsManager tagsManager) {
         return new RepositoryCallback() {
             @Override
-            public void onFetched(@Nullable Review review, RepositoryError error) {
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
                 if (review != null) {
                     mSharer.publish(review, tagsManager);
                 } else {
@@ -146,7 +146,8 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
             }
 
             @Override
-            public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError
+                    error) {
 
             }
         };

@@ -74,7 +74,7 @@ public class ReviewUploaderService extends IntentService implements RepositoryCa
     }
 
     @Override
-    public void onFetched(@Nullable Review review, RepositoryError error) {
+    public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
         if(review != null) {
             mApp.getBackendRepository().addReview(review, this);
         } else {
@@ -92,7 +92,7 @@ public class ReviewUploaderService extends IntentService implements RepositoryCa
     }
 
     @Override
-    public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
 
     }
 
@@ -105,6 +105,6 @@ public class ReviewUploaderService extends IntentService implements RepositoryCa
     }
 
     private void fetchReviewFromLocalRepoAndUpload(String reviewId) {
-        mApp.getReview(reviewId, this);
+        mApp.getLocalRepository().getReview(new DatumReviewId(reviewId), this);
     }
 }

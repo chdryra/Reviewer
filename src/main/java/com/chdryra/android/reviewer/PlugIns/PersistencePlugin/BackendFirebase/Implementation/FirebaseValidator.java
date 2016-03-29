@@ -29,7 +29,7 @@ public class FirebaseValidator {
         return rating.getRatingWeight() > 0;
     }
 
-    private boolean validateString(String string) {
+    public boolean validateString(String string) {
         return string != null && string.length() > 0;
     }
 }

@@ -20,6 +20,8 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Revi
 public interface PersistenceContext {
     ReviewsFeedMutable getAuthorsFeed();
 
+    ReviewsRepositoryMutable getLocalRepository();
+
     ReviewsRepositoryMutable getBackendRepository();
 
     ReviewsSource getReviewsSource();

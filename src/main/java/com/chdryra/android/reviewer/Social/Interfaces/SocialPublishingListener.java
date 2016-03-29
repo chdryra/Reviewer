@@ -19,8 +19,8 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface SocialPublishingListener {
-    void onUploadStatus(double percentage, PublishResults justUploaded);
+    void onPublishStatus(double percentage, PublishResults justUploaded);
 
-    void onUploadCompleted(Collection<PublishResults> publishedOk,
-                           Collection<PublishResults> publishedNotOk, SocialPublishingError error);
+    void onPublishCompleted(Collection<PublishResults> publishedOk,
+                            Collection<PublishResults> publishedNotOk, SocialPublishingError error);
 }

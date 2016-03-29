@@ -10,11 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.I
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -30,67 +26,62 @@ import java.util.ArrayList;
 public class FirebaseDbImpl implements FirebaseDb {
     private static final String REVIEWS_ROOT = "Reviews";
     private Firebase mDataRoot;
-    private FactoryFbReview mReviewsFactory;
     private FirebaseValidator mValidator;
 
-    public FirebaseDbImpl(Firebase dataRoot, FactoryFbReview reviewsFactory, FirebaseValidator validator) {
+    public FirebaseDbImpl(Firebase dataRoot, FirebaseValidator validator) {
         mDataRoot = dataRoot;
-        mReviewsFactory = reviewsFactory;
         mValidator = validator;
     }
 
     @Override
-    public void addReview(final Review review, TagsManager tagsManager, AddCallback callback) {
-        FbReview fbReview = mReviewsFactory.newFirebaseReview(review);
-        Firebase root = mDataRoot.child(REVIEWS_ROOT).child(review.getReviewId().toString());
-        root.setValue(fbReview, newAddListener(review, callback));
+    public void addReview(final FbReview review, AddCallback callback) {
+        Firebase root = mDataRoot.child(REVIEWS_ROOT).child(review.getReviewId());
+        root.setValue(review, newAddListener(review, callback));
     }
 
     @Override
-    public void deleteReview(ReviewId reviewId, DeleteCallback callback) {
-        Firebase ref = mDataRoot.child(REVIEWS_ROOT).child(reviewId.toString());
+    public void deleteReview(String reviewId, DeleteCallback callback) {
+        Firebase ref = mDataRoot.child(REVIEWS_ROOT).child(reviewId);
         ref.removeValue(newDeleteListener(reviewId, callback));
     }
 
     @Override
-    public void getReview(ReviewId id, TagsManager tagsManager, GetCallback callback) {
-        Firebase root = mDataRoot.child(REVIEWS_ROOT).child(id.toString());
-        root.addValueEventListener(newGetListener(tagsManager, callback));
+    public void getReview(String id, GetCallback callback) {
+        Firebase root = mDataRoot.child(REVIEWS_ROOT).child(id);
+        root.addValueEventListener(newGetListener(callback));
     }
 
     @Override
-    public void getReviews(TagsManager tagsManager, GetCollectionCallback callback) {
+    public void getReviews(GetCollectionCallback callback) {
         Firebase root = mDataRoot.child(REVIEWS_ROOT);
         root.addValueEventListener(newGetCollectionListener(callback));
     }
 
     @NonNull
-    private ValueEventListener newGetListener(final TagsManager tagsManager, final GetCallback listener) {
+    private ValueEventListener newGetListener(final GetCallback listener) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                FbReview fbReview = dataSnapshot.getValue(FbReview.class);
-                ReviewDataHolder review = mReviewsFactory.newReview(fbReview);
+                FbReview review = dataSnapshot.getValue(FbReview.class);
                 listener.onReview(review, null);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.onReview(mReviewsFactory.nullReview(), firebaseError);
+                listener.onReview(new FbReview(), firebaseError);
             }
         };
     }
 
     @NonNull
     private ValueEventListener newGetCollectionListener(final GetCollectionCallback listener) {
-        final ArrayList<ReviewDataHolder> reviews = new ArrayList<>();
+        final ArrayList<FbReview> reviews = new ArrayList<>();
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Author author = postSnapshot.child("author").getValue(Author.class);
                     FbReview review = postSnapshot.getValue(FbReview.class);
-                    if (mValidator.isValid(review)) reviews.add(mReviewsFactory.newReview(review));
+                    if (mValidator.isValid(review)) reviews.add(review);
                 }
 
                 listener.onReviewCollection(reviews, null);
@@ -104,7 +95,7 @@ public class FirebaseDbImpl implements FirebaseDb {
     }
 
     @NonNull
-    private Firebase.CompletionListener newAddListener(final Review review,
+    private Firebase.CompletionListener newAddListener(final FbReview review,
                                                        final AddCallback listener) {
         return new Firebase.CompletionListener() {
             @Override
@@ -115,7 +106,7 @@ public class FirebaseDbImpl implements FirebaseDb {
     }
 
     @NonNull
-    private Firebase.CompletionListener newDeleteListener(final ReviewId reviewId,
+    private Firebase.CompletionListener newDeleteListener(final String reviewId,
                                                           final DeleteCallback listener) {
         return new Firebase.CompletionListener() {
             @Override

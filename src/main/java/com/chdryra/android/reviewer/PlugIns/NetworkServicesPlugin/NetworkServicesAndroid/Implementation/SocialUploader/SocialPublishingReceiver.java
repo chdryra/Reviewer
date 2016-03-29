@@ -46,7 +46,7 @@ public class SocialPublishingReceiver extends
                 = intent.getParcelableArrayListExtra(SocialPublishingService.PUBLISH_NOT_OK);
         SocialPublishingError error = getSocialPublishingError(intent);
         for (SocialPublishingListener listener : this) {
-            listener.onUploadCompleted(ok, notOk, error);
+            listener.onPublishCompleted(ok, notOk, error);
         }
     }
 
@@ -62,7 +62,7 @@ public class SocialPublishingReceiver extends
         double percentage = intent.getDoubleExtra(SocialPublishingService.STATUS_PERCENTAGE, 0.);
         PublishResults results = intent.getParcelableExtra(SocialPublishingService.STATUS_RESULTS);
         for (SocialPublishingListener listener : this) {
-            listener.onUploadStatus(percentage, results);
+            listener.onPublishStatus(percentage, results);
         }
     }
 }

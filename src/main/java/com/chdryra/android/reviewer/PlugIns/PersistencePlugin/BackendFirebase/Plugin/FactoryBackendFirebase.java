@@ -36,7 +36,7 @@ public class FactoryBackendFirebase implements FactoryPersistence{
     @Override
     public ReviewsRepositoryMutable newPersistence(Context context, ModelContext model) {
         Firebase.setAndroidContext(context);
-        FirebaseDb db = new FirebaseDbImpl(new Firebase(ROOT), FACTORY, VALIDATOR);
-        return new FirebaseReviewsRepo(db, model.getTagsManager(), model.getReviewsFactory());
+        FirebaseDb db = new FirebaseDbImpl(new Firebase(ROOT), VALIDATOR);
+        return new FirebaseReviewsRepo(db, FACTORY, model.getTagsManager(), model.getReviewsFactory());
     }
 }

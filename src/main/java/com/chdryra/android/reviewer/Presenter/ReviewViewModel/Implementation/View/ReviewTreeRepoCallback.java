@@ -36,7 +36,7 @@ public class ReviewTreeRepoCallback extends ReviewTreeMutableAsync implements Re
     }
 
     @Override
-    public void onFetched(@Nullable Review review, RepositoryError error) {
+    public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
         if(review != null && !error.isError()) {
             ArrayList<Review> reviews = new ArrayList<>();
             reviews.add(review);
@@ -45,7 +45,7 @@ public class ReviewTreeRepoCallback extends ReviewTreeMutableAsync implements Re
     }
 
     @Override
-    public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
         if(!error.isError()) updateNode(reviews);
     }
 

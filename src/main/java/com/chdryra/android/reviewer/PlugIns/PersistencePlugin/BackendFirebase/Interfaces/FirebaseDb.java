@@ -10,10 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.I
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FbReview;
 import com.firebase.client.FirebaseError;
 
 import java.util.Collection;
@@ -25,27 +22,26 @@ import java.util.Collection;
  */
 public interface FirebaseDb {
     interface AddCallback {
-        void onReviewAdded(Review review, @Nullable FirebaseError error);
+        void onReviewAdded(FbReview review, @Nullable FirebaseError error);
     }
 
     interface DeleteCallback {
-        void onReviewDeleted(ReviewId reviewId, @Nullable FirebaseError error);
+        void onReviewDeleted(String reviewId, @Nullable FirebaseError error);
     }
 
     interface GetCallback {
-        void onReview(ReviewDataHolder review, @Nullable FirebaseError error);
+        void onReview(FbReview review, @Nullable FirebaseError error);
     }
 
     interface GetCollectionCallback {
-        void onReviewCollection(Collection<ReviewDataHolder> reviews, @Nullable FirebaseError
-                error);
+        void onReviewCollection(Collection<FbReview> reviews, @Nullable FirebaseError error);
     }
 
-    void addReview(Review review, TagsManager tagsManager, AddCallback callback);
+    void addReview(FbReview review, AddCallback callback);
 
-    void deleteReview(ReviewId reviewId, DeleteCallback callback);
+    void deleteReview(String reviewId, DeleteCallback callback);
 
-    void getReview(ReviewId id, TagsManager tagsManager, GetCallback callback);
+    void getReview(String id, GetCallback callback);
 
-    void getReviews(TagsManager tagsManager, GetCollectionCallback callback);
+    void getReviews(GetCollectionCallback callback);
 }

@@ -20,8 +20,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .ReviewsRepositoryMutable;
@@ -133,9 +132,6 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getTagsManager();
     }
 
-    public ReviewsRepositoryMutable getBackendRepository() {
-        return mPresenterContext.getBackendRepository();
-    }
 
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mPresenterContext.getDataBuilderAdapter(dataType);
@@ -150,12 +146,13 @@ public class ApplicationInstance extends ApplicationSingleton {
 
         getReview(templateId, new RepositoryCallback() {
             @Override
-            public void onFetched(@Nullable Review review, RepositoryError error) {
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
                 doReviewBuildAdapterCallback(review, error, callback);
             }
 
             @Override
-            public void onCollectionFetched(Collection<Review> reviews, RepositoryError error) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError
+                    error) {
 
             }
         });
@@ -169,8 +166,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.executeReviewBuilder();
     }
 
-    public void addToUsersFeed(Review review, RepositoryMutableCallback callback) {
-        mPresenterContext.addToUsersFeed(review, callback);
+    public ReviewsRepositoryMutable getLocalRepository() {
+        return mPresenterContext.getLocalRepository();
+    }
+
+    public ReviewsRepositoryMutable getBackendRepository() {
+        return mPresenterContext.getBackendRepository();
     }
 
     public void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback) {

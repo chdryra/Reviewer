@@ -21,7 +21,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RepositoryCallback {
-    void onFetched(@Nullable Review review, RepositoryError error);
+    void onFetchedFromRepo(@Nullable Review review, RepositoryError error);
 
-    void onCollectionFetched(Collection<Review> reviews, RepositoryError error);
+    void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error);
 }
