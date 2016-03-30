@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import android.app.Activity;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -55,9 +56,7 @@ public interface PresenterContext {
 
     void launchReview(Activity activity, ReviewId reviewId);
 
-    ReviewBuilderAdapter<?> newReviewBuilderAdapter();
-
-    ReviewBuilderAdapter<?> newReviewBuilderAdapter(Review template);
+    ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template);
 
     void discardReviewBuilderAdapter();
 

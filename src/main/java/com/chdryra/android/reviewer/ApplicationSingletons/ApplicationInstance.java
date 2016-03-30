@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
@@ -20,11 +22,15 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -35,13 +41,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-
-import java.util.Collection;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -55,6 +56,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static final String NAME = "ApplicationInstance";
     private static ApplicationInstance sSingleton;
 
+    private final ReviewCache mCache;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
 
@@ -71,6 +73,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         super(context, NAME);
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
+        mCache= new ReviewCache();
     }
 
     //Static methods
@@ -137,25 +140,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getDataBuilderAdapter(dataType);
     }
 
-    public void newReviewBuilderAdapter(final ReviewBuilderAdapterCallback callback,
-                                        @Nullable String templateId) {
-        if (templateId == null) {
-            doReviewBuildAdapterCallback(null, RepositoryMessage.ok("Repo not needed"), callback);
-            return;
-        }
-
-        getReview(templateId, new RepositoryCallback() {
-            @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
-                doReviewBuildAdapterCallback(review, result, callback);
-            }
-
-            @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
-                    result) {
-
-            }
-        });
+    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
+        return mPresenterContext.newReviewBuilderAdapter(template);
     }
 
     public void discardReviewBuilderAdapter() {
@@ -164,6 +150,22 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public Review executeReviewBuilder() {
         return mPresenterContext.executeReviewBuilder();
+    }
+
+    public void cacheReview(Review review, Bundle args) {
+        mCache.packReview(review, args);
+    }
+
+    public @Nullable Review getReviewFromCache(Bundle args) {
+        return mCache.unpackReview(args);
+    }
+
+    public void cacheReview(Review review, Intent i) {
+        mCache.packReview(review, i);
+    }
+
+    public @Nullable Review getReviewFromCache(Intent i) {
+        return mCache.unpackReview(i);
     }
 
     public ReviewsRepositoryMutable getLocalRepository() {
@@ -196,14 +198,5 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public BackendReviewUploader newBackendUploader() {
         return mPresenterContext.newBackendUploader();
-    }
-
-    private void doReviewBuildAdapterCallback(@Nullable Review review,
-                                              RepositoryMessage error,
-                                              ReviewBuilderAdapterCallback callback) {
-        ReviewBuilderAdapter<?> adapter = review != null ?
-                mPresenterContext.newReviewBuilderAdapter(review)
-                : mPresenterContext.newReviewBuilderAdapter();
-        callback.onAdapterBuilt(adapter, error);
     }
 }

@@ -9,10 +9,15 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
@@ -20,14 +25,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
+import java.util.Collection;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
-        implements DialogAlertFragment.DialogAlertListener,
-        NewReviewListener {
+        implements DialogAlertFragment.DialogAlertListener, NewReviewListener,
+        RepositoryCallback {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenTemplateReview");
 
@@ -56,9 +63,24 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
 
     @Override
     public void onNewReviewUsingTemplate(ReviewId template) {
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        app.getReview(template, this);
+    }
+
+    @Override
+    public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+        if(review == null) return;
+
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
         Bundle args = new Bundle();
-        args.putString(NewReviewListener.TEMPLATE_ID, template.toString());
+        args.putString(NewReviewListener.TEMPLATE_ID, review.getReviewId().toString());
+        app.cacheReview(review, args);
         launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, args);
+    }
+
+    @Override
+    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+
     }
 
     @Override

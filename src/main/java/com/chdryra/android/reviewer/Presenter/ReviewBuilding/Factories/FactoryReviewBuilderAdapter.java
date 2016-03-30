@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -25,9 +26,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
  * On: 11/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewBuilderAdapter {
+public class FactoryReviewBuilderAdapter<GC extends GvDataList<?>> {
     private final FactoryReviewBuilder mBuilderFactory;
-    private final FactoryGridUi<? extends GvDataList> mGridUiFactory;
+    private final FactoryGridUi<GC> mGridUiFactory;
     private final FactoryVhDataCollection mVhFactory;
     private final DataValidator mDataValidator;
     private final FactoryDataBuilderAdapter mDataBuilderAdapterFactory;
@@ -35,7 +36,7 @@ public class FactoryReviewBuilderAdapter {
     private final FactoryImageChooser mFactoryImageChooser;
 
     public FactoryReviewBuilderAdapter(FactoryReviewBuilder builderFactory,
-                                       FactoryGridUi<? extends GvDataList> gridUiFactory,
+                                       FactoryGridUi<GC> gridUiFactory,
                                        FactoryVhDataCollection vhFactory,
                                        DataValidator dataValidator,
                                        FactoryDataBuilderAdapter dataBuilderAdapterFactory,
@@ -50,16 +51,12 @@ public class FactoryReviewBuilderAdapter {
         mFactoryImageChooser = factoryImageChooser;
     }
 
-    public ReviewBuilderAdapter<?> newAdapter() {
-        return newReviewBuilderAdapter(mBuilderFactory.newBuilder());
-    }
-
-    public ReviewBuilderAdapter<?> newAdapter(Review template) {
+    public ReviewBuilderAdapter<GC> newAdapter(@Nullable Review template) {
         return newReviewBuilderAdapter(mBuilderFactory.newBuilder(template));
     }
 
     @NonNull
-    private ReviewBuilderAdapter<?> newReviewBuilderAdapter(ReviewBuilder builder) {
+    private ReviewBuilderAdapter<GC> newReviewBuilderAdapter(ReviewBuilder builder) {
         return new ReviewBuilderAdapterImpl<>(builder,
                 mGridUiFactory.newGridUiWrapper(mVhFactory),
                 mDataValidator,

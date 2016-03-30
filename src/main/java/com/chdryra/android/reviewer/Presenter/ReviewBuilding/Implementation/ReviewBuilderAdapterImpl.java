@@ -54,7 +54,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
     private FileIncrementor mIncrementor;
     private GvTag mSubjectTag;
 
-    //Constructors
     public ReviewBuilderAdapterImpl(ReviewBuilder builder,
                                     BuildScreenGridUi<GC> gridUi,
                                     DataValidator dataValidator,
@@ -71,8 +70,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         mImageChooserFactory = imageChooserFactory;
         newIncrementor();
     }
-
-    //public methods
 
     @Override
     public GvDataType<? extends GvData> getGvDataType() {

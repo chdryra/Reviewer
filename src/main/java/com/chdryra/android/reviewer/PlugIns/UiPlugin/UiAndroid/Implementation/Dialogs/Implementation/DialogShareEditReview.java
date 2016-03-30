@@ -87,6 +87,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         share.setOnClickListener(launchShareIntentOnClick());
         delete.setOnClickListener(launchDeleteAlertOnClick());
         another.setOnClickListener(requestNewReviewUsingTemplate());
+
         return layout;
     }
 

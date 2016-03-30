@@ -59,7 +59,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     private PersistenceContext mPersistenceContext;
 
     private FactoryGvData mFactoryGvData;
-    private FactoryReviewBuilderAdapter mFactoryBuilderAdapter;
+    private FactoryReviewBuilderAdapter<?> mFactoryBuilderAdapter;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
     private FactoryReviewViewLaunchable mFactoryReviewViewLaunchable;
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
@@ -86,7 +86,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
 
-    public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter factoryBuilderAdapter) {
+    public void setFactoryBuilderAdapter(FactoryReviewBuilderAdapter<?> factoryBuilderAdapter) {
         mFactoryBuilderAdapter = factoryBuilderAdapter;
     }
 
@@ -158,13 +158,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter() {
-        mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter();
-        return mReviewBuilderAdapter;
-    }
-
-    @Override
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(Review template) {
+    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
         mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter(template);
         return mReviewBuilderAdapter;
     }

@@ -121,8 +121,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
                 deviceContext.getImageStorageDirectory(), authorName);
 
-        FactoryReviewBuilderAdapter builderAdapterFactory
-                = new FactoryReviewBuilderAdapter(factoryReviewBuilder,
+        FactoryReviewBuilderAdapter<?> builderAdapterFactory
+                = new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
                 new FactoryDataBuildersGridUi(),
                 new FactoryVhBuildReviewData(),
                 modelContext.getDataValidator(),

@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -49,28 +51,22 @@ public class FactoryReviewBuilder {
         mDataBuilderFactory = dataBuilderfactory;
     }
 
-    public ReviewBuilder newBuilder() {
-        return new ReviewBuilderImpl(mConverterGv,
-                mTagsManager,
-                mFactoryReviews,
-                mDataBuilderFactory,
-                mDataValidator);
-    }
-
-    public ReviewBuilder newBuilder(Review template) {
+    public ReviewBuilder newBuilder(@Nullable Review template) {
         ReviewBuilder builder = new ReviewBuilderImpl(mConverterGv,
                 mTagsManager,
                 mFactoryReviews,
                 mDataBuilderFactory,
                 mDataValidator);
 
-        builder.setSubject(template.getSubject().getSubject());
+        if(template != null) {
+            builder.setSubject(template.getSubject().getSubject());
 
-        setTags(template, builder);
-        setCriteria(template, builder);
-        setCovers(template, builder);
-        setLocations(template, builder);
-        setFacts(template, builder);
+            setTags(template, builder);
+            setCriteria(template, builder);
+            setCovers(template, builder);
+            setLocations(template, builder);
+            setFacts(template, builder);
+        }
 
         return builder;
     }

@@ -12,13 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle
-        .GooglePlacesApi.CallBackSignaler;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -29,21 +27,23 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = "BuildScreen";
     private static final String TEMPLATE_ID = "TemplateId";
-    private static final int TIMEOUT = 10;
     private PresenterReviewBuild mPresenter;
-    private CallBackSignaler mSignaler;
 
     @Override
     protected ReviewView createReviewView() {
-        buildPresenterAsync();
+        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
+        String id = args != null ? args.getString(NewReviewListener.TEMPLATE_ID) : null;
 
-        mSignaler.waitForSignal();
-        if (mSignaler.timedOut()) {
-            //TODO deal with this more elegantly
-            throw new RuntimeException("ActivityBuildReview timed out!");
-        } else {
-            return mPresenter.getEditor();
+        PresenterReviewBuild.Builder builder
+                = new PresenterReviewBuild.Builder(app, new FactoryReviewEditor());
+        if(id != null) {
+            Review template = app.getReviewFromCache(args);
+            if(template != null) builder.setTemplateReview(template);
         }
+
+        mPresenter = builder.build();
+        return mPresenter.getEditor();
     }
 
     @Override
@@ -59,22 +59,5 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     public void launch(LauncherUi launcher) {
         launcher.launch(getClass(), TEMPLATE_ID);
-    }
-
-    private void buildPresenterAsync() {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
-        Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
-        String id = args != null ? args.getString(NewReviewListener.TEMPLATE_ID) : null;
-
-        mSignaler = new CallBackSignaler(TIMEOUT);
-        new PresenterReviewBuild.Builder(app, new FactoryReviewEditor())
-                .setTemplateReview(id)
-                .build(new PresenterReviewBuild.Builder.BuildCallback() {
-                    @Override
-                    public void onBuildFinished(PresenterReviewBuild<?> presenter) {
-                        mPresenter = presenter;
-                        mSignaler.signal();
-                    }
-                });
     }
 }

@@ -19,7 +19,9 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
@@ -42,6 +44,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -194,61 +198,51 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
     }
 
-    public static class Builder {
+    public static class Builder implements RepositoryCallback{
         public static final int BUTTON_TITLE = R.string.button_add_review_data;
         private static final int SCREEN_TITLE = R.string.activity_title_build_review;
         private FactoryReviewEditor mEditorFactory;
         private ApplicationInstance mApp;
-        private String mReviewId;
-
-        public interface BuildCallback {
-            void onBuildFinished(PresenterReviewBuild<?> presenter);
-        }
+        private Review mReview;
 
         public Builder(ApplicationInstance app, FactoryReviewEditor editorFactory) {
             mApp = app;
             mEditorFactory = editorFactory;
         }
 
-        public Builder setTemplateReview(@Nullable String reviewId) {
-            mReviewId = reviewId;
+        public Builder setTemplateReview(Review review) {
+            mReview = review;
             return this;
         }
 
-        public void build(final BuildCallback callback) {
+        public PresenterReviewBuild<?> build() {
             ReviewBuilderAdapter<?> adapter = mApp.getReviewBuilderAdapter();
-            if (adapter != null) {
-                buildPresenter(callback, adapter);
-            } else {
-                ApplicationInstance.ReviewBuilderAdapterCallback adapterCallback
-                        = new ApplicationInstance.ReviewBuilderAdapterCallback() {
-                    @Override
-                    public void onAdapterBuilt(ReviewBuilderAdapter<?> adapter,
-                                               RepositoryMessage error) {
-                        buildPresenter(callback, adapter);
-                    }
-                };
+            if (adapter == null) adapter = mApp.newReviewBuilderAdapter(mReview);
 
-                mApp.newReviewBuilderAdapter(adapterCallback, mReviewId);
-            }
+            return buildPresenter(adapter);
         }
 
-        private void buildPresenter(BuildCallback callback, ReviewBuilderAdapter<?> adapter) {
+        @Override
+        public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+
+        }
+
+        @Override
+        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+
+        }
+
+        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {
             ConfigUi config = mApp.getConfigDataUi();
             LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
-            ReviewEditor<? extends GvDataList<?>> editor
-                    = newEditor(mApp.getContext(), adapter, uiLauncher,
+            ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter, uiLauncher,
                     config.getShareReviewConfig().getLaunchable(), mEditorFactory);
 
-            PresenterReviewBuild<? extends GvDataList<?>> presenter = new
-                    PresenterReviewBuild<>(editor, config, uiLauncher);
-
-            callback.onBuildFinished(presenter);
+            return new PresenterReviewBuild<>(editor, config, uiLauncher);
         }
 
         private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(Context context,
-                                                                      ReviewBuilderAdapter<GC>
-                                                                              builder,
+                                                                      ReviewBuilderAdapter<GC> builder,
                                                                       LaunchableUiLauncher launcher,
                                                                       LaunchableUi shareScreenUi,
                                                                       FactoryReviewEditor factory) {

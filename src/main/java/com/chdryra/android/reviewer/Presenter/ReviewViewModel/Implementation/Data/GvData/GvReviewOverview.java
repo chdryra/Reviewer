@@ -56,7 +56,6 @@ public class GvReviewOverview extends GvDataBasic<GvReviewOverview> implements D
     private GvAuthor mAuthor;
     private GvDate mPublishDate;
 
-    //Constructors
     public GvReviewOverview() {
         super(GvReviewOverview.TYPE);
     }
