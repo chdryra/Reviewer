@@ -16,14 +16,21 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.GooglePlacesApi.CallBackSignaler;
+import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderMessage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
-import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
+
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformFacebook;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * UI Activity holding published reviews feed.
@@ -34,11 +41,8 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         NewReviewListener,
         PresenterUsersFeed.ReviewUploadedListener {
 
-    private static final int TIMEOUT = 100;
-
     private ApplicationInstance mApp;
     private PresenterUsersFeed mPresenter;
-    private CallBackSignaler mSignaler;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -97,18 +101,32 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onReviewPublishedToSocialPlatforms(String message) {
-        makeToast(message);
+    public void onReviewPublishedToSocialPlatforms(Collection<PublishResults> publishedOk,
+                                                   Collection<PublishResults> publishedNotOk,
+                                                   SocialPublishingMessage message) {
+        int numFollowers = 0;
+        ArrayList<String> platformsOk = new ArrayList<>();
+        for (PublishResults result : publishedOk) {
+            platformsOk.add(result.getPublisherName());
+            numFollowers += result.getFollowers();
+        }
+
+        ArrayList<String> platformsNotOk = new ArrayList<>();
+        for (PublishResults result : publishedNotOk) {
+            platformsNotOk.add(result.getPublisherName());
+        }
+
+        makeToast(getPublishedMessage(platformsOk, platformsNotOk, numFollowers, message));
     }
 
     @Override
-    public void onReviewUploadedToBackend(String message) {
-        makeToast(message);
+    public void onReviewUploadedToBackend(ReviewId id, ReviewUploaderMessage result) {
+        makeToast(result.getMessage());
     }
 
     @Override
-    public void onReviewDeletedFromBackend(String message) {
-        makeToast(message);
+    public void onReviewDeletedFromBackend(ReviewId id, ReviewUploaderMessage result) {
+        makeToast(result.getMessage());
     }
 
     private void makeToast(String message) {
@@ -127,5 +145,35 @@ public class ActivityUsersFeed extends ActivityReviewView implements
             mPresenter.publish(reviewId, platforms);
             intent.removeExtra(PublishingAction.PUBLISHED);
         }
+    }
+
+    private String getPublishedMessage(ArrayList<String> platformsOk,
+                                            ArrayList<String> platformsNotOk,
+                                            int numFollowers,
+                                            SocialPublishingMessage result) {
+        String message = "";
+
+        if (platformsOk.size() > 0) {
+            String num = String.valueOf(numFollowers);
+            boolean fb = platformsOk.contains(PlatformFacebook.NAME);
+            String plus = fb ? "+ " : "";
+            String followers = numFollowers == 1 && !fb ? " follower" : " followers";
+            String followersString = num + plus + followers;
+
+            message = "Published to " + followersString + " on " +
+                    StringUtils.join(platformsOk.toArray(), ", ");
+        }
+
+        String notOkMessage = "";
+        if (platformsNotOk.size() > 0) {
+            notOkMessage = "Problems publishing to " + StringUtils.join(platformsNotOk.toArray(),
+                    ",");
+            if (platformsOk.size() > 0) message += "\n" + notOkMessage;
+        }
+
+        if (result.isError()) {
+            message += "\nError: " + result.getMessage();
+        }
+        return message;
     }
 }

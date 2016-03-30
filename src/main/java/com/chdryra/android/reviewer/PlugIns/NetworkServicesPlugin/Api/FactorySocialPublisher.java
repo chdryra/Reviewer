@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 
 /**
  * Created by: Rizwan Choudrey

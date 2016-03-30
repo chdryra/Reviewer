@@ -33,9 +33,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 
 /**
  * Created by: Rizwan Choudrey

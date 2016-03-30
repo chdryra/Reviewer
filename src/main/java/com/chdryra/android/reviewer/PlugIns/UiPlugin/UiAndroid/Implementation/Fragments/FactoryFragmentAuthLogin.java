@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.F
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformFacebook;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformGoogle;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformTwitter;
 
 /**
  * Created by: Rizwan Choudrey

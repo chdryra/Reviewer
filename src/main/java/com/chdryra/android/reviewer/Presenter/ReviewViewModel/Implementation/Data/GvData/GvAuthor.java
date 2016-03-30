@@ -44,7 +44,6 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
     private String mName;
     private GvUserId mUserId;
 
-    //Constructors
     public GvAuthor() {
         this(null, null, null);
     }
@@ -69,7 +68,6 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
         mUserId = in.readParcelable(GvUserId.class.getClassLoader());
     }
 
-    //Overridden
     @Override
     public String getName() {
         return mName;

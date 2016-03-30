@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityBuildReview extends ActivityReviewView {
     private static final String TAG = "BuildScreen";
     private static final String TEMPLATE_ID = "TemplateId";
-    private static final int TIMEOUT = 100;
+    private static final int TIMEOUT = 10;
     private PresenterReviewBuild mPresenter;
     private CallBackSignaler mSignaler;
 

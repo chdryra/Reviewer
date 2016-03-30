@@ -76,7 +76,7 @@ public class GvImage extends GvDataBasic<GvImage> implements DataImage {
                 image.isCover());
     }
 
-    GvImage(Parcel in) {
+    public GvImage(Parcel in) {
         super(in);
         mBitmap = in.readParcelable(Bitmap.class.getClassLoader());
         mCaption = in.readString();

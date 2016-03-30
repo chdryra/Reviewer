@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
-import com.chdryra.android.reviewer.Social.Factories.FactorySocialPlatformList;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.NetworkServices.Social.Factories.FactorySocialPlatformList;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey

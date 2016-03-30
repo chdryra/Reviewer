@@ -14,7 +14,7 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
@@ -23,11 +23,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryShareScreenView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginUi;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         }
 
         @Override
-        public void onAdded(Review review, RepositoryError error) {
+        public void onAdded(Review review, RepositoryMessage error) {
             Activity activity = ActivityShareReview.this;
 
             Intent intent = new Intent(activity, mActivityToPublish);
@@ -94,7 +94,7 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         }
 
         @Override
-        public void onRemoved(ReviewId reviewId, RepositoryError error) {
+        public void onRemoved(ReviewId reviewId, RepositoryMessage error) {
 
         }
     }

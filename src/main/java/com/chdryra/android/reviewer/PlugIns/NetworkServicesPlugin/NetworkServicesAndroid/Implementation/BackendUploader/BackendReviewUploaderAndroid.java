@@ -14,8 +14,8 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingService;
-import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
-import com.chdryra.android.reviewer.Social.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.ReviewUploaderListener;
 
 /**
  * Created by: Rizwan Choudrey

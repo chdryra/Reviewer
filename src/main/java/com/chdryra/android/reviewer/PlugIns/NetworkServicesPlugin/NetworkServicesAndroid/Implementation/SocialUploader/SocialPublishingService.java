@@ -6,21 +6,26 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialUploader;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.SocialUploader;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.Social.Implementation.PublishingAction;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,18 +35,20 @@ import java.util.Collection;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialPublishingService extends IntentService 
-        implements BatchSocialPublisher.BatchSocialPublisherListener,
-        RepositoryCallback{
+public class SocialPublishingService extends IntentService
+        implements BatchSocialPublisher.BatchSocialPublisherListener, RepositoryCallback {
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "SocialPublishingService.Percentage";
     public static final String STATUS_RESULTS = "SocialPublishingService.PublishResults";
 
     public static final String PUBLISHING_COMPLETED = "SocialPublishingService.PublishFinished";
-    public static final String PUBLISHING_ERROR = "SocialPublishingService.PublishError";
+    public static final String RESULT = "SocialPublishingService.Result";
     public static final String PUBLISH_OK = "SocialPublishingService.PublishResultsOk";
     public static final String PUBLISH_NOT_OK = "SocialPublishingService.PublishResultsNotOk";
+    public static final String REVIEW_NOT_FOUND = "Review not found";
 
+    private static final int PUBLISH_SUCCESSFUL = R.string.review_published;
+    private static final int PUBLISH_ERROR = R.string.publishing_error;
     private static final String SERVICE = "SocialPublishingService";
 
     private String mReviewId;
@@ -73,29 +80,71 @@ public class SocialPublishingService extends IntentService
     @Override
     public void onPublished(Collection<PublishResults> publishedOk,
                             Collection<PublishResults> publishedNotOk) {
+        SocialPublishingMessage report = getReport(publishedOk, publishedNotOk);
+        broadcastPublishingComplete(publishedOk, publishedNotOk, report);
+    }
+
+    @Override
+    public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+        if (review != null && !result.isError()) {
+            doPublish(review);
+        } else {
+            abortPublish(result);
+        }
+    }
+
+    @Override
+    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+
+    }
+
+    private void abortPublish(RepositoryMessage error) {
+        String message = error.isError() ? error.getMessage() : REVIEW_NOT_FOUND;
+        SocialPublishingMessage report = SocialPublishingMessage.error(message);
+
+        broadcastPublishingComplete(new ArrayList<PublishResults>(), new ArrayList
+                <PublishResults>(), report);
+    }
+
+    @NonNull
+    private SocialPublishingMessage getReport(Collection<PublishResults> publishedOk,
+                                              Collection<PublishResults> publishedNotOk) {
+        String report = "";
+        if (publishedOk.size() > 0) {
+            report += getApplicationContext().getString(PUBLISH_SUCCESSFUL) + ": ";
+            for (PublishResults ok : publishedOk) {
+                report += ok.getPublisherName() + " ";
+            }
+
+            if (publishedNotOk.size() > 0) report += "\n";
+        }
+
+        if (publishedNotOk.size() > 0) {
+            report += getApplicationContext().getString(PUBLISH_ERROR) + ": ";
+            for (PublishResults notOk : publishedNotOk) {
+                report += notOk.getPublisherName() + "(" + notOk.getErrorIfFail() + ")" + " ";
+            }
+        }
+
+        boolean totalError = publishedOk.size() == 0;
+        return totalError ? SocialPublishingMessage.error(report)
+                : SocialPublishingMessage.ok(report);
+    }
+
+    private void broadcastPublishingComplete(Collection<PublishResults> publishedOk,
+                                             Collection<PublishResults> publishedNotOk,
+                                             SocialPublishingMessage result) {
         Intent update = new Intent(PUBLISHING_COMPLETED);
         update.putParcelableArrayListExtra(PUBLISH_OK, new ArrayList<>(publishedOk));
         update.putParcelableArrayListExtra(PUBLISH_NOT_OK, new ArrayList<>(publishedNotOk));
+        update.putExtra(RESULT, result);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
     private void batchPublish() {
         ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        app.getReview(mReviewId, this);
-    }
-
-    @Override
-    public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
-        if(review != null && !error.isError()) {
-            doPublish(review);
-        } else {
-            Intent update = new Intent(PUBLISHING_COMPLETED);
-            String message = error.isError() ? error.getMessage() :
-                    review == null ? "Review not found" : "Error publishing to social platforms";
-            update.putExtra(PUBLISHING_ERROR, message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(update);
-        }
+        app.getLocalRepository().getReview(new DatumReviewId(mReviewId), this);
     }
 
     private void doPublish(Review review) {
@@ -109,10 +158,5 @@ public class SocialPublishingService extends IntentService
 
         BatchSocialPublisher publisher = new BatchSocialPublisher(platforms, this);
         publisher.publishReview(review, tagsManager);
-    }
-
-    @Override
-    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
-
     }
 }

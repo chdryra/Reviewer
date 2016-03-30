@@ -22,7 +22,7 @@ import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -31,9 +31,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .NewReviewListener;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
-import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
-import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.ReviewFormatterTwitter;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.ReviewSummariser;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
@@ -135,19 +135,19 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     private RepositoryCallback fetchReviewCallback(final TagsManager tagsManager) {
         return new RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
                 if (review != null) {
                     mSharer.publish(review, tagsManager);
                 } else {
                     String message = "Review not found";
-                    if (error.isError()) message += ": " + error.getMessage();
+                    if (result.isError()) message += ": " + result.getMessage();
                     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError
-                    error) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+                    result) {
 
             }
         };

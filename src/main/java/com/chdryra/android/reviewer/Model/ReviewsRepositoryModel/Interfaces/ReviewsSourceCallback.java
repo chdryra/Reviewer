@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,5 +19,5 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsSourceCallback {
-    void onMetaReview(@Nullable ReviewNode review, RepositoryError error);
+    void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error);
 }

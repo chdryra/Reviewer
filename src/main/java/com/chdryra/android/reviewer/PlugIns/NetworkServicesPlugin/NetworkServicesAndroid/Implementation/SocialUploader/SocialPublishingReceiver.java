@@ -12,13 +12,11 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BroadcastingServiceReceiver;
-import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPublishingError;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPublishingListener;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingServiceReceiver;
 
 import java.util.ArrayList;
 
@@ -44,18 +42,11 @@ public class SocialPublishingReceiver extends
                 = intent.getParcelableArrayListExtra(SocialPublishingService.PUBLISH_OK);
         ArrayList<PublishResults> notOk
                 = intent.getParcelableArrayListExtra(SocialPublishingService.PUBLISH_NOT_OK);
-        SocialPublishingError error = getSocialPublishingError(intent);
-        for (SocialPublishingListener listener : this) {
-            listener.onPublishCompleted(ok, notOk, error);
-        }
-    }
+        SocialPublishingMessage result = intent.getParcelableExtra(SocialPublishingService.RESULT);
 
-    @NonNull
-    private SocialPublishingError getSocialPublishingError(Intent intent) {
-        String errorMessage = intent.getStringExtra(SocialPublishingService.PUBLISHING_ERROR);
-        SocialPublishingError error = SocialPublishingError.none();
-        if (errorMessage != null) error = SocialPublishingError.error(errorMessage);
-        return error;
+        for (SocialPublishingListener listener : this) {
+            listener.onPublishCompleted(ok, notOk, result);
+        }
     }
 
     private void updateListenersOnStatus(Intent intent) {

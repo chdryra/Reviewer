@@ -17,10 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
-import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginFailure;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginSuccess;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformFacebook;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginResultHandler;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;

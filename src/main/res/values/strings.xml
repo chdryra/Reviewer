@@ -112,6 +112,14 @@
     <!-- URLs -->
     <string name="google_search">http://www.google.com</string>
 
+    <!-- Service messages -->
+    <string name="review_uploaded">uploaded</string>
+    <string name="review_deleted">deleted</string>
+    <string name="upload_error">upload error</string>
+    <string name="delete_error">delete error</string>
+    <string name="review_published">published</string>
+    <string name="publishing_error">publishing error</string>
+
     <!-- Keys -->
     <string name="key_google_maps">AIzaSyCZ_ArQmEClJYtDtvbcbSQQbvUcCZf3KWg</string>
     <string name="key_google_api">AIzaSyAijd_EYrICD78hz3NlE03sWlyG26cjvEc</string>

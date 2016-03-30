@@ -24,11 +24,11 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
-import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginFailure;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginSuccess;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformGoogle;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginResultHandler;
 import com.chdryra.android.reviewer.Utils.DialogShower;
 import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
 import com.google.android.gms.auth.api.Auth;

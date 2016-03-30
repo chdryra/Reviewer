@@ -28,7 +28,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.ClearableEditText;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.OAuthRequest;
 
 /**
  * UI Fragment: web browser. Browser shows URL passed in the arguments,

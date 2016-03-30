@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentAuthLogin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
-import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
-import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
-import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
+import com.chdryra.android.reviewer.NetworkServices.Social.Factories.FactoryLoginResultHandler;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginFailure;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginSuccess;
+import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.OAuthRequest;
+import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginResultHandler;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 

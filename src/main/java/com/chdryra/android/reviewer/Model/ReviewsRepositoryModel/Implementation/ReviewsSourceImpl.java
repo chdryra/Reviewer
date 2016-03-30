@@ -47,7 +47,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
         asMetaReviewNullable(id, new ReviewsSourceCallback() {
             @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
+            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
                 ReviewNode node = review != null ? review : mReviewFactory.getNullNode();
                 callback.onMetaReview(node, error);
             }
@@ -57,14 +57,14 @@ public class ReviewsSourceImpl implements ReviewsSource {
     private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
         mRepository.getReview(id, new RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
                 ReviewNode ret = review != null ? mReviewFactory.createMetaReview(review) : null;
-                callback.onMetaReview(ret, error);
+                callback.onMetaReview(ret, result);
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError
-                    error) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+                    result) {
 
             }
         });
@@ -75,12 +75,12 @@ public class ReviewsSourceImpl implements ReviewsSource {
                              final ReviewsSourceCallback callback) {
         asMetaReviewNullable(datum.getReviewId(), new ReviewsSourceCallback() {
             @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
+            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
                 if (review == null && datum.isVerboseCollection()) {
                     getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
                             subjectIfMetaOfItems, new ReviewsSourceCallback() {
                                 @Override
-                                public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
+                                public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
                                     callback.onMetaReview(review, error);
                                 }
                             });
@@ -96,15 +96,15 @@ public class ReviewsSourceImpl implements ReviewsSource {
                               final ReviewsSourceCallback callback) {
         getUniqueReviews(data, new RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
 
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
                 ReviewNode meta = reviews.size() > 0 ?
                         mReviewFactory.createMetaReview(reviews, subject) : mReviewFactory.getNullNode();
-                callback.onMetaReview(meta, error);
+                callback.onMetaReview(meta, result);
             }
         });
     }
@@ -113,13 +113,13 @@ public class ReviewsSourceImpl implements ReviewsSource {
     public void getReview(final ReviewId reviewId, final RepositoryCallback callback) {
         getReviewNullable(reviewId, new RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
                 if (review == null) review = mReviewFactory.getNullReview();
-                callback.onFetchedFromRepo(review, error);
+                callback.onFetchedFromRepo(review, result);
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
 
             }
         });
@@ -159,7 +159,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     private class UniqueCallback implements  RepositoryCallback {
-        private final ArrayList<RepositoryError> mErrors;
+        private final ArrayList<RepositoryMessage> mErrors;
         private final RepositoryCallback mFinalCallback;
         private final Set<Review> mFetched;
         private final int mMaxReviews;
@@ -174,7 +174,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         }
 
         @Override
-        public void onFetchedFromRepo(@Nullable Review review, RepositoryError error) {
+        public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage error) {
             mCurrentIndex++;
 
             if (review != null && !error.isError()) {
@@ -184,15 +184,15 @@ public class ReviewsSourceImpl implements ReviewsSource {
             }
 
             if(mCurrentIndex == mMaxReviews) {
-                RepositoryError finalError = mErrors.size() > 0 ?
-                        RepositoryError.error("Errors fetching some reviews")
-                        : RepositoryError.none();
-                mFinalCallback.onCollectionFetchedFromRepo(mFetched, finalError);
+                RepositoryMessage result = mErrors.size() > 0 ?
+                        RepositoryMessage.error("Errors fetching some reviews")
+                        : RepositoryMessage.ok(mMaxReviews + " reviews fetched");
+                mFinalCallback.onCollectionFetchedFromRepo(mFetched, result);
             }
         }
 
         @Override
-        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryError error) {
+        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
 
         }
     }

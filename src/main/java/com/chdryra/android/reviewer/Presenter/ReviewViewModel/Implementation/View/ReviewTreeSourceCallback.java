@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
 
 /**
@@ -27,7 +27,7 @@ public class ReviewTreeSourceCallback extends ReviewTreeAsync
     }
 
     @Override
-    public void onMetaReview(@Nullable ReviewNode review, RepositoryError error) {
+    public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
         if (review != null && !error.isError()) updateNode(review);
     }
 }

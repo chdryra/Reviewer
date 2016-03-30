@@ -37,7 +37,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
@@ -408,12 +408,12 @@ public class TestReviews {
                     break;
                 }
             }
-            callback.onFetchedFromRepo(ret, RepositoryError.none());
+            callback.onFetchedFromRepo(ret, RepositoryMessage.none());
         }
 
         @Override
         public void getReviews(RepositoryCallback callback) {
-            callback.onCollectionFetchedFromRepo(mReviews, RepositoryError.none());
+            callback.onCollectionFetchedFromRepo(mReviews, RepositoryMessage.none());
         }
 
         @Override

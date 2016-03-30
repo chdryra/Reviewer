@@ -19,7 +19,7 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
@@ -224,7 +224,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
                         = new ApplicationInstance.ReviewBuilderAdapterCallback() {
                     @Override
                     public void onAdapterBuilt(ReviewBuilderAdapter<?> adapter,
-                                               RepositoryError error) {
+                                               RepositoryMessage error) {
                         buildPresenter(callback, adapter);
                     }
                 };

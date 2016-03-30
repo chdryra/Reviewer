@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
-import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 
 /**
  * Created by: Rizwan Choudrey

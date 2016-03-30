@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
         .Implementation.BackendUploader.BackendReviewUploaderAndroid;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BackendUploader.ReviewUploaderReceiver;
-import com.chdryra.android.reviewer.Social.Interfaces.BackendReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 
 /**
  * Created by: Rizwan Choudrey

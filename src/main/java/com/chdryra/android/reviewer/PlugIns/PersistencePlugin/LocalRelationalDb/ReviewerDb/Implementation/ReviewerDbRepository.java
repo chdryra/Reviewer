@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryError;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .RepositoryMutableCallback;
@@ -63,14 +63,16 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         boolean success = mDatabase.addReviewToDb(review, mTagsManager, db);
         mDatabase.endTransaction(db);
 
-        RepositoryError error = RepositoryError.none();
+        String subject = review.getSubject().getSubject();
+        RepositoryMessage result;
         if (success) {
+            result = RepositoryMessage.ok(subject + " added");
             notifyOnAddReview(review);
         } else {
-            error = RepositoryError.error("Problem adding review to database");
+            result = RepositoryMessage.error(subject + ": Problem adding review to database");
         }
 
-        callback.onAdded(review, error);
+        callback.onAdded(review, result);
     }
 
     @Override
@@ -86,12 +88,12 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         Iterator<Review> iterator = reviews.iterator();
 
         Review review = null;
-        RepositoryError error = RepositoryError.none();
+        RepositoryMessage error = RepositoryMessage.ok(reviewId.toString() + " found");
         if(iterator.hasNext()) review = iterator.next();
         if(iterator.hasNext()) {
-            error = RepositoryError.error("There is more than 1 review with id " + reviewId);
+            error = RepositoryMessage.error("There is more than 1 review with id: " + reviewId);
         } else if(review == null) {
-            error = RepositoryError.error("Review not found: " + reviewId);
+            error = RepositoryMessage.error("Review not found: " + reviewId);
         }
 
         callback.onFetchedFromRepo(review, error);
@@ -104,7 +106,8 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
 
-        callback.onCollectionFetchedFromRepo(reviews, RepositoryError.none());
+        RepositoryMessage result = RepositoryMessage.ok(reviews.size() + " reviews found");
+        callback.onCollectionFetchedFromRepo(reviews, result);
     }
 
     @Override
@@ -113,14 +116,15 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         boolean success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
         mDatabase.endTransaction(transactor);
 
-        RepositoryError error = RepositoryError.none();
+        RepositoryMessage result;
         if (success) {
+            result = RepositoryMessage.ok(reviewId + " removed");
             notifyOnDeleteReview(reviewId);
         } else{
-            error = RepositoryError.error("Problems deleting review: " + reviewId);
+            result = RepositoryMessage.error("Problems deleting review: " + reviewId);
         }
 
-        callback.onRemoved(reviewId, error);
+        callback.onRemoved(reviewId, result);
     }
 
     private void loadTagsIfNecessary(TableTransactor transactor) {
