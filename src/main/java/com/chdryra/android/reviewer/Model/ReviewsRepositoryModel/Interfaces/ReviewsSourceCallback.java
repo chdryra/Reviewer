@@ -19,5 +19,5 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsSourceCallback {
-    void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error);
+    void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message);
 }

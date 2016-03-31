@@ -27,7 +27,7 @@ public class ReviewTreeSourceCallback extends ReviewTreeAsync
     }
 
     @Override
-    public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
-        if (review != null && !error.isError()) updateNode(review);
+    public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
+        if (review != null && !message.isError()) updateNode(review);
     }
 }

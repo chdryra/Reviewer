@@ -16,17 +16,16 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.I
 public class FirebaseValidator {
 
     public boolean isValid(FbReview review) {
-        Rating rating = review.getRating();
-        return validateString(review.getReviewId()) && validateString(review.getSubject())
+        return review != null && validateString(review.getReviewId()) && validateString(review.getSubject())
                 && isValid(review.getRating()) && isValid(review.getAuthor());
     }
 
     private boolean isValid(Author author) {
-        return validateString(author.getName()) && validateString(author.getUserId());
+        return author != null && validateString(author.getName()) && validateString(author.getUserId());
     }
 
     public boolean isValid(Rating rating) {
-        return rating.getRatingWeight() > 0;
+        return rating != null && rating.getRatingWeight() > 0;
     }
 
     public boolean validateString(String string) {

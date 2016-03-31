@@ -143,7 +143,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     public void launchReview(final Activity activity, ReviewId reviewId) {
         mPersistenceContext.getReviewsSource().asMetaReview(reviewId, new ReviewsSourceCallback() {
             @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
+            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
                 if (review != null) launchReview(activity, review);
             }
         });

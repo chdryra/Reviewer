@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -18,7 +19,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -47,25 +49,9 @@ public class ReviewsSourceImpl implements ReviewsSource {
     public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
         asMetaReviewNullable(id, new ReviewsSourceCallback() {
             @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
+            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
                 ReviewNode node = review != null ? review : mReviewFactory.getNullNode();
-                callback.onMetaReview(node, error);
-            }
-        });
-    }
-
-    private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
-        mRepository.getReview(id, new RepositoryCallback() {
-            @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
-                ReviewNode ret = review != null ? mReviewFactory.createMetaReview(review) : null;
-                callback.onMetaReview(ret, result);
-            }
-
-            @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
-                    result) {
-
+                callback.onMetaReview(node, message);
             }
         });
     }
@@ -73,22 +59,14 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Override
     public void asMetaReview(final VerboseDataReview datum, final String subjectIfMetaOfItems,
                              final ReviewsSourceCallback callback) {
-        asMetaReviewNullable(datum.getReviewId(), new ReviewsSourceCallback() {
-            @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
-                if (review == null && datum.isVerboseCollection()) {
-                    getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
-                            subjectIfMetaOfItems, new ReviewsSourceCallback() {
-                                @Override
-                                public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage error) {
-                                    callback.onMetaReview(review, error);
-                                }
-                            });
-                }
-            }
-        });
-
-
+        ReviewsSourceCallback sourceCallback = getReviewSourceCallback(callback);
+        ReviewId id = getSingleSourceId(datum);
+        if (id != null) {
+            asMetaReviewNullable(id, sourceCallback);
+        } else {
+            getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
+                    subjectIfMetaOfItems, sourceCallback);
+        }
     }
 
     @Override
@@ -101,9 +79,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+                    result) {
                 ReviewNode meta = reviews.size() > 0 ?
-                        mReviewFactory.createMetaReview(reviews, subject) : mReviewFactory.getNullNode();
+                        mReviewFactory.createMetaReview(reviews, subject) : mReviewFactory
+                        .getNullNode();
                 callback.onMetaReview(meta, result);
             }
         });
@@ -119,15 +99,12 @@ public class ReviewsSourceImpl implements ReviewsSource {
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+                    result) {
 
             }
         });
 
-    }
-
-    private void getReviewNullable(ReviewId reviewId, RepositoryCallback callback) {
-        mRepository.getReview(reviewId, callback);
     }
 
     @Override
@@ -150,15 +127,63 @@ public class ReviewsSourceImpl implements ReviewsSource {
         mRepository.unregisterObserver(observer);
     }
 
+    @Nullable
+    private ReviewId getSingleSourceId(VerboseDataReview datum) {
+        ReviewId id = null;
+        if (datum.isVerboseCollection() && datum.hasElements()) {
+            VerboseIdableCollection<? extends VerboseDataReview> data =
+                    (VerboseIdableCollection<? extends VerboseDataReview>) datum;
+            id = data.getItem(0).getReviewId();
+            for (VerboseDataReview element : data) {
+                if (!element.getReviewId().equals(id)) {
+                    id = null;
+                    break;
+                }
+            }
+        }
+
+        return id;
+    }
+
+    @NonNull
+    private ReviewsSourceCallback getReviewSourceCallback(final ReviewsSourceCallback callback) {
+        return new ReviewsSourceCallback() {
+            @Override
+            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
+                callback.onMetaReview(review, message);
+            }
+        };
+    }
+
+    private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
+        mRepository.getReview(id, new RepositoryCallback() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+                ReviewNode ret = review != null ? mReviewFactory.createMetaReview(review) : null;
+                callback.onMetaReview(ret, result);
+            }
+
+            @Override
+            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+                    result) {
+
+            }
+        });
+    }
+
+    private void getReviewNullable(ReviewId reviewId, RepositoryCallback callback) {
+        mRepository.getReview(reviewId, callback);
+    }
+
     private void getUniqueReviews(final VerboseIdableCollection data,
-                                                      final RepositoryCallback callback) {
+                                  final RepositoryCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
             getReviewNullable(data.getItem(i).getReviewId(), uniqueCallback);
         }
     }
 
-    private class UniqueCallback implements  RepositoryCallback {
+    private class UniqueCallback implements RepositoryCallback {
         private final ArrayList<RepositoryMessage> mErrors;
         private final RepositoryCallback mFinalCallback;
         private final Set<Review> mFetched;
@@ -179,11 +204,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
             if (review != null && !error.isError()) {
                 mFetched.add(review);
-            } else{
+            } else {
                 mErrors.add(error);
             }
 
-            if(mCurrentIndex == mMaxReviews) {
+            if (mCurrentIndex == mMaxReviews) {
                 RepositoryMessage result = mErrors.size() > 0 ?
                         RepositoryMessage.error("Errors fetching some reviews")
                         : RepositoryMessage.ok(mMaxReviews + " reviews fetched");
@@ -192,7 +217,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
         }
 
         @Override
-        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+                result) {
 
         }
     }
