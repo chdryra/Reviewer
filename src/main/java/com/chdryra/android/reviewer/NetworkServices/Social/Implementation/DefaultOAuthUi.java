@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.OAuthListe
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 

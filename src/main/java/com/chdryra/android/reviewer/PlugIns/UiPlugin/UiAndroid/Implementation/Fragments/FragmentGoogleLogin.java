@@ -29,8 +29,8 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.LoginS
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginResultHandler;
-import com.chdryra.android.reviewer.Utils.DialogShower;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.DialogShower;
+import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;

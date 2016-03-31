@@ -34,8 +34,8 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublisherAndroid;
-import com.chdryra.android.reviewer.Utils.DialogShower;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.DialogShower;
+import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 

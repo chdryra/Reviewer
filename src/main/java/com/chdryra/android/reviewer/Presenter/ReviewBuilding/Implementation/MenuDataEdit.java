@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDa
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey

@@ -63,9 +63,7 @@ public class SocialPublishingService extends IntentService
         mReviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
         mPlatforms = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
 
-        if (mReviewId != null && mPlatforms != null && mPlatforms.size() > 0) {
-            batchPublish();
-        }
+        if (mReviewId != null && mPlatforms != null && mPlatforms.size() > 0) batchPublish();
     }
 
     @Override

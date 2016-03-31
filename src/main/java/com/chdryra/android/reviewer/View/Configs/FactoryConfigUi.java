@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.View.Configs;
 
-import com.chdryra.android.reviewer.Utils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfigAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;

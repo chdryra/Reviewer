@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.reviewer.Utils.LatLngDistance;
+import com.chdryra.android.mygenerallibrary.LatLngDistance;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.chdryra.android.testutils.RandomString;
 import com.google.android.gms.maps.model.LatLng;
