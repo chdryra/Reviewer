@@ -51,31 +51,38 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersist
  */
 public class FactoryLocalReviewerDb implements FactoryPersistence {
     private FactoryContractor mContractorFactory;
-    private DbSpecification<ReviewerDbContract> mSpec;
+    private String mExt;
     private FactoryReviewerDb mDbFactory;
     private FactoryReviewTransactor mReviewTransactor;
+    private String mPersistenceName;
+    private int mPersistenceVer;
 
     public FactoryLocalReviewerDb(String name, int version, RelationalDbPlugin dbPlugin) {
         FactoryReviewerDbTableRow rowFactory = new FactoryReviewerDbTableRow();
         mReviewTransactor = new FactoryReviewTransactor(rowFactory);
         mDbFactory = new FactoryReviewerDb(rowFactory);
-        mSpec = newDbSpecification(name, dbPlugin.getDbNameExtension(), version);
         mContractorFactory = dbPlugin.getContractorFactory();
+        mPersistenceName = name;
+        mPersistenceVer = version;
+        mExt = dbPlugin.getDbNameExtension();
     }
 
     @Override
     public ReviewsRepositoryMutable newPersistence(Context context, ModelContext model) {
-        return new ReviewerDbRepository(newReviewerDb(context, model), model.getTagsManager());
+        ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, context, model);
+        return new ReviewerDbRepository(db, model.getTagsManager());
     }
 
-    public ReviewerDb newReviewerDb(Context context, ModelContext model) {
+    public ReviewerDb newReviewerDb(String name, int version, Context context, ModelContext model) {
+        DbSpecification<ReviewerDbContract> spec = newDbSpecification(name, mExt, version);
         ReviewRecreater reviewFactory = model.getReviewsFactory();
         DataValidator dataValidator = model.getDataValidator();
 
         ContractorDb<ReviewerDbContract> contractor
-                = mContractorFactory.newContractor(context, mSpec);
+                = mContractorFactory.newContractor(context, spec);
         ReviewTransactor transactor
                 = mReviewTransactor.newStaticLoader(reviewFactory, dataValidator);
+
         return mDbFactory.newDatabase(contractor, transactor, dataValidator);
     }
 

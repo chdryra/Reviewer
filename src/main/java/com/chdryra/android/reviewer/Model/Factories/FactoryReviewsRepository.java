@@ -8,21 +8,12 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
-import android.content.Context;
-
-import com.chdryra.android.mygenerallibrary.QueueCache;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation
-        .ReviewsRepositoryMutableCached;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.ReviewsRepositoryMutableCached;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.ReviewsSourceImpl;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistentCache;
 import com.chdryra.android.reviewer.Utils.FactoryReviewsCache;
-import com.chdryra.android.reviewer.Utils.ReviewsCache;
 
 /**
  * Created by: Rizwan Choudrey

@@ -106,10 +106,7 @@ public class PresenterUsersFeed implements
         mFeedNode.registerNodeObserver(this);
 
         mSocialUploader = app.newSocialPublisher();
-        mSocialUploader.registerListener(this);
-
         mBackendReviewUploader = app.newBackendUploader();
-        mBackendReviewUploader.registerListener(this);
 
         mListener = listener;
     }
@@ -126,7 +123,7 @@ public class PresenterUsersFeed implements
             }
 
             @Override
-            public void onRemoved(ReviewId reviewId, RepositoryMessage error) {
+            public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
                 mBackendReviewUploader.deleteReview(id);
             }
         });
@@ -266,6 +263,59 @@ public class PresenterUsersFeed implements
             MenuFeedScreen ma = new MenuFeedScreen(uiLauncher, reviewBuildUi);
 
             return new PresenterUsersFeed.Actions(sa, rb, bba, gi, ma);
+        }
+    }
+
+    private class PendingPublishListener implements SocialPublishingListener,
+            ReviewUploaderListener, RepositoryMutableCallback {
+        private boolean mUploaded = true;
+        private boolean mPublished = true;
+        private ReviewId mReviewId;
+
+        public PendingPublishListener(ReviewId reviewId) {
+            mReviewId = reviewId;
+            mUploaded = false;
+        }
+
+        private void setToPublish() {
+            mPublished = false;
+        }
+
+        @Override
+        public void onReviewUploaded(ReviewId reviewId, ReviewUploaderMessage result) {
+            mUploaded = true;
+            if(mPublished) complete();
+        }
+
+        @Override
+        public void onReviewDeleted(ReviewId reviewId, ReviewUploaderMessage result) {
+
+        }
+
+        @Override
+        public void onPublishStatus(double percentage, PublishResults justUploaded) {
+            PresenterUsersFeed.this.onPublishStatus(percentage, justUploaded);
+        }
+
+        @Override
+        public void onPublishCompleted(Collection<PublishResults> publishedOk, Collection
+                <PublishResults> publishedNotOk, SocialPublishingMessage result) {
+            mPublished = true;
+            if(mUploaded) complete();
+        }
+
+        private void complete() {
+            mApp.getLocalRepository().removeReview(mReviewId, this);
+        }
+
+        @Override
+        public void onAdded(Review review, RepositoryMessage result) {
+
+        }
+
+        @Override
+        public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
+
         }
     }
 }

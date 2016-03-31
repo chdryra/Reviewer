@@ -20,5 +20,5 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.
 public interface RepositoryMutableCallback {
     void onAdded(Review review, RepositoryMessage result);
 
-    void onRemoved(ReviewId reviewId, RepositoryMessage error);
+    void onRemoved(ReviewId reviewId, RepositoryMessage result);
 }

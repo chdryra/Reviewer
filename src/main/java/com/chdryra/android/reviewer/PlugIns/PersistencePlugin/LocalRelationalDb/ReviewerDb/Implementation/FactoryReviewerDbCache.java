@@ -15,6 +15,8 @@ import com.chdryra.android.mygenerallibrary.QueueCache;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistentCache;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
+        .Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Plugin
         .FactoryLocalReviewerDb;
 
@@ -24,6 +26,10 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewerDbCache implements FactoryPersistentCache {
+    private static final String CACHE_NAME = "ReviewerDbCache";
+    private static final int CACHE_VER = 1;
+
+    private int mIndex = 0;
     private FactoryLocalReviewerDb mDbFactory;
 
     public FactoryReviewerDbCache(FactoryLocalReviewerDb dbFactory) {
@@ -32,6 +38,8 @@ public class FactoryReviewerDbCache implements FactoryPersistentCache {
 
     @Override
     public QueueCache.Cache<Review> newReviewsCache(Context context, ModelContext model) {
-        return new ReviewerDbCache(mDbFactory.newReviewerDb(context, model), model.getTagsManager());
+        String name = CACHE_NAME + mIndex++;
+        ReviewerDb db = mDbFactory.newReviewerDb(name, CACHE_VER, context, model);
+        return new ReviewerDbCache(db, model.getTagsManager());
     }
 }

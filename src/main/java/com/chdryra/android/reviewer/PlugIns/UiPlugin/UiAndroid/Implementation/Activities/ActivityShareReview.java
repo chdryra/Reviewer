@@ -94,7 +94,7 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         }
 
         @Override
-        public void onRemoved(ReviewId reviewId, RepositoryMessage error) {
+        public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
 
         }
     }

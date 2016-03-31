@@ -90,11 +90,11 @@ public class ReviewUploaderService extends IntentService implements RepositoryCa
     }
 
     @Override
-    public void onRemoved(ReviewId reviewId, RepositoryMessage error) {
+    public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
         ReviewUploaderMessage message;
-        if (error.isError()) {
+        if (result.isError()) {
             String messageString = getApplicationContext().getString(DELETE_ERROR) + " - " +
-                    error.getMessage();
+                    result.getMessage();
             message = ReviewUploaderMessage.error(messageString);
         } else {
             String messageString = getApplicationContext().getString(DELETE_SUCCESSFUL);
