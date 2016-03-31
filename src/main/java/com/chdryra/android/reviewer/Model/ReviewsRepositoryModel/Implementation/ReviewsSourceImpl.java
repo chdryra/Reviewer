@@ -47,19 +47,13 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
-        asMetaReviewNullable(id, new ReviewsSourceCallback() {
-            @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
-                ReviewNode node = review != null ? review : mReviewFactory.getNullNode();
-                callback.onMetaReview(node, message);
-            }
-        });
+        asMetaReviewNullable(id, getCallbackWrapper(callback));
     }
 
     @Override
     public void asMetaReview(final VerboseDataReview datum, final String subjectIfMetaOfItems,
                              final ReviewsSourceCallback callback) {
-        ReviewsSourceCallback sourceCallback = getReviewSourceCallback(callback);
+        ReviewsSourceCallback sourceCallback = getCallbackWrapper(callback);
         ReviewId id = getSingleSourceId(datum);
         if (id != null) {
             asMetaReviewNullable(id, sourceCallback);
@@ -82,8 +76,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
             public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
                     result) {
                 ReviewNode meta = reviews.size() > 0 ?
-                        mReviewFactory.createMetaReview(reviews, subject) : mReviewFactory
-                        .getNullNode();
+                        mReviewFactory.createMetaReview(reviews, subject)
+                        : mReviewFactory.getNullNode();
                 callback.onMetaReview(meta, result);
             }
         });
@@ -146,11 +140,12 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @NonNull
-    private ReviewsSourceCallback getReviewSourceCallback(final ReviewsSourceCallback callback) {
+    private ReviewsSourceCallback getCallbackWrapper(final ReviewsSourceCallback callback) {
         return new ReviewsSourceCallback() {
             @Override
             public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
-                callback.onMetaReview(review, message);
+                ReviewNode node = review != null ? review : mReviewFactory.getNullNode();
+                callback.onMetaReview(node, message);
             }
         };
     }
@@ -159,7 +154,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
         mRepository.getReview(id, new RepositoryCallback() {
             @Override
             public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
-                ReviewNode ret = review != null ? mReviewFactory.createMetaReview(review) : null;
+                ReviewNode ret = review != null ? mReviewFactory.createMetaReview(review)
+                        : mReviewFactory.getNullNode();
                 callback.onMetaReview(ret, result);
             }
 
