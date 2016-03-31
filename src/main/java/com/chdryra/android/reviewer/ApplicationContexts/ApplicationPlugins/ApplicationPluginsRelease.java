@@ -20,6 +20,9 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkSer
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin.NetworkServicesAndroid;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Plugin.FactoryBackendFirebase;
+
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
+        .Implementation.FactoryReviewerDbCache;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Plugin.FactoryLocalReviewerDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
@@ -35,6 +38,7 @@ import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 public class ApplicationPluginsRelease implements ApplicationPlugins {
     private static final String PERSISTENCE_NAME = "Reviewer";
     private static final int PERSISTENCE_VER = 1;
+
     private Context mContext;
 
     public ApplicationPluginsRelease(Context context) {
@@ -53,10 +57,11 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
 
     @Override
     public PersistencePlugin getPersistencePlugin() {
-        FactoryPersistence local
+        FactoryLocalReviewerDb local
                 = new FactoryLocalReviewerDb(PERSISTENCE_NAME, PERSISTENCE_VER, new AndroidSqlLiteDb());
         FactoryPersistence backend = new FactoryBackendFirebase();
-        return new PersistencePluginImpl(local, backend);
+        FactoryReviewerDbCache cache = new FactoryReviewerDbCache(local);
+        return new PersistencePluginImpl(cache, local, backend);
     }
 
     @Override

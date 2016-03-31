@@ -20,11 +20,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewCache {
+public class ReviewPacker {
     private static final String REVIEW_ID = "com.chdryra.android.reviewer.reviewcache.review_id";
     private final ObjectHolder mReviews;
 
-    public ReviewCache() {
+    public ReviewPacker() {
         mReviews = new ObjectHolder();
     }
 

@@ -38,7 +38,7 @@ public class ActivityBuildReview extends ActivityReviewView {
         PresenterReviewBuild.Builder builder
                 = new PresenterReviewBuild.Builder(app, new FactoryReviewEditor());
         if(id != null) {
-            Review template = app.getReviewFromCache(args);
+            Review template = app.unpackReview(args);
             if(template != null) builder.setTemplateReview(template);
         }
 

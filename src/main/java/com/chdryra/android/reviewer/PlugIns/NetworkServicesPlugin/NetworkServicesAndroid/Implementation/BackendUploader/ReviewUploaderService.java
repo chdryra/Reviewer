@@ -74,11 +74,11 @@ public class ReviewUploaderService extends IntentService implements RepositoryCa
     }
 
     @Override
-    public void onAdded(Review review, RepositoryMessage error) {
+    public void onAdded(Review review, RepositoryMessage result) {
         ReviewUploaderMessage message;
-        if (error.isError()) {
+        if (result.isError()) {
             String messageString = review.getSubject().getSubject() + ": " +
-                    getApplicationContext().getString(UPLOAD_ERROR) + " - " + error.getMessage();
+                    getApplicationContext().getString(UPLOAD_ERROR) + " - " + result.getMessage();
             message = ReviewUploaderMessage.error(messageString);
         } else {
             String messageString = review.getSubject().getSubject() + ": " +

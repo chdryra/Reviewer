@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -22,11 +21,9 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
@@ -56,7 +53,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static final String NAME = "ApplicationInstance";
     private static ApplicationInstance sSingleton;
 
-    private final ReviewCache mCache;
+    private final ReviewPacker mCache;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
 
@@ -73,7 +70,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         super(context, NAME);
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
-        mCache= new ReviewCache();
+        mCache= new ReviewPacker();
     }
 
     //Static methods
@@ -152,20 +149,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.executeReviewBuilder();
     }
 
-    public void cacheReview(Review review, Bundle args) {
+    public void packReview(Review review, Bundle args) {
         mCache.packReview(review, args);
     }
 
-    public @Nullable Review getReviewFromCache(Bundle args) {
+    public @Nullable Review unpackReview(Bundle args) {
         return mCache.unpackReview(args);
-    }
-
-    public void cacheReview(Review review, Intent i) {
-        mCache.packReview(review, i);
-    }
-
-    public @Nullable Review getReviewFromCache(Intent i) {
-        return mCache.unpackReview(i);
     }
 
     public ReviewsRepositoryMutable getLocalRepository() {

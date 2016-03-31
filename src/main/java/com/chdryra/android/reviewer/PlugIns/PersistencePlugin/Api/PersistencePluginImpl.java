@@ -21,12 +21,21 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public class PersistencePluginImpl implements PersistencePlugin {
+    private FactoryPersistentCache mCacheFactory;
     private FactoryPersistence mLocalFactory;
     private FactoryPersistence mBackendFactory;
 
-    public PersistencePluginImpl(FactoryPersistence localDb, FactoryPersistence backendDb) {
+    public PersistencePluginImpl(FactoryPersistentCache cacheFactory,
+                                 FactoryPersistence localDb,
+                                 FactoryPersistence backendDb) {
+        mCacheFactory = cacheFactory;
         mLocalFactory = localDb;
         mBackendFactory = backendDb;
+    }
+
+    @Override
+    public FactoryPersistentCache newCacheFactory() {
+        return mCacheFactory;
     }
 
     @Override

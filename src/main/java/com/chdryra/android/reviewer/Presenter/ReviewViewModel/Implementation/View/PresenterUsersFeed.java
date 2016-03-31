@@ -121,7 +121,7 @@ public class PresenterUsersFeed implements
     public void deleteFromUsersFeed(final ReviewId id) {
         mApp.deleteFromUsersFeed(id, new RepositoryMutableCallback() {
             @Override
-            public void onAdded(Review review, RepositoryMessage error) {
+            public void onAdded(Review review, RepositoryMessage result) {
 
             }
 

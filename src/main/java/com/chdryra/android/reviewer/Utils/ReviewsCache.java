@@ -6,19 +6,22 @@
  *
  */
 
-package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
+package com.chdryra.android.reviewer.Utils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 30/09/2015
+ * On: 31/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RepositoryMutableCallback {
-    void onAdded(Review review, RepositoryMessage result);
+public interface ReviewsCache {
+    Review add(Review review);
 
-    void onRemoved(ReviewId reviewId, RepositoryMessage error);
+    Review get(ReviewId id);
+
+    Review remove(ReviewId id);
+
+    boolean contains(ReviewId id);
 }

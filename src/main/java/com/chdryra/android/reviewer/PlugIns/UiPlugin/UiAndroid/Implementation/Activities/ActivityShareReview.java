@@ -81,13 +81,13 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         }
 
         @Override
-        public void onAdded(Review review, RepositoryMessage error) {
+        public void onAdded(Review review, RepositoryMessage result) {
             Activity activity = ActivityShareReview.this;
 
             Intent intent = new Intent(activity, mActivityToPublish);
             intent.putExtra(PublishingAction.PUBLISHED, review.getReviewId().toString());
             intent.putStringArrayListExtra(PublishingAction.PLATFORMS, mSelectedPublishers);
-            if(error.isError()) intent.putExtra(PublishingAction.RepoError, error.getMessage());
+            if(result.isError()) intent.putExtra(PublishingAction.RepoError, result.getMessage());
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             activity.startActivity(intent);

@@ -74,7 +74,7 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
         Bundle args = new Bundle();
         args.putString(NewReviewListener.TEMPLATE_ID, review.getReviewId().toString());
-        app.cacheReview(review, args);
+        app.packReview(review, args);
         launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, args);
     }
 

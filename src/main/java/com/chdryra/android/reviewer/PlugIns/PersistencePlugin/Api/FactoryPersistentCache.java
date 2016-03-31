@@ -10,18 +10,15 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api;
 
 import android.content.Context;
 
+import com.chdryra.android.mygenerallibrary.QueueCache;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 13/01/2016
+ * On: 31/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface PersistencePlugin {
-    FactoryPersistentCache newCacheFactory();
-
-    ReviewsRepositoryMutable newLocalPersistence(Context context, ModelContext modelContext);
-
-    ReviewsRepositoryMutable newBackendPersistence(Context context, ModelContext modelContext);
+public interface FactoryPersistentCache {
+    QueueCache.Cache<Review> newReviewsCache(Context context, ModelContext model);
 }
