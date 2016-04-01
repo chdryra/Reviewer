@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public interface ItemTag extends Comparable<ItemTag> {
     ArrayList<String> getItemIds();
 
+    int getNumberTagged();
+
     String getTag();
 
     boolean tagsItem(String itemId);

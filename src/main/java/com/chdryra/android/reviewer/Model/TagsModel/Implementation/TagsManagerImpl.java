@@ -31,7 +31,7 @@ public class TagsManagerImpl implements TagsManager {
         ItemTagImpl itemTag = (ItemTagImpl) mTags.getItemTag(tag);
         if (itemTag == null) {
             mTags.add(new ItemTagImpl(tag, id));
-        } else if(!itemTag.tagsItem(id)){
+        } else if (!itemTag.tagsItem(id)) {
             itemTag.addItemId(id);
         }
     }
@@ -44,23 +44,16 @@ public class TagsManagerImpl implements TagsManager {
 
     @Override
     public void tagItem(String id, ArrayList<String> tags) {
-        for(String tag : tags) {
+        for (String tag : tags) {
             tagItem(id, tag);
         }
     }
 
     @Override
-    public boolean untagItem(String id, ItemTag tag) {
-        ItemTagImpl tagImpl = (ItemTagImpl) tag;
-        if (tagImpl.tagsItem(id)) {
-            tagImpl.removeItemId(id);
-            if (tag.getItemIds().size() == 0) {
-                mTags.remove(tagImpl);
-                return true;
-            }
+    public void clearTags(String id) {
+        for (ItemTag tag : getTags(id)) {
+            untagItem(id, tag);
         }
-
-        return false;
     }
 
     @Override
@@ -76,5 +69,12 @@ public class TagsManagerImpl implements TagsManager {
         }
 
         return tags;
+    }
+
+    private void untagItem(String id, ItemTag tag) {
+        ItemTagImpl tagImpl = (ItemTagImpl) tag;
+        if (tagImpl.tagsItem(id)) {
+            if (tagImpl.removeItemId(id)) mTags.remove(tagImpl);
+        }
     }
 }

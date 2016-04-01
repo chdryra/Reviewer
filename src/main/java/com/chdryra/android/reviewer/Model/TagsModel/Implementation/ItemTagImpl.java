@@ -36,6 +36,11 @@ public class ItemTagImpl implements ItemTag {
     }
 
     @Override
+    public int getNumberTagged() {
+        return mItemIds.size();
+    }
+
+    @Override
     public String getTag() {
         return mTag;
     }
@@ -54,8 +59,9 @@ public class ItemTagImpl implements ItemTag {
         if (!mItemIds.contains(id)) mItemIds.add(id);
     }
 
-    public void removeItemId(String id) {
+    public boolean removeItemId(String id) {
         mItemIds.remove(id);
+        return getNumberTagged() == 0;
     }
 
     @Override

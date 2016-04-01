@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
@@ -56,10 +55,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final ReviewPacker mCache;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
-
-    public interface ReviewBuilderAdapterCallback {
-        void onAdapterBuilt(ReviewBuilderAdapter<?> adapter, RepositoryMessage error);
-    }
 
     private ApplicationInstance(Context context) {
         super(context, NAME);

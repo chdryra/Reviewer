@@ -88,7 +88,7 @@ public class ReviewDeleterImpl implements ReviewDeleter {
                                        TagsManager tagsManager, TableTransactor transactor) {
         ItemTagCollection tags = tagsManager.getTags(reviewId);
         for (ItemTag tag : tags) {
-            if (tagsManager.untagItem(reviewId, tag)) {
+            if (tag.getNumberTagged() == 1) {
                 RowEntry<RowTag, String> tagClause
                         = asClause(RowTag.class, RowTag.TAG, tag.getTag());
                 deleteFromTable(tagsTable, tagClause, transactor);

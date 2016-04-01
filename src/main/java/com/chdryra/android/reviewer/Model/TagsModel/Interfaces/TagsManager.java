@@ -22,7 +22,7 @@ public interface TagsManager {
 
     void tagItem(String id, ArrayList<String> tags);
 
-    boolean untagItem(String id, ItemTag tag);
+    void clearTags(String id);
 
     ItemTagCollection getTags();
 

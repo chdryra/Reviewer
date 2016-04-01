@@ -48,13 +48,13 @@ public class FirebaseDbImpl implements FirebaseDb {
     @Override
     public void getReview(String id, GetCallback callback) {
         Firebase root = mDataRoot.child(REVIEWS_ROOT).child(id);
-        root.addValueEventListener(newGetListener(callback));
+        root.addListenerForSingleValueEvent(newGetListener(callback));
     }
 
     @Override
     public void getReviews(GetCollectionCallback callback) {
         Firebase root = mDataRoot.child(REVIEWS_ROOT);
-        root.addValueEventListener(newGetCollectionListener(callback));
+        root.addListenerForSingleValueEvent(newGetCollectionListener(callback));
     }
 
     @NonNull
@@ -75,10 +75,10 @@ public class FirebaseDbImpl implements FirebaseDb {
 
     @NonNull
     private ValueEventListener newGetCollectionListener(final GetCollectionCallback listener) {
-        final ArrayList<FbReview> reviews = new ArrayList<>();
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<FbReview> reviews = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     FbReview review = postSnapshot.getValue(FbReview.class);
                     if (mValidator.isValid(review)) reviews.add(review);
@@ -89,7 +89,7 @@ public class FirebaseDbImpl implements FirebaseDb {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.onReviewCollection(reviews, firebaseError);
+                listener.onReviewCollection(new ArrayList<FbReview>(), firebaseError);
             }
         };
     }
