@@ -135,11 +135,6 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback) {
-        mPersistenceContext.getAuthorsFeed().removeReview(id, callback);
-    }
-
-    @Override
     public void launchReview(final Activity activity, ReviewId reviewId) {
         mPersistenceContext.getReviewsSource().asMetaReview(reviewId, new ReviewsSourceCallback() {
             @Override

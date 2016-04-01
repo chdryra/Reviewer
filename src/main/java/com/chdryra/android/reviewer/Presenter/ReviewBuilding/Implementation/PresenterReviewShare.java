@@ -44,10 +44,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewPublish {
+public class PresenterReviewShare {
     private ReviewView<GvSocialPlatform> mView;
 
-    public PresenterReviewPublish(ReviewView<GvSocialPlatform> view) {
+    private PresenterReviewShare(ReviewView<GvSocialPlatform> view) {
         mView = view;
     }
 
@@ -62,7 +62,7 @@ public class PresenterReviewPublish {
             mApp = app;
         }
 
-        public PresenterReviewPublish build(ReviewViewAdapter<?> review,
+        public PresenterReviewShare build(ReviewViewAdapter<?> review,
                                             PlatformAuthoriser authoriser,
                                             SocialReviewSharer sharer,
                                             String title) {
@@ -74,7 +74,7 @@ public class PresenterReviewPublish {
             ReviewViewPerspective<GvSocialPlatform> perspective =
                     new ReviewViewPerspective<>(adapter, getActions(title, authoriser), getParams(), modifier);
 
-            return new PresenterReviewPublish(new ReviewViewDefault<>(perspective));
+            return new PresenterReviewShare(new ReviewViewDefault<>(perspective));
         }
 
         @NonNull
@@ -91,6 +91,7 @@ public class PresenterReviewPublish {
             for(SocialPlatform platform : platforms) {
                 list.add(new GvSocialPlatform(platform));
             }
+
             return list;
         }
 

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewPublish;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewShare;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -34,7 +34,7 @@ public class ActivityShareReview extends ActivityReviewView implements PlatformA
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         SocialReviewSharerAndroid sharer = new SocialReviewSharerAndroid(this, ActivityUsersFeed.class);
 
-        PresenterReviewPublish presenter = new PresenterReviewPublish.Builder(app)
+        PresenterReviewShare presenter = new PresenterReviewShare.Builder(app)
                 .build(app.getReviewBuilderAdapter(), this, sharer, getString(SOCIAL));
 
         return presenter.getView();

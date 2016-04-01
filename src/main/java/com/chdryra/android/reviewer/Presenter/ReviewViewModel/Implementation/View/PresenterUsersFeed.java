@@ -19,8 +19,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderMessage;
@@ -66,7 +64,7 @@ public class PresenterUsersFeed implements
     private ReviewNodeMutableAsync mFeedNode;
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
-    private SocialPlatformsPublisher mSocialUploader;
+    private SocialPlatformsPublisher mSocialPublisher;
     private BackendReviewUploader mBackendReviewUploader;
     private ReviewUploadedListener mListener;
 
@@ -92,8 +90,8 @@ public class PresenterUsersFeed implements
         mReviewView = mApp.getLaunchableFactory().newReviewsListScreen(mFeedNode,
                 mApp.getReviewViewAdapterFactory(), actions);
 
-        mSocialUploader = app.newSocialPublisher();
-        mSocialUploader.registerListener(this);
+        mSocialPublisher = app.newSocialPublisher();
+        mSocialPublisher.registerListener(this);
         mBackendReviewUploader = app.newBackendUploader();
         mBackendReviewUploader.registerListener(this);
 
@@ -104,30 +102,20 @@ public class PresenterUsersFeed implements
         return mReviewView;
     }
 
-    public void deleteFromUsersFeed(final ReviewId id) {
-        mApp.deleteFromUsersFeed(id, new RepositoryMutableCallback() {
-            @Override
-            public void onAdded(Review review, RepositoryMessage result) {
-
-            }
-
-            @Override
-            public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
-                mBackendReviewUploader.deleteReview(id);
-            }
-        });
+    public void deleteReview(final ReviewId id) {
+        mBackendReviewUploader.deleteReview(id);
     }
 
     public void publish(String reviewId, ArrayList<String> platforms) {
         DatumReviewId id = new DatumReviewId(reviewId);
         mBackendReviewUploader.uploadReview(id);
         if (platforms != null && platforms.size() > 0) {
-            mSocialUploader.publishToSocialPlatforms(id, platforms);
+            mSocialPublisher.publishToSocialPlatforms(id, platforms);
         }
     }
 
     public void detach() {
-        mSocialUploader.unregisterListener(this);
+        mSocialPublisher.unregisterListener(this);
         mBackendReviewUploader.unregisterListener(this);
         mFeedNode.unregisterNodeObserver(this);
     }
@@ -185,15 +173,6 @@ public class PresenterUsersFeed implements
         if (mReviewView != null) mReviewView.onDataChanged();
     }
 
-    public static class Actions extends ReviewViewActions<GvReviewOverview> {
-        public Actions(SubjectAction<GvReviewOverview> subjectAction, RatingBarAction
-                <GvReviewOverview> ratingBarAction, BannerButtonAction<GvReviewOverview>
-                               bannerButtonAction, GridItemFeedScreen gridItemAction,
-                       MenuAction<GvReviewOverview> menuAction) {
-            super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
-        }
-    }
-
     public static class Builder {
         private PresenterUsersFeed.ReviewUploadedListener mListener;
         private ApplicationInstance mApp;
@@ -222,20 +201,33 @@ public class PresenterUsersFeed implements
 
         @NonNull
         private PresenterUsersFeed.Actions getActions() {
-            ConfigUi configDataUi = mApp.getConfigDataUi();
             FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
             LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
+            ConfigUi configDataUi = mApp.getConfigDataUi();
             LaunchableUi reviewBuildUi = configDataUi.getBuildReviewConfig().getLaunchable();
 
             GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory, uiLauncher,
                     configDataUi.getShareEditConfig().getLaunchable(), reviewBuildUi);
+
             SubjectAction<GvReviewOverview> sa = new SubjectActionNone<>();
+
             RatingBarAction<GvReviewOverview> rb
                     = new RatingBarExpandGrid<>(launchableFactory, uiLauncher);
+
             BannerButtonAction<GvReviewOverview> bba = new BannerButtonActionNone<>();
+
             MenuFeedScreen ma = new MenuFeedScreen(uiLauncher, reviewBuildUi);
 
-            return new PresenterUsersFeed.Actions(sa, rb, bba, gi, ma);
+            return new Actions(sa, rb, bba, gi, ma);
+        }
+    }
+
+    private static class Actions extends ReviewViewActions<GvReviewOverview> {
+        private Actions(SubjectAction<GvReviewOverview> subjectAction, RatingBarAction
+                <GvReviewOverview> ratingBarAction, BannerButtonAction<GvReviewOverview>
+                                bannerButtonAction, GridItemFeedScreen gridItemAction,
+                        MenuAction<GvReviewOverview> menuAction) {
+            super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
         }
     }
 }

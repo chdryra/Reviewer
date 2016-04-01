@@ -92,7 +92,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
 
     @Override
     public void onDeleteRequested(ReviewId reviewId) {
-        mPresenter.deleteFromUsersFeed(reviewId);
+        mPresenter.deleteReview(reviewId);
     }
 
     @Override

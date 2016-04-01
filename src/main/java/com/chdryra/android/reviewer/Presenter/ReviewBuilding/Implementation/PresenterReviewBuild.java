@@ -141,9 +141,8 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     private void setGridItemObservation() {
         ReviewViewActions<GC> actions = mEditor.getActions();
         actions.registerObserver(this);
-        GridItemClickObserved<GC> gridItem = (GridItemClickObserved<GC>) actions
-                .getGridItemAction();
-        gridItem.registerObserver(this);
+        GridItemClickObserved<GC> gi = (GridItemClickObserved<GC>) actions.getGridItemAction();
+        gi.registerObserver(this);
     }
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {

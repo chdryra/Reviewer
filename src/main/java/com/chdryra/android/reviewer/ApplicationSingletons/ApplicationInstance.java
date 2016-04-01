@@ -15,12 +15,10 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -65,7 +63,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         super(context, NAME);
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
-        mCache= new ReviewPacker();
+        mCache = new ReviewPacker();
     }
 
     //Static methods
@@ -160,20 +158,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getBackendRepository();
     }
 
-    public void deleteFromUsersFeed(ReviewId id, RepositoryMutableCallback callback) {
-        mPresenterContext.deleteFromUsersFeed(id, callback);
-    }
-
     public void launchReview(Activity activity, ReviewId reviewId) {
         mPresenterContext.launchReview(activity, reviewId);
     }
 
     public void getReview(ReviewId id, RepositoryCallback callback) {
         mPresenterContext.getReview(id, callback);
-    }
-
-    public void getReview(String reviewId, RepositoryCallback callback) {
-        mPresenterContext.getReview(new DatumReviewId(reviewId), callback);
     }
 
     public SocialPlatformsPublisher newSocialPublisher() {
