@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -162,7 +162,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.launchReview(activity, reviewId);
     }
 
-    public void getReview(ReviewId id, RepositoryCallback callback) {
+    public void getReview(ReviewId id, CallbackRepository callback) {
         mPresenterContext.getReview(id, callback);
     }
 

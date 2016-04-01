@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository {
-    void getReview(ReviewId id, RepositoryCallback callback);
+    void getReview(ReviewId id, CallbackRepository callback);
 
-    void getReviews(RepositoryCallback callback);
+    void getReviews(CallbackRepository callback);
 
     TagsManager getTagsManager();
     

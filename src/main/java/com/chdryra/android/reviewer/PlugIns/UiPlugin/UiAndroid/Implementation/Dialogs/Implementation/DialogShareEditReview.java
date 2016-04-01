@@ -22,9 +22,9 @@ import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .DeleteRequestListener;
 
@@ -133,10 +133,10 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     }
 
     @NonNull
-    private RepositoryCallback fetchReviewCallback(final TagsManager tagsManager) {
-        return new RepositoryCallback() {
+    private CallbackRepository fetchReviewCallback(final TagsManager tagsManager) {
+        return new CallbackRepository() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
                 if (review != null) {
                     mSharer.publish(review, tagsManager);
                 } else {
@@ -147,7 +147,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage
                     result) {
 
             }

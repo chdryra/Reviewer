@@ -21,15 +21,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -136,9 +134,9 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     @Override
     public void launchReview(final Activity activity, ReviewId reviewId) {
-        mPersistenceContext.getReviewsSource().asMetaReview(reviewId, new ReviewsSourceCallback() {
+        mPersistenceContext.getReviewsSource().asMetaReview(reviewId, new CallbackReviewsSource() {
             @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
                 if (review != null) launchReview(activity, review);
             }
         });
@@ -182,7 +180,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public void getReview(ReviewId id, RepositoryCallback callback) {
+    public void getReview(ReviewId id, CallbackRepository callback) {
         mPersistenceContext.getReviewsSource().getReview(id, callback);
     }
 

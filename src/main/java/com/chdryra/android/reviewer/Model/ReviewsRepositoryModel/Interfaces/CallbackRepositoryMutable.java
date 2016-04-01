@@ -10,15 +10,15 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RepositoryMutableCallback {
-    void onAdded(Review review, RepositoryMessage result);
+public interface CallbackRepositoryMutable {
+    void onAddedCallback(Review review, CallbackMessage result);
 
-    void onRemoved(ReviewId reviewId, RepositoryMessage result);
+    void onRemovedCallback(ReviewId reviewId, CallbackMessage result);
 }

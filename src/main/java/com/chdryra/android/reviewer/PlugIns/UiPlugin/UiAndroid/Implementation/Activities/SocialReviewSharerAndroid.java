@@ -15,8 +15,9 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
+
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-class SocialReviewSharerAndroid implements SocialReviewSharer, RepositoryMutableCallback {
+class SocialReviewSharerAndroid implements SocialReviewSharer, CallbackRepositoryMutable {
     private final Context mContext;
     private final Class<? extends Activity> mActivityToPublish;
     private ArrayList<String> mSelectedPublishers;
@@ -45,7 +46,7 @@ class SocialReviewSharerAndroid implements SocialReviewSharer, RepositoryMutable
     }
 
     @Override
-    public void onAdded(Review review, RepositoryMessage result) {
+    public void onAddedCallback(Review review, CallbackMessage result) {
         Intent intent = new Intent(mContext, mActivityToPublish);
         intent.putExtra(PublishingAction.PUBLISHED, review.getReviewId().toString());
         intent.putStringArrayListExtra(PublishingAction.PLATFORMS, mSelectedPublishers);
@@ -56,7 +57,7 @@ class SocialReviewSharerAndroid implements SocialReviewSharer, RepositoryMutable
     }
 
     @Override
-    public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
+    public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
 
     }
 }

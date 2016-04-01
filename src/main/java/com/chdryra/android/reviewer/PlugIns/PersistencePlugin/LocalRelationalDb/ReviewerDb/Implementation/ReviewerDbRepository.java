@@ -12,13 +12,12 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTable;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.RowEntry;
@@ -58,25 +57,25 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
     }
 
     @Override
-    public void addReview(Review review, RepositoryMutableCallback callback) {
+    public void addReview(Review review, CallbackRepositoryMutable callback) {
         TableTransactor db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.addReviewToDb(review, mTagsManager, db);
         mDatabase.endTransaction(db);
 
         String subject = review.getSubject().getSubject();
-        RepositoryMessage result;
+        CallbackMessage result;
         if (success) {
-            result = RepositoryMessage.ok(subject + " added");
+            result = CallbackMessage.ok(subject + " added");
             notifyOnAddReview(review);
         } else {
-            result = RepositoryMessage.error(subject + ": Problem adding review to database");
+            result = CallbackMessage.error(subject + ": Problem adding review to database");
         }
 
-        callback.onAdded(review, result);
+        callback.onAddedCallback(review, result);
     }
 
     @Override
-    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, CallbackRepository callback) {
         RowEntry<RowReview, String> clause
                 = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
 
@@ -88,43 +87,43 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         Iterator<Review> iterator = reviews.iterator();
 
         Review review = null;
-        RepositoryMessage error = RepositoryMessage.ok(reviewId.toString() + " found");
+        CallbackMessage message = CallbackMessage.ok(reviewId.toString() + " found");
         if(iterator.hasNext()) review = iterator.next();
         if(iterator.hasNext()) {
-            error = RepositoryMessage.error("There is more than 1 review with id: " + reviewId);
+            message = CallbackMessage.error("There is more than 1 review with id: " + reviewId);
         } else if(review == null) {
-            error = RepositoryMessage.error("Review not found: " + reviewId);
+            message = CallbackMessage.error("Review not found: " + reviewId);
         }
 
-        callback.onFetchedFromRepo(review, error);
+        callback.onFetchedFromRepo(review, message);
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
+    public void getReviews(CallbackRepository callback) {
         TableTransactor transactor = mDatabase.beginReadTransaction();
         Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
         loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
 
-        RepositoryMessage result = RepositoryMessage.ok(reviews.size() + " reviews found");
-        callback.onCollectionFetchedFromRepo(reviews, result);
+        CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
+        callback.onFetchedFromRepo(reviews, result);
     }
 
     @Override
-    public void removeReview(ReviewId reviewId, RepositoryMutableCallback callback) {
+    public void removeReview(ReviewId reviewId, CallbackRepositoryMutable callback) {
         TableTransactor transactor = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
         mDatabase.endTransaction(transactor);
 
-        RepositoryMessage result;
+        CallbackMessage result;
         if (success) {
-            result = RepositoryMessage.ok(reviewId + " removed");
+            result = CallbackMessage.ok(reviewId + " removed");
             notifyOnDeleteReview(reviewId);
         } else{
-            result = RepositoryMessage.error("Problems deleting review: " + reviewId);
+            result = CallbackMessage.error("Problems deleting review: " + reviewId);
         }
 
-        callback.onRemoved(reviewId, result);
+        callback.onRemovedCallback(reviewId, result);
     }
 
     private void loadTagsIfNecessary(TableTransactor transactor) {

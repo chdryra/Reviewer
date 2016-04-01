@@ -20,8 +20,8 @@ import com.chdryra.android.mygenerallibrary.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.LocationClientConnector;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
@@ -197,7 +197,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
     }
 
-    public static class Builder implements RepositoryCallback{
+    public static class Builder implements CallbackRepository {
         public static final int BUTTON_TITLE = R.string.button_add_review_data;
         private static final int SCREEN_TITLE = R.string.activity_title_build_review;
         private FactoryReviewEditor mEditorFactory;
@@ -222,12 +222,12 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         }
 
         @Override
-        public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+        public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
 
         }
 
         @Override
-        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+        public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
 
         }
 

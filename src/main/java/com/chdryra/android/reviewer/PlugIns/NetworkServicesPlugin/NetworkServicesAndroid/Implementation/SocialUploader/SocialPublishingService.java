@@ -18,12 +18,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.R;
 
@@ -36,7 +35,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublishingService extends IntentService
-        implements BatchSocialPublisher.BatchSocialPublisherListener, RepositoryCallback {
+        implements BatchSocialPublisher.BatchSocialPublisherListener, CallbackRepository {
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "SocialPublishingService.Percentage";
     public static final String STATUS_RESULTS = "SocialPublishingService.PublishResults";
@@ -78,12 +77,12 @@ public class SocialPublishingService extends IntentService
     @Override
     public void onPublished(Collection<PublishResults> publishedOk,
                             Collection<PublishResults> publishedNotOk) {
-        SocialPublishingMessage report = getReport(publishedOk, publishedNotOk);
+        CallbackMessage report = getReport(publishedOk, publishedNotOk);
         broadcastPublishingComplete(publishedOk, publishedNotOk, report);
     }
 
     @Override
-    public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
         if (review != null && !result.isError()) {
             doPublish(review);
         } else {
@@ -92,20 +91,20 @@ public class SocialPublishingService extends IntentService
     }
 
     @Override
-    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
 
     }
 
-    private void abortPublish(RepositoryMessage error) {
+    private void abortPublish(CallbackMessage error) {
         String message = error.isError() ? error.getMessage() : REVIEW_NOT_FOUND;
-        SocialPublishingMessage report = SocialPublishingMessage.error(message);
+        CallbackMessage report = CallbackMessage.error(message);
 
         broadcastPublishingComplete(new ArrayList<PublishResults>(), new ArrayList
                 <PublishResults>(), report);
     }
 
     @NonNull
-    private SocialPublishingMessage getReport(Collection<PublishResults> publishedOk,
+    private CallbackMessage getReport(Collection<PublishResults> publishedOk,
                                               Collection<PublishResults> publishedNotOk) {
         String report = "";
         if (publishedOk.size() > 0) {
@@ -125,13 +124,13 @@ public class SocialPublishingService extends IntentService
         }
 
         boolean totalError = publishedOk.size() == 0;
-        return totalError ? SocialPublishingMessage.error(report)
-                : SocialPublishingMessage.ok(report);
+        return totalError ? CallbackMessage.error(report)
+                : CallbackMessage.ok(report);
     }
 
     private void broadcastPublishingComplete(Collection<PublishResults> publishedOk,
                                              Collection<PublishResults> publishedNotOk,
-                                             SocialPublishingMessage result) {
+                                             CallbackMessage result) {
         Intent update = new Intent(PUBLISHING_COMPLETED);
         update.putParcelableArrayListExtra(PUBLISH_OK, new ArrayList<>(publishedOk));
         update.putParcelableArrayListExtra(PUBLISH_NOT_OK, new ArrayList<>(publishedNotOk));

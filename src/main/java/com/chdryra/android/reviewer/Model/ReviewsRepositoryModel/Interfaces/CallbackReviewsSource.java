@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsSourceCallback {
-    void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message);
+public interface CallbackReviewsSource {
+    void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message);
 }

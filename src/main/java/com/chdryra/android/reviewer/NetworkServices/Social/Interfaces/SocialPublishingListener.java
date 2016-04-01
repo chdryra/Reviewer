@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.NetworkServices.Social.Interfaces;
 
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
 
 import java.util.Collection;
 
@@ -22,5 +22,5 @@ public interface SocialPublishingListener {
     void onPublishStatus(double percentage, PublishResults justUploaded);
 
     void onPublishCompleted(Collection<PublishResults> publishedOk,
-                            Collection<PublishResults> publishedNotOk, SocialPublishingMessage result);
+                            Collection<PublishResults> publishedNotOk, CallbackMessage result);
 }

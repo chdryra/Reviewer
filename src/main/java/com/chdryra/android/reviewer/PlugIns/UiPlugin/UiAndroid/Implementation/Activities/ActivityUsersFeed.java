@@ -16,16 +16,17 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderMessage;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
-
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .PresenterUsersFeed;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -103,7 +104,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     @Override
     public void onReviewPublishedToSocialPlatforms(Collection<PublishResults> publishedOk,
                                                    Collection<PublishResults> publishedNotOk,
-                                                   SocialPublishingMessage message) {
+                                                   CallbackMessage message) {
         int numFollowers = 0;
         ArrayList<String> platformsOk = new ArrayList<>();
         for (PublishResults result : publishedOk) {
@@ -120,12 +121,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onReviewUploadedToBackend(ReviewId id, ReviewUploaderMessage result) {
+    public void onReviewUploadedToBackend(ReviewId id, CallbackMessage result) {
         makeToast(result.getMessage());
     }
 
     @Override
-    public void onReviewDeletedFromBackend(ReviewId id, ReviewUploaderMessage result) {
+    public void onReviewDeletedFromBackend(ReviewId id, CallbackMessage result) {
         makeToast(result.getMessage());
     }
 
@@ -150,7 +151,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     private String getPublishedMessage(ArrayList<String> platformsOk,
                                             ArrayList<String> platformsNotOk,
                                             int numFollowers,
-                                            SocialPublishingMessage result) {
+                                            CallbackMessage result) {
         String message = "";
 
         if (platformsOk.size() > 0) {

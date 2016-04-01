@@ -18,15 +18,15 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepositoryMutable extends ReviewsRepository{
-    void addReview(Review review, RepositoryMutableCallback callback);
+    void addReview(Review review, CallbackRepositoryMutable callback);
 
-    void removeReview(ReviewId reviewId, RepositoryMutableCallback callback);
-
-    @Override
-    void getReview(ReviewId id, RepositoryCallback callback);
+    void removeReview(ReviewId reviewId, CallbackRepositoryMutable callback);
 
     @Override
-    void getReviews(RepositoryCallback callback);
+    void getReview(ReviewId id, CallbackRepository callback);
+
+    @Override
+    void getReviews(CallbackRepository callback);
 
     @Override
     TagsManager getTagsManager();

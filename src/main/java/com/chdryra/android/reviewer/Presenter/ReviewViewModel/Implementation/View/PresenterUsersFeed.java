@@ -21,9 +21,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMuta
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
-import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderMessage;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.ReviewUploaderListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
@@ -71,11 +70,11 @@ public class PresenterUsersFeed implements
     public interface ReviewUploadedListener {
         void onReviewPublishedToSocialPlatforms(Collection<PublishResults> publishedOk,
                                                 Collection<PublishResults> publishedNotOk,
-                                                SocialPublishingMessage result);
+                                                CallbackMessage result);
 
-        void onReviewUploadedToBackend(ReviewId id, ReviewUploaderMessage result);
+        void onReviewUploadedToBackend(ReviewId id, CallbackMessage result);
 
-        void onReviewDeletedFromBackend(ReviewId id, ReviewUploaderMessage result);
+        void onReviewDeletedFromBackend(ReviewId id, CallbackMessage result);
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
@@ -148,21 +147,21 @@ public class PresenterUsersFeed implements
     @Override
     public void onPublishCompleted(Collection<PublishResults> publishedOk,
                                    Collection<PublishResults> publishedNotOk,
-                                   SocialPublishingMessage result) {
+                                   CallbackMessage result) {
         if (mListener != null) {
             mListener.onReviewPublishedToSocialPlatforms(publishedOk, publishedNotOk, result);
         }
     }
 
     @Override
-    public void onReviewUploaded(ReviewId reviewId, ReviewUploaderMessage result) {
+    public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
         if (mListener != null) {
             mListener.onReviewUploadedToBackend(reviewId, result);
         }
     }
 
     @Override
-    public void onReviewDeleted(ReviewId reviewId, ReviewUploaderMessage result) {
+    public void onDeletedFromBackend(ReviewId reviewId, CallbackMessage result) {
         mApp.getTagsManager().clearTags(reviewId.toString());
         if (mListener != null) {
             mListener.onReviewDeletedFromBackend(reviewId, result);

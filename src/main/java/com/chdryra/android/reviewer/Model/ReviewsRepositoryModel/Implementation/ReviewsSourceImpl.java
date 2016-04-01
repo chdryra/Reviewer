@@ -17,13 +17,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableColl
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSourceCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,14 +47,14 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
+    public void asMetaReview(ReviewId id, final CallbackReviewsSource callback) {
         asMetaReviewNullable(id, getCallbackWrapper(callback));
     }
 
     @Override
     public void asMetaReview(final VerboseDataReview datum, final String subjectIfMetaOfItems,
-                             final ReviewsSourceCallback callback) {
-        ReviewsSourceCallback sourceCallback = getCallbackWrapper(callback);
+                             final CallbackReviewsSource callback) {
+        CallbackReviewsSource sourceCallback = getCallbackWrapper(callback);
         ReviewId id = getSingleSourceId(datum);
         if (id != null) {
             asMetaReviewNullable(id, sourceCallback);
@@ -65,35 +66,35 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public void getMetaReview(final VerboseIdableCollection data, final String subject,
-                              final ReviewsSourceCallback callback) {
-        getUniqueReviews(data, new RepositoryCallback() {
+                              final CallbackReviewsSource callback) {
+        getUniqueReviews(data, new CallbackRepository() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
 
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage
                     result) {
                 ReviewNode meta = reviews.size() > 0 ?
                         mReviewFactory.createMetaReview(reviews, subject)
                         : mReviewFactory.getNullNode();
-                callback.onMetaReview(meta, result);
+                callback.onMetaReviewCallback(meta, result);
             }
         });
     }
 
     @Override
-    public void getReview(final ReviewId reviewId, final RepositoryCallback callback) {
-        getReviewNullable(reviewId, new RepositoryCallback() {
+    public void getReview(final ReviewId reviewId, final CallbackRepository callback) {
+        getReviewNullable(reviewId, new CallbackRepository() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
                 if (review == null) review = mReviewFactory.getNullReview();
                 callback.onFetchedFromRepo(review, result);
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage
                     result) {
 
             }
@@ -102,7 +103,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
+    public void getReviews(CallbackRepository callback) {
         mRepository.getReviews(callback);
     }
 
@@ -140,53 +141,53 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @NonNull
-    private ReviewsSourceCallback getCallbackWrapper(final ReviewsSourceCallback callback) {
-        return new ReviewsSourceCallback() {
+    private CallbackReviewsSource getCallbackWrapper(final CallbackReviewsSource callback) {
+        return new CallbackReviewsSource() {
             @Override
-            public void onMetaReview(@Nullable ReviewNode review, RepositoryMessage message) {
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
                 ReviewNode node = review != null ? review : mReviewFactory.getNullNode();
-                callback.onMetaReview(node, message);
+                callback.onMetaReviewCallback(node, message);
             }
         };
     }
 
-    private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
-        mRepository.getReview(id, new RepositoryCallback() {
+    private void asMetaReviewNullable(ReviewId id, final CallbackReviewsSource callback) {
+        mRepository.getReview(id, new CallbackRepository() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
                 ReviewNode ret = review != null ? mReviewFactory.createMetaReview(review)
                         : mReviewFactory.getNullNode();
-                callback.onMetaReview(ret, result);
+                callback.onMetaReviewCallback(ret, result);
             }
 
             @Override
-            public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage
                     result) {
 
             }
         });
     }
 
-    private void getReviewNullable(ReviewId reviewId, RepositoryCallback callback) {
+    private void getReviewNullable(ReviewId reviewId, CallbackRepository callback) {
         mRepository.getReview(reviewId, callback);
     }
 
     private void getUniqueReviews(final VerboseIdableCollection data,
-                                  final RepositoryCallback callback) {
+                                  final CallbackRepository callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
             getReviewNullable(data.getItem(i).getReviewId(), uniqueCallback);
         }
     }
 
-    private class UniqueCallback implements RepositoryCallback {
-        private final ArrayList<RepositoryMessage> mErrors;
-        private final RepositoryCallback mFinalCallback;
+    private class UniqueCallback implements CallbackRepository {
+        private final ArrayList<CallbackMessage> mErrors;
+        private final CallbackRepository mFinalCallback;
         private final Set<Review> mFetched;
         private final int mMaxReviews;
         private int mCurrentIndex;
 
-        public UniqueCallback(int maxReviews, RepositoryCallback finalCallback) {
+        public UniqueCallback(int maxReviews, CallbackRepository finalCallback) {
             mMaxReviews = maxReviews;
             mFinalCallback = finalCallback;
             mCurrentIndex = 0;
@@ -195,7 +196,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         }
 
         @Override
-        public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage error) {
+        public void onFetchedFromRepo(@Nullable Review review, CallbackMessage error) {
             mCurrentIndex++;
 
             if (review != null && !error.isError()) {
@@ -205,15 +206,15 @@ public class ReviewsSourceImpl implements ReviewsSource {
             }
 
             if (mCurrentIndex == mMaxReviews) {
-                RepositoryMessage result = mErrors.size() > 0 ?
-                        RepositoryMessage.error("Errors fetching some reviews")
-                        : RepositoryMessage.ok(mMaxReviews + " reviews fetched");
-                mFinalCallback.onCollectionFetchedFromRepo(mFetched, result);
+                CallbackMessage result = mErrors.size() > 0 ?
+                        CallbackMessage.error("Errors fetching some reviews")
+                        : CallbackMessage.ok(mMaxReviews + " reviews fetched");
+                mFinalCallback.onFetchedFromRepo(mFetched, result);
             }
         }
 
         @Override
-        public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage
+        public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage
                 result) {
 
         }

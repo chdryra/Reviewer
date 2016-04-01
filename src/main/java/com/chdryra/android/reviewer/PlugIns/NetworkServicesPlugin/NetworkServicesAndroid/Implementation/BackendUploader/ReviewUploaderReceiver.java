@@ -13,9 +13,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderMessage;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.ReviewUploaderListener;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingServiceReceiver;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.BroadcastingServiceReceiver;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,14 +28,14 @@ public class ReviewUploaderReceiver extends BroadcastingServiceReceiver<ReviewUp
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         String id = intent.getStringExtra(ReviewUploaderService.REVIEW_ID);
-        ReviewUploaderMessage result = intent.getParcelableExtra(ReviewUploaderService.RESULT);
+        CallbackMessage result = intent.getParcelableExtra(ReviewUploaderService.RESULT);
 
         DatumReviewId reviewId = new DatumReviewId(id);
         for (ReviewUploaderListener listener : this) {
             if (action.equals(ReviewUploaderService.UPLOAD_COMPLETED)) {
-                listener.onReviewUploaded(reviewId, result);
+                listener.onUploadedToBackend(reviewId, result);
             } else if (action.equals(ReviewUploaderService.DELETE_COMPLETED)){
-                listener.onReviewDeleted(reviewId, result);
+                listener.onDeletedFromBackend(reviewId, result);
             }
         }
     }

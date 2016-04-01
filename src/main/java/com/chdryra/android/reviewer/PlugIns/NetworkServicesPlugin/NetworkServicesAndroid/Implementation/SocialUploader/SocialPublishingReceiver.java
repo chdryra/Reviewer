@@ -13,10 +13,11 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 import android.content.Context;
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPublishingMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingServiceReceiver;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.BroadcastingServiceReceiver;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class SocialPublishingReceiver extends
                 = intent.getParcelableArrayListExtra(SocialPublishingService.PUBLISH_OK);
         ArrayList<PublishResults> notOk
                 = intent.getParcelableArrayListExtra(SocialPublishingService.PUBLISH_NOT_OK);
-        SocialPublishingMessage result = intent.getParcelableExtra(SocialPublishingService.RESULT);
+        CallbackMessage result = intent.getParcelableExtra(SocialPublishingService.RESULT);
 
         for (SocialPublishingListener listener : this) {
             listener.onPublishCompleted(ok, notOk, result);

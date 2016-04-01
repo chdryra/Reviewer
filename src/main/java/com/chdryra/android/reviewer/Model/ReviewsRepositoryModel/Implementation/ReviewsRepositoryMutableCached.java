@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Utils.ReviewsCache;
 
@@ -28,13 +28,13 @@ public class ReviewsRepositoryMutableCached
     }
 
     @Override
-    public void addReview(Review review, RepositoryMutableCallback callback) {
+    public void addReview(Review review, CallbackRepositoryMutable callback) {
         getCache().add(review);
         getArchive().addReview(review, callback);
     }
 
     @Override
-    public void removeReview(ReviewId reviewId, RepositoryMutableCallback callback) {
+    public void removeReview(ReviewId reviewId, CallbackRepositoryMutable callback) {
         getCache().remove(reviewId);
         getArchive().removeReview(reviewId, callback);
     }

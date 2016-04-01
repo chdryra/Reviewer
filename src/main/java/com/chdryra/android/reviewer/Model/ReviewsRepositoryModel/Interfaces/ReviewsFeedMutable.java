@@ -23,16 +23,16 @@ public interface ReviewsFeedMutable extends ReviewsRepositoryMutable, ReviewsFee
     DataAuthor getAuthor();
 
     @Override
-    void addReview(Review review, RepositoryMutableCallback callback);
+    void addReview(Review review, CallbackRepositoryMutable callback);
 
     @Override
-    void removeReview(ReviewId reviewId, RepositoryMutableCallback callback);
+    void removeReview(ReviewId reviewId, CallbackRepositoryMutable callback);
 
     @Override
-    void getReview(ReviewId id, RepositoryCallback callback);
+    void getReview(ReviewId id, CallbackRepository callback);
 
     @Override
-    void getReviews(RepositoryCallback callback);
+    void getReviews(CallbackRepository callback);
 
     @Override
     TagsManager getTagsManager();

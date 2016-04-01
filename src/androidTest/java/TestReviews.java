@@ -38,7 +38,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNo
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -400,7 +400,7 @@ public class TestReviews {
         }
 
         @Override
-        public void getReview(ReviewId id, RepositoryCallback callback) {
+        public void getReview(ReviewId id, CallbackRepository callback) {
             Review ret = null;
             for(Review review : mReviews) {
                 if(review.getReviewId().equals(id)) {
@@ -412,8 +412,8 @@ public class TestReviews {
         }
 
         @Override
-        public void getReviews(RepositoryCallback callback) {
-            callback.onCollectionFetchedFromRepo(mReviews, RepositoryMessage.none());
+        public void getReviews(CallbackRepository callback) {
+            callback.onFetchedFromRepo(mReviews, RepositoryMessage.none());
         }
 
         @Override

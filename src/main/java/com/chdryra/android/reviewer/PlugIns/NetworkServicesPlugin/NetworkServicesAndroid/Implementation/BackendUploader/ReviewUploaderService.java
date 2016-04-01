@@ -18,13 +18,11 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .RepositoryMutableCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
 
 
-import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderMessage;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.R;
 
 import java.util.Collection;
@@ -34,8 +32,8 @@ import java.util.Collection;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploaderService extends IntentService implements RepositoryCallback,
-        RepositoryMutableCallback {
+public class ReviewUploaderService extends IntentService implements CallbackRepository,
+        CallbackRepositoryMutable {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
     public static final String RESULT = "BackendUploadService.Result";
     public static final String REQUEST_SERVICE = "BackendUploadService.RequestService";
@@ -69,65 +67,65 @@ public class ReviewUploaderService extends IntentService implements RepositoryCa
         if (mReviewId != null && service != null) {
             requestBackendService(mReviewId, service);
         } else {
-            broadcastUploadComplete(ReviewUploaderMessage.error(REVIEW_ID_IS_NULL));
+            broadcastUploadComplete(CallbackMessage.error(REVIEW_ID_IS_NULL));
         }
     }
 
     @Override
-    public void onAdded(Review review, RepositoryMessage result) {
-        ReviewUploaderMessage message;
+    public void onAddedCallback(Review review, CallbackMessage result) {
+        CallbackMessage message;
         if (result.isError()) {
             String messageString = review.getSubject().getSubject() + ": " +
                     getApplicationContext().getString(UPLOAD_ERROR) + " - " + result.getMessage();
-            message = ReviewUploaderMessage.error(messageString);
+            message = CallbackMessage.error(messageString);
         } else {
             String messageString = review.getSubject().getSubject() + ": " +
                     getApplicationContext().getString(UPLOAD_SUCCESSFUL);
-            message = ReviewUploaderMessage.ok(messageString);
+            message = CallbackMessage.ok(messageString);
         }
 
         broadcastUploadComplete(message);
     }
 
     @Override
-    public void onRemoved(ReviewId reviewId, RepositoryMessage result) {
-        ReviewUploaderMessage message;
+    public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+        CallbackMessage message;
         if (result.isError()) {
             String messageString = getApplicationContext().getString(DELETE_ERROR) + " - " +
                     result.getMessage();
-            message = ReviewUploaderMessage.error(messageString);
+            message = CallbackMessage.error(messageString);
         } else {
             String messageString = getApplicationContext().getString(DELETE_SUCCESSFUL);
-            message = ReviewUploaderMessage.ok(messageString);
+            message = CallbackMessage.ok(messageString);
         }
 
         broadcastDeleteComplete(message);
     }
 
     @Override
-    public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
         if (review != null && !result.isError()) {
             mApp.getBackendRepository().addReview(review, this);
         } else {
             String message = result.isError() ? result.getMessage() : REVIEW_NOT_FOUND;
-            broadcastUploadComplete(ReviewUploaderMessage.error(message));
+            broadcastUploadComplete(CallbackMessage.error(message));
         }
     }
 
     @Override
-    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
 
     }
 
-    private void broadcastUploadComplete(ReviewUploaderMessage message) {
+    private void broadcastUploadComplete(CallbackMessage message) {
         broadcastServiceComplete(new Intent(UPLOAD_COMPLETED), message);
     }
 
-    private void broadcastDeleteComplete(ReviewUploaderMessage message) {
+    private void broadcastDeleteComplete(CallbackMessage message) {
         broadcastServiceComplete(new Intent(DELETE_COMPLETED), message);
     }
 
-    private void broadcastServiceComplete(Intent update, ReviewUploaderMessage message) {
+    private void broadcastServiceComplete(Intent update, CallbackMessage message) {
         update.putExtra(REVIEW_ID, mReviewId);
         update.putExtra(RESULT, message);
 

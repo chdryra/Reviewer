@@ -16,8 +16,8 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
 import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
@@ -34,7 +34,7 @@ import java.util.Collection;
  */
 public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
         implements DialogAlertFragment.DialogAlertListener, NewReviewListener,
-        RepositoryCallback {
+        CallbackRepository {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenTemplateReview");
 
@@ -68,7 +68,7 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
     }
 
     @Override
-    public void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result) {
+    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
         if(review == null) return;
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
@@ -79,7 +79,7 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
     }
 
     @Override
-    public void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result) {
+    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
 
     }
 

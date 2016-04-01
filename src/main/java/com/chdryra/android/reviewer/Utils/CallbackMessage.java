@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.NetworkServices;
+package com.chdryra.android.reviewer.Utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -16,33 +16,38 @@ import android.os.Parcelable;
  * On: 30/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewServiceMessage implements Parcelable {
-    public static final Creator<ReviewServiceMessage> CREATOR
-            = new Creator<ReviewServiceMessage>() {
+public class CallbackMessage implements Parcelable {
+    public static final Creator<CallbackMessage> CREATOR
+            = new Creator<CallbackMessage>() {
         @Override
-        public ReviewServiceMessage createFromParcel(Parcel in) {
-            return new ReviewServiceMessage(in);
+        public CallbackMessage createFromParcel(Parcel in) {
+            return new CallbackMessage(in);
         }
 
         @Override
-        public ReviewServiceMessage[] newArray(int size) {
-            return new ReviewServiceMessage[size];
+        public CallbackMessage[] newArray(int size) {
+            return new CallbackMessage[size];
         }
     };
 
     private String mMessage;
     private boolean mIsError = false;
 
-    protected ReviewServiceMessage() {
+    public static CallbackMessage ok(String message) {
 
+        return new CallbackMessage(message, false);
     }
 
-    protected ReviewServiceMessage(String message, boolean isError) {
+    public static CallbackMessage error(String message) {
+        return new CallbackMessage(message, true);
+    }
+
+    private CallbackMessage(String message, boolean isError) {
         mMessage = message;
         mIsError = isError;
     }
 
-    public ReviewServiceMessage(Parcel in) {
+    public CallbackMessage(Parcel in) {
         mMessage = in.readString();
         mIsError = in.readByte() != 0;
     }

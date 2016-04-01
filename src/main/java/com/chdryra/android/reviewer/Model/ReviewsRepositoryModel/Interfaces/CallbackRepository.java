@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Implementation.RepositoryMessage;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.Collection;
 
@@ -20,8 +20,8 @@ import java.util.Collection;
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface RepositoryCallback {
-    void onFetchedFromRepo(@Nullable Review review, RepositoryMessage result);
+public interface CallbackRepository {
+    void onFetchedFromRepo(@Nullable Review review, CallbackMessage result);
 
-    void onCollectionFetchedFromRepo(Collection<Review> reviews, RepositoryMessage result);
+    void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result);
 }

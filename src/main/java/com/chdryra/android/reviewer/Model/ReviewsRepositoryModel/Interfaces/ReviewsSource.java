@@ -18,9 +18,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableColl
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsSource extends ReviewsRepository{
-    void asMetaReview(ReviewId id, ReviewsSourceCallback callback);
+    void asMetaReview(ReviewId id, CallbackReviewsSource callback);
 
-    void asMetaReview(VerboseDataReview datum, String subject, ReviewsSourceCallback callback);
+    void asMetaReview(VerboseDataReview datum, String subject, CallbackReviewsSource callback);
 
-    void getMetaReview(VerboseIdableCollection data, String subject, ReviewsSourceCallback callback);
+    void getMetaReview(VerboseIdableCollection data, String subject, CallbackReviewsSource callback);
 }
