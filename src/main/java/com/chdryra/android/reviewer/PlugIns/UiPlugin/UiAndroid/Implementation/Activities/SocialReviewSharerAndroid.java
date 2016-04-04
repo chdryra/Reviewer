@@ -15,11 +15,10 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
-
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.ArrayList;
 
@@ -28,7 +27,7 @@ import java.util.ArrayList;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-class SocialReviewSharerAndroid implements SocialReviewSharer, CallbackRepositoryMutable {
+class SocialReviewSharerAndroid implements SocialReviewSharer, QueueCallback {
     private final Context mContext;
     private final Class<? extends Activity> mActivityToPublish;
     private ArrayList<String> mSelectedPublishers;
@@ -42,13 +41,13 @@ class SocialReviewSharerAndroid implements SocialReviewSharer, CallbackRepositor
     public void share(Review toPublish, ArrayList<String> selectedPublishers) {
         mSelectedPublishers = selectedPublishers;
         ApplicationInstance app = ApplicationInstance.getInstance(mContext);
-        app.getLocalRepository().addReview(toPublish, this);
+        app.addReviewToUploadQueue(toPublish, this);
     }
 
     @Override
-    public void onAddedCallback(Review review, CallbackMessage result) {
+    public void onAddedToQueue(ReviewId id, CallbackMessage result) {
         Intent intent = new Intent(mContext, mActivityToPublish);
-        intent.putExtra(PublishingAction.PUBLISHED, review.getReviewId().toString());
+        intent.putExtra(PublishingAction.PUBLISHED, id.toString());
         intent.putStringArrayListExtra(PublishingAction.PLATFORMS, mSelectedPublishers);
         if (result.isError()) intent.putExtra(PublishingAction.RepoError, result.getMessage());
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -57,7 +56,12 @@ class SocialReviewSharerAndroid implements SocialReviewSharer, CallbackRepositor
     }
 
     @Override
-    public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+    public void onRetrievedFromQueue(Review review, CallbackMessage message) {
 
+    }
+
+    @Override
+    public void onFailed(ReviewId id, CallbackMessage message) {
+        //TODO do something here
     }
 }

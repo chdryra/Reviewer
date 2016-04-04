@@ -38,10 +38,10 @@ public class SocialPlatformsPublisherAndroid extends
 
     @Override
     public void publishToSocialPlatforms(ReviewId reviewId, ArrayList<String> platformNames) {
-        Intent shareService = newService();
-        shareService.putExtra(PublishingAction.PUBLISHED, reviewId.toString());
-        shareService.putStringArrayListExtra(PublishingAction.PLATFORMS, platformNames);
+        Intent service = newService();
+        service.putExtra(PublishingAction.PUBLISHED, reviewId.toString());
+        service.putStringArrayListExtra(PublishingAction.PLATFORMS, platformNames);
 
-        startService();
+        startService(service);
     }
 }

@@ -22,7 +22,8 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Call
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.Backend.LocalToBackendUploader;
+import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
@@ -50,9 +51,10 @@ public class ApplicationInstance extends ApplicationSingleton {
     private static final String NAME = "ApplicationInstance";
     private static ApplicationInstance sSingleton;
 
-    private final ReviewPacker mCache;
+    private final ReviewPacker mReviewPacker;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
+    private LocalToBackendUploader mUploader;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -63,7 +65,9 @@ public class ApplicationInstance extends ApplicationSingleton {
         super(context, NAME);
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
-        mCache = new ReviewPacker();
+        mReviewPacker = new ReviewPacker();
+        mUploader = new LocalToBackendUploader(mPresenterContext.getLocalRepository(),
+                mPresenterContext.getUploaderFactory());
     }
 
     //Static methods
@@ -143,15 +147,19 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public void packReview(Review review, Bundle args) {
-        mCache.packReview(review, args);
+        mReviewPacker.packReview(review, args);
     }
 
     public @Nullable Review unpackReview(Bundle args) {
-        return mCache.unpackReview(args);
+        return mReviewPacker.unpackReview(args);
     }
 
-    public ReviewsRepositoryMutable getLocalRepository() {
-        return mPresenterContext.getLocalRepository();
+    public void getReviewFromUploadQueue(ReviewId id, QueueCallback callback) {
+        mUploader.getFromQueue(id, callback);
+    }
+
+    public void addReviewToUploadQueue(Review review, QueueCallback callback) {
+        mUploader.addToQueue(review);
     }
 
     public ReviewsRepositoryMutable getBackendRepository() {
@@ -168,9 +176,5 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public SocialPlatformsPublisher newSocialPublisher() {
         return mPresenterContext.newSocialPublisher();
-    }
-
-    public BackendReviewUploader newBackendUploader() {
-        return mPresenterContext.newBackendUploader();
     }
 }

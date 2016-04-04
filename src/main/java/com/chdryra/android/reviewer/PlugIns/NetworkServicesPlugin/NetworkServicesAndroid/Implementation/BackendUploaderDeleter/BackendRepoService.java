@@ -7,32 +7,27 @@
  */
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendUploader;
+        .Implementation.BackendUploaderDeleter;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
-
-
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
 import com.chdryra.android.reviewer.R;
-
-import java.util.Collection;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploaderService extends IntentService implements CallbackRepository,
+public class BackendRepoService extends IntentService implements QueueCallback,
         CallbackRepositoryMutable {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
     public static final String RESULT = "BackendUploadService.Result";
@@ -54,7 +49,7 @@ public class ReviewUploaderService extends IntentService implements CallbackRepo
 
     public enum Service {UPLOAD, DELETE}
 
-    public ReviewUploaderService() {
+    public BackendRepoService() {
         super(SERVICE);
     }
 
@@ -103,7 +98,7 @@ public class ReviewUploaderService extends IntentService implements CallbackRepo
     }
 
     @Override
-    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+    public void onRetrievedFromQueue(Review review, CallbackMessage result) {
         if (review != null && !result.isError()) {
             mApp.getBackendRepository().addReview(review, this);
         } else {
@@ -113,8 +108,8 @@ public class ReviewUploaderService extends IntentService implements CallbackRepo
     }
 
     @Override
-    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
-
+    public void onFailed(CallbackMessage message) {
+        broadcastUploadComplete(message);
     }
 
     private void broadcastUploadComplete(CallbackMessage message) {
@@ -135,7 +130,7 @@ public class ReviewUploaderService extends IntentService implements CallbackRepo
     private void requestBackendService(String reviewId, Service service) {
         DatumReviewId id = new DatumReviewId(reviewId);
         if (service == Service.UPLOAD) {
-            mApp.getLocalRepository().getReview(id, this);
+            mApp.getReviewFromUploadQueue(id, this);
         } else if (service == Service.DELETE) {
             //TODO make sure removed from local repo too
             mApp.getBackendRepository().removeReview(id, this);

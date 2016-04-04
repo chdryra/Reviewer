@@ -13,10 +13,10 @@ package com.chdryra.android.reviewer.NetworkServices.Backend;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BackendReviewUploader {
-    void registerListener(ReviewUploaderListener listener);
+public interface BackendReviewDeleter {
+    void registerListener(ReviewDeleterListener listener);
 
-    void unregisterListener(ReviewUploaderListener listener);
+    void unregisterListener(ReviewDeleterListener listener);
 
-    void uploadReview();
+    void deleteReview();
 }

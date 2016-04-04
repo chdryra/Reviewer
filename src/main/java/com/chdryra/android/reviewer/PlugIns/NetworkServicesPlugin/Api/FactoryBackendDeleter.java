@@ -9,13 +9,13 @@
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FactoryBackendUploader {
-    BackendReviewUploader newUploader(ReviewId id);
+public interface FactoryBackendDeleter {
+    BackendReviewDeleter newDeleter(ReviewId id);
 }

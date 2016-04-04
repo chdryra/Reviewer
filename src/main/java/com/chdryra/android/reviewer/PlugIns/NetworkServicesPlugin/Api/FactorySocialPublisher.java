@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 
 /**
@@ -16,5 +17,5 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactorySocialPublisher {
-    SocialPlatformsPublisher getPublisher();
+    SocialPlatformsPublisher newPublisher(ReviewId id);
 }

@@ -24,7 +24,6 @@ public class BroadcastingService<S extends IntentService,
     private Context mContext;
     private Class<S> mServiceClass;
     private R mReceiver;
-    private Intent mService;
 
     public BroadcastingService(Context context, Class<S> serviceClass, R receiver) {
         mContext = context;
@@ -33,11 +32,10 @@ public class BroadcastingService<S extends IntentService,
     }
 
     public Intent newService() {
-        mService = new Intent(mContext, mServiceClass);
-        return mService;
+        return new Intent(mContext, mServiceClass);
     }
 
-    public void startService() {
+    public void startService(Intent mService) {
         mContext.startService(mService);
     }
 

@@ -12,19 +12,18 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,16 +34,17 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublishingService extends IntentService
-        implements BatchSocialPublisher.BatchSocialPublisherListener, CallbackRepository {
+        implements BatchSocialPublisher.BatchSocialPublisherListener, QueueCallback {
+    public static final String REVIEW_ID = "SocialPublishingService.ReviewId";
+
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
     public static final String STATUS_PERCENTAGE = "SocialPublishingService.Percentage";
     public static final String STATUS_RESULTS = "SocialPublishingService.PublishResults";
 
     public static final String PUBLISHING_COMPLETED = "SocialPublishingService.PublishFinished";
-    public static final String RESULT = "SocialPublishingService.Result";
     public static final String PUBLISH_OK = "SocialPublishingService.PublishResultsOk";
     public static final String PUBLISH_NOT_OK = "SocialPublishingService.PublishResultsNotOk";
-    public static final String REVIEW_NOT_FOUND = "Review not found";
+    public static final String RESULT = "SocialPublishingService.Result";
 
     private static final int PUBLISH_SUCCESSFUL = R.string.review_published;
     private static final int PUBLISH_ERROR = R.string.publishing_error;
@@ -68,6 +68,7 @@ public class SocialPublishingService extends IntentService
     @Override
     public void onStatusUpdate(double percentage, PublishResults results) {
         Intent update = new Intent(STATUS_UPDATE);
+        update.putExtra(REVIEW_ID, mReviewId);
         update.putExtra(STATUS_PERCENTAGE, percentage);
         update.putExtra(STATUS_RESULTS, results);
 
@@ -82,26 +83,16 @@ public class SocialPublishingService extends IntentService
     }
 
     @Override
-    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-        if (review != null && !result.isError()) {
-            doPublish(review);
-        } else {
-            abortPublish(result);
-        }
+    public void onRetrievedFromQueue(Review review, CallbackMessage message) {
+        doPublish(review);
     }
 
     @Override
-    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
-
-    }
-
-    private void abortPublish(CallbackMessage error) {
-        String message = error.isError() ? error.getMessage() : REVIEW_NOT_FOUND;
-        CallbackMessage report = CallbackMessage.error(message);
-
+    public void onFailed(CallbackMessage error) {
         broadcastPublishingComplete(new ArrayList<PublishResults>(), new ArrayList
-                <PublishResults>(), report);
+                <PublishResults>(), error);
     }
+
 
     @NonNull
     private CallbackMessage getReport(Collection<PublishResults> publishedOk,
@@ -135,13 +126,14 @@ public class SocialPublishingService extends IntentService
         update.putParcelableArrayListExtra(PUBLISH_OK, new ArrayList<>(publishedOk));
         update.putParcelableArrayListExtra(PUBLISH_NOT_OK, new ArrayList<>(publishedNotOk));
         update.putExtra(RESULT, result);
+        update.putExtra(REVIEW_ID, mReviewId);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
     private void batchPublish() {
         ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        app.getLocalRepository().getReview(new DatumReviewId(mReviewId), this);
+        app.getReviewFromUploadQueue(new DatumReviewId(mReviewId), this);
     }
 
     private void doPublish(Review review) {

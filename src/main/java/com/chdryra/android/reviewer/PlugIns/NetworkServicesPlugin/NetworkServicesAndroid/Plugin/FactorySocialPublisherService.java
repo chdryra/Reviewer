@@ -10,10 +10,13 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialUploader.SocialPlatformsPublisherAndroid;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialUploader.SocialPublishingReceiver;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.SocialUploader.SocialPlatformsPublisherAndroid;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.SocialUploader.SocialPublishingReceiver;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,15 +24,14 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactorySocialPublisherService implements FactorySocialPublisher {
-    private static final SocialPublishingReceiver RECEIVER = new SocialPublishingReceiver();
-    private final SocialPlatformsPublisherAndroid mPublisher;
+    private final Context mContext;
 
     public FactorySocialPublisherService(Context context) {
-        mPublisher = new SocialPlatformsPublisherAndroid(context, RECEIVER);
+        mContext = context;
     }
 
     @Override
-    public SocialPlatformsPublisher getPublisher() {
-        return mPublisher;
+    public SocialPlatformsPublisher newPublisher(ReviewId id) {
+        return new SocialPlatformsPublisherAndroid(mContext, new SocialPublishingReceiver(id));
     }
 }

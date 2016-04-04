@@ -6,16 +6,16 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
+package com.chdryra.android.reviewer.NetworkServices.Backend;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FactoryBackendUploader {
-    BackendReviewUploader newUploader(ReviewId id);
+public interface ReviewDeleterListener {
+    void onDeletedFromBackend(ReviewId reviewId, CallbackMessage result);
 }

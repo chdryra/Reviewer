@@ -6,18 +6,18 @@
  *
  */
 
-package com.chdryra.android.reviewer.NetworkServices.Social.Interfaces;
+package com.chdryra.android.reviewer.NetworkServices.Backend;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 04/03/2016
+ * On: 04/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewUploaderListener {
-    void onUploadedToBackend(ReviewId reviewId, CallbackMessage result);
+public interface LocalToBackendListener {
+    void onUploadCompleted(ReviewId id, CallbackMessage message);
 
-    void onDeletedFromBackend(ReviewId reviewId, CallbackMessage result);
+    void onUploadFailed(ReviewId id, CallbackMessage message);
 }

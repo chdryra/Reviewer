@@ -20,10 +20,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewDeleterListener;
+import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.ReviewUploaderListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
@@ -32,14 +31,22 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverview;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -57,6 +64,7 @@ public class PresenterUsersFeed implements
         NewReviewListener,
         SocialPublishingListener,
         ReviewUploaderListener,
+        ReviewDeleterListener,
         ReviewNodeMutable.NodeObserver {
 
     private ApplicationInstance mApp;
@@ -64,7 +72,6 @@ public class PresenterUsersFeed implements
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
     private SocialPlatformsPublisher mSocialPublisher;
-    private BackendReviewUploader mBackendReviewUploader;
     private ReviewUploadedListener mListener;
 
     public interface ReviewUploadedListener {
@@ -91,8 +98,6 @@ public class PresenterUsersFeed implements
 
         mSocialPublisher = app.newSocialPublisher();
         mSocialPublisher.registerListener(this);
-        mBackendReviewUploader = app.newBackendUploader();
-        mBackendReviewUploader.registerListener(this);
 
         mListener = listener;
     }
@@ -102,12 +107,11 @@ public class PresenterUsersFeed implements
     }
 
     public void deleteReview(final ReviewId id) {
-        mBackendReviewUploader.deleteReview(id);
+
     }
 
     public void publish(String reviewId, ArrayList<String> platforms) {
         DatumReviewId id = new DatumReviewId(reviewId);
-        mBackendReviewUploader.uploadReview(id);
         if (platforms != null && platforms.size() > 0) {
             mSocialPublisher.publishToSocialPlatforms(id, platforms);
         }
@@ -115,7 +119,7 @@ public class PresenterUsersFeed implements
 
     public void detach() {
         mSocialPublisher.unregisterListener(this);
-        mBackendReviewUploader.unregisterListener(this);
+        //mBackendReviewUploader.unregisterListener(this);
         mFeedNode.unregisterNodeObserver(this);
     }
 

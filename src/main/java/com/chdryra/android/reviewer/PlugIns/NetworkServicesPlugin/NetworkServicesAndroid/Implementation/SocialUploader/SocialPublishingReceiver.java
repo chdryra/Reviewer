@@ -13,11 +13,12 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 import android.content.Context;
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BroadcastingServiceReceiver;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.ArrayList;
 
@@ -28,14 +29,32 @@ import java.util.ArrayList;
  */
 public class SocialPublishingReceiver extends
         BroadcastingServiceReceiver<SocialPublishingListener> {
+    private ReviewId mReviewId;
+
+    public SocialPublishingReceiver(ReviewId reviewId) {
+        mReviewId = reviewId;
+    }
+
+    public ReviewId getReviewId() {
+        return mReviewId;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (action.equals(SocialPublishingService.STATUS_UPDATE)) {
+        if (isUpdate(action)) {
             updateListenersOnStatus(intent);
-        } else if (action.equals(SocialPublishingService.PUBLISHING_COMPLETED)) {
+        } else if (isPublished(action)) {
             updateListenersOnCompletion(intent);
         }
+    }
+
+    private boolean isPublished(String action) {
+        return action.equals(SocialPublishingService.PUBLISHING_COMPLETED);
+    }
+
+    private boolean isUpdate(String action) {
+        return action.equals(SocialPublishingService.STATUS_UPDATE);
     }
 
     private void updateListenersOnCompletion(Intent intent) {

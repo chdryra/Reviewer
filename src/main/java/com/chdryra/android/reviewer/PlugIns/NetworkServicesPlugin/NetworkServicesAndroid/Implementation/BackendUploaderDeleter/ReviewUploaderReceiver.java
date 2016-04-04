@@ -7,16 +7,17 @@
  */
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendUploader;
+        .Implementation.BackendUploaderDeleter;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BroadcastingServiceReceiver;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,19 +25,31 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewUploaderReceiver extends BroadcastingServiceReceiver<ReviewUploaderListener> {
+    private ReviewId mReviewId;
+
+    public ReviewUploaderReceiver(ReviewId reviewId) {
+        mReviewId = reviewId;
+    }
+
+    public ReviewId getReviewId() {
+        return mReviewId;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        String id = intent.getStringExtra(ReviewUploaderService.REVIEW_ID);
-        CallbackMessage result = intent.getParcelableExtra(ReviewUploaderService.RESULT);
-
+        String id = intent.getStringExtra(BackendRepoService.REVIEW_ID);
         DatumReviewId reviewId = new DatumReviewId(id);
+        CallbackMessage result = intent.getParcelableExtra(BackendRepoService.RESULT);
+
+        if(!mReviewId.equals(reviewId) || !isUpload(action)) return;
+
         for (ReviewUploaderListener listener : this) {
-            if (action.equals(ReviewUploaderService.UPLOAD_COMPLETED)) {
-                listener.onUploadedToBackend(reviewId, result);
-            } else if (action.equals(ReviewUploaderService.DELETE_COMPLETED)){
-                listener.onDeletedFromBackend(reviewId, result);
-            }
+            listener.onUploadedToBackend(reviewId, result);
         }
+    }
+
+    private boolean isUpload(String action) {
+        return action.equals(BackendRepoService.UPLOAD_COMPLETED);
     }
 }
