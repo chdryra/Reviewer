@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
-import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStoreCallback;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendRepoService extends IntentService implements QueueCallback,
+public class BackendRepoService extends IntentService implements AsyncStoreCallback,
         CallbackRepositoryMutable {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
     public static final String RESULT = "BackendUploadService.Result";

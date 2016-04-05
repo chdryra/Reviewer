@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStoreCallback;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
@@ -34,7 +34,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class SocialPublishingService extends IntentService
-        implements BatchSocialPublisher.BatchSocialPublisherListener, QueueCallback {
+        implements BatchSocialPublisher.BatchSocialPublisherListener, AsyncStoreCallback {
     public static final String REVIEW_ID = "SocialPublishingService.ReviewId";
 
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";

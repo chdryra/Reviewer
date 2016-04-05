@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Revi
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.Backend.LocalToBackendUploader;
-import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStoreCallback;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
@@ -154,11 +154,11 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mReviewPacker.unpackReview(args);
     }
 
-    public void getReviewFromUploadQueue(ReviewId id, QueueCallback callback) {
+    public void getReviewFromUploadQueue(ReviewId id, AsyncStoreCallback callback) {
         mUploader.getFromQueue(id, callback);
     }
 
-    public void addReviewToUploadQueue(Review review, QueueCallback callback) {
+    public void addReviewToUploadQueue(Review review, AsyncStoreCallback callback) {
         mUploader.addToQueue(review);
     }
 

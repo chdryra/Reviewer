@@ -15,7 +15,7 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.Backend.QueueCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStoreCallback;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-class SocialReviewSharerAndroid implements SocialReviewSharer, QueueCallback {
+class SocialReviewSharerAndroid implements SocialReviewSharer, AsyncStoreCallback {
     private final Context mContext;
     private final Class<? extends Activity> mActivityToPublish;
     private ArrayList<String> mSelectedPublishers;
