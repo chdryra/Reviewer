@@ -35,7 +35,7 @@ public class BackendReviewUploaderAndroid extends
     }
 
     @Override
-    public void uploadReview() {
+    public void publishReview() {
         Intent service = newService();
         service.putExtra(BackendRepoService.REVIEW_ID, mId.toString());
         service.putExtra(BackendRepoService.REQUEST_SERVICE, BackendRepoService.Service.UPLOAD);

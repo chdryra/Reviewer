@@ -25,11 +25,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -52,7 +50,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     private ModelContext mModelContext;
     private ViewContext mViewContext;
     private SocialContext mSocialContext;
-    private NetworkContext mNetworkContext;
+    private ReviewPublisher mPublisher;
     private PersistenceContext mPersistenceContext;
 
     private FactoryGvData mFactoryGvData;
@@ -69,8 +67,8 @@ public abstract class PresenterContextBasic implements PresenterContext{
         mModelContext = modelContext;
         mViewContext = viewContext;
         mSocialContext = socialContext;
-        mNetworkContext = networkContext;
         mPersistenceContext = persistenceContext;
+        mPublisher = networkContext.getPublisherFactory().newPublisher(mPersistenceContext.getLocalRepository());
     }
 
     public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
@@ -189,22 +187,7 @@ public abstract class PresenterContextBasic implements PresenterContext{
     }
 
     @Override
-    public SocialPlatformsPublisher newSocialPublisher() {
-        return mNetworkContext.getSocialUploaderFactory().newPublisher();
-    }
-
-    @Override
-    public FactoryBackendUploader getUploaderFactory() {
-        return mNetworkContext.getBackendUploaderFactory();
-    }
-
-    @Override
-    public ReviewsRepositoryMutable getLocalRepository() {
-        return mPersistenceContext.getLocalRepository();
-    }
-
-    @Override
-    public ReviewsRepositoryMutable getBackendRepository() {
-        return mPersistenceContext.getBackendRepository();
+    public ReviewPublisher getReviewPublisher() {
+        return mPublisher;
     }
 }

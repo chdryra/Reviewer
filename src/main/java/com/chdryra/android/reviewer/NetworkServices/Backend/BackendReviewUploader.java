@@ -8,15 +8,20 @@
 
 package com.chdryra.android.reviewer.NetworkServices.Backend;
 
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.NetworkPublisher;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BackendReviewUploader {
-    void registerListener(ReviewUploaderListener listener);
+public interface BackendReviewUploader extends NetworkPublisher<ReviewUploaderListener>{
+    @Override
+    void registerListener(ReviewUploaderListener reviewUploaderListener);
 
-    void unregisterListener(ReviewUploaderListener listener);
+    @Override
+    void unregisterListener(ReviewUploaderListener reviewUploaderListener);
 
-    void uploadReview();
+    @Override
+    void publishReview();
 }

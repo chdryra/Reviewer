@@ -18,6 +18,8 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.SocialUploader.SocialPublishingReceiver;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
@@ -31,7 +33,7 @@ public class FactorySocialPublisherService implements FactorySocialPublisher {
     }
 
     @Override
-    public SocialPlatformsPublisher newPublisher(ReviewId id) {
-        return new SocialPlatformsPublisherAndroid(mContext, new SocialPublishingReceiver(id));
+    public SocialPlatformsPublisher newPublisher(ReviewId id, ArrayList<String> platformNames) {
+        return new SocialPlatformsPublisherAndroid(mContext, platformNames, new SocialPublishingReceiver(id));
     }
 }

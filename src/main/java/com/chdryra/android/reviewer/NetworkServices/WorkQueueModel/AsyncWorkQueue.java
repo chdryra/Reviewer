@@ -18,11 +18,19 @@ public interface AsyncWorkQueue<T> {
         void onAddedToQueue(String itemId);
     }
 
-    void addForWork(T item, String itemId, AsyncStoreCallback<T> callback);
+    void addItemToQueue(T item, String itemId, WorkStoreCallback<T> callback);
 
-    WorkerToken requestForWork(String itemId, AsyncStoreCallback<T> callback);
+    WorkerToken getItemForWork(String itemId, WorkStoreCallback<T> callback, Object worker);
 
-    WorkerToken requestForWork(AsyncStoreCallback<T> callback);
+    WorkerToken addWorker(String itemId, Object worker);
 
     void workComplete(WorkerToken token);
+
+    boolean hasWorkers(String itemId);
+
+    void removeItemOnWorkCompleted(String itemId);
+
+    void registerObserver(QueueObserver observer);
+
+    void unregisterObserver(QueueObserver observer);
 }

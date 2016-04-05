@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.NetworkServices.Backend;
+package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,8 +19,8 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStore;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStoreCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStore;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.Collection;
@@ -30,10 +30,9 @@ import java.util.Collection;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewStore implements CallbackRepositoryMutable, CallbackRepository,
-        AsyncStore<Review> {
+public class ReviewStore implements CallbackRepositoryMutable, CallbackRepository, WorkStore<Review> {
     private ReviewsRepositoryMutable mRepo;
-    private AsyncStoreCallback<Review> mAsyncStoreCallback;
+    private WorkStoreCallback<Review> mWorkStoreCallback;
     private String mFetching;
 
     public ReviewStore(ReviewsRepositoryMutable repo) {
@@ -41,21 +40,21 @@ public class ReviewStore implements CallbackRepositoryMutable, CallbackRepositor
     }
 
     @Override
-    public void addItemAsync(Review item, AsyncStoreCallback<Review> callback) {
-        mAsyncStoreCallback = callback;
+    public void addItemAsync(Review item, WorkStoreCallback<Review> callback) {
+        mWorkStoreCallback = callback;
         mRepo.addReview(item, this);
     }
 
     @Override
-    public void getItemAsync(String itemId, AsyncStoreCallback<Review> callback) {
-        mAsyncStoreCallback = callback;
+    public void getItemAsync(String itemId, WorkStoreCallback<Review> callback) {
+        mWorkStoreCallback = callback;
         mFetching = itemId;
         mRepo.getReview(reviewId(itemId), this);
     }
 
     @Override
-    public void removeItemAsync(String itemId, AsyncStoreCallback<Review> callback) {
-        mAsyncStoreCallback = callback;
+    public void removeItemAsync(String itemId, WorkStoreCallback<Review> callback) {
+        mWorkStoreCallback = callback;
         mRepo.removeReview(reviewId(itemId), this);
 
     }
@@ -64,27 +63,27 @@ public class ReviewStore implements CallbackRepositoryMutable, CallbackRepositor
     public void onAddedCallback(Review review, CallbackMessage result) {
         String reviewId = review.getReviewId().toString();
         if (result.isError()) {
-            mAsyncStoreCallback.onFailed(review, reviewId, result);
+            mWorkStoreCallback.onFailed(review, reviewId, result);
         } else {
-            mAsyncStoreCallback.onAddedToStore(review, reviewId, result);
+            mWorkStoreCallback.onAddedToStore(review, reviewId, result);
         }
     }
 
     @Override
     public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
         if (result.isError()) {
-            mAsyncStoreCallback.onFailed(null, reviewId.toString(), result);
+            mWorkStoreCallback.onFailed(null, reviewId.toString(), result);
         } else {
-            mAsyncStoreCallback.onRemovedFromStore(reviewId.toString(), result);
+            mWorkStoreCallback.onRemovedFromStore(reviewId.toString(), result);
         }
     }
 
     @Override
     public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
         if (review == null || result.isError()) {
-            mAsyncStoreCallback.onFailed(review, mFetching, result);
+            mWorkStoreCallback.onFailed(review, mFetching, result);
         } else {
-            mAsyncStoreCallback.onRetrievedFromStore(review, mFetching, result);
+            mWorkStoreCallback.onRetrievedFromStore(review, mFetching, result);
         }
     }
 

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.NetworkServices.Social.Interfaces;
+package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
@@ -16,12 +16,13 @@ import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 04/03/2016
+ * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPublishingListener {
-    void onPublishStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
+public interface SocialConsumerListener {
+    void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage result);
 
-    void onPublishCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk,
-                            Collection<PublishResults> publishedNotOk, CallbackMessage result);
+    void onPublishingCompleted(ReviewId id, Collection<PublishResults> publishedOk,
+                               Collection<PublishResults> publishedNotOk, CallbackMessage result);
+
 }

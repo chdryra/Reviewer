@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,67 +22,62 @@ import java.util.Map;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AsyncWorkQueueImpl<T> implements AsyncWorkQueue<T>, AsyncStoreCallback<T> {
-    private AsyncStore<T> mQueueStore;
-    private AsyncStoreCallback<T> mAsyncStoreCallback;
-    private LinkedList<String> mOrder;
+public class AsyncWorkQueueImpl<T> implements AsyncWorkQueue<T>, WorkStoreCallback<T> {
+    private WorkStore<T> mQueueStore;
+    private WorkStoreCallback<T> mWorkStoreCallback;
     private ArrayList<String> mBacklogToDelete;
     private Map<String, List<WorkerToken>> mWorkers;
+    private ArrayList<String> mToClear;
+    private ArrayList<QueueObserver> mObservers;
 
-    public AsyncWorkQueueImpl(AsyncStore<T> queueStore) {
+    public AsyncWorkQueueImpl(WorkStore<T> queueStore) {
         mQueueStore = queueStore;
         mBacklogToDelete = new ArrayList<>();
-        mOrder = new LinkedList<>();
         mWorkers = new HashMap<>();
+        mToClear = new ArrayList<>();
+        mObservers = new ArrayList<>();
     }
 
     @Override
-    public void addForWork(T item, String itemId, AsyncStoreCallback<T> callback) {
-        mAsyncStoreCallback = callback;
+    public void addItemToQueue(T item, String itemId, WorkStoreCallback<T> callback) {
+        mWorkStoreCallback = callback;
         mQueueStore.addItemAsync(item, this);
     }
 
     @Override
-    public WorkerToken requestForWork(String id, AsyncStoreCallback<T> callback) {
-        mAsyncStoreCallback = callback;
-        mQueueStore.getItemAsync(id, this);
-        return newWorker(id, callback);
+    public WorkerToken addWorker(String itemId, Object worker) {
+        return newWorker(itemId, worker);
     }
 
     @Override
-    public WorkerToken requestForWork(AsyncStoreCallback<T> callback) {
-        mAsyncStoreCallback = callback;
-        String fetchingId = mOrder.peek();
-        mQueueStore.getItemAsync(fetchingId, this);
-        return newWorker(fetchingId, callback);
+    public WorkerToken getItemForWork(String id, WorkStoreCallback<T> callback, Object worker) {
+        mWorkStoreCallback = callback;
+        mQueueStore.getItemAsync(id, this);
+        return newWorker(id, worker);
     }
 
     @Override
     public void onAddedToStore(T item, String storeId, CallbackMessage result) {
-        mOrder.add(storeId);
-        mAsyncStoreCallback.onAddedToStore(item, storeId, result);
+        mWorkStoreCallback.onAddedToStore(item, storeId, result);
+        notifyObserversOnAdd(storeId);
     }
 
     @Override
     public void onRetrievedFromStore(T item, String requestedId, CallbackMessage result) {
-        mOrder.remove(requestedId);
-        mAsyncStoreCallback.onRetrievedFromStore(item, requestedId, result);
+        mWorkStoreCallback.onRetrievedFromStore(item, requestedId, result);
     }
 
     @Override
     public void onFailed(@Nullable T item, @Nullable String itemId, CallbackMessage result) {
-        mAsyncStoreCallback.onFailed(item, itemId, result);
+        mWorkStoreCallback.onFailed(item, itemId, result);
     }
 
     @Override
     public void workComplete(WorkerToken token) {
-        String id = token.getId();
+        String id = token.getItemId();
         List<WorkerToken> interestedParties = mWorkers.get(id);
         interestedParties.remove(token);
-        if(interestedParties.size() == 0) {
-            mBacklogToDelete.add(id);
-            deleteBacklog();
-        }
+        removeItemIfAllWorkCompleted(id);
     }
 
     @Override
@@ -91,23 +85,55 @@ public class AsyncWorkQueueImpl<T> implements AsyncWorkQueue<T>, AsyncStoreCallb
         if (!result.isError()) mBacklogToDelete.remove(itemId);
     }
 
-    private WorkerToken newWorker(String id, AsyncStoreCallback<T> callback) {
+    @Override
+    public boolean hasWorkers(String itemId) {
+        List<WorkerToken> workers = mWorkers.get(itemId);
+        return workers != null && workers.size() > 0;
+    }
+
+    @Override
+    public void removeItemOnWorkCompleted(String itemId) {
+        mToClear.add(itemId);
+        removeItemIfAllWorkCompleted(itemId);
+    }
+
+    @Override
+    public void registerObserver(QueueObserver observer) {
+        if(!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(QueueObserver observer) {
+        if(mObservers.contains(observer)) mObservers.remove(observer);
+    }
+
+    private void notifyObserversOnAdd(String itemId) {
+        for(QueueObserver observer : mObservers) {
+            observer.onAddedToQueue(itemId);
+        }
+    }
+
+    private void removeItemIfAllWorkCompleted(String itemId) {
+        if(!hasWorkers(itemId) && mToClear.contains(itemId)) {
+            mWorkers.remove(itemId);
+            mToClear.remove(itemId);
+            mBacklogToDelete.add(itemId);
+            deleteBacklog();
+        }
+    }
+
+    private WorkerToken newWorker(String id, Object worker) {
         if (!mWorkers.containsKey(id)) {
             mWorkers.put(id, new ArrayList<WorkerToken>());
         }
-        WorkerToken token = new WorkerToken(id, callback);
+        WorkerToken token = new WorkerToken(id, worker);
         mWorkers.get(id).add(token);
 
         return token;
     }
 
-    protected WorkerToken addWorker(String itemId, AsyncStoreCallback<T> callback) {
-        return newWorker(itemId, callback);
-    }
-
     private void deleteBacklog() {
-        for (String  toDelete : mBacklogToDelete) {
-            mOrder.remove(toDelete);
+        for (String toDelete : mBacklogToDelete) {
             mQueueStore.removeItemAsync(toDelete, this);
         }
     }

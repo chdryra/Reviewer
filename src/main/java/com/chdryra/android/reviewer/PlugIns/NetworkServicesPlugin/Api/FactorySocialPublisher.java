@@ -11,11 +11,13 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactorySocialPublisher {
-    SocialPlatformsPublisher newPublisher(ReviewId id);
+    SocialPlatformsPublisher newPublisher(ReviewId id, ArrayList<String> platformNames);
 }

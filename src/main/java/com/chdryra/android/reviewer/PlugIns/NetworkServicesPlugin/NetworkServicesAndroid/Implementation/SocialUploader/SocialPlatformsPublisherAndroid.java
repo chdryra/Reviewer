@@ -28,19 +28,24 @@ public class SocialPlatformsPublisherAndroid extends
         BroadcastingService<SocialPublishingService, SocialPublishingReceiver, SocialPublishingListener>
         implements SocialPlatformsPublisher {
 
+    private ArrayList<String> mPlatformNames;
+    private ReviewId mId;
+
     public SocialPlatformsPublisherAndroid(Context context,
+                                           ArrayList<String> platformNames,
                                            SocialPublishingReceiver receiver) {
         super(context, SocialPublishingService.class, receiver);
-
+        mPlatformNames = platformNames;
+        mId = receiver.getReviewId();
         registerReceiverAction(SocialPublishingService.STATUS_UPDATE);
         registerReceiverAction(SocialPublishingService.PUBLISHING_COMPLETED);
     }
 
     @Override
-    public void publishToSocialPlatforms(ReviewId reviewId, ArrayList<String> platformNames) {
+    public void publishReview() {
         Intent service = newService();
-        service.putExtra(PublishingAction.PUBLISHED, reviewId.toString());
-        service.putStringArrayListExtra(PublishingAction.PLATFORMS, platformNames);
+        service.putExtra(PublishingAction.PUBLISHED, mId.toString());
+        service.putStringArrayListExtra(PublishingAction.PLATFORMS, mPlatformNames);
 
         startService(service);
     }

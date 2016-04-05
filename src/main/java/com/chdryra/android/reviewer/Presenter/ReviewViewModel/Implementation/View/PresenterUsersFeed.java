@@ -113,7 +113,7 @@ public class PresenterUsersFeed implements
     public void publish(String reviewId, ArrayList<String> platforms) {
         DatumReviewId id = new DatumReviewId(reviewId);
         if (platforms != null && platforms.size() > 0) {
-            mSocialPublisher.publishToSocialPlatforms(id, platforms);
+            mSocialPublisher.publishReview(id, platforms);
         }
     }
 

@@ -20,12 +20,11 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.Backend.LocalToBackendUploader;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncStoreCallback;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -38,6 +37,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+
+import java.util.ArrayList;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -54,7 +55,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final ReviewPacker mReviewPacker;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
-    private LocalToBackendUploader mUploader;
+    private ReviewPublisher mPublisher;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -66,8 +67,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
         mReviewPacker = new ReviewPacker();
-        mUploader = new LocalToBackendUploader(mPresenterContext.getLocalRepository(),
-                mPresenterContext.getUploaderFactory());
+        mPublisher = mPresenterContext.getReviewPublisher();
     }
 
     //Static methods
@@ -154,16 +154,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mReviewPacker.unpackReview(args);
     }
 
-    public void getReviewFromUploadQueue(ReviewId id, AsyncStoreCallback callback) {
-        mUploader.getFromQueue(id, callback);
+    public void addReviewToPublishQueue(Review review, ArrayList<String> socialPlatforms) {
+        mPublisher.addToQueue(review, socialPlatforms);
     }
 
-    public void addReviewToUploadQueue(Review review, AsyncStoreCallback callback) {
-        mUploader.addToQueue(review);
-    }
-
-    public ReviewsRepositoryMutable getBackendRepository() {
-        return mPresenterContext.getBackendRepository();
+    public WorkerToken getReviewFromPublishQueue(ReviewId reviewId, WorkStoreCallback<Review> callback, Object worker) {
+        return mPublisher.getFromQueue(reviewId, callback, worker);
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
@@ -172,9 +168,5 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public void getReview(ReviewId id, CallbackRepository callback) {
         mPresenterContext.getReview(id, callback);
-    }
-
-    public SocialPlatformsPublisher newSocialPublisher() {
-        return mPresenterContext.newSocialPublisher();
     }
 }

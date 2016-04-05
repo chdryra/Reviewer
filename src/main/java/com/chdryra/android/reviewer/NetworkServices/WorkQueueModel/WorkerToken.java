@@ -14,15 +14,15 @@ package com.chdryra.android.reviewer.NetworkServices.WorkQueueModel;
  * Email: rizwan.choudrey@gmail.com
  */
 public class WorkerToken {
-    private String mId;
-    private AsyncStoreCallback mInterestedParty;
+    private String mItemId;
+    private Object mWorker;
 
-    public WorkerToken(String id, AsyncStoreCallback interestedParty) {
-        mId = id;
-        mInterestedParty = interestedParty;
+    public WorkerToken(String itemId, Object worker) {
+        mItemId = itemId;
+        mWorker = worker;
     }
 
-    public String getId() {
-        return mId;
+    public String getItemId() {
+        return mItemId;
     }
 }

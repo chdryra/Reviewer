@@ -6,16 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
-
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories
-        .FactoryReviewPublisher;
+package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface NetworkContext {
-    FactoryReviewPublisher getPublisherFactory();
+public interface NetworkPublisher<Listener> {
+    void registerListener(Listener listener);
+
+    void unregisterListener(Listener listener);
+
+    void publishReview();
 }

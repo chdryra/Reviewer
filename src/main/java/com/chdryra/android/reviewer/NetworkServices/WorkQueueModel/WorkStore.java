@@ -13,10 +13,10 @@ package com.chdryra.android.reviewer.NetworkServices.WorkQueueModel;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AsyncStore<T> {
-    void addItemAsync(T item, AsyncStoreCallback<T> callback);
+public interface WorkStore<T> {
+    void addItemAsync(T item, WorkStoreCallback<T> callback);
 
-    void getItemAsync(String itemId, AsyncStoreCallback<T> callback);
+    void getItemAsync(String itemId, WorkStoreCallback<T> callback);
 
-    void removeItemAsync(String itemId, AsyncStoreCallback<T> callback);
+    void removeItemAsync(String itemId, WorkStoreCallback<T> callback);
 }

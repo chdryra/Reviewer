@@ -13,9 +13,12 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 import android.content.Context;
 import android.content.Intent;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.BackendUploaderDeleter.BackendRepoService;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BroadcastingServiceReceiver;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
@@ -42,6 +45,11 @@ public class SocialPublishingReceiver extends
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        String id = intent.getStringExtra(BackendRepoService.REVIEW_ID);
+        DatumReviewId reviewId = new DatumReviewId(id);
+
+        if(!mReviewId.equals(reviewId) ) return;
+
         if (isUpdate(action)) {
             updateListenersOnStatus(intent);
         } else if (isPublished(action)) {
@@ -65,7 +73,7 @@ public class SocialPublishingReceiver extends
         CallbackMessage result = intent.getParcelableExtra(SocialPublishingService.RESULT);
 
         for (SocialPublishingListener listener : this) {
-            listener.onPublishCompleted(ok, notOk, result);
+            listener.onPublishCompleted(mReviewId, ok, notOk, result);
         }
     }
 
@@ -73,7 +81,7 @@ public class SocialPublishingReceiver extends
         double percentage = intent.getDoubleExtra(SocialPublishingService.STATUS_PERCENTAGE, 0.);
         PublishResults results = intent.getParcelableExtra(SocialPublishingService.STATUS_RESULTS);
         for (SocialPublishingListener listener : this) {
-            listener.onPublishStatus(percentage, results);
+            listener.onPublishStatus(mReviewId, percentage, results);
         }
     }
 }

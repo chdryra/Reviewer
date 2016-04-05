@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
  * On: 04/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AsyncStoreCallback<T> {
+public interface WorkStoreCallback<T> {
     void onAddedToStore(T item, String storeId, CallbackMessage result);
 
     void onRetrievedFromStore(@Nullable T item, String requestedId, CallbackMessage result);

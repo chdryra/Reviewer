@@ -8,19 +8,20 @@
 
 package com.chdryra.android.reviewer.NetworkServices.Social.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-
-import java.util.ArrayList;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.NetworkPublisher;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface SocialPlatformsPublisher {
-    void registerListener(SocialPublishingListener listener);
+public interface SocialPlatformsPublisher extends NetworkPublisher<SocialPublishingListener>{
+    @Override
+    void registerListener(SocialPublishingListener socialPublishingListener);
 
-    void unregisterListener(SocialPublishingListener listener);
+    @Override
+    void unregisterListener(SocialPublishingListener socialPublishingListener);
 
-    void publishToSocialPlatforms(ReviewId reviewId, ArrayList<String> platformNames);
+    @Override
+    void publishReview();
 }
