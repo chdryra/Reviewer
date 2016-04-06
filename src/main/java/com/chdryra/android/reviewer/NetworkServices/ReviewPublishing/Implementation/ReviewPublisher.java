@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementa
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .BackendConsumerListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendConsumerListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialConsumerListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
@@ -23,6 +23,8 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,10 +36,21 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
     private ReviewQueue mQueue;
     private BackendConsumer mBackend;
     private SocialConsumer mSocial;
-    private ArrayList<Review> mToQueue;
+
     private ArrayList<ReviewPublisherListener> mListeners;
     private ArrayList<ReviewId> mUploadComplete;
     private ArrayList<ReviewId> mSocialComplete;
+
+    private Map<Review, QueueCallback> mAddCallbacks;
+    private Map<ReviewId, QueueCallback> mGetCallbacks;
+
+    public interface QueueCallback {
+        void onAddedToQueue(ReviewId id, CallbackMessage message);
+
+        void onRetrievedFromQueue(Review review, CallbackMessage message);
+
+        void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message);
+    }
 
     public ReviewPublisher(ReviewQueue queue, BackendConsumer backend, SocialConsumer social) {
         mQueue = queue;
@@ -49,16 +62,29 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
         mSocial.setQueue(mQueue);
         mSocial.registerListener(this);
 
-        mToQueue = new ArrayList<>();
         mListeners = new ArrayList<>();
         mUploadComplete = new ArrayList<>();
         mSocialComplete = new ArrayList<>();
+
+        mAddCallbacks = new HashMap<>();
+        mGetCallbacks = new HashMap<>();
     }
 
-    public void addToQueue(Review review, ArrayList<String> socialPlatforms) {
-        mToQueue.add(review);
-        mSocial.setPlatforms(review.getReviewId(), socialPlatforms);
-        queueToQueue();
+    public synchronized void addToQueue(Review review, ArrayList<String> platforms, QueueCallback
+            callback) {
+        mAddCallbacks.put(review, callback);
+        mSocial.setPlatforms(review.getReviewId(), platforms);
+        mQueue.addForWork(review, this);
+    }
+
+    public synchronized WorkerToken getFromQueue(ReviewId reviewId, QueueCallback callback,
+                                                 Object worker) {
+        mGetCallbacks.put(reviewId, callback);
+        return mQueue.getItemForWork(reviewId.toString(), this, worker);
+    }
+
+    public void workComplete(WorkerToken token) {
+        mQueue.workComplete(token);
     }
 
     public void registerListener(ReviewPublisherListener listener) {
@@ -67,10 +93,6 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
 
     public void unregisterListener(ReviewPublisherListener listener) {
         if (mListeners.contains(listener)) mListeners.remove(listener);
-    }
-
-    public WorkerToken getFromQueue(ReviewId reviewId, WorkStoreCallback<Review> callback, Object worker) {
-        return mQueue.getItemForWork(reviewId.toString(), callback, worker);
     }
 
     @Override
@@ -101,16 +123,24 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
         notifyListenersOnPublishingCompleted(id, publishedOk, publishedNotOk, result);
     }
 
-
     @Override
     public void onAddedToStore(Review item, String storeId, CallbackMessage result) {
-        if (!result.isError()) mToQueue.remove(item);
+        QueueCallback callback = mAddCallbacks.remove(item);
+        if (!result.isError()) {
+            callback.onAddedToQueue(item.getReviewId(), result);
+        } else {
+            callback.onFailed(item, reviewId(storeId), result);
+        }
     }
 
     @Override
-    public void onRetrievedFromStore(@Nullable Review item, String requestedId, CallbackMessage
-            result) {
-
+    public void onRetrievedFromStore(Review item, String requestedId, CallbackMessage result) {
+        QueueCallback callback = mGetCallbacks.remove(item.getReviewId());
+        if (!result.isError()) {
+            callback.onRetrievedFromQueue(item, result);
+        } else {
+            callback.onFailed(item, reviewId(requestedId), result);
+        }
     }
 
     @Override
@@ -123,10 +153,9 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
 
     }
 
-    private void queueToQueue() {
-        for (Review review : mToQueue) {
-            mQueue.addForWork(review, this);
-        }
+    @Nullable
+    private DatumReviewId reviewId(@Nullable String storeId) {
+        return storeId != null ? new DatumReviewId(storeId) : null;
     }
 
     private void removeFromQueueIfPublishingComplete(ReviewId id) {

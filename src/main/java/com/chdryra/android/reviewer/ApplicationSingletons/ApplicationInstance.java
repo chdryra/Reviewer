@@ -20,11 +20,10 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -37,8 +36,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-
-import java.util.ArrayList;
 
 /**
  * Singleton that controls app-wide duties. Holds 3 main objects:
@@ -154,12 +151,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mReviewPacker.unpackReview(args);
     }
 
-    public void addReviewToPublishQueue(Review review, ArrayList<String> socialPlatforms) {
-        mPublisher.addToQueue(review, socialPlatforms);
-    }
-
-    public WorkerToken getReviewFromPublishQueue(ReviewId reviewId, WorkStoreCallback<Review> callback, Object worker) {
-        return mPublisher.getFromQueue(reviewId, callback, worker);
+    public ReviewPublisher getPublisher() {
+        return mPublisher;
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
@@ -168,5 +161,9 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public void getReview(ReviewId id, CallbackRepository callback) {
         mPresenterContext.getReview(id, callback);
+    }
+
+    public ReviewsRepositoryMutable getBackendRepository() {
+        return mPresenterContext.getBackendRepository();
     }
 }

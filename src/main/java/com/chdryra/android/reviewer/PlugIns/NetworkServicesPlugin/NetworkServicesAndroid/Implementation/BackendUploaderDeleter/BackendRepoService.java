@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
@@ -18,7 +19,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
+
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
+import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
@@ -27,7 +31,7 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendRepoService extends IntentService implements WorkStoreCallback,
+public class BackendRepoService extends IntentService implements WorkStoreCallback<Review>,
         CallbackRepositoryMutable {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
     public static final String RESULT = "BackendUploadService.Result";
@@ -42,10 +46,11 @@ public class BackendRepoService extends IntentService implements WorkStoreCallba
 
     private static final String SERVICE = "BackendUploadService";
     private static final String REVIEW_ID_IS_NULL = "Review Id is Null";
-    private static final String REVIEW_NOT_FOUND = "Review not found";
 
     private String mReviewId;
     private ApplicationInstance mApp;
+    private ReviewPublisher mPublisher;
+    private WorkerToken mToken;
 
     public enum Service {UPLOAD, DELETE}
 
@@ -68,14 +73,14 @@ public class BackendRepoService extends IntentService implements WorkStoreCallba
 
     @Override
     public void onAddedCallback(Review review, CallbackMessage result) {
+        String messageString = review.getSubject().getSubject() + ": ";
         CallbackMessage message;
         if (result.isError()) {
-            String messageString = review.getSubject().getSubject() + ": " +
-                    getApplicationContext().getString(UPLOAD_ERROR) + " - " + result.getMessage();
+            messageString += getApplicationContext().getString(UPLOAD_ERROR)
+                    + " - " + result.getMessage();
             message = CallbackMessage.error(messageString);
         } else {
-            String messageString = review.getSubject().getSubject() + ": " +
-                    getApplicationContext().getString(UPLOAD_SUCCESSFUL);
+            messageString += getApplicationContext().getString(UPLOAD_SUCCESSFUL);
             message = CallbackMessage.ok(messageString);
         }
 
@@ -98,21 +103,28 @@ public class BackendRepoService extends IntentService implements WorkStoreCallba
     }
 
     @Override
-    public void onRetrievedFromQueue(Review review, CallbackMessage result) {
-        if (review != null && !result.isError()) {
-            mApp.getBackendRepository().addReview(review, this);
-        } else {
-            String message = result.isError() ? result.getMessage() : REVIEW_NOT_FOUND;
-            broadcastUploadComplete(CallbackMessage.error(message));
-        }
+    public void onAddedToStore(Review item, String storeId, CallbackMessage result) {
+
     }
 
     @Override
-    public void onFailed(CallbackMessage message) {
-        broadcastUploadComplete(message);
+    public void onRetrievedFromStore(Review review, String requestedId, CallbackMessage
+            result) {
+        mApp.getBackendRepository().addReview(review, this);
+    }
+
+    @Override
+    public void onRemovedFromStore(String itemId, CallbackMessage result) {
+
+    }
+
+    @Override
+    public void onFailed(@Nullable Review item, @Nullable String itemId, CallbackMessage result) {
+        broadcastUploadComplete(result);
     }
 
     private void broadcastUploadComplete(CallbackMessage message) {
+        mPublisher.workComplete(mToken);
         broadcastServiceComplete(new Intent(UPLOAD_COMPLETED), message);
     }
 
@@ -130,9 +142,9 @@ public class BackendRepoService extends IntentService implements WorkStoreCallba
     private void requestBackendService(String reviewId, Service service) {
         DatumReviewId id = new DatumReviewId(reviewId);
         if (service == Service.UPLOAD) {
-            mApp.getReviewFromUploadQueue(id, this);
+            mPublisher = mApp.getPublisher();
+            mToken = mPublisher.getFromQueue(id, this, this);
         } else if (service == Service.DELETE) {
-            //TODO make sure removed from local repo too
             mApp.getBackendRepository().removeReview(id, this);
         }
     }

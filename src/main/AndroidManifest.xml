@@ -72,7 +72,7 @@
 
         <!-- Share review -->
         <activity
-            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityShareReview"
+            android:name=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityPublishReview"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -160,7 +160,7 @@
             android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityShareReview" />
+                android:value=".PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityPublishReview" />
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"

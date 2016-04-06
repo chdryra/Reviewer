@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
 public interface WorkStoreCallback<T> {
     void onAddedToStore(T item, String storeId, CallbackMessage result);
 
-    void onRetrievedFromStore(@Nullable T item, String requestedId, CallbackMessage result);
+    void onRetrievedFromStore(T item, String requestedId, CallbackMessage result);
 
     void onRemovedFromStore(String itemId, CallbackMessage result);
 

@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
@@ -68,4 +70,6 @@ public interface PresenterContext {
     TagsManager getTagsManager();
 
     ReviewPublisher getReviewPublisher();
+
+    ReviewsRepositoryMutable getBackendRepository();
 }

@@ -27,13 +27,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ShareScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
+public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatform> {
     private static final GvDataType<GvSocialPlatform> TYPE = GvSocialPlatform.TYPE;
     private GvSocialPlatformList mSocialPlatforms;
     private ReviewViewAdapter<?> mReviewViewAdapter;
 
-    public ShareScreenAdapter(GvSocialPlatformList socialPlatforms,
-                              ReviewViewAdapter<?> reviewViewAdapter) {
+    public PublishScreenAdapter(GvSocialPlatformList socialPlatforms,
+                                ReviewViewAdapter<?> reviewViewAdapter) {
         mSocialPlatforms = socialPlatforms;
         mReviewViewAdapter = reviewViewAdapter;
         setViewer(new ShareScreenViewer());

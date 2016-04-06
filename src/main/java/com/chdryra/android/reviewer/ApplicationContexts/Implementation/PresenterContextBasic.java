@@ -25,6 +25,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
@@ -189,5 +191,10 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public ReviewPublisher getReviewPublisher() {
         return mPublisher;
+    }
+
+    @Override
+    public ReviewsRepositoryMutable getBackendRepository() {
+        return mPersistenceContext.getBackendRepository();
     }
 }

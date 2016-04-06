@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.SocialReviewSharer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
@@ -44,10 +43,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewShare {
+public class PresenterReviewPublish {
     private ReviewView<GvSocialPlatform> mView;
 
-    private PresenterReviewShare(ReviewView<GvSocialPlatform> view) {
+    private PresenterReviewPublish(ReviewView<GvSocialPlatform> view) {
         mView = view;
     }
 
@@ -62,19 +61,19 @@ public class PresenterReviewShare {
             mApp = app;
         }
 
-        public PresenterReviewShare build(ReviewViewAdapter<?> review,
+        public PresenterReviewPublish build(ReviewViewAdapter<?> review,
                                             PlatformAuthoriser authoriser,
-                                            SocialReviewSharer sharer,
+                                            PublishAction sharer,
                                             String title) {
             GvSocialPlatformList platforms = getGvSocialPlatforms(mApp.getSocialPlatformList());
-            ShareScreenAdapter adapter = new ShareScreenAdapter(platforms, review);
-            ShareCommand command = new ShareCommand(platforms, sharer);
+            PublishScreenAdapter adapter = new PublishScreenAdapter(platforms, review);
+            PublishCommand command = new PublishCommand(platforms, sharer);
             ReviewViewModifier modifier = new PublishButtonModifier(command);
 
             ReviewViewPerspective<GvSocialPlatform> perspective =
                     new ReviewViewPerspective<>(adapter, getActions(title, authoriser), getParams(), modifier);
 
-            return new PresenterReviewShare(new ReviewViewDefault<>(perspective));
+            return new PresenterReviewPublish(new ReviewViewDefault<>(perspective));
         }
 
         @NonNull

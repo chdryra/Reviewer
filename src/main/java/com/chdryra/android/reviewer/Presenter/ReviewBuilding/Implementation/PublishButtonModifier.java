@@ -33,9 +33,9 @@ public class PublishButtonModifier implements ReviewViewModifier {
     private static final int DIVIDER = R.layout.horizontal_divider;
     private static final int BUTTON_TEXT = R.string.button_publish;
 
-    private ShareCommand mSharer;
+    private PublishCommand mSharer;
 
-    public PublishButtonModifier(ShareCommand sharer) {
+    public PublishButtonModifier(PublishCommand sharer) {
         mSharer = sharer;
     }
 
@@ -65,7 +65,7 @@ public class PublishButtonModifier implements ReviewViewModifier {
             public void onClick(View v) {
                 ApplicationInstance app = ApplicationInstance.getInstance(activity);
                 Review review = app.executeReviewBuilder();
-                mSharer.shareReview(review);
+                mSharer.publishReview(review);
             }
         };
     }
