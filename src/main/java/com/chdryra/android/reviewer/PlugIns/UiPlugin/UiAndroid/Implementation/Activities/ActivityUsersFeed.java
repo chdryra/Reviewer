@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -16,17 +15,13 @@ import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .DeleteRequestListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .PresenterUsersFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
+import com.chdryra.android.reviewer.Utils.CallbackMessage;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,31 +35,17 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         DialogAlertFragment.DialogAlertListener,
         DeleteRequestListener,
         NewReviewListener,
-        PresenterUsersFeed.ReviewUploadedListener {
+        PresenterUsersFeed.PresenterListener {
 
     private ApplicationInstance mApp;
     private PresenterUsersFeed mPresenter;
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        setIntent(intent);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        publishNewReviewIfNecessary();
-    }
 
     @Override
     protected ReviewView createReviewView() {
         ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
         mApp = ApplicationInstance.getInstance(this);
-        mPresenter = new PresenterUsersFeed.Builder(mApp)
-                .setReviewUploadedListener(this)
-                .build();
+        mPresenter = new PresenterUsersFeed.Builder(mApp, this).build();
 
         return mPresenter.getView();
     }
@@ -102,50 +83,45 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onReviewPublishedToSocialPlatforms(Collection<PublishResults> publishedOk,
-                                                   Collection<PublishResults> publishedNotOk,
-                                                   CallbackMessage message) {
+    public void onDeletedFromBackend(ReviewId reviewId, CallbackMessage result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onUploadFailed(ReviewId id, CallbackMessage result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onUploadCompleted(ReviewId id, CallbackMessage result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage
+            result) {
+        makeToast(result.getMessage());
+    }
+
+    @Override
+    public void onPublishingCompleted(ReviewId id, Collection<PublishResults> platformsOk, Collection<PublishResults> platformsNotOk, CallbackMessage message) {
         int numFollowers = 0;
-        ArrayList<String> platformsOk = new ArrayList<>();
-        for (PublishResults result : publishedOk) {
-            platformsOk.add(result.getPublisherName());
+        ArrayList<String> ok = new ArrayList<>();
+        for (PublishResults result : platformsOk) {
+            ok.add(result.getPublisherName());
             numFollowers += result.getFollowers();
         }
 
-        ArrayList<String> platformsNotOk = new ArrayList<>();
-        for (PublishResults result : publishedNotOk) {
-            platformsNotOk.add(result.getPublisherName());
+        ArrayList<String> notOk = new ArrayList<>();
+        for (PublishResults result : platformsNotOk) {
+            notOk.add(result.getPublisherName());
         }
 
-        makeToast(getPublishedMessage(platformsOk, platformsNotOk, numFollowers, message));
-    }
-
-    @Override
-    public void onReviewUploadedToBackend(ReviewId id, CallbackMessage result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onReviewDeletedFromBackend(ReviewId id, CallbackMessage result) {
-        makeToast(result.getMessage());
+        makeToast(getPublishedMessage(ok, notOk, numFollowers, message));
     }
 
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    private void publishNewReviewIfNecessary() {
-        Intent intent = getIntent();
-        String reviewId = intent.getStringExtra(PublishingAction.PUBLISHED);
-        String error = intent.getStringExtra(PublishingAction.RepoError);
-        if(error != null) {
-            Toast.makeText(this, "Error: " + error, Toast.LENGTH_SHORT).show();
-        } else if (reviewId != null) {
-            ArrayList<String> platforms
-                    = intent.getStringArrayListExtra(PublishingAction.PLATFORMS);
-            mPresenter.publish(reviewId, platforms);
-            intent.removeExtra(PublishingAction.PUBLISHED);
-        }
     }
 
     private String getPublishedMessage(ArrayList<String> platformsOk,

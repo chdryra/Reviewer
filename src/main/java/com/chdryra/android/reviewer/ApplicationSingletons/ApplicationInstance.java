@@ -52,7 +52,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final ReviewPacker mReviewPacker;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
-    private ReviewPublisher mPublisher;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -64,7 +63,6 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
         mReviewPacker = new ReviewPacker();
-        mPublisher = mPresenterContext.getReviewPublisher();
     }
 
     //Static methods
@@ -152,7 +150,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewPublisher getPublisher() {
-        return mPublisher;
+        return mPresenterContext.getReviewPublisher();
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {

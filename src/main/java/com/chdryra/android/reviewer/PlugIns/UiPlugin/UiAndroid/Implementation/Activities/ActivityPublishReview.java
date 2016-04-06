@@ -15,8 +15,10 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.Authorisat
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewPublish;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -34,8 +36,9 @@ public class ActivityPublishReview extends ActivityReviewView implements Platfor
         ApplicationInstance app = ApplicationInstance.getInstance(this);
         PublishActionAndroid action = new PublishActionAndroid(app, this, ActivityUsersFeed.class);
 
+        ReviewBuilderAdapter<? extends GvDataList<?>> review = app.getReviewBuilderAdapter();
         PresenterReviewPublish presenter = new PresenterReviewPublish.Builder(app)
-                .build(app.getReviewBuilderAdapter(), this, action, getString(SOCIAL));
+                .build(review, this, action, getString(SOCIAL));
 
         return presenter.getView();
     }
