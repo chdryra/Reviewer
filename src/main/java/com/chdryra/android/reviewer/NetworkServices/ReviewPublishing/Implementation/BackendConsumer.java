@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.QueueConsumer;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
@@ -21,16 +23,17 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBac
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendConsumer extends ReviewConsumer<BackendConsumerListener> implements ReviewUploaderListener {
-    private FactoryBackendUploader mUploaderFactory;
+public class BackendConsumer extends QueueConsumer<Review, BackendConsumerListener>
+        implements ReviewUploaderListener {
+    private FactoryBackendUploader mFactory;
 
-    public BackendConsumer(FactoryBackendUploader uploaderFactory) {
-        mUploaderFactory = uploaderFactory;
+    public BackendConsumer(FactoryBackendUploader factory) {
+        mFactory = factory;
     }
 
     @Override
     public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
-        onWorkCompleted(reviewId);
+        onWorkCompleted(reviewId.toString());
         if(result.isError()) {
             notifyOnFailure(reviewId, result);
         } else {
@@ -51,17 +54,17 @@ public class BackendConsumer extends ReviewConsumer<BackendConsumerListener> imp
     }
 
     @Override
-    protected void OnFailedToRetrieve(ReviewId reviewId, CallbackMessage result) {
+    protected void OnFailedToRetrieve(String reviewId, CallbackMessage result) {
         onWorkCompleted(reviewId);
-        notifyOnFailure(reviewId, result);
+        notifyOnFailure(new DatumReviewId(reviewId), result);
     }
 
     @Override
-    protected ReviewWorker newWorker(ReviewId reviewId) {
-        return new BackendUploadWorker(mUploaderFactory.newPublisher(reviewId));
+    protected ItemWorker<Review> newWorker(String itemId) {
+        return new BackendUploadWorker(mFactory.newPublisher(new DatumReviewId(itemId)));
     }
 
-    private class BackendUploadWorker implements ReviewWorker {
+    private static class BackendUploadWorker implements ItemWorker<Review> {
         private BackendReviewUploader mUploader;
 
         public BackendUploadWorker(BackendReviewUploader uploader) {

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -48,6 +49,12 @@ public class ActivityUsersFeed extends ActivityReviewView implements
         mPresenter = new PresenterUsersFeed.Builder(mApp, this).build();
 
         return mPresenter.getView();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override

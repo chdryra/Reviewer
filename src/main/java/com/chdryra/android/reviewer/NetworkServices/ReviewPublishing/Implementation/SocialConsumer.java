@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.QueueConsumer;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialConsumerListener;
@@ -27,7 +29,8 @@ import java.util.Map;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialConsumer extends ReviewConsumer<SocialConsumerListener> implements SocialPublishingListener {
+public class SocialConsumer extends QueueConsumer<Review, SocialConsumerListener>
+        implements SocialPublishingListener {
     private final FactorySocialPublisher mUploaderFactory;
     private final Map<ReviewId, ArrayList<String>> mPlatformsMap;
 
@@ -50,7 +53,7 @@ public class SocialConsumer extends ReviewConsumer<SocialConsumerListener> imple
     @Override
     public void onPublishCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk,
                                    Collection<PublishResults> publishedNotOk, CallbackMessage result) {
-        onWorkCompleted(reviewId);
+        onWorkCompleted(reviewId.toString());
         if(result.isError()) {
             notifyOnFailure(reviewId, result);
         } else {
@@ -72,17 +75,18 @@ public class SocialConsumer extends ReviewConsumer<SocialConsumerListener> imple
     }
 
     @Override
-    protected void OnFailedToRetrieve(ReviewId reviewId, CallbackMessage result) {
+    protected void OnFailedToRetrieve(String reviewId, CallbackMessage result) {
         onWorkCompleted(reviewId);
-        notifyOnFailure(reviewId, result);
+        notifyOnFailure(new DatumReviewId(reviewId), result);
     }
 
     @Override
-    protected ReviewWorker newWorker(ReviewId reviewId) {
-        return new PublisherWorker(mUploaderFactory.newPublisher(reviewId, mPlatformsMap.get(reviewId)));
+    protected ItemWorker<Review> newWorker(String reviewId) {
+        DatumReviewId id = new DatumReviewId(reviewId);
+        return new PublisherWorker(mUploaderFactory.newPublisher(id, mPlatformsMap.get(id)));
     }
 
-    private class PublisherWorker implements ReviewWorker {
+    private static class PublisherWorker implements ItemWorker<Review> {
         private SocialPlatformsPublisher mPublisher;
 
         public PublisherWorker(SocialPlatformsPublisher publisher) {
