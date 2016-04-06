@@ -8,114 +8,69 @@
 
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation;
 
-import android.support.annotation.NonNull;
-
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendConsumerListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.NetworkPublisher;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.AsyncWorkQueue;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendConsumer implements ReviewUploaderListener, AsyncWorkQueue.QueueObserver {
-    private ReviewQueue mQueue;
+public class BackendConsumer extends ReviewConsumer<BackendConsumerListener> implements ReviewUploaderListener {
     private FactoryBackendUploader mUploaderFactory;
-    private Map<ReviewId, NetworkPublisher<ReviewUploaderListener>> mUploaders;
-    private ArrayList<ReviewId> mUploading;
-    private ArrayList<BackendConsumerListener> mListeners;
-    private Map<String, WorkerToken> mTokens;
 
     public BackendConsumer(FactoryBackendUploader uploaderFactory) {
         mUploaderFactory = uploaderFactory;
-
-        mUploaders = new HashMap<>();
-        mUploading = new ArrayList<>();
-        mListeners = new ArrayList<>();
-        mTokens = new HashMap<>();
-    }
-
-    public void setQueue(ReviewQueue queue) {
-        if(mQueue != null) throw new IllegalStateException("Cannot reset Queue!");
-
-        mQueue = queue;
-        mQueue.registerObserver(this);
-    }
-
-    public void registerListener(BackendConsumerListener listener) {
-        if (!mListeners.contains(listener)) mListeners.add(listener);
-    }
-
-    public void unregisterListener(BackendConsumerListener listener) {
-        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override
     public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
-        mUploading.remove(reviewId);
-        if (result.isError()) {
-            notifyListenersOnFail(reviewId, result);
-            return;
-        }
-
-        notifyListenersOnSuccess(reviewId, result);
-        mUploaders.remove(reviewId);
-        mQueue.workComplete(mTokens.get(reviewId.toString()));
-    }
-
-    @Override
-    public void onAddedToQueue(String itemId) {
-        mTokens.put(itemId, mQueue.addWorker(itemId, this));
-        upload(reviewId(itemId));
-    }
-
-    private void upload(ReviewId reviewId) {
-        if (!mUploading.contains(reviewId)) {
-            mUploading.add(reviewId);
-            getUploader(reviewId).publishReview();
+        onWorkCompleted(reviewId);
+        if(result.isError()) {
+            notifyOnFailure(reviewId, result);
+        } else {
+            notifyOnSuccess(reviewId, result);
         }
     }
 
-    @NonNull
-    private DatumReviewId reviewId(String itemId) {
-        return new DatumReviewId(itemId);
-    }
-
-    private void notifyListenersOnFail(ReviewId reviewId, CallbackMessage result) {
-        for (BackendConsumerListener listener : mListeners) {
-            listener.onUploadFailed(reviewId, result);
-        }
-    }
-
-    private void notifyListenersOnSuccess(ReviewId reviewId, CallbackMessage result) {
-        for (BackendConsumerListener listener : mListeners) {
+    private void notifyOnSuccess(ReviewId reviewId, CallbackMessage result) {
+        for(BackendConsumerListener listener : getListeners()) {
             listener.onUploadCompleted(reviewId, result);
         }
     }
 
-    @NonNull
-    private NetworkPublisher<ReviewUploaderListener> getUploader(ReviewId reviewId) {
-        if (!mUploaders.containsKey(reviewId)) {
-            NetworkPublisher<ReviewUploaderListener> uploader = newUploader(reviewId);
-            uploader.registerListener(this);
-            mUploaders.put(reviewId, uploader);
+    private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
+        for(BackendConsumerListener listener : getListeners()) {
+            listener.onUploadFailed(reviewId, result);
         }
-
-        return mUploaders.get(reviewId);
     }
 
-    private NetworkPublisher<ReviewUploaderListener> newUploader(ReviewId reviewId) {
-        return mUploaderFactory.newPublisher(reviewId);
+    @Override
+    protected void OnFailedToRetrieve(ReviewId reviewId, CallbackMessage result) {
+        onWorkCompleted(reviewId);
+        notifyOnFailure(reviewId, result);
+    }
+
+    @Override
+    protected ReviewWorker newWorker(ReviewId reviewId) {
+        return new BackendUploadWorker(mUploaderFactory.newPublisher(reviewId));
+    }
+
+    private class BackendUploadWorker implements ReviewWorker {
+        private BackendReviewUploader mUploader;
+
+        public BackendUploadWorker(BackendReviewUploader uploader) {
+            mUploader = uploader;
+        }
+
+        @Override
+        public void doWork(Review review) {
+            mUploader.publishReview();
+        }
     }
 }

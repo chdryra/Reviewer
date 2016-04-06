@@ -104,6 +104,11 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+
+    }
+
+    @Override
     public void onPublishingCompleted(ReviewId id, Collection<PublishResults> platformsOk, Collection<PublishResults> platformsNotOk, CallbackMessage message) {
         int numFollowers = 0;
         ArrayList<String> ok = new ArrayList<>();

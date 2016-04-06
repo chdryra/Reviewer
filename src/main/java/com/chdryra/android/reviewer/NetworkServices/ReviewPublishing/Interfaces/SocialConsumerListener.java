@@ -25,4 +25,5 @@ public interface SocialConsumerListener {
     void onPublishingCompleted(ReviewId id, Collection<PublishResults> publishedOk,
                                Collection<PublishResults> publishedNotOk, CallbackMessage result);
 
+    void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
 }

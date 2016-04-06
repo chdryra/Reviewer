@@ -58,6 +58,7 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
         mBackend = backend;
         mBackend.setQueue(mQueue);
         mBackend.registerListener(this);
+
         mSocial = social;
         mSocial.setQueue(mQueue);
         mSocial.registerListener(this);
@@ -114,6 +115,11 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
     }
 
     @Override
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+        notifyListenersOnPublishingStatus(reviewId, percentage, justUploaded);
+    }
+
+    @Override
     public void onPublishingCompleted(ReviewId id,
                                       Collection<PublishResults> publishedOk,
                                       Collection<PublishResults> publishedNotOk,
@@ -126,21 +132,13 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
     @Override
     public void onAddedToStore(Review item, String storeId, CallbackMessage result) {
         QueueCallback callback = mAddCallbacks.remove(item);
-        if (!result.isError()) {
-            callback.onAddedToQueue(item.getReviewId(), result);
-        } else {
-            callback.onFailed(item, reviewId(storeId), result);
-        }
+        callback.onAddedToQueue(item.getReviewId(), result);
     }
 
     @Override
     public void onRetrievedFromStore(Review item, String requestedId, CallbackMessage result) {
         QueueCallback callback = mGetCallbacks.remove(item.getReviewId());
-        if (!result.isError()) {
-            callback.onRetrievedFromQueue(item, result);
-        } else {
-            callback.onFailed(item, reviewId(requestedId), result);
-        }
+        callback.onRetrievedFromQueue(item, result);
     }
 
     @Override
@@ -150,7 +148,13 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
 
     @Override
     public void onFailed(@Nullable Review item, @Nullable String itemId, CallbackMessage result) {
-
+        if (item != null) {
+            QueueCallback callback = mAddCallbacks.remove(item);
+            callback.onFailed(item, reviewId(itemId), result);
+        } else if(itemId != null){
+            QueueCallback callback = mGetCallbacks.remove(reviewId(itemId));
+            callback.onFailed(null, reviewId(itemId), result);
+        }
     }
 
     @Nullable
@@ -181,6 +185,12 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
                                                    CallbackMessage result) {
         for (ReviewPublisherListener listener : mListeners) {
             listener.onPublishingFailed(id, platforms, result);
+        }
+    }
+
+    private void notifyListenersOnPublishingStatus(ReviewId id, double percentage, PublishResults justUploaded) {
+        for (ReviewPublisherListener listener : mListeners) {
+            listener.onPublishingStatus(id, percentage, justUploaded);
         }
     }
 

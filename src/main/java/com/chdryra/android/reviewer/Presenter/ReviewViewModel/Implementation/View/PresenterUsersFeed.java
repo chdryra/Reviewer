@@ -75,6 +75,9 @@ public class PresenterUsersFeed implements
         void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage result);
 
         @Override
+        void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
+
+        @Override
         void onPublishingCompleted(ReviewId id, Collection<PublishResults> platformsOk, Collection<PublishResults> platformsNotOk, CallbackMessage result);
     }
 
@@ -141,6 +144,11 @@ public class PresenterUsersFeed implements
     @Override
     public void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage result) {
         mListener.onPublishingFailed(id, platforms, result);
+    }
+
+    @Override
+    public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
+        mListener.onPublishingStatus(reviewId, percentage, justUploaded);
     }
 
     @Override

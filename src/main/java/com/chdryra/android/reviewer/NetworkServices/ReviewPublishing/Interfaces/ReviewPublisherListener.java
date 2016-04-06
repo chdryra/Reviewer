@@ -19,14 +19,19 @@ import java.util.Collection;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewPublisherListener {
-    void onUploadFailed(ReviewId id, CallbackMessage result);
-
+public interface ReviewPublisherListener extends SocialConsumerListener, BackendConsumerListener{
+    @Override
     void onUploadCompleted(ReviewId id, CallbackMessage result);
 
+    @Override
+    void onUploadFailed(ReviewId id, CallbackMessage result);
+
+    @Override
     void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage result);
 
-    void onPublishingCompleted(ReviewId id, Collection<PublishResults> platformsOk, Collection
-            <PublishResults>
-            platformsNotOk, CallbackMessage result);
+    @Override
+    void onPublishingCompleted(ReviewId id, Collection<PublishResults> publishedOk, Collection<PublishResults> publishedNotOk, CallbackMessage result);
+
+    @Override
+    void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
 }
