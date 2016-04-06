@@ -174,7 +174,7 @@
             android:exported="true" />
 
         <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialUploader.SocialPublishingService" />
-        <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter.BackendRepoService" />
+        <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter.BackendRepositoryService" />
 
         <!-- Key for GMaps and setting up Google Play -->
         <meta-data

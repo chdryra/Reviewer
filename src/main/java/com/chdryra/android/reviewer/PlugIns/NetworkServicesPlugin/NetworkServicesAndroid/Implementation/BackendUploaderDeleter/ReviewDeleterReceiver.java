@@ -37,9 +37,9 @@ public class ReviewDeleterReceiver extends BroadcastingServiceReceiver<ReviewDel
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        String id = intent.getStringExtra(BackendRepoService.REVIEW_ID);
+        String id = intent.getStringExtra(BackendRepositoryService.REVIEW_ID);
         DatumReviewId reviewId = new DatumReviewId(id);
-        CallbackMessage result = intent.getParcelableExtra(BackendRepoService.RESULT);
+        CallbackMessage result = intent.getParcelableExtra(BackendRepositoryService.RESULT);
 
         if(!mReviewId.equals(reviewId) || !isDownload(action)) return;
 
@@ -49,6 +49,6 @@ public class ReviewDeleterReceiver extends BroadcastingServiceReceiver<ReviewDel
     }
 
     private boolean isDownload(String action) {
-        return action.equals(BackendRepoService.DELETE_COMPLETED);
+        return action.equals(BackendRepositoryService.DELETE_COMPLETED);
     }
 }

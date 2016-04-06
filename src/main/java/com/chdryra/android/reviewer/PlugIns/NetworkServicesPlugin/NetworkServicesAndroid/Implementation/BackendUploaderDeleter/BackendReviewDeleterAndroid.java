@@ -24,22 +24,22 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendReviewDeleterAndroid extends
-        BroadcastingService<BackendRepoService, ReviewDeleterReceiver, ReviewDeleterListener>
+        BroadcastingService<BackendRepositoryService, ReviewDeleterReceiver, ReviewDeleterListener>
         implements BackendReviewDeleter {
 
     private ReviewId mId;
 
     public BackendReviewDeleterAndroid(Context context, ReviewDeleterReceiver receiver) {
-        super(context, BackendRepoService.class, receiver);
+        super(context, BackendRepositoryService.class, receiver);
         mId = receiver.getReviewId();
-        registerReceiverAction(BackendRepoService.DELETE_COMPLETED);
+        registerReceiverAction(BackendRepositoryService.DELETE_COMPLETED);
     }
 
     @Override
     public void deleteReview() {
         Intent service = newService();
-        service.putExtra(BackendRepoService.REVIEW_ID, mId.toString());
-        service.putExtra(BackendRepoService.REQUEST_SERVICE, BackendRepoService.Service.DELETE);
+        service.putExtra(BackendRepositoryService.REVIEW_ID, mId.toString());
+        service.putExtra(BackendRepositoryService.REQUEST_SERVICE, BackendRepositoryService.Service.DELETE);
 
         startService(service);
     }

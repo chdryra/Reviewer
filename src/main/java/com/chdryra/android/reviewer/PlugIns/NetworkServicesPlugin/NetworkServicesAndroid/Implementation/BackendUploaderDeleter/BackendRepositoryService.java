@@ -19,9 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
-
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
 import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.CallbackMessage;
@@ -31,7 +29,7 @@ import com.chdryra.android.reviewer.Utils.CallbackMessage;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendRepoService extends IntentService implements WorkStoreCallback<Review>,
+public class BackendRepositoryService extends IntentService implements ReviewPublisher.QueueCallback,
         CallbackRepositoryMutable {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
     public static final String RESULT = "BackendUploadService.Result";
@@ -54,7 +52,7 @@ public class BackendRepoService extends IntentService implements WorkStoreCallba
 
     public enum Service {UPLOAD, DELETE}
 
-    public BackendRepoService() {
+    public BackendRepositoryService() {
         super(SERVICE);
     }
 
@@ -103,24 +101,18 @@ public class BackendRepoService extends IntentService implements WorkStoreCallba
     }
 
     @Override
-    public void onAddedToStore(Review item, String storeId, CallbackMessage result) {
+    public void onAddedToQueue(ReviewId id, CallbackMessage message) {
 
     }
 
     @Override
-    public void onRetrievedFromStore(Review review, String requestedId, CallbackMessage
-            result) {
+    public void onRetrievedFromQueue(Review review, CallbackMessage message) {
         mApp.getBackendRepository().addReview(review, this);
     }
 
     @Override
-    public void onRemovedFromStore(String itemId, CallbackMessage result) {
-
-    }
-
-    @Override
-    public void onFailed(@Nullable Review item, @Nullable String itemId, CallbackMessage result) {
-        broadcastUploadComplete(result);
+    public void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message) {
+        broadcastUploadComplete(message);
     }
 
     private void broadcastUploadComplete(CallbackMessage message) {

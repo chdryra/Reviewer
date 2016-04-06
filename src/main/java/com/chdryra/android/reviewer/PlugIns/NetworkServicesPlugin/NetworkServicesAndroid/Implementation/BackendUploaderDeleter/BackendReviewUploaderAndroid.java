@@ -23,22 +23,22 @@ import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListen
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendReviewUploaderAndroid extends
-        BroadcastingService<BackendRepoService, ReviewUploaderReceiver, ReviewUploaderListener>
+        BroadcastingService<BackendRepositoryService, ReviewUploaderReceiver, ReviewUploaderListener>
         implements BackendReviewUploader {
 
     private ReviewId mId;
 
     public BackendReviewUploaderAndroid(Context context, ReviewUploaderReceiver receiver) {
-        super(context, BackendRepoService.class, receiver);
+        super(context, BackendRepositoryService.class, receiver);
         mId = receiver.getReviewId();
-        registerReceiverAction(BackendRepoService.UPLOAD_COMPLETED);
+        registerReceiverAction(BackendRepositoryService.UPLOAD_COMPLETED);
     }
 
     @Override
     public void publishReview() {
         Intent service = newService();
-        service.putExtra(BackendRepoService.REVIEW_ID, mId.toString());
-        service.putExtra(BackendRepoService.REQUEST_SERVICE, BackendRepoService.Service.UPLOAD);
+        service.putExtra(BackendRepositoryService.REVIEW_ID, mId.toString());
+        service.putExtra(BackendRepositoryService.REQUEST_SERVICE, BackendRepositoryService.Service.UPLOAD);
 
         startService(service);
     }

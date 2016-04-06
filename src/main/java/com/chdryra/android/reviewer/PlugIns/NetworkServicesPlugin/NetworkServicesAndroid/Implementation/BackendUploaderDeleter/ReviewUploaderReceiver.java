@@ -38,9 +38,9 @@ public class ReviewUploaderReceiver extends BroadcastingServiceReceiver<ReviewUp
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        String id = intent.getStringExtra(BackendRepoService.REVIEW_ID);
+        String id = intent.getStringExtra(BackendRepositoryService.REVIEW_ID);
         DatumReviewId reviewId = new DatumReviewId(id);
-        CallbackMessage result = intent.getParcelableExtra(BackendRepoService.RESULT);
+        CallbackMessage result = intent.getParcelableExtra(BackendRepositoryService.RESULT);
 
         if(!mReviewId.equals(reviewId) || !isUpload(action)) return;
 
@@ -50,6 +50,6 @@ public class ReviewUploaderReceiver extends BroadcastingServiceReceiver<ReviewUp
     }
 
     private boolean isUpload(String action) {
-        return action.equals(BackendRepoService.UPLOAD_COMPLETED);
+        return action.equals(BackendRepositoryService.UPLOAD_COMPLETED);
     }
 }
