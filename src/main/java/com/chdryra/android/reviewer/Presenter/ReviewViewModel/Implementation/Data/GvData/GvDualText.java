@@ -12,7 +12,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.VHDDualString;
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDDualString;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  */
 
 /**
- * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDDualString} to comply with
+ * Parcelable version of {@link VHDDualString} to comply with
  * {@link GvData}
  */
 public class GvDualText extends VHDDualString implements GvData {

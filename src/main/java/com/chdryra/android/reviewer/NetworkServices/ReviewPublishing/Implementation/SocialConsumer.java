@@ -17,10 +17,10 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncWorkQueue;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.AsyncWorkQueue;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;

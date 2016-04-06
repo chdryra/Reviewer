@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
-import com.chdryra.android.mygenerallibrary.FileIncrementor;
+import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
 
 import java.io.File;
 

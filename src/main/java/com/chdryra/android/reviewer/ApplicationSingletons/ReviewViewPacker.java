@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 import android.content.Context;
 import android.content.Intent;
 
-import com.chdryra.android.mygenerallibrary.ObjectHolder;
+import com.chdryra.android.mygenerallibrary.CacheUtils.ObjectHolder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 import java.util.UUID;

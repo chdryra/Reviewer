@@ -14,8 +14,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.webkit.URLUtil;
 
-import com.chdryra.android.mygenerallibrary.ImageHelper;
-import com.chdryra.android.mygenerallibrary.TextUtils;
+import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
+import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;
 import com.chdryra.android.reviewer.Model.Implementation.ReviewsRepositoryModel

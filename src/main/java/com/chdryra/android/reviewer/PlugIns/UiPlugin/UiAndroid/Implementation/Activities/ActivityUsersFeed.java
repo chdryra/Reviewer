@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.test.View.Dialogs;
 
 import android.location.Location;
 
-import com.chdryra.android.mygenerallibrary.DialogCancelAddDoneFragment;
-import com.chdryra.android.mygenerallibrary.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;

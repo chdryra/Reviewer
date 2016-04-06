@@ -15,7 +15,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
-import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;

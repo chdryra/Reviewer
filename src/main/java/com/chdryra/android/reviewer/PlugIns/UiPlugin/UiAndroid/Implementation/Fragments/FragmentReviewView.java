@@ -33,8 +33,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.ViewHolderAdapter;
+import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Activities
         .ActivityReviewView;

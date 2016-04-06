@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.Publis
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;

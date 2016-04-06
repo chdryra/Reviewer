@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Utils;
 
-import com.chdryra.android.mygenerallibrary.NumberFormatter;
+import com.chdryra.android.mygenerallibrary.NumberUtils.NumberFormatter;
 
 /**
  * Created by: Rizwan Choudrey

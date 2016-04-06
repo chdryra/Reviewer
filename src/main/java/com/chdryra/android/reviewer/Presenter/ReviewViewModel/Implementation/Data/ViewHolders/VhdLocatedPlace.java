@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.ViewHolder;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 
 /**

@@ -3,7 +3,7 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Aggregater;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;

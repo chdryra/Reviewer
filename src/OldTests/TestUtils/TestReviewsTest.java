@@ -14,7 +14,7 @@ import android.graphics.BitmapFactory;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation

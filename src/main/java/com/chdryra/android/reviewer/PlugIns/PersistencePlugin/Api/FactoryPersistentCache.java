@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api;
 
 import android.content.Context;
 
-import com.chdryra.android.mygenerallibrary.QueueCache;
+import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 

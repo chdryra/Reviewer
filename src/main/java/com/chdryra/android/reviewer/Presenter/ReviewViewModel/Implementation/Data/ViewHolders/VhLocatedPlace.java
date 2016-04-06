@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.R;
 
 /**

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation;
 
-import com.chdryra.android.mygenerallibrary.SortableListImpl;
+import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.DbTableRow;
 
 /**

@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.mygenerallibrary.AlertListener;
-import com.chdryra.android.mygenerallibrary.DialogShower;
-import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 

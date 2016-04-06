@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPubl
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter.BackendRepositoryService;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BroadcastingServiceReceiver;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 

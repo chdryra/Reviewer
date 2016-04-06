@@ -25,7 +25,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.OAuthRequest;

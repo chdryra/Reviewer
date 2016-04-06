@@ -10,13 +10,14 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.widget.ImageView;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.R;
 
 /**
- * {@link com.chdryra.android.mygenerallibrary.ViewHolder}: {@link com.chdryra.android.reviewer
+ * {@link ViewHolder}: {@link com.chdryra.android.reviewer
  * .View.GvImageList.GvImage}. Shows
  * image bitmap.
  */

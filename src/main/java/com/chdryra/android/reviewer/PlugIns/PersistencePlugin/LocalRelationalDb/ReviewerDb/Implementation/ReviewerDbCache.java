@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
         .Implementation;
 
 
-import com.chdryra.android.mygenerallibrary.QueueCache;
+import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;

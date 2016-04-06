@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialConsumerListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;

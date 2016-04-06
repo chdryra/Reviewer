@@ -19,7 +19,7 @@
         android:contentDescription="@string/dialog_image_content_description"
         android:scaleType="centerInside"/>
 
-    <com.chdryra.android.mygenerallibrary.ClearableEditText
+    <com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText
         android:id="@+id/caption_edit_text"
         style="@style/EditTextCapSentences.Done"
         android:cursorVisible="false"

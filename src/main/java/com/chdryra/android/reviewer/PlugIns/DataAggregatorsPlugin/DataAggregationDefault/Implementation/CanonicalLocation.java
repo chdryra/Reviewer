@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregati
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.LatLngMidpoint;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;

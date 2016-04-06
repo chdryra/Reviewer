@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStore;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncWorkQueueImpl;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStore;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.AsyncWorkQueueImpl;
 
 /**
  * Created by: Rizwan Choudrey

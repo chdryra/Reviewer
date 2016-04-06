@@ -11,7 +11,7 @@ package test.Model.ReviewsRepositoryModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.SortableListImpl;
+import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;

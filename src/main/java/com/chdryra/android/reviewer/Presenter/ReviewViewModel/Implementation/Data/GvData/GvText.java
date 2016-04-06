@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.VHDString;
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDString;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
  */
 
 /**
- * Parcelable version of {@link com.chdryra.android.mygenerallibrary.VHDString} to comply with
+ * Parcelable version of {@link VHDString} to comply with
  * {@link GvData}
  */
 public class GvText<T extends GvText> extends VHDString implements GvData {

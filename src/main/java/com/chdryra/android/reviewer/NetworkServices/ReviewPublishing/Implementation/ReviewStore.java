@@ -19,9 +19,9 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStore;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkStoreCallback;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStore;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.Collection;
 

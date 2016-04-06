@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.ObjectHolder;
+import com.chdryra.android.mygenerallibrary.CacheUtils.ObjectHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**

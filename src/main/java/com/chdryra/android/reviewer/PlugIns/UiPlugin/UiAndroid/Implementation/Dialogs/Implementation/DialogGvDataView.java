@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts

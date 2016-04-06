@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.LocationServices.Implementation;
 
-import com.chdryra.android.mygenerallibrary.VhDataList;
-import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;

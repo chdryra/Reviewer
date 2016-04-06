@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
 import android.content.Intent;
 
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**

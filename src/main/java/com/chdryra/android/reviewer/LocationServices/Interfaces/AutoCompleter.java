@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.LocationServices.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
-import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 
 /**
  * Created by: Rizwan Choudrey

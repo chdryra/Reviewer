@@ -18,10 +18,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.BitmapLoader;
-import com.chdryra.android.mygenerallibrary.FileIncrementor;
-import com.chdryra.android.mygenerallibrary.ImageHelper;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.Imaging.BitmapLoader;
+import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
+import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;

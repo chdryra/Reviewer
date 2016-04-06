@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;

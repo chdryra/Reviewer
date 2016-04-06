@@ -8,11 +8,12 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.VHString;
+import com.chdryra.android.mygenerallibrary.Viewholder.VHString;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.R;
 
 /**
- * Simple {@link com.chdryra.android.mygenerallibrary.ViewHolder} for displaying strings on a
+ * Simple {@link ViewHolder} for displaying strings on a
  * grid cell.
  * <p/>
  * <p>

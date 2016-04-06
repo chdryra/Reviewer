@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LauncherUiImpl;
 
 /**

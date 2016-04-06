@@ -33,11 +33,11 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.ClearableAutoCompleteTextView;
-import com.chdryra.android.mygenerallibrary.FragmentDeleteDone;
-import com.chdryra.android.mygenerallibrary.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
+import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
-import com.chdryra.android.mygenerallibrary.StringFilterAdapter;
+import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;

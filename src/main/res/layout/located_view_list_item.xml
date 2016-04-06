@@ -7,7 +7,7 @@
   ~
   -->
 
-<com.chdryra.android.mygenerallibrary.ViewHolderLayout
+<com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout
     style="@style/GridCell"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -20,4 +20,4 @@
         android:paddingRight="@dimen/grid_item_text_padding"
         android:textSize="16sp"/>
 
-</com.chdryra.android.mygenerallibrary.ViewHolderLayout>
+</com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderLayout>

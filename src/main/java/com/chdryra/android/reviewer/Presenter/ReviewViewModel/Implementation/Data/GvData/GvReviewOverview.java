@@ -12,8 +12,8 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.mygenerallibrary.ViewHolder;
+import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;

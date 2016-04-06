@@ -15,10 +15,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendConsumerListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.NetworkPublisher;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.AsyncWorkQueue;
-import com.chdryra.android.reviewer.NetworkServices.WorkQueueModel.WorkerToken;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.AsyncWorkQueue;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

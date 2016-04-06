@@ -20,11 +20,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.chdryra.android.mygenerallibrary.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.LocationClientConnector;
-import com.chdryra.android.mygenerallibrary.VhDataList;
-import com.chdryra.android.mygenerallibrary.ViewHolderAdapterFiltered;
-import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;

@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.DifferenceComparitor;
-import com.chdryra.android.mygenerallibrary.LatLngDistance;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngDistance;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

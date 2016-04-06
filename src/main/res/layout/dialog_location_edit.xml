@@ -7,7 +7,7 @@
   ~
   -->
 
-<com.chdryra.android.mygenerallibrary.ClearableAutoCompleteTextView
+<com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView
     android:id="@+id/location_edit_edit_text"
     style="@style/EditTextCapSentences.AutoComplete.Go"
     xmlns:android="http://schemas.android.com/apk/res/android"

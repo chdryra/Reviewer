@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.Data;
 
-import com.chdryra.android.mygenerallibrary.ViewHolderDataList;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.A
 import android.app.Fragment;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.ActivitySingleFragment;
+import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;

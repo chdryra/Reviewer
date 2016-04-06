@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.Collection;
 

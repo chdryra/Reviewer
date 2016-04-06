@@ -8,12 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import com.chdryra.android.mygenerallibrary.VHDDualString;
-import com.chdryra.android.mygenerallibrary.VHDualString;
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDDualString;
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDualString;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.R;
 
 /**
- * Simple {@link com.chdryra.android.mygenerallibrary.ViewHolder} for {@link VHDualString}.
+ * Simple {@link ViewHolder} for {@link VHDualString}.
  * Displays an
  * upper and
  * lower string.

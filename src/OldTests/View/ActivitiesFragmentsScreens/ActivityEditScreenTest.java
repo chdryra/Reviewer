@@ -13,8 +13,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.mygenerallibrary.DialogAlertFragment;
-import com.chdryra.android.mygenerallibrary.DialogDeleteConfirm;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;

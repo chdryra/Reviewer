@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.TextUtils;
-import com.chdryra.android.mygenerallibrary.ViewHolderBasic;
-import com.chdryra.android.mygenerallibrary.ViewHolderData;
+import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewOverview;
 import com.chdryra.android.reviewer.R;

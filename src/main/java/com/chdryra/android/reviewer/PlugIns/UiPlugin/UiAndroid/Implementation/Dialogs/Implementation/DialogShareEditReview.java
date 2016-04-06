@@ -18,13 +18,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.DialogOneButtonFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Utils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .DeleteRequestListener;
 
@@ -34,8 +34,8 @@ import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.ReviewSummariser;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublisherAndroid;
-import com.chdryra.android.mygenerallibrary.DialogShower;
-import com.chdryra.android.mygenerallibrary.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 

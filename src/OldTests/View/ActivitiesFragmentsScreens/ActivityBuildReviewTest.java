@@ -17,7 +17,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.chdryra.android.mygenerallibrary.DialogCancelActionDoneFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelActionDoneFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.SortableListImpl;
+import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;

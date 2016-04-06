@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Utils;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.QueueCache;
+import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 

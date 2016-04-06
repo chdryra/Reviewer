@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
