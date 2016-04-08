@@ -6,49 +6,29 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
+        .Implementation.BackendUploaderDeleter;
 
-
-import android.content.Context;
-import android.content.Intent;
-
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewDeleterListener;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BroadcastingServiceReceiver;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewDeleterReceiver extends BroadcastingServiceReceiver<ReviewDeleterListener> {
-    private ReviewId mReviewId;
-
+public class ReviewDeleterReceiver extends BackendRepoServiceReceiver<ReviewDeleterListener>
+        implements HasReviewId {
     public ReviewDeleterReceiver(ReviewId reviewId) {
-        mReviewId = reviewId;
-    }
-
-    public ReviewId getReviewId() {
-        return mReviewId;
+        super(BackendRepoService.DELETE_COMPLETED, reviewId);
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        String id = intent.getStringExtra(BackendRepositoryService.REVIEW_ID);
-        DatumReviewId reviewId = new DatumReviewId(id);
-        CallbackMessage result = intent.getParcelableExtra(BackendRepositoryService.RESULT);
-
-        if(!mReviewId.equals(reviewId) || !isDownload(action)) return;
-
-        for (ReviewDeleterListener listener : this) {
-            listener.onDeletedFromBackend(reviewId, result);
-        }
-    }
-
-    private boolean isDownload(String action) {
-        return action.equals(BackendRepositoryService.DELETE_COMPLETED);
+    protected void notifyListener(ReviewDeleterListener listener, DatumReviewId reviewId,
+                                  CallbackMessage result) {
+        listener.onDeletedFromBackend(reviewId, result);
     }
 }

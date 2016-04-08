@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter.BackendRepositoryService;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter.BackendRepoService;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BroadcastingServiceReceiver;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -44,7 +44,7 @@ public class SocialPublishingReceiver extends
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        String id = intent.getStringExtra(BackendRepositoryService.REVIEW_ID);
+        String id = intent.getStringExtra(BackendRepoService.REVIEW_ID);
         DatumReviewId reviewId = new DatumReviewId(id);
 
         if(!mReviewId.equals(reviewId) ) return;

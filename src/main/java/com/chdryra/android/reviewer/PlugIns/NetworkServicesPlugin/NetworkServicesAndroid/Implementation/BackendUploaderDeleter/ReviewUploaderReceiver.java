@@ -9,47 +9,26 @@
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
         .Implementation.BackendUploaderDeleter;
 
-import android.content.Context;
-import android.content.Intent;
-
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BroadcastingServiceReceiver;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUploaderReceiver extends BroadcastingServiceReceiver<ReviewUploaderListener> {
-    private ReviewId mReviewId;
-
+public class ReviewUploaderReceiver extends BackendRepoServiceReceiver<ReviewUploaderListener>
+        implements HasReviewId {
     public ReviewUploaderReceiver(ReviewId reviewId) {
-        mReviewId = reviewId;
-    }
-
-    public ReviewId getReviewId() {
-        return mReviewId;
+        super(BackendRepoService.Service.UPLOAD.completed(), reviewId);
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-        String id = intent.getStringExtra(BackendRepositoryService.REVIEW_ID);
-        DatumReviewId reviewId = new DatumReviewId(id);
-        CallbackMessage result = intent.getParcelableExtra(BackendRepositoryService.RESULT);
-
-        if(!mReviewId.equals(reviewId) || !isUpload(action)) return;
-
-        for (ReviewUploaderListener listener : this) {
-            listener.onUploadedToBackend(reviewId, result);
-        }
-    }
-
-    private boolean isUpload(String action) {
-        return action.equals(BackendRepositoryService.UPLOAD_COMPLETED);
+    protected void notifyListener(ReviewUploaderListener listener, DatumReviewId reviewId,
+                                  CallbackMessage result) {
+        listener.onUploadedToBackend(reviewId, result);
     }
 }
