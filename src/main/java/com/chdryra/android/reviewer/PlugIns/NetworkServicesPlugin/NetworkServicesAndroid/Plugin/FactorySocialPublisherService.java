@@ -14,9 +14,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.SocialUploader.SocialPlatformsPublisherAndroid;
+        .Implementation.SocialPublisherService.SocialPlatformsPublisherAndroid;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.SocialUploader.SocialPublishingReceiver;
+        .Implementation.SocialPublisherService.SocialPublishingReceiver;
 
 import java.util.ArrayList;
 

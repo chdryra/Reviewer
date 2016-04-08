@@ -26,13 +26,15 @@ import java.util.Collection;
  * On: 31/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsRepositoryCached<T extends ReviewsRepository> implements ReviewsRepository {
+public class ReviewsRepositoryCached<T extends ReviewsRepository>
+        implements ReviewsRepository, ReviewsRepositoryObserver {
     private ReviewsCache mCache;
     private T mArchive;
 
     public ReviewsRepositoryCached(ReviewsCache cache, T archive) {
         mCache = cache;
         mArchive = archive;
+        mArchive.registerObserver(this);
     }
 
     @Override
@@ -93,5 +95,15 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository> implements Rev
 
             mCallback.onFetchedFromRepo(reviews, result);
         }
+    }
+
+    @Override
+    public void onReviewAdded(Review review) {
+
+    }
+
+    @Override
+    public void onReviewRemoved(ReviewId reviewId) {
+        mCache.remove(reviewId);
     }
 }

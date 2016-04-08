@@ -173,8 +173,8 @@
             android:authorities="com.facebook.app.FacebookContentProvider1671165596505199"
             android:exported="true" />
 
-        <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialUploader.SocialPublishingService" />
-        <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter.BackendRepoService" />
+        <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.SocialPublisherService.SocialPublishingService" />
+        <service android:name=".PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService" />
 
         <!-- Key for GMaps and setting up Google Play -->
         <meta-data

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewDeleterListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
@@ -58,6 +59,7 @@ public class PresenterUsersFeed implements
     private ReviewView<GvReviewOverview> mReviewView;
     private GridItemFeedScreen mGridItem;
     private PresenterListener mListener;
+    private BackendReviewDeleter mDeleter;
 
     public interface PresenterListener extends ReviewPublisherListener, ReviewDeleterListener {
         @Override
@@ -101,7 +103,9 @@ public class PresenterUsersFeed implements
     }
 
     public void deleteReview(final ReviewId id) {
-
+        mDeleter = mApp.newBackendDeleter(id);
+        mDeleter.registerListener(this);
+        mDeleter.deleteReview();
     }
 
     public void detach() {
@@ -159,6 +163,7 @@ public class PresenterUsersFeed implements
     public void onDeletedFromBackend(ReviewId reviewId, CallbackMessage result) {
         mApp.getTagsManager().clearTags(reviewId.toString());
         mListener.onDeletedFromBackend(reviewId, result);
+        mDeleter.unregisterListener(this);
     }
 
     private void notifyReviewView() {

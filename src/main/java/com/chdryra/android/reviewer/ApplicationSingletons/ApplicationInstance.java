@@ -22,9 +22,11 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Call
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -161,7 +163,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.getReview(id, callback);
     }
 
-    public ReviewsRepositoryMutable getBackendRepository() {
+    public BackendReviewDeleter newBackendDeleter(ReviewId id) {
+        return mPresenterContext.newBackendDeleter(id);
+    }
+
+    public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {
+        // to ensure only used by BackendRepoService
         return mPresenterContext.getBackendRepository();
     }
 }

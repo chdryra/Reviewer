@@ -6,15 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendUploaderDeleter;
+package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService;
 
 
 import android.content.Context;
 
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewDeleterListener;
-import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
 
 /**
  * Created by: Rizwan Choudrey

@@ -12,6 +12,8 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories.FactoryReviewPublisher;
+
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendDeleter;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
 
 /**
@@ -21,14 +23,21 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkSer
  */
 public class ReleaseNetworkContext implements NetworkContext {
     private FactoryReviewPublisher mPublisher;
+    private FactoryBackendDeleter mDeleterFactory;
 
     public ReleaseNetworkContext(Context context, NetworkServicesPlugin plugin) {
         mPublisher = new FactoryReviewPublisher(plugin.getBackendUploaderFactory(context),
-                plugin.getSocialUploaderFactory(context));
+                plugin.getSocialPublisherFactory(context));
+        mDeleterFactory = plugin.getBackendDeleterFactory(context);
     }
 
     @Override
     public FactoryReviewPublisher getPublisherFactory() {
         return mPublisher;
+    }
+
+    @Override
+    public FactoryBackendDeleter getDeleterFactory() {
+        return mDeleterFactory;
     }
 }

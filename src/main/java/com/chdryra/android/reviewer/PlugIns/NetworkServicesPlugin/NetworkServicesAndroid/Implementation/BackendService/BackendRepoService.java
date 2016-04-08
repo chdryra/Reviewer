@@ -7,7 +7,7 @@
  */
 
 package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendUploaderDeleter;
+        .Implementation.BackendService;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -120,7 +120,7 @@ public class BackendRepoService extends IntentService implements ReviewPublisher
 
     @Override
     public void onRetrievedFromQueue(Review review, CallbackMessage message) {
-        mApp.getBackendRepository().addReview(review, this);
+        mApp.getBackendRepository(this).addReview(review, this);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class BackendRepoService extends IntentService implements ReviewPublisher
             mPublisher = mApp.getPublisher();
             mToken = mPublisher.getFromQueue(id, this, this);
         } else if (service == Service.DELETE) {
-            mApp.getBackendRepository().removeReview(id, this);
+            mApp.getBackendRepository(this).removeReview(id, this);
         }
     }
 }

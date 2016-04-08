@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServic
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendDeleter;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
@@ -20,21 +21,28 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkSer
  * Email: rizwan.choudrey@gmail.com
  */
 public class NetworkServicesAndroid implements NetworkServicesPlugin {
-    private final FactorySocialPublisherService mSocial;
-    private final FactoryBackendUploaderService mBackend;
+    private final FactorySocialPublisherService mSocialPublisherFactory;
+    private final FactoryBackendUploaderService mUploaderfactory;
+    private final FactoryBackendDeleterService mDeleterFactory;
 
     public NetworkServicesAndroid(Context context) {
-        mSocial = new FactorySocialPublisherService(context);
-        mBackend = new FactoryBackendUploaderService(context);
+        mSocialPublisherFactory = new FactorySocialPublisherService(context);
+        mUploaderfactory = new FactoryBackendUploaderService(context);
+        mDeleterFactory = new FactoryBackendDeleterService(context);
     }
 
     @Override
-    public FactorySocialPublisher getSocialUploaderFactory(Context context) {
-        return mSocial;
+    public FactorySocialPublisher getSocialPublisherFactory(Context context) {
+        return mSocialPublisherFactory;
     }
 
     @Override
     public FactoryBackendUploader getBackendUploaderFactory(Context context) {
-        return mBackend;
+        return mUploaderfactory;
+    }
+
+    @Override
+    public FactoryBackendDeleter getBackendDeleterFactory(Context context) {
+        return mDeleterFactory;
     }
 }

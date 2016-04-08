@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories
         .FactoryReviewPublisher;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendDeleter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -18,4 +19,6 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories
  */
 public interface NetworkContext {
     FactoryReviewPublisher getPublisherFactory();
+
+    FactoryBackendDeleter getDeleterFactory();
 }

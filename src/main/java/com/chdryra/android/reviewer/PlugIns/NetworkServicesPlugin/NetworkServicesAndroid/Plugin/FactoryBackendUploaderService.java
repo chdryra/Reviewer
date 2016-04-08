@@ -14,9 +14,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendUploaderDeleter.BackendReviewUploaderAndroid;
+        .Implementation.BackendService.BackendReviewUploaderAndroid;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendUploaderDeleter.ReviewUploaderReceiver;
+        .Implementation.BackendService.ReviewUploaderReceiver;
 
 /**
  * Created by: Rizwan Choudrey

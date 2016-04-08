@@ -16,7 +16,9 @@ import android.content.Context;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NetworkServicesPlugin {
-    FactorySocialPublisher getSocialUploaderFactory(Context context);
+    FactorySocialPublisher getSocialPublisherFactory(Context context);
 
     FactoryBackendUploader getBackendUploaderFactory(Context context);
+
+    FactoryBackendDeleter getBackendDeleterFactory(Context context);
 }
