@@ -11,6 +11,9 @@ package com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.I
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Interfaces
+        .FirebaseDbObserver;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -23,14 +26,17 @@ import java.util.ArrayList;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseDbImpl implements FirebaseDb {
+public class FirebaseReviewsDb implements FirebaseDb {
     private static final String REVIEWS_ROOT = "Reviews";
     private Firebase mDataRoot;
     private FirebaseValidator mValidator;
+    private ArrayList<FirebaseDbObserver> mObservers;
 
-    public FirebaseDbImpl(Firebase dataRoot, FirebaseValidator validator) {
+    public FirebaseReviewsDb(Firebase dataRoot, FirebaseValidator validator) {
         mDataRoot = dataRoot;
         mValidator = validator;
+        mObservers = new ArrayList<>();
+        mDataRoot.child(REVIEWS_ROOT).addChildEventListener(new ChildListener());
     }
 
     @Override
@@ -55,6 +61,16 @@ public class FirebaseDbImpl implements FirebaseDb {
     public void getReviews(GetCollectionCallback callback) {
         Firebase root = mDataRoot.child(REVIEWS_ROOT);
         root.addListenerForSingleValueEvent(newGetCollectionListener(callback));
+    }
+
+    @Override
+    public void registerObserver(FirebaseDbObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(FirebaseDbObserver observer) {
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     @NonNull
@@ -114,5 +130,54 @@ public class FirebaseDbImpl implements FirebaseDb {
                 listener.onReviewDeleted(reviewId, firebaseError);
             }
         };
+    }
+
+    private class ChildListener implements ChildEventListener {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            notifyOnChildAdded(getReview(dataSnapshot));
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            notifyOnChildChanged(getReview(dataSnapshot));
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+            notifyOnChildRemoved(getReview(dataSnapshot));
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
+        }
+
+        private FbReview getReview(DataSnapshot dataSnapshot) {
+            return dataSnapshot.getValue(FbReview.class);
+        }
+
+        private void notifyOnChildAdded(FbReview review) {
+            for (FirebaseDbObserver observer : mObservers) {
+                observer.onReviewAdded(review);
+            }
+        }
+
+        private void notifyOnChildChanged(FbReview review) {
+            for (FirebaseDbObserver observer : mObservers) {
+                observer.onReviewChanged(review);
+            }
+        }
+
+        private void notifyOnChildRemoved(FbReview review) {
+            for (FirebaseDbObserver observer : mObservers) {
+                observer.onReviewRemoved(review);
+            }
+        }
     }
 }

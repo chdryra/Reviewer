@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
@@ -35,12 +35,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -180,12 +178,8 @@ public class PresenterUsersFeed implements
             ReviewsFeed usersFeed = mApp.getUsersFeed();
             String title = usersFeed.getAuthor().getName() + "'s feed";
 
-            ReviewTreeRepoCallback callback
-                    = new ReviewTreeRepoCallback(new ArrayList<Review>(),
-                    mApp.getReviewsFactory(), title);
-            usersFeed.getReviews(callback);
-
-            return new PresenterUsersFeed(mApp, callback, getActions(), mListener);
+            ReviewTreeLive node = new ReviewTreeLive(usersFeed, mApp.getReviewsFactory(), title);
+            return new PresenterUsersFeed(mApp, node, getActions(), mListener);
         }
 
         @NonNull
