@@ -17,5 +17,5 @@ import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploade
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryBackendUploader {
-    BackendReviewUploader newPublisher(ReviewId id);
+    BackendReviewUploader newUploader(ReviewId id);
 }

@@ -75,7 +75,7 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
             callback) {
         mAddCallbacks.put(review, callback);
         mSocial.setPlatforms(review.getReviewId(), platforms);
-        mQueue.addForWork(review, this);
+        mQueue.addReviewToQueue(review, this);
     }
 
     public synchronized WorkerToken getFromQueue(ReviewId reviewId, QueueCallback callback,
@@ -149,9 +149,12 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
     @Override
     public void onFailed(@Nullable Review item, @Nullable String itemId, CallbackMessage result) {
         if (item != null) {
+            //Failed onAdd...
             QueueCallback callback = mAddCallbacks.remove(item);
+            mSocial.unsetPlatforms(item.getReviewId());
             callback.onFailed(item, reviewId(itemId), result);
         } else if(itemId != null){
+            //Failed onRetrieved...
             QueueCallback callback = mGetCallbacks.remove(reviewId(itemId));
             callback.onFailed(null, reviewId(itemId), result);
         }

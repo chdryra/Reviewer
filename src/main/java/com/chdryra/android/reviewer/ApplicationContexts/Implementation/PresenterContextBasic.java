@@ -26,7 +26,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
@@ -48,7 +49,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 04/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class PresenterContextBasic implements PresenterContext{
+public abstract class PresenterContextBasic implements PresenterContext {
     private ModelContext mModelContext;
     private ViewContext mViewContext;
     private SocialContext mSocialContext;
@@ -72,7 +73,8 @@ public abstract class PresenterContextBasic implements PresenterContext{
         mSocialContext = socialContext;
         mPersistenceContext = persistenceContext;
         mNetworkContext = networkContext;
-        mPublisher = mNetworkContext.getPublisherFactory().newPublisher(mPersistenceContext.getLocalRepository());
+        mPublisher = mNetworkContext.getPublisherFactory().newPublisher(mPersistenceContext
+                .getLocalRepository());
     }
 
     public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
@@ -144,13 +146,6 @@ public abstract class PresenterContextBasic implements PresenterContext{
 
     }
 
-    private void launchReview(Activity activity, ReviewNode reviewNode) {
-        LaunchableUi ui = mFactoryReviewViewLaunchable.newReviewsListScreen(reviewNode,
-                mFactoryReviewViewAdapter);
-        String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(ui, activity, RequestCodeGenerator.getCode(tag));
-    }
-
     @Override
     public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
         mReviewBuilderAdapter = mFactoryBuilderAdapter.newAdapter(template);
@@ -203,5 +198,12 @@ public abstract class PresenterContextBasic implements PresenterContext{
     @Override
     public BackendReviewDeleter newBackendDeleter(ReviewId id) {
         return mNetworkContext.getDeleterFactory().newDeleter(id);
+    }
+
+    private void launchReview(Activity activity, ReviewNode reviewNode) {
+        LaunchableUi ui = mFactoryReviewViewLaunchable.newReviewsListScreen(reviewNode,
+                mFactoryReviewViewAdapter);
+        String tag = reviewNode.getSubject().getSubject();
+        getUiLauncher().launch(ui, activity, RequestCodeGenerator.getCode(tag));
     }
 }

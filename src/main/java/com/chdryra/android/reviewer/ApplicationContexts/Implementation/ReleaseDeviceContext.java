@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
+import android.content.Context;
 import android.os.Environment;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
@@ -22,7 +23,12 @@ import java.io.File;
 public class ReleaseDeviceContext implements DeviceContext {
     private static final File FILE_DIR_EXT = Environment
             .getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-    private static final String IMAGE_DIR = "Reviewer";
+    private final String mImageDir;
+
+    public ReleaseDeviceContext(Context context) {
+        int stringId = context.getApplicationInfo().labelRes;
+        mImageDir = context.getString(stringId);
+    }
 
     @Override
     public File getImageStoragePath() {
@@ -31,6 +37,6 @@ public class ReleaseDeviceContext implements DeviceContext {
 
     @Override
     public String getImageStorageDirectory() {
-        return IMAGE_DIR;
+        return mImageDir;
     }
 }

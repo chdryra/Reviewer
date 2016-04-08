@@ -31,7 +31,6 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
     private FactoryReviewViewAdapter mAdapterFactory;
     private GridDataViewer<GvCanonical> mViewer;
 
-    //Constructors
     public ViewerAggregateToData(GvCanonicalCollection<T> aggregateData,
                                  FactoryGridDataViewer viewerfactory,
                                  FactoryReviewViewAdapter adapterFactory) {
@@ -44,7 +43,6 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
         return mAdapterFactory;
     }
 
-    //protected methods
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         return mAdapterFactory.newDataToReviewsAdapter(datum.toList(),
                 datum.getCanonical().getStringSummary());

@@ -61,7 +61,7 @@ public class BackendConsumer extends QueueConsumer<Review, BackendConsumerListen
 
     @Override
     protected ItemWorker<Review> newWorker(String itemId) {
-        return new BackendUploadWorker(mFactory.newPublisher(new DatumReviewId(itemId)));
+        return new BackendUploadWorker(mFactory.newUploader(new DatumReviewId(itemId)));
     }
 
     private static class BackendUploadWorker implements ItemWorker<Review> {

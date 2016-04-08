@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -31,18 +32,21 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
                                      ModelContext model,
                                      PersistencePlugin plugin) {
         setLocalRepository(plugin.newLocalPersistence(context, model));
-
         setBackendRepository(plugin.newBackendPersistence(context, model));
 
-
-        FactoryPersistentCache persistentCache = plugin.newCacheFactory();
-        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(context, model, persistentCache);
-        FactoryReviewsRepository repoFactory = new FactoryReviewsRepository(cacheFactory);
+        FactoryReviewsRepository repoFactory = getFactoryReviewsRepository(context, model, plugin);
         ReviewsRepositoryMutable cachedBackend
                 = repoFactory.newCachedMutableRepository(getBackendRepository());
 
         setAuthorsFeed(cachedBackend, model.getReviewsFactory());
         setReviewsSource(repoFactory.newReviewsSource(cachedBackend, model.getReviewsFactory()));
+    }
+
+    @NonNull
+    private FactoryReviewsRepository getFactoryReviewsRepository(Context context, ModelContext model, PersistencePlugin plugin) {
+        FactoryPersistentCache persistentCache = plugin.newCacheFactory();
+        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(context, model, persistentCache);
+        return new FactoryReviewsRepository(cacheFactory);
     }
 
     private void setAuthorsFeed(ReviewsRepositoryMutable sourceAndDestination,

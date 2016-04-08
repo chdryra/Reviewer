@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.facebook.FacebookSdk;
 
 /**
@@ -26,6 +27,8 @@ import com.facebook.FacebookSdk;
  */
 public class ApplicationLaunch {
     private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumUserId("123"));
+    private static final AuthorsStamp AUTHORS_STAMP = new AuthorsStamp(AUTHOR);
+
 
     private Context mContext;
     private ApplicationContext mApplicationContext;
@@ -50,7 +53,12 @@ public class ApplicationLaunch {
         FactoryApplicationContext factory = new FactoryApplicationContext();
 
         mApplicationContext = factory.newReleaseContext(mContext, getDeviceContext(),
-                Plugins.getPlugins(mContext, launchState), AUTHOR);
+                Plugins.getPlugins(mContext, launchState));
+        setUser();
+    }
+
+    private void setUser() {
+        mApplicationContext.getContext().getReviewsFactory().setAuthorsStamp(AUTHORS_STAMP);
     }
 
     private void intialiseSingletons() {
@@ -58,6 +66,6 @@ public class ApplicationLaunch {
     }
 
     private DeviceContext getDeviceContext() {
-        return new ReleaseDeviceContext();
+        return new ReleaseDeviceContext(mContext);
     }
 }

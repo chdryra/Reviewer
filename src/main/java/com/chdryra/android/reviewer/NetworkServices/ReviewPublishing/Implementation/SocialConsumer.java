@@ -31,16 +31,20 @@ import java.util.Map;
  */
 public class SocialConsumer extends QueueConsumer<Review, SocialConsumerListener>
         implements SocialPublishingListener {
-    private final FactorySocialPublisher mUploaderFactory;
+    private final FactorySocialPublisher mPublisherFactory;
     private final Map<ReviewId, ArrayList<String>> mPlatformsMap;
 
-    public SocialConsumer(FactorySocialPublisher uploaderFactory) {
-        mUploaderFactory = uploaderFactory;
+    public SocialConsumer(FactorySocialPublisher publisherFactory) {
+        mPublisherFactory = publisherFactory;
         mPlatformsMap = new HashMap<>();
     }
 
     public void setPlatforms(ReviewId reviewId, ArrayList<String> platforms) {
         mPlatformsMap.put(reviewId, platforms);
+    }
+
+    public void unsetPlatforms(ReviewId reviewId) {
+        mPlatformsMap.remove(reviewId);
     }
 
     @Override
@@ -83,7 +87,7 @@ public class SocialConsumer extends QueueConsumer<Review, SocialConsumerListener
     @Override
     protected ItemWorker<Review> newWorker(String reviewId) {
         DatumReviewId id = new DatumReviewId(reviewId);
-        return new PublisherWorker(mUploaderFactory.newPublisher(id, mPlatformsMap.get(id)));
+        return new PublisherWorker(mPublisherFactory.newPublisher(id, mPlatformsMap.get(id)));
     }
 
     private static class PublisherWorker implements ItemWorker<Review> {

@@ -38,7 +38,6 @@ public class ViewerChildList implements GridDataViewer<GvReviewOverview> {
     private DataConverter<Review, GvReviewOverview, GvReviewOverviewList> mConverter;
     private FactoryReviewViewAdapter mAdapterFactory;
 
-    //Constructors
     public ViewerChildList(ReviewNode node,
                            DataConverter<Review, GvReviewOverview, GvReviewOverviewList> converter,
                            FactoryReviewViewAdapter adapterFactory) {

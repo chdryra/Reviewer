@@ -36,7 +36,6 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
         notifyDataObservers();
     }
 
-    //Overridden
     @Override
     public void attachReviewView(ReviewView<T> view) {
         mView = view;

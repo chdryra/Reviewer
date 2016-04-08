@@ -31,7 +31,7 @@ public class FactoryBackendUploaderService implements FactoryBackendUploader {
     }
 
     @Override
-    public BackendReviewUploader newPublisher(ReviewId id) {
+    public BackendReviewUploader newUploader(ReviewId id) {
         return new BackendReviewUploaderAndroid(mContext, new ReviewUploaderReceiver(id));
     }
 }

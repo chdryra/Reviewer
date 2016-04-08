@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersist
  */
 public class FactoryReviewsCache {
     private static final int MAX_REVIEWS_FAST = 10;
-    private static final int MAX_REVIEWS_SLOW = 20;
+    private static final int MAX_REVIEWS_SLOW = 40;
 
     private Context mContext;
     private ModelContext mModelContext;
@@ -41,6 +41,6 @@ public class FactoryReviewsCache {
                 = mCacheFactory.newReviewsCache(mContext, mModelContext);
         QueueCache<Review> slowCache = new QueueCache<>(persistentCache, MAX_REVIEWS_SLOW);
         QueueCache<Review> fastCache = new QueueCache<>(new InMemoryCache<Review>(), MAX_REVIEWS_FAST);
-        return new ReviewsCacheHybrid(slowCache,fastCache);
+        return new ReviewsCacheHybrid(slowCache, fastCache);
     }
 }

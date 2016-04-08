@@ -26,7 +26,6 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
@@ -37,9 +36,8 @@ import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationS
 public class FactoryApplicationContext {
     public ApplicationContext newReleaseContext(Context context,
                                                 DeviceContext deviceContext,
-                                                ApplicationPlugins plugins,
-                                                DataAuthor author) {
-        ModelContext modelContext = new ReleaseModelContext(author);
+                                                ApplicationPlugins plugins) {
+        ModelContext modelContext = new ReleaseModelContext();
 
         ViewContext viewContext = new ReleaseViewContext(plugins.getUiPlugin());
 
@@ -54,7 +52,6 @@ public class FactoryApplicationContext {
         PresenterContext presenterContext =
                 new ReleasePresenterContext(context, modelContext, viewContext, deviceContext,
                         socialContext, networkContext, persistenceContext,
-                        author,
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin());
 

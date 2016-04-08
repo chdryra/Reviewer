@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContex
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
@@ -54,7 +53,6 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                    SocialContext socialContext,
                                    NetworkContext networkContext,
                                    PersistenceContext persistenceContext,
-                                   DataAuthor author,
                                    DataComparatorsPlugin comparatorsPlugin,
                                    DataAggregatorsPlugin aggregationPlugin) {
         super(modelContext, viewContext, socialContext, networkContext, persistenceContext);
@@ -70,7 +68,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
 
         setReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
-                getGvDataFactory(), author.getName());
+                getGvDataFactory());
     }
 
     private ConverterGv getConverterGv(TagsManager tagsManager) {
@@ -108,8 +106,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                                 ModelContext modelContext,
                                                 DeviceContext deviceContext,
                                                 ConverterGv converter,
-                                                FactoryGvData dataFactory,
-                                                String authorName) {
+                                                FactoryGvData dataFactory) {
         FactoryReviewBuilder factoryReviewBuilder
                 = new FactoryReviewBuilder(converter,
                 modelContext.getDataValidator(),
@@ -117,9 +114,10 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 modelContext.getReviewsFactory(),
                 new FactoryDataBuilder(dataFactory));
 
+        String dir = deviceContext.getImageStorageDirectory();
         FactoryFileIncrementor incrementorFactory
                 = new FactoryFileIncrementor(deviceContext.getImageStoragePath(),
-                deviceContext.getImageStorageDirectory(), authorName);
+                dir, dir.toLowerCase());
 
         FactoryReviewBuilderAdapter<?> builderAdapterFactory
                 = new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,

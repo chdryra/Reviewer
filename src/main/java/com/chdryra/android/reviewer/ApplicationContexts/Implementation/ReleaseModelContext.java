@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -17,7 +16,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
  */
 public class ReleaseModelContext extends ModelContextBasic {
 
-    public ReleaseModelContext(DataAuthor author) {
+    public ReleaseModelContext() {
         setTagsManager(new FactoryTagsManager().newTagsManager());
 
         setDataValidator(new DataValidator());
@@ -35,14 +33,7 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         setTreeTraversersFactory(new FactoryNodeTraverser());
 
-        setReviewsFactory(author);
-    }
-
-    private void setReviewsFactory(DataAuthor author) {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        FactoryReviews factoryReviews
-                = new FactoryReviews(new FactoryReviewNode(), converter, getDataValidator());
-        factoryReviews.setAuthorsStamp(new AuthorsStamp(author));
-        setFactoryReviews(factoryReviews);
+        setFactoryReviews(new FactoryReviews(new FactoryReviewNode(), converter, getDataValidator()));
     }
 }
