@@ -20,7 +20,8 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepositoryMutable;
+import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
+        .CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.R;
 
@@ -29,8 +30,7 @@ import com.chdryra.android.reviewer.R;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendRepoService extends IntentService implements ReviewPublisher.QueueCallback,
-        CallbackRepositoryMutable {
+public class BackendRepoService extends IntentService {
     public static final String REVIEW_ID = "BackendUploadService.ReviewId";
     public static final String RESULT = "BackendUploadService.Result";
     public static final String REQUEST_SERVICE = "BackendUploadService.RequestService";
@@ -82,52 +82,6 @@ public class BackendRepoService extends IntentService implements ReviewPublisher
         }
     }
 
-    @Override
-    public void onAddedCallback(Review review, CallbackMessage result) {
-        String messageString = review.getSubject().getSubject() + ": ";
-        CallbackMessage message;
-        if (result.isError()) {
-            messageString += getApplicationContext().getString(UPLOAD_ERROR)
-                    + " - " + result.getMessage();
-            message = CallbackMessage.error(messageString);
-        } else {
-            messageString += getApplicationContext().getString(UPLOAD_SUCCESSFUL);
-            message = CallbackMessage.ok(messageString);
-        }
-
-        broadcastUploadComplete(message);
-    }
-
-    @Override
-    public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
-        CallbackMessage message;
-        if (result.isError()) {
-            String messageString = getApplicationContext().getString(DELETE_ERROR) + " - " +
-                    result.getMessage();
-            message = CallbackMessage.error(messageString);
-        } else {
-            String messageString = getApplicationContext().getString(DELETE_SUCCESSFUL);
-            message = CallbackMessage.ok(messageString);
-        }
-
-        broadcastDeleteComplete(message);
-    }
-
-    @Override
-    public void onAddedToQueue(ReviewId id, CallbackMessage message) {
-
-    }
-
-    @Override
-    public void onRetrievedFromQueue(Review review, CallbackMessage message) {
-        mApp.getBackendRepository(this).addReview(review, this);
-    }
-
-    @Override
-    public void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message) {
-        broadcastUploadComplete(message);
-    }
-
     private void broadcastUploadComplete(CallbackMessage message) {
         mPublisher.workComplete(mToken);
         broadcastServiceComplete(new Intent(Service.UPLOAD.completed()), message);
@@ -148,9 +102,58 @@ public class BackendRepoService extends IntentService implements ReviewPublisher
         DatumReviewId id = new DatumReviewId(reviewId);
         if (service == Service.UPLOAD) {
             mPublisher = mApp.getPublisher();
-            mToken = mPublisher.getFromQueue(id, this, this);
+            mToken = mPublisher.getFromQueue(id, new Callbacks(), this);
         } else if (service == Service.DELETE) {
-            mApp.getBackendRepository(this).removeReview(id, this);
+            mApp.getBackendRepository(this).removeReview(id, new Callbacks());
+        }
+    }
+
+    private class Callbacks implements ReviewPublisher.QueueCallback, CallbackRepositoryMutable {
+        @Override
+        public void onAddedCallback(Review review, CallbackMessage result) {
+            String messageString = review.getSubject().getSubject() + ": ";
+            CallbackMessage message;
+            if (result.isError()) {
+                messageString += getApplicationContext().getString(UPLOAD_ERROR)
+                        + " - " + result.getMessage();
+                message = CallbackMessage.error(messageString);
+            } else {
+                messageString += getApplicationContext().getString(UPLOAD_SUCCESSFUL);
+                message = CallbackMessage.ok(messageString);
+            }
+
+            broadcastUploadComplete(message);
+        }
+
+        @Override
+        public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+            CallbackMessage message;
+            if (result.isError()) {
+                String messageString = getApplicationContext().getString(DELETE_ERROR) + " - " +
+                        result.getMessage();
+                message = CallbackMessage.error(messageString);
+            } else {
+                String messageString = getApplicationContext().getString(DELETE_SUCCESSFUL);
+                message = CallbackMessage.ok(messageString);
+            }
+
+            broadcastDeleteComplete(message);
+        }
+
+        @Override
+        public void onAddedToQueue(ReviewId id, CallbackMessage message) {
+
+        }
+
+        @Override
+        public void onRetrievedFromQueue(Review review, CallbackMessage message) {
+            mApp.getBackendRepository(BackendRepoService.this).addReview(review, this);
+        }
+
+        @Override
+        public void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage
+                message) {
+            broadcastUploadComplete(message);
         }
     }
 }

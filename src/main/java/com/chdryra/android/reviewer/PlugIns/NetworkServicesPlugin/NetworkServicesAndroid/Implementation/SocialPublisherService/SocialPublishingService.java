@@ -36,8 +36,7 @@ import java.util.Collection;
  * On: 04/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialPublishingService extends IntentService
-        implements BatchSocialPublisher.BatchSocialPublisherListener, ReviewPublisher.QueueCallback {
+public class SocialPublishingService extends IntentService {
     public static final String REVIEW_ID = "SocialPublishingService.ReviewId";
 
     public static final String STATUS_UPDATE = "SocialPublishingService.StatusUpdate";
@@ -70,8 +69,26 @@ public class SocialPublishingService extends IntentService
         if (mReviewId != null && mPlatforms != null && mPlatforms.size() > 0) batchPublish();
     }
 
-    @Override
-    public void onStatusUpdate(double percentage, PublishResults results) {
+    private void batchPublish() {
+        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
+        mPublisher = app.getPublisher();
+        mToken = mPublisher.getFromQueue(new DatumReviewId(mReviewId), publisherCallback(), this);
+    }
+
+    private void doPublish(Review review) {
+        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
+        TagsManager tagsManager = app.getTagsManager();
+
+        Collection<SocialPlatform<?>> platforms = new ArrayList<>();
+        for (SocialPlatform<?> platform : app.getSocialPlatformList()) {
+            if (mPlatforms.contains(platform.getName())) platforms.add(platform);
+        }
+
+        BatchSocialPublisher publisher = new BatchSocialPublisher(platforms, batchListener());
+        publisher.publishReview(review, tagsManager);
+    }
+
+    private void broadcastPublishingStatus(double percentage, PublishResults results) {
         Intent update = new Intent(STATUS_UPDATE);
         update.putExtra(REVIEW_ID, mReviewId);
         update.putExtra(STATUS_PERCENTAGE, percentage);
@@ -80,34 +97,21 @@ public class SocialPublishingService extends IntentService
         LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
-    @Override
-    public void onPublished(Collection<PublishResults> publishedOk,
-                            Collection<PublishResults> publishedNotOk) {
-        mPublisher.workComplete(mToken);
-        broadcastPublishingComplete(publishedOk, publishedNotOk,
-                getReport(publishedOk, publishedNotOk));
-    }
+    private void broadcastPublishingComplete(Collection<PublishResults> publishedOk,
+                                             Collection<PublishResults> publishedNotOk,
+                                             CallbackMessage result) {
+        Intent update = new Intent(PUBLISHING_COMPLETED);
+        update.putParcelableArrayListExtra(PUBLISH_OK, new ArrayList<>(publishedOk));
+        update.putParcelableArrayListExtra(PUBLISH_NOT_OK, new ArrayList<>(publishedNotOk));
+        update.putExtra(RESULT, result);
+        update.putExtra(REVIEW_ID, mReviewId);
 
-    @Override
-    public void onAddedToQueue(ReviewId id, CallbackMessage message) {
-
-    }
-
-    @Override
-    public void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message) {
-        mPublisher.workComplete(mToken);
-        broadcastPublishingComplete(new ArrayList<PublishResults>(), new ArrayList
-                <PublishResults>(), message);
-    }
-
-    @Override
-    public void onRetrievedFromQueue(Review review, CallbackMessage message) {
-        doPublish(review);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(update);
     }
 
     @NonNull
     private CallbackMessage getReport(Collection<PublishResults> publishedOk,
-                                              Collection<PublishResults> publishedNotOk) {
+                                      Collection<PublishResults> publishedNotOk) {
         String report = "";
         if (publishedOk.size() > 0) {
             report += getApplicationContext().getString(PUBLISH_SUCCESSFUL) + ": ";
@@ -130,34 +134,45 @@ public class SocialPublishingService extends IntentService
                 : CallbackMessage.ok(report);
     }
 
-    private void broadcastPublishingComplete(Collection<PublishResults> publishedOk,
-                                             Collection<PublishResults> publishedNotOk,
-                                             CallbackMessage result) {
-        Intent update = new Intent(PUBLISHING_COMPLETED);
-        update.putParcelableArrayListExtra(PUBLISH_OK, new ArrayList<>(publishedOk));
-        update.putParcelableArrayListExtra(PUBLISH_NOT_OK, new ArrayList<>(publishedNotOk));
-        update.putExtra(RESULT, result);
-        update.putExtra(REVIEW_ID, mReviewId);
+    @NonNull
+    private ReviewPublisher.QueueCallback publisherCallback() {
+        return new ReviewPublisher.QueueCallback() {
+            @Override
+            public void onAddedToQueue(ReviewId id, CallbackMessage message) {
 
-        LocalBroadcastManager.getInstance(this).sendBroadcast(update);
+            }
+
+            @Override
+            public void onRetrievedFromQueue(Review review, CallbackMessage message) {
+                doPublish(review);
+            }
+
+            @Override
+            public void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage
+                    message) {
+                mPublisher.workComplete(mToken);
+                ArrayList<PublishResults> empty = new ArrayList<>();
+                broadcastPublishingComplete(empty, empty, message);
+            }
+        };
     }
 
-    private void batchPublish() {
-        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        mPublisher = app.getPublisher();
-        mToken = mPublisher.getFromQueue(new DatumReviewId(mReviewId), this, this);
-    }
+    @NonNull
+    private BatchSocialPublisher.BatchSocialPublisherListener batchListener() {
+        return new BatchSocialPublisher.BatchSocialPublisherListener() {
 
-    private void doPublish(Review review) {
-        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        TagsManager tagsManager = app.getTagsManager();
+            @Override
+            public void onStatusUpdate(double percentage, PublishResults results) {
+                broadcastPublishingStatus(percentage, results);
+            }
 
-        Collection<SocialPlatform<?>> platforms = new ArrayList<>();
-        for (SocialPlatform<?> platform : app.getSocialPlatformList()) {
-            if (mPlatforms.contains(platform.getName())) platforms.add(platform);
-        }
-
-        BatchSocialPublisher publisher = new BatchSocialPublisher(platforms, this);
-        publisher.publishReview(review, tagsManager);
+            @Override
+            public void onPublished(Collection<PublishResults> publishedOk,
+                                    Collection<PublishResults> publishedNotOk) {
+                mPublisher.workComplete(mToken);
+                broadcastPublishingComplete(publishedOk, publishedNotOk,
+                        getReport(publishedOk, publishedNotOk));
+            }
+        };
     }
 }

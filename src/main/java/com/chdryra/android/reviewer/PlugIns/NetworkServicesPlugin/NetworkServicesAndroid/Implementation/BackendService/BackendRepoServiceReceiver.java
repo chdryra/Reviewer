@@ -27,8 +27,6 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
  */
 public abstract class BackendRepoServiceReceiver<L> extends BroadcastingServiceReceiver<L>
         implements HasReviewId {
-
-
     private String mAction;
     private ReviewId mReviewId;
 
