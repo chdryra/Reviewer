@@ -38,8 +38,10 @@ class PublishActionAndroid extends PublishAction {
 
     @Override
     protected void onQueuedToPublish(ReviewId id, CallbackMessage message) {
+        Toast.makeText(mContext, "Publishing...", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(mContext, mActivityToPublish);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         mContext.startActivity(intent);
     }
 
