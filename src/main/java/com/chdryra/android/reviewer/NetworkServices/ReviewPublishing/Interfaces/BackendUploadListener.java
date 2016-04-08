@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
  * On: 04/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BackendConsumerListener {
+public interface BackendUploadListener {
     void onUploadCompleted(ReviewId id, CallbackMessage result);
 
     void onUploadFailed(ReviewId id, CallbackMessage result);

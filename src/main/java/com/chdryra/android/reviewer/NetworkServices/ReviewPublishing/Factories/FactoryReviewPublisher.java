@@ -11,10 +11,12 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Factories;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
         .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.BackendConsumer;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation
+        .ReviewPublisherImpl;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewQueue;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewStore;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.SocialConsumer;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
 
@@ -37,6 +39,6 @@ public class FactoryReviewPublisher {
         ReviewQueue queue = new ReviewQueue(new ReviewStore(repo));
         BackendConsumer backend = new BackendConsumer(mUploaderFactory);
         SocialConsumer social = new SocialConsumer(mPublisherFactory);
-        return new ReviewPublisher(queue, backend, social);
+        return new ReviewPublisherImpl(queue, backend, social);
     }
 }

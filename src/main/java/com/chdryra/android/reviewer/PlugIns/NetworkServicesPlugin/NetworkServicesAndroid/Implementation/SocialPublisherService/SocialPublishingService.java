@@ -15,17 +15,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishingAction;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,6 +55,8 @@ public class SocialPublishingService extends IntentService
 
     private String mReviewId;
     private ArrayList<String> mPlatforms;
+    private ReviewPublisher mPublisher;
+    private WorkerToken mToken;
 
     public SocialPublishingService() {
         super(SERVICE);
@@ -80,8 +83,9 @@ public class SocialPublishingService extends IntentService
     @Override
     public void onPublished(Collection<PublishResults> publishedOk,
                             Collection<PublishResults> publishedNotOk) {
-        CallbackMessage report = getReport(publishedOk, publishedNotOk);
-        broadcastPublishingComplete(publishedOk, publishedNotOk, report);
+        mPublisher.workComplete(mToken);
+        broadcastPublishingComplete(publishedOk, publishedNotOk,
+                getReport(publishedOk, publishedNotOk));
     }
 
     @Override
@@ -91,6 +95,7 @@ public class SocialPublishingService extends IntentService
 
     @Override
     public void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message) {
+        mPublisher.workComplete(mToken);
         broadcastPublishingComplete(new ArrayList<PublishResults>(), new ArrayList
                 <PublishResults>(), message);
     }
@@ -139,7 +144,8 @@ public class SocialPublishingService extends IntentService
 
     private void batchPublish() {
         ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
-        app.getPublisher().getFromQueue(new DatumReviewId(mReviewId), this, this);
+        mPublisher = app.getPublisher();
+        mToken = mPublisher.getFromQueue(new DatumReviewId(mReviewId), this, this);
     }
 
     private void doPublish(Review review) {

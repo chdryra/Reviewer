@@ -10,16 +10,20 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementa
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendConsumerListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialConsumerListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .BackendUploadListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .ReviewPublisherListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .SocialPublishListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkStoreCallback;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,8 +35,8 @@ import java.util.Map;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsumerListener,
-        SocialConsumerListener {
+public class ReviewPublisherImpl implements ReviewPublisher, BackendUploadListener,
+        SocialPublishListener, WorkStoreCallback<Review> {
     private ReviewQueue mQueue;
     private BackendConsumer mBackend;
     private SocialConsumer mSocial;
@@ -44,15 +48,7 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
     private Map<Review, QueueCallback> mAddCallbacks;
     private Map<ReviewId, QueueCallback> mGetCallbacks;
 
-    public interface QueueCallback {
-        void onAddedToQueue(ReviewId id, CallbackMessage message);
-
-        void onRetrievedFromQueue(Review review, CallbackMessage message);
-
-        void onFailed(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message);
-    }
-
-    public ReviewPublisher(ReviewQueue queue, BackendConsumer backend, SocialConsumer social) {
+    public ReviewPublisherImpl(ReviewQueue queue, BackendConsumer backend, SocialConsumer social) {
         mQueue = queue;
 
         mBackend = backend;
@@ -71,6 +67,7 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
         mGetCallbacks = new HashMap<>();
     }
 
+    @Override
     public synchronized void addToQueue(Review review, ArrayList<String> platforms, QueueCallback
             callback) {
         mAddCallbacks.put(review, callback);
@@ -78,20 +75,24 @@ public class ReviewPublisher implements WorkStoreCallback<Review>, BackendConsum
         mQueue.addReviewToQueue(review, this);
     }
 
+    @Override
     public synchronized WorkerToken getFromQueue(ReviewId reviewId, QueueCallback callback,
-                                                 Object worker) {
+                                                 Object publishWorker) {
         mGetCallbacks.put(reviewId, callback);
-        return mQueue.getItemForWork(reviewId.toString(), this, worker);
+        return mQueue.getItemForWork(reviewId.toString(), this, publishWorker);
     }
 
+    @Override
     public void workComplete(WorkerToken token) {
         mQueue.workComplete(token);
     }
 
+    @Override
     public void registerListener(ReviewPublisherListener listener) {
         if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
+    @Override
     public void unregisterListener(ReviewPublisherListener listener) {
         if (mListeners.contains(listener)) mListeners.remove(listener);
     }

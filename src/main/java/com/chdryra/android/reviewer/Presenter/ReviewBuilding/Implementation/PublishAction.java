@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisher;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 
 import java.util.ArrayList;
 

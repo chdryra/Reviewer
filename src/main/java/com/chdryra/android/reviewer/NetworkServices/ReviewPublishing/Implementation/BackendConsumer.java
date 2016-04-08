@@ -15,41 +15,41 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
 import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendConsumerListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .BackendUploadListener;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendConsumer extends QueueConsumer<Review, BackendConsumerListener>
-        implements ReviewUploaderListener {
+public class BackendConsumer extends QueueConsumer<Review> implements ReviewUploaderListener {
+    private ArrayList<BackendUploadListener> mListeners;
     private FactoryBackendUploader mFactory;
 
     public BackendConsumer(FactoryBackendUploader factory) {
         mFactory = factory;
+        mListeners = new ArrayList<>();
+    }
+
+    public void registerListener(BackendUploadListener listener) {
+        if (!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    public void unregisterListener(BackendUploadListener listener) {
+        if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override
     public void onUploadedToBackend(ReviewId reviewId, CallbackMessage result) {
         onWorkCompleted(reviewId.toString());
-        if(result.isError()) {
+        if (result.isError()) {
             notifyOnFailure(reviewId, result);
         } else {
             notifyOnSuccess(reviewId, result);
-        }
-    }
-
-    private void notifyOnSuccess(ReviewId reviewId, CallbackMessage result) {
-        for(BackendConsumerListener listener : getListeners()) {
-            listener.onUploadCompleted(reviewId, result);
-        }
-    }
-
-    private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
-        for(BackendConsumerListener listener : getListeners()) {
-            listener.onUploadFailed(reviewId, result);
         }
     }
 
@@ -62,6 +62,18 @@ public class BackendConsumer extends QueueConsumer<Review, BackendConsumerListen
     @Override
     protected ItemWorker<Review> newWorker(String itemId) {
         return new BackendUploadWorker(mFactory.newUploader(new DatumReviewId(itemId)));
+    }
+
+    private void notifyOnSuccess(ReviewId reviewId, CallbackMessage result) {
+        for (BackendUploadListener listener : mListeners) {
+            listener.onUploadCompleted(reviewId, result);
+        }
+    }
+
+    private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
+        for (BackendUploadListener listener : mListeners) {
+            listener.onUploadFailed(reviewId, result);
+        }
     }
 
     private static class BackendUploadWorker implements ItemWorker<Review> {

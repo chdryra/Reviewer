@@ -33,7 +33,6 @@
     <supports-screens android:anyDensity="true" />
 
     <application
-        android:name=".ApplicationContexts.Implementation.ReviewerApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"

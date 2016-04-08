@@ -13,7 +13,8 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.QueueConsumer;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialConsumerListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .SocialPublishListener;
 import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPublishingListener;
@@ -29,14 +30,15 @@ import java.util.Map;
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class SocialConsumer extends QueueConsumer<Review, SocialConsumerListener>
-        implements SocialPublishingListener {
+public class SocialConsumer extends QueueConsumer<Review> implements SocialPublishingListener {
     private final FactorySocialPublisher mPublisherFactory;
     private final Map<ReviewId, ArrayList<String>> mPlatformsMap;
+    private ArrayList<SocialPublishListener> mListeners;
 
     public SocialConsumer(FactorySocialPublisher publisherFactory) {
         mPublisherFactory = publisherFactory;
         mPlatformsMap = new HashMap<>();
+        mListeners = new ArrayList<>();
     }
 
     public void setPlatforms(ReviewId reviewId, ArrayList<String> platforms) {
@@ -47,34 +49,30 @@ public class SocialConsumer extends QueueConsumer<Review, SocialConsumerListener
         mPlatformsMap.remove(reviewId);
     }
 
+    public void registerListener(SocialPublishListener listener) {
+        if (!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    public void unregisterListener(SocialPublishListener listener) {
+        if (mListeners.contains(listener)) mListeners.remove(listener);
+    }
+
     @Override
     public void onPublishStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
-        for(SocialConsumerListener listener : getListeners()) {
+        for (SocialPublishListener listener : mListeners) {
             listener.onPublishingStatus(reviewId, percentage, justUploaded);
         }
     }
 
     @Override
     public void onPublishCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk,
-                                   Collection<PublishResults> publishedNotOk, CallbackMessage result) {
+                                   Collection<PublishResults> publishedNotOk, CallbackMessage
+                                           result) {
         onWorkCompleted(reviewId.toString());
-        if(result.isError()) {
+        if (result.isError()) {
             notifyOnFailure(reviewId, result);
         } else {
             notifyOnSuccess(reviewId, publishedOk, publishedNotOk, result);
-        }
-    }
-
-    private void notifyOnSuccess(ReviewId reviewId, Collection<PublishResults> publishedOk,
-                                 Collection<PublishResults> publishedNotOk, CallbackMessage result) {
-        for(SocialConsumerListener listener : getListeners()) {
-            listener.onPublishingCompleted(reviewId, publishedOk, publishedNotOk, result);
-        }
-    }
-
-    private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
-        for(SocialConsumerListener listener : getListeners()) {
-            listener.onPublishingFailed(reviewId, mPlatformsMap.remove(reviewId), result);
         }
     }
 
@@ -88,6 +86,20 @@ public class SocialConsumer extends QueueConsumer<Review, SocialConsumerListener
     protected ItemWorker<Review> newWorker(String reviewId) {
         DatumReviewId id = new DatumReviewId(reviewId);
         return new PublisherWorker(mPublisherFactory.newPublisher(id, mPlatformsMap.get(id)));
+    }
+
+    private void notifyOnSuccess(ReviewId reviewId, Collection<PublishResults> publishedOk,
+                                 Collection<PublishResults> publishedNotOk, CallbackMessage
+                                         result) {
+        for (SocialPublishListener listener : mListeners) {
+            listener.onPublishingCompleted(reviewId, publishedOk, publishedNotOk, result);
+        }
+    }
+
+    private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
+        for (SocialPublishListener listener : mListeners) {
+            listener.onPublishingFailed(reviewId, mPlatformsMap.remove(reviewId), result);
+        }
     }
 
     private static class PublisherWorker implements ItemWorker<Review> {

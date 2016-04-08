@@ -19,7 +19,7 @@ import java.util.Collection;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewPublisherListener extends SocialConsumerListener, BackendConsumerListener{
+public interface ReviewPublisherListener extends SocialPublishListener, BackendUploadListener {
     @Override
     void onUploadCompleted(ReviewId id, CallbackMessage result);
 
