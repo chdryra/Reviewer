@@ -15,6 +15,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -31,6 +33,7 @@ import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkService
         .Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -50,12 +53,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  */
 public class ApplicationInstance extends ApplicationSingleton {
     public static final String APP_NAME = "Teeqr";
+
+    private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumUserId("123"));
     private static final String NAME = "ApplicationInstance";
     private static ApplicationInstance sSingleton;
 
     private final ReviewPacker mReviewPacker;
     private final PresenterContext mPresenterContext;
     private LocationServicesApi mLocationServices;
+    private ReviewsFeed mFeed;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -67,6 +73,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
         mReviewPacker = new ReviewPacker();
+        setUser(AUTHOR);
     }
 
     //Static methods
@@ -85,7 +92,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewsFeed getUsersFeed() {
-        return mPresenterContext.getAuthorsFeed();
+        return mFeed;
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -172,5 +179,11 @@ public class ApplicationInstance extends ApplicationSingleton {
     public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
         return mPresenterContext.getBackendRepository();
+    }
+
+    private void setUser(DatumAuthor user) {
+        FactoryReviews reviewsFactory = getReviewsFactory();
+        reviewsFactory.setAuthorsStamp(new AuthorsStamp(user));
+        mFeed = mPresenterContext.getFeedFactory().newMutableFeed(reviewsFactory);
     }
 }

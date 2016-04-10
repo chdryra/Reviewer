@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeedMutable;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSource;
 
@@ -18,11 +18,11 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceContext {
-    ReviewsFeedMutable getAuthorsFeed();
-
     ReviewsRepositoryMutable getLocalRepository();
 
     ReviewsRepositoryMutable getBackendRepository();
 
     ReviewsSource getReviewsSource();
+
+    FactoryReviewsFeed getFeedFactory();
 }

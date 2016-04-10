@@ -18,13 +18,13 @@ import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.Revi
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewsFeed {
-    FactoryReviews mReviewFactory;
+    ReviewsRepositoryMutable mMainRepo;
 
-    public FactoryReviewsFeed(FactoryReviews reviewFactory) {
-        mReviewFactory = reviewFactory;
+    public FactoryReviewsFeed(ReviewsRepositoryMutable mainRepo) {
+        mMainRepo = mainRepo;
     }
 
-    public ReviewsFeedMutable newMutableFeed(ReviewsRepositoryMutable sourceAndDestination) {
-        return new ReviewsSourceAuthoredMutable(sourceAndDestination, mReviewFactory);
+    public ReviewsFeedMutable newMutableFeed(FactoryReviews reviewsFactory) {
+        return new ReviewsSourceAuthoredMutable(mMainRepo, reviewsFactory);
     }
 }

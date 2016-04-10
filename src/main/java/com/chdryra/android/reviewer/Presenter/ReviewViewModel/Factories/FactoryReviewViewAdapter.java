@@ -51,8 +51,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewViewAdapter {
-    private final ReviewNode mAsyncNodeInitial;
     private FactoryReviewViewLaunchable mLaunchableFactory;
+    private FactoryReviews mReviewsFactory;
     private FactoryGridDataViewer mViewerFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryNodeTraverser mTraverserFactory;
@@ -69,16 +69,12 @@ public class FactoryReviewViewAdapter {
                                     ConverterGv converter) {
         mViewerFactory = new FactoryGridDataViewer(this);
         mLaunchableFactory = launchableFactory;
+        mReviewsFactory = reviewsFactory;
         mAggregator = aggregator;
         mReviewSource = reviewsSource;
         mConverter = converter;
         mVisitorFactory = visitorFactory;
         mTraverserFactory = traverserFactory;
-
-        mAsyncNodeInitial = reviewsFactory.createUserReview("Fetching...", 0f, new ArrayList
-                        <DataComment>(), new ArrayList<DataImage>(), new ArrayList<DataFact>(),
-                new ArrayList<DataLocation>(), new ArrayList<Review>(), true)
-                .getTreeRepresentation();
     }
 
     public ReviewViewAdapter<?> newReviewsListAdapter(ReviewNode node) {
@@ -217,6 +213,10 @@ public class FactoryReviewViewAdapter {
 
     @NonNull
     private ReviewTreeSourceCallback newAsyncNode() {
-        return new ReviewTreeSourceCallback(mAsyncNodeInitial);
+        ReviewNode fetching = mReviewsFactory.createUserReview("Fetching...", 0f, new ArrayList
+                        <DataComment>(), new ArrayList<DataImage>(), new ArrayList<DataFact>(),
+                new ArrayList<DataLocation>(), new ArrayList<Review>(), true)
+                .getTreeRepresentation();
+        return new ReviewTreeSourceCallback(fetching);
     }
 }

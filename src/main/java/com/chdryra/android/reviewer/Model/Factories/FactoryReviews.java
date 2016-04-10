@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Model.Factories;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -65,6 +66,7 @@ public class FactoryReviews implements ReviewRecreater {
         mNodeFactory = nodeFactory;
         mConverter = converter;
         mValidator = validator;
+        mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
     }
 
     public void setAuthorsStamp(AuthorsStamp authorsStamp) {
