@@ -11,22 +11,25 @@ package com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault;
+import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin
+        .DataAggregatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin.DataComparatorsDefault;
+import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin
+        .DataComparatorsDefault;
 import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesPlugin;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Plugin.LocationServicesGoogle;
+import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.LocationServicesGoogle.Plugin
+        .LocationServicesGoogle;
 import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.NetworkServicesPlugin;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin.NetworkServicesAndroid;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Plugin.FactoryBackendFirebase;
-
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Implementation.FactoryReviewerDbCache;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Plugin.FactoryLocalReviewerDb;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
+import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Plugin
+        .NetworkServicesAndroid;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.FactoryPersistence;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePlugin;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Api.PersistencePluginImpl;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Plugin
+        .FactoryBackendFirebase;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.RelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 

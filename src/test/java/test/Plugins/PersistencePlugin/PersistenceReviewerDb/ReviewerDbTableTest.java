@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.ForeignKeyConstraint;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.ColumnInfo;
 
 import org.junit.Test;
 

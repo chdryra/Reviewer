@@ -25,8 +25,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.BackendFirebase.Interfaces
         .FirebaseDbObserver;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.ReviewerDb
-        .Interfaces.ReviewRecreater;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.ReviewRecreater;
 
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
 import com.firebase.client.FirebaseError;

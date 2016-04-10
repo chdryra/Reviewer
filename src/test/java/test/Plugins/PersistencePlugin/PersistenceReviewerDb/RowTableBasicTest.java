@@ -10,10 +10,8 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
-        .ReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb
-        .ReviewerDb.Implementation.RowTableBasic;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.RowTableBasic;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
         .Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
