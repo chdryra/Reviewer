@@ -27,8 +27,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FirebaseReviewsDb implements FirebaseDb {
-
-
     private Firebase mDataRoot;
     private FirebaseStructure mStructure;
     private FirebaseValidator mValidator;
@@ -45,8 +43,7 @@ public class FirebaseReviewsDb implements FirebaseDb {
 
     @Override
     public void addReview(FbReview review, AddCallback callback) {
-        mDataRoot.updateChildren(mStructure.getUpdatesMap(review), newAddListener(review,
-                callback));
+        mDataRoot.updateChildren(mStructure.getUpdatesMap(review), newAddListener(review, callback));
     }
 
     @Override

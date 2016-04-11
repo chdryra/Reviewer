@@ -34,7 +34,8 @@ public class TagAdjuster {
     }
 
     public void adjustTagsIfNecessary(ReviewDataEditor<GvTag> editor) {
-        String subject = editor.getFragmentSubject();
+        String subjectPre = editor.getFragmentSubject();
+        String subject = subjectPre.replaceAll("[^A-Za-z0-9]", "");
         GvTag toAdd = new GvTag(subject);
         GvTag toRemove = mCurrentSubjectTag;
         if(toAdd.equals(toRemove)) return;

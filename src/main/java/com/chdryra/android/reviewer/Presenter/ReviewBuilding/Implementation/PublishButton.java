@@ -84,6 +84,7 @@ public class PublishButton implements ReviewViewModifier {
         for(GvSocialPlatform platform : mPlatforms) {
             if(platform.isChosen()) chosenPlatforms.add(platform.getName());
         }
+
         return chosenPlatforms;
     }
 }

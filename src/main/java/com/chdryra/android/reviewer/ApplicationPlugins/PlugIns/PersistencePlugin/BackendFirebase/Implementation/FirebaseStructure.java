@@ -46,7 +46,7 @@ public class FirebaseStructure {
         updates.put(user + "/" + PROFILE, review.getAuthor().getName());
         for(String tag : review.getTags()) {
             updates.put(TAGS + "/" + tag + "/" + reviewId, true);
-            updates.put(user + "/" + TAGS + "/" + tag+ "/" + reviewId, true);
+            updates.put(user + "/" + TAGS + "/" + tag + "/" + reviewId, true);
         }
         updates.put(user + "/" + REVIEWS + "/" + reviewId, true);
         updates.put(user + "/" + FEED + "/" + reviewId, true);

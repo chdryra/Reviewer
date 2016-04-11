@@ -23,7 +23,6 @@ public class SubjectEditBuildScreen<T extends GvData> extends ReviewEditorAction
         return getEditor().getSubject();
     }
 
-    //Overridden
     @Override
     public void onKeyboardDone(CharSequence s) {
         getEditor().setSubject();

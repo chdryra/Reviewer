@@ -32,7 +32,6 @@ import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.facebook.FacebookSdk;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 
 import twitter4j.Twitter;
@@ -97,7 +96,6 @@ public class FactorySocialPlatformList {
     }
     
     public SocialPlatform<com.facebook.AccessToken> newFacebook() {
-        FacebookSdk.sdkInitialize(mContext);
         ReviewSummariser summariser = new ReviewSummariser();
         ReviewFormatter formatter = new ReviewFormatterFacebook();
         PublisherFacebook publisher
