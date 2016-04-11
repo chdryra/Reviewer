@@ -58,8 +58,8 @@ public class FactoryApplicationContext {
                 = new ReleasePersistenceContext(context, modelContext, validator, plugins.getPersistencePlugin());
 
         PresenterContext presenterContext =
-                new ReleasePresenterContext(context, modelContext, viewContext, deviceContext,
-                        socialContext, networkContext, persistenceContext,
+                new ReleasePresenterContext(context, modelContext, viewContext, socialContext, networkContext, persistenceContext, deviceContext,
+
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin(),
                         validator);

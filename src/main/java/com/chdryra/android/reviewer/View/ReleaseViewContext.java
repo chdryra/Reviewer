@@ -21,8 +21,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesLis
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseViewContext extends ViewContextBasic {
+
     public ReleaseViewContext(UiPlugin ui) {
         LaunchablesList uiLaunchables = ui.getUiLaunchables();
+
         FactoryLauncherUi launcherFactory
                 = new FactoryLauncherUi(uiLaunchables.getDefaultReviewViewActivity());
 

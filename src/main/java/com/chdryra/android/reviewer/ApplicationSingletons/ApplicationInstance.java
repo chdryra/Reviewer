@@ -45,27 +45,25 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
- * Singleton that controls app-wide duties. Holds 3 main objects:
- * <ul>
- * <li>ApplicationContext: for app-wide dependency injection</li>
- * </ul>
- * <p/>
+ * Singleton that controls app-wide duties.
  */
 public class ApplicationInstance extends ApplicationSingleton {
     public static final String APP_NAME = "Teeqr";
 
     private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumUserId("123"));
     private static final String NAME = "ApplicationInstance";
+
     private static ApplicationInstance sSingleton;
 
     private final ReviewPacker mReviewPacker;
     private final PresenterContext mPresenterContext;
-    private LocationServicesApi mLocationServices;
+    private final LocationServicesApi mLocationServices;
+
     private ReviewsFeed mFeed;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
-        throw new IllegalStateException("Need to call create With ApplicationContext!");
+        throw new IllegalStateException("Need to call newInstance(.)!");
     }
 
     private ApplicationInstance(Context context, ApplicationContext applicationContext) {
@@ -134,7 +132,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     public TagsManager getTagsManager() {
         return mPresenterContext.getTagsManager();
     }
-
 
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mPresenterContext.getDataBuilderAdapter(dataType);

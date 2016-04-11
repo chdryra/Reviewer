@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
  */
 public class ReleaseModelContext extends ModelContextBasic {
 
-    public ReleaseModelContext(DataValidator dataValidator) {
+    public ReleaseModelContext(DataValidator validator) {
         setTagsManager(new FactoryTagsManager().newTagsManager());
 
         setVisitorsFactory(new FactoryVisitorReviewNode());
@@ -33,6 +33,7 @@ public class ReleaseModelContext extends ModelContextBasic {
         setTreeTraversersFactory(new FactoryNodeTraverser());
 
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        setFactoryReviews(new FactoryReviews(new FactoryReviewNode(), converter, dataValidator));
+        FactoryReviews reviews = new FactoryReviews(new FactoryReviewNode(), converter, validator);
+        setReviewsFactory(reviews);
     }
 }

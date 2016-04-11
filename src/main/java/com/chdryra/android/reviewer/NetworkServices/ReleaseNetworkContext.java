@@ -21,18 +21,18 @@ import com.chdryra.android.reviewer.NetworkServices.Factories.FactoryReviewPubli
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseNetworkContext implements NetworkContext {
-    private FactoryReviewPublisher mPublisher;
+    private FactoryReviewPublisher mPublisherFactory;
     private FactoryReviewDeleter mDeleterFactory;
 
     public ReleaseNetworkContext(Context context, NetworkServicesPlugin plugin) {
-        mPublisher = new FactoryReviewPublisher(plugin.getBackendUploaderFactory(context),
+        mPublisherFactory = new FactoryReviewPublisher(plugin.getBackendUploaderFactory(context),
                 plugin.getSocialPublisherFactory(context));
         mDeleterFactory = new FactoryReviewDeleter(plugin.getBackendDeleterFactory(context));
     }
 
     @Override
     public FactoryReviewPublisher getPublisherFactory() {
-        return mPublisher;
+        return mPublisherFactory;
     }
 
     @Override

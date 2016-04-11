@@ -51,30 +51,30 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     public ReleasePresenterContext(Context context,
                                    ModelContext modelContext,
                                    ViewContext viewContext,
-                                   DeviceContext deviceContext,
                                    SocialContext socialContext,
                                    NetworkContext networkContext,
                                    PersistenceContext persistenceContext,
+                                   DeviceContext deviceContext,
                                    DataComparatorsPlugin comparatorsPlugin,
-                                   DataAggregatorsPlugin aggregationPlugin,
-                                   DataValidator dataValidator) {
+                                   DataAggregatorsPlugin aggregatorsPlugin,
+                                   DataValidator validator) {
         super(modelContext, viewContext, socialContext, networkContext, persistenceContext);
 
         setLaunchablesFactory(viewContext);
 
         setFactoryGvData(new FactoryGvData());
 
-        ConverterGv gvConverter = getConverterGv(modelContext.getTagsManager());
+        ConverterGv gvConverter = newConverterGv(modelContext.getTagsManager());
         setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
-                gvConverter, aggregationPlugin.getAggregatorsApi());
+                gvConverter, aggregatorsPlugin.getAggregatorsApi());
 
         GvDataComparators.initialise(comparatorsPlugin.getComparatorsApi());
 
         setReviewBuilderAdapterFactory(context, modelContext, deviceContext, gvConverter,
-                getGvDataFactory(), dataValidator);
+                getGvDataFactory(), validator);
     }
 
-    private ConverterGv getConverterGv(TagsManager tagsManager) {
+    private ConverterGv newConverterGv(TagsManager tagsManager) {
         FactoryGvConverter converterFactory = new FactoryGvConverter(tagsManager);
         return converterFactory.newGvConverter();
     }
@@ -88,13 +88,14 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         DataAggregatorParams params = paramsFactory.getDefaultParams();
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);
         FactoryReviewViewAdapter factory
-                = new FactoryReviewViewAdapter(getReviewViewLaunchableFactory(), modelContext.getReviewsFactory(),
-
+                = new FactoryReviewViewAdapter(getReviewViewLaunchableFactory(),
+                modelContext.getReviewsFactory(),
                 modelContext.getVisitorsFactory(),
                 modelContext.getNodeTraversersFactory(),
                 aggregater,
                 reviewsSource,
                 gvConverter);
+
         setFactoryReviewViewAdapter(factory);
     }
 
@@ -110,10 +111,10 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                                 DeviceContext deviceContext,
                                                 ConverterGv converter,
                                                 FactoryGvData dataFactory,
-                                                DataValidator dataValidator) {
+                                                DataValidator validator) {
         FactoryReviewBuilder factoryReviewBuilder
                 = new FactoryReviewBuilder(converter,
-                dataValidator,
+                validator,
                 modelContext.getTagsManager(),
                 modelContext.getReviewsFactory(),
                 new FactoryDataBuilder(dataFactory));
@@ -127,7 +128,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 = new FactoryReviewBuilderAdapter<>(factoryReviewBuilder,
                 new FactoryDataBuildersGridUi(),
                 new FactoryVhBuildReviewData(),
-                dataValidator,
+                validator,
                 new FactoryDataBuilderAdapter(context),
                 incrementorFactory,
                 new FactoryImageChooser(context));

@@ -37,7 +37,7 @@ public abstract class ModelContextBasic implements ModelContext {
         mTreeTraversersFactory = treeTraversersFactory;
     }
 
-    public void setFactoryReviews(FactoryReviews factoryReviews) {
+    public void setReviewsFactory(FactoryReviews factoryReviews) {
         mFactoryReviews = factoryReviews;
     }
 

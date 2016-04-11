@@ -32,7 +32,7 @@ public class FactoryReviewsRepository {
         return new ReviewsSourceImpl(repository, reviewsFactory);
     }
 
-    public ReviewsRepositoryMutable newCachedMutableRepository(ReviewsRepositoryMutable archive) {
+    public ReviewsRepositoryMutable newCachedRepo(ReviewsRepositoryMutable archive) {
         return new ReviewsRepositoryMutableCached(mCacheFactory.newCache(), archive);
     }
 }
