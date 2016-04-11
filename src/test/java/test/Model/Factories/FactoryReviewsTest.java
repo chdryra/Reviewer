@@ -18,15 +18,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Factories.FactoryMdConverter;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolderImpl;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.testutils.RandomString;
@@ -281,7 +281,7 @@ public class FactoryReviewsTest {
                 review.getFacts(), review.getLocations(), criteria,
                 review.isRatingAverageOfCriteria());
 
-        Review recreation = mFactory.recreateReview(holder);
+        Review recreation = mFactory.makeReview(holder);
 
         assertThat(recreation.getReviewId(), is(review.getReviewId()));
         assertThat(recreation.isRatingAverageOfCriteria(), is(review.isRatingAverageOfCriteria()));

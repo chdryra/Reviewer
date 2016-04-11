@@ -8,13 +8,13 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalCriterionAverage;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalStringMaker;
 
 import test.TestUtils.RandomRating;
@@ -52,7 +52,7 @@ public class CanonicalCriterionAverageTest extends CanonicalStringMakerTest<Data
 
     @Override
     protected void checkInvalid(DataCriterion canonical) {
-        assertThat(canonical, is(NullData.nullCriterion(canonical.getReviewId())));
+        assertThat(canonical, is(FactoryNullData.nullCriterion(canonical.getReviewId())));
     }
 
     @Override

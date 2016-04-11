@@ -3,8 +3,8 @@ package com.chdryra.android.reviewer.test.View.GvDataAggregation;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.GvDataAggregatorOld;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalCommentMode;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.ComparitorComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.CanonicalCommentMode;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault.Plugin.DataAggregatorsDefault.FactoryDataAggregatorDefault.Implementation.ComparitorComment;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation
         .DifferencePercentage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData

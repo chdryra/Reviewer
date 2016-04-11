@@ -21,7 +21,7 @@ import java.util.Map;
  * <p/>
  * <p>
  * Retrieves relevant add, edit and display UIs for each {@link com.chdryra.android.reviewer
- * .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid.AndroidLaunchables}
+ * .GVReviewDataList.GVType} from {@link com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid.AndroidLaunchables}
  * and packages them with request codes and tags so that they can be appropriately launched
  * by whichever UI needs them in response to a user interaction.
  * </p>

@@ -21,16 +21,15 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -39,6 +38,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -195,7 +195,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public BackendReviewDeleter newBackendDeleter(ReviewId id) {
+    public ReviewDeleter newReviewDeleter(ReviewId id) {
         return mNetworkContext.getDeleterFactory().newDeleter(id);
     }
 

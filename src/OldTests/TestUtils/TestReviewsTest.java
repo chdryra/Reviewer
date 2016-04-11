@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageLis
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.R;

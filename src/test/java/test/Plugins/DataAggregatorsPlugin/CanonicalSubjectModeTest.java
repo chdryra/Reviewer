@@ -8,10 +8,10 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalSubjectMode;
 
 import test.TestUtils.RandomReviewId;
@@ -42,7 +42,7 @@ public class CanonicalSubjectModeTest extends CanonicalStringMakerTest<DataSubje
 
     @Override
     protected void checkInvalid(DataSubject canonical) {
-        assertThat(canonical, is(NullData.nullSubject(canonical.getReviewId())));
+        assertThat(canonical, is(FactoryNullData.nullSubject(canonical.getReviewId())));
     }
 
     @Override

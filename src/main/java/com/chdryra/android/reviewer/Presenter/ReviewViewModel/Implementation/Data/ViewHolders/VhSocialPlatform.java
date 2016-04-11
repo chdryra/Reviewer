@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 
 /**
  * {@link ViewHolder}: {@link com.chdryra.android.reviewer

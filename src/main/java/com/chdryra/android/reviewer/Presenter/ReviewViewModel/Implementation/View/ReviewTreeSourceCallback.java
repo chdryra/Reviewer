@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**

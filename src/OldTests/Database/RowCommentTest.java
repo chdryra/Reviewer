@@ -12,8 +12,8 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Factories.FactoryReviewerDbTableRow;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.test.TestUtils.MdDataMocker;
 

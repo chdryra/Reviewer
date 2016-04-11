@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 
 /**
  * Created by: Rizwan Choudrey

@@ -9,13 +9,13 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LatLngMidpoint;
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalLocation;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalStringMaker;
 import com.chdryra.android.testutils.RandomLatLng;
 import com.google.android.gms.maps.model.LatLng;
@@ -56,7 +56,7 @@ public class CanonicalLocationTest extends CanonicalStringMakerTest<DataLocation
 
     @Override
     protected void checkInvalid(DataLocation canonical) {
-        assertThat(canonical, is(NullData.nullLocation(canonical.getReviewId())));
+        assertThat(canonical, is(FactoryNullData.nullLocation(canonical.getReviewId())));
     }
 
     @Override

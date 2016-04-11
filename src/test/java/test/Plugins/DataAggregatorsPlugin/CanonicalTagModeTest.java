@@ -8,10 +8,10 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalTagMode;
 
 import test.TestUtils.RandomReviewId;
@@ -42,7 +42,7 @@ public class CanonicalTagModeTest extends CanonicalStringMakerTest<DataTag>{
 
     @Override
     protected void checkInvalid(DataTag canonical) {
-        assertThat(canonical, is(NullData.nullTag(canonical.getReviewId())));
+        assertThat(canonical, is(FactoryNullData.nullTag(canonical.getReviewId())));
     }
 
     @Override

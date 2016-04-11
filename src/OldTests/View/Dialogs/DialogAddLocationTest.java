@@ -12,7 +12,7 @@ import android.location.Location;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
-import com.chdryra.android.reviewer.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;

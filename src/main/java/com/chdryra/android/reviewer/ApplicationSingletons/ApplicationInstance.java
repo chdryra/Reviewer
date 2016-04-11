@@ -15,22 +15,21 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.CallbackRepository;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces
-        .ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewDeleter;
+import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid
-        .Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
@@ -41,6 +40,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
@@ -172,8 +172,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext.getReview(id, callback);
     }
 
-    public BackendReviewDeleter newBackendDeleter(ReviewId id) {
-        return mPresenterContext.newBackendDeleter(id);
+    public ReviewDeleter newReviewDeleter(ReviewId id) {
+        return mPresenterContext.newReviewDeleter(id);
     }
 
     public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {

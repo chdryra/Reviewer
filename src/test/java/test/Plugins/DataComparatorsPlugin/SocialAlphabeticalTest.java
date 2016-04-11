@@ -8,9 +8,9 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialAlphabetical;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.SocialAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

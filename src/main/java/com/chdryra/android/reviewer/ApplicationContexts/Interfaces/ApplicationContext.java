@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 
 /**
  * Created by: Rizwan Choudrey

@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
@@ -25,11 +24,6 @@ public abstract class ModelContextBasic implements ModelContext {
     private TagsManager mTagsManager;
     private FactoryVisitorReviewNode mVisitorsFactory;
     private FactoryNodeTraverser mTreeTraversersFactory;
-    private DataValidator mDataValidator;
-
-    public void setDataValidator(DataValidator dataValidator) {
-        mDataValidator = dataValidator;
-    }
 
     public void setTagsManager(TagsManager tagsManager) {
         mTagsManager = tagsManager;
@@ -65,10 +59,5 @@ public abstract class ModelContextBasic implements ModelContext {
     @Override
     public TagsManager getTagsManager() {
         return mTagsManager;
-    }
-
-    @Override
-    public DataValidator getDataValidator() {
-        return mDataValidator;
     }
 }

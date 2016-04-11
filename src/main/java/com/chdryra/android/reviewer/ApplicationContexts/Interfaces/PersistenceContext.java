@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviewsFeed;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsSource;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey

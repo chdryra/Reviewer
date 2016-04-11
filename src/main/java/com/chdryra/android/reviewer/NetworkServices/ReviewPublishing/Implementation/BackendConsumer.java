@@ -13,11 +13,10 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.QueueConsumer;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.Backend.BackendReviewUploader;
-import com.chdryra.android.reviewer.NetworkServices.Backend.ReviewUploaderListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .BackendUploadListener;
-import com.chdryra.android.reviewer.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewUploader;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewUploaderListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendUploaderListener;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
 
 import java.util.ArrayList;
 
@@ -27,7 +26,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendConsumer extends QueueConsumer<Review> implements ReviewUploaderListener {
-    private ArrayList<BackendUploadListener> mListeners;
+    private ArrayList<BackendUploaderListener> mListeners;
     private FactoryBackendUploader mFactory;
 
     public BackendConsumer(FactoryBackendUploader factory) {
@@ -35,11 +34,11 @@ public class BackendConsumer extends QueueConsumer<Review> implements ReviewUplo
         mListeners = new ArrayList<>();
     }
 
-    public void registerListener(BackendUploadListener listener) {
+    public void registerListener(BackendUploaderListener listener) {
         if (!mListeners.contains(listener)) mListeners.add(listener);
     }
 
-    public void unregisterListener(BackendUploadListener listener) {
+    public void unregisterListener(BackendUploaderListener listener) {
         if (mListeners.contains(listener)) mListeners.remove(listener);
     }
 
@@ -65,21 +64,21 @@ public class BackendConsumer extends QueueConsumer<Review> implements ReviewUplo
     }
 
     private void notifyOnSuccess(ReviewId reviewId, CallbackMessage result) {
-        for (BackendUploadListener listener : mListeners) {
+        for (BackendUploaderListener listener : mListeners) {
             listener.onUploadCompleted(reviewId, result);
         }
     }
 
     private void notifyOnFailure(ReviewId reviewId, CallbackMessage result) {
-        for (BackendUploadListener listener : mListeners) {
+        for (BackendUploaderListener listener : mListeners) {
             listener.onUploadFailed(reviewId, result);
         }
     }
 
     private static class BackendUploadWorker implements ItemWorker<Review> {
-        private BackendReviewUploader mUploader;
+        private ReviewUploader mUploader;
 
-        public BackendUploadWorker(BackendReviewUploader uploader) {
+        public BackendUploadWorker(ReviewUploader uploader) {
             mUploader = uploader;
         }
 

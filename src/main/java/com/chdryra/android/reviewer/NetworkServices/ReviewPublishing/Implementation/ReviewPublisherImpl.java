@@ -16,14 +16,11 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .BackendUploadListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.BackendUploaderListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .ReviewPublisherListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .SocialPublishListener;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.SocialPublisherListener;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,8 +32,8 @@ import java.util.Map;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewPublisherImpl implements ReviewPublisher, BackendUploadListener,
-        SocialPublishListener, WorkStoreCallback<Review> {
+public class ReviewPublisherImpl implements ReviewPublisher, BackendUploaderListener,
+        SocialPublisherListener, WorkStoreCallback<Review> {
     private ReviewQueue mQueue;
     private BackendConsumer mBackend;
     private SocialConsumer mSocial;
@@ -110,9 +107,9 @@ public class ReviewPublisherImpl implements ReviewPublisher, BackendUploadListen
     }
 
     @Override
-    public void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage
+    public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
             result) {
-        notifyListenersOnPublishingFailed(id, platforms, result);
+        notifyListenersOnPublishingFailed(reviewId, platforms, result);
     }
 
     @Override
@@ -121,13 +118,13 @@ public class ReviewPublisherImpl implements ReviewPublisher, BackendUploadListen
     }
 
     @Override
-    public void onPublishingCompleted(ReviewId id,
+    public void onPublishingCompleted(ReviewId reviewId,
                                       Collection<PublishResults> publishedOk,
                                       Collection<PublishResults> publishedNotOk,
                                       CallbackMessage result) {
-        mSocialComplete.add(id);
-        removeFromQueueIfPublishingComplete(id);
-        notifyListenersOnPublishingCompleted(id, publishedOk, publishedNotOk, result);
+        mSocialComplete.add(reviewId);
+        removeFromQueueIfPublishingComplete(reviewId);
+        notifyListenersOnPublishingCompleted(reviewId, publishedOk, publishedNotOk, result);
     }
 
     @Override

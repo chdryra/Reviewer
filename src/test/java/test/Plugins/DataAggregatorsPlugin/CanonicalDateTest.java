@@ -8,11 +8,11 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalDate;
 
 import org.junit.Before;
@@ -42,7 +42,7 @@ public class CanonicalDateTest {
     public void noDataReturnsDateWithZeroTime() {
         IdableList<DataDateReview> dates = new IdableDataList<>(RandomReviewId.nextReviewId());
         DataDateReview canonical = mCanonical.getCanonical(dates);
-        assertThat(canonical, is(NullData.nulDate(dates.getReviewId())));
+        assertThat(canonical, is(FactoryNullData.nulDate(dates.getReviewId())));
     }
 
     @Test

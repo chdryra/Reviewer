@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollectionImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ComparatorCollectionImpl;
 
 import org.junit.Before;
 import org.junit.Test;

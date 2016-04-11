@@ -17,5 +17,6 @@ import java.io.File;
  */
 public interface DeviceContext {
     File getImageStoragePath();
+
     String getImageStorageDirectory();
 }

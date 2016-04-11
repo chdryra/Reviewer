@@ -10,7 +10,7 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
@@ -18,9 +18,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalAuthor;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorAuthor;
 import com.chdryra.android.testutils.RandomString;
 
@@ -58,7 +58,7 @@ public class CanonicalAuthorTest {
 
         DataAuthorReview canonical = mCanonical.getCanonical(authors);
 
-        assertThat(canonical, is(NullData.nullAuthor(reviewId)));
+        assertThat(canonical, is(FactoryNullData.nullAuthor(reviewId)));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class CanonicalAuthorTest {
 
         DataAuthorReview canonical = mCanonical.getCanonical(authors);
 
-        assertThat(canonical, is(NullData.nullAuthor(reviewId)));
+        assertThat(canonical, is(FactoryNullData.nullAuthor(reviewId)));
     }
 
     @Test

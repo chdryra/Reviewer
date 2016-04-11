@@ -17,9 +17,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvSocialPlatform;
 
 
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.AuthorisationListener;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
  * Created by: Rizwan Choudrey

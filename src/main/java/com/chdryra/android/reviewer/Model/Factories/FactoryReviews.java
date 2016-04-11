@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.ReviewRecreater;
-import com.chdryra.android.reviewer.PlugIns.PersistencePlugin.Utils.ReviewDataHolder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
  * put constructors so as to minimise the use of constructors in multiple places.
  * </p>
  */
-public class FactoryReviews implements ReviewRecreater {
+public class FactoryReviews implements ReviewMaker {
     private AuthorsStamp mAuthorsStamp;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
@@ -114,19 +114,19 @@ public class FactoryReviews implements ReviewRecreater {
     }
 
     @Override
-    public Review recreateReview(ReviewDataHolder review) {
-        if(!review.isValid(mValidator)) return sNullReview;
+    public Review makeReview(ReviewDataHolder reviewData) {
+        if(!reviewData.isValid(mValidator)) return sNullReview;
 
-        Iterable<? extends DataCriterion> criteria = review.getCriteria();
+        Iterable<? extends DataCriterion> criteria = reviewData.getCriteria();
         ArrayList<Review> critList = new ArrayList<>();
         for(DataCriterion criterion : criteria) {
             critList.add(createUserReview(criterion.getSubject(), criterion.getRating()));
         }
 
-        return newReviewUser(new MdReviewId(review.getReviewId()), review.getAuthor(),
-                review.getPublishDate(), review.getSubject(), review.getRating(),
-                review.getComments(), review.getImages(), review.getFacts(), review.getLocations(),
-                critList, review.isAverage());
+        return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthor(),
+                reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
+                reviewData.getComments(), reviewData.getImages(), reviewData.getFacts(), reviewData.getLocations(),
+                critList, reviewData.isAverage());
     }
 
     public Review getNullReview() {

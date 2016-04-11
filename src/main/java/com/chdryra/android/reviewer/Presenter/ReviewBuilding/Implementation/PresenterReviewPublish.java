@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;

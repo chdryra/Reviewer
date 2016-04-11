@@ -10,8 +10,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions

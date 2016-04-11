@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.test.Model.Social;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformList;
 
 /**
  * Created by: Rizwan Choudrey

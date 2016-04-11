@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
@@ -39,6 +40,10 @@ public class DataValidator {
 
     public boolean validate(DataSubject subject) {
         return NotNull(subject) && validateString(subject.getSubject());
+    }
+
+    public boolean validate(DataRating rating) {
+        return NotNull(rating) && rating.getRating() >= 0f && rating.getRatingWeight() > 0;
     }
 
     public boolean validate(DataTag tag) {

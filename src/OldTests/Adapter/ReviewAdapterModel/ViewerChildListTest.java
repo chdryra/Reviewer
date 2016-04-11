@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImageList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocationList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsRepositoryModel.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;

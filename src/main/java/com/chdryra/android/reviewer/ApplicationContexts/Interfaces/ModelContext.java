@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
@@ -27,6 +26,4 @@ public interface ModelContext {
     FactoryVisitorReviewNode getVisitorsFactory();
 
     FactoryNodeTraverser getNodeTraversersFactory();
-
-    DataValidator getDataValidator();
 }

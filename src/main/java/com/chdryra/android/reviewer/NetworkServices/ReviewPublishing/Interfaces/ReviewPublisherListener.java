@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.NetworkServices.Social.Implementation.PublishResults;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 import java.util.Collection;
 
@@ -19,7 +19,7 @@ import java.util.Collection;
  * On: 05/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewPublisherListener extends SocialPublishListener, BackendUploadListener {
+public interface ReviewPublisherListener extends SocialPublisherListener, BackendUploaderListener {
     @Override
     void onUploadCompleted(ReviewId id, CallbackMessage result);
 
@@ -27,10 +27,10 @@ public interface ReviewPublisherListener extends SocialPublishListener, BackendU
     void onUploadFailed(ReviewId id, CallbackMessage result);
 
     @Override
-    void onPublishingFailed(ReviewId id, Collection<String> platforms, CallbackMessage result);
+    void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage result);
 
     @Override
-    void onPublishingCompleted(ReviewId id, Collection<PublishResults> publishedOk, Collection<PublishResults> publishedNotOk, CallbackMessage result);
+    void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> publishedOk, Collection<PublishResults> publishedNotOk, CallbackMessage result);
 
     @Override
     void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);

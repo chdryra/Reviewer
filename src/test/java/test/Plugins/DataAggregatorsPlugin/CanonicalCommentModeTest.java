@@ -8,10 +8,10 @@
 
 package test.Plugins.DataAggregatorsPlugin;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.NullData;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalCommentMode;
 
 import test.TestUtils.RandomReviewId;
@@ -44,7 +44,7 @@ public class CanonicalCommentModeTest extends CanonicalStringMakerTest<DataComme
 
     @Override
     protected void checkInvalid(DataComment canonical) {
-        assertThat(canonical, is(NullData.nullComment(canonical.getReviewId())));
+        assertThat(canonical, is(FactoryNullData.nullComment(canonical.getReviewId())));
     }
 
     @Override

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationContexts.ApplicationPlugins.Plugins;
+import com.chdryra.android.reviewer.ApplicationPlugins.Plugins;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;

@@ -8,7 +8,7 @@
 
 package test.Plugins.DataComparatorsPlugin;
 
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.TagAlphabetical;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.TagAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.testutils.RandomString;

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
-import com.chdryra.android.reviewer.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 import java.util.Comparator;

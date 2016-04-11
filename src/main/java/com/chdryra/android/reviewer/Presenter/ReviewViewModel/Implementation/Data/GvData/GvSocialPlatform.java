@@ -14,8 +14,8 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhSocialPlatform;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.FollowersListener;
-import com.chdryra.android.reviewer.NetworkServices.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 
 /**
  * {@link } version of: no equivalent as used for review sharing screen.
