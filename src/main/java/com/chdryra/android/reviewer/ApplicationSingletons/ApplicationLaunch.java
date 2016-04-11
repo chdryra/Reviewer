@@ -10,12 +10,9 @@ package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.Plugins;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
-import com.facebook.FacebookSdk;
+import com.chdryra.android.reviewer.ApplicationPlugins.Plugins;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,37 +20,20 @@ import com.facebook.FacebookSdk;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationLaunch {
-    private Context mContext;
-    private ApplicationContext mApplicationContext;
-    private static ApplicationLaunch sApplicationLaunch;
+    private static ApplicationLaunch sLaunch;
 
     public enum LaunchState {RELEASE, TEST}
 
     private ApplicationLaunch(Context context, LaunchState launchState) {
-        mContext = context;
-        createApplicationContext(launchState);
-        intialiseSingletons();
-        FacebookSdk.sdkInitialize(context);
+        ApplicationInstance.newInstance(context, newApplicationContext(context, launchState));
+    }
+
+    private ApplicationContext newApplicationContext(Context context, LaunchState launchState) {
+        FactoryApplicationContext factory = new FactoryApplicationContext();
+        return factory.newReleaseContext(context, Plugins.getPlugins(context, launchState));
     }
 
     public static void intitialiseLaunchIfNecessary(Context context, LaunchState launchState) {
-        if(sApplicationLaunch == null) {
-            sApplicationLaunch = new ApplicationLaunch(context, launchState);
-        }
-    }
-
-    private void createApplicationContext(LaunchState launchState) {
-        FactoryApplicationContext factory = new FactoryApplicationContext();
-
-        mApplicationContext = factory.newReleaseContext(mContext, getDeviceContext(),
-                Plugins.getPlugins(mContext, launchState));
-    }
-
-    private void intialiseSingletons() {
-        ApplicationInstance.newInstance(mContext, mApplicationContext);
-    }
-
-    private DeviceContext getDeviceContext() {
-        return new ReleaseDeviceContext(mContext);
+        if(sLaunch == null) sLaunch = new ApplicationLaunch(context, launchState);
     }
 }

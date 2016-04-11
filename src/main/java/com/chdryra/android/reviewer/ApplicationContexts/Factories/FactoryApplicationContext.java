@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Factories;
 
 import android.content.Context;
 
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ReleaseDeviceContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ApplicationContextImpl;
 import com.chdryra.android.reviewer.Model.ReleaseModelContext;
@@ -38,9 +39,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
  */
 public class FactoryApplicationContext {
     public ApplicationContext newReleaseContext(Context context,
-                                                DeviceContext deviceContext,
                                                 ApplicationPlugins plugins) {
+
         DataValidator validator = new DataValidator();
+
+        DeviceContext deviceContext = new ReleaseDeviceContext(context);
 
         ModelContext modelContext = new ReleaseModelContext(validator);
 
