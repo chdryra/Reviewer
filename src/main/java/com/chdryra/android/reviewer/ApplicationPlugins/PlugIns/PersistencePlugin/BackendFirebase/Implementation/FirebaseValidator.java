@@ -34,9 +34,15 @@ public class FirebaseValidator {
         DatumRating rating = new DatumRating(reviewId, (float)review.getRating().getRating(), (int)review
                 .getRating().getRatingWeight());
 
-        return mValidator.validate(reviewId)
+        return isIdValid(review)
                 && mValidator.validate(subject)
                 && mValidator.validate(rating) && isValid(review.getAuthor()) && review.getTags().size() > 0;
+    }
+
+    public boolean isIdValid(FbReview review) {
+        DatumReviewId reviewId = new DatumReviewId(review.getReviewId());
+
+        return mValidator.validate(reviewId);
     }
 
     private boolean isValid(Author author) {

@@ -27,7 +27,7 @@ public class FirebaseStructure {
     private static final String TAGS = "Tags";
     private static final String USERS = "Users";
     private static final String FEED = "Feed";
-    private static final String PROFILE = "Profile";
+    private static final String RATING = "rating";
 
     public String getReviewsRoot() {
         return REVIEWS;
@@ -57,20 +57,29 @@ public class FirebaseStructure {
 
         Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
-        updates.put(REVIEWS + "/" + reviewId, reviewMap);
-        updates.put(REVIEWS_LIST + "/" + reviewId, rating);
+        updates.put(path(REVIEWS, reviewId), reviewMap);
+        updates.put(path(REVIEWS_LIST, reviewId, RATING), rating);
 
         for (String tag : review.getTags()) {
-            updates.put(TAGS + "/" + tag + "/" + reviewId, trueValue);
+            updates.put(path(TAGS, tag, reviewId), trueValue);
         }
 
-        String user = USERS + "/" + review.getAuthor().getUserId();
+        String user = path(USERS, review.getAuthor().getUserId());
         for (String tag : review.getTags()) {
-            updates.put(user + "/" + TAGS + "/" + tag + "/" + reviewId, trueValue);
+            updates.put(path(user, TAGS, tag , reviewId), trueValue);
         }
-        updates.put(user + "/" + REVIEWS + "/" + reviewId, trueValue);
-        updates.put(user + "/" + FEED + "/" + reviewId, trueValue);
+        updates.put(path(user, REVIEWS, reviewId), trueValue);
+        updates.put(path(user, FEED, reviewId), trueValue);
 
         return updates;
+    }
+
+    private String path(String root, String...elements) {
+        String path = root;
+        for(String element : elements) {
+            path += "/" + element;
+        }
+
+        return path;
     }
 }

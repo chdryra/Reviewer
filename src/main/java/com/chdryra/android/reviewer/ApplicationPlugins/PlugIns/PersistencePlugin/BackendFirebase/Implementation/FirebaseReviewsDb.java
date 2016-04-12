@@ -35,8 +35,9 @@ public class FirebaseReviewsDb implements FirebaseDb {
     private FirebaseValidator mValidator;
     private ArrayList<FirebaseDbObserver> mObservers;
 
-    public FirebaseReviewsDb(Firebase dataRoot, FirebaseStructure structure, FirebaseValidator
-            validator) {
+    public FirebaseReviewsDb(Firebase dataRoot,
+                             FirebaseStructure structure,
+                             FirebaseValidator validator) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mValidator = validator;
@@ -132,7 +133,7 @@ public class FirebaseReviewsDb implements FirebaseDb {
                 ArrayList<FbReview> reviews = new ArrayList<>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     FbReview review = childSnapshot.getValue(FbReview.class);
-                    if (mValidator.isValid(review)) reviews.add(review);
+                    if (mValidator.isIdValid(review)) reviews.add(review);
                 }
 
                 listener.onReviewCollection(reviews, null);
