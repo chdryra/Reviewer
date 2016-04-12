@@ -67,6 +67,11 @@ public class FirebaseReviewsDb implements FirebaseDb {
     }
 
     @Override
+    public void getReviewsList(GetCollectionCallback callback) {
+        doSingleEvent(getReviewsListRoot(), newGetCollectionListener(callback));
+    }
+
+    @Override
     public void registerObserver(FirebaseDbObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
@@ -78,6 +83,10 @@ public class FirebaseReviewsDb implements FirebaseDb {
 
     private Firebase getReviewsRoot() {
         return mDataRoot.child(mStructure.getReviewsRoot());
+    }
+
+    private Firebase getReviewsListRoot() {
+        return mDataRoot.child(mStructure.getReviewsListRoot());
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

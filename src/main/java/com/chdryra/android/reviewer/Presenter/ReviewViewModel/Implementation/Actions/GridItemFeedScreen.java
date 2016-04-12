@@ -12,15 +12,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverview;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
@@ -32,7 +32,7 @@ import java.util.Collection;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
+public class GridItemFeedScreen extends GridItemLauncher<GvReviewAsync>
         implements DialogAlertFragment.DialogAlertListener, NewReviewListener,
         CallbackRepository {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
@@ -51,11 +51,11 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewOverview>
     }
 
     @Override
-    public void onGridItemLongClick(GvReviewOverview item, int position, View v) {
+    public void onGridItemLongClick(GvReviewAsync item, int position, View v) {
         launchShareEdit(item);
     }
 
-    private void launchShareEdit(GvReviewOverview item) {
+    private void launchShareEdit(GvReviewAsync item) {
         Bundle args = new Bundle();
         args.putParcelable(mShareEditUi.getLaunchTag(), item.getGvReviewId());
         launch(mShareEditUi, SHARE_EDIT, args);

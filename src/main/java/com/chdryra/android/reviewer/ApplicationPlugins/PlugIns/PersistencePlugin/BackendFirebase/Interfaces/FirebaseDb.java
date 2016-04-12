@@ -45,6 +45,8 @@ public interface FirebaseDb {
 
     void getReviews(GetCollectionCallback callback);
 
+    void getReviewsList(GetCollectionCallback callback);
+
     void registerObserver(FirebaseDbObserver observer);
 
     void unregisterObserver(FirebaseDbObserver observer);

@@ -21,31 +21,22 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -75,18 +66,18 @@ public class FactoryReviewViewLaunchable {
     }
 
     public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
-        return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReviewOverview.TYPE));
+        return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReviewAsync.TYPE));
     }
 
-    public ReviewView<GvReviewOverview> newReviewsListScreen(ReviewNodeAsync<?> node,
-                                                             FactoryReviewViewAdapter adapterFactory,
-                                                             ReviewViewActions<GvReviewOverview> actions) {
+    public ReviewView<GvReviewAsync> newReviewsListScreen(ReviewNodeAsync<?> node,
+                                                          FactoryReviewViewAdapter adapterFactory,
+                                                          ReviewViewActions<GvReviewAsync> actions) {
         return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
     }
 
-    public ReviewView<GvReviewOverview> newReviewsListScreen(ReviewNode node,
+    public ReviewView<GvReviewAsync> newReviewsListScreen(ReviewNode node,
                                                              FactoryReviewViewAdapter adapterFactory,
-                                             ReviewViewActions<GvReviewOverview> actions) {
+                                             ReviewViewActions<GvReviewAsync> actions) {
         return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
     }
 

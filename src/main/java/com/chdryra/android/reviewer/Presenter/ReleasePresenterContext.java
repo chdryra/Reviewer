@@ -64,7 +64,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setFactoryGvData(new FactoryGvData());
 
-        ConverterGv gvConverter = newConverterGv(modelContext.getTagsManager());
+        ConverterGv gvConverter = newConverterGv(modelContext.getTagsManager(), persistenceContext.getReviewsSource());
         setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
                 gvConverter, aggregatorsPlugin.getAggregatorsApi());
 
@@ -74,8 +74,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 getGvDataFactory(), validator);
     }
 
-    private ConverterGv newConverterGv(TagsManager tagsManager) {
-        FactoryGvConverter converterFactory = new FactoryGvConverter(tagsManager);
+    private ConverterGv newConverterGv(TagsManager tagsManager, ReviewsSource source) {
+        FactoryGvConverter converterFactory = new FactoryGvConverter(tagsManager, source);
         return converterFactory.newGvConverter();
     }
 

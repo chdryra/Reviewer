@@ -181,6 +181,6 @@ public class ApplicationInstance extends ApplicationSingleton {
     private void setUser(DatumAuthor user) {
         FactoryReviews reviewsFactory = getReviewsFactory();
         reviewsFactory.setAuthorsStamp(new AuthorsStamp(user));
-        mFeed = mPresenterContext.getFeedFactory().newMutableFeed(reviewsFactory);
+        mFeed = mPresenterContext.getFeedFactory().newFeed(reviewsFactory);
     }
 }

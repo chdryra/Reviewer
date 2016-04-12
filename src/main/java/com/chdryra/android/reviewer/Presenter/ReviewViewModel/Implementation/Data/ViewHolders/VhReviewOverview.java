@@ -29,7 +29,7 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhReviewOverview extends ViewHolderBasic {
-    private static final int LAYOUT = R.layout.grid_cell_review_overview2;
+    private static final int LAYOUT = R.layout.grid_cell_review_overview;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
     private static final int IMAGE = R.id.review_image;
@@ -48,32 +48,6 @@ public class VhReviewOverview extends ViewHolderBasic {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
     }
 
-    private String getTagString(ArrayList<String> tags) {
-        int i = tags.size();
-        String tagsString = getTagString(tags, i--);
-        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
-            tagsString = getTagString(tags, i--);
-        }
-
-        return tagsString;
-    }
-
-    private String getTagString(ArrayList<String> tags, int maxTags) {
-        String tagsString = "";
-        int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
-        int diff = tags.size() - size;
-        int i = 0;
-        while (i < size) {
-            tagsString += "#" + tags.get(i) + " ";
-            ++i;
-        }
-
-        if (diff > 0) tagsString += "+ " + String.valueOf(diff) + "#";
-
-        return tagsString.trim();
-    }
-
-    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
@@ -105,6 +79,31 @@ public class VhReviewOverview extends ViewHolderBasic {
         } else {
             mHeadline.setText("");
         }
+    }
+
+    private String getTagString(ArrayList<String> tags) {
+        int i = tags.size();
+        String tagsString = getTagString(tags, i--);
+        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
+            tagsString = getTagString(tags, i--);
+        }
+
+        return tagsString;
+    }
+
+    private String getTagString(ArrayList<String> tags, int maxTags) {
+        String tagsString = "";
+        int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
+        int diff = tags.size() - size;
+        int i = 0;
+        while (i < size) {
+            tagsString += "#" + tags.get(i) + " ";
+            ++i;
+        }
+
+        if (diff > 0) tagsString += "+ " + String.valueOf(diff) + "#";
+
+        return tagsString.trim();
     }
 
     private boolean validateString(String string) {

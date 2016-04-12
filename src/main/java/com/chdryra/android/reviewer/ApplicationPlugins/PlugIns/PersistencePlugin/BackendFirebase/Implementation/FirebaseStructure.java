@@ -27,10 +27,14 @@ public class FirebaseStructure {
     private static final String TAGS = "Tags";
     private static final String USERS = "Users";
     private static final String FEED = "Feed";
-    private static final String RATING = "rating";
+    private static final String RATING = Rating.PATH;
 
     public String getReviewsRoot() {
         return REVIEWS;
+    }
+
+    public String getReviewsListRoot() {
+        return REVIEWS_LIST;
     }
 
     @NonNull

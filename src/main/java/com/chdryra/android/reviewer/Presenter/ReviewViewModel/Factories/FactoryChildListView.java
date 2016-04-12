@@ -12,14 +12,11 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,11 +24,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryChildListView {
-    public ReviewView<GvReviewOverview>
-    newView(ReviewViewAdapter<GvReviewOverview> adapter, ReviewViewActions<GvReviewOverview> actions) {
+    public ReviewView<GvReviewAsync>
+    newView(ReviewViewAdapter<GvReviewAsync> adapter, ReviewViewActions<GvReviewAsync> actions) {
         ReviewViewParams params = getReviewViewParams();
 
-        ReviewViewPerspective<GvReviewOverview> perspective;
+        ReviewViewPerspective<GvReviewAsync> perspective;
         perspective = new ReviewViewPerspective<>(adapter, actions, params);
 
         return new ReviewViewDefault<>(perspective);

@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterCriteria;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterCriteriaSubjects;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterCriteriaSubjects;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDataTags;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDateReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDates;
@@ -22,10 +22,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterItemTags;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReviewsAsync;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSubjects;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterUrls;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,9 +33,11 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  */
 public class FactoryGvConverter {
     private TagsManager mTagsManager;
+    private ReviewsRepository mRepo;
 
-    public FactoryGvConverter(TagsManager tagsManager) {
+    public FactoryGvConverter(TagsManager tagsManager, ReviewsRepository repo) {
         mTagsManager = tagsManager;
+        mRepo = repo;
     }
 
     public ConverterGv newGvConverter() {
@@ -50,7 +51,7 @@ public class FactoryGvConverter {
         GvConverterSubjects converterSubjects = new GvConverterSubjects();
         GvConverterAuthors converterAuthors = new GvConverterAuthors();
         GvConverterDateReviews converterDates = new GvConverterDateReviews();
-        GvConverterReviews converterReview = new GvConverterReviews(mTagsManager, converterImages,
+        GvConverterReviewsAsync converterReview = new GvConverterReviewsAsync(mTagsManager, mRepo, converterImages,
                 converterComments, converterLocations, converterDates, converterAuthors);
         GvConverterDataTags converterTags = new GvConverterDataTags();
         GvConverterItemTags converterItemTags = new GvConverterItemTags();

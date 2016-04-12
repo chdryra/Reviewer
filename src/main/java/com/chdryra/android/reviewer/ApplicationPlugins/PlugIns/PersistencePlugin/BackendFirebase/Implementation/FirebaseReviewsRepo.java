@@ -11,21 +11,18 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDbObserver;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces
-        .FirebaseDbObserver;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
@@ -46,13 +43,13 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     private FirebaseDb mDb;
     private FactoryFbReview mReviewsFactory;
     private TagsManager mTagsManager;
-    private ReviewMaker mRecreater;
+    private FirebaseReviewMaker mRecreater;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
     public FirebaseReviewsRepo(FirebaseDb db,
                                FactoryFbReview reviewsFactory,
                                TagsManager tagsManager,
-                               ReviewMaker recreater) {
+                               FirebaseReviewMaker recreater) {
         mDb = db;
         mReviewsFactory = reviewsFactory;
         mTagsManager = tagsManager;
@@ -78,7 +75,7 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
 
     @Override
     public void getReviews(final CallbackRepository callback) {
-        mDb.getReviews(reviewCollectionCallback(callback));
+        mDb.getReviewsList(reviewListCallback(callback));
     }
 
     @Override
@@ -129,6 +126,10 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
         return mRecreater.makeReview(holder);
     }
 
+    private Review recreatePartialReview(FbReview fbReview) {
+        return mRecreater.makePartialReview(fbReview.getReviewId(),fbReview.getRating());
+    }
+
     @NonNull
     private FirebaseReviewsDb.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
                                                                                   callback) {
@@ -141,13 +142,37 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
                     reviews.add(recreateReview(review));
                 }
 
-                CallbackMessage result = error != null ?
-                        CallbackMessage.error(ERROR_FETCHING_REVIEWS + error.getMessage())
-                        : CallbackMessage.ok(REVIEWS_FOUND);
+                CallbackMessage result = getCollectionCallbackMessage(error);
 
                 callback.onFetchedFromRepo(reviews, result);
             }
         };
+    }
+
+    @NonNull
+    private FirebaseReviewsDb.GetCollectionCallback reviewListCallback(final CallbackRepository
+                                                                                     callback) {
+        final ArrayList<Review> reviews = new ArrayList<>();
+        return new FirebaseReviewsDb.GetCollectionCallback() {
+            @Override
+            public void onReviewCollection(Collection<FbReview> fetched, @Nullable
+            FirebaseError error) {
+                for (FbReview review : fetched) {
+                    reviews.add(recreatePartialReview(review));
+                }
+
+                CallbackMessage result = getCollectionCallbackMessage(error);
+
+                callback.onFetchedFromRepo(reviews, result);
+            }
+        };
+    }
+
+    @NonNull
+    private CallbackMessage getCollectionCallbackMessage(@Nullable FirebaseError error) {
+        return error != null ?
+                            CallbackMessage.error(ERROR_FETCHING_REVIEWS + error.getMessage())
+                            : CallbackMessage.ok(REVIEWS_FOUND);
     }
 
     @NonNull
