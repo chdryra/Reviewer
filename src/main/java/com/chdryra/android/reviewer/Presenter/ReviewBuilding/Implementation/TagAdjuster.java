@@ -24,6 +24,7 @@ public class TagAdjuster {
     }
 
     public void setCurrentSubjectTag(String tag) {
+        mCurrentSubjectTag = null;
         if(tag != null && tag.length() > 0) {
             mCurrentSubjectTag = new GvTag(tag);
         }
