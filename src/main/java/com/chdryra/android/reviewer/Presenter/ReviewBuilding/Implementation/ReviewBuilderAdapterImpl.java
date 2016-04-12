@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypesList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
@@ -38,11 +38,9 @@ import java.util.Map;
  * On: 15/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
-        extends ReviewViewAdapterBasic<GC>
+public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewViewAdapterBasic<GC>
         implements ReviewBuilderAdapter<GC> {
-    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypesList
-            .BUILD_TYPES;
+    private static final ArrayList<GvDataType<? extends GvData>> TYPES = GvDataTypes.BUILD_TYPES;
 
     private final DataBuildersMap mDataBuilders;
     private final BuildScreenGridUi<GC> mGridUi;
@@ -138,7 +136,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>>
         return mBuilder.getCovers();
     }
 
-    //private methods
     @Nullable
     private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
         String newToAdd = toAdd.replaceAll("[^A-Za-z0-9]", "");

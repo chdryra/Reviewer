@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class GvDataTypesList {
+public abstract class GvDataTypes {
     public static final ArrayList<GvDataType<? extends GvData>> BUILD_TYPES = new ArrayList<>();
     public static final ArrayList<GvDataType<? extends GvData>> ALL_TYPES = new ArrayList<>();
     static {
