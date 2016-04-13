@@ -123,30 +123,12 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
 
     private Review recreateReview(FbReview fbReview) {
         ReviewDataHolder holder = mReviewsFactory.newReviewDataHolder(fbReview, mTagsManager);
+        mTagsManager.tagItem(fbReview.getReviewId(), new ArrayList<>(fbReview.getTags()));
         return mRecreater.makeReview(holder);
     }
 
     private Review recreatePartialReview(FbReview fbReview) {
         return mRecreater.makePartialReview(fbReview.getReviewId(),fbReview.getRating());
-    }
-
-    @NonNull
-    private FirebaseReviewsDb.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
-                                                                                  callback) {
-        final ArrayList<Review> reviews = new ArrayList<>();
-        return new FirebaseReviewsDb.GetCollectionCallback() {
-            @Override
-            public void onReviewCollection(Collection<FbReview> fetched, @Nullable
-            FirebaseError error) {
-                for (FbReview review : fetched) {
-                    reviews.add(recreateReview(review));
-                }
-
-                CallbackMessage result = getCollectionCallbackMessage(error);
-
-                callback.onFetchedFromRepo(reviews, result);
-            }
-        };
     }
 
     @NonNull

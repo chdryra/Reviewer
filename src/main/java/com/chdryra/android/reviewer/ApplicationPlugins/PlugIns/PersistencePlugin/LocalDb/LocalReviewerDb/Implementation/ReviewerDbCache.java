@@ -50,6 +50,7 @@ public class ReviewerDbCache implements QueueCache.Cache<Review> {
 
         TableTransactor db = mDatabase.beginWriteTransaction();
         mDatabase.addReviewToDb(review, mTagsManager, db);
+        getReview(id, db);
         mDatabase.endTransaction(db);
     }
 

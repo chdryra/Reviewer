@@ -71,4 +71,8 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements CallbackRe
     private void addChild(Review review) {
         addChild(mReviewsFactory.createReviewNodeComponent(review, false));
     }
+
+    public void detachFromRepo() {
+        mRepo.unregisterObserver(this);
+    }
 }

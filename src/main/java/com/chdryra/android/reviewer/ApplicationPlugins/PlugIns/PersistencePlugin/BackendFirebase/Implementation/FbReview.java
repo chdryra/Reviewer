@@ -84,6 +84,10 @@ public class FbReview {
         }
     }
 
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
+    }
+
     public String getReviewId() {
         return reviewId;
     }

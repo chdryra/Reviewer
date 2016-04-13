@@ -142,6 +142,7 @@ public class FirebaseReviewsDb implements FirebaseDb {
                 ArrayList<FbReview> reviews = new ArrayList<>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     FbReview review = childSnapshot.getValue(FbReview.class);
+                    review.setReviewId(childSnapshot.getKey());
                     if (mValidator.isIdValid(review)) reviews.add(review);
                 }
 

@@ -16,7 +16,6 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutableAsync;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
@@ -55,7 +54,7 @@ public class PresenterUsersFeed implements
         ReviewNodeMutable.NodeObserver {
 
     private ApplicationInstance mApp;
-    private ReviewNodeMutableAsync mFeedNode;
+    private ReviewTreeLive mFeedNode;
     private ReviewView<GvReviewAsync> mReviewView;
     private GridItemFeedScreen mGridItem;
     private PresenterListener mListener;
@@ -84,7 +83,7 @@ public class PresenterUsersFeed implements
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
-                               ReviewNodeMutableAsync feedNode,
+                               ReviewTreeLive feedNode,
                                Actions actions,
                                PresenterListener listener) {
         mApp = app;
@@ -113,6 +112,7 @@ public class PresenterUsersFeed implements
     public void detach() {
         mApp.getPublisher().unregisterListener(this);
         mFeedNode.unregisterNodeObserver(this);
+        mFeedNode.detachFromRepo();
         if(mDeleter != null) mDeleter.unregisterListener(this);
     }
 
