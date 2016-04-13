@@ -27,6 +27,10 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReview {
+    public static final String SUBJECT = "subject";
+    public static final String RATING = Rating.PATH;
+    public static final String PUBLISH_DATE = "publishDate";
+
     private String reviewId;
     private String subject;
     private Rating rating;

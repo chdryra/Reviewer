@@ -12,6 +12,8 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewBasicInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
@@ -19,7 +21,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterDateReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewAsync;
@@ -29,9 +30,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * {@link GvData} version of: {@link Review}
  * {@link ViewHolder ): {@link VhReviewOverview }
  */
-public class GvReviewAsync extends GvDataBasic<GvReviewAsync> {
+public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataReviewBasicInfo{
     public static final GvDataType<GvReviewAsync> TYPE =
-            new GvDataType<>(GvReviewAsync.class, "reviewAsync");
+            new GvDataType<>(GvReviewAsync.class, "review");
     public static final Creator<GvReviewAsync> CREATOR = new Creator<GvReviewAsync>() {
         @Override
         public GvReviewAsync createFromParcel(Parcel in) {
@@ -45,12 +46,14 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> {
     };
 
     //Not really parcelable but should not need to parcel this class anyway...
+    private String mSubject;
+    private float mRating;
+    private GvDate mPublishDate;
     private ReviewsRepository mRepo;
     private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
-    private GvConverterDateReviews mConverterDate;
     private GvConverterAuthors mGvConverterAuthor;
 
     public GvReviewAsync() {
@@ -58,20 +61,24 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> {
     }
 
     public GvReviewAsync(GvReviewId reviewId,
+                         String subject,
+                         float rating,
+                         GvDate publishDate,
                          ReviewsRepository repo,
                          TagsManager tagsManager,
                          GvConverterImages converterImages,
                          GvConverterComments converterComments,
                          GvConverterLocations converterLocations,
-                         GvConverterDateReviews converterDate,
                          GvConverterAuthors gvConverterAuthor) {
         super(GvReviewAsync.TYPE, reviewId);
+        mSubject = subject;
+        mRating = rating;
+        mPublishDate = publishDate;
         mRepo = repo;
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
-        mConverterDate = converterDate;
         mGvConverterAuthor = gvConverterAuthor;
     }
 
@@ -99,12 +106,23 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> {
         return mConverterLocations;
     }
 
-    public GvConverterDateReviews getConverterDate() {
-        return mConverterDate;
-    }
-
     public GvConverterAuthors getGvConverterAuthor() {
         return mGvConverterAuthor;
+    }
+
+    @Override
+    public String getSubject() {
+        return mSubject;
+    }
+
+    @Override
+    public float getRating() {
+        return mRating;
+    }
+
+    @Override
+    public DataDate getPublishDate() {
+        return mPublishDate;
     }
 
     @Override

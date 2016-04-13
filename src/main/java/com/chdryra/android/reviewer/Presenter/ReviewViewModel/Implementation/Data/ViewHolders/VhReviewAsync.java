@@ -68,9 +68,11 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
         if (mTags == null) mTags = (TextView) getView(TAGS);
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
-        mSubject.setText("Loading...");
 
         mReview = (GvReviewAsync) data;
+        mSubject.setText(mReview.getSubject());
+        mRating.setRating(mReview.getRating());
+        mPublishDate.setText("loading...");
         mReview.getReview(this);
     }
 
@@ -82,8 +84,7 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
         mRating.setRating(review.getRating().getRating());
 
         String author = mReview.getGvConverterAuthor().convert(review.getAuthor()).getName();
-        long time = mReview.getConverterDate().convert(review.getPublishDate()).getTime();
-        String date = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(new Date(time));
+        String date = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(new Date(review.getPublishDate().getTime()));
         String location = getLocationString(review);
         String locationStem = validateString(location) ? " @" + location : "";
         //TODO sort this out with resource strings with placeholders

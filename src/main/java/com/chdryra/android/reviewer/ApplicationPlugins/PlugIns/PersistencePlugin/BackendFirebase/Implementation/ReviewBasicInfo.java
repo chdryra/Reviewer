@@ -12,8 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
@@ -38,16 +36,20 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  */
 public class ReviewBasicInfo implements ReviewNode {
     private ReviewId mId;
+    private DataSubject mSubject;
     private DataRating mRating;
+    private DataDateReview mPublishDate;
 
-    public ReviewBasicInfo(ReviewId id, DataRating rating) {
+    public ReviewBasicInfo(ReviewId id, DataSubject subject, DataRating rating, DataDateReview publishDate) {
         mId = id;
+        mSubject = subject;
         mRating = rating;
+        mPublishDate = publishDate;
     }
 
     @Override
     public DataSubject getSubject() {
-        return new DatumSubject(mId, mId.toString());
+        return mSubject;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class ReviewBasicInfo implements ReviewNode {
 
     @Override
     public DataDateReview getPublishDate() {
-        return new DatumDateReview(mId, 0);
+        return mPublishDate;
     }
 
     @Override

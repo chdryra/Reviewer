@@ -10,8 +10,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -29,10 +31,11 @@ public class FirebaseReviewMaker implements ReviewMaker {
         mFactory = factory;
     }
 
-    public ReviewBasicInfo makePartialReview(String reviewId, Rating rating) {
+    public ReviewBasicInfo makePartialReview(String reviewId, String subject, Rating rating, long date) {
         DatumReviewId id = new DatumReviewId(reviewId);
-        return new ReviewBasicInfo(id, new DatumRating(id, (float)rating.getRating(),
-                (int)rating.getRatingWeight())) ;
+        return new ReviewBasicInfo(id, new DatumSubject(id, subject),
+                new DatumRating(id, (float)rating.getRating(), (int)rating.getRatingWeight()),
+                new DatumDateReview(id, date)) ;
     }
 
     @Override

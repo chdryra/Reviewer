@@ -128,7 +128,8 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     }
 
     private Review recreatePartialReview(FbReview fbReview) {
-        return mRecreater.makePartialReview(fbReview.getReviewId(),fbReview.getRating());
+        return mRecreater.makePartialReview(fbReview.getReviewId(), fbReview.getSubject(),
+                fbReview.getRating(), fbReview.getPublishDate());
     }
 
     @NonNull

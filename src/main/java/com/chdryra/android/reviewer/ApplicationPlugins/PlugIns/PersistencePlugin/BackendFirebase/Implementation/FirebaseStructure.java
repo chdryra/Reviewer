@@ -27,7 +27,9 @@ public class FirebaseStructure {
     private static final String TAGS = "Tags";
     private static final String USERS = "Users";
     private static final String FEED = "Feed";
-    private static final String RATING = Rating.PATH;
+    private static final String SUBJECT = FbReview.SUBJECT;
+    private static final String RATING = FbReview.RATING;
+    private static final String DATE = FbReview.PUBLISH_DATE;
 
     public String getReviewsRoot() {
         return REVIEWS;
@@ -62,7 +64,9 @@ public class FirebaseStructure {
         Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
         updates.put(path(REVIEWS, reviewId), reviewMap);
+        updates.put(path(REVIEWS_LIST, reviewId, SUBJECT), review.getSubject());
         updates.put(path(REVIEWS_LIST, reviewId, RATING), rating);
+        updates.put(path(REVIEWS_LIST, reviewId, DATE), review.getPublishDate());
 
         for (String tag : review.getTags()) {
             updates.put(path(TAGS, tag, reviewId), trueValue);

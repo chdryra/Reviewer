@@ -14,8 +14,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsyncList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -52,8 +54,12 @@ public class GvConverterReviewsAsync
 
     @Override
     public GvReviewAsync convert(Review review, ReviewId parentId) {
-        return new GvReviewAsync(newId(review.getReviewId()), mRepo, mTagsManager, mConverterImages,
-                mConverterComments, mConverterLocations, mConverterDate, mGvConverterAuthor);
+        GvReviewId id = newId(review.getReviewId());
+        return new GvReviewAsync(id, review.getSubject().getSubject(),
+                review.getRating().getRating(),
+                new GvDate(id, review.getPublishDate().getTime()),
+                mRepo, mTagsManager, mConverterImages,
+                mConverterComments, mConverterLocations, mGvConverterAuthor);
     }
 
     @Override
