@@ -20,12 +20,25 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterAuthors;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterImages;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocationList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewAsync;
 import com.chdryra.android.reviewer.R;
 
 import java.text.DateFormat;
@@ -38,7 +51,7 @@ import java.util.Date;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository{
+public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository {
     private static final int LAYOUT = R.layout.grid_cell_review_overview;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -47,16 +60,30 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
     private static final int TAGS = R.id.review_tags;
     private static final int PUBLISH = R.id.review_publish_data;
 
+    private TagsManager mTagsManager;
+    private GvConverterImages mConverterImages;
+    private GvConverterComments mConverterComments;
+    private GvConverterLocations mConverterLocations;
+    private GvConverterAuthors mConverterAuthor;
+
     private TextView mSubject;
     private RatingBar mRating;
     private ImageView mImage;
     private TextView mHeadline;
     private TextView mTags;
     private TextView mPublishDate;
-    private GvReviewAsync mReview;
 
-    public VhReviewAsync() {
+    public VhReviewAsync(TagsManager tagsManager,
+                         GvConverterImages converterImages,
+                         GvConverterComments converterComments,
+                         GvConverterLocations converterLocations,
+                         GvConverterAuthors converterAuthor) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
+        mTagsManager = tagsManager;
+        mConverterImages = converterImages;
+        mConverterComments = converterComments;
+        mConverterLocations = converterLocations;
+        mConverterAuthor = converterAuthor;
     }
 
     @Override
@@ -69,11 +96,11 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
 
-        mReview = (GvReviewAsync) data;
-        mSubject.setText(mReview.getSubject());
-        mRating.setRating(mReview.getRating());
+        GvReviewAsync review = (GvReviewAsync) data;
+        mSubject.setText(review.getSubject());
+        mRating.setRating(review.getRating());
         mPublishDate.setText("loading...");
-        mReview.getReview(this);
+        review.getReview(this);
     }
 
     @Override
@@ -83,21 +110,22 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
         mSubject.setText(review.getSubject().getSubject());
         mRating.setRating(review.getRating().getRating());
 
-        String author = mReview.getGvConverterAuthor().convert(review.getAuthor()).getName();
-        String date = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(new Date(review.getPublishDate().getTime()));
+        String author = mConverterAuthor.convert(review.getAuthor()).getName();
+        String date = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
+                (new Date(review.getPublishDate().getTime()));
         String location = getLocationString(review);
         String locationStem = validateString(location) ? " @" + location : "";
         //TODO sort this out with resource strings with placeholders
         mPublishDate.setText(date + " by " + author + locationStem);
 
-        ItemTagCollection tags = mReview.getTagsManager().getTags(review.getReviewId().toString());
+        ItemTagCollection tags = mTagsManager.getTags(review.getReviewId().toString());
         mTags.setText(getTagString(tags.toStringArray()));
 
-        GvImageList covers = mReview.getConverterImages().convert(review.getCovers());
+        GvImageList covers = mConverterImages.convert(review.getCovers());
         Bitmap cover = covers.size() > 0 ? covers.getRandomCover().getBitmap() : null;
         mImage.setImageBitmap(cover);
 
-        GvCommentList comments = mReview.getConverterComments().convert(review.getComments());
+        GvCommentList comments = mConverterComments.convert(review.getComments());
         GvCommentList headlines = comments.getHeadlines();
         String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
         if (validateString(headline)) {
@@ -108,28 +136,28 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
         }
     }
 
+    @Override
+    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+
+    }
+
     private String getLocationString(Review review) {
-        GvLocationList locations = mReview.getConverterLocations().convert(review.getLocations());
+        GvLocationList locations = mConverterLocations.convert(review.getLocations());
         ArrayList<String> locationNames = new ArrayList<>();
         for (GvLocation location : locations) {
             locationNames.add(location.getShortenedName());
         }
-            String location = "";
-            int locs = locationNames.size();
-            if (locs > 0) {
-                location = locationNames.get(0);
-                if (locs > 1) {
-                    String loc = locs == 2 ? " loc" : " locs";
-                    location += " +" + String.valueOf(locationNames.size() - 1) + loc;
-                }
+        String location = "";
+        int locs = locationNames.size();
+        if (locs > 0) {
+            location = locationNames.get(0);
+            if (locs > 1) {
+                String loc = locs == 2 ? " loc" : " locs";
+                location += " +" + String.valueOf(locationNames.size() - 1) + loc;
             }
+        }
 
-            return location;
-    }
-
-    @Override
-    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
-
+        return location;
     }
 
     private String getTagString(ArrayList<String> tags) {
@@ -157,7 +185,7 @@ public class VhReviewAsync extends ViewHolderBasic implements CallbackRepository
         return tagsString.trim();
     }
 
-    private boolean validateString(String string) {
+    private boolean validateString(@Nullable String string) {
         return string != null && string.length() > 0;
     }
 }

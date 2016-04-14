@@ -90,26 +90,6 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
         mRepo.getReview(getReviewId(), callback);
     }
 
-    public TagsManager getTagsManager() {
-        return mTagsManager;
-    }
-
-    public GvConverterImages getConverterImages() {
-        return mConverterImages;
-    }
-
-    public GvConverterComments getConverterComments() {
-        return mConverterComments;
-    }
-
-    public GvConverterLocations getConverterLocations() {
-        return mConverterLocations;
-    }
-
-    public GvConverterAuthors getGvConverterAuthor() {
-        return mGvConverterAuthor;
-    }
-
     @Override
     public String getSubject() {
         return mSubject;
@@ -127,7 +107,8 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewAsync();
+        return new VhReviewAsync(mTagsManager, mConverterImages, mConverterComments,
+                mConverterLocations, mGvConverterAuthor);
     }
 
     @Override
