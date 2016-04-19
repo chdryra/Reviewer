@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewStatic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.ReviewDataRow;
@@ -49,7 +50,7 @@ import java.util.ArrayList;
  * On: 02/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUserDb implements Review {
+public class ReviewUserDb extends ReviewStatic {
     public static final RowEntry<RowImage, Boolean> COVER_CLAUSE
             = new RowEntryImpl<>(RowImage.class, RowImage.IS_COVER, true);
 

@@ -31,7 +31,8 @@ import java.util.ArrayList;
  * On: 24/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeAsyncBasic<T extends ReviewNode> implements ReviewNodeAsync<T> {
+public abstract class ReviewNodeAsyncBasic<T extends ReviewNode>
+        extends ReviewDynamic implements ReviewNodeAsync<T> {
     private final ArrayList<NodeObserver> mNodeObservers;
     private T mNode;
 
@@ -206,5 +207,6 @@ public abstract class ReviewNodeAsyncBasic<T extends ReviewNode> implements Revi
         for (NodeObserver observer : mNodeObservers) {
             observer.onNodeChanged();
         }
+        notifyReviewObservers();
     }
 }

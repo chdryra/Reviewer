@@ -43,7 +43,7 @@ import java.util.ArrayList;
  * thus acting as a fixed, published component of a new review tree with its own {@link MdReviewId}.
  * </p>
  */
-public class ReviewTree implements ReviewNode, ReviewNode.NodeObserver {
+public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.NodeObserver {
     private final ArrayList<NodeObserver> mObservers;
     private ReviewNode mNode;
 
@@ -203,5 +203,6 @@ public class ReviewTree implements ReviewNode, ReviewNode.NodeObserver {
         for (NodeObserver observer : mObservers) {
             observer.onNodeChanged();
         }
+        notifyReviewObservers();
     }
 }

@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * Wraps a {@link Review} object in a node structure with potential children and a parent.
  * </p>
  */
-public class ReviewTreeMutable implements ReviewNodeMutable, ReviewNode.NodeObserver {
+public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutable, ReviewNode.NodeObserver, Review.ReviewObserver {
     private final MdReviewId mId;
     private final Review mReview;
     private final MdDataList<ReviewNodeMutable> mChildren;
@@ -49,6 +49,7 @@ public class ReviewTreeMutable implements ReviewNodeMutable, ReviewNode.NodeObse
     public ReviewTreeMutable(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
         mId = nodeId;
         mReview = review;
+        mReview.registerObserver(this);
         mChildren = new MdDataList<>(nodeId);
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
@@ -95,6 +96,11 @@ public class ReviewTreeMutable implements ReviewNodeMutable, ReviewNode.NodeObse
 
     @Override
     public void onNodeChanged() {
+        notifyNodeChanged();
+    }
+
+    @Override
+    public void onReviewChanged() {
         notifyNodeChanged();
     }
 
@@ -296,6 +302,7 @@ public class ReviewTreeMutable implements ReviewNodeMutable, ReviewNode.NodeObse
         for (NodeObserver observer : mObservers) {
             observer.onNodeChanged();
         }
+        notifyReviewObservers();
     }
 
     private <T extends HasReviewId> IdableList<T> getReviewData(DataGetter<T> getter) {

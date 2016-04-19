@@ -75,6 +75,7 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
 
     @Override
     public void getReviews(final CallbackRepository callback) {
+        //mDb.getReviews(reviewCollectionCallback(callback));
         mDb.getReviewsList(reviewListCallback(callback));
     }
 
@@ -127,9 +128,9 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
         return mRecreater.makeReview(holder);
     }
 
-    private Review recreatePartialReview(FbReview fbReview) {
-        return mRecreater.makePartialReview(fbReview.getReviewId(), fbReview.getSubject(),
-                fbReview.getRating(), fbReview.getPublishDate());
+    private Review recreateLazyReview(FbReview fbReview) {
+        return mRecreater.makeLazyReview(fbReview.getReviewId(), fbReview.getSubject(),
+                fbReview.getRating(), fbReview.getPublishDate(), this);
     }
 
     @NonNull
@@ -141,7 +142,26 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
             public void onReviewCollection(Collection<FbReview> fetched, @Nullable
             FirebaseError error) {
                 for (FbReview review : fetched) {
-                    reviews.add(recreatePartialReview(review));
+                    reviews.add(recreateLazyReview(review));
+                }
+
+                CallbackMessage result = getCollectionCallbackMessage(error);
+
+                callback.onFetchedFromRepo(reviews, result);
+            }
+        };
+    }
+
+    @NonNull
+    private FirebaseReviewsDb.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
+                                                                               callback) {
+        final ArrayList<Review> reviews = new ArrayList<>();
+        return new FirebaseReviewsDb.GetCollectionCallback() {
+            @Override
+            public void onReviewCollection(Collection<FbReview> fetched, @Nullable
+            FirebaseError error) {
+                for (FbReview review : fetched) {
+                    reviews.add(recreateReview(review));
                 }
 
                 CallbackMessage result = getCollectionCallbackMessage(error);

@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,11 +32,11 @@ public class FirebaseReviewMaker implements ReviewMaker {
         mFactory = factory;
     }
 
-    public ReviewBasicInfo makePartialReview(String reviewId, String subject, Rating rating, long date) {
+    public ReviewLazyGet makeLazyReview(String reviewId, String subject, Rating rating, long date, ReviewsRepository repo) {
         DatumReviewId id = new DatumReviewId(reviewId);
-        return new ReviewBasicInfo(id, new DatumSubject(id, subject),
+        return new ReviewLazyGet(id, new DatumSubject(id, subject),
                 new DatumRating(id, (float)rating.getRating(), (int)rating.getRatingWeight()),
-                new DatumDateReview(id, date)) ;
+                new DatumDateReview(id, date), repo) ;
     }
 
     @Override

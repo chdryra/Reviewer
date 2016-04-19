@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * The fundamental {@link Review} implementation that holds the
  * review data.
  */
-public class ReviewUser implements Review {
+public class ReviewUser extends ReviewStatic {
     private final MdReviewId mId;
     private final MdAuthor mAuthor;
     private final MdDate mPublishDate;

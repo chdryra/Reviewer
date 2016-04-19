@@ -54,6 +54,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree
  */
 
 public interface Review extends HasReviewId {
+    interface ReviewObserver {
+        void onReviewChanged();
+    }
+
+    void registerObserver(ReviewObserver observer);
+
+    void unregisterObserver(ReviewObserver observer);
+
     DataSubject getSubject();
 
     DataRating getRating();
