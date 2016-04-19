@@ -46,7 +46,6 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
         mAdapterFactory = adapterFactory;
     }
 
-    //protected methods
     protected ReviewNode getReviewNode() {
         return mNode;
     }

@@ -187,7 +187,7 @@ public class ConverterGv {
         return getConverterCriteria().convert(criteria);
     }
 
-    public <T extends Review> GvReviewAsyncList toGvReviewOverviewList(IdableList<T> reviews) {
+    public <T extends Review> GvReviewAsyncList toGvReviewList(IdableList<T> reviews) {
         return getConverterReviews().convert(reviews);
     }
 

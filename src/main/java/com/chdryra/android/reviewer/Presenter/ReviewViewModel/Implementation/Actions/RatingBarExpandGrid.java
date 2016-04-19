@@ -33,7 +33,6 @@ public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T
         mLauncher = launcher;
     }
 
-    //Overridden
     @Override
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();

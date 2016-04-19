@@ -89,6 +89,9 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
 
         @Override
         public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+            for(Review review : reviews) {
+                mCache.add(review);
+            }
             //TODO caching strategy for when retrieved reviews are just partial
             mCallback.onFetchedFromRepo(reviews, result);
         }

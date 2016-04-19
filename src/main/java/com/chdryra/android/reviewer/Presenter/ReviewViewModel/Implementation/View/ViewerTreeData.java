@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -21,13 +20,12 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewDa
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonicalCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
 /**
@@ -61,7 +59,7 @@ public class ViewerTreeData extends ViewerReviewData {
 
         ConverterGv converter = getConverter();
         GvList data = new GvList(new GvReviewId(id));
-        data.add(converter.toGvReviewOverviewList(nodes));
+        data.add(converter.toGvReviewList(nodes));
         data.add(mAggregater.aggregateAuthors(converter.toGvAuthorList(nodes, id)));
         data.add(mAggregater.aggregateSubjects(converter.toGvSubjectList(nodes, id)));
         data.add(mAggregater.aggregateDates(converter.toGvDateList(nodes, id)));
@@ -80,7 +78,7 @@ public class ViewerTreeData extends ViewerReviewData {
         FactoryReviewViewAdapter adapterFactory = getAdapterFactory();
         ReviewViewAdapter<?> adapter = null;
         if (isExpandable(datum)) {
-            if (datum.getGvDataType().equals(GvReviewOverview.TYPE)) {
+            if (datum.getGvDataType().equals(GvReviewAsync.TYPE)) {
                 adapter = adapterFactory.newReviewsListAdapter(getReviewNode());
             } else {
                 String subject = datum.getStringSummary();

@@ -75,8 +75,8 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
 
     @Override
     public void getReviews(final CallbackRepository callback) {
-        //mDb.getReviews(reviewCollectionCallback(callback));
-        mDb.getReviewsList(reviewListCallback(callback));
+        mDb.getReviews(reviewCollectionCallback(callback));
+        //mDb.getReviewsList(reviewListCallback(callback));
     }
 
     @Override
