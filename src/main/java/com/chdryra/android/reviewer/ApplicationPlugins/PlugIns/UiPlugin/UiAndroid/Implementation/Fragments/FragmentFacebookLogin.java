@@ -16,15 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Other.FacebookLoginAndroid;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
-import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
+import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
 import com.facebook.login.widget.LoginButton;
 
 /**
@@ -36,8 +31,7 @@ public class FragmentFacebookLogin extends Fragment{
     private static final int LAYOUT = R.layout.login_facebook;
     private static final int LOGIN = R.id.login_button_facebook;
 
-    private CallbackManager mCallbackManager;
-    private LoginResultHandler mListener;
+    private FacebookLoginAndroid mLogin;
 
     @Nullable
     @Override
@@ -46,39 +40,22 @@ public class FragmentFacebookLogin extends Fragment{
         View view = inflater.inflate(LAYOUT, container, false);
 
         LoginButton button = (LoginButton) view.findViewById(LOGIN);
-        button.setFragment(this);
-        button.setPublishPermissions(PlatformFacebook.PUBLISH_PERMISSION);
-        
-
-        mCallbackManager = CallbackManager.Factory.create();
+        LoginResultHandler handler;
         try {
-            mListener = (LoginResultHandler) getActivity();
+            handler = (LoginResultHandler) getActivity();
         } catch (ClassCastException e) {
-            throw new RuntimeException("Activity should be a LoginResultListener!", e);
+            throw new RuntimeException("Activity should be a LoginResultHandler!", e);
         }
 
-        button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                mListener.onSuccess(new LoginSuccess<>(loginResult));
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                mListener.onFailure(new LoginFailure<>(error));
-            }
-        });
+        mLogin = new FacebookLoginAndroid(button, handler);
+        mLogin.setFragment(this);
 
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        mLogin.onActivityResult(requestCode, resultCode, data);
     }
+
 }

@@ -11,11 +11,11 @@ package com.chdryra.android.reviewer.Social.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Social.Implementation.GoogleLoginResultHandler;
-import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
-import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
+import com.chdryra.android.reviewer.Authentication.LoginFailure;
+import com.chdryra.android.reviewer.Authentication.LoginSuccess;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
+import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,7 +29,7 @@ public class FactoryLoginResultHandler {
         mPlatforms = platforms;
     }
 
-    public LoginResultHandler newHandler(String platform) {
+    public LoginResultHandler newSocialHandler(String platform) {
         if(platform.equals(PlatformGoogle.NAME)) {
             PlatformGoogle google = (PlatformGoogle)mPlatforms.getPlatform(platform);
             return new GoogleLoginResultHandler(google);

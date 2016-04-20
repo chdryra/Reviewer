@@ -6,21 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.Social.Implementation;
+package com.chdryra.android.reviewer.Authentication;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LoginSuccess<T> {
-    private T mResult;
+public interface LoginResultHandler {
+    void onSuccess(LoginSuccess<?> loginSuccess);
 
-    public LoginSuccess(T result) {
-        mResult = result;
-    }
-
-    public T getResult() {
-        return mResult;
-    }
+    void onFailure(LoginFailure<?> loginFailure);
 }

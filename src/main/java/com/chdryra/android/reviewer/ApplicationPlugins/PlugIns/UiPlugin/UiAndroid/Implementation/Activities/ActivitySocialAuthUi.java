@@ -19,10 +19,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
-import com.chdryra.android.reviewer.Social.Implementation.LoginFailure;
-import com.chdryra.android.reviewer.Social.Implementation.LoginSuccess;
+import com.chdryra.android.reviewer.Authentication.LoginFailure;
+import com.chdryra.android.reviewer.Authentication.LoginSuccess;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
+import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -57,7 +57,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment implements Logi
 
         String platform = getBundledPlatform();
         mFragment = mFragmentFactory.newFragment(platform);
-        mHandler = mHandlerFactory.newHandler(platform);
+        mHandler = mHandlerFactory.newSocialHandler(platform);
 
         return mFragment;
     }

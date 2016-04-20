@@ -27,8 +27,8 @@
 
     <Button
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_email_button"
+        android:id="@+id/login_button_email"
         style="@style/LoginButton"
-        android:text="@string/button_login"/>
+        android:text="@string/button_login_email"/>
 
 </LinearLayout>

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Social.Implementation;
+package com.chdryra.android.reviewer.Authentication;
 
 /**
  * Created by: Rizwan Choudrey

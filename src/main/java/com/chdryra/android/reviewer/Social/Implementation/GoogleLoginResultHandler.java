@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.Social.Implementation;
 
 import android.util.Log;
 
-import com.chdryra.android.reviewer.Social.Interfaces.LoginResultHandler;
+import com.chdryra.android.reviewer.Authentication.LoginFailure;
+import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
+import com.chdryra.android.reviewer.Authentication.LoginSuccess;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
