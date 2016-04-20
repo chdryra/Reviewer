@@ -63,10 +63,11 @@ public class PresenterReviewPublish {
 
         public PresenterReviewPublish build(ReviewViewAdapter<?> reviewAdapter,
                                             PlatformAuthoriser authoriser,
-                                            PublishAction publishAction,
+                                            PublishAction.PublishCallback publishCallback,
                                             String title) {
             GvSocialPlatformList platforms = getGvSocialPlatforms(mApp.getSocialPlatformList());
             PublishScreenAdapter adapter = new PublishScreenAdapter(platforms, reviewAdapter);
+            PublishAction publishAction = new PublishAction(mApp, publishCallback);
             ReviewViewModifier modifier = new PublishButton(platforms, publishAction);
 
             ReviewViewPerspective<GvSocialPlatform> perspective =
