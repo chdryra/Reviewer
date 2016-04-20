@@ -26,7 +26,7 @@ public class AddEditComment extends AddEditLayoutBasic<GvComment> {
 
     private GvComment mCurrent;
 
-    //By refelection
+    //By reflection
     public AddEditComment(GvDataAdder adder) {
         super(GvComment.class, new LayoutHolder(LAYOUT, COMMENT), COMMENT, adder);
     }

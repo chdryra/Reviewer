@@ -9,10 +9,13 @@
 package com.chdryra.android.reviewer.ApplicationSingletons;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.Plugins;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,20 +23,31 @@ import com.chdryra.android.reviewer.ApplicationPlugins.Plugins;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ApplicationLaunch {
-    private static ApplicationLaunch sLaunch;
+    private static boolean sLaunched = false;
 
     public enum LaunchState {RELEASE, TEST}
 
-    private ApplicationLaunch(Context context, LaunchState launchState) {
-        ApplicationInstance.newInstance(context, newApplicationContext(context, launchState));
+    public static void launchIfNecessary(Context context, LaunchState launchState) {
+        if(!sLaunched) {
+            ApplicationPlugins plugins = getPlugins(context, launchState);
+
+            FactoryApplicationContext factory = new FactoryApplicationContext();
+            ApplicationContext appContext = factory.newReleaseContext(context, plugins);
+
+            ApplicationInstance.newInstance(context, appContext);
+
+            sLaunched = true;
+        }
     }
 
-    private ApplicationContext newApplicationContext(Context context, LaunchState launchState) {
-        FactoryApplicationContext factory = new FactoryApplicationContext();
-        return factory.newReleaseContext(context, Plugins.getPlugins(context, launchState));
-    }
-
-    public static void intitialiseLaunchIfNecessary(Context context, LaunchState launchState) {
-        if(sLaunch == null) sLaunch = new ApplicationLaunch(context, launchState);
+    @NonNull
+    private static ApplicationPlugins getPlugins(Context context, LaunchState launchState) {
+        ApplicationPlugins plugins;
+        if(launchState.equals(LaunchState.RELEASE)) {
+            plugins = new ApplicationPluginsRelease(context);
+        } else {
+            plugins = new ApplicationPluginsTest(context);
+        }
+        return plugins;
     }
 }

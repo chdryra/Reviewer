@@ -39,7 +39,7 @@ public class ActivityUsersFeed extends ActivityReviewView implements
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationLaunch.intitialiseLaunchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
+        ApplicationLaunch.launchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
 
         mApp = ApplicationInstance.getInstance(this);
         mPresenter = new PresenterUsersFeed.Builder(mApp, this).build();

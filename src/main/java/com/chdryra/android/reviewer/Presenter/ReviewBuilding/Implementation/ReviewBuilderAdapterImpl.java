@@ -138,13 +138,12 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
 
     @Nullable
     private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
-        String newToAdd = toAdd.replaceAll("[^A-Za-z0-9]", "");
-        GvTag newTag = new GvTag(newToAdd);
+        GvTag newTag = new GvTag(toAdd);
         if (newTag.equals(toRemove)) return toRemove;
 
         DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag.TYPE);
         GvDataList<GvTag> tags = tagBuilder.getGridData();
-        boolean added = mDataValidator.validateString(newToAdd) && !tags.contains(newTag)
+        boolean added = mDataValidator.validateString(newTag.getTag()) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
         tagBuilder.delete(toRemove);
         tagBuilder.publishData();

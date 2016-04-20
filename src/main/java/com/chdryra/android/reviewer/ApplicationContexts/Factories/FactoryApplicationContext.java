@@ -40,7 +40,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 public class FactoryApplicationContext {
     public ApplicationContext newReleaseContext(Context context,
                                                 ApplicationPlugins plugins) {
-
         DataValidator validator = new DataValidator();
 
         DeviceContext deviceContext = new ReleaseDeviceContext(context);
@@ -58,8 +57,8 @@ public class FactoryApplicationContext {
                 = new ReleasePersistenceContext(context, modelContext, validator, plugins.getPersistencePlugin());
 
         PresenterContext presenterContext =
-                new ReleasePresenterContext(context, modelContext, viewContext, socialContext, networkContext, persistenceContext, deviceContext,
-
+                new ReleasePresenterContext(context, modelContext, viewContext, socialContext,
+                        networkContext, persistenceContext, deviceContext,
                         plugins.getDataComparatorsPlugin(),
                         plugins.getDataAggregatorsPlugin(),
                         validator);

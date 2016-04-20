@@ -44,11 +44,15 @@ public class GvTag extends GvText<GvTag> implements DataTag {
     }
 
     public GvTag(String tag) {
-        super(TYPE, TextUtils.toCamelCase(tag));
+        super(TYPE, process(tag));
+    }
+
+    private static String process(String string) {
+        return TextUtils.toCamelCase(string.replaceAll("[^A-Za-z0-9 ]", ""));
     }
 
     public GvTag(@Nullable GvReviewId id, String tag) {
-        super(TYPE, id, tag);
+        super(TYPE, id, process(tag));
     }
 
     public GvTag(GvTag tag) {
