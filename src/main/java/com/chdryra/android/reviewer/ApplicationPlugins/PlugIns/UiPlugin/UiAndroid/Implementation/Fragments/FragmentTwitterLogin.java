@@ -41,8 +41,7 @@ public class FragmentTwitterLogin extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
 
         mLoginButton = (TwitterLoginButton) view.findViewById(LOGIN);

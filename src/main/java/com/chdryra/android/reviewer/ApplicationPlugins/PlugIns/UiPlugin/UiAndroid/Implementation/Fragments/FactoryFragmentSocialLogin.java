@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Social.Implementation.PlatformTwitter;
  * On: 02/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryFragmentAuthLogin {
+public class FactoryFragmentSocialLogin {
     @Nullable
     public Fragment newFragment(String platform) {
         if (platform.equals(PlatformFacebook.NAME)) {

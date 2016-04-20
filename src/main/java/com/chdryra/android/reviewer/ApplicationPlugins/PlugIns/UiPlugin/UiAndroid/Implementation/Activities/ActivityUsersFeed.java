@@ -12,21 +12,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
-import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -116,53 +112,14 @@ public class ActivityUsersFeed extends ActivityReviewView implements
     }
 
     @Override
-    public void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> platformsOk, Collection<PublishResults> platformsNotOk, CallbackMessage message) {
-        int numFollowers = 0;
-        ArrayList<String> ok = new ArrayList<>();
-        for (PublishResults result : platformsOk) {
-            ok.add(result.getPublisherName());
-            numFollowers += result.getFollowers();
-        }
-
-        ArrayList<String> notOk = new ArrayList<>();
-        for (PublishResults result : platformsNotOk) {
-            notOk.add(result.getPublisherName());
-        }
-
-        makeToast(getPublishedMessage(ok, notOk, numFollowers, message));
+    public void onPublishingCompleted(ReviewId reviewId,
+                                      Collection<PublishResults> platformsOk,
+                                      Collection<PublishResults> platformsNotOk,
+                                      CallbackMessage message) {
+        makeToast(mPresenter.getPublishedMessage(platformsOk, platformsNotOk, message));
     }
 
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    private String getPublishedMessage(ArrayList<String> platformsOk,
-                                            ArrayList<String> platformsNotOk,
-                                            int numFollowers,
-                                            CallbackMessage result) {
-        String message = "";
-
-        if (platformsOk.size() > 0) {
-            String num = String.valueOf(numFollowers);
-            boolean fb = platformsOk.contains(PlatformFacebook.NAME);
-            String plus = fb ? "+ " : "";
-            String followers = numFollowers == 1 && !fb ? " follower" : " followers";
-            String followersString = num + plus + followers;
-
-            message = "Published to " + followersString + " on " +
-                    StringUtils.join(platformsOk.toArray(), ", ");
-        }
-
-        String notOkMessage = "";
-        if (platformsNotOk.size() > 0) {
-            notOkMessage = "Problems publishing to " + StringUtils.join(platformsNotOk.toArray(),
-                    ",");
-            if (platformsOk.size() > 0) message += "\n" + notOkMessage;
-        }
-
-        if (result.isError()) {
-            message += "\nError: " + result.getMessage();
-        }
-        return message;
     }
 }

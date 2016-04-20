@@ -167,8 +167,13 @@ public class FragmentViewLocation extends Fragment implements
     }
 
     private void initGoogleMapUi() {
-        mGoogleMap.setMyLocationEnabled(true);
-        mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
+        //TODO handle permissions
+        try {
+            mGoogleMap.setMyLocationEnabled(true);
+            mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
         mGoogleMap.setOnInfoWindowClickListener(newHideMarkerInfoListener());
         zoomToLatLng();
     }

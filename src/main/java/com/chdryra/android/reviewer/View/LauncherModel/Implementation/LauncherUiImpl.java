@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Knows how to launch a {@link LaunchableUi} depending on whether
  * it is a Dialog or Activity underneath.
  */
-//TODO make Launchers plugins dependent of OS
+//TODO make Launcher independent of Android
 public class LauncherUiImpl implements LauncherUi {
     private final Activity mCommissioner;
     private final int mRequestCode;

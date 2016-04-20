@@ -18,7 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
+        .ReviewPublisherListener;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -26,19 +27,31 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .GridItemFeedScreen;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewAsync;
+
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -71,7 +84,8 @@ public class PresenterUsersFeed implements
         void onUploadCompleted(ReviewId id, CallbackMessage result);
 
         @Override
-        void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage result);
+        void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
+                result);
 
         @Override
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
@@ -113,7 +127,49 @@ public class PresenterUsersFeed implements
         mApp.getPublisher().unregisterListener(this);
         mFeedNode.unregisterNodeObserver(this);
         mFeedNode.detachFromRepo();
-        if(mDeleter != null) mDeleter.unregisterListener(this);
+        if (mDeleter != null) mDeleter.unregisterListener(this);
+    }
+
+    public String getPublishedMessage(Collection<PublishResults> platformsOk,
+                                      Collection<PublishResults> platformsNotOk,
+                                      CallbackMessage callbackMessage) {
+        int numFollowers = 0;
+        ArrayList<String> ok = new ArrayList<>();
+        for (PublishResults result : platformsOk) {
+            ok.add(result.getPublisherName());
+            numFollowers += result.getFollowers();
+        }
+
+        ArrayList<String> notOk = new ArrayList<>();
+        for (PublishResults result : platformsNotOk) {
+            notOk.add(result.getPublisherName());
+        }
+
+        String message = "";
+
+        if (ok.size() > 0) {
+            String num = String.valueOf(numFollowers);
+            boolean fb = notOk.contains(PlatformFacebook.NAME);
+            String plus = fb ? "+ " : "";
+            String followers = numFollowers == 1 && !fb ? " follower" : " followers";
+            String followersString = num + plus + followers;
+
+            message = "Published to " + followersString + " on " +
+                    StringUtils.join(ok.toArray(), ", ");
+        }
+
+        String notOkMessage = "";
+        if (notOk.size() > 0) {
+            notOkMessage = "Problems publishing to " + StringUtils.join(platformsNotOk.toArray(),
+                    ",");
+            if (ok.size() > 0) message += "\n" + notOkMessage;
+        }
+
+        if (callbackMessage.isError()) {
+            message += "\nError: " + callbackMessage.getMessage();
+        }
+
+        return message;
     }
 
     @Override
@@ -161,7 +217,7 @@ public class PresenterUsersFeed implements
     @Override
     public void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> platformsOk,
                                       Collection<PublishResults> platformsNotOk, CallbackMessage
-                                                  result) {
+                                              result) {
         mListener.onPublishingCompleted(reviewId, platformsOk, platformsNotOk, result);
     }
 

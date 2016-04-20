@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentAuthLogin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FactoryFragmentSocialLogin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
@@ -37,7 +37,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment implements Logi
     private static final String PLATFORM = "ActivitySocialLogin.platform";
 
     private Fragment mFragment;
-    private FactoryFragmentAuthLogin mFragmentFactory;
+    private FactoryFragmentSocialLogin mFragmentFactory;
     private FactoryLoginResultHandler mHandlerFactory;
 
     private LoginResultHandler mHandler;
@@ -45,7 +45,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment implements Logi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
-        mFragmentFactory = new FactoryFragmentAuthLogin();
+        mFragmentFactory = new FactoryFragmentSocialLogin();
         mHandlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
         super.onCreate(savedInstanceState);
     }

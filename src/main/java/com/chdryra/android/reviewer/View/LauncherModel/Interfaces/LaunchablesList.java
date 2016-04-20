@@ -12,8 +12,6 @@ import android.app.Activity;
 
 import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
 
-import java.util.ArrayList;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 14/01/2016
@@ -31,5 +29,5 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUiAlertable> getShareEditReviewUi();
 
-    ArrayList<AddEditViewClasses<?>> getDataLaunchableUis();
+    Iterable<AddEditViewClasses<?>> getDataLaunchableUis();
 }
