@@ -35,6 +35,7 @@
     <string name="activity_title_feed">feed</string>
     <string name="activity_title_build_review">create</string>
     <string name="activity_title_share">share</string>
+    <string name="activity_title_login">login</string>
 
     <!-- EditTexts -->
     <string name="edit_text_subject_hint">subject</string>
@@ -54,6 +55,8 @@
     <string name="edit_text_url_hint">link&#8230;</string>
     <string name="edit_text_url_text">http://</string>
     <string name="edit_text_tag_hint">tag&#8230;</string>
+    <string name="edit_text_email">email</string>
+    <string name="edit_text_password">password</string>
 
     <!-- SearchViews -->
     <string name="search_view_location_hint">search for location&#8230;</string>
@@ -76,6 +79,7 @@
     <string name="button_goto_google_maps">GMaps</string>
     <string name="button_another_review">Another like this</string>
     <string name="button_delete">Delete</string>
+    <string name="button_login">Log in with email</string>
 
     <!-- Image Buttons -->
     <string name="button_revert_location_cd">revert location</string>

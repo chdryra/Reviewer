@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<LinearLayout
+    style="@style/LineaLayoutVertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include
+        android:id="@+id/login_email"
+        android:gravity="center"
+        layout="@layout/login_email"/>
+
+    <include
+        android:id="@+id/login_google"
+        android:gravity="center"
+        layout="@layout/login_google"/>
+
+    <include
+        android:id="@+id/login_facebook"
+        android:gravity="center"
+        layout="@layout/login_facebook"/>
+
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_button_twitter"
+        style="@style/LoginButton.Centred"/>
+
+</LinearLayout>
