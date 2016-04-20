@@ -35,22 +35,24 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 public class ActivityPublishReview extends ActivityReviewView
         implements PlatformAuthoriser, PublishAction.PublishCallback {
     private static final int SOCIAL = R.string.activity_title_share;
+
+    private ApplicationInstance mApp;
     private LoginUi mAuthUi;
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        mApp = ApplicationInstance.getInstance(this);
 
-        PresenterReviewPublish.Builder builder = new PresenterReviewPublish.Builder(app);
+        PresenterReviewPublish.Builder builder = new PresenterReviewPublish.Builder(mApp);
         PresenterReviewPublish presenter
-                = builder.build(app.getReviewBuilderAdapter(), this, this, getString(SOCIAL));
+                = builder.build(mApp.getReviewBuilderAdapter(), this, this, getString(SOCIAL));
 
         return presenter.getView();
     }
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
-        LaunchableUiLauncher launcher = ApplicationInstance.getInstance(this).getUiLauncher();
+        LaunchableUiLauncher launcher = mApp.getUiLauncher();
         mAuthUi = platform.getLoginUi(this, new ActivitySocialAuthUi(), listener);
         mAuthUi.launchUi(launcher);
     }
