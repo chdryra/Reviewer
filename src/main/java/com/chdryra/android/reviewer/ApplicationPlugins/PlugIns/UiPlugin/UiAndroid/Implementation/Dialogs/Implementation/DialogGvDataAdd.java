@@ -65,28 +65,23 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     private boolean mQuickSet = false;
 
-    //Constructors
     public DialogGvDataAdd(GvDataType<T> dataType) {
         mDataType = dataType;
     }
 
-    //public methods
     public GvDataType<T> getGvDataType() {
         return mDataType;
     }
 
-    //protected methods
     @Override
     protected Intent getReturnData() {
         return null;
     }
 
-    //package private methods
     boolean isQuickSet() {
         return mQuickSet && mBuilder != null;
     }
 
-    //Overridden
     @Override
     public String getLaunchTag() {
         return "Add" + mDataType.getDatumName();

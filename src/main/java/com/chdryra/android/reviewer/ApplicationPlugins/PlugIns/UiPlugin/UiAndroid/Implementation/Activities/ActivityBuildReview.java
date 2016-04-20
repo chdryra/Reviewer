@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewBuild;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -32,17 +34,14 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
-        Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
-        String id = args != null ? args.getString(NewReviewListener.TEMPLATE_ID) : null;
 
         PresenterReviewBuild.Builder builder
                 = new PresenterReviewBuild.Builder(app, new FactoryReviewEditor());
-        if(id != null) {
-            Review template = app.unpackReview(args);
-            if(template != null) builder.setTemplateReview(template);
-        }
+
+        setTemplateReviewIfRequested(app, builder);
 
         mPresenter = builder.build();
+
         return mPresenter.getEditor();
     }
 
@@ -59,5 +58,15 @@ public class ActivityBuildReview extends ActivityReviewView {
     @Override
     public void launch(LauncherUi launcher) {
         launcher.launch(getClass(), TEMPLATE_ID);
+    }
+
+    private void setTemplateReviewIfRequested(ApplicationInstance app,
+                                              PresenterReviewBuild.Builder builder) {
+        Bundle args = getIntent().getBundleExtra(TEMPLATE_ID);
+        String id = args != null ? args.getString(NewReviewListener.TEMPLATE_ID) : null;
+        if (id != null) {
+            Review template = app.unpackReview(args);
+            if (template != null) builder.setTemplateReview(template);
+        }
     }
 }

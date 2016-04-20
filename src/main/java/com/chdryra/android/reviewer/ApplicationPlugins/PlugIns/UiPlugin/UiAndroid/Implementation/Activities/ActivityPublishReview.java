@@ -8,18 +8,27 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
-import android.content.Intent;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.widget.Toast;
+
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewPublish;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PublishAction;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.PresenterReviewPublish;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
@@ -34,7 +43,7 @@ public class ActivityPublishReview extends ActivityReviewView implements Platfor
     @Override
     protected ReviewView createReviewView() {
         ApplicationInstance app = ApplicationInstance.getInstance(this);
-        PublishActionAndroid action = new PublishActionAndroid(app, this, ActivityUsersFeed.class);
+        PublishAction action = new PublishActionAndroid(app, this, ActivityUsersFeed.class);
 
         ReviewBuilderAdapter<? extends GvDataList<?>> review = app.getReviewBuilderAdapter();
         PresenterReviewPublish presenter = new PresenterReviewPublish.Builder(app)
@@ -53,5 +62,32 @@ public class ActivityPublishReview extends ActivityReviewView implements Platfor
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mAuthUi.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private static class PublishActionAndroid extends PublishAction {
+        private final Context mContext;
+        private final Class<? extends Activity> mActivityAfterPublish;
+
+        PublishActionAndroid(ApplicationInstance app, Context context,
+                             Class<? extends Activity> activityAfterPublish) {
+            super(app);
+            mContext = context;
+            mActivityAfterPublish = activityAfterPublish;
+        }
+
+        @Override
+        public void onAddedToQueue(ReviewId id, CallbackMessage message) {
+            Toast.makeText(mContext, "Publishing...", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(mContext, mActivityAfterPublish);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            mContext.startActivity(intent);
+        }
+
+        @Override
+        public void onFailed(@Nullable Review review, @Nullable ReviewId id,
+                             CallbackMessage message) {
+            Toast.makeText(mContext, "Problem publishing: " + message.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

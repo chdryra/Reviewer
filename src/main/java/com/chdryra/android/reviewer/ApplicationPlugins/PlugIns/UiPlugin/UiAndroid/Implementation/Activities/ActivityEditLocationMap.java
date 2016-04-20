@@ -33,7 +33,6 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
     private FragmentEditLocationMap mFragment;
     private ParcelablePacker<GvLocation> mDataPacker;
 
-    //Overridden
     @Override
     public String getLaunchTag() {
         return TAG;

@@ -6,11 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
@@ -65,22 +67,9 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @Override
     protected ReviewView createReviewView() {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
-        mPresenter = newPresenter(app);
+        mPresenter = newPresenterFactory().newPresenter(mDataType);
+
         return mPresenter.getEditor();
-    }
-
-    private PresenterReviewDataEdit<T> newPresenter(ApplicationInstance app) {
-        ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
-
-        FactoryEditActions actionsFactory
-                = new FactoryEditActions(this, app.getConfigDataUi(), app.getUiLauncher(),
-                app.getGvDataFactory(), parentBuilder.getImageChooser());
-
-        FactoryReviewDataEditor editorFactory
-                = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
-
-        return new FactoryDataEditPresenter(this, parentBuilder, editorFactory).newPresenter(mDataType);
     }
 
     @Override
@@ -121,5 +110,20 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @NonNull
+    private FactoryDataEditPresenter newPresenterFactory() {
+        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
+
+        FactoryEditActions actionsFactory
+                = new FactoryEditActions(this, app.getConfigDataUi(), app.getUiLauncher(),
+                app.getGvDataFactory(), parentBuilder.getImageChooser());
+
+        FactoryReviewDataEditor editorFactory
+                = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
+
+        return new FactoryDataEditPresenter(this, parentBuilder, editorFactory);
     }
 }

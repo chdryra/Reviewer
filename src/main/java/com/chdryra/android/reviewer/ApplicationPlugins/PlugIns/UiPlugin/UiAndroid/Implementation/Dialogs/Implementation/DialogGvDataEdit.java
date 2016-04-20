@@ -67,7 +67,6 @@ public abstract class DialogGvDataEdit<T extends GvData>
         return null;
     }
 
-    //Overridden
     @Override
     public String getLaunchTag() {
         return "Edit" + mDataType.getDatumName();

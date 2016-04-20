@@ -35,8 +35,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 17/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DialogGvDataView<T extends GvData> extends DialogOneButtonFragment implements
-        LaunchableUi {
+public abstract class DialogGvDataView<T extends GvData> extends DialogOneButtonFragment
+        implements LaunchableUi {
     private GvDataType<T> mDataType;
     private DialogLayout<T> mLayout;
     private T mDatum;
