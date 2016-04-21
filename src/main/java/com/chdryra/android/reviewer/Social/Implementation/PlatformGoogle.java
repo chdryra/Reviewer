@@ -12,13 +12,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -98,6 +101,28 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
     public void logout() {
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
+        }
+    }
+
+    public GoogleSignInResultListener newSignInResultHandler() {
+        return new GoogleSignInResultListener();
+    }
+
+    private class GoogleSignInResultListener
+            implements BinaryResultListener<GoogleSignInResult, GoogleSignInResult> {
+
+        @Override
+        public void onSuccess(GoogleSignInResult result) {
+            GoogleSignInAccount signInAccount = result.getSignInAccount();
+            if(signInAccount != null) {
+                String id = signInAccount.getId();
+                if(id != null) setAccessToken(id);
+            }
+        }
+
+        @Override
+        public void onFailure(GoogleSignInResult result) {
+
         }
     }
 }

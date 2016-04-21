@@ -13,7 +13,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Fragment;
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Authentication.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
@@ -27,15 +28,10 @@ public class FacebookLoginAndroid extends FacebookLogin {
     private LoginButton mLoginButton;
     private CallbackManager mCallbackManager;
 
-    public FacebookLoginAndroid(LoginButton loginButton) {
+    public FacebookLoginAndroid(LoginButton loginButton, Fragment fragment) {
         mLoginButton = loginButton;
         mCallbackManager = CallbackManager.Factory.create();
-        mLoginButton.setPublishPermissions(PlatformFacebook.PUBLISH_PERMISSION);
-        mLoginButton.registerCallback(mCallbackManager, this);
-    }
-
-    public void setFragment(Fragment fragment) {
-        mLoginButton.setFragment(fragment);
+        initialiseLogin(fragment);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -43,7 +39,13 @@ public class FacebookLoginAndroid extends FacebookLogin {
     }
 
     @Override
-    public void launchLogin() {
+    public void requestAuthentication(FacebookLoginListener resultListener) {
+        mLoginButton.registerCallback(mCallbackManager, getAuthenticationCallback(resultListener));
         mLoginButton.performClick();
+    }
+
+    private void initialiseLogin(Fragment fragment) {
+        mLoginButton.setFragment(fragment);
+        mLoginButton.setPublishPermissions(PlatformFacebook.REQUIRED_PERMISSION);
     }
 }

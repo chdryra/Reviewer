@@ -8,14 +8,9 @@
 
 package com.chdryra.android.reviewer.Social.Factories;
 
-import android.support.annotation.NonNull;
-
-import com.chdryra.android.reviewer.Social.Implementation.GoogleLoginResultHandler;
-import com.chdryra.android.reviewer.Authentication.LoginFailure;
-import com.chdryra.android.reviewer.Authentication.LoginSuccess;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,27 +24,22 @@ public class FactoryLoginResultHandler {
         mPlatforms = platforms;
     }
 
-    public LoginResultHandler newSocialHandler(String platform) {
+    public BinaryResultListener<?,?> newSocialLoginHandler(String platform) {
         if(platform.equals(PlatformGoogle.NAME)) {
-            PlatformGoogle google = (PlatformGoogle)mPlatforms.getPlatform(platform);
-            return new GoogleLoginResultHandler(google);
+            PlatformGoogle google = (PlatformGoogle) mPlatforms.getPlatform(PlatformGoogle.NAME);
+            return google.newSignInResultHandler();
         } else {
-            return newDoNothingLoginResultListener();
+            return new BinaryResultListener() {
+                @Override
+                public void onSuccess(Object result) {
+
+                }
+
+                @Override
+                public void onFailure(Object result) {
+
+                }
+            };
         }
-    }
-
-    @NonNull
-    private LoginResultHandler newDoNothingLoginResultListener() {
-        return new LoginResultHandler() {
-            @Override
-            public void onSuccess(LoginSuccess<?> loginSuccess) {
-
-            }
-
-            @Override
-            public void onFailure(LoginFailure<?> loginFailure) {
-
-            }
-        };
     }
 }

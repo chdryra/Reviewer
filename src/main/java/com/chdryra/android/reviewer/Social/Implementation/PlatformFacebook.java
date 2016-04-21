@@ -34,7 +34,7 @@ import java.util.Set;
  */
 public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
     public static final String NAME = "facebook";
-    public static final String PUBLISH_PERMISSION = "publish_actions";
+    public static final String REQUIRED_PERMISSION = "publish_actions";
 
     private AccessTokenTracker mTracker;
 
@@ -63,7 +63,7 @@ public class PlatformFacebook extends SocialPlatformBasic<AccessToken> {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null) {
             Set<String> permissions = accessToken.getPermissions();
-            if (permissions.contains(PUBLISH_PERMISSION)) {
+            if (permissions.contains(REQUIRED_PERMISSION)) {
                 setAccessToken(accessToken);
             } else {
                 setAccessToken(null);

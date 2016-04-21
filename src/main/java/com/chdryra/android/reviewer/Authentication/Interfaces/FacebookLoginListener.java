@@ -6,21 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
+
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 02/03/2016
+ * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LoginSuccess<T> {
-    private T mResult;
-
-    public LoginSuccess(T result) {
-        mResult = result;
-    }
-
-    public T getResult() {
-        return mResult;
-    }
+public interface FacebookLoginListener extends BinaryResultListener<LoginResult, FacebookException> {
 }

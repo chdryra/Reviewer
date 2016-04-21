@@ -6,15 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 02/03/2016
+ * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface LoginResultHandler {
-    void onSuccess(LoginSuccess<?> loginSuccess);
+public interface AuthenticationProvider<T extends BinaryResultListener> {
+    void requestAuthentication(T resultListener);
 
-    void onFailure(LoginFailure<?> loginFailure);
+    String getName();
 }

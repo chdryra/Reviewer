@@ -20,8 +20,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FacebookLoginAndroid;
+
+
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationListener;
+import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
 import com.chdryra.android.reviewer.R;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
@@ -32,7 +40,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentLogin extends Fragment {
+public class FragmentLogin extends Fragment implements AuthenticationListener {
     private static final int LAYOUT = R.layout.fragment_login;
 
     private static final int EMAIL_BUTTON = R.id.login_button_email;
@@ -55,6 +63,9 @@ public class FragmentLogin extends Fragment {
     private FacebookLoginAndroid mFacebookLogin;
     private TwitterLoginButton mTwitterLoginButton;
 
+    private String mLoginRequested;
+    private Authenticator mAuthenticator;
+
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
     }
@@ -63,7 +74,10 @@ public class FragmentLogin extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
-        initialiseFacebookLogin(view);
+        LoginButton facebookLoginButton = (LoginButton) view.findViewById(FACEBOOK_LOGIN);
+        facebookLoginButton.setVisibility(View.GONE);
+        mFacebookLogin = new FacebookLoginAndroid(facebookLoginButton, this);
+        mFacebookButton = (Button) view.findViewById(FACEBOOK_BUTTON);
 
         mEmailLogin = (LinearLayout) view.findViewById(EMAIL_LOGIN);
         mGoogleLoginButton = (SignInButton) view.findViewById(GOOGLE_LOGIN);
@@ -76,6 +90,16 @@ public class FragmentLogin extends Fragment {
         mEmailButton = (Button) view.findViewById(EMAIL_BUTTON);
         mGoogleButton = (Button) view.findViewById(GOOGLE_BUTTON);
         mTwitterButton = (Button) view.findViewById(TWITTER_BUTTON);
+
+        mAuthenticator = new Authenticator(new EmailLogin(), new GoogleLogin(),
+                new FacebookLoginAndroid(facebookLoginButton, this), new TwitterLogin(), this);
+
+        mFacebookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuthenticator.requestAuthentication(Authenticator.Provider.FACEBOOK);
+            }
+        });
 
         mEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,22 +126,28 @@ public class FragmentLogin extends Fragment {
         return view;
     }
 
-    private void initialiseFacebookLogin(View view) {
-        LoginButton facebookLoginButton = (LoginButton) view.findViewById(FACEBOOK_LOGIN);
-        facebookLoginButton.setVisibility(View.GONE);
-        mFacebookLogin = new FacebookLoginAndroid(facebookLoginButton);
-        mFacebookButton = (Button) view.findViewById(FACEBOOK_BUTTON);
-        mFacebookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFacebookLogin.launchLogin();
-            }
-        });
-    }
-
     private void launchFeedScreen() {
         Intent intent = new Intent(getActivity(), ActivityUsersFeed.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mLoginRequested.equals(mFacebookLogin.getName())) {
+            mFacebookLogin.onActivityResult(requestCode, resultCode, data);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onSuccess(CallbackMessage result) {
+
+    }
+
+    @Override
+    public void onFailure(CallbackMessage result) {
+
     }
 }

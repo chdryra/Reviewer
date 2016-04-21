@@ -8,18 +8,22 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
 
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Other.FacebookLoginAndroid;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FacebookLoginAndroid;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginListener;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 /**
@@ -40,22 +44,36 @@ public class FragmentFacebookLogin extends Fragment{
         View view = inflater.inflate(LAYOUT, container, false);
 
         LoginButton button = (LoginButton) view.findViewById(LOGIN);
-        LoginResultHandler handler;
-        try {
-            handler = (LoginResultHandler) getActivity();
-        } catch (ClassCastException e) {
-            throw new RuntimeException("Activity should be a LoginResultHandler!", e);
-        }
-
-        mLogin = new FacebookLoginAndroid(button, handler);
-        mLogin.setFragment(this);
+        mLogin = new FacebookLoginAndroid(button, this);
+        mLogin.setLoginResultListener(getActivityAsListener());
 
         return view;
+    }
+
+    @NonNull
+    private FacebookLoginListener getActivityAsListener() {
+        final ActivitySocialAuthUi activity;
+        try {
+            activity = (ActivitySocialAuthUi) getActivity();
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Activity should be ActivitySocialAuthUi!", e);
+        }
+
+        return new FacebookLoginListener() {
+            @Override
+            public void onSuccess(LoginResult result) {
+                activity.onSuccess(result);
+            }
+
+            @Override
+            public void onFailure(FacebookException result) {
+                activity.onFailure(result);
+            }
+        };
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mLogin.onActivityResult(requestCode, resultCode, data);
     }
-
 }

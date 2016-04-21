@@ -6,17 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 02/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class LoginFailure<T> {
-    private T mResult;
+public interface BinaryResultListener<Success, Failure> {
+    void onSuccess(Success result);
 
-    public LoginFailure(T result) {
-        mResult = result;
-    }
+    void onFailure(Failure result);
 }

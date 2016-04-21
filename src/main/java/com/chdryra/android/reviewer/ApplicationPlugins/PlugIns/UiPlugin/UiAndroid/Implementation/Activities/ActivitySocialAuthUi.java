@@ -19,10 +19,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
-import com.chdryra.android.reviewer.Authentication.LoginFailure;
-import com.chdryra.android.reviewer.Authentication.LoginSuccess;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.Authentication.LoginResultHandler;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -31,8 +29,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ActivitySocialAuthUi extends ActivitySingleFragment implements LoginResultHandler,
-        LaunchableUi {
+public class ActivitySocialAuthUi extends ActivitySingleFragment
+        implements BinaryResultListener<Object, Object>, LaunchableUi {
     private static final String TAG = "ActivitySocialLogin";
     private static final String PLATFORM = "ActivitySocialLogin.platform";
 
@@ -40,7 +38,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment implements Logi
     private FactoryFragmentSocialLogin mFragmentFactory;
     private FactoryLoginResultHandler mHandlerFactory;
 
-    private LoginResultHandler mHandler;
+    private BinaryResultListener mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,23 +55,24 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment implements Logi
 
         String platform = getBundledPlatform();
         mFragment = mFragmentFactory.newFragment(platform);
-        mHandler = mHandlerFactory.newSocialHandler(platform);
-
+        mHandler = mHandlerFactory.newSocialLoginHandler(platform);
         return mFragment;
     }
 
+    //TODO make type safe
     @Override
-    public void onSuccess(LoginSuccess<?> loginSuccess) {
-        mHandler.onSuccess(loginSuccess);
+    public void onSuccess(Object result) {
+        mHandler.onSuccess(result);
         setResult(RESULT_OK);
         finish();
     }
 
     @Override
-    public void onFailure(LoginFailure<?> loginFailure) {
-        mHandler.onFailure(loginFailure);
-        setResult(RESULT_FIRST_USER);
+    public void onFailure(Object result) {
+        mHandler.onFailure(result);
+        setResult(RESULT_OK);
         finish();
+
     }
 
     @Override
