@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -20,15 +20,19 @@ import com.facebook.login.LoginResult;
  * On: 20/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FacebookLogin implements AuthenticationProvider<FacebookLoginListener> {
+public abstract class FacebookLogin implements AuthenticationProvider<FacebookLoginCallback> {
     public static final String NAME = "FacebookLogin";
+    private FacebookLoginCallback mListener;
 
-    protected FacebookCallback<LoginResult> getAuthenticationCallback(final FacebookLoginListener
-                                                                              listener) {
+    public void setListener(FacebookLoginCallback listener) {
+        mListener = listener;
+    }
+
+    protected FacebookCallback<LoginResult> getAuthenticationCallback() {
         return new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                listener.onSuccess(loginResult);
+                if(mListener != null) mListener.onSuccess(loginResult);
             }
 
             @Override
@@ -38,13 +42,13 @@ public abstract class FacebookLogin implements AuthenticationProvider<FacebookLo
 
             @Override
             public void onError(FacebookException error) {
-                listener.onFailure(error);
+                if(mListener != null) mListener.onFailure(error);
             }
         };
     }
 
     @Override
-    public abstract void requestAuthentication(FacebookLoginListener resultListener);
+    public abstract void requestAuthentication(FacebookLoginCallback resultListener);
 
     @Override
     public String getName() {

@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthenticationProvider<T extends BinaryResultCallback> {
-    void requestAuthentication(T resultListener);
-
-    String getName();
+public interface FacebookLoginCallback extends BinaryResultCallback<LoginResult, FacebookException> {
 }

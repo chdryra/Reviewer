@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Factories.FactoryLoginResultHandler;
 import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivitySocialAuthUi extends ActivitySingleFragment
-        implements BinaryResultListener<Object, Object>, LaunchableUi {
+        implements BinaryResultCallback<Object, Object>, LaunchableUi {
     private static final String TAG = "ActivitySocialLogin";
     private static final String PLATFORM = "ActivitySocialLogin.platform";
 
@@ -38,7 +38,7 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
     private FactoryFragmentSocialLogin mFragmentFactory;
     private FactoryLoginResultHandler mHandlerFactory;
 
-    private BinaryResultListener mHandler;
+    private BinaryResultCallback mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

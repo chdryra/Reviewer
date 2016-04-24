@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationListener;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 
@@ -19,10 +19,10 @@ import com.facebook.login.LoginResult;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FacebookAuthenticator implements FacebookLoginListener {
-    private AuthenticationListener mCallback;
+public class FacebookAuthenticator implements FacebookLoginCallback {
+    private AuthenticationCallback mCallback;
 
-    public FacebookAuthenticator(AuthenticationListener callback) {
+    public FacebookAuthenticator(AuthenticationCallback callback) {
         mCallback = callback;
     }
 

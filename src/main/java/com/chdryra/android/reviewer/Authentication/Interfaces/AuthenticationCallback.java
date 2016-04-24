@@ -15,8 +15,8 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthenticationListener
-        extends BinaryResultListener<CallbackMessage, CallbackMessage> {
+public interface AuthenticationCallback
+        extends BinaryResultCallback<CallbackMessage, CallbackMessage> {
     @Override
     void onSuccess(CallbackMessage result);
 

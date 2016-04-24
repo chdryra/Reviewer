@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 
@@ -23,8 +23,8 @@ import java.util.Map;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class Authenticator implements AuthenticationListener, ActivityResultListener{
-    private AuthenticationListener mListener;
+public class Authenticator implements AuthenticationCallback, ActivityResultListener{
+    private AuthenticationCallback mListener;
     private Map<Provider, AuthenticationProvider<?>> mProvidersMap;
     private AuthenticationProvider mRequestedProvider;
 
@@ -34,7 +34,7 @@ public class Authenticator implements AuthenticationListener, ActivityResultList
                          GoogleLogin googleLogin,
                          FacebookLogin facebookLogin,
                          TwitterLogin twitterLogin,
-                         AuthenticationListener listener) {
+                         AuthenticationCallback listener) {
         mListener = listener;
 
         mProvidersMap = new HashMap<>();
@@ -44,7 +44,7 @@ public class Authenticator implements AuthenticationListener, ActivityResultList
         mProvidersMap.put(Provider.TWITTER, twitterLogin);
     }
 
-    private void setListener(AuthenticationListener listener) {
+    private void setListener(AuthenticationCallback listener) {
         mListener = listener;
     }
 

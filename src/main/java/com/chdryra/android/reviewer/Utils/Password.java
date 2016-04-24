@@ -6,15 +6,21 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Interfaces;
+package com.chdryra.android.reviewer.Utils;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthenticationProvider<T extends BinaryResultCallback> {
-    void requestAuthentication(T resultListener);
+public class Password {
+    private String mPassword;
 
-    String getName();
+    public Password(String password) {
+        mPassword = password;
+    }
+
+    public String getPassword() {
+        return mPassword;
+    }
 }

@@ -14,7 +14,7 @@ import android.app.Fragment;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
@@ -31,7 +31,8 @@ public class FacebookLoginAndroid extends FacebookLogin {
     public FacebookLoginAndroid(LoginButton loginButton, Fragment fragment) {
         mLoginButton = loginButton;
         mCallbackManager = CallbackManager.Factory.create();
-        initialiseLogin(fragment);
+        mLoginButton.setFragment(fragment);
+        mLoginButton.setPublishPermissions(PlatformFacebook.REQUIRED_PERMISSION);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -39,13 +40,11 @@ public class FacebookLoginAndroid extends FacebookLogin {
     }
 
     @Override
-    public void requestAuthentication(FacebookLoginListener resultListener) {
-        mLoginButton.registerCallback(mCallbackManager, getAuthenticationCallback(resultListener));
+    public void requestAuthentication(FacebookLoginCallback resultListener) {
+        setListener(resultListener);
+        mLoginButton.registerCallback(mCallbackManager, getAuthenticationCallback());
         mLoginButton.performClick();
-    }
-
-    private void initialiseLogin(Fragment fragment) {
-        mLoginButton.setFragment(fragment);
-        mLoginButton.setPublishPermissions(PlatformFacebook.REQUIRED_PERMISSION);
+        //TODO change to login manager
+        //LoginManager manager = LoginManager.getInstance();
     }
 }

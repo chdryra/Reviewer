@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Social.Factories;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 
@@ -24,12 +24,12 @@ public class FactoryLoginResultHandler {
         mPlatforms = platforms;
     }
 
-    public BinaryResultListener<?,?> newSocialLoginHandler(String platform) {
+    public BinaryResultCallback<?,?> newSocialLoginHandler(String platform) {
         if(platform.equals(PlatformGoogle.NAME)) {
             PlatformGoogle google = (PlatformGoogle) mPlatforms.getPlatform(PlatformGoogle.NAME);
             return google.newSignInResultHandler();
         } else {
-            return new BinaryResultListener() {
+            return new BinaryResultCallback() {
                 @Override
                 public void onSuccess(Object result) {
 

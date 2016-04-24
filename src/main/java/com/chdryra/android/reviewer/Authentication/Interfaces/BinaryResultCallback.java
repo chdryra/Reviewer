@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 02/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthenticationProvider<T extends BinaryResultCallback> {
-    void requestAuthentication(T resultListener);
+public interface BinaryResultCallback<Success, Failure> {
+    void onSuccess(Success result);
 
-    String getName();
+    void onFailure(Failure result);
 }

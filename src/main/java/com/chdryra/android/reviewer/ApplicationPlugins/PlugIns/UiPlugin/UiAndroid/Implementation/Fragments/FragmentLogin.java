@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FacebookLoginAndroid;
 
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationCallback;
 import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
@@ -40,7 +40,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentLogin extends Fragment implements AuthenticationListener {
+public class FragmentLogin extends Fragment implements AuthenticationCallback {
     private static final int LAYOUT = R.layout.fragment_login;
 
     private static final int EMAIL_BUTTON = R.id.login_button_email;

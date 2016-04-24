@@ -6,15 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Interfaces;
-
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FacebookLoginListener extends BinaryResultListener<LoginResult, FacebookException> {
+public class FirebaseBackend         {
+    public static final String ROOT = "https://teeqr.firebaseio.com/";
 }

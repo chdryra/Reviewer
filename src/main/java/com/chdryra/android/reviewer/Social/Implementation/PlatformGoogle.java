@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.FollowersListener;
@@ -104,12 +104,12 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
         }
     }
 
-    public GoogleSignInResultListener newSignInResultHandler() {
-        return new GoogleSignInResultListener();
+    public GoogleSignInResultCallback newSignInResultHandler() {
+        return new GoogleSignInResultCallback();
     }
 
-    private class GoogleSignInResultListener
-            implements BinaryResultListener<GoogleSignInResult, GoogleSignInResult> {
+    private class GoogleSignInResultCallback
+            implements BinaryResultCallback<GoogleSignInResult, GoogleSignInResult> {
 
         @Override
         public void onSuccess(GoogleSignInResult result) {

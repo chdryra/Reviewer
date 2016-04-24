@@ -6,15 +6,16 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Interfaces;
+package com.chdryra.android.reviewer.Utils;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 02/03/2016
+ * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BinaryResultListener<Success, Failure> {
-    void onSuccess(Success result);
+public class EmailAddressException extends Exception {
 
-    void onFailure(Failure result);
+    public EmailAddressException(String email) {
+        super("Illegal email address: " + email);
+    }
 }

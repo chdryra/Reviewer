@@ -8,13 +8,14 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.Password;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthenticationProvider<T extends BinaryResultCallback> {
-    void requestAuthentication(T resultListener);
-
-    String getName();
+public interface UserCreaterEmailPassword {
+    void createUser(EmailAddress email, Password password, UserCreaterCallback callback);
 }

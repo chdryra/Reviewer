@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.google.android.gms.auth.api.Auth;
@@ -54,7 +54,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private boolean mResolvingError = false;
 
     private GoogleSignInOptions mOptions;
-    private BinaryResultListener mListener;
+    private BinaryResultCallback mListener;
     private GoogleApiClient mGoogleApiClient;
     private PlatformGoogle mGoogle;
 
@@ -74,7 +74,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         mGoogleApiClient = mGoogle.getGoogleApiClient();
 
         try {
-            mListener = (BinaryResultListener) getActivity();
+            mListener = (BinaryResultCallback) getActivity();
         } catch (ClassCastException e) {
             throw new RuntimeException("Activity should be a FacebookLoginListener!", e);
         }

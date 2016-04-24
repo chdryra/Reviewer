@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultListener;
+import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -35,7 +35,7 @@ public class FragmentTwitterLogin extends Fragment {
     private static final int LOGIN = R.id.login_button_twitter;
 
     private TwitterLoginButton mLoginButton;
-    private BinaryResultListener mListener;
+    private BinaryResultCallback mListener;
 
     @Nullable
     @Override
@@ -57,7 +57,7 @@ public class FragmentTwitterLogin extends Fragment {
 
     private void setListener() {
         try {
-            mListener = (BinaryResultListener) getActivity();
+            mListener = (BinaryResultCallback) getActivity();
         } catch (ClassCastException e) {
             throw new RuntimeException("Activity should be a LoginResultListener!", e);
         }
