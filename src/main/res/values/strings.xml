@@ -79,7 +79,7 @@
     <string name="button_goto_google_maps">GMaps</string>
     <string name="button_another_review">Another like this</string>
     <string name="button_delete">Delete</string>
-    <string name="button_login_email">Log in with email</string>
+    <string name="button_login_email">Log in with Email</string>
     <string name="button_login_google">Log in with Google</string>
     <string name="button_login_facebook">Log in with Facebook</string>
     <string name="button_login_twitter">Log in with Twitter</string>

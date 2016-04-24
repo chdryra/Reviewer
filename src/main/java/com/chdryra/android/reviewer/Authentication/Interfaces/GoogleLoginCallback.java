@@ -6,22 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.Utils;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/04/2016
+ * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAddress {
+public interface GoogleLoginCallback extends BinaryResultCallback<GoogleSignInResult, GoogleSignInResult> {
 
-    private String mEmail;
-
-    public EmailAddress(String email) throws EmailAddressException{
-        mEmail = email;
-    }
-
-    public String getEmail() {
-        return mEmail;
-    }
 }

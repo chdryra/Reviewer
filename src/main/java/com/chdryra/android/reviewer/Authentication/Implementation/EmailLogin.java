@@ -30,6 +30,9 @@ public class EmailLogin implements AuthenticationProvider<EmailLoginCallback> {
     private EmailAddress mEmail;
     private Password mPassword;
 
+    public EmailLogin() {
+    }
+
     public EmailLogin(EmailAddress email, Password password) {
         mEmail = email;
         mPassword = password;

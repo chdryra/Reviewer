@@ -12,29 +12,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
-        android:id="@+id/login_email"
-        android:gravity="center"
-        layout="@layout/login_email"/>
-
-    <Button
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_button_google"
-        style="@style/LoginButton"
-        android:text="@string/button_login_google"/>
-
-    <Button
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_button_facebook"
-        style="@style/LoginButton"
-        android:text="@string/button_login_facebook"/>
-
-    <Button
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/login_button_twitter"
-        style="@style/LoginButton"
-        android:text="@string/button_login_twitter"/>
-
-    <include
         android:id="@+id/login_google"
         android:gravity="center"
         layout="@layout/login_google"/>
@@ -49,4 +26,40 @@
         android:gravity="center"
         layout="@layout/login_twitter"/>
 
+    <LinearLayout
+        style="@style/LineaLayoutVertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:gravity="center|bottom"
+        android:layout_weight="1">
+
+
+    <Button
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_button_email"
+        style="@style/LoginButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/button_login_email"/>
+
+    <Button
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_button_google"
+        style="@style/LoginButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/button_login_google"/>
+
+    <Button
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_button_facebook"
+        style="@style/LoginButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/button_login_facebook"/>
+
+    <Button
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/login_button_twitter"
+        style="@style/LoginButton"
+        android:layout_gravity="center|bottom"
+        android:text="@string/button_login_twitter"/>
+
+    </LinearLayout>
 </LinearLayout>

@@ -18,18 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FacebookLoginAndroid;
-
-
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationCallback;
 import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationCallback;
 import com.chdryra.android.reviewer.R;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
@@ -48,7 +45,6 @@ public class FragmentLogin extends Fragment implements AuthenticationCallback {
     private static final int FACEBOOK_BUTTON = R.id.login_button_facebook;
     private static final int TWITTER_BUTTON = R.id.login_button_twitter;
 
-    private static final int EMAIL_LOGIN = R.id.login_email;
     private static final int GOOGLE_LOGIN = R.id.login_google;
     private static final int FACEBOOK_LOGIN = R.id.login_facebook;
     private static final int TWITTER_LOGIN = R.id.login_twitter;
@@ -58,7 +54,6 @@ public class FragmentLogin extends Fragment implements AuthenticationCallback {
     private Button mFacebookButton;
     private Button mTwitterButton;
 
-    private LinearLayout mEmailLogin;
     private SignInButton mGoogleLoginButton;
     private FacebookLoginAndroid mFacebookLogin;
     private TwitterLoginButton mTwitterLoginButton;
@@ -79,7 +74,6 @@ public class FragmentLogin extends Fragment implements AuthenticationCallback {
         mFacebookLogin = new FacebookLoginAndroid(facebookLoginButton, this);
         mFacebookButton = (Button) view.findViewById(FACEBOOK_BUTTON);
 
-        mEmailLogin = (LinearLayout) view.findViewById(EMAIL_LOGIN);
         mGoogleLoginButton = (SignInButton) view.findViewById(GOOGLE_LOGIN);
 
         mTwitterLoginButton = (TwitterLoginButton) view.findViewById(TWITTER_LOGIN);

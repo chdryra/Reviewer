@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -22,13 +23,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -54,7 +55,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private boolean mResolvingError = false;
 
     private GoogleSignInOptions mOptions;
-    private BinaryResultCallback mListener;
+    private ActivitySocialAuthUi mListener;
     private GoogleApiClient mGoogleApiClient;
     private PlatformGoogle mGoogle;
 
@@ -74,7 +75,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         mGoogleApiClient = mGoogle.getGoogleApiClient();
 
         try {
-            mListener = (BinaryResultCallback) getActivity();
+            mListener = (ActivitySocialAuthUi) getActivity();
         } catch (ClassCastException e) {
             throw new RuntimeException("Activity should be a FacebookLoginListener!", e);
         }
@@ -178,9 +179,9 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
 
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
-            mListener.onSuccess(new AuthenticationResult<>(result));
+            mListener.onSuccess(result);
         } else {
-            mListener.onFailure(new AuthenticationFailure<>(result));
+            mListener.onFailure(result);
         }
     }
 
