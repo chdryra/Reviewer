@@ -27,21 +27,22 @@ import com.firebase.client.FirebaseError;
  */
 public class EmailLogin implements AuthenticationProvider<EmailLoginCallback> {
     private static final String NAME = "EmailPassword";
-    private EmailAddress mEmail;
-    private Password mPassword;
+    private EmailPasswordGetter mGetter;
 
-    public EmailLogin() {
+    public interface EmailPasswordGetter {
+        EmailAddress getEmail();
+        Password getPassword();
     }
 
-    public EmailLogin(EmailAddress email, Password password) {
-        mEmail = email;
-        mPassword = password;
+    public EmailLogin(EmailPasswordGetter getter) {
+        mGetter = getter;
     }
 
     @Override
     public void requestAuthentication(final EmailLoginCallback callback) {
         Firebase ref = new Firebase(FirebaseBackend.ROOT);
-        ref.authWithPassword(mEmail.getEmail(), mPassword.getPassword(), new Firebase.AuthResultHandler() {
+        ref.authWithPassword(mGetter.getEmail().getEmail(), mGetter.getPassword().getPassword(),
+                new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 callback.onSuccess(new DatumUserId(authData.getUid()));

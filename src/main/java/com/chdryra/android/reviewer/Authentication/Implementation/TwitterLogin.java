@@ -9,18 +9,18 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TwitterLogin implements AuthenticationProvider {
+public class TwitterLogin implements AuthenticationProvider<TwitterLoginCallback> {
     private static final String NAME = "TwitterLogin";
 
     @Override
-    public void requestAuthentication(BinaryResultCallback resultListener) {
+    public void requestAuthentication(TwitterLoginCallback resultListener) {
 
     }
 

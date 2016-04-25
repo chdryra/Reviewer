@@ -15,6 +15,9 @@
     <string name="edit">Edit</string>
     <string name="view">View</string>
 
+    <!-- Line -->
+    <string name="line_or">or</string>
+
     <!-- Alerts -->
     <string name="alert_set_image_as_background">Set image as cover?</string>
     <string name="alert_set_comment_as_headline">Set comment as headline?</string>
@@ -79,7 +82,7 @@
     <string name="button_goto_google_maps">GMaps</string>
     <string name="button_another_review">Another like this</string>
     <string name="button_delete">Delete</string>
-    <string name="button_login_email">Log in with Email</string>
+    <string name="button_login_email">Log in</string>
     <string name="button_login_google">Log in with Google</string>
     <string name="button_login_facebook">Log in with Facebook</string>
     <string name="button_login_twitter">Log in with Twitter</string>

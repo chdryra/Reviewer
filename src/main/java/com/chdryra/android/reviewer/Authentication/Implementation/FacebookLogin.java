@@ -9,8 +9,11 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
+import android.content.Intent;
+
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -20,7 +23,7 @@ import com.facebook.login.LoginResult;
  * On: 20/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class FacebookLogin implements AuthenticationProvider<FacebookLoginCallback> {
+public abstract class FacebookLogin implements AuthenticationProvider<FacebookLoginCallback>, ActivityResultListener{
     public static final String NAME = "FacebookLogin";
     private FacebookLoginCallback mListener;
 
@@ -49,6 +52,9 @@ public abstract class FacebookLogin implements AuthenticationProvider<FacebookLo
 
     @Override
     public abstract void requestAuthentication(FacebookLoginCallback resultListener);
+
+    @Override
+    public abstract void onActivityResult(int requestCode, int resultCode, Intent data);
 
     @Override
     public String getName() {

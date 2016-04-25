@@ -6,22 +6,12 @@
  *
  */
 
-package com.chdryra.android.reviewer.Utils;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/04/2016
+ * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAddress {
-
-    private String mEmail;
-
-    public EmailAddress(String email) {
-        mEmail = email;
-    }
-
-    public String getEmail() {
-        return mEmail;
-    }
+public interface AuthProviderEmail extends AuthenticationProvider<EmailLoginCallback>{
 }

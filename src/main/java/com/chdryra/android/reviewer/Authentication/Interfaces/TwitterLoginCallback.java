@@ -6,22 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.Utils;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
+
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/04/2016
+ * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAddress {
+public interface TwitterLoginCallback extends BinaryResultCallback<CallbackMessage, CallbackMessage> {
 
-    private String mEmail;
-
-    public EmailAddress(String email) {
-        mEmail = email;
-    }
-
-    public String getEmail() {
-        return mEmail;
-    }
 }

@@ -35,6 +35,7 @@ public class FacebookLoginAndroid extends FacebookLogin {
         mLoginButton.setPublishPermissions(PlatformFacebook.REQUIRED_PERMISSION);
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
