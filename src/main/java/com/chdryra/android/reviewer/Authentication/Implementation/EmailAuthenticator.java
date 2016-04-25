@@ -30,7 +30,7 @@ public class EmailAuthenticator extends AuthenticationHandlerBasic<EmailLoginCal
 
     @Override
     public void onSuccess(UserId result) {
-        onSuccess(getProviderName(), result, CallbackMessage.ok("Email login successful"));
+        onSuccess(getProviderName(), CallbackMessage.ok("Email login successful"));
     }
 
     @Override

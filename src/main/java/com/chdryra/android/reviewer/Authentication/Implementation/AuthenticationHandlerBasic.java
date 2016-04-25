@@ -12,7 +12,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,8 +43,8 @@ public abstract class AuthenticationHandlerBasic<T extends BinaryResultCallback>
     }
 
     @Override
-    public void onSuccess(String provider, UserId id, CallbackMessage result) {
-        mCallback.onSuccess(provider, id, result);
+    public void onSuccess(String provider, CallbackMessage result) {
+        mCallback.onSuccess(provider, result);
     }
 
     @Override

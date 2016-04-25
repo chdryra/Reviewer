@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AuthenticatorCallback {
-    void onSuccess(String provider, UserId id, CallbackMessage result);
+    void onSuccess(String provider, CallbackMessage result);
 
     void onFailure(String provider, CallbackMessage result);
 }

@@ -31,7 +31,6 @@ import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.Password;
@@ -147,7 +146,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
     }
 
     @Override
-    public void onSuccess(String provider, UserId id, CallbackMessage result) {
+    public void onSuccess(String provider, CallbackMessage result) {
         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
         launchFeedScreen();
     }
