@@ -17,7 +17,10 @@ import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.facebook.CallbackManager;
-import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,14 +28,19 @@ import com.facebook.login.widget.LoginButton;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FacebookLoginAndroid extends FacebookLogin {
-    private LoginButton mLoginButton;
+    private static final String PERMISSION = PlatformFacebook.REQUIRED_PERMISSION;
+    private static final List<String> PERMISSIONS;
+    static {
+        PERMISSIONS = new ArrayList<>();
+        PERMISSIONS.add(PERMISSION);
+    }
+
+    private Fragment mFragment;
     private CallbackManager mCallbackManager;
 
-    public FacebookLoginAndroid(LoginButton loginButton, Fragment fragment) {
-        mLoginButton = loginButton;
+    public FacebookLoginAndroid(Fragment fragment) {
         mCallbackManager = CallbackManager.Factory.create();
-        mLoginButton.setFragment(fragment);
-        mLoginButton.setPublishPermissions(PlatformFacebook.REQUIRED_PERMISSION);
+        mFragment = fragment;
     }
 
     @Override
@@ -43,9 +51,8 @@ public class FacebookLoginAndroid extends FacebookLogin {
     @Override
     public void requestAuthentication(FacebookLoginCallback resultListener) {
         setListener(resultListener);
-        mLoginButton.registerCallback(mCallbackManager, getAuthenticationCallback());
-        mLoginButton.performClick();
-        //TODO change to login manager
-        //LoginManager manager = LoginManager.getInstance();
+        LoginManager manager = LoginManager.getInstance();
+        manager.registerCallback(mCallbackManager, getAuthenticationCallback());
+        manager.logInWithPublishPermissions(mFragment, PERMISSIONS);
     }
 }

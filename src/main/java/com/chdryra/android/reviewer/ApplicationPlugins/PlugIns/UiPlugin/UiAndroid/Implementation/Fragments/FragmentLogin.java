@@ -97,7 +97,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
 
         mEmailLogin = new EmailLogin(new EditTextEmailPwGetter(mEmail, mPassword));
         mGoogleLogin = new GoogleLogin();
-        mFacebookLogin = new FacebookLoginAndroid(facebookLoginButton, this);
+        mFacebookLogin = new FacebookLoginAndroid(this);
         mTwitterLogin = new TwitterLogin();
 
         mAuthenticator = new Authenticator(new FactoryAuthenticationHandler());

@@ -24,7 +24,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallb
 import com.chdryra.android.reviewer.R;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,7 +32,6 @@ import com.facebook.login.widget.LoginButton;
  */
 public class FragmentFacebookLogin extends Fragment{
     private static final int LAYOUT = R.layout.login_facebook;
-    private static final int LOGIN = R.id.login_button_facebook;
 
     private FacebookLoginAndroid mLogin;
 
@@ -41,13 +39,10 @@ public class FragmentFacebookLogin extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        View view = inflater.inflate(LAYOUT, container, false);
-
-        LoginButton button = (LoginButton) view.findViewById(LOGIN);
-        mLogin = new FacebookLoginAndroid(button, this);
+        mLogin = new FacebookLoginAndroid(this);
         mLogin.setListener(getActivityAsListener());
 
-        return view;
+        return inflater.inflate(LAYOUT, container, false);
     }
 
     @NonNull
