@@ -6,22 +6,18 @@
  *
  */
 
-package com.chdryra.android.reviewer.Utils;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
+
+import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.Password;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/04/2016
+ * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class Password {
-    private String mPassword;
+public interface EmailPassword {
+    EmailAddress getEmail();
 
-    public Password(String password) {
-        mPassword = password;
-    }
-
-    @Override
-    public String toString() {
-        return mPassword;
-    }
+    Password getPassword();
 }

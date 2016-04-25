@@ -28,22 +28,22 @@ public class Authenticator implements ActivityResultListener{
     }
 
     public void requestAuthentication(EmailLogin login, AuthenticatorCallback listener) {
-        mRequestedProvider = mHandlerFactory.newEmailAuthenticator(login, listener);
+        mRequestedProvider = mHandlerFactory.newAuthenticator(login, listener);
         requestAuthentication();
     }
 
     public void requestAuthentication(FacebookLogin login, AuthenticatorCallback listener) {
-        mRequestedProvider = mHandlerFactory.newFacebookeAuthenticator(login, listener);
+        mRequestedProvider = mHandlerFactory.newAuthenticator(login, listener);
         requestAuthentication();
     }
 
     public void requestAuthentication(GoogleLogin login, AuthenticatorCallback listener) {
-        mRequestedProvider = mHandlerFactory.newGoogleAuthenticator(login, listener);
+        mRequestedProvider = mHandlerFactory.newAuthenticator(login, listener);
         requestAuthentication();
     }
 
     public void requestAuthentication(TwitterLogin login, AuthenticatorCallback listener) {
-        mRequestedProvider = mHandlerFactory.newTwitterrAuthenticator(login, listener);
+        mRequestedProvider = mHandlerFactory.newAuthenticator(login, listener);
         requestAuthentication();
     }
 

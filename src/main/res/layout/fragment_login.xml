@@ -17,11 +17,6 @@
         layout="@layout/login_google"/>
 
     <include
-        android:id="@+id/login_facebook"
-        android:gravity="center"
-        layout="@layout/login_facebook"/>
-
-    <include
         android:id="@+id/login_twitter"
         android:gravity="center"
         layout="@layout/login_twitter"/>

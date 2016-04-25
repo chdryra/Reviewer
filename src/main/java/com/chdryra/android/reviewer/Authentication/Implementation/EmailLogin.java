@@ -8,55 +8,38 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Implementation.FirebaseBackend;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLoginCallback;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.Password;
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailLogin implements AuthenticationProvider<EmailLoginCallback> {
+public abstract class EmailLogin implements AuthenticationProvider<EmailLoginCallback> {
     private static final String NAME = "EmailPassword";
-    private EmailPasswordGetter mGetter;
+    private EmailPassword mGetter;
 
-    public interface EmailPasswordGetter {
-        EmailAddress getEmail();
-        Password getPassword();
-    }
-
-    public EmailLogin(EmailPasswordGetter getter) {
+    public EmailLogin(EmailPassword getter) {
         mGetter = getter;
-    }
-
-    @Override
-    public void requestAuthentication(final EmailLoginCallback callback) {
-        Firebase ref = new Firebase(FirebaseBackend.ROOT);
-        ref.authWithPassword(mGetter.getEmail().getEmail(), mGetter.getPassword().getPassword(),
-                new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                callback.onSuccess(new DatumUserId(authData.getUid()));
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                callback.onFailure(CallbackMessage.error(firebaseError.getMessage() + ": " + firebaseError.getDetails()));
-            }
-        });
     }
 
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public abstract void requestAuthentication(EmailLoginCallback callback);
+
+    protected EmailAddress getEmail() {
+        return mGetter.getEmail();
+    }
+
+    protected Password getPassword() {
+        return mGetter.getPassword();
     }
 }

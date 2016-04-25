@@ -21,7 +21,8 @@ public class EmailAddress {
         mEmail = email;
     }
 
-    public String getEmail() {
+    @Override
+    public String toString() {
         return mEmail;
     }
 }

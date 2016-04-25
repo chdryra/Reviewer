@@ -23,18 +23,19 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FacebookLoginAndroid;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityUsersFeed;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Other.FacebookLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthenticationHandler;
 import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Implementation.FirebaseEmailLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.Utils.EmailAddress;
-import com.chdryra.android.reviewer.Utils.Password;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
@@ -56,11 +57,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
 
     private static final int EMAIL_LOGIN = R.id.login_email;
     private static final int GOOGLE_LOGIN = R.id.login_google;
-    private static final int FACEBOOK_LOGIN = R.id.login_facebook;
     private static final int TWITTER_LOGIN = R.id.login_twitter;
-
-    private EditText mEmail;
-    private EditText mPassword;
 
     private Authenticator mAuthenticator;
 
@@ -68,6 +65,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
     private GoogleLogin mGoogleLogin;
     private FacebookLoginAndroid mFacebookLogin;
     private TwitterLogin mTwitterLogin;
+    private EmailPasswordEditTexts mEmailPassword;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
@@ -78,34 +76,52 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
 
-        LoginButton facebookLoginButton = (LoginButton) view.findViewById(FACEBOOK_LOGIN);
-        facebookLoginButton.setVisibility(View.GONE);
-        Button facebookButton = (Button) view.findViewById(FACEBOOK_BUTTON);
-
         SignInButton googleLoginButton = (SignInButton) view.findViewById(GOOGLE_LOGIN);
         TwitterLoginButton twitterLoginButton = (TwitterLoginButton) view.findViewById
                 (TWITTER_LOGIN);
         googleLoginButton.setVisibility(View.GONE);
         twitterLoginButton.setVisibility(View.GONE);
+
+        LinearLayout emailLoginLayout = (LinearLayout) view.findViewById(EMAIL_LOGIN);
+
+        Button emailButton = (Button) emailLoginLayout.findViewById(EMAIL_BUTTON);
+        Button facebookButton = (Button) view.findViewById(FACEBOOK_BUTTON);
         Button googleButton = (Button) view.findViewById(GOOGLE_BUTTON);
         Button twitterButton = (Button) view.findViewById(TWITTER_BUTTON);
 
-        LinearLayout emailLoginLayout = (LinearLayout) view.findViewById(EMAIL_LOGIN);
-        mEmail = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
-        mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
-        Button emailButton = (Button) emailLoginLayout.findViewById(EMAIL_BUTTON);
+        EditText email = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
+        EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
-        mEmailLogin = new EmailLogin(new EditTextEmailPwGetter(mEmail, mPassword));
-        mGoogleLogin = new GoogleLogin();
-        mFacebookLogin = new FacebookLoginAndroid(this);
-        mTwitterLogin = new TwitterLogin();
+        createAuthenticators(email, password);
 
-        mAuthenticator = new Authenticator(new FactoryAuthenticationHandler());
+        bindButtons(facebookButton, googleButton, twitterButton, emailButton);
 
+        return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mAuthenticator.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onSuccess(String provider, CallbackMessage result) {
+        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+        launchFeedScreen();
+    }
+
+    @Override
+    public void onFailure(String provider, CallbackMessage result) {
+        Toast.makeText(getActivity(), "Login unsuccessful: " + result.getMessage(), Toast
+                .LENGTH_SHORT).show();
+    }
+
+    private void bindButtons(Button facebookButton, Button googleButton, Button twitterButton,
+                             Button emailButton) {
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(validEmailPassword()) {
+                if (mEmailPassword.validEmailPassword()) {
                     mAuthenticator.requestAuthentication(mEmailLogin, FragmentLogin.this);
                 }
             }
@@ -131,63 +147,21 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
                 mAuthenticator.requestAuthentication(mTwitterLogin, FragmentLogin.this);
             }
         });
-
-        return view;
     }
 
-    private boolean validEmailPassword() {
-        return validateEmail(mEmail.getText().toString().trim())
-                && validatePassword(mPassword.getText().toString().trim());
-    }
+    private void createAuthenticators(EditText email, EditText password) {
+        mEmailPassword = new EmailPasswordEditTexts(email, password);
+        mEmailLogin = new FirebaseEmailLogin(mEmailPassword);
+        mGoogleLogin = new GoogleLogin();
+        mFacebookLogin = new FacebookLoginAndroid(this);
+        mTwitterLogin = new TwitterLogin();
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mAuthenticator.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onSuccess(String provider, CallbackMessage result) {
-        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
-        launchFeedScreen();
-    }
-
-    @Override
-    public void onFailure(String provider, CallbackMessage result) {
-        Toast.makeText(getActivity(), "Login unsuccessful: " + result.getMessage(), Toast
-                .LENGTH_SHORT).show();
-    }
-
-    private boolean validatePassword(String password) {
-        return password != null && password.length() > 0;
-    }
-
-    private boolean validateEmail(String email) {
-        return email != null && email.length() > 0;
+        mAuthenticator = new Authenticator(new FactoryAuthenticationHandler());
     }
 
     private void launchFeedScreen() {
         Intent intent = new Intent(getActivity(), ActivityUsersFeed.class);
         startActivity(intent);
         getActivity().finish();
-    }
-
-    private static class EditTextEmailPwGetter implements EmailLogin.EmailPasswordGetter {
-        private EditText mEmail;
-        private EditText mPassword;
-
-        public EditTextEmailPwGetter(EditText email, EditText password) {
-            mEmail = email;
-            this.mPassword = password;
-        }
-
-        @Override
-        public EmailAddress getEmail() {
-            return new EmailAddress(mEmail.getText().toString().trim());
-        }
-
-            @Override
-            public Password getPassword() {
-                return new Password(mPassword.getText().toString().trim());
-            }
     }
 }

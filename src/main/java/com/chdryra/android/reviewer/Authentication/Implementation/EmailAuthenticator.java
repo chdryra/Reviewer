@@ -18,7 +18,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAuthenticator extends AuthenticationHandlerBasic<EmailLoginCallback> implements EmailLoginCallback {
+public class EmailAuthenticator extends AuthenticationHandlerBasic<EmailLoginCallback>
+        implements EmailLoginCallback {
     public EmailAuthenticator(EmailLogin provider, AuthenticatorCallback callback) {
         super(provider, callback);
     }
