@@ -9,14 +9,14 @@
 package com.chdryra.android.reviewer.Authentication.Factories;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.FacebookAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.TwitterAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 
 /**
  * Created by: Rizwan Choudrey

@@ -23,18 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityUsersFeed;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Other.EmailPasswordEditTexts;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthenticationHandler;
 import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
-import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Implementation.FirebaseEmailLogin;
-import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.PluginTemp.FactoryAuthenticationProviders;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -150,11 +148,13 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
     }
 
     private void createAuthenticators(EditText email, EditText password) {
+        FactoryAuthenticationProviders loginFactory = new FactoryAuthenticationProviders();
+
         mEmailPassword = new EmailPasswordEditTexts(email, password);
-        mEmailLogin = new FirebaseEmailLogin(mEmailPassword);
-        mGoogleLogin = new GoogleLogin(getActivity());
-        mFacebookLogin = new FacebookLogin(this);
-        mTwitterLogin = new TwitterLogin(getActivity());
+        mEmailLogin = loginFactory.newEmailLogin(mEmailPassword);
+        mGoogleLogin = loginFactory.newGoogleLogin(getActivity());
+        mFacebookLogin = loginFactory.newFacebookLogin(this);
+        mTwitterLogin = loginFactory.newTwitterLogin(getActivity());
 
         mAuthenticator = new Authenticator(new FactoryAuthenticationHandler());
     }

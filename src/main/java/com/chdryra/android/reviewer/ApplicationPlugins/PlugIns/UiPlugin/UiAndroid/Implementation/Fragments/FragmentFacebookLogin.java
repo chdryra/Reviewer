@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivitySocialAuthUi;
-import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.PluginTemp.FacebookLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.R;
 import com.facebook.FacebookException;
@@ -35,13 +35,13 @@ import com.facebook.login.LoginResult;
 public class FragmentFacebookLogin extends Fragment{
     private static final int LAYOUT = R.layout.login_facebook;
 
-    private FacebookLogin mLogin;
+    private FacebookLoginAndroid mLogin;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        mLogin = new FacebookLogin(this);
+        mLogin = new FacebookLoginAndroid(this);
         mLogin.setListener(getActivityAsListener());
 
         return inflater.inflate(LAYOUT, container, false);

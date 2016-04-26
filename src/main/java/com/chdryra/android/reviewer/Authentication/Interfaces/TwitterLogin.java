@@ -6,19 +6,21 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GoogleLogin extends AuthenticationProvider<GoogleLoginCallback> {
+public interface TwitterLogin extends AuthenticationProvider<TwitterLoginCallback> {
+    String NAME = "TwitterLogin";
+
     @Override
-    void requestAuthentication(GoogleLoginCallback resultListener);
+    void requestAuthentication(TwitterLoginCallback resultListener);
 
     @Override
     String getName();

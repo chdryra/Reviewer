@@ -6,13 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.Authentication.PluginTemp;
 
 
 import android.app.Fragment;
 import android.content.Intent;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
@@ -30,10 +30,8 @@ import java.util.List;
  * On: 20/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FacebookLogin
-        implements AuthenticationProvider<FacebookLoginCallback>, ActivityResultListener,
-        FacebookCallback<LoginResult> {
-    public static final String NAME = "FacebookLogin";
+public class FacebookLoginAndroid
+        implements FacebookLogin, ActivityResultListener, FacebookCallback<LoginResult> {
 
     private static final String PERMISSION = PlatformFacebook.REQUIRED_PERMISSION;
     private static final List<String> PERMISSIONS;
@@ -53,7 +51,7 @@ public class FacebookLogin
         manager.logInWithPublishPermissions(mFragment, PERMISSIONS);
     }
 
-    public FacebookLogin(Fragment fragment) {
+    public FacebookLoginAndroid(Fragment fragment) {
         mFragment = fragment;
         mCallbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(mCallbackManager, this);

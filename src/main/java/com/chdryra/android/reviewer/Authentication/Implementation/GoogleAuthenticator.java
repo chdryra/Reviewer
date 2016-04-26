@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 

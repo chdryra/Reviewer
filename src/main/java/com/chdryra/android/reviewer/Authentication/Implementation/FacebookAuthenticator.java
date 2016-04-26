@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;

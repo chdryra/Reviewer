@@ -6,12 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.Authentication.PluginTemp;
 
 import android.app.Activity;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.google.android.gms.auth.api.Auth;

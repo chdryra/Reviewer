@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLoginCallback;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
@@ -36,6 +37,6 @@ public class EmailAuthenticator extends AuthenticationHandlerBasic<EmailLoginCal
 
     @Override
     public void onFailure(CallbackMessage result) {
-        onFailure(getProviderName(), result);
+        onFailure(getProviderName(), CallbackMessage.error("Email login successful: " + result.getMessage()));
     }
 }

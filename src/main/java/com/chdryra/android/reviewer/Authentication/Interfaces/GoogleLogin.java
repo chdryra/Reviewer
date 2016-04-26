@@ -10,8 +10,13 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/04/2016
+ * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthProviderEmail extends AuthenticationProvider<EmailLoginCallback>{
+public interface GoogleLogin extends AuthenticationProvider<GoogleLoginCallback> {
+    @Override
+    void requestAuthentication(GoogleLoginCallback resultListener);
+
+    @Override
+    String getName();
 }

@@ -12,6 +12,10 @@ import android.content.Intent;
 
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthenticationHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 
 /**

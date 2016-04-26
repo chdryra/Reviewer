@@ -25,7 +25,7 @@ import com.firebase.client.FirebaseError;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseEmailLogin extends EmailLogin {
+public class FirebaseEmailLogin extends EmailLoginImpl {
 
     public FirebaseEmailLogin(EmailPassword getter) {
         super(getter);
