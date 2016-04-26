@@ -11,10 +11,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Fragment;
+import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentEditLocationMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
@@ -28,6 +29,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityLogin";
     private static final String KEY = "ActivityLogin";
+    private Fragment mFragment;
 
     @Override
     public String getLaunchTag() {
@@ -42,7 +44,12 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     @Override
     protected Fragment createFragment() {
         ApplicationLaunch.launchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
+        mFragment = FragmentLogin.newInstance();
+        return mFragment;
+    }
 
-        return FragmentLogin.newInstance();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mFragment.onActivityResult(requestCode, resultCode, data);
     }
 }

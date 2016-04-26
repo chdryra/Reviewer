@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -30,11 +31,11 @@ public class GoogleAuthenticator extends AuthenticationHandlerBasic<GoogleLoginC
 
     @Override
     public void onSuccess(GoogleSignInResult result) {
-
+        onSuccess(getProviderName(), CallbackMessage.ok("Google login successful"));
     }
 
     @Override
     public void onFailure(GoogleSignInResult result) {
-
+        onFailure(getProviderName(), CallbackMessage.error("Google login unsuccessful: " + result.toString()));
     }
 }

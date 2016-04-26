@@ -53,9 +53,11 @@ public class Authenticator implements ActivityResultListener{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(mRequestedProvider.getProviderName().equals(FacebookLogin.NAME)) {
-            FacebookLogin fb = (FacebookLogin)mRequestedProvider.getProvider();
-            fb.onActivityResult(requestCode, resultCode, data);
+        try {
+            ActivityResultListener provider = (ActivityResultListener)mRequestedProvider.getProvider();
+            provider.onActivityResult(requestCode, resultCode, data);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
         }
     }
 

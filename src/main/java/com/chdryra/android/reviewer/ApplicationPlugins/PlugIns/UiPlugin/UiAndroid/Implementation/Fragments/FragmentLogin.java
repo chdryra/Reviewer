@@ -152,7 +152,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
     private void createAuthenticators(EditText email, EditText password) {
         mEmailPassword = new EmailPasswordEditTexts(email, password);
         mEmailLogin = new FirebaseEmailLogin(mEmailPassword);
-        mGoogleLogin = new GoogleLogin();
+        mGoogleLogin = new GoogleLogin(getActivity());
         mFacebookLogin = new FacebookLogin(this);
         mTwitterLogin = new TwitterLogin(getActivity());
 
