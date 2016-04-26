@@ -25,12 +25,12 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityUsersFeed;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Other.FacebookLoginAndroid;
+        .Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthenticationHandler;
 import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Implementation.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.FirebaseEmailLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Implementation.TwitterLogin;
@@ -63,7 +63,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
 
     private EmailLogin mEmailLogin;
     private GoogleLogin mGoogleLogin;
-    private FacebookLoginAndroid mFacebookLogin;
+    private FacebookLogin mFacebookLogin;
     private TwitterLogin mTwitterLogin;
     private EmailPasswordEditTexts mEmailPassword;
 
@@ -153,8 +153,8 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
         mEmailPassword = new EmailPasswordEditTexts(email, password);
         mEmailLogin = new FirebaseEmailLogin(mEmailPassword);
         mGoogleLogin = new GoogleLogin();
-        mFacebookLogin = new FacebookLoginAndroid(this);
-        mTwitterLogin = new TwitterLogin();
+        mFacebookLogin = new FacebookLogin(this);
+        mTwitterLogin = new TwitterLogin(getActivity());
 
         mAuthenticator = new Authenticator(new FactoryAuthenticationHandler());
     }

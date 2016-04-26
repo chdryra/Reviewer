@@ -11,6 +11,9 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,12 +32,12 @@ public class TwitterAuthenticator extends AuthenticationHandlerBasic<TwitterLogi
     }
 
     @Override
-    public void onSuccess(CallbackMessage result) {
-
+    public void onSuccess(Result<TwitterSession> result) {
+        onSuccess(getProviderName(), CallbackMessage.ok("Twitter login successful"));
     }
 
     @Override
-    public void onFailure(CallbackMessage result) {
-
+    public void onFailure(TwitterException result) {
+        onFailure(getProviderName(), CallbackMessage.error("Twitter login unsuccessful: " + result.getMessage()));
     }
 }

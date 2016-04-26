@@ -32,7 +32,8 @@ public class UserCreaterFirebase implements UserCreaterEmailPassword {
     @Override
     public void createUser(EmailAddress email, Password password, final UserCreaterCallback callback) {
         Firebase ref = new Firebase(ROOT);
-        ref.createUser(email.getEmail(), password.getPassword(), new Firebase.ValueResultHandler<Map<String, Object>>() {
+        ref.createUser(email.toString(), password.toString(),
+                new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
                 callback.onSuccess(new DatumUserId(result.get("uid").toString()));

@@ -8,13 +8,15 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TwitterLoginCallback extends BinaryResultCallback<CallbackMessage, CallbackMessage> {
+public interface TwitterLoginCallback extends BinaryResultCallback<Result<TwitterSession>, TwitterException> {
 
 }
