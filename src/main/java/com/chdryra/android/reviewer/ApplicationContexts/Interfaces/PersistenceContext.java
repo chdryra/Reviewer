@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -21,6 +22,8 @@ public interface PersistenceContext {
     ReviewsRepositoryMutable getLocalRepository();
 
     ReviewsRepositoryMutable getBackendRepository();
+
+    Authenticator getBackendAuthenticator();
 
     ReviewsSource getReviewsSource();
 

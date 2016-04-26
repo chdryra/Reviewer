@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
         .LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
         .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -176,6 +177,10 @@ public class ApplicationInstance extends ApplicationSingleton {
     public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
         return mPresenterContext.getBackendRepository();
+    }
+
+    public Authenticator getUserAuthenticator() {
+        return mPresenterContext.getAuthenticator();
     }
 
     private void setUser(DatumAuthor user) {

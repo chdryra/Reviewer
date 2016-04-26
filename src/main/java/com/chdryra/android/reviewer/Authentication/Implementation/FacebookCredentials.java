@@ -19,9 +19,9 @@ import com.facebook.login.LoginResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FacebookAuthenticator extends AuthenticationHandlerBasic<FacebookLoginCallback>
+public class FacebookCredentials extends CredentialsHandlerBasic<FacebookLoginCallback>
         implements FacebookLoginCallback {
-    public FacebookAuthenticator(FacebookLogin provider, AuthenticatorCallback callback) {
+    public FacebookCredentials(FacebookLogin provider, AuthenticatorCallback callback) {
         super(provider, callback);
     }
 

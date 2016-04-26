@@ -11,18 +11,19 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 13/01/2016
+ * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface PersistencePlugin {
-    FactoryPersistentCache newCacheFactory();
+public interface Backend extends FactoryPersistence{
+    Authenticator getAuthenticator();
 
-    ReviewsRepositoryMutable newLocalPersistence(Context context, ModelContext modelContext, DataValidator validator);
-
-    Backend getBackend();
+    @Override
+    ReviewsRepositoryMutable newPersistence(Context context, ModelContext model,
+                                            DataValidator validator);
 }

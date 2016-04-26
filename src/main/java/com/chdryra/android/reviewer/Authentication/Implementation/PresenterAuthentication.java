@@ -11,9 +11,11 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthenticationHandler;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
@@ -25,9 +27,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback{
-    private AuthenticationHandlerBasic<?> mRequestedProvider;
-    private FactoryAuthenticationHandler mHandlerFactory;
+    private CredentialsHandlerBasic<?> mRequestedProvider;
+    private FactoryCredentialsHandler mHandlerFactory;
+    private Authenticator mAuthenticator;
     private AuthenticationListener mListener;
+    private boolean mAuthenticating = false;
+    private boolean mRequestinCredentials = false;
 
     public interface AuthenticationListener {
         void onUserUnknown();
@@ -37,33 +42,36 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
         void onAuthenticationFailed(CallbackMessage message);
     }
     
-    private PresenterAuthentication(FactoryAuthenticationHandler handlerFactory, AuthenticationListener listener) {
+    private PresenterAuthentication(FactoryCredentialsHandler handlerFactory,
+                                    Authenticator authenticator, AuthenticationListener listener) {
         mHandlerFactory = handlerFactory;
+        mAuthenticator = authenticator;
         mListener = listener;
     }
 
-    public void requestAuthentication(EmailLogin login) {
-        mRequestedProvider = mHandlerFactory.newAuthenticator(login, this);
-        requestAuthentication();
+    public void requestAuthentication(EmailPassword emailPassword) {
+        mAuthenticating = true;
+        mAuthenticator.authenticateEmailPasswordCredentials(emailPassword.getEmail().toString(),
+                emailPassword.getPassword().toString(), this);
     }
 
-    public void requestAuthentication(FacebookLogin login) {
-        mRequestedProvider = mHandlerFactory.newAuthenticator(login, this);
-        requestAuthentication();
+    public void requestCredentials(FacebookLogin login) {
+        mRequestedProvider = mHandlerFactory.newHandler(login, this);
+        requestCredentials();
     }
 
-    public void requestAuthentication(GoogleLogin login) {
-        mRequestedProvider = mHandlerFactory.newAuthenticator(login, this);
-        requestAuthentication();
+    public void requestCredentials(GoogleLogin login) {
+        mRequestedProvider = mHandlerFactory.newHandler(login, this);
+        requestCredentials();
     }
 
-    public void requestAuthentication(TwitterLogin login) {
-        mRequestedProvider = mHandlerFactory.newAuthenticator(login, this);
-        requestAuthentication();
+    public void requestCredentials(TwitterLogin login) {
+        mRequestedProvider = mHandlerFactory.newHandler(login, this);
+        requestCredentials();
     }
 
-    private void requestAuthentication() {
-        mRequestedProvider.requestAuthentication();
+    private void requestCredentials() {
+        mRequestedProvider.requestCredentials();
     }
 
     @Override
@@ -91,8 +99,15 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
     }
 
     public static class Builder {
+        private ApplicationInstance mApp;
+
+        public Builder(ApplicationInstance app) {
+            mApp = app;
+        }
+
         public PresenterAuthentication build(AuthenticationListener listener) {
-            return new PresenterAuthentication(new FactoryAuthenticationHandler(), listener);
+            Authenticator authenticator = mApp.getUserAuthenticator();
+            return new PresenterAuthentication(new FactoryCredentialsHandler(), authenticator, listener);
         }
     }
 }

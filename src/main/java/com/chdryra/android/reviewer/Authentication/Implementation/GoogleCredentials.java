@@ -9,38 +9,36 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
-import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.TwitterSession;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TwitterAuthenticator extends AuthenticationHandlerBasic<TwitterLoginCallback>
-        implements TwitterLoginCallback {
-    public TwitterAuthenticator(TwitterLogin provider, AuthenticatorCallback callback) {
+public class GoogleCredentials extends CredentialsHandlerBasic<GoogleLoginCallback>
+        implements GoogleLoginCallback {
+    public GoogleCredentials(GoogleLogin provider, AuthenticatorCallback callback) {
         super(provider, callback);
     }
 
     @Override
-    protected TwitterLoginCallback getProviderCallback() {
+    protected GoogleLoginCallback getProviderCallback() {
         return this;
     }
 
     @Override
-    public void onSuccess(Result<TwitterSession> result) {
+    public void onSuccess(GoogleSignInResult result) {
         notifyOnSuccess(getProviderName());
     }
 
     @Override
-    public void onFailure(TwitterException result) {
+    public void onFailure(GoogleSignInResult result) {
         String providerName = getProviderName();
         AuthenticationError error = new AuthenticationError(providerName,
-                AuthenticationError.Reason.PROVIDER_ERROR, result.getMessage());
+                AuthenticationError.Reason.PROVIDER_ERROR, result.getStatus().getStatusMessage());
         notifyOnFailure(getProviderName(), error);
     }
 }

@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
+
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.PresenterAuthentication;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
@@ -88,7 +90,8 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         EditText email = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
         EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
-        mPresenter = new PresenterAuthentication.Builder().build(this);
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        mPresenter = new PresenterAuthentication.Builder(app).build(this);
 
         createAuthenticators(email, password);
 
@@ -125,7 +128,7 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
             @Override
             public void onClick(View v) {
                 if (mEmailPassword.validEmailPassword()) {
-                    mPresenter.requestAuthentication(mEmailLogin);
+                    mPresenter.requestAuthentication(mEmailPassword);
                 }
             }
         });
@@ -133,21 +136,21 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.requestAuthentication(mFacebookLogin);
+                mPresenter.requestCredentials(mFacebookLogin);
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.requestAuthentication(mGoogleLogin);
+                mPresenter.requestCredentials(mGoogleLogin);
             }
         });
 
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.requestAuthentication(mTwitterLogin);
+                mPresenter.requestCredentials(mTwitterLogin);
             }
         });
     }

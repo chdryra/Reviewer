@@ -24,14 +24,14 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
 public class PersistencePluginImpl implements PersistencePlugin {
     private FactoryPersistentCache mCacheFactory;
     private FactoryPersistence mLocalFactory;
-    private FactoryPersistence mBackendFactory;
+    private Backend mBackend;
 
     public PersistencePluginImpl(FactoryPersistentCache cacheFactory,
                                  FactoryPersistence localDb,
-                                 FactoryPersistence backendDb) {
+                                 Backend backend) {
         mCacheFactory = cacheFactory;
         mLocalFactory = localDb;
-        mBackendFactory = backendDb;
+        mBackend = backend;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PersistencePluginImpl implements PersistencePlugin {
     }
 
     @Override
-    public ReviewsRepositoryMutable newBackendPersistence(Context context, ModelContext modelContext, DataValidator validator) {
-        return mBackendFactory.newPersistence(context, modelContext, validator);
+    public Backend getBackend() {
+        return mBackend;
     }
 }

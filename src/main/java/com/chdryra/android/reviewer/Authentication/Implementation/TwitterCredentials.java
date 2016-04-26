@@ -9,36 +9,38 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GoogleAuthenticator extends AuthenticationHandlerBasic<GoogleLoginCallback>
-        implements GoogleLoginCallback {
-    public GoogleAuthenticator(GoogleLogin provider, AuthenticatorCallback callback) {
+public class TwitterCredentials extends CredentialsHandlerBasic<TwitterLoginCallback>
+        implements TwitterLoginCallback {
+    public TwitterCredentials(TwitterLogin provider, AuthenticatorCallback callback) {
         super(provider, callback);
     }
 
     @Override
-    protected GoogleLoginCallback getProviderCallback() {
+    protected TwitterLoginCallback getProviderCallback() {
         return this;
     }
 
     @Override
-    public void onSuccess(GoogleSignInResult result) {
+    public void onSuccess(Result<TwitterSession> result) {
         notifyOnSuccess(getProviderName());
     }
 
     @Override
-    public void onFailure(GoogleSignInResult result) {
+    public void onFailure(TwitterException result) {
         String providerName = getProviderName();
         AuthenticationError error = new AuthenticationError(providerName,
-                AuthenticationError.Reason.PROVIDER_ERROR, result.getStatus().getStatusMessage());
+                AuthenticationError.Reason.PROVIDER_ERROR, result.getMessage());
         notifyOnFailure(getProviderName(), error);
     }
 }

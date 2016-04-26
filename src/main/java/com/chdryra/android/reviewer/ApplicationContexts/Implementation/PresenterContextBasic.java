@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -192,6 +193,11 @@ public abstract class PresenterContextBasic implements PresenterContext {
     @Override
     public ReviewsRepositoryMutable getBackendRepository() {
         return mPersistenceContext.getBackendRepository();
+    }
+
+    @Override
+    public Authenticator getAuthenticator() {
+        return mPersistenceContext.getBackendAuthenticator();
     }
 
     @Override
