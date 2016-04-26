@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallba
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class AuthenticationHandlerBasic<T extends BinaryResultCallback>
-        implements AuthenticatorCallback {
+public abstract class AuthenticationHandlerBasic<T extends BinaryResultCallback> {
     private AuthenticationProvider<T> mProvider;
     private AuthenticatorCallback mCallback;
 
@@ -42,13 +41,11 @@ public abstract class AuthenticationHandlerBasic<T extends BinaryResultCallback>
         mProvider.requestAuthentication(getProviderCallback());
     }
 
-    @Override
-    public void onSuccess(String provider, CallbackMessage result) {
+    protected void notifyOnSuccess(String provider, CallbackMessage result) {
         mCallback.onSuccess(provider, result);
     }
 
-    @Override
-    public void onFailure(String provider, CallbackMessage result) {
+    protected void notifyOnFailure(String provider, CallbackMessage result) {
         mCallback.onFailure(provider, result);
     }
 }

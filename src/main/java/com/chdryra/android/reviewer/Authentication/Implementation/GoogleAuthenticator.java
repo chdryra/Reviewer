@@ -32,11 +32,11 @@ public class GoogleAuthenticator extends AuthenticationHandlerBasic<GoogleLoginC
 
     @Override
     public void onSuccess(GoogleSignInResult result) {
-        onSuccess(getProviderName(), CallbackMessage.ok("Google login successful"));
+        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Google login successful"));
     }
 
     @Override
     public void onFailure(GoogleSignInResult result) {
-        onFailure(getProviderName(), CallbackMessage.error("Google login unsuccessful: " + result.toString()));
+        notifyOnFailure(getProviderName(), CallbackMessage.error("Google login unsuccessful: " + result.toString()));
     }
 }

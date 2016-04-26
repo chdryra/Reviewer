@@ -32,11 +32,11 @@ public class EmailAuthenticator extends AuthenticationHandlerBasic<EmailLoginCal
 
     @Override
     public void onSuccess(UserId result) {
-        onSuccess(getProviderName(), CallbackMessage.ok("Email login successful"));
+        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Email login successful"));
     }
 
     @Override
     public void onFailure(CallbackMessage result) {
-        onFailure(getProviderName(), CallbackMessage.error("Email login successful: " + result.getMessage()));
+        notifyOnFailure(getProviderName(), CallbackMessage.error("Email login unsuccessful: " + result.getMessage()));
     }
 }

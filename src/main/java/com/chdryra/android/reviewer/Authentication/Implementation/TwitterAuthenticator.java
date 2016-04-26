@@ -34,11 +34,11 @@ public class TwitterAuthenticator extends AuthenticationHandlerBasic<TwitterLogi
 
     @Override
     public void onSuccess(Result<TwitterSession> result) {
-        onSuccess(getProviderName(), CallbackMessage.ok("Twitter login successful"));
+        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Twitter login successful"));
     }
 
     @Override
     public void onFailure(TwitterException result) {
-        onFailure(getProviderName(), CallbackMessage.error("Twitter login unsuccessful: " + result.getMessage()));
+        notifyOnFailure(getProviderName(), CallbackMessage.error("Twitter login unsuccessful: " + result.getMessage()));
     }
 }

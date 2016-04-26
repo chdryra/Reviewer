@@ -28,12 +28,12 @@ public class FacebookAuthenticator extends AuthenticationHandlerBasic<FacebookLo
 
     @Override
     public void onSuccess(LoginResult result) {
-        onSuccess(getProviderName(), CallbackMessage.ok("Facebook login successful"));
+        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Facebook login successful"));
     }
 
     @Override
     public void onFailure(FacebookException result) {
-        onFailure(getProviderName(), CallbackMessage.error("Facebook login unsuccessful: " + result.getMessage()));
+        notifyOnFailure(getProviderName(), CallbackMessage.error("Facebook login unsuccessful: " + result.getMessage()));
     }
 
     @Override
