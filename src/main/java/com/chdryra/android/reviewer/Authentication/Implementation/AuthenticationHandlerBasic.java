@@ -8,8 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 
@@ -19,12 +18,12 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallba
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class AuthenticationHandlerBasic<T extends BinaryResultCallback> {
-    private AuthenticationProvider<T> mProvider;
+    private CredentialsProvider<T> mProvider;
     private AuthenticatorCallback mCallback;
 
     protected abstract T getProviderCallback();
 
-    public AuthenticationHandlerBasic(AuthenticationProvider<T> provider, AuthenticatorCallback callback) {
+    public AuthenticationHandlerBasic(CredentialsProvider<T> provider, AuthenticatorCallback callback) {
         mProvider = provider;
         mCallback = callback;
     }
@@ -33,19 +32,19 @@ public abstract class AuthenticationHandlerBasic<T extends BinaryResultCallback>
         return mProvider.getName();
     }
 
-    public AuthenticationProvider<T> getProvider() {
+    public CredentialsProvider<T> getProvider() {
         return mProvider;
     }
 
     public void requestAuthentication() {
-        mProvider.requestAuthentication(getProviderCallback());
+        mProvider.requestCredentials(getProviderCallback());
     }
 
-    protected void notifyOnSuccess(String provider, CallbackMessage result) {
-        mCallback.onSuccess(provider, result);
+    protected void notifyOnSuccess(String provider) {
+        mCallback.onSuccess(provider);
     }
 
-    protected void notifyOnFailure(String provider, CallbackMessage result) {
-        mCallback.onFailure(provider, result);
+    protected void notifyOnFailure(String provider, AuthenticationError error) {
+        mCallback.onFailure(provider, error);
     }
 }

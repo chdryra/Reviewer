@@ -13,9 +13,9 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GoogleLogin extends AuthenticationProvider<GoogleLoginCallback> {
+public interface GoogleLogin extends CredentialsProvider<GoogleLoginCallback> {
     @Override
-    void requestAuthentication(GoogleLoginCallback resultListener);
+    void requestCredentials(GoogleLoginCallback resultListener);
 
     @Override
     String getName();

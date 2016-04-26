@@ -44,5 +44,6 @@ public class UserCreaterFirebase implements UserCreaterEmailPassword {
                 callback.onFailure(CallbackMessage.error(firebaseError.getMessage() + ": " + firebaseError.getDetails()));
             }
         });
+
     }
 }

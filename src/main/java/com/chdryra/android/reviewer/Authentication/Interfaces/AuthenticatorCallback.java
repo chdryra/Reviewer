@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AuthenticatorCallback {
-    void onSuccess(String provider, CallbackMessage result);
+    void onSuccess(String provider);
 
-    void onFailure(String provider, CallbackMessage result);
+    void onFailure(String provider, AuthenticationError error);
 }

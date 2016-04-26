@@ -8,19 +8,16 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TwitterLogin extends AuthenticationProvider<TwitterLoginCallback> {
+public interface TwitterLogin extends CredentialsProvider<TwitterLoginCallback> {
     String NAME = "TwitterLogin";
 
     @Override
-    void requestAuthentication(TwitterLoginCallback resultListener);
+    void requestCredentials(TwitterLoginCallback resultListener);
 
     @Override
     String getName();

@@ -6,51 +6,94 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.PluginTemp;
+package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import android.support.annotation.NonNull;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseBackend;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailLoginImpl;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLoginCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseEmailLogin extends EmailLoginImpl {
+public class FirebaseAuthenticator implements Authenticator {
     private static final String NAME = "Firebase";
 
-    public FirebaseEmailLogin(EmailPassword getter) {
-        super(NAME, getter);
+    private Firebase mRoot;
+
+    public FirebaseAuthenticator(Firebase root) {
+        mRoot = root;
     }
 
     @Override
-    public void requestCredentials(final EmailLoginCallback callback) {
-        Firebase ref = new Firebase(FirebaseBackend.ROOT);
-        ref.authWithPassword(getEmail().toString(), getPassword().toString(), getHandler(callback));
-    }
+    public void authenticateEmailPasswordCredentials(String email, String password, final AuthenticatorCallback callback) {
+        mRoot.authWithPassword(email, password, new Firebase.AuthResultHandler() {
 
-    @NonNull
-    private Firebase.AuthResultHandler getHandler(final EmailLoginCallback callback) {
-        return new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                callback.onSuccess(new DatumUserId(authData.getUid()));
+
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                callback.onFailure(getError(firebaseError));
+
             }
-        };
+        });
+    }
+
+    @Override
+    public void authenticateFacebookCredentials(String token, AuthenticatorCallback callback) {
+        mRoot.authWithOAuthToken("facebook", token, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void authenticateTwitterCredentials(String token, String secret, long userId, AuthenticatorCallback callback) {
+        Map<String, String> options = new HashMap<>();
+        options.put("oauth_token", token);
+        options.put("oauth_token_secret", secret);
+        options.put("user_id", String.valueOf(userId));
+        mRoot.authWithOAuthToken("twitter", options, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void authenticateGoogleCredentials(String token, AuthenticatorCallback callback) {
+        mRoot.authWithOAuthToken("facebook", token, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     private AuthenticationError getError(FirebaseError error) {
@@ -76,5 +119,4 @@ public class FirebaseEmailLogin extends EmailLoginImpl {
             return new AuthenticationError(NAME, AuthenticationError.Reason.PROVIDER_ERROR, error.getDetails());
         }
     }
-
 }

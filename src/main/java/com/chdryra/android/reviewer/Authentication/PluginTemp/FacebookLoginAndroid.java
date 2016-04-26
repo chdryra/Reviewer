@@ -45,7 +45,7 @@ public class FacebookLoginAndroid
     private CallbackManager mCallbackManager;
 
     @Override
-    public void requestAuthentication(FacebookLoginCallback resultListener) {
+    public void requestCredentials(FacebookLoginCallback resultListener) {
         setListener(resultListener);
         LoginManager manager = LoginManager.getInstance();
         manager.logInWithPublishPermissions(mFragment, PERMISSIONS);

@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 
 /**
@@ -16,6 +16,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface EmailLoginCallback extends BinaryResultCallback<UserId, CallbackMessage> {
+public interface EmailLoginCallback extends BinaryResultCallback<UserId, AuthenticationError> {
 
 }

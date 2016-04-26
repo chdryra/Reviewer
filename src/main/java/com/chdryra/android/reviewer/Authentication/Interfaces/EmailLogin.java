@@ -13,10 +13,10 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface EmailLogin extends AuthenticationProvider<EmailLoginCallback> {
+public interface EmailLogin extends CredentialsProvider<EmailLoginCallback> {
     @Override
     String getName();
 
     @Override
-    void requestAuthentication(EmailLoginCallback callback);
+    void requestCredentials(EmailLoginCallback callback);
 }

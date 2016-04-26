@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
@@ -34,11 +33,14 @@ public class TwitterAuthenticator extends AuthenticationHandlerBasic<TwitterLogi
 
     @Override
     public void onSuccess(Result<TwitterSession> result) {
-        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Twitter login successful"));
+        notifyOnSuccess(getProviderName());
     }
 
     @Override
     public void onFailure(TwitterException result) {
-        notifyOnFailure(getProviderName(), CallbackMessage.error("Twitter login unsuccessful: " + result.getMessage()));
+        String providerName = getProviderName();
+        AuthenticationError error = new AuthenticationError(providerName,
+                AuthenticationError.Reason.PROVIDER_ERROR, result.getMessage());
+        notifyOnFailure(getProviderName(), error);
     }
 }

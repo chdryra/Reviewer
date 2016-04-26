@@ -8,18 +8,13 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthenticationCallback
-        extends BinaryResultCallback<CallbackMessage, CallbackMessage> {
-    @Override
-    void onSuccess(CallbackMessage result);
+public interface CredentialsProvider<T extends BinaryResultCallback> {
+    void requestCredentials(T resultListener);
 
-    @Override
-    void onFailure(CallbackMessage result);
+    String getName();
 }

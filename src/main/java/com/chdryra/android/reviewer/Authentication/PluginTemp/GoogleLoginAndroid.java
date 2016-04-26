@@ -50,7 +50,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
     }
 
     @Override
-    public void requestAuthentication(GoogleLoginCallback resultListener) {
+    public void requestCredentials(GoogleLoginCallback resultListener) {
         setListener(resultListener);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         mActivity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);

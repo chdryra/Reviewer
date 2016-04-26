@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
@@ -28,12 +27,15 @@ public class FacebookAuthenticator extends AuthenticationHandlerBasic<FacebookLo
 
     @Override
     public void onSuccess(LoginResult result) {
-        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Facebook login successful"));
+        notifyOnSuccess(getProviderName());
     }
 
     @Override
     public void onFailure(FacebookException result) {
-        notifyOnFailure(getProviderName(), CallbackMessage.error("Facebook login unsuccessful: " + result.getMessage()));
+        String providerName = getProviderName();
+        AuthenticationError error = new AuthenticationError(providerName,
+                AuthenticationError.Reason.PROVIDER_ERROR, result.getMessage());
+        notifyOnFailure(providerName, error);
     }
 
     @Override

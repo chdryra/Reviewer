@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLoginCallback;
@@ -32,11 +31,11 @@ public class EmailAuthenticator extends AuthenticationHandlerBasic<EmailLoginCal
 
     @Override
     public void onSuccess(UserId result) {
-        notifyOnSuccess(getProviderName(), CallbackMessage.ok("Email login successful"));
+        notifyOnSuccess(getProviderName());
     }
 
     @Override
-    public void onFailure(CallbackMessage result) {
-        notifyOnFailure(getProviderName(), CallbackMessage.error("Email login unsuccessful: " + result.getMessage()));
+    public void onFailure(AuthenticationError error) {
+        notifyOnFailure(getProviderName(), error);
     }
 }

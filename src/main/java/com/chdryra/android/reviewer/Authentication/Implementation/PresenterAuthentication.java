@@ -77,13 +77,17 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
     }
 
     @Override
-    public void onSuccess(String provider, CallbackMessage result) {
+    public void onSuccess(String provider) {
         mListener.onAuthenticated();
     }
 
     @Override
-    public void onFailure(String provider, CallbackMessage result) {
-        mListener.onAuthenticationFailed(result);
+    public void onFailure(String provider, AuthenticationError error) {
+        if(error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+            mListener.onUserUnknown();
+        } else {
+            mListener.onAuthenticationFailed(CallbackMessage.error(error.toString()));
+        }
     }
 
     public static class Builder {

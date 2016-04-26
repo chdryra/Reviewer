@@ -8,19 +8,16 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticationProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FacebookLogin extends AuthenticationProvider<FacebookLoginCallback> {
+public interface FacebookLogin extends CredentialsProvider<FacebookLoginCallback> {
     String NAME = "FacebookLogin";
 
     @Override
-    void requestAuthentication(FacebookLoginCallback resultListener);
+    void requestCredentials(FacebookLoginCallback resultListener);
 
     @Override
     String getName();

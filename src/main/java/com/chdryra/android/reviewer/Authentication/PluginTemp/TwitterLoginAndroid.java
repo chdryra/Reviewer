@@ -41,7 +41,7 @@ public class TwitterLoginAndroid extends Callback<TwitterSession> implements
     }
 
     @Override
-    public void requestAuthentication(TwitterLoginCallback resultListener) {
+    public void requestCredentials(TwitterLoginCallback resultListener) {
         setListener(resultListener);
         mTwitterAuthClient.authorize(mActivity, this);
     }

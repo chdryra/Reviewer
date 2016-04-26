@@ -19,16 +19,17 @@ import com.chdryra.android.reviewer.Utils.Password;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class EmailLoginImpl implements EmailLogin {
-    private static final String NAME = "EmailPassword";
+    private String mProvider;
     private EmailPassword mGetter;
 
-    public EmailLoginImpl(EmailPassword getter) {
+    public EmailLoginImpl(String provider, EmailPassword getter) {
+        mProvider = provider;
         mGetter = getter;
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return mProvider;
     }
 
     protected EmailAddress getEmail() {
