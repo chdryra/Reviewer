@@ -25,9 +25,7 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
-import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthenticationHandler;
-import com.chdryra.android.reviewer.Authentication.Implementation.Authenticator;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Implementation.PresenterAuthentication;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
@@ -42,7 +40,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentLogin extends Fragment implements AuthenticatorCallback {
+public class FragmentLogin extends Fragment implements PresenterAuthentication.AuthenticationListener {
     private static final int LAYOUT = R.layout.fragment_login;
 
     private static final int EMAIL_EDIT_TEXT = R.id.edit_text_login_email;
@@ -57,7 +55,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
     private static final int GOOGLE_LOGIN = R.id.login_google;
     private static final int TWITTER_LOGIN = R.id.login_twitter;
 
-    private Authenticator mAuthenticator;
+    private PresenterAuthentication mPresenter;
 
     private EmailLogin mEmailLogin;
     private GoogleLogin mGoogleLogin;
@@ -90,6 +88,8 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
         EditText email = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
         EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
+        mPresenter = new PresenterAuthentication.Builder().build(this);
+
         createAuthenticators(email, password);
 
         bindButtons(facebookButton, googleButton, twitterButton, emailButton);
@@ -99,18 +99,23 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mAuthenticator.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
-    public void onSuccess(String provider, CallbackMessage result) {
+    public void onUserUnknown() {
+
+    }
+
+    @Override
+    public void onAuthenticated() {
         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
         launchFeedScreen();
     }
 
     @Override
-    public void onFailure(String provider, CallbackMessage result) {
-        Toast.makeText(getActivity(), "Login unsuccessful: " + result.getMessage(), Toast
+    public void onAuthenticationFailed(CallbackMessage message) {
+        Toast.makeText(getActivity(), "Login unsuccessful: " + message.getMessage(), Toast
                 .LENGTH_SHORT).show();
     }
 
@@ -120,7 +125,7 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
             @Override
             public void onClick(View v) {
                 if (mEmailPassword.validEmailPassword()) {
-                    mAuthenticator.requestAuthentication(mEmailLogin, FragmentLogin.this);
+                    mPresenter.requestAuthentication(mEmailLogin);
                 }
             }
         });
@@ -128,21 +133,21 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuthenticator.requestAuthentication(mFacebookLogin, FragmentLogin.this);
+                mPresenter.requestAuthentication(mFacebookLogin);
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuthenticator.requestAuthentication(mGoogleLogin, FragmentLogin.this);
+                mPresenter.requestAuthentication(mGoogleLogin);
             }
         });
 
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuthenticator.requestAuthentication(mTwitterLogin, FragmentLogin.this);
+                mPresenter.requestAuthentication(mTwitterLogin);
             }
         });
     }
@@ -155,8 +160,6 @@ public class FragmentLogin extends Fragment implements AuthenticatorCallback {
         mGoogleLogin = loginFactory.newGoogleLogin(getActivity());
         mFacebookLogin = loginFactory.newFacebookLogin(this);
         mTwitterLogin = loginFactory.newTwitterLogin(getActivity());
-
-        mAuthenticator = new Authenticator(new FactoryAuthenticationHandler());
     }
 
     private void launchFeedScreen() {

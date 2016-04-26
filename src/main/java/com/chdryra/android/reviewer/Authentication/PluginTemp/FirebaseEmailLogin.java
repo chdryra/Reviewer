@@ -6,13 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.Authentication.PluginTemp;
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.FirebaseBackend;
+import com.chdryra.android.reviewer.Authentication.Implementation.EmailLoginImpl;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLoginCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;

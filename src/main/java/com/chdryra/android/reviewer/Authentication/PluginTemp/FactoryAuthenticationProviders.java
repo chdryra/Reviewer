@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Authentication.PluginTemp;
 import android.app.Activity;
 import android.app.Fragment;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.FirebaseEmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;

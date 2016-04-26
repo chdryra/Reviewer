@@ -14,18 +14,11 @@ import android.app.Fragment;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Fragments.FragmentLogin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
-
-/**
- * UI Activity holding {@link FragmentEditLocationMap}: mapping and editing a location.
- */
 public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityLogin";
     private static final String KEY = "ActivityLogin";
