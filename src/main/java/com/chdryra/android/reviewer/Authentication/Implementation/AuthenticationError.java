@@ -53,7 +53,7 @@ public class AuthenticationError {
     @Override
     public String toString() {
         return "Error authenticating with " + mProvider + ": " + mReason.getMessage()
-                + (mDetail.length() > 0 ? "(" + mDetail + ")" : mDetail);
+                + (mDetail != null && mDetail.length() > 0 ? "(" + mDetail + ")" : mDetail);
     }
 
     public boolean is(Reason reason) {

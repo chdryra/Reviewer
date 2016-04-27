@@ -21,23 +21,25 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallb
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsAuthenticator {
-    public EmailAuthenticator newEmailAuthentcator(Authenticator authenticator,
-                                                   AuthenticatorCallback callback) {
-        return new EmailAuthenticator(authenticator, callback);
+    private Authenticator mAuthenticator;
+
+    public FactoryCredentialsAuthenticator(Authenticator authenticator) {
+        mAuthenticator = authenticator;
     }
 
-    public FacebookAuthenticator newFacebookAuthenticator(Authenticator authenticator, 
-                                                          AuthenticatorCallback callback) {
-        return new FacebookAuthenticator(authenticator, callback);
+    public EmailAuthenticator newEmailAuthenticator(AuthenticatorCallback callback) {
+        return new EmailAuthenticator(mAuthenticator, callback);
+    }
+
+    public FacebookAuthenticator newFacebookAuthenticator(AuthenticatorCallback callback) {
+        return new FacebookAuthenticator(mAuthenticator, callback);
     }
     
-    public GoogleAuthenticator newGoogleAuthenticator(Authenticator authenticator, 
-                                                      AuthenticatorCallback callback) {
-        return new GoogleAuthenticator(authenticator, callback);
+    public GoogleAuthenticator newGoogleAuthenticator(AuthenticatorCallback callback) {
+        return new GoogleAuthenticator(mAuthenticator, callback);
     }
 
-    public TwitterAuthenticator newTwitterAuthenticator(Authenticator authenticator,
-                                                        AuthenticatorCallback callback) {
-        return new TwitterAuthenticator(authenticator, callback);
+    public TwitterAuthenticator newTwitterAuthenticator(AuthenticatorCallback callback) {
+        return new TwitterAuthenticator(mAuthenticator, callback);
     }
 }

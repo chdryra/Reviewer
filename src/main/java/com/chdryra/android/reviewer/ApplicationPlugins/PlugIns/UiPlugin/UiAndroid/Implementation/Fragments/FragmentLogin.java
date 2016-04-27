@@ -126,7 +126,7 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
             @Override
             public void onClick(View v) {
                 if (mEmailPassword.validEmailPassword()) {
-                    mPresenter.requestAuthentication(mEmailPassword);
+                    mPresenter.authenticate(mEmailPassword);
                 }
             }
         });
@@ -134,21 +134,21 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.requestCredentials(mFacebookLogin);
+                mPresenter.authenticate(mFacebookLogin);
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.requestCredentials(mGoogleLogin);
+                mPresenter.authenticate(mGoogleLogin);
             }
         });
 
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.requestCredentials(mTwitterLogin);
+                mPresenter.authenticate(mTwitterLogin);
             }
         });
     }

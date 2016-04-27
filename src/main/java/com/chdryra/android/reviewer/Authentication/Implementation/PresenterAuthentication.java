@@ -14,7 +14,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
@@ -29,12 +28,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback {
-    private FactoryCredentialsHandler mHandlerFactory;
+    private FactoryCredentialsHandler mCredentialsHandlerFactory;
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
-    private CredentialsHandler mHandler;
-    private Authenticator mAuthenticator;
+    private CredentialsHandler mCredentialsHandler;
     private AuthenticationListener mListener;
+
+    private boolean mAuthenticating = false;
 
     public interface AuthenticationListener {
         void onUserUnknown();
@@ -44,47 +44,58 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
         void onAuthenticationFailed(CallbackMessage message);
     }
 
-    private PresenterAuthentication(FactoryCredentialsHandler handlerFactory,
-                                    Authenticator authenticator, AuthenticationListener listener) {
-        mHandlerFactory = handlerFactory;
-        mAuthenticator = authenticator;
+    private PresenterAuthentication(FactoryCredentialsHandler credentialsHandlerFactory,
+                                    FactoryCredentialsAuthenticator authenticatorFactory,
+                                    AuthenticationListener listener) {
+        mCredentialsHandlerFactory = credentialsHandlerFactory;
+        mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
     }
 
-    public void requestAuthentication(EmailPassword emailPassword) {
-        mAuthenticator.authenticateEmailPasswordCredentials(emailPassword.getEmail().toString(),
-                emailPassword.getPassword().toString(), this);
+    public void authenticate(EmailPassword emailPassword) {
+        if(!mAuthenticating) {
+            authenticating();
+            EmailAuthenticator authenticator = mAuthenticatorFactory.newEmailAuthenticator(this);
+            authenticator.authenticate(emailPassword);
+        }
     }
 
-    public void requestCredentials(FacebookLogin login) {
-        mHandler = mHandlerFactory.newHandler(login, new FacebookAuthenticator());
-        requestCredentials();
+    public void authenticate(FacebookLogin login) {
+        if(!mAuthenticating) {
+            authenticating();
+            FacebookAuthenticator authenticator = mAuthenticatorFactory.newFacebookAuthenticator(this);
+            mCredentialsHandler = mCredentialsHandlerFactory.newHandler(login, authenticator);
+            mCredentialsHandler.requestCredentials();
+        }
     }
 
-    public void requestCredentials(GoogleLogin login) {
-        mHandler = mHandlerFactory.newHandler(login, new GoogleAuthenticator());
-        requestCredentials();
+    public void authenticate(GoogleLogin login) {
+        if(!mAuthenticating) {
+            authenticating();
+            GoogleAuthenticator authenticator = mAuthenticatorFactory.newGoogleAuthenticator(this);
+            mCredentialsHandler = mCredentialsHandlerFactory.newHandler(login, authenticator);
+            mCredentialsHandler.requestCredentials();
+        }
     }
 
-    public void requestCredentials(TwitterLogin login) {
-        mHandler = mHandlerFactory.newHandler(login, new TwitterAuthenticator());
-        requestCredentials();
-    }
-
-    public void onCredentialsFailure(String provider, AuthenticationError error) {
-        mListener.onAuthenticationFailed(CallbackMessage.error(provider + " credentials: " +
-                error.toString()));
+    public void authenticate(TwitterLogin login) {
+        if(!mAuthenticating) {
+            authenticating();
+            TwitterAuthenticator authenticator = mAuthenticatorFactory.newTwitterAuthenticator(this);
+            mCredentialsHandler = mCredentialsHandlerFactory.newHandler(login, authenticator);
+            mCredentialsHandler.requestCredentials();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mHandler.onActivityResult(requestCode, resultCode, data);
+        mCredentialsHandler.onActivityResult(requestCode, resultCode, data);
     }
-
 
     @Override
     public void onSuccess(String provider) {
         mListener.onAuthenticated();
+        authenticationFinished();
     }
 
     @Override
@@ -94,10 +105,15 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
         } else {
             mListener.onAuthenticationFailed(CallbackMessage.error(error.toString()));
         }
+        authenticationFinished();
     }
 
-    private void requestCredentials() {
-        mHandler.requestCredentials();
+    private void authenticating() {
+        mAuthenticating = true;
+    }
+
+    private void authenticationFinished() {
+        mAuthenticating = false;
     }
 
     public static class Builder {
@@ -108,8 +124,8 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
         }
 
         public PresenterAuthentication build(AuthenticationListener listener) {
-            Authenticator authenticator = mApp.getUserAuthenticator();
-            return new PresenterAuthentication(new FactoryCredentialsHandler(), authenticator,
+            return new PresenterAuthentication(new FactoryCredentialsHandler(),
+                    new FactoryCredentialsAuthenticator(mApp.getUserAuthenticator()),
                     listener);
         }
     }
