@@ -24,6 +24,10 @@ import java.util.Map;
  */
 public class FirebaseAuthenticator implements Authenticator {
     private static final String NAME = "Firebase";
+    private static final String FACEBOOK = "facebook";
+    private static final String TWITTER = "twitter";
+    private static final String GOOGLE = "google";
+    private static final String EMAIL = "email";
 
     private Firebase mRoot;
 
@@ -37,61 +41,61 @@ public class FirebaseAuthenticator implements Authenticator {
 
             @Override
             public void onAuthenticated(AuthData authData) {
-
+                callback.onSuccess(EMAIL);
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-
+                callback.onFailure(EMAIL, getError(firebaseError));
             }
         });
     }
 
     @Override
-    public void authenticateFacebookCredentials(String token, AuthenticatorCallback callback) {
-        mRoot.authWithOAuthToken("facebook", token, new Firebase.AuthResultHandler() {
+    public void authenticateFacebookCredentials(String token, final AuthenticatorCallback callback) {
+        mRoot.authWithOAuthToken(FACEBOOK, token, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-
+                callback.onSuccess(FACEBOOK);
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-
+                callback.onFailure(FACEBOOK, getError(firebaseError));
             }
         });
     }
 
     @Override
-    public void authenticateTwitterCredentials(String token, String secret, long userId, AuthenticatorCallback callback) {
+    public void authenticateTwitterCredentials(String token, String secret, long userId, final AuthenticatorCallback callback) {
         Map<String, String> options = new HashMap<>();
         options.put("oauth_token", token);
         options.put("oauth_token_secret", secret);
         options.put("user_id", String.valueOf(userId));
-        mRoot.authWithOAuthToken("twitter", options, new Firebase.AuthResultHandler() {
+        mRoot.authWithOAuthToken(TWITTER, options, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-
+                callback.onSuccess(TWITTER);
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-
+                callback.onFailure(TWITTER, getError(firebaseError));
             }
         });
     }
 
     @Override
-    public void authenticateGoogleCredentials(String token, AuthenticatorCallback callback) {
-        mRoot.authWithOAuthToken("facebook", token, new Firebase.AuthResultHandler() {
+    public void authenticateGoogleCredentials(final String token, final AuthenticatorCallback callback) {
+        mRoot.authWithOAuthToken(GOOGLE, token, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-
+                callback.onSuccess(GOOGLE);
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-
+                callback.onFailure(GOOGLE, getError(firebaseError));
             }
         });
     }
