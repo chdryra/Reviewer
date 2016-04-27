@@ -11,9 +11,11 @@ package com.chdryra.android.reviewer.Authentication.Factories;
 import com.chdryra.android.reviewer.Authentication.Implementation.FacebookCredentials;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleCredentials;
 import com.chdryra.android.reviewer.Authentication.Implementation.TwitterCredentials;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 
 /**
@@ -22,15 +24,18 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsHandler {
-    public FacebookCredentials newHandler(FacebookLogin provider, AuthenticatorCallback callback) {
+    public FacebookCredentials newHandler(FacebookLogin provider,
+                                          FacebookCredentialsCallback callback) {
         return new FacebookCredentials(provider, callback);
     }
 
-    public GoogleCredentials newHandler(GoogleLogin provider, AuthenticatorCallback callback) {
+    public GoogleCredentials newHandler(GoogleLogin provider,
+                                        GoogleCredentialsCallback callback) {
         return new GoogleCredentials(provider, callback);
     }
 
-    public TwitterCredentials newHandler(TwitterLogin provider, AuthenticatorCallback callback) {
+    public TwitterCredentials newHandler(TwitterLogin provider,
+                                         TwitterCredentialsCallback callback) {
         return new TwitterCredentials(provider, callback);
     }
 }

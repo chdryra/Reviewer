@@ -10,10 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
@@ -34,7 +31,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -50,7 +46,6 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
 
     private static final int SIGN_IN = RequestCodeGenerator.getCode("SignIn");
     private static final int REQUEST_RESOLVE_ERROR = RequestCodeGenerator.getCode("ResolveError");
-    private static final String DIALOG_ERROR = "dialog_error";
 
     private boolean mResolvingError = false;
 
@@ -158,9 +153,9 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     private void showErrorDialog(int errorCode) {
         ErrorDialogFragment dialog = new ErrorDialogFragment();
         Bundle args = new Bundle();
-        args.putInt(DIALOG_ERROR, errorCode);
+        args.putInt(ErrorDialogFragment.DIALOG_ERROR, errorCode);
         dialog.setTargetFragment(this, REQUEST_RESOLVE_ERROR);
-        DialogShower.show(dialog, getActivity(), REQUEST_RESOLVE_ERROR, DIALOG_ERROR, args);
+        DialogShower.show(dialog, getActivity(), REQUEST_RESOLVE_ERROR, ErrorDialogFragment.DIALOG_ERROR, args);
     }
 
     private View.OnClickListener newSignInListener() {
@@ -185,20 +180,4 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
         }
     }
 
-    public static class ErrorDialogFragment extends DialogFragment {
-        public ErrorDialogFragment() {
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            int errorCode = this.getArguments().getInt(DIALOG_ERROR);
-            return GoogleApiAvailability.getInstance().getErrorDialog(
-                    this.getActivity(), errorCode, REQUEST_RESOLVE_ERROR);
-        }
-
-        @Override
-        public void onDismiss(DialogInterface dialog) {
-            ((FragmentGoogleLogin) getTargetFragment()).onDialogDismissed();
-        }
-    }
 }

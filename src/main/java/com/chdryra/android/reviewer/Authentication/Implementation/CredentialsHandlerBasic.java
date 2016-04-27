@@ -8,43 +8,56 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import android.content.Intent;
+
 import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class CredentialsHandlerBasic<T extends BinaryResultCallback> {
+public abstract class CredentialsHandlerBasic<C, T extends BinaryResultCallback>
+        implements CredentialsHandler {
     private CredentialsProvider<T> mProvider;
-    private AuthenticatorCallback mCallback;
+    private CredentialsCallback<C> mCallback;
 
-    protected abstract T getProviderCallback();
-
-    public CredentialsHandlerBasic(CredentialsProvider<T> provider, AuthenticatorCallback callback) {
+    public CredentialsHandlerBasic(CredentialsProvider<T> provider, CredentialsCallback<C>
+            callback) {
         mProvider = provider;
         mCallback = callback;
     }
 
-    String getProviderName() {
+    protected abstract T getProviderCallback();
+
+    protected String getProviderName() {
         return mProvider.getName();
     }
 
-    public CredentialsProvider<T> getProvider() {
-        return mProvider;
+    protected void notifyOnSuccess(String provider, C credentials) {
+        mCallback.onCredentialsObtained(provider, credentials);
     }
 
+    protected void notifyOnFailure(String provider, AuthenticationError error) {
+        mCallback.onCredentialsFailure(provider, error);
+    }
+
+    @Override
     public void requestCredentials() {
         mProvider.requestCredentials(getProviderCallback());
     }
 
-    protected void notifyOnSuccess(String provider) {
-        mCallback.onSuccess(provider);
-    }
-
-    protected void notifyOnFailure(String provider, AuthenticationError error) {
-        mCallback.onFailure(provider, error);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            ActivityResultListener provider = (ActivityResultListener) mProvider;
+            provider.onActivityResult(requestCode, resultCode, data);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
     }
 }

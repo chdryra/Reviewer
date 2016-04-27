@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
 import com.twitter.sdk.android.core.Result;
@@ -20,9 +20,9 @@ import com.twitter.sdk.android.core.TwitterSession;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class TwitterCredentials extends CredentialsHandlerBasic<TwitterLoginCallback>
+public class TwitterCredentials extends CredentialsHandlerBasic<TwitterSession, TwitterLoginCallback>
         implements TwitterLoginCallback {
-    public TwitterCredentials(TwitterLogin provider, AuthenticatorCallback callback) {
+    public TwitterCredentials(TwitterLogin provider, TwitterCredentialsCallback callback) {
         super(provider, callback);
     }
 
@@ -33,7 +33,7 @@ public class TwitterCredentials extends CredentialsHandlerBasic<TwitterLoginCall
 
     @Override
     public void onSuccess(Result<TwitterSession> result) {
-        notifyOnSuccess(getProviderName());
+        notifyOnSuccess(getProviderName(), result.data);
     }
 
     @Override

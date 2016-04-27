@@ -25,14 +25,12 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
-
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.PresenterAuthentication;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
-import com.chdryra.android.reviewer.Authentication.PluginTemp.FactoryAuthenticationProviders;
+import com.chdryra.android.reviewer.Authentication.PluginTemp.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -59,7 +57,6 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
 
     private PresenterAuthentication mPresenter;
 
-    private EmailLogin mEmailLogin;
     private GoogleLogin mGoogleLogin;
     private FacebookLogin mFacebookLogin;
     private TwitterLogin mTwitterLogin;
@@ -92,8 +89,9 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
         mPresenter = new PresenterAuthentication.Builder(app).build(this);
+        mEmailPassword = new EmailPasswordEditTexts(email, password);
 
-        createAuthenticators(email, password);
+        createAuthenticators();
 
         bindButtons(facebookButton, googleButton, twitterButton, emailButton);
 
@@ -155,14 +153,11 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         });
     }
 
-    private void createAuthenticators(EditText email, EditText password) {
-        FactoryAuthenticationProviders loginFactory = new FactoryAuthenticationProviders();
-
-        mEmailPassword = new EmailPasswordEditTexts(email, password);
-        mEmailLogin = loginFactory.newEmailLogin(mEmailPassword);
-        mGoogleLogin = loginFactory.newGoogleLogin(getActivity());
+    private void createAuthenticators() {
+        FactoryCredentialProviders loginFactory = new FactoryCredentialProviders();
+        mGoogleLogin = loginFactory.newGoogleLogin(this);
         mFacebookLogin = loginFactory.newFacebookLogin(this);
-        mTwitterLogin = loginFactory.newTwitterLogin(getActivity());
+        mTwitterLogin = loginFactory.newTwitterLogin(this);
     }
 
     private void launchFeedScreen() {

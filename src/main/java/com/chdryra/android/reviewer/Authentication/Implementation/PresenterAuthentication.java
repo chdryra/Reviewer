@@ -12,9 +12,11 @@ import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
@@ -26,13 +28,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback{
-    private CredentialsHandlerBasic<?> mRequestedProvider;
+public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback {
     private FactoryCredentialsHandler mHandlerFactory;
+    private FactoryCredentialsAuthenticator mAuthenticatorFactory;
+
+    private CredentialsHandler mHandler;
     private Authenticator mAuthenticator;
     private AuthenticationListener mListener;
-    private boolean mAuthenticating = false;
-    private boolean mRequestinCredentials = false;
 
     public interface AuthenticationListener {
         void onUserUnknown();
@@ -41,7 +43,7 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
 
         void onAuthenticationFailed(CallbackMessage message);
     }
-    
+
     private PresenterAuthentication(FactoryCredentialsHandler handlerFactory,
                                     Authenticator authenticator, AuthenticationListener listener) {
         mHandlerFactory = handlerFactory;
@@ -50,39 +52,35 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
     }
 
     public void requestAuthentication(EmailPassword emailPassword) {
-        mAuthenticating = true;
         mAuthenticator.authenticateEmailPasswordCredentials(emailPassword.getEmail().toString(),
                 emailPassword.getPassword().toString(), this);
     }
 
     public void requestCredentials(FacebookLogin login) {
-        mRequestedProvider = mHandlerFactory.newHandler(login, this);
+        mHandler = mHandlerFactory.newHandler(login, new FacebookAuthenticator());
         requestCredentials();
     }
 
     public void requestCredentials(GoogleLogin login) {
-        mRequestedProvider = mHandlerFactory.newHandler(login, this);
+        mHandler = mHandlerFactory.newHandler(login, new GoogleAuthenticator());
         requestCredentials();
     }
 
     public void requestCredentials(TwitterLogin login) {
-        mRequestedProvider = mHandlerFactory.newHandler(login, this);
+        mHandler = mHandlerFactory.newHandler(login, new TwitterAuthenticator());
         requestCredentials();
     }
 
-    private void requestCredentials() {
-        mRequestedProvider.requestCredentials();
+    public void onCredentialsFailure(String provider, AuthenticationError error) {
+        mListener.onAuthenticationFailed(CallbackMessage.error(provider + " credentials: " +
+                error.toString()));
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            ActivityResultListener provider = (ActivityResultListener)mRequestedProvider.getProvider();
-            provider.onActivityResult(requestCode, resultCode, data);
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-        }
+        mHandler.onActivityResult(requestCode, resultCode, data);
     }
+
 
     @Override
     public void onSuccess(String provider) {
@@ -91,11 +89,15 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
 
     @Override
     public void onFailure(String provider, AuthenticationError error) {
-        if(error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+        if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
             mListener.onUserUnknown();
         } else {
             mListener.onAuthenticationFailed(CallbackMessage.error(error.toString()));
         }
+    }
+
+    private void requestCredentials() {
+        mHandler.requestCredentials();
     }
 
     public static class Builder {
@@ -107,7 +109,9 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
 
         public PresenterAuthentication build(AuthenticationListener listener) {
             Authenticator authenticator = mApp.getUserAuthenticator();
-            return new PresenterAuthentication(new FactoryCredentialsHandler(), authenticator, listener);
+            return new PresenterAuthentication(new FactoryCredentialsHandler(), authenticator,
+                    listener);
         }
     }
+
 }

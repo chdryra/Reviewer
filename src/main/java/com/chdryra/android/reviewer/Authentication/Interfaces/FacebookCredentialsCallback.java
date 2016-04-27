@@ -8,14 +8,12 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.facebook.AccessToken;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 21/04/2016
+ * On: 27/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface EmailLoginCallback extends BinaryResultCallback<UserId, AuthenticationError> {
-
+public interface FacebookCredentialsCallback extends CredentialsCallback<AccessToken> {
 }

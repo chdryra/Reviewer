@@ -8,15 +8,18 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import android.content.Intent;
+
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 26/04/2016
+ * On: 27/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface EmailLogin extends CredentialsProvider<EmailLoginCallback> {
-    @Override
-    String getName();
+public interface CredentialsHandler extends ActivityResultListener {
+    void requestCredentials();
 
     @Override
-    void requestCredentials(EmailLoginCallback callback);
+    void onActivityResult(int requestCode, int resultCode, Intent data);
 }

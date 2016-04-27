@@ -10,24 +10,30 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
+import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookCredentialsCallback;
+import com.facebook.AccessToken;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAuthenticator {
+public class FacebookAuthenticator implements FacebookCredentialsCallback {
     private final Authenticator mAuthenticator;
     private final AuthenticatorCallback mCallback;
 
-    public EmailAuthenticator(Authenticator authenticator, AuthenticatorCallback callback) {
+    public FacebookAuthenticator(Authenticator authenticator, AuthenticatorCallback callback) {
         mAuthenticator = authenticator;
         mCallback = callback;
     }
 
-    public void authenticate(EmailPassword emailPassword) {
-        mAuthenticator.authenticateEmailPasswordCredentials(emailPassword.getEmail().toString(),
-                emailPassword.getPassword().toString(), mCallback);
+    @Override
+    public void onCredentialsObtained(String provider, AccessToken credentials) {
+        mAuthenticator.authenticateFacebookCredentials(credentials.getToken(), mCallback);
+    }
+
+    @Override
+    public void onCredentialsFailure(String provider, AuthenticationError error) {
+        mCallback.onFailure(provider, error);
     }
 }

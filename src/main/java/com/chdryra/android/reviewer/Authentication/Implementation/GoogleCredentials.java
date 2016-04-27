@@ -8,9 +8,10 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 /**
@@ -18,9 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GoogleCredentials extends CredentialsHandlerBasic<GoogleLoginCallback>
+public class GoogleCredentials extends CredentialsHandlerBasic<GoogleSignInAccount, GoogleLoginCallback>
         implements GoogleLoginCallback {
-    public GoogleCredentials(GoogleLogin provider, AuthenticatorCallback callback) {
+    public GoogleCredentials(GoogleLogin provider, GoogleCredentialsCallback callback) {
         super(provider, callback);
     }
 
@@ -31,7 +32,12 @@ public class GoogleCredentials extends CredentialsHandlerBasic<GoogleLoginCallba
 
     @Override
     public void onSuccess(GoogleSignInResult result) {
-        notifyOnSuccess(getProviderName());
+        GoogleSignInAccount signInAccount = result.getSignInAccount();
+        if(signInAccount != null) {
+            notifyOnSuccess(getProviderName(), signInAccount);
+        } else {
+            onFailure(result);
+        }
     }
 
     @Override

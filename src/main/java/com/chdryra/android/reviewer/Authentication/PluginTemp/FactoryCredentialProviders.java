@@ -8,11 +8,8 @@
 
 package com.chdryra.android.reviewer.Authentication.PluginTemp;
 
-import android.app.Activity;
 import android.app.Fragment;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
@@ -22,20 +19,16 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryAuthenticationProviders {
-    public EmailLogin newEmailLogin(EmailPassword emailPassword) {
-        return new FirebaseEmailLogin(emailPassword);
-    }
-
+public class FactoryCredentialProviders {
     public FacebookLogin newFacebookLogin(Fragment fragment) {
         return new FacebookLoginAndroid(fragment);
     }
 
-    public TwitterLogin newTwitterLogin(Activity activity) {
-        return new TwitterLoginAndroid(activity);
+    public TwitterLogin newTwitterLogin(Fragment fragment) {
+        return new TwitterLoginAndroid(fragment.getActivity());
     }
 
-    public GoogleLogin newGoogleLogin(Activity activity) {
-        return new GoogleLoginAndroid(activity);
+    public GoogleLogin newGoogleLogin(Fragment fragment) {
+        return new GoogleLoginAndroid(fragment.getActivity());
     }
 }
