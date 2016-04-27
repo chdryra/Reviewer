@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Authentication.Factories;
 
+import android.content.Context;
+
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Implementation.FacebookAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Implementation.GoogleAuthenticator;
@@ -21,9 +23,11 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallb
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsAuthenticator {
+    private Context mContext;
     private Authenticator mAuthenticator;
 
-    public FactoryCredentialsAuthenticator(Authenticator authenticator) {
+    public FactoryCredentialsAuthenticator(Context context, Authenticator authenticator) {
+        mContext = context;
         mAuthenticator = authenticator;
     }
 
@@ -36,7 +40,7 @@ public class FactoryCredentialsAuthenticator {
     }
     
     public GoogleAuthenticator newGoogleAuthenticator(AuthenticatorCallback callback) {
-        return new GoogleAuthenticator(mAuthenticator, callback);
+        return new GoogleAuthenticator(mContext, mAuthenticator, callback);
     }
 
     public TwitterAuthenticator newTwitterAuthenticator(AuthenticatorCallback callback) {

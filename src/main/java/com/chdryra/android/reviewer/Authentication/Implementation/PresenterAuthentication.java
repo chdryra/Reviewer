@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
+import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -117,15 +118,17 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
     }
 
     public static class Builder {
+        private Context mContext;
         private ApplicationInstance mApp;
 
-        public Builder(ApplicationInstance app) {
+        public Builder(Context context, ApplicationInstance app) {
+            mContext = context;
             mApp = app;
         }
 
         public PresenterAuthentication build(AuthenticationListener listener) {
             return new PresenterAuthentication(new FactoryCredentialsHandler(),
-                    new FactoryCredentialsAuthenticator(mApp.getUserAuthenticator()),
+                    new FactoryCredentialsAuthenticator(mContext, mApp.getUserAuthenticator()),
                     listener);
         }
     }

@@ -19,7 +19,9 @@ import com.chdryra.android.reviewer.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 
 /**
  * Created by: Rizwan Choudrey
@@ -41,6 +43,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
         GoogleSignInOptions options = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(activity.getString(GOOGLE_CLIENT_ID))
+                .requestScopes(new Scope(Scopes.PROFILE))
                 .build();
 
         mGoogleApiClient = new GoogleApiClient

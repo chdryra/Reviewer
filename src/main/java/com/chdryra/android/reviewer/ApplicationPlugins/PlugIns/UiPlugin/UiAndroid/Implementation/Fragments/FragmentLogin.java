@@ -88,7 +88,7 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        mPresenter = new PresenterAuthentication.Builder(app).build(this);
+        mPresenter = new PresenterAuthentication.Builder(getActivity(), app).build(this);
         mEmailPassword = new EmailPasswordEditTexts(email, password);
 
         createAuthenticators();
