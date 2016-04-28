@@ -8,12 +8,15 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FacebookLogin extends CredentialsProvider<FacebookLoginCallback> {
+    String PERMISSION = PlatformFacebook.REQUIRED_PERMISSION;
     String NAME = "FacebookLogin";
 
     @Override

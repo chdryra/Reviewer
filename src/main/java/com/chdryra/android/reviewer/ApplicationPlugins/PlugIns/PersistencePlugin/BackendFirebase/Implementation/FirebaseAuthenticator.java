@@ -6,8 +6,9 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;

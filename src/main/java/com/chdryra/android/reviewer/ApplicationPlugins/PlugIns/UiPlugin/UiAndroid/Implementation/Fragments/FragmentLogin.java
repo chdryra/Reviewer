@@ -26,8 +26,8 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Authentication.Implementation.PresenterAuthentication;
-import com.chdryra.android.reviewer.Authentication.PluginTemp.FactoryCredentialProviders;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -37,7 +37,7 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentLogin extends Fragment implements PresenterAuthentication.AuthenticationListener {
+public class FragmentLogin extends Fragment implements PresenterLogin.LoginListener {
     private static final int LAYOUT = R.layout.fragment_login;
 
     private static final int EMAIL_EDIT_TEXT = R.id.edit_text_login_email;
@@ -52,7 +52,7 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
     private static final int GOOGLE_LOGIN = R.id.login_google;
     private static final int TWITTER_LOGIN = R.id.login_twitter;
 
-    private PresenterAuthentication mPresenter;
+    private PresenterLogin mPresenter;
     private EmailPasswordEditTexts mEmailPassword;
 
     public static FragmentLogin newInstance() {
@@ -81,7 +81,7 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        mPresenter = new PresenterAuthentication.Builder(app).build(this);
+        mPresenter = new PresenterLogin.Builder(app).build(this);
         mEmailPassword = new EmailPasswordEditTexts(email, password);
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);

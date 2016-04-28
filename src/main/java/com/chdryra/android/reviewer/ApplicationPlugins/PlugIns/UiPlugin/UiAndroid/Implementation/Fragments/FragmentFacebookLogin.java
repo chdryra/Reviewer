@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivitySocialAuthUi;
-import com.chdryra.android.reviewer.Authentication.PluginTemp.FacebookLoginAndroid;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FacebookLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.R;
 import com.facebook.FacebookException;

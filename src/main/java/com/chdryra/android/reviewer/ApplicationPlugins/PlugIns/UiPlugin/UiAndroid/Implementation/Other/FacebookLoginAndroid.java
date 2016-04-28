@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.PluginTemp;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other;
 
 
 import android.app.Fragment;
@@ -15,7 +15,6 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -32,8 +31,6 @@ import java.util.List;
  */
 public class FacebookLoginAndroid
         implements FacebookLogin, ActivityResultListener, FacebookCallback<LoginResult> {
-
-    private static final String PERMISSION = PlatformFacebook.REQUIRED_PERMISSION;
     private static final List<String> PERMISSIONS;
     static {
         PERMISSIONS = new ArrayList<>();

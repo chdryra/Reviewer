@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.FirebaseValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Interfaces.FirebaseDb;
-import com.chdryra.android.reviewer.Authentication.Implementation.FirebaseAuthenticator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;

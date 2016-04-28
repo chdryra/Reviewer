@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.PluginTemp;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other;
 
 import android.app.Fragment;
 

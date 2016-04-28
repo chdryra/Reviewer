@@ -26,6 +26,7 @@ import com.twitter.sdk.android.core.TwitterSession;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsHandler {
+
     public CredentialsHandler newHandler(FacebookLogin provider,
                                          CredentialsCallback<AccessToken> callback) {
         return new CredentialsHandlerFacebook(provider, callback);

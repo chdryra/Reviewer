@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.Implementation;
+package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import android.content.Intent;
 
@@ -14,6 +14,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
@@ -27,16 +28,16 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback {
+public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback {
     private FactoryCredentialsHandler mHandlerFactory;
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
     private CredentialsHandler mHandler;
-    private AuthenticationListener mListener;
+    private LoginListener mListener;
 
     private boolean mAuthenticating = false;
 
-    public interface AuthenticationListener {
+    public interface LoginListener {
         void onUserUnknown();
 
         void onAuthenticated();
@@ -44,9 +45,9 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
         void onAuthenticationFailed(CallbackMessage message);
     }
 
-    private PresenterAuthentication(FactoryCredentialsHandler handlerFactory,
-                                    FactoryCredentialsAuthenticator authenticatorFactory,
-                                    AuthenticationListener listener) {
+    private PresenterLogin(FactoryCredentialsHandler handlerFactory,
+                           FactoryCredentialsAuthenticator authenticatorFactory,
+                           LoginListener listener) {
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
@@ -121,8 +122,8 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
             mApp = app;
         }
 
-        public PresenterAuthentication build(AuthenticationListener listener) {
-            return new PresenterAuthentication(new FactoryCredentialsHandler(),
+        public PresenterLogin build(LoginListener listener) {
+            return new PresenterLogin(new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(mApp.getUserAuthenticator()), listener);
         }
     }

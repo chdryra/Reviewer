@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Authentication.PluginTemp;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +31,6 @@ import com.google.android.gms.common.api.Scope;
 public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
     private static final int GOOGLE_SIGN_IN = RequestCodeGenerator.getCode("GoogleSignIn");
     private static final int GOOGLE_CLIENT_ID = R.string.google_client_id;
-    private static final String NAME = "GoogleSignIn";
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleLoginCallback mListener;
