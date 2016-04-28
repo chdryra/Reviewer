@@ -32,6 +32,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.PluginTemp.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.R;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
@@ -96,6 +97,10 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         bindButtons(facebookButton, googleButton, twitterButton, emailButton);
 
         return view;
+    }
+
+    public void cancelAuthentication() {
+        if(mPresenter != null) mPresenter.cancelAuthenticating();
     }
 
     @Override
@@ -164,5 +169,10 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         Intent intent = new Intent(getActivity(), ActivityUsersFeed.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    @Override
+    public void onGoogleAuthorisationRequired(UserRecoverableAuthException e, int requestCode) {
+        startActivityForResult(e.getIntent(), requestCode);
     }
 }

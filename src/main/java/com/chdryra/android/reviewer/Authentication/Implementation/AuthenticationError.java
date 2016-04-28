@@ -19,6 +19,7 @@ public class AuthenticationError {
         INVALID_EMAIL("Email doesn't make sense"),
         INVALID_PASSWORD("Password is invalid"),
         INVALID_CREDENTIALS("Credentials are invalid"),
+        AUTHORISATION_REFUSED("Authorisation refused"),
         UNKNOWN_USER("Unknown user"),
         EMAIL_TAKEN("Email is already taken"),
         NETWORK_ERROR("Internet is having a rest"),

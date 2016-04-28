@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi {
     private static final String TAG = "ActivityLogin";
     private static final String KEY = "ActivityLogin";
-    private Fragment mFragment;
+    private FragmentLogin mFragment;
 
     @Override
     public String getLaunchTag() {
@@ -39,6 +39,12 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
         ApplicationLaunch.launchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
         mFragment = FragmentLogin.newInstance();
         return mFragment;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mFragment != null) mFragment.cancelAuthentication();
     }
 
     @Override

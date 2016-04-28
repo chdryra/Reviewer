@@ -39,8 +39,8 @@ public class FactoryCredentialsAuthenticator {
         return new FacebookAuthenticator(mAuthenticator, callback);
     }
     
-    public GoogleAuthenticator newGoogleAuthenticator(AuthenticatorCallback callback) {
-        return new GoogleAuthenticator(mContext, mAuthenticator, callback);
+    public GoogleAuthenticator newGoogleAuthenticator(AuthenticatorCallback callback, GoogleAuthenticator.UserRecoverableExceptionHandler handler) {
+        return new GoogleAuthenticator(mContext, mAuthenticator, callback, handler);
     }
 
     public TwitterAuthenticator newTwitterAuthenticator(AuthenticatorCallback callback) {

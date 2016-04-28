@@ -8,12 +8,16 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GoogleLogin extends CredentialsProvider<GoogleLoginCallback> {
+    GoogleSignInOptions DEFAULT_SIGN_IN = GoogleSignInOptions.DEFAULT_SIGN_IN;
+
     @Override
     void requestCredentials(GoogleLoginCallback resultListener);
 

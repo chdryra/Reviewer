@@ -41,9 +41,10 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
         mActivity = activity;
 
         GoogleSignInOptions options = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .Builder(DEFAULT_SIGN_IN)
                 .requestIdToken(activity.getString(GOOGLE_CLIENT_ID))
-                .requestScopes(new Scope(Scopes.PROFILE))
+                .requestScopes(new Scope(Scopes.EMAIL))
+                .requestEmail()
                 .build();
 
         mGoogleApiClient = new GoogleApiClient

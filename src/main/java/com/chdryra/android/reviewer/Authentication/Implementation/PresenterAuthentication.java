@@ -8,10 +8,12 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -22,13 +24,17 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback {
+public class PresenterAuthentication implements ActivityResultListener, AuthenticatorCallback, GoogleAuthenticator.UserRecoverableExceptionHandler {
+    private static final int REQUEST_AUTHORIZATION = RequestCodeGenerator.getCode("RequestAuthorisation");
+
     private FactoryCredentialsHandler mCredentialsHandlerFactory;
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
@@ -37,12 +43,18 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
 
     private boolean mAuthenticating = false;
 
+    private GoogleAuthenticator mGoogleAuthenticator;
+    private String mGoogleProvder;
+    private GoogleSignInAccount mGoogleAccount;
+
     public interface AuthenticationListener {
         void onUserUnknown();
 
         void onAuthenticated();
 
         void onAuthenticationFailed(CallbackMessage message);
+
+        void onGoogleAuthorisationRequired(UserRecoverableAuthException e, int requestCode);
     }
 
     private PresenterAuthentication(FactoryCredentialsHandler credentialsHandlerFactory,
@@ -73,8 +85,8 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
     public void authenticate(GoogleLogin login) {
         if(!mAuthenticating) {
             authenticating();
-            GoogleAuthenticator authenticator = mAuthenticatorFactory.newGoogleAuthenticator(this);
-            mCredentialsHandler = mCredentialsHandlerFactory.newHandler(login, authenticator);
+            mGoogleAuthenticator = mAuthenticatorFactory.newGoogleAuthenticator(this, this);
+            mCredentialsHandler = mCredentialsHandlerFactory.newHandler(login, mGoogleAuthenticator);
             mCredentialsHandler.requestCredentials();
         }
     }
@@ -90,7 +102,15 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCredentialsHandler.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_AUTHORIZATION) {
+            if(requestCode == Activity.RESULT_OK) {
+                mGoogleAuthenticator.onCredentialsObtained(mGoogleProvder, mGoogleAccount);
+            } else {
+                onFailure(mGoogleProvder, new AuthenticationError(mGoogleProvder, AuthenticationError.Reason.AUTHORISATION_REFUSED));
+            }
+        } else {
+            mCredentialsHandler.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -113,8 +133,18 @@ public class PresenterAuthentication implements ActivityResultListener, Authenti
         mAuthenticating = true;
     }
 
+    public void cancelAuthenticating() {
+        mAuthenticating = false;
+    }
+
     private void authenticationFinished() {
         mAuthenticating = false;
+    }
+
+    @Override
+    public void onAuthorisationRequired(String provider, GoogleSignInAccount credentials,
+                                        UserRecoverableAuthException e) {
+        mListener.onGoogleAuthorisationRequired(e, REQUEST_AUTHORIZATION);
     }
 
     public static class Builder {
