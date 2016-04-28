@@ -8,17 +8,21 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.facebook.AccessToken;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.twitter.sdk.android.core.TwitterSession;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface Authenticator {
-    void authenticateEmailPasswordCredentials(String email, String password, AuthenticatorCallback callback);
+    void authenticateCredentials(EmailPassword emailPassword, AuthenticatorCallback callback);
 
-    void authenticateFacebookCredentials(String token, AuthenticatorCallback callback);
+    void authenticateCredentials(AccessToken token, AuthenticatorCallback callback);
 
-    void authenticateTwitterCredentials(String token, String secret, long userId, AuthenticatorCallback callback);
+    void authenticateCredentials(TwitterSession session, AuthenticatorCallback callback);
 
-    void authenticateGoogleCredentials(String token, AuthenticatorCallback callback);
+    void authenticateCredentials(GoogleSignInAccount account, AuthenticatorCallback callback);
 }

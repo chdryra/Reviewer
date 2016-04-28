@@ -8,14 +8,13 @@
 
 package com.chdryra.android.reviewer.Authentication.Factories;
 
-import android.content.Context;
-
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.FacebookAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.GoogleAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Implementation.TwitterAuthenticator;
+import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsAuthenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.facebook.AccessToken;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,27 +22,45 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallb
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsAuthenticator {
-    private Context mContext;
     private Authenticator mAuthenticator;
 
-    public FactoryCredentialsAuthenticator(Context context, Authenticator authenticator) {
-        mContext = context;
+    public FactoryCredentialsAuthenticator(Authenticator authenticator) {
         mAuthenticator = authenticator;
     }
 
-    public EmailAuthenticator newEmailAuthenticator(AuthenticatorCallback callback) {
-        return new EmailAuthenticator(mAuthenticator, callback);
+    public CredentialsAuthenticator<EmailPassword> newEmailAuthenticator(AuthenticatorCallback callback) {
+        return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<EmailPassword>() {
+            @Override
+            public void authenticate(EmailPassword credentials, AuthenticatorCallback callback) {
+                mAuthenticator.authenticateCredentials(credentials, callback);           
+            }
+        });
     }
 
-    public FacebookAuthenticator newFacebookAuthenticator(AuthenticatorCallback callback) {
-        return new FacebookAuthenticator(mAuthenticator, callback);
+    public CredentialsAuthenticator<AccessToken> newFacebookAuthenticator(AuthenticatorCallback callback) {
+        return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<AccessToken>() {
+            @Override
+            public void authenticate(AccessToken credentials, AuthenticatorCallback callback) {
+                mAuthenticator.authenticateCredentials(credentials, callback);
+            }
+        });
     }
     
-    public GoogleAuthenticator newGoogleAuthenticator(AuthenticatorCallback callback, GoogleAuthenticator.UserRecoverableExceptionHandler handler) {
-        return new GoogleAuthenticator(mContext, mAuthenticator, callback, handler);
+    public CredentialsAuthenticator<GoogleSignInAccount> newGoogleAuthenticator(AuthenticatorCallback callback) {
+        return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<GoogleSignInAccount>() {
+            @Override
+            public void authenticate(GoogleSignInAccount credentials, AuthenticatorCallback callback) {
+                mAuthenticator.authenticateCredentials(credentials, callback);
+            }
+        });
     }
 
-    public TwitterAuthenticator newTwitterAuthenticator(AuthenticatorCallback callback) {
-        return new TwitterAuthenticator(mAuthenticator, callback);
+    public CredentialsAuthenticator<TwitterSession> newTwitterAuthenticator(AuthenticatorCallback callback) {
+        return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<TwitterSession>() {
+            @Override
+            public void authenticate(TwitterSession credentials, AuthenticatorCallback callback) {
+                mAuthenticator.authenticateCredentials(credentials, callback);
+            }
+        });
     }
 }

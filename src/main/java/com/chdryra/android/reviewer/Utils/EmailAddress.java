@@ -14,7 +14,6 @@ package com.chdryra.android.reviewer.Utils;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EmailAddress {
-
     private String mEmail;
 
     public EmailAddress(String email) {

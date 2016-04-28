@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleCredentialsCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,9 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
  * On: 25/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GoogleCredentials extends CredentialsHandlerBasic<GoogleSignInAccount, GoogleLoginCallback>
+public class CredentialsHandlerGoogle extends CredentialsHandlerBasic<GoogleSignInAccount, GoogleLoginCallback>
         implements GoogleLoginCallback {
-    public GoogleCredentials(GoogleLogin provider, GoogleCredentialsCallback callback) {
+    public CredentialsHandlerGoogle(GoogleLogin provider, CredentialsCallback<GoogleSignInAccount> callback) {
         super(provider, callback);
     }
 

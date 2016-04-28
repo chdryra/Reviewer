@@ -51,6 +51,10 @@ public class AuthenticationError {
         mDetail = detail;
     }
 
+    public String getProvider() {
+        return mProvider;
+    }
+
     @Override
     public String toString() {
         return "Error authenticating with " + mProvider + ": " + mReason.getMessage()

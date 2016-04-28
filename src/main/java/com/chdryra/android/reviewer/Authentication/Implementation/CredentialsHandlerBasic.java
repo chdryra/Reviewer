@@ -26,8 +26,7 @@ public abstract class CredentialsHandlerBasic<C, T extends BinaryResultCallback>
     private CredentialsProvider<T> mProvider;
     private CredentialsCallback<C> mCallback;
 
-    public CredentialsHandlerBasic(CredentialsProvider<T> provider, CredentialsCallback<C>
-            callback) {
+    public CredentialsHandlerBasic(CredentialsProvider<T> provider, CredentialsCallback<C> callback) {
         mProvider = provider;
         mCallback = callback;
     }

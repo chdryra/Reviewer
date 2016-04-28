@@ -18,5 +18,5 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 public interface AuthenticatorCallback {
     void onSuccess(String provider);
 
-    void onFailure(String provider, AuthenticationError error);
+    void onFailure(AuthenticationError error);
 }

@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other;
 
 
+
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;

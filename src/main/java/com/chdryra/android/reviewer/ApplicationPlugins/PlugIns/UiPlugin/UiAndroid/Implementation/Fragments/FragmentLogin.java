@@ -27,12 +27,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.PresenterAuthentication;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.PluginTemp.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.R;
-import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.SignInButton;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
@@ -57,10 +53,6 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
     private static final int TWITTER_LOGIN = R.id.login_twitter;
 
     private PresenterAuthentication mPresenter;
-
-    private GoogleLogin mGoogleLogin;
-    private FacebookLogin mFacebookLogin;
-    private TwitterLogin mTwitterLogin;
     private EmailPasswordEditTexts mEmailPassword;
 
     public static FragmentLogin newInstance() {
@@ -89,18 +81,16 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        mPresenter = new PresenterAuthentication.Builder(getActivity(), app).build(this);
+        mPresenter = new PresenterAuthentication.Builder(app).build(this);
         mEmailPassword = new EmailPasswordEditTexts(email, password);
 
-        createAuthenticators();
-
-        bindButtons(facebookButton, googleButton, twitterButton, emailButton);
+        bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
         return view;
     }
 
     public void cancelAuthentication() {
-        if(mPresenter != null) mPresenter.cancelAuthenticating();
+        if(mPresenter != null) mPresenter.authenticationFinished();
     }
 
     @Override
@@ -110,7 +100,7 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
 
     @Override
     public void onUserUnknown() {
-
+        Toast.makeText(getActivity(), "User unknown", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -125,8 +115,10 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
                 .LENGTH_SHORT).show();
     }
 
-    private void bindButtons(Button facebookButton, Button googleButton, Button twitterButton,
-                             Button emailButton) {
+    private void bindButtonsToProviders(Button facebookButton, Button googleButton,
+                                        Button twitterButton, Button emailButton) {
+        final FactoryCredentialProviders providers = new FactoryCredentialProviders();
+
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,40 +131,28 @@ public class FragmentLogin extends Fragment implements PresenterAuthentication.A
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.authenticate(mFacebookLogin);
+                mPresenter.authenticate(providers.newFacebookLogin(FragmentLogin.this));
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.authenticate(mGoogleLogin);
+                mPresenter.authenticate(providers.newGoogleLogin(FragmentLogin.this));
             }
         });
 
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.authenticate(mTwitterLogin);
+                mPresenter.authenticate(providers.newTwitterLogin(FragmentLogin.this));
             }
         });
-    }
-
-    private void createAuthenticators() {
-        FactoryCredentialProviders loginFactory = new FactoryCredentialProviders();
-        mGoogleLogin = loginFactory.newGoogleLogin(this);
-        mFacebookLogin = loginFactory.newFacebookLogin(this);
-        mTwitterLogin = loginFactory.newTwitterLogin(this);
     }
 
     private void launchFeedScreen() {
         Intent intent = new Intent(getActivity(), ActivityUsersFeed.class);
         startActivity(intent);
         getActivity().finish();
-    }
-
-    @Override
-    public void onGoogleAuthorisationRequired(UserRecoverableAuthException e, int requestCode) {
-        startActivityForResult(e.getIntent(), requestCode);
     }
 }

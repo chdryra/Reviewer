@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Utils.Password;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/04/2016
+ * On: 28/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface EmailPassword {

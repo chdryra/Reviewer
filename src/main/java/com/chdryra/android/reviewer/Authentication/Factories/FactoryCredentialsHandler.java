@@ -8,15 +8,17 @@
 
 package com.chdryra.android.reviewer.Authentication.Factories;
 
-import com.chdryra.android.reviewer.Authentication.Implementation.FacebookCredentials;
-import com.chdryra.android.reviewer.Authentication.Implementation.GoogleCredentials;
-import com.chdryra.android.reviewer.Authentication.Implementation.TwitterCredentials;
-import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookCredentialsCallback;
+import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsHandlerFacebook;
+import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsHandlerTwitter;
+import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsHandlerGoogle;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterCredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.facebook.AccessToken;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.twitter.sdk.android.core.TwitterSession;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,18 +26,18 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsHandler {
-    public FacebookCredentials newHandler(FacebookLogin provider,
-                                          FacebookCredentialsCallback callback) {
-        return new FacebookCredentials(provider, callback);
+    public CredentialsHandler newHandler(FacebookLogin provider,
+                                         CredentialsCallback<AccessToken> callback) {
+        return new CredentialsHandlerFacebook(provider, callback);
     }
 
-    public GoogleCredentials newHandler(GoogleLogin provider,
-                                        GoogleCredentialsCallback callback) {
-        return new GoogleCredentials(provider, callback);
+    public CredentialsHandler newHandler(GoogleLogin provider,
+                                               CredentialsCallback<GoogleSignInAccount> callback) {
+        return new CredentialsHandlerGoogle(provider, callback);
     }
 
-    public TwitterCredentials newHandler(TwitterLogin provider,
-                                         TwitterCredentialsCallback callback) {
-        return new TwitterCredentials(provider, callback);
+    public CredentialsHandler newHandler(TwitterLogin provider,
+                                                CredentialsCallback<TwitterSession> callback) {
+        return new CredentialsHandlerTwitter(provider, callback);
     }
 }
