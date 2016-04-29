@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDbObserver;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
@@ -33,20 +33,20 @@ import java.util.Collection;
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDbObserver {
+public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDbObserver<FbReview> {
     private static final String REVIEWS_FOUND = "Reviews found";
     private static final String ERROR_FETCHING_REVIEWS = "Error fetching reviews: ";
     private static final String ERROR_FETCHING_REVIEW = "Error fetching review :";
     private static final String REVIEW_FOUND = "Review found";
     public static final String REMOVED = "removed";
 
-    private FirebaseDb mDb;
+    private FirebaseReviewsDb mDb;
     private FactoryFbReview mReviewsFactory;
     private TagsManager mTagsManager;
     private FirebaseReviewMaker mRecreater;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
-    public FirebaseReviewsRepo(FirebaseDb db,
+    public FirebaseReviewsRepo(FirebaseReviewsDb db,
                                FactoryFbReview reviewsFactory,
                                TagsManager tagsManager,
                                FirebaseReviewMaker recreater) {
@@ -95,23 +95,23 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     }
 
     @Override
-    public void onReviewAdded(FbReview review) {
+    public void onAdded(FbReview review) {
         notifyOnAddReview(recreateReview(review));
     }
 
     @Override
-    public void onReviewChanged(FbReview review) {
+    public void onChanged(FbReview review) {
 
     }
 
     @Override
-    public void onReviewRemoved(FbReview review) {
+    public void onRemoved(FbReview review) {
         notifyOnDeleteReview(new DatumReviewId(review.getReviewId()));
     }
 
     @NonNull
-    private FirebaseReviewsDb.GetCallback reviewCallback(final CallbackRepository callback) {
-        return new FirebaseReviewsDb.GetCallback() {
+    private FirebaseReviewsDb.GetReviewCallback reviewCallback(final CallbackRepository callback) {
+        return new FirebaseReviewsDb.GetReviewCallback() {
             @Override
             public void onReview(FbReview fbReview, @Nullable FirebaseError error) {
                 CallbackMessage result = error != null ?
@@ -134,10 +134,10 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     }
 
     @NonNull
-    private FirebaseReviewsDb.GetCollectionCallback reviewListCallback(final CallbackRepository
+    private FirebaseReviewsDbImpl.GetCollectionCallback reviewListCallback(final CallbackRepository
                                                                                      callback) {
         final ArrayList<Review> reviews = new ArrayList<>();
-        return new FirebaseReviewsDb.GetCollectionCallback() {
+        return new FirebaseReviewsDbImpl.GetCollectionCallback() {
             @Override
             public void onReviewCollection(Collection<FbReview> fetched, @Nullable
             FirebaseError error) {
@@ -153,10 +153,10 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     }
 
     @NonNull
-    private FirebaseReviewsDb.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
+    private FirebaseReviewsDbImpl.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
                                                                                callback) {
         final ArrayList<Review> reviews = new ArrayList<>();
-        return new FirebaseReviewsDb.GetCollectionCallback() {
+        return new FirebaseReviewsDbImpl.GetCollectionCallback() {
             @Override
             public void onReviewCollection(Collection<FbReview> fetched, @Nullable
             FirebaseError error) {
@@ -179,8 +179,8 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     }
 
     @NonNull
-    private FirebaseReviewsDb.AddCallback addCallback(final CallbackRepositoryMutable callback) {
-        return new FirebaseReviewsDb.AddCallback() {
+    private FirebaseReviewsDb.AddReviewCallback addCallback(final CallbackRepositoryMutable callback) {
+        return new FirebaseReviewsDb.AddReviewCallback() {
             @Override
             public void onReviewAdded(FbReview fbReview, @Nullable FirebaseError error) {
                 Review review = recreateReview(fbReview);
@@ -197,8 +197,8 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, FirebaseDb
     }
 
     @NonNull
-    private FirebaseReviewsDb.DeleteCallback deleteCallback(final CallbackRepositoryMutable callback) {
-        return new FirebaseReviewsDb.DeleteCallback() {
+    private FirebaseReviewsDb.DeleteReviewCallback deleteCallback(final CallbackRepositoryMutable callback) {
+        return new FirebaseReviewsDb.DeleteReviewCallback() {
             @Override
             public void onReviewDeleted(String reviewId, @Nullable FirebaseError error) {
                 DatumReviewId id = new DatumReviewId(reviewId);

@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
 public class ComparitorAuthor implements DifferenceComparitor<DataAuthor, DifferenceBoolean> {
     @Override
     public DifferenceBoolean compare(@NonNull DataAuthor lhs, @NonNull DataAuthor rhs) {
-        boolean sameId = lhs.getUserId().equals(rhs.getUserId());
+        boolean sameId = lhs.getAuthorId().equals(rhs.getAuthorId());
         boolean sameName = lhs.getName().equals(rhs.getName());
 
         if (sameId && !sameName) {

@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,12 +20,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 public class DatumAuthorReview implements DataAuthorReview {
     private ReviewId mReviewId;
     private String mName;
-    private UserId mUserId;
+    private AuthorId mAuthorId;
 
-    public DatumAuthorReview(ReviewId reviewId, String name, UserId userId) {
+    public DatumAuthorReview(ReviewId reviewId, String name, AuthorId authorId) {
         mReviewId = reviewId;
         mName = name;
-        mUserId = userId;
+        mAuthorId = authorId;
     }
 
     @Override
@@ -33,9 +33,8 @@ public class DatumAuthorReview implements DataAuthorReview {
         return mName;
     }
 
-    @Override
-    public UserId getUserId() {
-        return mUserId;
+    public AuthorId getAuthorId() {
+        return mAuthorId;
     }
 
     @Override
@@ -57,7 +56,7 @@ public class DatumAuthorReview implements DataAuthorReview {
 
         if (!mReviewId.equals(that.mReviewId)) return false;
         if (!mName.equals(that.mName)) return false;
-        return mUserId.equals(that.mUserId);
+        return mAuthorId.equals(that.mAuthorId);
 
     }
 
@@ -65,7 +64,7 @@ public class DatumAuthorReview implements DataAuthorReview {
     public int hashCode() {
         int result = mReviewId.hashCode();
         result = 31 * result + mName.hashCode();
-        result = 31 * result + mUserId.hashCode();
+        result = 31 * result + mAuthorId.hashCode();
         return result;
     }
 }

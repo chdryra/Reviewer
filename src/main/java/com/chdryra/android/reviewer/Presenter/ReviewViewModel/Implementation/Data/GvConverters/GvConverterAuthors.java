@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUserId;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +31,6 @@ public class GvConverterAuthors extends
     public GvAuthor convert(DataAuthorReview datum, ReviewId reviewId) {
         GvReviewId gvReviewId = getGvReviewId(datum, reviewId);
         return new GvAuthor(gvReviewId, datum.getName(),
-                new GvUserId(gvReviewId, datum.getUserId().toString()));
+                new GvAuthorId(gvReviewId, datum.getAuthorId().toString()));
     }
 }

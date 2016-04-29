@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullAuthor {
-    public static final DataAuthor AUTHOR = new DatumAuthor("APP", new DatumUserId("APP"));
+    public static final DataAuthor AUTHOR = new DatumAuthor("APP", new DatumAuthorId("APP"));
 }

@@ -162,7 +162,7 @@ public class FactoryReviews implements ReviewMaker {
         DataAuthor author = stamp.getAuthor();
         DataDate date = stamp.getDate();
 
-        MdReviewId id = new MdReviewId(author.getUserId().toString(),
+        MdReviewId id = new MdReviewId(author.getAuthorId().toString(),
                 date.getTime(), stamp.getPublishedIndex());
 
         if (ratingIsAverage) {
@@ -190,7 +190,7 @@ public class FactoryReviews implements ReviewMaker {
                                  Iterable<? extends DataLocation> locations,
                                  Iterable<Review> criteria,
                                  boolean ratingIsAverage) {
-        MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getUserId());
+        MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getAuthorId());
         MdDate mdDate = new MdDate(id, publishDate.getTime());
         MdSubject mdSubject = new MdSubject(id, subject);
         MdRating mdRating = new MdRating(id, rating, 1);

@@ -11,7 +11,7 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -133,7 +133,7 @@ public class ReviewUserDbTest {
         ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
 
         DataAuthor author = new DatumAuthorReview(row.getReviewId(),
-                RandomString.nextWord(), new DatumUserId(row.getAuthorId()));
+                RandomString.nextWord(), new DatumAuthorId(row.getAuthorId()));
         RowAuthor rowAuthor = new RowAuthorImpl(author);
 
         DbTable<RowAuthor> authorsTable = mDb.getAuthorsTable();

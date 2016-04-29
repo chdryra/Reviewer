@@ -12,12 +12,12 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
@@ -42,13 +42,13 @@ public class CanonicalAuthorTest {
     private static final int NUM = 10;
     private CanonicalAuthor mCanonical;
     private String mAuthorName;
-    private UserId mUserId;
+    private AuthorId mAuthorId;
 
     @Before
     public void setUp() {
         mCanonical = new CanonicalAuthor(new ComparitorAuthor());
         mAuthorName = RandomString.nextWord();
-        mUserId = new DatumUserId(RandomString.nextWord());
+        mAuthorId = new DatumAuthorId(RandomString.nextWord());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class CanonicalAuthorTest {
 
         assertThat(canonical.getReviewId().toString(), is(reviewId.toString()));
         assertThat(canonical.getName(), is(mAuthorName));
-        assertThat(canonical.getUserId(), is(mUserId));
+        assertThat(canonical.getAuthorId(), is(mAuthorId));
     }
 
     @NonNull
@@ -94,6 +94,6 @@ public class CanonicalAuthorTest {
     }
 
     private DatumAuthorReview getReferenceAuthor() {
-        return new DatumAuthorReview(RandomReviewId.nextReviewId(), mAuthorName, mUserId);
+        return new DatumAuthorReview(RandomReviewId.nextReviewId(), mAuthorName, mAuthorId);
     }
 }

@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryNullData {
-    private static final UserId NULL_USER_ID = new DatumUserId(UserId.NULL_ID_STRING);
+    private static final AuthorId NULL_USER_ID = new DatumAuthorId(AuthorId.NULL_ID_STRING);
 
     public static DataAuthorReview nullAuthor(ReviewId id) {
         return new DatumAuthorReview(id, "", NULL_USER_ID);

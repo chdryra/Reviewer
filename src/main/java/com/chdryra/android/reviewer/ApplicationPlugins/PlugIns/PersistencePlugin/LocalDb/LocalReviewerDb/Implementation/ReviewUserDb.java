@@ -152,7 +152,7 @@ public class ReviewUserDb extends ReviewStatic {
                 = asClause(RowAuthor.class, RowAuthor.USER_ID, mRow.getAuthorId());
         RowAuthor row = mDb.getUniqueRowWhere(mDb.getAuthorsTable(), clause, transactor);
         mDb.endTransaction(transactor);
-        mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getUserId());
+        mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getAuthorId());
     }
 
     private <DbRow extends DbTableRow> ArrayList<DbRow> loadReviewIdRows(DbTable<DbRow> table,

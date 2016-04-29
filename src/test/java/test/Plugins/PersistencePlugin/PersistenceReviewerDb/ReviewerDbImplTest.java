@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -183,7 +183,7 @@ public class ReviewerDbImplTest {
 
     @Test
     public void loadReviewsWhereCallsReviewTransactorWithAppropriateReviewRows() {
-        UserId id = RandomAuthor.nextAuthor().getUserId();
+        AuthorId id = RandomAuthor.nextAuthor().getAuthorId();
         RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.USER_ID,
                 id.toString());
 
@@ -212,7 +212,7 @@ public class ReviewerDbImplTest {
 
     @Test
     public void loadReviewsWhereCallsTransactorWithInputClauseIfReviewsTableClause() {
-        UserId id = RandomAuthor.nextAuthor().getUserId();
+        AuthorId id = RandomAuthor.nextAuthor().getAuthorId();
         RowEntry<RowReview, String> clauseIn = asClause(RowReview.class, RowReview.USER_ID,
                 id.toString());
 
@@ -235,7 +235,7 @@ public class ReviewerDbImplTest {
     public void loadReviewsWhereCallsTransactorWithAppropriateAuthorClauseIfAuthorTableClauses() {
         DataAuthor author = RandomAuthor.nextAuthor();
         String name = author.getName();
-        String userId = author.getUserId().toString();
+        String userId = author.getAuthorId().toString();
 
         DbTable<RowAuthor> clauseTable = mDb.getAuthorsTable();
         RowEntry<RowAuthor, String> clauseIn

@@ -42,7 +42,7 @@ public class ComparitorAuthorTest {
     @Test
     public void sameAuthorReturnsDifferenceBooleanOfFalse() {
         DataAuthor lhs = RandomAuthor.nextAuthor();
-        DataAuthor rhs = new DatumAuthor(lhs.getName(), lhs.getUserId());
+        DataAuthor rhs = new DatumAuthor(lhs.getName(), lhs.getAuthorId());
         checkComparisonHasDifference(lhs, rhs, false);
     }
 
@@ -58,7 +58,7 @@ public class ComparitorAuthorTest {
         expectedException.expect(RuntimeException.class);
         DataAuthor lhs = RandomAuthor.nextAuthor();
         DataAuthor rhs = RandomAuthor.nextAuthor();
-        mComparitor.compare(lhs, new DatumAuthor(lhs.getName(), rhs.getUserId()));
+        mComparitor.compare(lhs, new DatumAuthor(lhs.getName(), rhs.getAuthorId()));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ComparitorAuthorTest {
         expectedException.expect(RuntimeException.class);
         DataAuthor lhs = RandomAuthor.nextAuthor();
         DataAuthor rhs = RandomAuthor.nextAuthor();
-        mComparitor.compare(lhs, new DatumAuthor(rhs.getName(), lhs.getUserId()));
+        mComparitor.compare(lhs, new DatumAuthor(rhs.getName(), lhs.getAuthorId()));
     }
 
     private void checkComparisonHasDifference(DataAuthor lhs, DataAuthor rhs, boolean

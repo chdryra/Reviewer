@@ -9,19 +9,19 @@
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
- * Holds Author data. Currently only wraps a name and unique {@link AuthorId}.
+ * Holds Author data. Currently only wraps a name and unique {@link com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId}.
  */
 public class DatumAuthor implements DataAuthor{
-    private UserId mId;
+    private AuthorId mId;
     private String mName;
 
     public DatumAuthor() {
     }
 
-    public DatumAuthor(String name, UserId id) {
+    public DatumAuthor(String name, AuthorId id) {
         mName = name;
         mId = id;
     }
@@ -31,8 +31,7 @@ public class DatumAuthor implements DataAuthor{
         return mName;
     }
 
-    @Override
-    public UserId getUserId() {
+    public AuthorId getAuthorId() {
         return mId;
     }
 

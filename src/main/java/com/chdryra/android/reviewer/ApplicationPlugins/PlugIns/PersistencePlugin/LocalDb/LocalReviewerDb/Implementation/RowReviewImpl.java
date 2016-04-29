@@ -38,7 +38,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
     public RowReviewImpl(Review review) {
         mReviewId = review.getReviewId().toString();
-        mAuthorId = review.getAuthor().getUserId().toString();
+        mAuthorId = review.getAuthor().getAuthorId().toString();
         mPublishDate = review.getPublishDate().getTime();
         mSubject = review.getSubject().getSubject();
         mRating = review.getRating().getRating();

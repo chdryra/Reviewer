@@ -396,7 +396,7 @@ public class FactoryReviewsTest {
     private void checkAuthor(DataAuthor author, Review review) {
         assertThat(review.getAuthor().getReviewId(), is(review.getReviewId()));
         assertThat(review.getAuthor().getName(), is(author.getName()));
-        assertThat(review.getAuthor().getUserId(), is(author.getUserId()));
+        assertThat(review.getAuthor().getAuthorId(), is(author.getAuthorId()));
     }
 
     private void checkRating(float rating, Review review) {

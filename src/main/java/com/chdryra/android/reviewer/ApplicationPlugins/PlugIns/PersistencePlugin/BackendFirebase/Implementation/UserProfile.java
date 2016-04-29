@@ -8,30 +8,33 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+
+import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class Author {
-    private String name;
-    private String authorId;
+public class UserProfile {
+    private Author author;
+    private long creationDate;
 
-    public Author() {
+    public UserProfile() {
     }
 
-    public Author(DataAuthor author) {
-        name = author.getName();
-        authorId = author.getAuthorId().toString();
+    public UserProfile(DataAuthor author) {
+        this.author = new Author(author);
+        this.creationDate = new Date().getTime();
     }
 
-    public String getName(){
-        return name;
+    public Author getAuthor() {
+        return author;
     }
 
-    public String getAuthorId() {
-        return authorId;
+    public long getCreationDate() {
+        return creationDate;
     }
 }

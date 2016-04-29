@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -65,7 +65,7 @@ import static org.junit.Assert.fail;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TestReviews {
-    private static DatumAuthor AUTHOR = new DatumAuthor("Riz", new DatumUserId("123"));
+    private static DatumAuthor AUTHOR = new DatumAuthor("Riz", new DatumAuthorId("123"));
     private static TestReviews sReviews;
     private Instrumentation mInstr;
     private IdableCollection<Review> mReviews;
@@ -240,7 +240,7 @@ public class TestReviews {
     }
 
     private Review getReview(TestReview review, TagsManager tagsManager) {
-        ReviewId id = new MdReviewId(AUTHOR.getUserId().toString(),
+        ReviewId id = new MdReviewId(AUTHOR.getAuthorId().toString(),
                 review.mPublishDate.getTime(), 0);
         
         ArrayList<DataComment> comments = new ArrayList<>();

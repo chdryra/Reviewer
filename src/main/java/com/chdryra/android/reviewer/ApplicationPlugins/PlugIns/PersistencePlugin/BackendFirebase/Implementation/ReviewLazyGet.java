@@ -15,7 +15,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.FunctionPointer;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -85,7 +85,7 @@ public class ReviewLazyGet extends ReviewDynamic implements ReviewNode, Callback
 
     @Override
     public DataAuthorReview getAuthor() {
-        return returnData(new DatumAuthorReview(mId, mId.toString(), new DatumUserId(mId.toString
+        return returnData(new DatumAuthorReview(mId, mId.toString(), new DatumAuthorId(mId.toString
                 ())),
                 new FunctionPointer<Void, DataAuthorReview>() {
                     @Override

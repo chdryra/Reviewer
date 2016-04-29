@@ -125,7 +125,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
                                   TableTransactor transactor) {
         RowEntry<RowAuthor, String> clause = asClause(RowAuthor.class, RowAuthor.USER_ID, userId);
         RowAuthor authorRow = db.getUniqueRowWhere(db.getAuthorsTable(), clause, transactor);
-        return new DatumAuthor(authorRow.getName(), authorRow.getUserId());
+        return new DatumAuthor(authorRow.getName(), authorRow.getAuthorId());
     }
 
     private <DbRow extends DbTableRow, T> RowEntry<DbRow, T> asClause(Class<DbRow> rowClass,

@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface UserId {
+public interface AuthorId {
     String NULL_ID_STRING = "NULL";
 
     @Override

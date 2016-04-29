@@ -11,9 +11,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.RelationalDb.Interfaces.RowValues;
@@ -28,7 +28,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     private String mName;
 
     public RowAuthorImpl(DataAuthor author) {
-        mUserId = author.getUserId().toString();
+        mUserId = author.getAuthorId().toString();
         mName = author.getName();
     }
 
@@ -47,8 +47,8 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     }
 
     @Override
-    public UserId getUserId() {
-        return new DatumUserId(mUserId);
+    public AuthorId getAuthorId() {
+        return new DatumAuthorId(mUserId);
     }
 
     @Override

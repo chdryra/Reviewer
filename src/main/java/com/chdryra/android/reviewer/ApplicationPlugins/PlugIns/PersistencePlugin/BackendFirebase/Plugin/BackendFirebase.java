@@ -19,16 +19,13 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.FirebaseBackend;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.FirebaseReviewMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Implementation.FirebaseReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseReviewsDbImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.FirebaseReviewsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Implementation.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.StructureReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.FirebaseValidator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Interfaces.FirebaseDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -46,8 +43,8 @@ public class BackendFirebase implements Backend {
         Firebase.setAndroidContext(context);
 
         FirebaseValidator fbValidator = new FirebaseValidator(validator);
-        FirebaseDb db = new FirebaseReviewsDb(new Firebase(FirebaseBackend.ROOT),
-                new FirebaseStructure(), fbValidator);
+        FirebaseReviewsDb db = new FirebaseReviewsDbImpl(new Firebase(FirebaseBackend.ROOT),
+                new StructureReviews(), fbValidator);
         FactoryFbReview reviewsFactory = new FactoryFbReview(fbValidator);
         FirebaseReviewMaker maker = new FirebaseReviewMaker(model.getReviewsFactory());
 

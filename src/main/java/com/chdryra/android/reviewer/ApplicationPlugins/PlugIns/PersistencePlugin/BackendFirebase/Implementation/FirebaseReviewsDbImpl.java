@@ -12,9 +12,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Interfaces.FirebaseDb;
+        .Interfaces.FirebaseReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Interfaces.FirebaseDbObserver;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .FirebaseStructuring.DbStructure;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -29,35 +31,39 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseReviewsDb implements FirebaseDb {
+public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
     private Firebase mDataRoot;
-    private FirebaseStructure mStructure;
+    private StructureReviews mStructure;
+    private DbStructure<FbReview> mDenormalisation;
     private FirebaseValidator mValidator;
-    private ArrayList<FirebaseDbObserver> mObservers;
+    private ArrayList<FirebaseDbObserver<FbReview>> mObservers;
 
-    public FirebaseReviewsDb(Firebase dataRoot,
-                             FirebaseStructure structure,
-                             FirebaseValidator validator) {
+    public FirebaseReviewsDbImpl(Firebase dataRoot,
+                                 StructureReviews structure,
+                                 DbStructure<FbReview> denormalisation,
+                                 FirebaseValidator validator) {
         mDataRoot = dataRoot;
         mStructure = structure;
+        mDenormalisation = denormalisation;
         mValidator = validator;
         mObservers = new ArrayList<>();
         getReviewsRoot().addChildEventListener(new ChildListener());
     }
 
     @Override
-    public void addReview(FbReview review, AddCallback callback) {
-        mDataRoot.updateChildren(mStructure.getUpdatesMap(review), newAddListener(review,
-                callback));
+    public void addReview(FbReview review, AddReviewCallback callback) {
+        Map<String, Object> updatesMap = getFullUpdatesMap(review, DbStructure.UpdateType
+                .INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(updatesMap, newAddListener(review, callback));
     }
 
     @Override
-    public void deleteReview(String reviewId, final DeleteCallback callback) {
+    public void deleteReview(String reviewId, final DeleteReviewCallback callback) {
         doSingleEvent(getReviewRoot(reviewId), newGetAndDeleteListener(reviewId, callback));
     }
 
     @Override
-    public void getReview(String reviewId, GetCallback callback) {
+    public void getReview(String reviewId, GetReviewCallback callback) {
         doSingleEvent(getReviewRoot(reviewId), newGetListener(callback));
     }
 
@@ -72,12 +78,12 @@ public class FirebaseReviewsDb implements FirebaseDb {
     }
 
     @Override
-    public void registerObserver(FirebaseDbObserver observer) {
+    public void registerObserver(FirebaseDbObserver<FbReview> observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
-    public void unregisterObserver(FirebaseDbObserver observer) {
+    public void unregisterObserver(FirebaseDbObserver<FbReview> observer) {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
@@ -89,21 +95,30 @@ public class FirebaseReviewsDb implements FirebaseDb {
         return mDataRoot.child(mStructure.getReviewsListRoot());
     }
 
+    @NonNull
+    private Map<String, Object> getFullUpdatesMap(FbReview review, DbStructure.UpdateType type) {
+        Map<String, Object> updatesMap = mStructure.getUpdatesMap(review, type);
+        updatesMap.putAll(mDenormalisation.getUpdatesMap(review, type));
+
+        return updatesMap;
+    }
+
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
         root.addListenerForSingleValueEvent(listener);
     }
 
     @NonNull
     private ValueEventListener newGetAndDeleteListener(final String reviewId, final
-    DeleteCallback callback) {
+    DeleteReviewCallback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final FbReview review = dataSnapshot.getValue(FbReview.class);
                 if (mValidator.isValid(review)) {
-                    Map<String, Object> deleteMap = mStructure.getDeleteMap(review);
-                    String id = review.getReviewId();
-                    mDataRoot.updateChildren(deleteMap, newDeleteListener(id, callback));
+                    Map<String, Object> deleteMap
+                            = getFullUpdatesMap(review, DbStructure.UpdateType.DELETE);
+                    mDataRoot.updateChildren(deleteMap,
+                            newDeleteListener(review.getReviewId(), callback));
                 }
             }
 
@@ -119,7 +134,7 @@ public class FirebaseReviewsDb implements FirebaseDb {
     }
 
     @NonNull
-    private ValueEventListener newGetListener(final GetCallback listener) {
+    private ValueEventListener newGetListener(final GetReviewCallback listener) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -158,7 +173,7 @@ public class FirebaseReviewsDb implements FirebaseDb {
 
     @NonNull
     private Firebase.CompletionListener newAddListener(final FbReview review,
-                                                       final AddCallback listener) {
+                                                       final AddReviewCallback listener) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
@@ -169,7 +184,7 @@ public class FirebaseReviewsDb implements FirebaseDb {
 
     @NonNull
     private Firebase.CompletionListener newDeleteListener(final String reviewId,
-                                                          final DeleteCallback listener) {
+                                                          final DeleteReviewCallback listener) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
@@ -209,20 +224,20 @@ public class FirebaseReviewsDb implements FirebaseDb {
         }
 
         private void notifyOnChildAdded(FbReview review) {
-            for (FirebaseDbObserver observer : mObservers) {
-                observer.onReviewAdded(review);
+            for (FirebaseDbObserver<FbReview> observer : mObservers) {
+                observer.onAdded(review);
             }
         }
 
         private void notifyOnChildChanged(FbReview review) {
-            for (FirebaseDbObserver observer : mObservers) {
-                observer.onReviewChanged(review);
+            for (FirebaseDbObserver<FbReview> observer : mObservers) {
+                observer.onChanged(review);
             }
         }
 
         private void notifyOnChildRemoved(FbReview review) {
-            for (FirebaseDbObserver observer : mObservers) {
-                observer.onReviewRemoved(review);
+            for (FirebaseDbObserver<FbReview> observer : mObservers) {
+                observer.onRemoved(review);
             }
         }
     }

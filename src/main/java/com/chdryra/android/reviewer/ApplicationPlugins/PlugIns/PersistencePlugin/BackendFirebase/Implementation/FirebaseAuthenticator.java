@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
@@ -52,17 +54,24 @@ public class FirebaseAuthenticator implements Authenticator {
     @Override
     public void authenticateCredentials(AccessToken token, final AuthenticatorCallback
             callback) {
-        mRoot.authWithOAuthToken(FACEBOOK, token.getToken(), new Firebase.AuthResultHandler() {
+        final String facebook = FACEBOOK;
+        mRoot.authWithOAuthToken(facebook, token.getToken(), getHandler(callback, facebook));
+    }
+
+    @NonNull
+    private Firebase.AuthResultHandler getHandler(final AuthenticatorCallback callback, final
+    String facebook) {
+        return new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                callback.onSuccess(FACEBOOK);
+                callback.onSuccess(facebook);
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
                 callback.onFailure(getError(firebaseError));
             }
-        });
+        };
     }
 
     @Override
@@ -73,17 +82,7 @@ public class FirebaseAuthenticator implements Authenticator {
         options.put("oauth_token", authToken.token);
         options.put("oauth_token_secret", authToken.secret);
         options.put("user_id", String.valueOf(session.getUserId()));
-        mRoot.authWithOAuthToken(TWITTER, options, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                callback.onSuccess(TWITTER);
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                callback.onFailure(getError(firebaseError));
-            }
-        });
+        mRoot.authWithOAuthToken(TWITTER, options, getHandler(callback, TWITTER));
     }
 
     @Override
@@ -101,18 +100,7 @@ public class FirebaseAuthenticator implements Authenticator {
 
     private void doEmailAuthentication(final AuthenticatorCallback callback, String email, String
             password, final String provider) {
-        mRoot.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                callback.onSuccess(provider);
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                callback.onFailure(getError(firebaseError));
-            }
-        });
+        mRoot.authWithPassword(email, password, getHandler(callback, provider));
     }
 
     private AuthenticationError getError(FirebaseError error) {

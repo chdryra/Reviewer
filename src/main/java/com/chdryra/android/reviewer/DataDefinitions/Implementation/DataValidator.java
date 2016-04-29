@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class DataValidator {
     public boolean validate(DataAuthor author) {
         return NotNull(author) && validateString(author.getName())
-                && validate(author.getUserId());
+                && validate(author.getAuthorId());
     }
 
     public boolean validate(DataComment comment) {
@@ -92,8 +92,8 @@ public class DataValidator {
         return validateString(reviewId.toString());
     }
 
-    public boolean validate(UserId userId) {
-        return !userId.toString().equals(UserId.NULL_ID_STRING) && validateString(userId.toString());
+    public boolean validate(AuthorId authorId) {
+        return !authorId.toString().equals(AuthorId.NULL_ID_STRING) && validateString(authorId.toString());
     }
 
     public boolean NotNull(Object obj) {

@@ -8,17 +8,17 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumUserId implements UserId {
+public class DatumAuthorId implements AuthorId {
     private String mId;
 
-    public DatumUserId(String id) {
+    public DatumAuthorId(String id) {
         mId = id;
     }
 
@@ -30,9 +30,9 @@ public class DatumUserId implements UserId {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserId)) return false;
+        if (!(o instanceof AuthorId)) return false;
 
-        UserId that = (UserId) o;
+        AuthorId that = (AuthorId) o;
 
         return !(mId != null ? !mId.equals(that.toString()) : that.toString() != null);
 

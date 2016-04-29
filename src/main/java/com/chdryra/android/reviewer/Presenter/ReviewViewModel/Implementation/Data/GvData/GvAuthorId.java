@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhText;
@@ -24,31 +24,31 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 25/03/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvUserId implements GvData, UserId {
-    public static final GvDataType<GvUserId> TYPE =
-            new GvDataType<>(GvUserId.class, "ReviewId");
+public class GvAuthorId implements GvData, AuthorId {
+    public static final GvDataType<GvAuthorId> TYPE =
+            new GvDataType<>(GvAuthorId.class, "ReviewId");
 
-    public static final Creator<GvUserId> CREATOR = new Creator<GvUserId>() {
+    public static final Creator<GvAuthorId> CREATOR = new Creator<GvAuthorId>() {
         @Override
-        public GvUserId createFromParcel(Parcel in) {
-            return new GvUserId(in);
+        public GvAuthorId createFromParcel(Parcel in) {
+            return new GvAuthorId(in);
         }
 
         @Override
-        public GvUserId[] newArray(int size) {
-            return new GvUserId[size];
+        public GvAuthorId[] newArray(int size) {
+            return new GvAuthorId[size];
         }
     };
 
     private GvReviewId mReviewId;
     private String mUserId;
 
-    public GvUserId(@Nullable GvReviewId reviewId, String userId) {
+    public GvAuthorId(@Nullable GvReviewId reviewId, String userId) {
         mReviewId = reviewId;
         mUserId = userId;
     }
 
-    public GvUserId(Parcel in) {
+    public GvAuthorId(Parcel in) {
         mUserId = in.readString();
     }
 
@@ -63,7 +63,7 @@ public class GvUserId implements GvData, UserId {
     }
 
     @Override
-    public GvDataType<GvUserId> getGvDataType() {
+    public GvDataType<GvAuthorId> getGvDataType() {
         return TYPE;
     }
 
@@ -105,9 +105,9 @@ public class GvUserId implements GvData, UserId {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof GvUserId)) return false;
+        if (!(o instanceof GvAuthorId)) return false;
 
-        GvUserId that = (GvUserId) o;
+        GvAuthorId that = (GvAuthorId) o;
 
         if (!mUserId.equals(that.mUserId)) return false;
 

@@ -146,7 +146,7 @@ public class ReviewLoaderStaticTest {
     }
 
     private void checkReviewEquivalence(ReviewDataHolder data) {
-        assertThat(data.getAuthor().getUserId(), is(mReview.getAuthor().getUserId()));
+        assertThat(data.getAuthor().getAuthorId(), is(mReview.getAuthor().getAuthorId()));
         assertThat(data.getAuthor().getName(), is(mReview.getAuthor().getName()));
         assertThat(data.getSubject(), is(mReview.getSubject().getSubject()));
         assertThat(data.getRating(), is(mReview.getRating().getRating()));

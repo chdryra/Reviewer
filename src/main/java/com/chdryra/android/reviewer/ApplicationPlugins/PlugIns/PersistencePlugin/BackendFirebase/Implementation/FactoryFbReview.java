@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -71,7 +71,7 @@ public class FactoryFbReview {
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
 
         Author fbAuthor = review.getAuthor();
-        DatumUserId userId = new DatumUserId(fbAuthor.getUserId());
+        DatumAuthorId userId = new DatumAuthorId(fbAuthor.getAuthorId());
         DataAuthor author = new DatumAuthorReview(reviewId, fbAuthor.getName(), userId);
 
         DataDate date = new DatumDateReview(reviewId, review.getPublishDate());

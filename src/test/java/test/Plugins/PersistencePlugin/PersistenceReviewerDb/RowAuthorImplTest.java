@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.RowEntry;
@@ -45,7 +45,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
         DataAuthor author = new DatumAuthor(name, id);
 
         RowAuthorImpl row = new RowAuthorImpl(author);
-        assertThat(row.getUserId().toString(), is(id.toString()));
+        assertThat(row.getAuthorId().toString(), is(id.toString()));
         assertThat(row.getName(), is(name));
     }
 
@@ -54,19 +54,19 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
         RowAuthor reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
-        values.put(RowAuthor.USER_ID, reference.getUserId().toString());
+        values.put(RowAuthor.USER_ID, reference.getAuthorId().toString());
         values.put(RowAuthor.AUTHOR_NAME, reference.getName());
 
         RowAuthorImpl row = new RowAuthorImpl(values);
         assertThat(row.hasData(new DataValidator()), is(true));
 
-        assertThat(row.getUserId().toString(), is(reference.getUserId().toString()));
+        assertThat(row.getAuthorId().toString(), is(reference.getAuthorId().toString()));
         assertThat(row.getName(), is(reference.getName()));
     }
 
     @Test
     public void constructionWithDataAuthorWithInvalidUserIdMakesRowAuthorInvalid() {
-        DataAuthor author = new DatumAuthor(RandomString.nextWord(), new DatumUserId(""));
+        DataAuthor author = new DatumAuthor(RandomString.nextWord(), new DatumAuthorId(""));
         RowAuthorImpl row = new RowAuthorImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }
@@ -93,7 +93,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
 
         assertThat(entries.size(), is(2));
 
-        checkEntry(entries.get(0), RowAuthor.USER_ID, row.getUserId().toString());
+        checkEntry(entries.get(0), RowAuthor.USER_ID, row.getAuthorId().toString());
         checkEntry(entries.get(1), RowAuthor.AUTHOR_NAME, row.getName());
     }
 
@@ -109,6 +109,6 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
 
     @Override
     protected String getRowId(RowAuthorImpl row) {
-        return row.getUserId().toString();
+        return row.getAuthorId().toString();
     }
 }

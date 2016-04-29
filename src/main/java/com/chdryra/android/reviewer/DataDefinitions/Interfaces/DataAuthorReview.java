@@ -19,8 +19,7 @@ public interface DataAuthorReview extends HasReviewId, DataAuthor {
     @Override
     String getName();
 
-    @Override
-    UserId getUserId();
+    AuthorId getAuthorId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

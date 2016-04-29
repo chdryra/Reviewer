@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
         .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -51,7 +51,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 public class ApplicationInstance extends ApplicationSingleton {
     public static final String APP_NAME = "Teeqr";
 
-    private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumUserId("123"));
+    private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumAuthorId("123"));
     private static final String NAME = "ApplicationInstance";
 
     private static ApplicationInstance sSingleton;

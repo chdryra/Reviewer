@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 public interface DataAuthor extends Validatable{
     String getName();
 
-    UserId getUserId();
+    AuthorId getAuthorId();
 
     @Override
     boolean hasData(DataValidator dataValidator);

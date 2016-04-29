@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUserId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -46,6 +46,6 @@ public class FirebaseValidator {
     }
 
     private boolean isValid(Author author) {
-        return author != null && mValidator.validate(new DatumAuthor(author.getName(), new DatumUserId(author.getUserId())));
+        return author != null && mValidator.validate(new DatumAuthor(author.getName(), new DatumAuthorId(author.getAuthorId())));
     }
 }

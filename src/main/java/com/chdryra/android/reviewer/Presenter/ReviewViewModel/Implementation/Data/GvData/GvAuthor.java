@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthor;
 
@@ -42,30 +42,30 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
     };
 
     private String mName;
-    private GvUserId mUserId;
+    private GvAuthorId mUserId;
 
     public GvAuthor() {
         this(null, null, null);
     }
 
-    public GvAuthor(String name, GvUserId userId) {
+    public GvAuthor(String name, GvAuthorId userId) {
         this(null, name, userId);
     }
 
-    public GvAuthor(@Nullable GvReviewId id, String name, GvUserId userId) {
+    public GvAuthor(@Nullable GvReviewId id, String name, GvAuthorId userId) {
         super(GvAuthor.TYPE, id);
         mName = name;
         mUserId = userId;
     }
 
     public GvAuthor(GvAuthor author) {
-        this(author.getGvReviewId(), author.getName(), (GvUserId) author.getUserId());
+        this(author.getGvReviewId(), author.getName(), (GvAuthorId) author.getAuthorId());
     }
 
     GvAuthor(Parcel in) {
         super(in);
         mName = in.readString();
-        mUserId = in.readParcelable(GvUserId.class.getClassLoader());
+        mUserId = in.readParcelable(GvAuthorId.class.getClassLoader());
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview 
     }
 
     @Override
-    public UserId getUserId() {
+    public AuthorId getAuthorId() {
         return mUserId;
     }
 

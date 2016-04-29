@@ -8,30 +8,30 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class Author {
-    private String name;
-    private String authorId;
+public class User {
+    private String mFbUserId;
+    private UserProfile mProfile;
 
-    public Author() {
+    public User(String fbUserId, UserProfile profile) {
+        mFbUserId = fbUserId;
+        mProfile = profile;
     }
 
-    public Author(DataAuthor author) {
-        name = author.getName();
-        authorId = author.getAuthorId().toString();
-    }
-
-    public String getName(){
-        return name;
+    public String getFbUserId() {
+        return mFbUserId;
     }
 
     public String getAuthorId() {
-        return authorId;
+        return mProfile.getAuthor().getAuthorId();
+    }
+
+    public UserProfile getProfile() {
+        return mProfile;
     }
 }

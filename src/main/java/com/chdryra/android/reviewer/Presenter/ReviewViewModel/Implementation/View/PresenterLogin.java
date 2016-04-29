@@ -66,14 +66,14 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void authenticate(GoogleLogin login) {
         if (!mAuthenticating) {
-            authenticateWithCredentials(mHandler = mHandlerFactory.newHandler(login,
+            authenticateWithCredentials(mHandlerFactory.newHandler(login,
                     mAuthenticatorFactory.newGoogleAuthenticator(this)));
         }
     }
 
     public void authenticate(TwitterLogin login) {
         if (!mAuthenticating) {
-            authenticateWithCredentials(mHandler = mHandlerFactory.newHandler(login,
+            authenticateWithCredentials(mHandlerFactory.newHandler(login,
                     mAuthenticatorFactory.newTwitterAuthenticator(this)));
         }
     }

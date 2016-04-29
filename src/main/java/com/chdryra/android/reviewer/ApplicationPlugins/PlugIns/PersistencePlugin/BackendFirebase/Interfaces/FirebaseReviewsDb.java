@@ -20,16 +20,16 @@ import java.util.Collection;
  * On: 24/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FirebaseDb {
-    interface AddCallback {
+public interface FirebaseReviewsDb {
+    interface AddReviewCallback {
         void onReviewAdded(FbReview review, @Nullable FirebaseError error);
     }
 
-    interface DeleteCallback {
+    interface DeleteReviewCallback {
         void onReviewDeleted(String reviewId, @Nullable FirebaseError error);
     }
 
-    interface GetCallback {
+    interface GetReviewCallback {
         void onReview(FbReview review, @Nullable FirebaseError error);
     }
 
@@ -37,17 +37,17 @@ public interface FirebaseDb {
         void onReviewCollection(Collection<FbReview> reviews, @Nullable FirebaseError error);
     }
 
-    void addReview(FbReview review, AddCallback callback);
+    void addReview(FbReview review, AddReviewCallback callback);
 
-    void deleteReview(String reviewId, DeleteCallback callback);
+    void deleteReview(String reviewId, DeleteReviewCallback callback);
 
-    void getReview(String id, GetCallback callback);
+    void getReview(String id, GetReviewCallback callback);
 
     void getReviews(GetCollectionCallback callback);
 
     void getReviewsList(GetCollectionCallback callback);
 
-    void registerObserver(FirebaseDbObserver observer);
+    void registerObserver(FirebaseDbObserver<FbReview> observer);
 
-    void unregisterObserver(FirebaseDbObserver observer);
+    void unregisterObserver(FirebaseDbObserver<FbReview> observer);
 }

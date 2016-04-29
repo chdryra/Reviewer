@@ -79,7 +79,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
         assertThat(row.hasData(new DataValidator()), is(true));
         assertThat(row.getReviewId(), is(reference.getReviewId()));
         assertThat(row.getParentId(), is(parentId.toString()));
-        assertThat(row.getAuthorId(), is(reference.getAuthor().getUserId().toString()));
+        assertThat(row.getAuthorId(), is(reference.getAuthor().getAuthorId().toString()));
         assertThat(row.getPublishDate(), is(reference.getPublishDate().getTime()));
         assertThat(row.getSubject(), is(reference.getSubject().getSubject()));
         assertThat(row.getRating(), is(reference.getRating().getRating()));
@@ -96,7 +96,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
         assertThat(row.hasData(new DataValidator()), is(true));
         assertThat(row.getReviewId(), is(review.getReviewId()));
         assertThat(row.getParentId(), is(nullValue()));
-        assertThat(row.getAuthorId(), is(review.getAuthor().getUserId().toString()));
+        assertThat(row.getAuthorId(), is(review.getAuthor().getAuthorId().toString()));
         assertThat(row.getPublishDate(), is(review.getPublishDate().getTime()));
         assertThat(row.getSubject(), is(review.getSubject().getSubject()));
         assertThat(row.getRating(), is(review.getRating().getRating()));

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,12 +21,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
 public class MdAuthor implements DataAuthorReview {
     private ReviewId mReviewId;
     private String mName;
-    private UserId mUserId;
+    private AuthorId mAuthorId;
 
-    public MdAuthor(ReviewId reviewId, String name, UserId userId) {
+    public MdAuthor(ReviewId reviewId, String name, AuthorId authorId) {
         mReviewId = reviewId;
         mName = name;
-        mUserId = userId;
+        mAuthorId = authorId;
     }
 
     @Override
@@ -35,14 +35,14 @@ public class MdAuthor implements DataAuthorReview {
     }
 
     @Override
-    public UserId getUserId() {
-        return mUserId;
+    public AuthorId getAuthorId() {
+        return mAuthorId;
     }
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
         return dataValidator.validate(mReviewId) &&
-                dataValidator.validateString(mName) && dataValidator.validate(mUserId);
+                dataValidator.validateString(mName) && dataValidator.validate(mAuthorId);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class MdAuthor implements DataAuthorReview {
         if (mReviewId != null ? !mReviewId.equals(mdAuthor.mReviewId) : mdAuthor.mReviewId != null)
             return false;
         if (mName != null ? !mName.equals(mdAuthor.mName) : mdAuthor.mName != null) return false;
-        return !(mUserId != null ? !mUserId.equals(mdAuthor.mUserId) : mdAuthor.mUserId != null);
+        return !(mAuthorId != null ? !mAuthorId.equals(mdAuthor.mAuthorId) : mdAuthor.mAuthorId != null);
 
     }
 
@@ -68,7 +68,7 @@ public class MdAuthor implements DataAuthorReview {
     public int hashCode() {
         int result = mReviewId != null ? mReviewId.hashCode() : 0;
         result = 31 * result + (mName != null ? mName.hashCode() : 0);
-        result = 31 * result + (mUserId != null ? mUserId.hashCode() : 0);
+        result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
         return result;
     }
 }

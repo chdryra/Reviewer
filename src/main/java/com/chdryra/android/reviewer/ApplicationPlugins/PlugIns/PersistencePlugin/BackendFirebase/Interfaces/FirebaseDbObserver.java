@@ -8,18 +8,15 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation
-        .FbReview;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FirebaseDbObserver {
-    void onReviewAdded(FbReview review);
+public interface FirebaseDbObserver<T> {
+    void onAdded(T item);
 
-    void onReviewChanged(FbReview review);
+    void onChanged(T item);
 
-    void onReviewRemoved(FbReview review);
+    void onRemoved(T item);
 }

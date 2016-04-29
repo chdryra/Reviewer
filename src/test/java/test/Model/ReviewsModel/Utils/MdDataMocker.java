@@ -118,7 +118,7 @@ public class MdDataMocker {
 
     public MdAuthor newAuthor() {
         DataAuthor author = RandomAuthor.nextAuthor();
-        return new MdAuthor(mMdReviewId, author.getName(), author.getUserId());
+        return new MdAuthor(mMdReviewId, author.getName(), author.getAuthorId());
     }
 
     public MdDate newDate() {

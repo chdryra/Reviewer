@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.UserId;
-
 import java.util.UUID;
 
 /**
@@ -22,7 +20,7 @@ import java.util.UUID;
  * @see DatumAuthor
  */
 
-public class AuthorId implements UserId {
+public class AuthorId implements com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId {
     private final UUID mId;
 
     private AuthorId(UUID id) {
@@ -41,9 +39,9 @@ public class AuthorId implements UserId {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserId)) return false;
+        if (!(o instanceof com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId)) return false;
 
-        UserId authorId = (UserId) o;
+        com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId authorId = (com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId) o;
 
         return !(mId != null ? !toString().equals(authorId.toString()) : authorId.toString() != null);
     }
