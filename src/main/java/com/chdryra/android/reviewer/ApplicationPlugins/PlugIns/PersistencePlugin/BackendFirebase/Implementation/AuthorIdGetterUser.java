@@ -8,12 +8,15 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.PathedUpdater;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 04/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorIdGetterUser implements DynamicPathUpdater.PathGetter<User>{
+public class AuthorIdGetterUser implements PathedUpdater.PathGetter<User>{
     @Override
     public String getPath(User item) {
         return item.getAuthorId();

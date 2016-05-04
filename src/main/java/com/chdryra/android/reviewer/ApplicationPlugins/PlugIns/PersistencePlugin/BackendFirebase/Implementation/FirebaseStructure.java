@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.CompositeUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdater;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.PathedUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.UpdaterBuilder;
 
 /**
@@ -35,13 +37,13 @@ public class FirebaseStructure {
     public FirebaseStructure() {
         UpdaterBuilder<User> builderUserUpdate = new UpdaterBuilder<>();
         builderUserUpdate.add(USERS,
-                new DynamicPathUpdater<>(new AuthorIdGetterUser(), new UpdaterUserProfile(PROFILE)));
+                new PathedUpdater<>(new AuthorIdGetterUser(), new UpdaterUserProfile(PROFILE)));
         builderUserUpdate.add(new UpdaterUsersMap(FB_USERS_MAP));
         mUsers = builderUserUpdate.build();
 
         UpdaterBuilder<FbReview> builderUserReviews = new UpdaterBuilder<>();
         builderUserReviews.add(USERS,
-                new DynamicPathUpdater<>(new AuthorIdGetterReview(), new UpdaterUserReviewData(REVIEWS, TAGS, FEED)));
+                new PathedUpdater<>(new AuthorIdGetterReview(), new UpdaterUserReviewData(REVIEWS, TAGS, FEED)));
         DbUpdater<FbReview> userReviews = builderUserReviews.build();
         DbUpdater<FbReview> tags = new UpdaterTags(TAGS, REVIEWS, USERS);
         DbUpdater<FbReview> reviews = new UpdaterReviews(REVIEWS, REVIEWS_DATA, REVIEWS_LIST);
