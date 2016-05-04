@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -31,12 +30,6 @@ public class PathedUpdater<T> extends DbUpdaterBasic<T> {
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(T item, UpdateType updateType) {
-        Map<String, Object> updates = new HashMap<>();
-        Map<String, Object> relativeMap = mUpdatesStructure.getUpdatesMap(item, updateType);
-        for(Map.Entry<String, Object> entry : relativeMap.entrySet()) {
-            updates.put(path(mPath, entry.getKey()), entry.getValue());
-        }
-
-        return updates;
+        return includePathInKeys(mPath, mUpdatesStructure.getUpdatesMap(item, updateType));
     }
 }

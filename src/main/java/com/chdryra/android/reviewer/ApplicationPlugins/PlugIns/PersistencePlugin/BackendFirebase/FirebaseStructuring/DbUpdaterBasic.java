@@ -9,6 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring;
 
 
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 29/04/2016
@@ -22,5 +26,14 @@ public abstract class DbUpdaterBasic<T> implements DbUpdater<T> {
         }
 
         return path;
+    }
+
+    protected Map<String, Object> includePathInKeys(String path, Map<String, Object> relativeMap) {
+        Map<String, Object> updates = new HashMap<>();
+        for(Map.Entry<String, Object> entry : relativeMap.entrySet()) {
+            updates.put(path(path, entry.getKey()), entry.getValue());
+        }
+
+        return updates;
     }
 }

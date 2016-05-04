@@ -34,12 +34,14 @@ public class FirebaseStructure {
 
     public FirebaseStructure() {
         UpdaterBuilder<User> builderUserUpdate = new UpdaterBuilder<>();
-        builderUserUpdate.add(USERS, new UserDataUpdater(new UpdaterUserProfile(PROFILE)));
+        builderUserUpdate.add(USERS,
+                new DynamicPathUpdater<>(new AuthorIdGetterUser(), new UpdaterUserProfile(PROFILE)));
         builderUserUpdate.add(new UpdaterUsersMap(FB_USERS_MAP));
         mUsers = builderUserUpdate.build();
 
         UpdaterBuilder<FbReview> builderUserReviews = new UpdaterBuilder<>();
-        builderUserReviews.add(USERS, new UserReviewDataUpdater(new UpdaterUserReviewData(REVIEWS, TAGS, FEED)));
+        builderUserReviews.add(USERS,
+                new DynamicPathUpdater<>(new AuthorIdGetterReview(), new UpdaterUserReviewData(REVIEWS, TAGS, FEED)));
         DbUpdater<FbReview> userReviews = builderUserReviews.build();
         DbUpdater<FbReview> tags = new UpdaterTags(TAGS, REVIEWS, USERS);
         DbUpdater<FbReview> reviews = new UpdaterReviews(REVIEWS, REVIEWS_DATA, REVIEWS_LIST);

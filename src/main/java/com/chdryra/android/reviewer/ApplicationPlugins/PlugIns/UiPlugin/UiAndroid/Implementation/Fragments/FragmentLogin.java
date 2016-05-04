@@ -124,6 +124,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
             public void onClick(View v) {
                 if (mEmailPassword.validEmailPassword()) {
                     mPresenter.authenticate(mEmailPassword);
+                } else {
+                    launchFeedScreen();
                 }
             }
         });
