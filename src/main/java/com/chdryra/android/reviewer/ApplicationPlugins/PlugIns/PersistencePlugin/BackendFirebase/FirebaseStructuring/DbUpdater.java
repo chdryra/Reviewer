@@ -18,7 +18,7 @@ import java.util.Map;
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DbStructure<T> {
+public interface DbUpdater<T> {
     enum UpdateType{INSERT_OR_UPDATE, DELETE}
 
     @NonNull

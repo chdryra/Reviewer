@@ -14,7 +14,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DbStructureBasic<T> implements DbStructure<T> {
+public abstract class DbUpdaterBasic<T> implements DbUpdater<T> {
     protected String path(String root, String...elements) {
         String path = root;
         for(String element : elements) {

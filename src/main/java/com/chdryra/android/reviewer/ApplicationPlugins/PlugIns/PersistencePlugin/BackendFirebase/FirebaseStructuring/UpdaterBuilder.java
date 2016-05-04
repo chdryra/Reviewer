@@ -17,38 +17,38 @@ import java.util.Collection;
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureBuilder<T> {
-    private ArrayList<DbStructure<T>> mStructures;
+public class UpdaterBuilder<T> {
+    private ArrayList<DbUpdater<T>> mStructures;
 
-    public StructureBuilder() {
+    public UpdaterBuilder() {
         mStructures = new ArrayList<>();
     }
 
-    public StructureBuilder<T> add(DbStructure<T> structure) {
+    public UpdaterBuilder<T> add(DbUpdater<T> structure) {
         mStructures.add(structure);
         return this;
     }
 
-    public StructureBuilder<T> add(String path, DbStructure<T> structure) {
-        mStructures.add(new PathedStructure<>(path, structure));
+    public UpdaterBuilder<T> add(String path, DbUpdater<T> structure) {
+        mStructures.add(new PathedUpdater<>(path, structure));
         return this;
     }
 
-    public StructureBuilder<T> add(Collection<DbStructure<T>> structures) {
+    public UpdaterBuilder<T> add(Collection<DbUpdater<T>> structures) {
         mStructures.addAll(structures);
         return this;
     }
 
-    public StructureBuilder<T> add(String path, Collection<DbStructure<T>> structures) {
-        for(DbStructure<T> structure : structures) {
+    public UpdaterBuilder<T> add(String path, Collection<DbUpdater<T>> structures) {
+        for(DbUpdater<T> structure : structures) {
             add(path, structure);
         }
 
         return this;
     }
 
-    public DbStructure<T> build() {
-        CompositeStructure.Builder<T> builder = new CompositeStructure.Builder<>();
+    public DbUpdater<T> build() {
+        CompositeUpdater.Builder<T> builder = new CompositeUpdater.Builder<>();
         return builder.add(mStructures).build();
     }
 }

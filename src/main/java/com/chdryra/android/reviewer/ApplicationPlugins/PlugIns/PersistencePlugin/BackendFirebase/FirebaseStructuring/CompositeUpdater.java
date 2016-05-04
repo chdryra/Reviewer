@@ -22,10 +22,10 @@ import java.util.Map;
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CompositeStructure<T> extends DbStructureBasic<T> {
-    private Iterable<DbStructure<T>> mStructures;
+public class CompositeUpdater<T> extends DbUpdaterBasic<T> {
+    private Iterable<DbUpdater<T>> mStructures;
 
-    private CompositeStructure(Iterable<DbStructure<T>> structures) {
+    private CompositeUpdater(Iterable<DbUpdater<T>> structures) {
         mStructures = structures;
     }
 
@@ -33,7 +33,7 @@ public class CompositeStructure<T> extends DbStructureBasic<T> {
     @Override
     public Map<String, Object> getUpdatesMap(T item, UpdateType updateType) {
         Map<String, Object> updates = new HashMap<>();
-        for(DbStructure<T> structure : mStructures) {
+        for(DbUpdater<T> structure : mStructures) {
             updates.putAll(structure.getUpdatesMap(item, updateType));
         }
 
@@ -41,24 +41,24 @@ public class CompositeStructure<T> extends DbStructureBasic<T> {
     }
 
     public static class Builder<T> {
-        private ArrayList<DbStructure<T>> mStructures;
+        private ArrayList<DbUpdater<T>> mStructures;
 
         public Builder() {
             mStructures = new ArrayList<>();
         }
 
-        public Builder<T> add(DbStructure<T> structure) {
+        public Builder<T> add(DbUpdater<T> structure) {
             mStructures.add(structure);
             return this;
         }
 
-        public Builder<T> add(Collection<DbStructure<T>> structures) {
+        public Builder<T> add(Collection<DbUpdater<T>> structures) {
             mStructures.addAll(structures);
             return this;
         }
 
-        public DbStructure<T> build() {
-            return new CompositeStructure<>(mStructures);
+        public DbUpdater<T> build() {
+            return new CompositeUpdater<>(mStructures);
         }
     }
 }

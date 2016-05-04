@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Interfaces.FirebaseReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Interfaces.FirebaseDbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .FirebaseStructuring.DbStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdater;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -33,18 +32,15 @@ import java.util.Map;
  */
 public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
     private Firebase mDataRoot;
-    private StructureReviews mStructure;
-    private DbStructure<FbReview> mDenormalisation;
+    private FirebaseStructure mStructure;
     private FirebaseValidator mValidator;
     private ArrayList<FirebaseDbObserver<FbReview>> mObservers;
 
     public FirebaseReviewsDbImpl(Firebase dataRoot,
-                                 StructureReviews structure,
-                                 DbStructure<FbReview> denormalisation,
+                                 FirebaseStructure structure,
                                  FirebaseValidator validator) {
         mDataRoot = dataRoot;
         mStructure = structure;
-        mDenormalisation = denormalisation;
         mValidator = validator;
         mObservers = new ArrayList<>();
         getReviewsRoot().addChildEventListener(new ChildListener());
@@ -52,8 +48,8 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
 
     @Override
     public void addReview(FbReview review, AddReviewCallback callback) {
-        Map<String, Object> updatesMap = getFullUpdatesMap(review, DbStructure.UpdateType
-                .INSERT_OR_UPDATE);
+        Map<String, Object> updatesMap
+                = getUpdatesMap(review, DbUpdater.UpdateType.INSERT_OR_UPDATE);
         mDataRoot.updateChildren(updatesMap, newAddListener(review, callback));
     }
 
@@ -88,7 +84,7 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
     }
 
     private Firebase getReviewsRoot() {
-        return mDataRoot.child(mStructure.getReviewsRoot());
+        return mDataRoot.child(mStructure.getReviewsDataRoot());
     }
 
     private Firebase getReviewsListRoot() {
@@ -96,11 +92,8 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
     }
 
     @NonNull
-    private Map<String, Object> getFullUpdatesMap(FbReview review, DbStructure.UpdateType type) {
-        Map<String, Object> updatesMap = mStructure.getUpdatesMap(review, type);
-        updatesMap.putAll(mDenormalisation.getUpdatesMap(review, type));
-
-        return updatesMap;
+    private Map<String, Object> getUpdatesMap(FbReview review, DbUpdater.UpdateType type) {
+        return mStructure.getReviewUploadUpdater().getUpdatesMap(review, type);
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
@@ -116,7 +109,7 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
                 final FbReview review = dataSnapshot.getValue(FbReview.class);
                 if (mValidator.isValid(review)) {
                     Map<String, Object> deleteMap
-                            = getFullUpdatesMap(review, DbStructure.UpdateType.DELETE);
+                            = getUpdatesMap(review, DbUpdater.UpdateType.DELETE);
                     mDataRoot.updateChildren(deleteMap,
                             newDeleteListener(review.getReviewId(), callback));
                 }

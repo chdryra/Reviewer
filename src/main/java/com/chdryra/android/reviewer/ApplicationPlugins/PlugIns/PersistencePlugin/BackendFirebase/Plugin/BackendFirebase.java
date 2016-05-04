@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.FirebaseReviewsDbImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.FirebaseReviewsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.StructureReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.UpdaterReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.FirebaseValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseReviewsDb;
@@ -44,7 +44,7 @@ public class BackendFirebase implements Backend {
 
         FirebaseValidator fbValidator = new FirebaseValidator(validator);
         FirebaseReviewsDb db = new FirebaseReviewsDbImpl(new Firebase(FirebaseBackend.ROOT),
-                new StructureReviews(), fbValidator);
+                new UpdaterReviews(), fbValidator);
         FactoryFbReview reviewsFactory = new FactoryFbReview(fbValidator);
         FirebaseReviewMaker maker = new FirebaseReviewMaker(model.getReviewsFactory());
 

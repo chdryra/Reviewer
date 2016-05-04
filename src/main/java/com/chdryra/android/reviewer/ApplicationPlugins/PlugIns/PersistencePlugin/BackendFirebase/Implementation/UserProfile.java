@@ -20,21 +20,21 @@ import java.util.Date;
  */
 public class UserProfile {
     private Author author;
-    private long creationDate;
+    private long dateJoined;
 
     public UserProfile() {
     }
 
     public UserProfile(DataAuthor author) {
         this.author = new Author(author);
-        this.creationDate = new Date().getTime();
+        this.dateJoined = new Date().getTime();
     }
 
     public Author getAuthor() {
         return author;
     }
 
-    public long getCreationDate() {
-        return creationDate;
+    public long getDateJoined() {
+        return dateJoined;
     }
 }

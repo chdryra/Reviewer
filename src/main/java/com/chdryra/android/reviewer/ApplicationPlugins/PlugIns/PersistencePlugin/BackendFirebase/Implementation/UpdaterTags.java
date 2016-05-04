@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbStructureBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,15 +22,15 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUserReviews extends DbStructureBasic<FbReview> {
-    private final String mReviewsPath;
-    private final String mTagsPath;
-    private final String mFeedPath;
+public class UpdaterTags extends DbUpdaterBasic<FbReview> {
+    private String mTagsPath;
+    private String mReviewsPath;
+    private String mUsersPath;
 
-    public StructureUserReviews(String reviewsPath, String tagsPath, String feedPath) {
-        mReviewsPath = reviewsPath;
+    public UpdaterTags(String tagsPath, String reviewsPath, String usersPath) {
         mTagsPath = tagsPath;
-        mFeedPath = feedPath;
+        mReviewsPath = reviewsPath;
+        mUsersPath = usersPath;
     }
 
     @NonNull
@@ -41,13 +41,11 @@ public class StructureUserReviews extends DbStructureBasic<FbReview> {
 
         Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
-
+        String authorId = review.getAuthor().getAuthorId();
         for (String tag : review.getTags()) {
-            updates.put(path(mTagsPath, tag , reviewId), trueValue);
+            updates.put(path(mTagsPath, tag, mReviewsPath, reviewId), trueValue);
+            updates.put(path(mTagsPath, tag, mUsersPath, authorId, reviewId), trueValue);
         }
-
-        updates.put(path(mReviewsPath, reviewId), trueValue);
-        updates.put(path(mFeedPath, reviewId), trueValue);
 
         return updates;
     }

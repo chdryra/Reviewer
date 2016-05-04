@@ -19,11 +19,11 @@ import java.util.Map;
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PathedStructure<T> extends DbStructureBasic<T> {
+public class PathedUpdater<T> extends DbUpdaterBasic<T> {
     private String mPath;
-    private DbStructure<T> mUpdatesStructure;
+    private DbUpdater<T> mUpdatesStructure;
 
-    public PathedStructure(String path, DbStructure<T> updatesStructure) {
+    public PathedUpdater(String path, DbUpdater<T> updatesStructure) {
         mPath = path;
         mUpdatesStructure = updatesStructure;
     }
