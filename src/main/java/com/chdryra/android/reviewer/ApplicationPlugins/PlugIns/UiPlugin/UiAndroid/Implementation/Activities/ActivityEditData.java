@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -38,8 +39,8 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         DataEditListener<T>,
         DataAddListener<T> {
 
-    private static final String GVDATA_TYPE
-            = "com.chdryra.android.reviewer.View.ActivitiesFragments.ActivityEditData.gvdata_type";
+    private static final String DATA_TYPE = TagKeyGenerator.getKey(ActivityEditData.class, "DataType");
+
     private GvDataType<T> mDataType;
     private PresenterReviewDataEdit<T> mPresenter;
 
@@ -55,13 +56,13 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         //Because activity is typed and want class info at runtime to start activity
         ActivityEditData<T> dummy = new ActivityEditData<>(dataType);
         Intent i = new Intent(launcher, dummy.getClass());
-        i.putExtra(GVDATA_TYPE, dataType);
+        i.putExtra(DATA_TYPE, dataType);
         launcher.startActivity(i);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mDataType = getIntent().getParcelableExtra(GVDATA_TYPE);
+        mDataType = getIntent().getParcelableExtra(DATA_TYPE);
         super.onCreate(savedInstanceState);
     }
 

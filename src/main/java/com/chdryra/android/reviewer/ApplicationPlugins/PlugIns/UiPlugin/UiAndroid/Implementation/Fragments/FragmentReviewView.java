@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -55,7 +56,7 @@ import com.chdryra.android.reviewer.R;
  */
 @SuppressWarnings("EmptyMethod")
 public class FragmentReviewView extends Fragment implements DataObservable.DataObserver {
-    private static final String TAG = "FragmentReviewView";
+    private static final String TAG = TagKeyGenerator.getTag(FragmentReviewView.class);
 
     private static final int LAYOUT = R.layout.fragment_view_review;
     private static final int LINEAR_LAYOUT = R.id.linearlayout;

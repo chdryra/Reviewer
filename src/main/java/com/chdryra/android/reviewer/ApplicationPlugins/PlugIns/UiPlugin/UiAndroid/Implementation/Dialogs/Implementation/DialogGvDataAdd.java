@@ -14,49 +14,29 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddListener;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation
-        .DialogLayoutBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
  * Base class for all dialog fragments that can edit data on reviews.
- * <p>
- * This class is the launched dialog and handles mainly button presses,
- * view intialisation and callbacks to the commissioning fragment. All
- * other functionality is outsourced to the appropriate classes:
- * <ul>
- * <li>{@link ParcelablePacker}: Unpacking of received data.</li>
- * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
- * <li>{@link DataAddListener}: commissioning fragment.
- * <li>{@link DataBuilder}: input validation when QUICK_SET = true.
- * </ul>
- * </p>
- * <p>
- * By default the dialog won't add any data to reviews. It is assumed that data is updated using
- * a callback to the commissioning fragment.
- * It is then up to that fragment/activity to decide what to do
- * with the entered data. However, if the QUICK_SET boolean in the dialog arguments is set to
- * true, the dialog will validate using a {@link DataBuilder} and forward the data directly to the
- * ControllerReviewEditable packed in the arguments by the Administrator.
- * </p>
  */
 public abstract class DialogGvDataAdd<T extends GvData> extends
         DialogCancelAddDoneFragment implements GvDataAdder, LaunchableUi {
-    public static final String QUICK_SET = "com.chdryra.android.reviewer.dialog_quick_mode";
+    public static final String QUICK_SET = TagKeyGenerator.getKey(DialogGvDataAdd.class, "QuickSet");
+
+    private static final int ADD = R.string.add;
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
@@ -84,7 +64,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     @Override
     public String getLaunchTag() {
-        return "Add" + mDataType.getDatumName();
+        return add() + mDataType.getDatumName();
     }
 
     @Override
@@ -95,7 +75,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     @Override
     public void setKeyboardAction(EditText editText) {
         setKeyboardDoActionOnEditText(editText);
-        editText.setImeActionLabel("Add", KEYBOARD_DO_ACTION);
+        editText.setImeActionLabel(add(), KEYBOARD_DO_ACTION);
     }
 
     @Override
@@ -139,7 +119,11 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     }
 
     private void setDialogTitle() {
-        setDialogTitle(getResources().getString(R.string.add) + " " + mDataType.getDatumName());
+        setDialogTitle(add() + " " + mDataType.getDatumName());
+    }
+
+    private String add() {
+        return getString(ADD);
     }
 
     private void setLayout() {

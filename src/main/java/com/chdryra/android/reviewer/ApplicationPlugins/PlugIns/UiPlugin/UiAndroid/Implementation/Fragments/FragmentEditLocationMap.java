@@ -8,16 +8,22 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
 
+
+
+import android.Manifest;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.database.MatrixCursor;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,18 +39,21 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
-import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
+import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
+import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.PlaceSearcher;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -70,10 +79,13 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         AddressesSuggester.AddressSuggestionsListener,
         PlaceSearcher.PlaceSearcherListener, OnMapReadyCallback {
 
-    private static final String TAG = "FragmentEditLocationMap";
-    private static final String LOCATION = TAG + ".location";
+    private static final String TAG = TagKeyGenerator.getTag(FragmentEditLocationMap.class);
+    private static final String LOCATION = TagKeyGenerator.getKey(FragmentEditLocationMap.class, "Location");
 
-    private static final String NO_LOCATION = "no suggestions found...";
+    private static final String ACCESS_COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String ACCESS_FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+
+    private static final int NO_LOCATION = R.string.dialog_location_no_suggestions;
     private static final float ZOOM = 15;
     private static final int NUMBER_DEFAULT_NAMES = 5;
 
@@ -91,6 +103,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private static final int MENU_ITEM_DELETE = R.id.menu_item_delete;
     private static final int MENU_ITEM_DONE = R.id.menu_item_done;
     private static final int MENU_ITEM_SEARCH = R.id.menu_item_search;
+    private static final int PERMISSION_REQUEST = RequestCodeGenerator.getCode("RequestLocationPermissions");
 
     private GvLocation mCurrentLocation;
     private GoogleMap mGoogleMap;
@@ -221,7 +234,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         }
 
         if (addresses.size() == 0) {
-            addresses.add(NO_LOCATION);
+            addresses.add(getString(NO_LOCATION));
         } else if (mSearchLocationName != null) {
             addresses.add(0, mSearchLocationName);
         }
@@ -344,7 +357,14 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void initGoogleMapUi() {
-        //TODO permissions
+        if (ContextCompat.checkSelfPermission(getActivity(), ACCESS_COARSE_LOCATION )
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION )
+                        != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions( getActivity(), permissions, PERMISSION_REQUEST);
+        }
+
         mGoogleMap.setMyLocationEnabled(true);
         mGoogleMap.setOnMyLocationButtonClickListener(newOnMyLocationButtonClickListener());
         mGoogleMap.setOnInfoWindowClickListener(newOnInfoWindowClickListener());

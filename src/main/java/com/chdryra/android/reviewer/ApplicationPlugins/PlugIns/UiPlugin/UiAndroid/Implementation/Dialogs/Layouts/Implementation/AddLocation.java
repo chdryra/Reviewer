@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
@@ -55,8 +56,8 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     public static final int NAME = R.id.location_add_edit_text;
     public static final int LIST = R.id.suggestions_list_view;
 
-    public static final String LATLNG = "com.chdryra.android.reviewer.latlng";
-    public static final String FROM_IMAGE = "com.chdryra.android.reviewer.from_image";
+    public static final String LATLNG = TagKeyGenerator.getKey(AddLocation.class, "LatLng");
+    public static final String FROM_IMAGE = TagKeyGenerator.getKey(AddLocation.class, "FromImage");
 
     private static final int SEARCHING_NEARBY = R.string.edit_text_searching_near_here;
     private static final int SEARCHING_IMAGE = R.string.edit_text_searching_near_image;

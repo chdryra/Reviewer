@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
@@ -48,8 +49,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class FragmentViewLocation extends Fragment implements
         LocationClientConnector.Locatable {
-    private final static String LOCATION = "com.chdryra.android.reviewer.View.ActivitiesFragments" +
-            ".FragmentViewLocationMap.location";
+    private final static String LOCATION = TagKeyGenerator.getKey(FragmentViewLocation.class, "Location");
     private static final float DEFAULT_ZOOM = 15;
 
     public static final int LAYOUT = R.layout.fragment_review_location_map_view;

@@ -14,13 +14,15 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 23/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryFragment {
-    private static final String TAG = "FragmentInstanceCreator";
+    private static final String TAG = TagKeyGenerator.getTag(FactoryFragment.class);
 
     public static <T extends Fragment, P extends Parcelable> T newFragment(Class<T> fragmentClass,
                                                                            String key, @Nullable P data) {

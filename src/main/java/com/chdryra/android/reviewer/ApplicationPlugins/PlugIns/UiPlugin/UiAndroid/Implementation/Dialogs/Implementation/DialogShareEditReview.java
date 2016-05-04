@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -48,7 +49,8 @@ import java.util.Collection;
  */
 public class DialogShareEditReview extends DialogOneButtonFragment implements
         LaunchableUiAlertable {
-    private static final String SHARE_EDIT_REVIEW = "ShareEditReview";
+    private static final String TAG = TagKeyGenerator.getTag(DialogShareEditReview.class);
+
     private static final int LAYOUT = R.layout.dialog_share_edit_review;
     private static final int SHARE = R.id.button_share_review;
     private static final int ANOTHER = R.id.button_another_review;
@@ -68,7 +70,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
     @Override
     public String getLaunchTag() {
-        return SHARE_EDIT_REVIEW;
+        return TAG;
     }
 
     @Override

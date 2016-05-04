@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -24,8 +25,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityReviewView extends ActivitySingleFragment implements LaunchableUi {
-    private static final String RETAIN_VIEW = "ActivityReviewView.RetainView";
-    private static final String TAG = "ActivityReviewView";
+    private static final String TAG = TagKeyGenerator.getTag(ActivityReviewView.class);
+    private static final String RETAIN_VIEW
+            = TagKeyGenerator.getKey(ActivityReviewView.class, "RetainView");
+
     private ReviewView mView;
 
     @Override

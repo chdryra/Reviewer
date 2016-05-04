@@ -35,6 +35,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 public class ActivityPublishReview extends ActivityReviewView
         implements PlatformAuthoriser, PublishAction.PublishCallback {
     private static final int SOCIAL = R.string.activity_title_share;
+    private static final int PUBLISHING = R.string.publishing;
+    private static final int PROBLEM_PUBLISHING = R.string.problem_publishing;
 
     private ApplicationInstance mApp;
     private LoginUi mAuthUi;
@@ -64,7 +66,7 @@ public class ActivityPublishReview extends ActivityReviewView
 
     @Override
     public void onQueuedToPublish(ReviewId id, CallbackMessage message) {
-        Toast.makeText(this, "Publishing...", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(PUBLISHING), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, ActivityUsersFeed.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -73,6 +75,7 @@ public class ActivityPublishReview extends ActivityReviewView
 
     @Override
     public void onFailedToQueue(@Nullable Review review, @Nullable ReviewId id, CallbackMessage message) {
-        Toast.makeText(this, "Problem publishing: " + message.getMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(PROBLEM_PUBLISHING) + ": " + message.getMessage(),
+                Toast.LENGTH_LONG).show();
     }
 }

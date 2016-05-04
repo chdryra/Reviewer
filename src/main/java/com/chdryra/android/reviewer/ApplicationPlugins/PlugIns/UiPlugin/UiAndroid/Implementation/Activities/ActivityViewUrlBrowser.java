@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditUrlBrowser;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentOAuthUrlBrowser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -22,9 +23,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * disabled).
  */
 public class ActivityViewUrlBrowser extends ActivityEditUrlBrowser {
-    private static final String TAG = "ActivityViewUrlBrowser";
-    private static final String KEY = "com.chdryra.android.reviewer.View.LauncherModel.Implementation." +
-            "SpecialisedActivities.ActivityViewUrlBrowser.url";
+    private static final String TAG = TagKeyGenerator.getTag(ActivityViewUrlBrowser.class);
+    private static final String URL = TagKeyGenerator.getKey(ActivityViewUrlBrowser.class, "Url");
 
     @Override
     public String getLaunchTag() {
@@ -33,7 +33,7 @@ public class ActivityViewUrlBrowser extends ActivityEditUrlBrowser {
 
     @Override
     public void launch(LauncherUi launcher) {
-        launcher.launch(getClass(), KEY);
+        launcher.launch(getClass(), URL);
     }
 
     @Override

@@ -25,6 +25,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.R;
@@ -43,7 +44,7 @@ import com.chdryra.android.reviewer.Social.Implementation.OAuthRequest;
  * </p>
  */
 public class FragmentOAuthLogin extends Fragment {
-    private final static String URL = "FragmentOAuthLogin.url";
+    private final static String URL = TagKeyGenerator.getKey(FragmentOAuthLogin.class, "Url");
 
     private static final int LAYOUT = R.layout.fragment_review_url_browser;
     private static final int WEB_VIEW = R.id.web_view;

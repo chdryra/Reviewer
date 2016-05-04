@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.util.Log;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -30,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryDialogLayout {
-    private static final String TAG = "FactoryGvDataViewHolder";
+    private static final String TAG = TagKeyGenerator.getTag(FactoryDialogLayout.class);
     private ConfigDialogLayouts mConfig;
     private LocationServicesApi mServices;
 

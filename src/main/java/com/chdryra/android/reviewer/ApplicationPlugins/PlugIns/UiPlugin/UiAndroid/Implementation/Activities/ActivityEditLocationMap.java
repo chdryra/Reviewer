@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditLocationMap;
@@ -26,9 +27,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public class ActivityEditLocationMap extends ActivitySingleFragment implements LaunchableUi,
         FragmentEditLocationMap.LocationEditListener {
-    private static final String TAG = "ActivityEditLocationMap";
-    private static final String KEY = "com.chdryra.android.reviewer.View.LauncherModel.Implementation." +
-            "SpecialisedActivities.ActivityEditLocationMap.location";
+    private static final String TAG = TagKeyGenerator.getTag(ActivityEditLocationMap.class);
+    private static final String LOCATION
+            = TagKeyGenerator.getKey(ActivityEditLocationMap.class, "Location");
 
     private FragmentEditLocationMap mFragment;
     private ParcelablePacker<GvLocation> mDataPacker;
@@ -40,7 +41,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
 
     @Override
     public void launch(LauncherUi launcher) {
-        launcher.launch(getClass(), KEY);
+        launcher.launch(getClass(), LOCATION);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ActivityEditLocationMap extends ActivitySingleFragment implements L
 
     @Nullable
     private GvLocation getBundledLocation() {
-        Bundle args = getIntent().getBundleExtra(KEY);
+        Bundle args = getIntent().getBundleExtra(LOCATION);
         return args != null ?
                 mDataPacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvLocation();
     }

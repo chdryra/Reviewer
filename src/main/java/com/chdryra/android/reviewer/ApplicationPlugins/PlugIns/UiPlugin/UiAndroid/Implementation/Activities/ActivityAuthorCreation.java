@@ -20,9 +20,10 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
-public class ActivityLogin extends ActivitySingleFragment implements LaunchableUi {
-    private static final String TAG = TagKeyGenerator.getTag(ActivityLogin.class);
-    private static final String KEY = TagKeyGenerator.getKey(ActivityLogin.class, "Key");
+public class ActivityAuthorCreation extends ActivitySingleFragment implements LaunchableUi {
+    private static final String TAG = TagKeyGenerator.getTag(ActivityAuthorCreation.class);
+    private static final String KEY = TagKeyGenerator.getKey(ActivityAuthorCreation.class, "key");
+
     private FragmentLogin mFragment;
 
     @Override

@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -37,6 +38,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public abstract class DialogGvDataView<T extends GvData> extends DialogOneButtonFragment
         implements LaunchableUi {
+    private static final int VIEW = R.string.view;
+
     private GvDataType<T> mDataType;
     private DialogLayout<T> mLayout;
     private T mDatum;
@@ -52,7 +55,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogOneButton
 
     @Override
     public String getLaunchTag() {
-        return "View" + mDataType.getDatumName();
+        return getString(VIEW) + mDataType.getDatumName();
     }
 
     @Override

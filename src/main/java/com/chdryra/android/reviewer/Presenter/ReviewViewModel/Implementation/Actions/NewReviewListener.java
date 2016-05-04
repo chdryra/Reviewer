@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
@@ -17,7 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NewReviewListener {
-    String TEMPLATE_ID = "NewReviewUsingTemplate";
+    String TEMPLATE_ID = TagKeyGenerator.getKey(NewReviewListener.class, "TemplateId");
 
     void onNewReviewUsingTemplate(ReviewId template);
 }

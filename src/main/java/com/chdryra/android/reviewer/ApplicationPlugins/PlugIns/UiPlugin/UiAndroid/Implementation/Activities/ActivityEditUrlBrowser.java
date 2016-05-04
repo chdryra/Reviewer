@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentEditUrlBrowser;
@@ -24,9 +25,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * disabled).
  */
 public class ActivityEditUrlBrowser extends ActivitySingleFragment implements LaunchableUi {
-    private static final String TAG = "ActivityEditUrlBrowser";
-    private static final String KEY = "com.chdryra.android.reviewer.View.LauncherModel.Implementation." +
-            "SpecialisedActivities.ActivityEditUrlBrowser.url";
+    private static final String TAG = TagKeyGenerator.getTag(ActivityEditUrlBrowser.class);
+    private static final String URL = TagKeyGenerator.getKey(ActivityEditUrlBrowser.class, "Url");
 
     @Override
     public String getLaunchTag() {
@@ -35,7 +35,7 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
 
     @Override
     public void launch(LauncherUi launcher) {
-        launcher.launch(getClass(), KEY);
+        launcher.launch(getClass(), URL);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ActivityEditUrlBrowser extends ActivitySingleFragment implements La
     @Nullable
     protected GvUrl getBundledUrl() {
         ParcelablePacker<GvUrl> packer = new ParcelablePacker<>();
-        Bundle args = getIntent().getBundleExtra(KEY);
+        Bundle args = getIntent().getBundleExtra(URL);
         return args != null? packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : new GvUrl();
     }
 }

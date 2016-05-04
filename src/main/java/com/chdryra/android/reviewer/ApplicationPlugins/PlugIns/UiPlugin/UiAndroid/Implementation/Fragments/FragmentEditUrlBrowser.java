@@ -28,6 +28,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -50,8 +51,8 @@ import java.net.URL;
  * </p>
  */
 public class FragmentEditUrlBrowser extends FragmentDeleteDone {
-    private final static String URL = "com.chdryra.android.reviewer.View.ActivitiesFragments.FragmentEditUrlBrowser.url";
-    private static final String TAG = "FragmentEditUrlBrowser";
+    private static final String TAG = TagKeyGenerator.getTag(FragmentEditUrlBrowser.class);
+    private static final String URL = TagKeyGenerator.getKey(FragmentEditUrlBrowser.class, "Url");
 
     private static final int LAYOUT = R.layout.fragment_review_url_browser;
     private static final int WEB_VIEW = R.id.web_view;

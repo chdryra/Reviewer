@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
@@ -23,7 +24,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ErrorDialogFragment extends DialogFragment {
-    public static final String DIALOG_ERROR = "dialog_error";
+    public static final String DIALOG_ERROR = TagKeyGenerator.getKey(ErrorDialogFragment.class, "DialogError");
     private static final int RESOLVE_ERROR = RequestCodeGenerator.getCode("ResolveErrorDialog");
 
     public ErrorDialogFragment() {

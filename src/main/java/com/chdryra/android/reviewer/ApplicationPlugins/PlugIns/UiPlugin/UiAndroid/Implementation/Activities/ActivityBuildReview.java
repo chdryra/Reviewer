@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -27,8 +28,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ActivityBuildReview extends ActivityReviewView {
-    private static final String TAG = "BuildScreen";
-    private static final String TEMPLATE_ID = "TemplateId";
+    private static final String TAG = TagKeyGenerator.getTag(ActivityBuildReview.class);
+    private static final String TEMPLATE_ID
+            = TagKeyGenerator.getKey(ActivityBuildReview.class, "TemplateReviewId");
+
     private PresenterReviewBuild mPresenter;
 
     @Override

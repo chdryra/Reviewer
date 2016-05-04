@@ -14,13 +14,12 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelDeleteDoneFragment;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.DialogLayoutBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.AddEditLayout;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataEditor;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
@@ -38,20 +37,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
  * Base class for all dialog fragments that can edit data on reviews.
- * <p>
- * This class is the launched dialog and handles mainly button presses,
- * view intialisation and callbacks to the commissioning fragment. All
- * other functionality is outsourced to the appropriate classes:
- * <ul>
- * <li>{@link ParcelablePacker}: Unpacking of received data.</li>
- * <li>{@link DialogLayoutBasic.LayoutHolder}: UI updates and user input extraction</li>
- * <li>{@link DataEditListener}: commissioning fragment.
- * </ul>
- * </p>
  */
 public abstract class DialogGvDataEdit<T extends GvData>
         extends DialogCancelDeleteDoneFragment
         implements GvDataEditor, LaunchableUi {
+
+    private static final int EDIT = R.string.edit;
 
     private final GvDataType<T> mDataType;
     private AddEditLayout<T> mLayout;
@@ -69,7 +60,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     @Override
     public String getLaunchTag() {
-        return "Edit" + mDataType.getDatumName();
+        return edit() + mDataType.getDatumName();
     }
 
     @Override
@@ -133,9 +124,12 @@ public abstract class DialogGvDataEdit<T extends GvData>
             setDialogTitle(null);
             hideKeyboardOnLaunch();
         } else {
-            setDialogTitle(getResources().getString(R.string.edit) + " " + mDataType
-                    .getDatumName());
+            setDialogTitle(edit() + " " + mDataType.getDatumName());
         }
+    }
+
+    private String edit() {
+        return getString(EDIT);
     }
 
     @Override

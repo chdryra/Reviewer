@@ -31,6 +31,7 @@
     <!-- Dialogs -->
     <string name="dialog_url_title">Link</string>
     <string name="dialog_image_content_description">Review image</string>
+    <string name="dialog_location_no_suggestions">No suggestions found&#8230;</string>
 
     <!-- Activities & Screens -->
     <string name="activity_title_location">location</string>
@@ -110,6 +111,8 @@
     <string name="toast_map_search_failed">Couldn\'t find location&#8230;</string>
     <string name="toast_enter_tag">Please enter at least one tag to help categorise it&#8230;</string>
     <string name="toast_enter_location">Please enter a location name&#8230;</string>
+    <string name="publishing">Publishing&#8230;</string>
+    <string name="problem_publishing">Problem publishing</string>
 
     <!-- Social -->
     <string name="facebook">facebook</string>
