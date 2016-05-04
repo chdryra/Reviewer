@@ -29,17 +29,13 @@ public class UpdaterUsersMap extends DbUpdaterBasic<User> {
         mUsersMapPath = usersMapPath;
     }
 
-    public String getUsersMapPath(String fbUserId) {
-        return path(mUsersMapPath, fbUserId);
-    }
-
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
 
         Map<String, Object> updates = new HashMap<>();
-        updates.put(getUsersMapPath(user.getFbUserId()), update ? user.getAuthorId() : null);
+        updates.put(path(mUsersMapPath, user.getFbUserId()), update ? user.getAuthorId() : null);
 
         return updates;
     }

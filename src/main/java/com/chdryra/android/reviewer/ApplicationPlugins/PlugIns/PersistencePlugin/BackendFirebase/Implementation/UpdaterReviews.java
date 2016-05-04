@@ -23,10 +23,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UpdaterReviews extends DbUpdaterBasic<FbReview> {
-    private static final String SUBJECT = FbReview.SUBJECT;
-    private static final String RATING = FbReview.RATING;
-    private static final String DATE = FbReview.PUBLISH_DATE;
-
     public final String mReviewsPath;
     public final String mReviewsDataPath;
     public final String mReviewsListPath;
@@ -42,21 +38,45 @@ public class UpdaterReviews extends DbUpdaterBasic<FbReview> {
     public Map<String, Object> getUpdatesMap(FbReview review, UpdateType updateType) {
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
 
+        Map<String, Object> listMap = null;
         Map<String, Object> reviewMap = null;
-        Map<String, Object> rating = null;
 
         if (update) {
+            ListEntry entry = new ListEntry(review.getSubject(), review.getRating(), review
+                    .getPublishDate());
+            listMap = new ObjectMapper().convertValue(entry, Map.class);
             reviewMap = new ObjectMapper().convertValue(review, Map.class);
-            rating = new ObjectMapper().convertValue(review.getRating(), Map.class);
         }
 
         Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
         updates.put(path(mReviewsPath, mReviewsDataPath, reviewId), reviewMap);
-        updates.put(path(mReviewsPath, mReviewsListPath, reviewId, SUBJECT), review.getSubject());
-        updates.put(path(mReviewsPath, mReviewsListPath, reviewId, RATING), rating);
-        updates.put(path(mReviewsPath, mReviewsListPath, reviewId, DATE), review.getPublishDate());
+        updates.put(path(mReviewsPath, mReviewsListPath, reviewId), listMap);
 
         return updates;
+    }
+
+    private class ListEntry {
+        private String subject;
+        private Rating rating;
+        private long date;
+
+        public ListEntry(String subject, Rating rating, long date) {
+            this.subject = subject;
+            this.rating = rating;
+            this.date = date;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
+
+        public Rating getRating() {
+            return rating;
+        }
+
+        public long getDate() {
+            return date;
+        }
     }
 }
