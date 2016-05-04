@@ -15,7 +15,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Interfaces.FirebaseReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Interfaces.FirebaseDbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .FirebaseStructuring.DbUpdater;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -48,9 +49,8 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
 
     @Override
     public void addReview(FbReview review, AddReviewCallback callback) {
-        Map<String, Object> updatesMap
-                = getUpdatesMap(review, DbUpdater.UpdateType.INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(updatesMap, newAddListener(review, callback));
+        Map<String, Object> map = getUpdatesMap(review, DbUpdater.UpdateType.INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(map, newAddListener(review, callback));
     }
 
     @Override
@@ -107,12 +107,7 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final FbReview review = dataSnapshot.getValue(FbReview.class);
-                if (mValidator.isValid(review)) {
-                    Map<String, Object> deleteMap
-                            = getUpdatesMap(review, DbUpdater.UpdateType.DELETE);
-                    mDataRoot.updateChildren(deleteMap,
-                            newDeleteListener(review.getReviewId(), callback));
-                }
+                if (mValidator.isValid(review)) doDelete(review, callback);
             }
 
             @Override
@@ -120,6 +115,11 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
                 callback.onReviewDeleted(reviewId, firebaseError);
             }
         };
+    }
+
+    private void doDelete(FbReview review, DeleteReviewCallback callback) {
+        Map<String, Object> deleteMap = getUpdatesMap(review, DbUpdater.UpdateType.DELETE);
+        mDataRoot.updateChildren(deleteMap, newDeleteListener(review.getReviewId(), callback));
     }
 
     private Firebase getReviewRoot(String id) {
