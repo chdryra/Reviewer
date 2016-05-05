@@ -23,6 +23,10 @@ public interface ConfigUi {
 
     LaunchableConfig getAdderConfig(String datumName);
 
+    LaunchableConfig getSignUpConfig();
+
+    LaunchableConfig getFeedConfig();
+
     LaunchableConfig getBuildReviewConfig();
 
     LaunchableConfig getMapEditorConfig();

@@ -32,15 +32,15 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
-    private Firebase mDataRoot;
+    private Firebase mDataBase;
     private FirebaseStructure mStructure;
     private FirebaseValidator mValidator;
     private ArrayList<FirebaseDbObserver<FbReview>> mObservers;
 
-    public FirebaseReviewsDbImpl(Firebase dataRoot,
+    public FirebaseReviewsDbImpl(Firebase dataBase,
                                  FirebaseStructure structure,
                                  FirebaseValidator validator) {
-        mDataRoot = dataRoot;
+        mDataBase = dataBase;
         mStructure = structure;
         mValidator = validator;
         mObservers = new ArrayList<>();
@@ -50,7 +50,7 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
     @Override
     public void addReview(FbReview review, AddReviewCallback callback) {
         Map<String, Object> map = getUpdatesMap(review, DbUpdater.UpdateType.INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, newAddListener(review, callback));
+        mDataBase.updateChildren(map, newAddListener(review, callback));
     }
 
     @Override
@@ -83,12 +83,16 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
+    private Firebase getReviewRoot(String reviewId) {
+        return mDataBase.child(mStructure.pathToReview(reviewId));
+    }
+
     private Firebase getReviewsRoot() {
-        return mDataRoot.child(mStructure.getReviewsDataRoot());
+        return mDataBase.child(mStructure.pathToReviewsData());
     }
 
     private Firebase getReviewsListRoot() {
-        return mDataRoot.child(mStructure.getReviewsListRoot());
+        return mDataBase.child(mStructure.pathToReviewsList());
     }
 
     @NonNull
@@ -119,11 +123,7 @@ public class FirebaseReviewsDbImpl implements FirebaseReviewsDb {
 
     private void doDelete(FbReview review, DeleteReviewCallback callback) {
         Map<String, Object> deleteMap = getUpdatesMap(review, DbUpdater.UpdateType.DELETE);
-        mDataRoot.updateChildren(deleteMap, newDeleteListener(review.getReviewId(), callback));
-    }
-
-    private Firebase getReviewRoot(String id) {
-        return getReviewsRoot().child(id);
+        mDataBase.updateChildren(deleteMap, newDeleteListener(review.getReviewId(), callback));
     }
 
     @NonNull

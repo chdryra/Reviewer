@@ -14,8 +14,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Implementation.UserProfile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation.AuthorProfile;
 import com.firebase.client.FirebaseError;
 
 /**
@@ -31,20 +30,20 @@ public interface FirebaseUsersDb {
     }
 
     interface GetProfileCallback {
-        void onUserProfile(UserProfile profile, @Nullable FirebaseError error);
+        void onAuthorProfile(AuthorProfile profile, @Nullable FirebaseError error);
     }
 
     interface UpdateProfileCallback {
-        void onProfileUpdated(UserProfile userProfile, @Nullable FirebaseError error);
+        void onProfileUpdated(User user, @Nullable FirebaseError error);
     }
 
     void addUser(User user, AddUserCallback callback);
 
-    void getUser(String fbUserId, GetProfileCallback callback);
+    void getProfile(String userId, GetProfileCallback callback);
 
-    void updateProfile(UserProfile userProfile, UpdateProfileCallback callback);
+    void updateProfile(User user, UpdateProfileCallback callback);
 
-    void registerObserver(FirebaseDbObserver<UserProfile> observer);
+    void registerObserver(FirebaseDbObserver<User> observer);
 
-    void unregisterObserver(FirebaseDbObserver<UserProfile> observer);
+    void unregisterObserver(FirebaseDbObserver<User> observer);
 }

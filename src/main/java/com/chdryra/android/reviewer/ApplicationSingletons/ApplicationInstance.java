@@ -102,8 +102,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getSocialPlatformList();
     }
 
-    public ConfigUi getConfigDataUi() {
-        return mPresenterContext.getConfigDataUi();
+    public ConfigUi getConfigUi() {
+        return mPresenterContext.getConfigUi();
     }
 
     public LaunchableUiLauncher getUiLauncher() {

@@ -25,6 +25,8 @@ import java.util.ArrayList;
  */
 public abstract class LaunchablesListBasic implements LaunchablesList {
     private final ArrayList<AddEditViewClasses<?>> mDataLaunchables;
+    private final Class<? extends LaunchableUi> mSignUpLaunchable;
+    private final Class<? extends LaunchableUi> mFeedLaunchable;
     private final Class<? extends LaunchableUi> mReviewBuilderLaunchable;
     private final Class<? extends LaunchableUi> mMapEditorLaunchable;
     private final Class<? extends LaunchableUi> mShareLaunchable;
@@ -32,11 +34,15 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     //TODO make this independent of Android
     private Class<? extends Activity> mDefaultReviewViewActivity;
 
-    public LaunchablesListBasic(Class<? extends LaunchableUi> reviewBuilderLaunchable,
+    public LaunchablesListBasic(Class<? extends LaunchableUi> signUpLaunchable,
+                                Class<? extends LaunchableUi> feedLaunchable,
+                                Class<? extends LaunchableUi> reviewBuilderLaunchable,
                                 Class<? extends LaunchableUi> mapEditorLaunchable,
                                 Class<? extends LaunchableUi> shareLaunchable,
                                 Class<? extends LaunchableUiAlertable> shareEditLaunchable,
                                 Class<? extends Activity> defaultReviewViewActivity) {
+        mSignUpLaunchable = signUpLaunchable;
+        mFeedLaunchable = feedLaunchable;
         mReviewBuilderLaunchable = reviewBuilderLaunchable;
         mMapEditorLaunchable = mapEditorLaunchable;
         mShareLaunchable = shareLaunchable;
@@ -47,6 +53,16 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
 
     protected <T extends GvData> void addDataClasses(AddEditViewClasses<T> classes) {
         mDataLaunchables.add(classes);
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getSignUpUi() {
+        return mSignUpLaunchable;
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getFeedUi() {
+        return mFeedLaunchable;
     }
 
     @Override

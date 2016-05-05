@@ -6,7 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Other;
 
 
 import android.app.Fragment;
@@ -32,6 +33,7 @@ import java.util.List;
 public class FacebookLoginAndroid
         implements FacebookLogin, ActivityResultListener, FacebookCallback<LoginResult> {
     private static final List<String> PERMISSIONS;
+
     static {
         PERMISSIONS = new ArrayList<>();
         PERMISSIONS.add(PERMISSION);
@@ -40,13 +42,6 @@ public class FacebookLoginAndroid
     private Fragment mFragment;
     private FacebookLoginCallback mListener;
     private CallbackManager mCallbackManager;
-
-    @Override
-    public void requestCredentials(FacebookLoginCallback resultListener) {
-        setListener(resultListener);
-        LoginManager manager = LoginManager.getInstance();
-        manager.logInWithPublishPermissions(mFragment, PERMISSIONS);
-    }
 
     public FacebookLoginAndroid(Fragment fragment) {
         mFragment = fragment;
@@ -59,8 +54,15 @@ public class FacebookLoginAndroid
     }
 
     @Override
+    public void requestCredentials(FacebookLoginCallback resultListener) {
+        setListener(resultListener);
+        LoginManager manager = LoginManager.getInstance();
+        manager.logInWithPublishPermissions(mFragment, PERMISSIONS);
+    }
+
+    @Override
     public void onSuccess(LoginResult loginResult) {
-        if(mListener != null) mListener.onSuccess(loginResult);
+        if (mListener != null) mListener.onSuccess(loginResult);
     }
 
     @Override
@@ -70,7 +72,7 @@ public class FacebookLoginAndroid
 
     @Override
     public void onError(FacebookException error) {
-        if(mListener != null) mListener.onFailure(error);
+        if (mListener != null) mListener.onFailure(error);
     }
 
     @Override

@@ -6,15 +6,21 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .Implementation;
 
 
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.CompositeUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdater;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.PathedUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.PathMaker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.UpdaterBuilder;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.StructureReviews;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .Interfaces.StructureTags;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .Interfaces.StructureUserData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.StructureUserProfile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.StructureUsersMap;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,52 +34,121 @@ public class FirebaseStructure {
     public static final String TAGS = "Tags";
     public static final String USERS = "Users";
     public static final String PROFILE = "Profile";
-    public static final String FB_USERS_MAP = "FbUsersMap";
+    public static final String USERS_MAP = "ProviderUsersMap";
     public static final String FEED = "Feed";
 
-    private DbUpdater<User> mUsers;
-    private DbUpdater<FbReview> mOnReviewUpload;
+    private final StructureUserProfile mUserProfile;
+    private final StructureUsersMap mUsersMap;
+    private final StructureReviews mReviews;
+    private final StructureUserData mUserData;
+    private final StructureTags mTags;
+
+    private final DbUpdater<User> mUserUpdater;
+    private final DbUpdater<FbReview> mReviewUploadUpdater;
 
     public FirebaseStructure() {
-        UpdaterBuilder<User> builderUserUpdate = new UpdaterBuilder<>();
-        builderUserUpdate.add(USERS,
-                new PathedUpdater<>(new AuthorIdGetterUser(), new UpdaterUserProfile(PROFILE)));
-        builderUserUpdate.add(new UpdaterUsersMap(FB_USERS_MAP));
-        mUsers = builderUserUpdate.build();
+        mUserProfile = new StructureUserProfileImpl();
+        mUsersMap = new StructureUsersMapImpl();
+        mUserData = new StructureUserDataImpl(REVIEWS, TAGS, FEED);
+        mReviews = new StructureReviewsImpl(REVIEWS_DATA, REVIEWS_LIST);
+        mTags = new StructureTagsImpl(REVIEWS, USERS);
 
-        UpdaterBuilder<FbReview> builderUserReviews = new UpdaterBuilder<>();
-        builderUserReviews.add(USERS,
-                new PathedUpdater<>(new AuthorIdGetterReview(), new UpdaterUserReviewData(REVIEWS, TAGS, FEED)));
-        DbUpdater<FbReview> userReviews = builderUserReviews.build();
-        DbUpdater<FbReview> tags = new UpdaterTags(TAGS, REVIEWS, USERS);
-        DbUpdater<FbReview> reviews = new UpdaterReviews(REVIEWS, REVIEWS_DATA, REVIEWS_LIST);
+        mUserProfile.setPathMaker(new PathMaker<User>() {
+            @Override
+            public String getPath(User user) {
+                return pathToProfile(user.getAuthorId());
+            }
+        });
 
-        CompositeUpdater.Builder<FbReview> compositeBuilder = new CompositeUpdater.Builder<>();
-        mOnReviewUpload = compositeBuilder.add(reviews).add(tags).add(userReviews).build();
+        mUsersMap.setPathMaker(new PathMaker<User>() {
+            @Override
+            public String getPath(User user) {
+                return pathToUserAuthorMapping(user.getProviderUserId());
+            }
+        });
+
+
+        mUserData.setPathMaker(new PathMaker<FbReview>() {
+            @Override
+            public String getPath(FbReview item) {
+                return pathToAuthor(item.getAuthor().getAuthorId());
+            }
+        });
+
+        mTags.setPathMaker(new PathMaker<FbReview>() {
+            @Override
+            public String getPath(FbReview item) {
+                return pathToTags();
+            }
+        });
+
+        mReviews.setPathMaker(new PathMaker<FbReview>() {
+            @Override
+            public String getPath(FbReview item) {
+                return pathToReviews();
+            }
+        });
+
+        UpdaterBuilder<FbReview> builderReview = new UpdaterBuilder<>();
+        mReviewUploadUpdater = builderReview.add(mReviews).add(mTags).add(mUserData).build();
+
+        UpdaterBuilder<User> builderUser = new UpdaterBuilder<>();
+        mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).build();
+    }
+
+    public DbUpdater<User> getProfileUpdater() {
+        return mUserProfile;
     }
 
     public DbUpdater<User> getUsersUpdater() {
-        return mUsers;
+        return mUserUpdater;
     }
 
     public DbUpdater<FbReview> getReviewUploadUpdater() {
-        return mOnReviewUpload;
+        return mReviewUploadUpdater;
     }
 
-    public String getReviewsDataRoot() {
-        return path(REVIEWS, REVIEWS_DATA);
+    public String pathToUserAuthorMapping(String userId) {
+        return path(USERS_MAP, mUsersMap.getPathToUserAuthorMapping(userId));
     }
 
-    public String getReviewsListRoot() {
-        return path(REVIEWS, REVIEWS_LIST);
+    public String pathToReviewsData() {
+        return path(pathToReviews(), mReviews.getReviewDataPath());
     }
 
-    private String path(String root, String...elements) {
-        String path = root;
-        for(String element : elements) {
-            path += "/" + element;
-        }
+    public String pathToReviewsList() {
+        return path(pathToReviews(), mReviews.getReviewListPath());
+    }
 
-        return path;
+    public String pathToProfile(String authorId) {
+        return path(pathToAuthor(authorId), PROFILE);
+    }
+
+    public String pathToFeed(String authorId) {
+        return path(pathToAuthor(authorId), mUserData.getPathToFeed());
+    }
+
+    public String pathToAuthor(String authorId) {
+        return path(pathToUsers(), authorId);
+    }
+
+    public String pathToReview(String reviewId) {
+        return path(pathToReviews(), mReviews.getReviewPath(reviewId));
+    }
+
+    private String pathToReviews() {
+        return REVIEWS;
+    }
+
+    private String pathToTags() {
+        return TAGS;
+    }
+
+    private String pathToUsers() {
+        return USERS;
+    }
+
+    private String path(String root, String... elements) {
+        return PathMaker.path(root, elements);
     }
 }

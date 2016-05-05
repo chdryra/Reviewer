@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.StructureUsersMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,11 +23,11 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UpdaterUsersMap extends DbUpdaterBasic<User> {
-    private final String mUsersMapPath;
+public class StructureUsersMapImpl extends DbUpdaterBasic<User> implements StructureUsersMap {
 
-    public UpdaterUsersMap(String usersMapPath) {
-        mUsersMapPath = usersMapPath;
+    @Override
+    public String getPathToUserAuthorMapping(String userId) {
+        return userId;
     }
 
     @NonNull
@@ -35,7 +36,7 @@ public class UpdaterUsersMap extends DbUpdaterBasic<User> {
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
 
         Map<String, Object> updates = new HashMap<>();
-        updates.put(path(mUsersMapPath, user.getFbUserId()), update ? user.getAuthorId() : null);
+        updates.put(getPath(user), update ? user.getAuthorId() : null);
 
         return updates;
     }

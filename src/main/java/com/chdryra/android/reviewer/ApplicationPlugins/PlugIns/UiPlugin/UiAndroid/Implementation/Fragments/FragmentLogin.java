@@ -23,14 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.R;
-import com.google.android.gms.common.SignInButton;
-import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 /**
  * Created by: Rizwan Choudrey
@@ -49,8 +46,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private static final int TWITTER_BUTTON = R.id.login_button_twitter;
 
     private static final int EMAIL_LOGIN = R.id.login_email;
-    private static final int GOOGLE_LOGIN = R.id.login_google;
-    private static final int TWITTER_LOGIN = R.id.login_twitter;
 
     private PresenterLogin mPresenter;
     private EmailPasswordEditTexts mEmailPassword;
@@ -63,12 +58,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
         View view = inflater.inflate(LAYOUT, container, false);
-
-        SignInButton googleLoginButton = (SignInButton) view.findViewById(GOOGLE_LOGIN);
-        TwitterLoginButton twitterLoginButton = (TwitterLoginButton) view.findViewById
-                (TWITTER_LOGIN);
-        googleLoginButton.setVisibility(View.GONE);
-        twitterLoginButton.setVisibility(View.GONE);
 
         LinearLayout emailLoginLayout = (LinearLayout) view.findViewById(EMAIL_LOGIN);
 
@@ -101,12 +90,13 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     @Override
     public void onUserUnknown() {
         Toast.makeText(getActivity(), "User unknown", Toast.LENGTH_SHORT).show();
+        onSignUpNewAuthor();
     }
 
     @Override
     public void onAuthenticated() {
         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
-        launchFeedScreen();
+        onAuthorAuthenticated();
     }
 
     @Override
@@ -125,7 +115,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
                 if (mEmailPassword.validEmailPassword()) {
                     mPresenter.authenticate(mEmailPassword);
                 } else {
-                    launchFeedScreen();
+                    onSignUpNewAuthor();
                 }
             }
         });
@@ -152,9 +142,12 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         });
     }
 
-    private void launchFeedScreen() {
-        Intent intent = new Intent(getActivity(), ActivityUsersFeed.class);
-        startActivity(intent);
+    private void onSignUpNewAuthor() {
+        mPresenter.onSignUpNewAuthor(getActivity());
+    }
+
+    private void onAuthorAuthenticated() {
+        mPresenter.onAuthorAuthenticated(getActivity());
         getActivity().finish();
     }
 }

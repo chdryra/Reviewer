@@ -48,7 +48,7 @@ public interface PresenterContext {
 
     SocialPlatformList getSocialPlatformList();
 
-    ConfigUi getConfigDataUi();
+    ConfigUi getConfigUi();
 
     LaunchableUiLauncher getUiLauncher();
 

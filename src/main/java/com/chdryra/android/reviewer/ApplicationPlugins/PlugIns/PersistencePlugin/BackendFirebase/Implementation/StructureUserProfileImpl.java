@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.StructureUserProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
@@ -23,11 +24,10 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UpdaterUserProfile extends DbUpdaterBasic<User> {
-    private final String mProfilesPath;
+public class StructureUserProfileImpl extends DbUpdaterBasic<User> implements StructureUserProfile {
 
-    public UpdaterUserProfile(String profilesPath) {
-        mProfilesPath = profilesPath;
+    private String getPathToProfile(User user) {
+        return getPath(user);
     }
 
     @NonNull
@@ -39,7 +39,7 @@ public class UpdaterUserProfile extends DbUpdaterBasic<User> {
         if(update) profileMap = new ObjectMapper().convertValue(user.getProfile(), Map.class);
 
         Map<String, Object> updates = new HashMap<>();
-        updates.put(path(mProfilesPath), profileMap);
+        updates.put(getPathToProfile(user), profileMap);
 
         return updates;
     }

@@ -9,29 +9,43 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
 
+
+import android.support.annotation.Nullable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class User {
-    private String mFbUserId;
-    private UserProfile mProfile;
+    private String mProviderUserId;
+    private String mAuthorId;
+    private AuthorProfile mProfile;
 
-    public User(String fbUserId, UserProfile profile) {
-        mFbUserId = fbUserId;
+    public User() {
+    }
+
+    public User(String providerUserId, String authorId) {
+        mProviderUserId = providerUserId;
+        mAuthorId = authorId;
+    }
+
+    public User(String providerUserId, AuthorProfile profile) {
+        mProviderUserId = providerUserId;
+        mAuthorId = profile.getAuthor().getAuthorId();
         mProfile = profile;
     }
 
-    public String getFbUserId() {
-        return mFbUserId;
+    public String getProviderUserId() {
+        return mProviderUserId;
     }
 
     public String getAuthorId() {
-        return mProfile.getAuthor().getAuthorId();
+        return mAuthorId;
     }
 
-    public UserProfile getProfile() {
+    public @Nullable
+    AuthorProfile getProfile() {
         return mProfile;
     }
 }

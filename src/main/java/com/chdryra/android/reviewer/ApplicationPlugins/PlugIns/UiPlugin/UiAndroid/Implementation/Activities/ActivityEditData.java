@@ -119,7 +119,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
         ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
 
         FactoryEditActions actionsFactory
-                = new FactoryEditActions(this, app.getConfigDataUi(), app.getUiLauncher(),
+                = new FactoryEditActions(this, app.getConfigUi(), app.getUiLauncher(),
                 app.getGvDataFactory(), parentBuilder.getImageChooser());
 
         FactoryReviewDataEditor editorFactory

@@ -126,7 +126,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ConfigUi getConfigDataUi() {
+    public ConfigUi getConfigUi() {
         return mViewContext.getUiConfig();
     }
 

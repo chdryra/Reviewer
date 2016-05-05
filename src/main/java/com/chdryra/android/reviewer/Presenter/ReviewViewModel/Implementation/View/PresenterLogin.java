@@ -8,9 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -22,6 +24,8 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -29,9 +33,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback {
+    private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
+    private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
+
     private FactoryCredentialsHandler mHandlerFactory;
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
+    private ApplicationInstance mApp;
     private CredentialsHandler mHandler;
     private LoginListener mListener;
 
@@ -45,9 +53,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         void onAuthenticationFailed(CallbackMessage message);
     }
 
-    private PresenterLogin(FactoryCredentialsHandler handlerFactory,
+    private PresenterLogin(ApplicationInstance app,
+                           FactoryCredentialsHandler handlerFactory,
                            FactoryCredentialsAuthenticator authenticatorFactory,
                            LoginListener listener) {
+        mApp = app;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
@@ -101,7 +111,21 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         } else {
             mListener.onAuthenticationFailed(CallbackMessage.error(error.toString()));
         }
+
         authenticationFinished();
+    }
+
+    public void onSignUpNewAuthor(Activity activity) {
+        launchLaunchable(activity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP);
+    }
+
+    public void onAuthorAuthenticated(Activity activity) {
+        launchLaunchable(activity, mApp.getConfigUi().getFeedConfig(), FEED);
+    }
+
+    private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code) {
+        LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
+        uiLauncher.launch(launchable, activity, code);
     }
 
     private void authenticateWithCredentials(CredentialsHandler handler) {
@@ -123,7 +147,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         }
 
         public PresenterLogin build(LoginListener listener) {
-            return new PresenterLogin(new FactoryCredentialsHandler(),
+            return new PresenterLogin(mApp, new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(mApp.getUserAuthenticator()), listener);
         }
     }

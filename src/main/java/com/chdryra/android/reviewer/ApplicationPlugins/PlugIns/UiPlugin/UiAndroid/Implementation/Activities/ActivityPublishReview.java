@@ -39,6 +39,7 @@ public class ActivityPublishReview extends ActivityReviewView
     private static final int PROBLEM_PUBLISHING = R.string.problem_publishing;
 
     private ApplicationInstance mApp;
+    private PresenterReviewPublish mPresenter;
     private LoginUi mAuthUi;
 
     @Override
@@ -46,10 +47,9 @@ public class ActivityPublishReview extends ActivityReviewView
         mApp = ApplicationInstance.getInstance(this);
 
         PresenterReviewPublish.Builder builder = new PresenterReviewPublish.Builder(mApp);
-        PresenterReviewPublish presenter
-                = builder.build(mApp.getReviewBuilderAdapter(), this, this, getString(SOCIAL));
+        mPresenter = builder.build(mApp.getReviewBuilderAdapter(), this, this, getString(SOCIAL));
 
-        return presenter.getView();
+        return mPresenter.getView();
     }
 
     @Override
@@ -67,10 +67,7 @@ public class ActivityPublishReview extends ActivityReviewView
     @Override
     public void onQueuedToPublish(ReviewId id, CallbackMessage message) {
         Toast.makeText(this, getString(PUBLISHING), Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, ActivityUsersFeed.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        mPresenter.onQueuedToPublish(this);
     }
 
     @Override

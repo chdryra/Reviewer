@@ -12,6 +12,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .Interfaces.StructureReviews;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.HashMap;
@@ -22,15 +25,28 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UpdaterReviews extends DbUpdaterBasic<FbReview> {
-    public final String mReviewsPath;
+public class StructureReviewsImpl extends DbUpdaterBasic<FbReview> implements StructureReviews {
     public final String mReviewsDataPath;
     public final String mReviewsListPath;
 
-    public UpdaterReviews(String reviewsPath, String reviewsDataPath, String reviewsListPath) {
-        mReviewsPath = reviewsPath;
+    public StructureReviewsImpl(String reviewsDataPath, String reviewsListPath) {
         mReviewsDataPath = reviewsDataPath;
         mReviewsListPath = reviewsListPath;
+    }
+
+    @Override
+    public String getReviewDataPath() {
+        return mReviewsDataPath;
+    }
+
+    @Override
+    public String getReviewListPath() {
+        return mReviewsListPath;
+    }
+
+    @Override
+    public String getReviewPath(String reviewId) {
+        return path(mReviewsDataPath, reviewId);
     }
 
     @NonNull
@@ -50,8 +66,8 @@ public class UpdaterReviews extends DbUpdaterBasic<FbReview> {
 
         Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
-        updates.put(path(mReviewsPath, mReviewsDataPath, reviewId), reviewMap);
-        updates.put(path(mReviewsPath, mReviewsListPath, reviewId), listMap);
+        updates.put(path(getPath(review), mReviewsDataPath, reviewId), reviewMap);
+        updates.put(path(getPath(review), mReviewsListPath, reviewId), listMap);
 
         return updates;
     }

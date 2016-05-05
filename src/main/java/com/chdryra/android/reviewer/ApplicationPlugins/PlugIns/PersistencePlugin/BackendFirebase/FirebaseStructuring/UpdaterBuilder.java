@@ -29,21 +29,8 @@ public class UpdaterBuilder<T> {
         return this;
     }
 
-    public UpdaterBuilder<T> add(String path, DbUpdater<T> structure) {
-        mStructures.add(new PathedUpdater<>(path, structure));
-        return this;
-    }
-
     public UpdaterBuilder<T> add(Collection<DbUpdater<T>> structures) {
         mStructures.addAll(structures);
-        return this;
-    }
-
-    public UpdaterBuilder<T> add(String path, Collection<DbUpdater<T>> structures) {
-        for(DbUpdater<T> structure : structures) {
-            add(path, structure);
-        }
-
         return this;
     }
 

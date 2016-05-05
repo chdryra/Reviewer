@@ -8,12 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
-import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
-import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -23,10 +22,12 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .RatingBarActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
@@ -37,6 +38,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
         .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
+import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,14 +49,25 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterReviewPublish {
+    private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
+    private ApplicationInstance mApp;
     private ReviewView<GvSocialPlatform> mView;
 
-    private PresenterReviewPublish(ReviewView<GvSocialPlatform> view) {
+    private PresenterReviewPublish(ApplicationInstance app,
+                                   ReviewView<GvSocialPlatform> view) {
+        mApp = app;
         mView = view;
     }
 
     public ReviewView<GvSocialPlatform> getView() {
         return mView;
+    }
+
+    public void  onQueuedToPublish(Activity activity) {
+        mApp.getConfigUi().getFeedConfig();
+        LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
+        uiLauncher.launch(mApp.getConfigUi().getFeedConfig(), activity, FEED);
+        activity.finish();
     }
 
     public static class Builder {
@@ -73,7 +89,7 @@ public class PresenterReviewPublish {
             ReviewViewPerspective<GvSocialPlatform> perspective =
                     new ReviewViewPerspective<>(adapter, getActions(title, authoriser), getParams(), modifier);
 
-            return new PresenterReviewPublish(new ReviewViewDefault<>(perspective));
+            return new PresenterReviewPublish(mApp, new ReviewViewDefault<>(perspective));
         }
 
         @NonNull

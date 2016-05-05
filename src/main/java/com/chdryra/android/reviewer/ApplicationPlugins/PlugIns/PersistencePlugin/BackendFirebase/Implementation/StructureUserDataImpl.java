@@ -14,6 +14,10 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
 
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
+        .Interfaces.StructureUserData;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,15 +26,32 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UpdaterUserReviewData extends DbUpdaterBasic<FbReview> {
+public class StructureUserDataImpl extends DbUpdaterBasic<FbReview> implements StructureUserData {
     private final String mReviewsPath;
     private final String mTagsPath;
     private final String mFeedPath;
 
-    public UpdaterUserReviewData(String reviewsPath, String tagsPath, String feedPath) {
+    public StructureUserDataImpl(String reviewsPath, String tagsPath, String feedPath) {
         mReviewsPath = reviewsPath;
         mTagsPath = tagsPath;
         mFeedPath = feedPath;
+    }
+
+    @Override
+    public String getPathToFeed() {
+        return mFeedPath;
+    }
+
+    private String getPathToTag(FbReview review, String tag) {
+        return path(getPath(review), mTagsPath, tag);
+    }
+
+    private String getPathToReviews(FbReview review) {
+        return path(getPath(review), mReviewsPath);
+    }
+
+    private String getPathToFeed(FbReview review) {
+        return path(getPath(review), mFeedPath);
     }
 
     @NonNull
@@ -43,11 +64,11 @@ public class UpdaterUserReviewData extends DbUpdaterBasic<FbReview> {
         String reviewId = review.getReviewId();
 
         for (String tag : review.getTags()) {
-            updates.put(path(mTagsPath, tag , reviewId), trueValue);
+            updates.put(path(getPathToTag(review, tag), reviewId), trueValue);
         }
 
-        updates.put(path(mReviewsPath, reviewId), trueValue);
-        updates.put(path(mFeedPath, reviewId), trueValue);
+        updates.put(path(getPathToReviews(review), reviewId), trueValue);
+        updates.put(path(getPathToFeed(review), reviewId), trueValue);
 
         return updates;
     }

@@ -232,7 +232,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         }
 
         private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {
-            ConfigUi config = mApp.getConfigDataUi();
+            ConfigUi config = mApp.getConfigUi();
             LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
             ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter, uiLauncher,
                     config.getShareReviewConfig().getLaunchable(), mEditorFactory);

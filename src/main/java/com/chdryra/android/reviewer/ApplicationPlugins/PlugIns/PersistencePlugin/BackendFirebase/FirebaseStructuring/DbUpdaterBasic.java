@@ -10,30 +10,24 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class DbUpdaterBasic<T> implements DbUpdater<T> {
-    protected String path(String root, String...elements) {
-        String path = root;
-        for(String element : elements) {
-            path += "/" + element;
-        }
+    private PathMaker<T> mPathMaker;
 
-        return path;
+    public void setPathMaker(PathMaker<T> pathMaker) {
+        mPathMaker = pathMaker;
     }
 
-    protected Map<String, Object> includePathInKeys(String path, Map<String, Object> relativeMap) {
-        Map<String, Object> updates = new HashMap<>();
-        for(Map.Entry<String, Object> entry : relativeMap.entrySet()) {
-            updates.put(path(path, entry.getKey()), entry.getValue());
-        }
+    protected String path(String root, String...elements) {
+        return PathMaker.path(root, elements);
+    }
 
-        return updates;
+
+    protected String getPath(T item) {
+        return mPathMaker != null ? mPathMaker.getPath(item) : "";
     }
 }

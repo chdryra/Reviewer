@@ -18,14 +18,14 @@ import java.util.Date;
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserProfile {
+public class AuthorProfile {
     private Author author;
     private long dateJoined;
 
-    public UserProfile() {
+    public AuthorProfile() {
     }
 
-    public UserProfile(DataAuthor author) {
+    public AuthorProfile(DataAuthor author) {
         this.author = new Author(author);
         this.dateJoined = new Date().getTime();
     }

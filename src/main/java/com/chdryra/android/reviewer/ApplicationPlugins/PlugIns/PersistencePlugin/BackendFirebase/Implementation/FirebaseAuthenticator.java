@@ -55,16 +55,16 @@ public class FirebaseAuthenticator implements Authenticator {
     public void authenticateCredentials(AccessToken token, final AuthenticatorCallback
             callback) {
         final String facebook = FACEBOOK;
-        mRoot.authWithOAuthToken(facebook, token.getToken(), getHandler(callback, facebook));
+        mRoot.authWithOAuthToken(facebook, token.getToken(), getResultHandler(callback, facebook));
     }
 
     @NonNull
-    private Firebase.AuthResultHandler getHandler(final AuthenticatorCallback callback, final
-    String facebook) {
+    private Firebase.AuthResultHandler getResultHandler(final AuthenticatorCallback callback, final
+    String provider) {
         return new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                callback.onSuccess(facebook);
+                checkIfAuthorExists(authData, callback, provider);
             }
 
             @Override
@@ -72,6 +72,12 @@ public class FirebaseAuthenticator implements Authenticator {
                 callback.onFailure(getError(firebaseError));
             }
         };
+    }
+
+    private void checkIfAuthorExists(AuthData authData,
+                                     AuthenticatorCallback callback,
+                                     String provider) {
+        String uid = authData.getUid();
     }
 
     @Override
@@ -82,7 +88,7 @@ public class FirebaseAuthenticator implements Authenticator {
         options.put("oauth_token", authToken.token);
         options.put("oauth_token_secret", authToken.secret);
         options.put("user_id", String.valueOf(session.getUserId()));
-        mRoot.authWithOAuthToken(TWITTER, options, getHandler(callback, TWITTER));
+        mRoot.authWithOAuthToken(TWITTER, options, getResultHandler(callback, TWITTER));
     }
 
     @Override
@@ -100,7 +106,7 @@ public class FirebaseAuthenticator implements Authenticator {
 
     private void doEmailAuthentication(final AuthenticatorCallback callback, String email, String
             password, final String provider) {
-        mRoot.authWithPassword(email, password, getHandler(callback, provider));
+        mRoot.authWithPassword(email, password, getResultHandler(callback, provider));
     }
 
     private AuthenticationError getError(FirebaseError error) {
