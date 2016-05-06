@@ -11,12 +11,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .FirebaseStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Interfaces.FirebaseDbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Interfaces.FirebaseUsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseDbObserver;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces.FirebaseUsersDb;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -31,6 +28,9 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FirebaseUsersDbImpl implements FirebaseUsersDb {
+    private static final DbUpdater.UpdateType INSERT_OR_UPDATE
+            = DbUpdater.UpdateType.INSERT_OR_UPDATE;
+
     private Firebase mDataRoot;
     private FirebaseStructure mStructure;
     private ArrayList<FirebaseDbObserver<User>> mObservers;
@@ -43,20 +43,33 @@ public class FirebaseUsersDbImpl implements FirebaseUsersDb {
     }
 
     @Override
-    public void addUser(User user, AddUserCallback callback) {
-        Map<String, Object> map = getUserUpdatesMap(user, DbUpdater.UpdateType.INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, newAddListener(user, callback));
+    public void addUser(final User user, final AddUserCallback callback) {
+        DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
+        Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        callback.onUserAdded(user, firebaseError);
+                    }
+                }
+        );
     }
 
     @Override
     public void getProfile(String userId, GetProfileCallback callback) {
-        doSingleEvent(getUserMappingRoot(userId), newGetListener(callback));
+        Firebase userMappingRoot = mDataRoot.child(mStructure.pathToUserAuthorMapping(userId));
+        doSingleEvent(userMappingRoot, newGetProfileForUserListener(callback));
     }
 
     @Override
-    public void updateProfile(User user, UpdateProfileCallback callback) {
-        Map<String, Object> map = getProfileUpdatesMap(user, DbUpdater.UpdateType.INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, newUpdateListener(user, callback));
+    public void updateProfile(final User user, final UpdateProfileCallback callback) {
+        Map<String, Object> map = mStructure.getProfileUpdater().getUpdatesMap(user, INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                callback.onProfileUpdated(user, firebaseError);
+            }
+        });
     }
 
     @Override
@@ -69,59 +82,48 @@ public class FirebaseUsersDbImpl implements FirebaseUsersDb {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
-    private Firebase getUserMappingRoot(String userId) {
-        return mDataRoot.child(mStructure.pathToUserAuthorMapping(userId));
-    }
-
-    @NonNull
-    private Map<String, Object> getProfileUpdatesMap(User user, DbUpdater.UpdateType type) {
-        return mStructure.getProfileUpdater().getUpdatesMap(user, type);
-    }
-
-    @NonNull
-    private Map<String, Object> getUserUpdatesMap(User user, DbUpdater.UpdateType type) {
-        return mStructure.getUsersUpdater().getUpdatesMap(user, type);
-    }
-
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
         root.addListenerForSingleValueEvent(listener);
     }
 
     @NonNull
-    private ValueEventListener newGetListener(final GetProfileCallback listener) {
+    private ValueEventListener newGetProfileForUserListener(final GetProfileCallback listener) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String authorId = dataSnapshot.getValue().toString();
-
+                Object value = dataSnapshot.getValue();
+                if(value == null) {
+                    notifyNoProfile(listener, new FirebaseError(FirebaseError.USER_DOES_NOT_EXIST,
+                            "No mapping for user " + dataSnapshot.getKey()));
+                } else {
+                    Firebase profile = mDataRoot.child(mStructure.pathToProfile(value.toString()));
+                    doSingleEvent(profile, newGetProfileForAuthorListener(listener));
+                }
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.onAuthorProfile(new AuthorProfile(), firebaseError);
+                notifyNoProfile(listener, firebaseError);
             }
         };
     }
 
     @NonNull
-    private Firebase.CompletionListener newAddListener(final User user,
-                                                       final AddUserCallback listener) {
-        return new Firebase.CompletionListener() {
+    private ValueEventListener newGetProfileForAuthorListener(final GetProfileCallback listener) {
+        return new ValueEventListener() {
             @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                listener.onUserAdded(user, firebaseError);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onAuthorProfile(dataSnapshot.getValue(AuthorProfile.class), null);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                notifyNoProfile(listener, firebaseError);
             }
         };
     }
 
-    @NonNull
-    private Firebase.CompletionListener newUpdateListener(final User user,
-                                                       final UpdateProfileCallback listener) {
-        return new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                listener.onProfileUpdated(user, firebaseError);
-            }
-        };
+    private void notifyNoProfile(GetProfileCallback listener, FirebaseError firebaseError) {
+        listener.onAuthorProfile(new AuthorProfile(), firebaseError);
     }
 }
