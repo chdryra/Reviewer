@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Rating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;

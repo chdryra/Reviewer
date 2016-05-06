@@ -31,7 +31,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FirebaseAuthenticator implements Authenticator {
-    private static final String NAME = "Firebase";
     private static final String FACEBOOK = "facebook";
     private static final String TWITTER = "twitter";
     private static final String GOOGLE = "google";
@@ -64,20 +63,14 @@ public class FirebaseAuthenticator implements Authenticator {
         return new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                checkIfAuthorExists(authData, callback, provider);
+                callback.onAuthenticated(provider, authData.getUid());
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-                callback.onFailure(getError(firebaseError));
+                callback.onAuthenticationError(FirebaseBackend.authenticationError(firebaseError));
             }
         };
-    }
-
-    private void checkIfAuthorExists(AuthData authData,
-                                     AuthenticatorCallback callback,
-                                     String provider) {
-        String uid = authData.getUid();
     }
 
     @Override
@@ -97,7 +90,7 @@ public class FirebaseAuthenticator implements Authenticator {
         String email = account.getEmail();
         String id = account.getId();
         if (email == null || id == null) {
-            callback.onFailure(new AuthenticationError(GOOGLE, AuthenticationError.Reason
+            callback.onAuthenticationError(new AuthenticationError(GOOGLE, AuthenticationError.Reason
                     .INVALID_CREDENTIALS));
         } else {
             doEmailAuthentication(callback, email, id, GOOGLE);
@@ -107,30 +100,5 @@ public class FirebaseAuthenticator implements Authenticator {
     private void doEmailAuthentication(final AuthenticatorCallback callback, String email, String
             password, final String provider) {
         mRoot.authWithPassword(email, password, getResultHandler(callback, provider));
-    }
-
-    private AuthenticationError getError(FirebaseError error) {
-        if (error.getCode() == FirebaseError.EMAIL_TAKEN) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.EMAIL_TAKEN);
-        } else if (error.getCode() == FirebaseError.INVALID_EMAIL) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.INVALID_EMAIL);
-        } else if (error.getCode() == FirebaseError.INVALID_PASSWORD) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.INVALID_PASSWORD);
-        } else if (error.getCode() == FirebaseError.USER_DOES_NOT_EXIST) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.UNKNOWN_USER);
-        } else if (error.getCode() == FirebaseError.INVALID_CREDENTIALS) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.INVALID_CREDENTIALS);
-        } else if (error.getCode() == FirebaseError.DISCONNECTED) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.NETWORK_ERROR);
-        } else if (error.getCode() == FirebaseError.MAX_RETRIES) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.NETWORK_ERROR);
-        } else if (error.getCode() == FirebaseError.NETWORK_ERROR) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.NETWORK_ERROR);
-        } else if (error.getCode() == FirebaseError.UNAVAILABLE) {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.NETWORK_ERROR);
-        } else {
-            return new AuthenticationError(NAME, AuthenticationError.Reason.PROVIDER_ERROR, error
-                    .getDetails());
-        }
     }
 }

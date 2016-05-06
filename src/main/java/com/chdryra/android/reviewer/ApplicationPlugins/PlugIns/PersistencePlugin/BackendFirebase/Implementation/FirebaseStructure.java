@@ -10,6 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation;
 
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses
+        .ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.PathMaker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.UpdaterBuilder;
@@ -44,7 +47,7 @@ public class FirebaseStructure {
     private final StructureTags mTags;
 
     private final DbUpdater<User> mUserUpdater;
-    private final DbUpdater<FbReview> mReviewUploadUpdater;
+    private final DbUpdater<ReviewDb> mReviewUploadUpdater;
 
     public FirebaseStructure() {
         mUserProfile = new StructureUserProfileImpl();
@@ -68,28 +71,28 @@ public class FirebaseStructure {
         });
 
 
-        mUserData.setPathMaker(new PathMaker<FbReview>() {
+        mUserData.setPathMaker(new PathMaker<ReviewDb>() {
             @Override
-            public String getPath(FbReview item) {
+            public String getPath(ReviewDb item) {
                 return pathToAuthor(item.getAuthor().getAuthorId());
             }
         });
 
-        mTags.setPathMaker(new PathMaker<FbReview>() {
+        mTags.setPathMaker(new PathMaker<ReviewDb>() {
             @Override
-            public String getPath(FbReview item) {
+            public String getPath(ReviewDb item) {
                 return pathToTags();
             }
         });
 
-        mReviews.setPathMaker(new PathMaker<FbReview>() {
+        mReviews.setPathMaker(new PathMaker<ReviewDb>() {
             @Override
-            public String getPath(FbReview item) {
+            public String getPath(ReviewDb item) {
                 return pathToReviews();
             }
         });
 
-        UpdaterBuilder<FbReview> builderReview = new UpdaterBuilder<>();
+        UpdaterBuilder<ReviewDb> builderReview = new UpdaterBuilder<>();
         mReviewUploadUpdater = builderReview.add(mReviews).add(mTags).add(mUserData).build();
 
         UpdaterBuilder<User> builderUser = new UpdaterBuilder<>();
@@ -104,7 +107,7 @@ public class FirebaseStructure {
         return mUserUpdater;
     }
 
-    public DbUpdater<FbReview> getReviewUploadUpdater() {
+    public DbUpdater<ReviewDb> getReviewUploadUpdater() {
         return mReviewUploadUpdater;
     }
 

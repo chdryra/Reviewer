@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
 import com.chdryra.android.reviewer.R;
 
@@ -66,17 +65,20 @@ public class FragmentSignUp extends Fragment implements PresenterLogin.LoginList
 
         Button signUpButton = (Button) view.findViewById(SIGN_UP_BUTTON);
 
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
         mEmailPassword = new EmailPasswordEditTexts(email, password);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchFeedScreen();
+                validateAndCreateUser();
             }
         });
 
         return view;
+    }
+
+    private void validateAndCreateUser() {
+
     }
 
     @Override

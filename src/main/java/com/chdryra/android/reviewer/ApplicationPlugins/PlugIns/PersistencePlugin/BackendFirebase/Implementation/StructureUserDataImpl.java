@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses
+        .ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
 
 
@@ -26,7 +28,7 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUserDataImpl extends DbUpdaterBasic<FbReview> implements StructureUserData {
+public class StructureUserDataImpl extends DbUpdaterBasic<ReviewDb> implements StructureUserData {
     private final String mReviewsPath;
     private final String mTagsPath;
     private final String mFeedPath;
@@ -42,21 +44,21 @@ public class StructureUserDataImpl extends DbUpdaterBasic<FbReview> implements S
         return mFeedPath;
     }
 
-    private String getPathToTag(FbReview review, String tag) {
+    private String getPathToTag(ReviewDb review, String tag) {
         return path(getPath(review), mTagsPath, tag);
     }
 
-    private String getPathToReviews(FbReview review) {
+    private String getPathToReviews(ReviewDb review) {
         return path(getPath(review), mReviewsPath);
     }
 
-    private String getPathToFeed(FbReview review) {
+    private String getPathToFeed(ReviewDb review) {
         return path(getPath(review), mFeedPath);
     }
 
     @NonNull
     @Override
-    public Map<String, Object> getUpdatesMap(FbReview review, UpdateType updateType) {
+    public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
         Boolean trueValue = update ? true : null;
 

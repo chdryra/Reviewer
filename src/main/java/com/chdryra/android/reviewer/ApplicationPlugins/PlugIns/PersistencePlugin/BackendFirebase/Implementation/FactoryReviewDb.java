@@ -12,6 +12,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Comment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Criterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Fact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.ImageData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses
+        .LatitudeLongitude;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses
+        .Location;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Rating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.ReviewDb;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
@@ -43,31 +54,31 @@ import java.util.ArrayList;
  * On: 21/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryFbReview {
+public class FactoryReviewDb {
     private static final ReviewDataHolder NULL_REVIEW = new NullReviewDataHolder();
     private FirebaseValidator mValidator;
 
-    public FactoryFbReview(FirebaseValidator validator) {
+    public FactoryReviewDb(FirebaseValidator validator) {
         mValidator = validator;
     }
 
-    public FbReview newFbReview(Review review, TagsManager tagsManager) {
-        return new FbReview(review, tagsManager);
+    public ReviewDb newFbReview(Review review, TagsManager tagsManager) {
+        return new ReviewDb(review, tagsManager);
     }
 
-    public ReviewDataHolder newReviewDataHolder(FbReview fbReview, TagsManager tagsManager) {
-        if(!mValidator.isValid(fbReview)) return NULL_REVIEW;
+    public ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
+        if(!mValidator.isValid(reviewDb)) return NULL_REVIEW;
 
-        ReviewDataHolder reviewDataHolder = toReviewDataHolder(fbReview);
-        String reviewId = fbReview.getReviewId();
-        for(String tag : fbReview.getTags()) {
+        ReviewDataHolder reviewDataHolder = toReviewDataHolder(reviewDb);
+        String reviewId = reviewDb.getReviewId();
+        for(String tag : reviewDb.getTags()) {
             if(!tagsManager.tagsItem(reviewId, tag)) tagsManager.tagItem(reviewId, tag);
         }
 
         return reviewDataHolder;
     }
 
-    private ReviewDataHolder toReviewDataHolder(FbReview review) {
+    private ReviewDataHolder toReviewDataHolder(ReviewDb review) {
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
 
         Author fbAuthor = review.getAuthor();

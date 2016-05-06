@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Interfaces;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FirebaseDbObserver<T> {
+public interface DbObserver<T> {
     void onAdded(T item);
 
     void onChanged(T item);

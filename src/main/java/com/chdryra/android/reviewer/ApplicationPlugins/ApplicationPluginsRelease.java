@@ -29,8 +29,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
         .PersistencePlugin;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
-        .PersistencePluginImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.PersistencePluginImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .Plugin.BackendFirebase;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb

@@ -99,13 +99,13 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     @Override
-    public void onSuccess(String provider) {
+    public void onAuthenticated(String provider, String userId) {
         mListener.onAuthenticated();
         authenticationFinished();
     }
 
     @Override
-    public void onFailure(AuthenticationError error) {
+    public void onAuthenticationError(AuthenticationError error) {
         if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
             mListener.onUserUnknown();
         } else {

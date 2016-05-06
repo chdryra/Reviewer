@@ -112,7 +112,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEmailPassword.validEmailPassword()) {
+                if (mEmailPassword.isValid()) {
                     mPresenter.authenticate(mEmailPassword);
                 } else {
                     onSignUpNewAuthor();

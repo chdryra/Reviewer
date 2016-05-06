@@ -15,8 +15,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .FirebaseStructuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
         .FirebaseStructuring.PathMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
-        .Implementation.FbReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.ReviewDb;
 
 import java.util.Map;
 
@@ -25,10 +24,10 @@ import java.util.Map;
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StructureTags extends DbUpdater<FbReview> {
-    void setPathMaker(PathMaker<FbReview> pathMaker);
+public interface StructureTags extends DbUpdater<ReviewDb> {
+    void setPathMaker(PathMaker<ReviewDb> pathMaker);
 
     @NonNull
     @Override
-    Map<String, Object> getUpdatesMap(FbReview review, UpdateType updateType);
+    Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType);
 }

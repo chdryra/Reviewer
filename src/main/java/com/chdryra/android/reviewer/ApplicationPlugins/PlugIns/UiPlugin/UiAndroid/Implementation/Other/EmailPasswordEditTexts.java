@@ -40,7 +40,8 @@ public class EmailPasswordEditTexts implements EmailPassword {
         return new Password(mPassword.getText().toString().trim());
     }
 
-    public boolean validEmailPassword() {
+    @Override
+    public boolean isValid() {
         return validateEmail(mEmail.getText().toString().trim())
                 && validatePassword(mPassword.getText().toString().trim());
     }

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 

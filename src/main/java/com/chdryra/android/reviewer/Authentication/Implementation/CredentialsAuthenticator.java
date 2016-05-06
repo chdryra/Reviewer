@@ -40,6 +40,6 @@ public class CredentialsAuthenticator<T> implements CredentialsCallback<T> {
 
     @Override
     public void onCredentialsFailure(String provider, AuthenticationError error) {
-        mCallback.onFailure(error);
+        mCallback.onAuthenticationError(error);
     }
 }

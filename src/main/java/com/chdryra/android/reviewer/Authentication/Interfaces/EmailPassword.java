@@ -20,4 +20,6 @@ public interface EmailPassword {
     EmailAddress getEmail();
 
     Password getPassword();
+
+    boolean isValid();
 }

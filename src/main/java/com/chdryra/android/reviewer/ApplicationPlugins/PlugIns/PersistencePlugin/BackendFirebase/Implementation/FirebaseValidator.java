@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
 
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.ReviewDb;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
@@ -28,7 +30,7 @@ public class FirebaseValidator {
         mValidator = validator;
     }
 
-    public boolean isValid(FbReview review) {
+    public boolean isValid(ReviewDb review) {
         DatumReviewId reviewId = new DatumReviewId(review.getReviewId());
         DatumSubject subject = new DatumSubject(reviewId, review.getSubject());
         DatumRating rating = new DatumRating(reviewId, (float)review.getRating().getRating(), (int)review
@@ -39,7 +41,7 @@ public class FirebaseValidator {
                 && mValidator.validate(rating) && isValid(review.getAuthor()) && review.getTags().size() > 0;
     }
 
-    public boolean isIdValid(FbReview review) {
+    public boolean isIdValid(ReviewDb review) {
         DatumReviewId reviewId = new DatumReviewId(review.getReviewId());
 
         return mValidator.validate(reviewId);

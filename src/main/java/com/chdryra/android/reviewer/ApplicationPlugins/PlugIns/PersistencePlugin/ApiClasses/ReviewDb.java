@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -26,10 +26,9 @@ import java.util.List;
  * On: 16/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReview {
+public class ReviewDb {
     public static final String SUBJECT = "subject";
     public static final String RATING = Rating.PATH;
-    public static final String PUBLISH_DATE = "publishDate";
 
     private String reviewId;
     private String subject;
@@ -45,10 +44,10 @@ public class FbReview {
 
     private boolean ratingAverageOfCriteria;
 
-    public FbReview() {
+    public ReviewDb() {
     }
 
-    public FbReview(Review review, TagsManager tagsManager) {
+    public ReviewDb(Review review, TagsManager tagsManager) {
         reviewId = review.getReviewId().toString();
         subject = review.getSubject().getSubject();
         rating = new Rating(review.getRating());

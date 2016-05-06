@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -27,11 +27,11 @@ public class LatitudeLongitude {
         longitude = latLng.longitude;
     }
 
-    double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 }

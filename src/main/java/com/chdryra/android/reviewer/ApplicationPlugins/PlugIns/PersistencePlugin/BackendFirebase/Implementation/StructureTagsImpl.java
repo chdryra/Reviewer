@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses
+        .ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
 
 
@@ -26,7 +28,7 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureTagsImpl extends DbUpdaterBasic<FbReview> implements StructureTags {
+public class StructureTagsImpl extends DbUpdaterBasic<ReviewDb> implements StructureTags {
     private String mReviewsPath;
     private String mUsersPath;
 
@@ -37,7 +39,7 @@ public class StructureTagsImpl extends DbUpdaterBasic<FbReview> implements Struc
 
     @NonNull
     @Override
-    public Map<String, Object> getUpdatesMap(FbReview review, UpdateType updateType) {
+    public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
         Boolean trueValue = update ? true : null;
 

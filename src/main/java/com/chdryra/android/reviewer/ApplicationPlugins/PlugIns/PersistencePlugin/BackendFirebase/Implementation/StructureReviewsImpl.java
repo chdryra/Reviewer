@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.Rating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.ApiClasses.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase.FirebaseStructuring.DbUpdaterBasic;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendFirebase
@@ -25,7 +27,7 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImpl extends DbUpdaterBasic<FbReview> implements StructureReviews {
+public class StructureReviewsImpl extends DbUpdaterBasic<ReviewDb> implements StructureReviews {
     public final String mReviewsDataPath;
     public final String mReviewsListPath;
 
@@ -51,7 +53,7 @@ public class StructureReviewsImpl extends DbUpdaterBasic<FbReview> implements St
 
     @NonNull
     @Override
-    public Map<String, Object> getUpdatesMap(FbReview review, UpdateType updateType) {
+    public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
 
         Map<String, Object> listMap = null;
