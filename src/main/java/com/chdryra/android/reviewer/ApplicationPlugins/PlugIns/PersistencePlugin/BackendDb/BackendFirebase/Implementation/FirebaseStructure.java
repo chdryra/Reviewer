@@ -59,7 +59,8 @@ public class FirebaseStructure {
         mUserProfile.setPathMaker(new PathMaker<User>() {
             @Override
             public String getPath(User user) {
-                return pathToProfile(user.getAuthorId());
+                String authorId = user.getAuthorId();
+                return authorId != null ? pathToProfile(authorId) : "";
             }
         });
 

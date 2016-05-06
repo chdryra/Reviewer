@@ -6,21 +6,23 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.BackendFirebase
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .BackendFirebase
         .Implementation;
 
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation
-        .AuthorProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation
-        .BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.BackendFirebase
-        .FirebaseStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Interfaces.DbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .BackendFirebase.FirebaseStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .Implementation.BackendError;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .Interfaces.BackendUsersDb;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.Password;
@@ -29,7 +31,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -43,63 +44,74 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
 
     private Firebase mDataRoot;
     private FirebaseStructure mStructure;
-    private ArrayList<DbObserver<User>> mObservers;
 
     public FirebaseUsersDbImpl(Firebase dataRoot,
                                FirebaseStructure structure) {
         mDataRoot = dataRoot;
         mStructure = structure;
-        mObservers = new ArrayList<>();
     }
 
     @Override
-    public void createUser(EmailPassword emailPassword, final AuthorProfile profile, final
-    AddProfileCallback callback) {
+    public String getProviderName() {
+        return FirebaseBackend.NAME;
+    }
+
+    @Override
+    public void createUser(EmailPassword emailPassword, CreateUserCallback callback) {
         EmailAddress email = emailPassword.getEmail();
         Password password = emailPassword.getPassword();
-        mDataRoot.createUser(email.toString(), password.toString(),
-                newCreateUserAndAddProfileListener(profile, callback));
+        mDataRoot.createUser(email.toString(), password.toString(), newCreateUserListener
+                (callback));
     }
 
     @Override
     public void addProfile(final User user, final AddProfileCallback callback) {
         DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
         Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
-                    @Override
-                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                        callback.onProfileAdded(user, newBackendError(firebaseError));
-                    }
-                }
-        );
+        mDataRoot.updateChildren(map, newAddProfileListener(user, callback));
     }
 
     @Override
-    public void getProfile(String userId, GetProfileCallback callback) {
-        Firebase userMappingRoot = mDataRoot.child(mStructure.pathToUserAuthorMapping(userId));
-        doSingleEvent(userMappingRoot, newGetProfileForUserListener(callback));
+    public void getProfile(User user, GetProfileCallback callback) {
+        String path = mStructure.pathToUserAuthorMapping(user.getProviderUserId());
+        doSingleEvent(mDataRoot.child(path), newGetProfileForUserListener(callback));
     }
 
     @Override
     public void updateProfile(final User user, final UpdateProfileCallback callback) {
         Map<String, Object> map = mStructure.getProfileUpdater().getUpdatesMap(user,
                 INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
+        mDataRoot.updateChildren(map, newUpdateProfileListener(user, callback));
+    }
+
+    @NonNull
+    private Firebase.CompletionListener newUpdateProfileListener(final User user, final
+    UpdateProfileCallback callback) {
+        return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                callback.onProfileUpdated(user, newBackendError(firebaseError));
+                if (firebaseError == null) {
+                    callback.onProfileUpdated(user);
+                } else {
+                    callback.onProfileUpdatedError(newBackendError(firebaseError));
+                }
             }
-        });
+        };
     }
 
-    @Override
-    public void registerObserver(DbObserver<User> observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
-    }
-
-    @Override
-    public void unregisterObserver(DbObserver<User> observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
+    @NonNull
+    private Firebase.CompletionListener newAddProfileListener(final User user, final
+    AddProfileCallback callback) {
+        return new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError == null) {
+                    callback.onProfileAdded(user);
+                } else {
+                    callback.onProfileAddedError(newBackendError(firebaseError));
+                }
+            }
+        };
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {
@@ -108,18 +120,16 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
 
     @NonNull
     private Firebase.ValueResultHandler<Map<String, Object>>
-    newCreateUserAndAddProfileListener(final AuthorProfile profile, final AddProfileCallback
-            callback) {
+    newCreateUserListener(final CreateUserCallback callback) {
         return new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                User user = new User((String) result.get("uid"), profile);
-                addProfile(user, callback);
+                callback.onUserCreated(new User(getProviderName(), (String) result.get("uid")));
             }
 
             @Override
             public void onError(FirebaseError firebaseError) {
-                callback.onProfileAdded(new User(), newBackendError(firebaseError));
+                callback.onUserCreationError(newBackendError(firebaseError));
             }
         };
     }
@@ -151,7 +161,7 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                listener.onProfile(dataSnapshot.getValue(AuthorProfile.class), null);
+                listener.onProfile(dataSnapshot.getValue(Profile.class));
             }
 
             @Override
@@ -162,7 +172,7 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
     }
 
     private void notifyNoProfile(GetProfileCallback listener, FirebaseError firebaseError) {
-        listener.onProfile(new AuthorProfile(), newBackendError(firebaseError));
+        listener.onProfileError(newBackendError(firebaseError));
     }
 
     private BackendError newBackendError(FirebaseError firebaseError) {

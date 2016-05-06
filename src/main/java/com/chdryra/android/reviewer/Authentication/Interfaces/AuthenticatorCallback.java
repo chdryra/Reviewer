@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 
 /**
@@ -16,7 +17,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AuthenticatorCallback {
-    void onAuthenticated(String provider, String userId);
+    void onAuthenticated(String provider, AuthenticatedUser user);
 
     void onAuthenticationError(AuthenticationError error);
 }

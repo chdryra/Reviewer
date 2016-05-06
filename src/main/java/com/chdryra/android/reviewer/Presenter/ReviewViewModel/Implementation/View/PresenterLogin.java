@@ -16,6 +16,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
@@ -99,7 +100,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     @Override
-    public void onAuthenticated(String provider, String userId) {
+    public void onAuthenticated(String provider, AuthenticatedUser user) {
         mListener.onAuthenticated();
         authenticationFinished();
     }

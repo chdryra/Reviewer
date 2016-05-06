@@ -30,6 +30,6 @@ public class ReviewLoaderDynamic implements ReviewLoader {
 
     @Override
     public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
-        return new ReviewUserDb(reviewRow, database, mNodeFactory);
+        return new ReviewDb(reviewRow, database, mNodeFactory);
     }
 }

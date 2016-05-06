@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNo
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.ReviewUserDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.RowAuthorImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.RowCommentImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Implementation.RowEntryImpl;
@@ -75,7 +75,7 @@ import static org.mockito.Mockito.*;
  * Email: rizwan.choudrey@gmail.com
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ReviewUserDbTest {
+public class ReviewDbTest {
 
     @Mock
     private ReviewerDbReadable mDb;
@@ -113,7 +113,7 @@ public class ReviewUserDbTest {
     @Test
     public void checkRowValueGetters() {
         RowReview row = newRow();
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         ReviewId reviewId = row.getReviewId();
         assertThat(reviewDb.getReviewId(), is(reviewId));
@@ -130,7 +130,7 @@ public class ReviewUserDbTest {
     @Test
     public void getAuthorLoadsAuthorFromAuthorsTable() {
         RowReview row = newRow();
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         DataAuthor author = new DatumAuthorReview(row.getReviewId(),
                 RandomString.nextWord(), new DatumAuthorId(row.getAuthorId()));
@@ -151,7 +151,7 @@ public class ReviewUserDbTest {
     public void getCriteriaLoadsCriteriaFromReviewsTable() {
         Review review = RandomReview.nextReview();
         RowReview row = newRow(review);
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         ArrayList<Review> criteriaRows = new ArrayList<>();
         criteriaRows.add(RandomReview.nextReview());
@@ -186,7 +186,7 @@ public class ReviewUserDbTest {
         DbTable<RowFact> dataTable = mDb.getFactsTable();
 
         RowReview row = newRow(review);
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
         
         RowEntry<RowFact, String> dataClause = setUpDbReturn(dataRows, dataTable, RowFact
                 .REVIEW_ID, row);
@@ -213,7 +213,7 @@ public class ReviewUserDbTest {
         DbTable<RowComment> dataTable = mDb.getCommentsTable();
 
         RowReview row = newRow(review);
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         RowEntry<RowComment, String> dataClause = setUpDbReturn(dataRows, dataTable, RowComment.REVIEW_ID, row);
 
@@ -239,7 +239,7 @@ public class ReviewUserDbTest {
         DbTable<RowLocation> dataTable = mDb.getLocationsTable();
 
         RowReview row = newRow(review);
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         RowEntry<RowLocation, String> dataClause = setUpDbReturn(dataRows, dataTable, RowLocation.REVIEW_ID, row);
 
@@ -263,7 +263,7 @@ public class ReviewUserDbTest {
         DbTable<RowImage> dataTable = mDb.getImagesTable();
 
         RowReview row = newRow(review);
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         RowEntry<RowImage, String> dataClause = setUpDbReturn(dataRows, dataTable, RowImage.REVIEW_ID, row);
 
@@ -284,7 +284,7 @@ public class ReviewUserDbTest {
         DbTable<RowImage> dataTable = mDb.getImagesTable();
 
         RowReview row = newRow(review);
-        ReviewUserDb reviewDb = new ReviewUserDb(row, mDb, mFactory);
+        ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
         RowEntry<RowImage, Boolean> coverClause
                 = asClause(dataTable.getRowClass(), RowImage.IS_COVER, true);

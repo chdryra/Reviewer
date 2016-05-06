@@ -12,8 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
-        .Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
         .Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.User;
@@ -25,27 +24,37 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BackendUsersDb {
+    interface CreateUserCallback {
+        void onUserCreated(User user);
+
+        void onUserCreationError(BackendError error);
+    }
+
     interface AddProfileCallback {
-        void onProfileAdded(User user, @Nullable BackendError error);
+        void onProfileAdded(User user);
+
+        void onProfileAddedError(@Nullable BackendError error);
     }
 
     interface GetProfileCallback {
-        void onProfile(AuthorProfile profile, @Nullable BackendError error);
+        void onProfile(Profile profile);
+
+        void onProfileError(@Nullable BackendError error);
     }
 
     interface UpdateProfileCallback {
-        void onProfileUpdated(User user, @Nullable BackendError error);
+        void onProfileUpdated(User user);
+
+        void onProfileUpdatedError(@Nullable BackendError error);
     }
 
-    void createUser(EmailPassword emailPassword, AuthorProfile profile, AddProfileCallback callback);
+    String getProviderName();
+
+    void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
     void addProfile(User user, AddProfileCallback callback);
 
-    void getProfile(String userId, GetProfileCallback callback);
+    void getProfile(User user, GetProfileCallback callback);
 
     void updateProfile(User user, UpdateProfileCallback callback);
-
-    void registerObserver(DbObserver<User> observer);
-
-    void unregisterObserver(DbObserver<User> observer);
 }

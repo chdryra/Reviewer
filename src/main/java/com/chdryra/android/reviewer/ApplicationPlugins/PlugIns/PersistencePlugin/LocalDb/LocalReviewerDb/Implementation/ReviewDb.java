@@ -50,7 +50,7 @@ import java.util.ArrayList;
  * On: 02/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewUserDb extends ReviewStatic {
+public class ReviewDb extends ReviewStatic {
     public static final RowEntry<RowImage, Boolean> COVER_CLAUSE
             = new RowEntryImpl<>(RowImage.class, RowImage.IS_COVER, true);
 
@@ -59,9 +59,9 @@ public class ReviewUserDb extends ReviewStatic {
     private ReviewNode mNode;
     private DataAuthorReview mAuthor;
 
-    public ReviewUserDb(RowReview row,
-                        ReviewerDbReadable db,
-                        FactoryReviewNode nodeFactory) {
+    public ReviewDb(RowReview row,
+                    ReviewerDbReadable db,
+                    FactoryReviewNode nodeFactory) {
         mRow = row;
         mDb = db;
         mNode = nodeFactory.createReviewNode(this, false);

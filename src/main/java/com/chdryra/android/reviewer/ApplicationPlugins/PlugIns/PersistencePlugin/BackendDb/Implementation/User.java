@@ -18,34 +18,47 @@ import android.support.annotation.Nullable;
  * Email: rizwan.choudrey@gmail.com
  */
 public class User {
+    private String mProviderName;
     private String mProviderUserId;
     private String mAuthorId;
-    private AuthorProfile mProfile;
+    private Profile mProfile;
 
     public User() {
     }
 
-    public User(String providerUserId, String authorId) {
+    public User(String providerName, String providerUserId) {
+        mProviderName = providerName;
+        mProviderUserId = providerUserId;
+    }
+
+    public User(String providerName, String providerUserId, String authorId) {
+        mProviderName = providerName;
         mProviderUserId = providerUserId;
         mAuthorId = authorId;
     }
 
-    public User(String providerUserId, AuthorProfile profile) {
+    public User(String providerName, String providerUserId, Profile profile) {
+        mProviderName = providerName;
         mProviderUserId = providerUserId;
         mAuthorId = profile.getAuthor().getAuthorId();
         mProfile = profile;
+    }
+
+    public String getProviderName() {
+        return mProviderName;
     }
 
     public String getProviderUserId() {
         return mProviderUserId;
     }
 
+    @Nullable
     public String getAuthorId() {
         return mAuthorId;
     }
 
     public @Nullable
-    AuthorProfile getProfile() {
+    Profile getProfile() {
         return mProfile;
     }
 }
