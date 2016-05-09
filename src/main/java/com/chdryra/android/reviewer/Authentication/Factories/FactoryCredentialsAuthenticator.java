@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Authentication.Factories;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -22,9 +22,9 @@ import com.twitter.sdk.android.core.TwitterSession;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryCredentialsAuthenticator {
-    private Authenticator mAuthenticator;
+    private UserAuthenticator mAuthenticator;
 
-    public FactoryCredentialsAuthenticator(Authenticator authenticator) {
+    public FactoryCredentialsAuthenticator(UserAuthenticator authenticator) {
         mAuthenticator = authenticator;
     }
 
@@ -32,7 +32,7 @@ public class FactoryCredentialsAuthenticator {
         return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<EmailPassword>() {
             @Override
             public void authenticate(EmailPassword credentials, AuthenticatorCallback callback) {
-                mAuthenticator.authenticateCredentials(credentials, callback);           
+                mAuthenticator.authenticateUser(credentials, callback);
             }
         });
     }
@@ -41,7 +41,7 @@ public class FactoryCredentialsAuthenticator {
         return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<AccessToken>() {
             @Override
             public void authenticate(AccessToken credentials, AuthenticatorCallback callback) {
-                mAuthenticator.authenticateCredentials(credentials, callback);
+                mAuthenticator.authenticateUser(credentials, callback);
             }
         });
     }
@@ -50,7 +50,7 @@ public class FactoryCredentialsAuthenticator {
         return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<GoogleSignInAccount>() {
             @Override
             public void authenticate(GoogleSignInAccount credentials, AuthenticatorCallback callback) {
-                mAuthenticator.authenticateCredentials(credentials, callback);
+                mAuthenticator.authenticateUser(credentials, callback);
             }
         });
     }
@@ -59,7 +59,7 @@ public class FactoryCredentialsAuthenticator {
         return new CredentialsAuthenticator<>(callback, new CredentialsAuthenticator.AuthenticationCall<TwitterSession>() {
             @Override
             public void authenticate(TwitterSession credentials, AuthenticatorCallback callback) {
-                mAuthenticator.authenticateCredentials(credentials, callback);
+                mAuthenticator.authenticateUser(credentials, callback);
             }
         });
     }

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 public abstract class PersistenceContextBasic implements PersistenceContext {
     private ReviewsRepositoryMutable mLocalRepo;
     private ReviewsRepositoryMutable mBackendRepo;
-    private Authenticator mAuthenticator;
+    private UsersManager mUsersManager;
     private ReviewsSource mReviewsSource;
     private FactoryReviewsFeed mFeedFactory;
 
@@ -34,8 +34,8 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mBackendRepo = backendRepo;
     }
 
-    public void setAuthenticator(Authenticator authenticator) {
-        mAuthenticator = authenticator;
+    public void setUsersManager(UsersManager usersManager) {
+        mUsersManager = usersManager;
     }
 
     public void setReviewsSource(ReviewsSource reviewsSource) {
@@ -62,8 +62,8 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public Authenticator getBackendAuthenticator() {
-        return mAuthenticator;
+    public UsersManager getUsersManager() {
+        return mUsersManager;
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
  * Email: rizwan.choudrey@gmail.com
  */
 public interface AuthenticatorCallback {
-    void onAuthenticated(String provider, AuthenticatedUser user);
+    void onAuthenticated(AuthenticatedUser user);
 
     void onAuthenticationError(AuthenticationError error);
 }

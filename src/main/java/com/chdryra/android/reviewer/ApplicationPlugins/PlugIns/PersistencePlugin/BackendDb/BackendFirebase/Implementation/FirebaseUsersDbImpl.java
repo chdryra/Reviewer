@@ -13,17 +13,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
-        .BackendFirebase.FirebaseStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.BackendFirebase.FirebaseStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.UserProfileTranslator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
-        .Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
-        .Implementation.BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
-        .Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
-        .Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.Password;
@@ -96,7 +91,7 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
                 if (firebaseError == null) {
                     callback.onProfileUpdated(user);
                 } else {
-                    callback.onProfileUpdatedError(newBackendError(firebaseError));
+                    callback.onProfileUpdatedError(newError(firebaseError));
                 }
             }
         };
@@ -111,7 +106,7 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
                 if (firebaseError == null) {
                     callback.onProfileAdded(user);
                 } else {
-                    callback.onProfileAddedError(newBackendError(firebaseError));
+                    callback.onProfileAddedError(newError(firebaseError));
                 }
             }
         };
@@ -133,7 +128,7 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
 
             @Override
             public void onError(FirebaseError firebaseError) {
-                callback.onUserCreationError(newBackendError(firebaseError));
+                callback.onUserCreationError(newError(firebaseError));
             }
         };
     }
@@ -176,10 +171,10 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
     }
 
     private void notifyNoProfile(GetProfileCallback listener, FirebaseError firebaseError) {
-        listener.onProfileError(newBackendError(firebaseError));
+        listener.onProfileError(newError(firebaseError));
     }
 
-    private BackendError newBackendError(FirebaseError firebaseError) {
-        return FirebaseBackend.backendError(firebaseError);
+    private AuthenticationError newError(FirebaseError firebaseError) {
+        return FirebaseBackend.authenticationError(firebaseError);
     }
 }

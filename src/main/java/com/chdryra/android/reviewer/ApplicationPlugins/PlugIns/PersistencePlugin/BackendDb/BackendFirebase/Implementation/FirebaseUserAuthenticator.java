@@ -10,8 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.facebook.AccessToken;
@@ -30,7 +31,7 @@ import java.util.Map;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseAuthenticator implements Authenticator {
+public class FirebaseUserAuthenticator implements UserAuthenticator {
     private static final String FACEBOOK = "facebook";
     private static final String TWITTER = "twitter";
     private static final String GOOGLE = "google";
@@ -38,12 +39,12 @@ public class FirebaseAuthenticator implements Authenticator {
 
     private Firebase mRoot;
 
-    public FirebaseAuthenticator(Firebase root) {
+    public FirebaseUserAuthenticator(Firebase root) {
         mRoot = root;
     }
 
     @Override
-    public void authenticateCredentials(EmailPassword emailPassword, final
+    public void authenticateUser(EmailPassword emailPassword, final
     AuthenticatorCallback callback) {
         String email = emailPassword.getEmail().toString();
         String password = emailPassword.getPassword().toString();
@@ -51,7 +52,7 @@ public class FirebaseAuthenticator implements Authenticator {
     }
 
     @Override
-    public void authenticateCredentials(AccessToken token, final AuthenticatorCallback
+    public void authenticateUser(AccessToken token, final AuthenticatorCallback
             callback) {
         final String facebook = FACEBOOK;
         mRoot.authWithOAuthToken(facebook, token.getToken(), getResultHandler(callback, facebook));
@@ -63,7 +64,7 @@ public class FirebaseAuthenticator implements Authenticator {
         return new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                callback.onAuthenticated(provider, authData.getUid());
+                callback.onAuthenticated(new AuthenticatedUser(provider, authData.getUid()));
             }
 
             @Override
@@ -74,7 +75,7 @@ public class FirebaseAuthenticator implements Authenticator {
     }
 
     @Override
-    public void authenticateCredentials(TwitterSession session, final
+    public void authenticateUser(TwitterSession session, final
     AuthenticatorCallback callback) {
         TwitterAuthToken authToken = session.getAuthToken();
         Map<String, String> options = new HashMap<>();
@@ -85,7 +86,7 @@ public class FirebaseAuthenticator implements Authenticator {
     }
 
     @Override
-    public void authenticateCredentials(GoogleSignInAccount account, AuthenticatorCallback
+    public void authenticateUser(GoogleSignInAccount account, AuthenticatorCallback
             callback) {
         String email = account.getEmail();
         String id = account.getId();

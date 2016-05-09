@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.User;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 
 /**
@@ -24,25 +24,25 @@ public interface BackendUsersDb {
     interface CreateUserCallback {
         void onUserCreated(User user);
 
-        void onUserCreationError(BackendError error);
+        void onUserCreationError(AuthenticationError error);
     }
 
     interface AddProfileCallback {
         void onProfileAdded(User user);
 
-        void onProfileAddedError(BackendError error);
+        void onProfileAddedError(AuthenticationError error);
     }
 
     interface GetProfileCallback {
         void onProfile(Profile profile);
 
-        void onProfileError(BackendError error);
+        void onProfileError(AuthenticationError error);
     }
 
     interface UpdateProfileCallback {
         void onProfileUpdated(User user);
 
-        void onProfileUpdatedError(BackendError error);
+        void onProfileUpdatedError(AuthenticationError error);
     }
 
     String getProviderName();

@@ -36,7 +36,7 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
 
         setBackendRepository(plugin.getBackend().newPersistence(context, model, validator));
 
-        setAuthenticator(plugin.getBackend().getAuthenticator());
+        setUsersManager(plugin.getBackend().newUsersManager());
 
         FactoryReviewsRepository repoFactory = newRepoFactory(context, model, validator, plugin);
         ReviewsRepositoryMutable cachedRepo = repoFactory.newCachedRepo(getBackendRepository());

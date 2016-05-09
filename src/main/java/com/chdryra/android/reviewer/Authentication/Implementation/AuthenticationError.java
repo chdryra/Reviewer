@@ -15,7 +15,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
  */
 public class AuthenticationError {
     public enum Reason {
-        PROVIDER_ERROR("Authenticator error"),
+        PROVIDER_ERROR("Provider error"),
         INVALID_EMAIL("Email doesn't make sense"),
         INVALID_PASSWORD("Password is invalid"),
         INVALID_CREDENTIALS("Credentials are invalid"),
@@ -55,10 +55,14 @@ public class AuthenticationError {
         return mProvider;
     }
 
-    @Override
-    public String toString() {
+    public String getMessage() {
         return "Error authenticating with " + mProvider + ": " + mReason.getMessage()
                 + (mDetail != null && mDetail.length() > 0 ? "(" + mDetail + ")" : mDetail);
+    }
+
+    @Override
+    public String toString() {
+        return getMessage();
     }
 
     public boolean is(Reason reason) {

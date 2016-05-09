@@ -17,12 +17,12 @@ import com.twitter.sdk.android.core.TwitterSession;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface Authenticator {
-    void authenticateCredentials(EmailPassword emailPassword, AuthenticatorCallback callback);
+public interface UserAuthenticator {
+    void authenticateUser(EmailPassword emailPassword, AuthenticatorCallback callback);
 
-    void authenticateCredentials(AccessToken token, AuthenticatorCallback callback);
+    void authenticateUser(AccessToken token, AuthenticatorCallback callback);
 
-    void authenticateCredentials(TwitterSession session, AuthenticatorCallback callback);
+    void authenticateUser(TwitterSession session, AuthenticatorCallback callback);
 
-    void authenticateCredentials(GoogleSignInAccount account, AuthenticatorCallback callback);
+    void authenticateUser(GoogleSignInAccount account, AuthenticatorCallback callback);
 }

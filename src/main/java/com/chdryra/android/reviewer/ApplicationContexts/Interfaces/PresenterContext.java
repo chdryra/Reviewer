@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 import android.app.Activity;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.Authentication.Interfaces.Authenticator;
+import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -74,7 +74,7 @@ public interface PresenterContext {
 
     ReviewsRepositoryMutable getBackendRepository();
 
-    Authenticator getAuthenticator();
+    UsersManager getUsersManager();
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 }

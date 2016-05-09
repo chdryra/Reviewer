@@ -30,6 +30,11 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
         .PersistencePlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.PersistencePluginImpl;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .BackendFirebase.Implementation.FirebaseBackend;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
+        .BackendFirebase.Implementation.FirebaseStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.BackendFirebase
         .Plugin.BackendFirebase;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb
@@ -40,6 +45,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .RelationalDb.RelationalDbPlugin.AndroidSqLiteDb.Plugin.AndroidSqlLiteDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Plugin.UiAndroid;
+import com.firebase.client.Firebase;
 
 /**
  * Created by: Rizwan Choudrey
@@ -70,8 +76,9 @@ public class ApplicationPluginsRelease implements ApplicationPlugins {
     public PersistencePlugin getPersistencePlugin() {
         FactoryLocalReviewerDb local
                 = new FactoryLocalReviewerDb(PERSISTENCE_NAME, PERSISTENCE_VER, new AndroidSqlLiteDb());
-        Backend backend = new BackendFirebase();
         FactoryReviewerDbCache cache = new FactoryReviewerDbCache(local);
+
+        Backend backend = new BackendFirebase(new Firebase(FirebaseBackend.ROOT), new FirebaseStructure());
         return new PersistencePluginImpl(cache, local, backend);
     }
 

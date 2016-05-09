@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation;
 
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Interfaces.BackendUsersDb;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
@@ -21,11 +21,11 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
  * On: 06/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendUserAccounts implements UserAccounts {
+public class UserAccountsBackend implements UserAccounts {
     private BackendUsersDb mDb;
     private UserProfileTranslator mUsersFactory;
 
-    public BackendUserAccounts(BackendUsersDb db, UserProfileTranslator usersFactory) {
+    public UserAccountsBackend(BackendUsersDb db, UserProfileTranslator usersFactory) {
         mDb = db;
         mUsersFactory = usersFactory;
     }
@@ -35,49 +35,44 @@ public class BackendUserAccounts implements UserAccounts {
         mDb.createUser(emailPassword, new BackendUsersDb.CreateUserCallback() {
             @Override
             public void onUserCreated(User user) {
-                callback.onUserCreated(mUsersFactory.toAuthenticatedUser(user),
-                        CallbackMessage.ok("User created"));
+                callback.onUserCreated(mUsersFactory.toAuthenticatedUser(user), null);
             }
 
             @Override
-            public void onUserCreationError(BackendError error) {
-                callback.onUserCreated(mUsersFactory.newNullAuthenticatedUser(),
-                        CallbackMessage.error("Error creating user: " + error.getMessage()));
+            public void onUserCreationError(AuthenticationError error) {
+                callback.onUserCreated(mUsersFactory.newNullAuthenticatedUser(), error);
             }
         });
     }
 
     @Override
-    public void addProfile(AuthenticatedUser user, final AuthorProfile profile,
+    public void addProfile(final AuthenticatedUser authUser, final AuthorProfile profile,
                            final AddProfileCallback callback) {
-        mDb.addProfile(mUsersFactory.toUser(user, profile),
+        mDb.addProfile(mUsersFactory.toUser(authUser, profile),
                 new BackendUsersDb.AddProfileCallback() {
             @Override
             public void onProfileAdded(User user) {
-                callback.onProfileAdded(profile, CallbackMessage.ok("Profile added"));
+                callback.onProfileAdded(authUser, profile, null);
             }
 
             @Override
-            public void onProfileAddedError(BackendError error) {
-                callback.onProfileAdded(profile,
-                        CallbackMessage.error("Problem adding profile: " + error.getMessage()));
+            public void onProfileAddedError(AuthenticationError error) {
+                callback.onProfileAdded(authUser, profile, error);
             }
         });
     }
 
     @Override
-    public void getProfile(AuthenticatedUser user, final GetProfileCallback callback) {
-        mDb.getProfile(mUsersFactory.toUser(user), new BackendUsersDb.GetProfileCallback() {
+    public void getProfile(final AuthenticatedUser authUser, final GetProfileCallback callback) {
+        mDb.getProfile(mUsersFactory.toUser(authUser), new BackendUsersDb.GetProfileCallback() {
             @Override
             public void onProfile(Profile profile) {
-                callback.onProfile(mUsersFactory.toAuthorProfile(profile),
-                        CallbackMessage.ok("Profile retrieved"));
+                callback.onProfile(authUser, mUsersFactory.toAuthorProfile(profile), null);
             }
 
             @Override
-            public void onProfileError(BackendError error) {
-                callback.onProfile(mUsersFactory.newNullAuthorProfile(),
-                        CallbackMessage.error("Error retrieving profile: " + error.getMessage()));
+            public void onProfileError(AuthenticationError error) {
+                callback.onProfile(authUser, mUsersFactory.newNullAuthorProfile(), error);
             }
         });
     }

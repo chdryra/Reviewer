@@ -10,20 +10,22 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
@@ -33,7 +35,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback {
+public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback,
+        UserAccounts.GetProfileCallback {
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
 
@@ -47,11 +50,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
-        void onUserUnknown();
+        void onProfileRequired(@Nullable AuthenticatedUser user);
 
-        void onAuthenticated();
+        void onAuthenticated(AuthorProfile profile);
 
-        void onAuthenticationFailed(CallbackMessage message);
+        void onAuthenticationFailed(AuthenticationError error);
     }
 
     private PresenterLogin(ApplicationInstance app,
@@ -94,34 +97,48 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandler = null;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onAuthenticated(String provider, AuthenticatedUser user) {
-        mListener.onAuthenticated();
-        authenticationFinished();
-    }
-
-    @Override
-    public void onAuthenticationError(AuthenticationError error) {
-        if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-            mListener.onUserUnknown();
-        } else {
-            mListener.onAuthenticationFailed(CallbackMessage.error(error.toString()));
-        }
-
-        authenticationFinished();
-    }
-
     public void onSignUpNewAuthor(Activity activity) {
         launchLaunchable(activity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP);
     }
 
     public void onAuthorAuthenticated(Activity activity) {
         launchLaunchable(activity, mApp.getConfigUi().getFeedConfig(), FEED);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onAuthenticated(AuthenticatedUser user) {
+        authenticationFinished();
+        UserAccounts accounts = mApp.getUsersManager().getAccounts();
+        accounts.getProfile(user, this);
+    }
+
+    @Override
+    public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable
+    AuthenticationError error) {
+        if (error == null) {
+            mListener.onAuthenticated(profile);
+        } else {
+            resolveError(user, error);
+        }
+    }
+
+    @Override
+    public void onAuthenticationError(AuthenticationError error) {
+        resolveError(null, error);
+        authenticationFinished();
+    }
+
+    private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
+        if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+            mListener.onProfileRequired(user);
+        } else {
+            mListener.onAuthenticationFailed(error);
+        }
     }
 
     private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code) {
@@ -149,7 +166,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
         public PresenterLogin build(LoginListener listener) {
             return new PresenterLogin(mApp, new FactoryCredentialsHandler(),
-                    new FactoryCredentialsAuthenticator(mApp.getUserAuthenticator()), listener);
+                    new FactoryCredentialsAuthenticator(mApp.getUsersManager().getAuthenticator()
+                    ), listener);
         }
     }
 

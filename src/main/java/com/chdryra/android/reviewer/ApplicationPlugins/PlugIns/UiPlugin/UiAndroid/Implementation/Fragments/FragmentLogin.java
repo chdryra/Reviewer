@@ -22,10 +22,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
 import com.chdryra.android.reviewer.R;
 
@@ -88,20 +90,19 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     @Override
-    public void onUserUnknown() {
-        Toast.makeText(getActivity(), "User unknown", Toast.LENGTH_SHORT).show();
+    public void onProfileRequired(@Nullable AuthenticatedUser user) {
         onSignUpNewAuthor();
     }
 
     @Override
-    public void onAuthenticated() {
+    public void onAuthenticated(AuthorProfile profile) {
         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
         onAuthorAuthenticated();
     }
 
     @Override
-    public void onAuthenticationFailed(CallbackMessage message) {
-        Toast.makeText(getActivity(), "Login unsuccessful: " + message.getMessage(), Toast
+    public void onAuthenticationFailed(AuthenticationError error) {
+        Toast.makeText(getActivity(), "Login unsuccessful: " + error, Toast
                 .LENGTH_SHORT).show();
     }
 

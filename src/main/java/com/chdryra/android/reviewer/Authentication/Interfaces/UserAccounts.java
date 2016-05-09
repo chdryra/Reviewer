@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 
 
@@ -23,20 +23,20 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
  */
 public interface UserAccounts {
     interface CreateUserCallback {
-        void onUserCreated(AuthenticatedUser user, CallbackMessage message);
+        void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error);
     }
 
     interface AddProfileCallback {
-        void onProfileAdded(AuthorProfile profile, CallbackMessage message);
+        void onProfileAdded(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error);
     }
 
     interface GetProfileCallback {
-        void onProfile(AuthorProfile profile, CallbackMessage message);
+        void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error);
     }
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
-    void addProfile(AuthenticatedUser user, AuthorProfile profile, AddProfileCallback callback);
+    void addProfile(AuthenticatedUser authUser, AuthorProfile profile, AddProfileCallback callback);
 
-    void getProfile(AuthenticatedUser user, GetProfileCallback callback);
+    void getProfile(AuthenticatedUser authUser, GetProfileCallback callback);
 }
