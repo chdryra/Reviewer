@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -24,6 +22,5 @@ public interface Backend extends FactoryPersistence{
     UsersManager newUsersManager();
 
     @Override
-    ReviewsRepositoryMutable newPersistence(Context context, ModelContext model,
-                                            DataValidator validator);
+    ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator);
 }

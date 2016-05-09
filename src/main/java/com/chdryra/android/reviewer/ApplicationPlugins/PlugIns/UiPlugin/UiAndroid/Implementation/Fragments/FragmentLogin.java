@@ -91,7 +91,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onProfileRequired(@Nullable AuthenticatedUser user) {
-        onSignUpNewAuthor();
+        Toast.makeText(getActivity(), "Profile required", Toast.LENGTH_SHORT).show();
     }
 
     @Override

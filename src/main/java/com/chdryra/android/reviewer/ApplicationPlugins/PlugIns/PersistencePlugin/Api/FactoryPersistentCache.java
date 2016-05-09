@@ -8,12 +8,10 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api;
 
-import android.content.Context;
-
 import com.chdryra.android.mygenerallibrary.CacheUtils.QueueCache;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
@@ -22,5 +20,5 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryPersistentCache {
-    QueueCache.Cache<Review> newReviewsCache(Context context, TagsManager tagsManager, ReviewMaker recreater, DataValidator validator);
+    QueueCache.Cache<Review> newReviewsCache(TagsManager tagsManager, ReviewMaker recreater, DataValidator validator);
 }

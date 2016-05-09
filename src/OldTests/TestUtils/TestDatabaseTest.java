@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalDb.LocalReviewerDb.Interfaces.ReviewerPersistence;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerPersistence;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdIdableCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 

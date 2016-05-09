@@ -9,8 +9,6 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api;
 
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
@@ -21,5 +19,5 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FactoryPersistence {
-    ReviewsRepositoryMutable newPersistence(Context context, ModelContext model, DataValidator validator);
+    ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator);
 }

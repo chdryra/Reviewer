@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Persistence;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.PersistenceContextBasic;
@@ -27,18 +26,17 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
  */
 public class ReleasePersistenceContext extends PersistenceContextBasic {
 
-    public ReleasePersistenceContext(Context context,
-                                     ModelContext model,
+    public ReleasePersistenceContext(ModelContext model,
                                      DataValidator validator,
                                      PersistencePlugin plugin) {
 
-        setLocalRepository(plugin.newLocalPersistence(context, model, validator));
+        setLocalRepository(plugin.newLocalPersistence(model, validator));
 
-        setBackendRepository(plugin.getBackend().newPersistence(context, model, validator));
+        setBackendRepository(plugin.newBackendPersistence(model, validator));
 
-        setUsersManager(plugin.getBackend().newUsersManager());
+        setUsersManager(plugin.newUsersManager());
 
-        FactoryReviewsRepository repoFactory = newRepoFactory(context, model, validator, plugin);
+        FactoryReviewsRepository repoFactory = newRepoFactory(model, validator, plugin);
         ReviewsRepositoryMutable cachedRepo = repoFactory.newCachedRepo(getBackendRepository());
 
         setFeedFactory(new FactoryReviewsFeed(cachedRepo));
@@ -47,11 +45,10 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
     }
 
     @NonNull
-    private FactoryReviewsRepository newRepoFactory(Context context,
-                                                    ModelContext model,
+    private FactoryReviewsRepository newRepoFactory(ModelContext model,
                                                     DataValidator validator,
                                                     PersistencePlugin plugin) {
-        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(context, model, validator, plugin.newCacheFactory());
+        FactoryReviewsCache cacheFactory = new FactoryReviewsCache(model, validator, plugin.newCacheFactory());
         return new FactoryReviewsRepository(cacheFactory);
     }
 }

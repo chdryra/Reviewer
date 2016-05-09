@@ -8,9 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api;
 
-import android.content.Context;
-
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
+import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 
@@ -22,7 +21,9 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
 public interface PersistencePlugin {
     FactoryPersistentCache newCacheFactory();
 
-    ReviewsRepositoryMutable newLocalPersistence(Context context, ModelContext modelContext, DataValidator validator);
+    ReviewsRepositoryMutable newLocalPersistence(ModelContext modelContext, DataValidator validator);
 
-    Backend getBackend();
+    ReviewsRepositoryMutable newBackendPersistence(ModelContext modelContext, DataValidator validator);
+
+    UsersManager newUsersManager();
 }

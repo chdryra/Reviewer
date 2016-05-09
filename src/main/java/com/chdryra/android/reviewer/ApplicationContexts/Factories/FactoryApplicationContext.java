@@ -54,7 +54,7 @@ public class FactoryApplicationContext {
                 = new ReleaseNetworkContext(context, plugins.getNetworkServicesPlugin());
 
         PersistenceContext persistenceContext
-                = new ReleasePersistenceContext(context, modelContext, validator, plugins.getPersistencePlugin());
+                = new ReleasePersistenceContext(modelContext, validator, plugins.getPersistencePlugin());
 
         PresenterContext presenterContext =
                 new ReleasePresenterContext(context, modelContext, viewContext, socialContext,
