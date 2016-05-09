@@ -46,6 +46,7 @@ public class FragmentSignUp extends Fragment  {
     private EmailPasswordEditTexts mEmailPassword;
 
     public static FragmentSignUp newInstance() {
+
         return new FragmentSignUp();
     }
 

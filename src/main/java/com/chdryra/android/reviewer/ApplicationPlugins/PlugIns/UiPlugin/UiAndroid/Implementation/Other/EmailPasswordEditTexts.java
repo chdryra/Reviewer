@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.support.annotation.Nullable;
 import android.widget.EditText;
 
 import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
@@ -31,6 +32,7 @@ public class EmailPasswordEditTexts implements EmailPassword {
     }
 
     @Override
+    @Nullable
     public EmailAddress getEmail() {
         return new EmailAddress(mEmail.getText().toString().trim());
     }

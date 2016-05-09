@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -27,6 +28,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FeedArgs;
@@ -54,7 +56,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
-        void onSignUpRequested(String message);
+        void onSignUpRequested(@Nullable AuthenticatedUser user, String message);
 
         void onAuthenticated(AuthorProfile profile);
 
@@ -103,11 +105,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandler = null;
     }
 
-    public void signUpNewAuthor(@Nullable EmailPassword emailPassword) {
+    public void signUpNewAuthor(@Nullable AuthenticatedUser user, EmailPassword emailPassword) {
         Bundle args = new Bundle();
-        if(emailPassword != null) {
-            String value = emailPassword.getEmail().toString();
-            if(value.length() > 0) args.putString(SignUpArgs.EMAIL, value);
+        if(user == null) {
+            SignUpArgs signUpArgs = new SignUpArgs(emailPassword.getEmail());
+            ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
+            packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
         }
         launchLaunchable(mActivity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP, args);
     }
@@ -148,11 +151,15 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
         if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-            String message = "Looks like you're a new user. Do you want to sign up?";
-            mListener.onSignUpRequested(message);
+            mListener.onSignUpRequested(user, getSignUpMessage());
         } else {
             mListener.onAuthenticationFailed(error);
         }
+    }
+
+    @NonNull
+    public String getSignUpMessage() {
+        return "Looks like you're a new user. Would you like to sign up?";
     }
 
     private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code, Bundle args) {

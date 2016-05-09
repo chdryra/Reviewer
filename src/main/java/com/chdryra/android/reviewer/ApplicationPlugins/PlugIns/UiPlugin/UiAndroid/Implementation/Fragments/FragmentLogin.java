@@ -28,6 +28,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
@@ -55,6 +56,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     private PresenterLogin mPresenter;
     private EmailPasswordEditTexts mEmailPassword;
+    private AuthenticatedUser mUser;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
@@ -94,7 +96,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     @Override
-    public void onSignUpRequested(String message) {
+    public void onSignUpRequested(@Nullable AuthenticatedUser user, String message) {
+        mUser = user;
         DialogShower.showAlert(message, getActivity(), SIGN_UP, new Bundle());
     }
 
@@ -117,7 +120,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        mPresenter.signUpNewAuthor(mEmailPassword);
+        mPresenter.signUpNewAuthor(mUser, mEmailPassword);
     }
 
     private void bindButtonsToProviders(Button facebookButton, Button googleButton,
@@ -130,7 +133,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
                 if (mEmailPassword.isValid()) {
                     mPresenter.authenticate(mEmailPassword);
                 } else {
-                    onSignUpRequested(null);
+                    onSignUpRequested(null, mPresenter.getSignUpMessage());
                 }
             }
         });
