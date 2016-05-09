@@ -22,10 +22,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
@@ -36,7 +38,9 @@ import com.chdryra.android.reviewer.R;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentLogin extends Fragment implements PresenterLogin.LoginListener {
+public class FragmentLogin extends Fragment implements PresenterLogin.LoginListener,
+        DialogAlertFragment.DialogAlertListener {
+    private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUp");
     private static final int LAYOUT = R.layout.fragment_login;
 
     private static final int EMAIL_EDIT_TEXT = R.id.edit_text_login_email;
@@ -72,7 +76,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        mPresenter = new PresenterLogin.Builder(app).build(this);
+        mPresenter = new PresenterLogin.Builder(app).build(getActivity(), this);
         mEmailPassword = new EmailPasswordEditTexts(email, password);
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
@@ -90,20 +94,30 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     @Override
-    public void onProfileRequired(@Nullable AuthenticatedUser user) {
-        Toast.makeText(getActivity(), "Profile required", Toast.LENGTH_SHORT).show();
+    public void onSignUpRequested(String message) {
+        DialogShower.showAlert(message, getActivity(), SIGN_UP, new Bundle());
     }
 
     @Override
     public void onAuthenticated(AuthorProfile profile) {
         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
-        onAuthorAuthenticated();
+        mPresenter.onAuthorAuthenticated(profile);
     }
 
     @Override
     public void onAuthenticationFailed(AuthenticationError error) {
         Toast.makeText(getActivity(), "Login unsuccessful: " + error, Toast
                 .LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAlertNegative(int requestCode, Bundle args) {
+
+    }
+
+    @Override
+    public void onAlertPositive(int requestCode, Bundle args) {
+        mPresenter.signUpNewAuthor(mEmailPassword);
     }
 
     private void bindButtonsToProviders(Button facebookButton, Button googleButton,
@@ -116,7 +130,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
                 if (mEmailPassword.isValid()) {
                     mPresenter.authenticate(mEmailPassword);
                 } else {
-                    onSignUpNewAuthor();
+                    onSignUpRequested(null);
                 }
             }
         });
@@ -141,14 +155,5 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
                 mPresenter.authenticate(providers.newTwitterLogin(FragmentLogin.this));
             }
         });
-    }
-
-    private void onSignUpNewAuthor() {
-        mPresenter.onSignUpNewAuthor(getActivity());
-    }
-
-    private void onAuthorAuthenticated() {
-        mPresenter.onAuthorAuthenticated(getActivity());
-        getActivity().finish();
     }
 }

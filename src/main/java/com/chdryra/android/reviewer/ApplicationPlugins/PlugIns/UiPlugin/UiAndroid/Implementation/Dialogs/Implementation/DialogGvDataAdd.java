@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
-import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
@@ -26,6 +25,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataAddL
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -34,8 +34,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public abstract class DialogGvDataAdd<T extends GvData> extends
         DialogCancelAddDoneFragment implements GvDataAdder, LaunchableUi {
-    public static final String QUICK_SET = TagKeyGenerator.getKey(DialogGvDataAdd.class, "QuickSet");
-
     private static final int ADD = R.string.add;
 
     private final GvDataType<T> mDataType;
@@ -108,7 +106,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
 
     private void setIsQuickSet() {
         Bundle args = getArguments();
-        mQuickSet = args != null && args.getBoolean(QUICK_SET);
+        mQuickSet = args != null && args.getBoolean(AdderConfig.QUICK_SET);
         if (!mQuickSet) {
             //TODO make type safe
             mAddListener = getTargetListener(DataAddListener.class);

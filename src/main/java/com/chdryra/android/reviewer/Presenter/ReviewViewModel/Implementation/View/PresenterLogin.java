@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
@@ -28,6 +29,8 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FeedArgs;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -44,13 +47,14 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
     private ApplicationInstance mApp;
+    private Activity mActivity;
     private CredentialsHandler mHandler;
     private LoginListener mListener;
 
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
-        void onProfileRequired(@Nullable AuthenticatedUser user);
+        void onSignUpRequested(String message);
 
         void onAuthenticated(AuthorProfile profile);
 
@@ -58,10 +62,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     private PresenterLogin(ApplicationInstance app,
+                           Activity activity,
                            FactoryCredentialsHandler handlerFactory,
                            FactoryCredentialsAuthenticator authenticatorFactory,
                            LoginListener listener) {
         mApp = app;
+        mActivity = activity;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
@@ -97,12 +103,19 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandler = null;
     }
 
-    public void onSignUpNewAuthor(Activity activity) {
-        launchLaunchable(activity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP);
+    public void signUpNewAuthor(@Nullable EmailPassword emailPassword) {
+        Bundle args = new Bundle();
+        if(emailPassword != null) {
+            String value = emailPassword.getEmail().toString();
+            if(value.length() > 0) args.putString(SignUpArgs.EMAIL, value);
+        }
+        launchLaunchable(mActivity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP, args);
     }
 
-    public void onAuthorAuthenticated(Activity activity) {
-        launchLaunchable(activity, mApp.getConfigUi().getFeedConfig(), FEED);
+    public void onAuthorAuthenticated(AuthorProfile profile) {
+        Bundle args = new Bundle();
+        args.putString(FeedArgs.AuthorId,profile.getAuthor().getAuthorId().toString());
+        launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, args);
     }
 
     @Override
@@ -135,15 +148,16 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
         if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-            mListener.onProfileRequired(user);
+            String message = "Looks like you're a new user. Do you want to sign up?";
+            mListener.onSignUpRequested(message);
         } else {
             mListener.onAuthenticationFailed(error);
         }
     }
 
-    private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code) {
+    private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code, Bundle args) {
         LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
-        uiLauncher.launch(launchable, activity, code);
+        uiLauncher.launch(launchable, activity, code, args);
     }
 
     private void authenticateWithCredentials(CredentialsHandler handler) {
@@ -164,8 +178,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             mApp = app;
         }
 
-        public PresenterLogin build(LoginListener listener) {
-            return new PresenterLogin(mApp, new FactoryCredentialsHandler(),
+        public PresenterLogin build(Activity activity, LoginListener listener) {
+            return new PresenterLogin(mApp, activity, new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(mApp.getUsersManager().getAuthenticator()
                     ), listener);
         }

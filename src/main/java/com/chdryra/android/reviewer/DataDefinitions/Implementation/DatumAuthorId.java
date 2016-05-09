@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
@@ -15,16 +18,42 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
  * On: 12/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumAuthorId implements AuthorId {
+public class DatumAuthorId implements AuthorId, Parcelable{
+    public static final Creator<DatumAuthorId> CREATOR = new Creator<DatumAuthorId>() {
+        @Override
+        public DatumAuthorId createFromParcel(Parcel in) {
+            return new DatumAuthorId(in);
+        }
+
+        @Override
+        public DatumAuthorId[] newArray(int size) {
+            return new DatumAuthorId[size];
+        }
+    };
+
     private String mId;
 
     public DatumAuthorId(String id) {
         mId = id;
     }
 
+    public DatumAuthorId(Parcel in) {
+        mId = in.readString();
+    }
+
     @Override
     public String toString() {
         return mId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mId);
     }
 
     @Override

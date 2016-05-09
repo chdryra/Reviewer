@@ -16,15 +16,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Implementation.DialogGvDataAdd;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -38,9 +38,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.maps.model.LatLng;
@@ -165,7 +165,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         if (type.equals(GvImage.TYPE)) {
             launchImageChooser();
         } else {
-            showQuickDialog(getAdderConfig(type));
+            showQuickSetLaunchable(getAdderConfig(type));
         }
     }
 
@@ -174,9 +174,9 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
                 getImageRequestCode());
     }
 
-    private void showQuickDialog(LaunchableConfig adderConfig) {
+    private void showQuickSetLaunchable(LaunchableConfig adderConfig) {
         Bundle args = new Bundle();
-        args.putBoolean(DialogGvDataAdd.QUICK_SET, true);
+        args.putBoolean(AdderConfig.QUICK_SET, true);
         packLatLng(args);
         mLauncher.launch(adderConfig, getActivity(),
                 RequestCodeGenerator.getCode(adderConfig.getTag()), args);
