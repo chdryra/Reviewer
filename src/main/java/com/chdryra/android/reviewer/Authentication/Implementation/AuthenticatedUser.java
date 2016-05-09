@@ -18,6 +18,9 @@ public class AuthenticatedUser {
     private String mProvider;
     private String mUserId;
 
+    public AuthenticatedUser() {
+    }
+
     public AuthenticatedUser(String provider, String userId) {
         mProvider = provider;
         mUserId = userId;

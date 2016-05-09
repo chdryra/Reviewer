@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
         .BackendFirebase.FirebaseStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb.Implementation.UserProfileTranslator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
         .Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.BackendDb
@@ -44,11 +45,13 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
 
     private Firebase mDataRoot;
     private FirebaseStructure mStructure;
+    private UserProfileTranslator mUserFactory;
 
     public FirebaseUsersDbImpl(Firebase dataRoot,
-                               FirebaseStructure structure) {
+                               FirebaseStructure structure, UserProfileTranslator userFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
+        mUserFactory = userFactory;
     }
 
     @Override
@@ -124,7 +127,8 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
         return new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                callback.onUserCreated(new User(getProviderName(), (String) result.get("uid")));
+                User user = mUserFactory.newUser(getProviderName(), (String) result.get("uid"));
+                callback.onUserCreated(user);
             }
 
             @Override

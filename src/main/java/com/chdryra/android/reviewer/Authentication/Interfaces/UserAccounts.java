@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
  */
 public interface UserAccounts {
     interface CreateUserCallback {
-        void onUserCreated(@Nullable AuthenticatedUser user, CallbackMessage message);
+        void onUserCreated(AuthenticatedUser user, CallbackMessage message);
     }
 
     interface AddProfileCallback {
@@ -34,7 +34,7 @@ public interface UserAccounts {
         void onProfile(AuthorProfile profile, CallbackMessage message);
     }
 
-    void createUser(EmailPassword emailPassword, AddProfileCallback callback);
+    void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
     void addProfile(AuthenticatedUser user, AuthorProfile profile, AddProfileCallback callback);
 

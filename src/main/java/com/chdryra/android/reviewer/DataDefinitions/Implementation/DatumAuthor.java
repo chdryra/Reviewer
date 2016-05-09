@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
 /**
  * Holds Author data. Currently only wraps a name and unique {@link com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId}.
@@ -31,6 +31,7 @@ public class DatumAuthor implements DataAuthor{
         return mName;
     }
 
+    @Override
     public AuthorId getAuthorId() {
         return mId;
     }

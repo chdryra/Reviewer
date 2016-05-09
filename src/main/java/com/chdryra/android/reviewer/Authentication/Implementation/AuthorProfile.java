@@ -22,7 +22,10 @@ public class AuthorProfile {
     private DataAuthor mAuthor;
     private DataDate mDateJoined;
 
-    private AuthorProfile(DataAuthor author, DataDate dateJoined) {
+    public AuthorProfile() {
+    }
+
+    public AuthorProfile(DataAuthor author, DataDate dateJoined) {
         mAuthor = author;
         mDateJoined = dateJoined;
     }
