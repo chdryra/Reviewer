@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
@@ -24,9 +22,10 @@ import com.chdryra.android.reviewer.Utils.Password;
 public class EmailPasswordValidation {
     private static final int MIN_PASSWORD = 8;
     private EmailPassword mIfValid;
-    private Reason mReason;
+    private Reason mReason = Reason.OK;
 
-    enum Reason {
+    public enum Reason {
+        OK("Ok"),
         INVALID_EMAIL("Email is invalid"),
         INVALID_PASSWORD("Password should have at least " + MIN_PASSWORD + " characters");
 
@@ -34,6 +33,10 @@ public class EmailPasswordValidation {
 
         Reason(String message) {
             mMessage = message;
+        }
+
+        public String getMessage() {
+            return mMessage;
         }
     }
 
@@ -56,7 +59,6 @@ public class EmailPasswordValidation {
         }
     }
 
-    @Nullable
     public Reason getReason() {
         return mReason;
     }

@@ -31,9 +31,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FeedArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -112,29 +112,22 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandler = null;
     }
 
-    public void signUpNewAuthor() {
-        launchSignUp(new SignUpArgs());
+    public void signUpNewAuthor(String email) {
+        EmailAddress address;
+        try {
+            launchSignUp(new SignUpArgs(new EmailAddress(email)));
+        } catch (EmailAddressException e) {
+            launchSignUp(new SignUpArgs());
+        }
     }
 
     public void signUpNewAuthor(AuthenticatedUser user) {
         launchSignUp(new SignUpArgs(user));
     }
 
-    public void signUpNewAuthor(EmailAddress address) {
-        launchSignUp(new SignUpArgs(address));
-    }
-
-    private void launchSignUp(SignUpArgs signUpArgs) {
-        Bundle args = new Bundle();
-        ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
-        launchLaunchable(mActivity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP, args);
-    }
-
     public void onAuthorAuthenticated(AuthorProfile profile) {
-        Bundle args = new Bundle();
-        args.putString(FeedArgs.AuthorId, profile.getAuthor().getAuthorId().toString());
-        launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, args);
+        mApp.setAuthor(profile.getAuthor());
+        launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, new Bundle());
     }
 
     public EmailPasswordValidation validateEmailPassword(String email, String password) {
@@ -167,6 +160,13 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     public void onAuthenticationError(AuthenticationError error) {
         resolveError(null, error);
         authenticationFinished();
+    }
+
+    private void launchSignUp(SignUpArgs signUpArgs) {
+        Bundle args = new Bundle();
+        ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
+        launchLaunchable(mActivity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP, args);
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {

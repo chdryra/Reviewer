@@ -8,12 +8,27 @@
 
 package com.chdryra.android.reviewer.Utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 24/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAddress {
+public class EmailAddress implements Parcelable{
+    public static final Creator<EmailAddress> CREATOR = new Creator<EmailAddress>() {
+        @Override
+        public EmailAddress createFromParcel(Parcel in) {
+            return new EmailAddress(in);
+        }
+
+        @Override
+        public EmailAddress[] newArray(int size) {
+            return new EmailAddress[size];
+        }
+    };
+    
     private String mEmail;
 
     public EmailAddress(String email) throws EmailAddressException{
@@ -21,8 +36,22 @@ public class EmailAddress {
         mEmail = email;
     }
 
+    public EmailAddress(Parcel in) {
+        mEmail = in.readString();
+    }
+    
     @Override
     public String toString() {
         return mEmail;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mEmail);
     }
 }

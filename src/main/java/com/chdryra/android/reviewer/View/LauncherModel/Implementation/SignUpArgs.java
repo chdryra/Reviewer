@@ -33,35 +33,31 @@ public class SignUpArgs implements Parcelable {
         }
     };
 
-    public static final String EMAIL_PASSWORD = "EmailPassword";
-    private final String mProvider;
     private EmailAddress mEmail;
     private AuthenticatedUser mUser;
 
     public SignUpArgs() {
-        mProvider = EMAIL_PASSWORD;
+
     }
 
     public SignUpArgs(AuthenticatedUser user) {
-        mProvider = user.getProvider();
         mEmail = null;
         mUser = user;
     }
 
     public SignUpArgs(EmailAddress emailAddress){
-        mProvider = EMAIL_PASSWORD;
         mEmail = emailAddress;
+        mUser = null;
     }
 
     public SignUpArgs(Parcel in) {
-        mProvider = in.readString();
-        String emailAddress = in.readString();
-        if(emailAddress != null) mEmail = new EmailAddress(emailAddress);
+        mEmail = in.readParcelable(EmailAddress.class.getClassLoader());
         mUser = in.readParcelable(AuthenticatedUser.class.getClassLoader());
     }
 
-    public String getProvider() {
-        return mProvider;
+    @Nullable
+    public AuthenticatedUser getUser() {
+        return mUser;
     }
 
     @Nullable
@@ -70,7 +66,7 @@ public class SignUpArgs implements Parcelable {
     }
 
     public boolean isEmailPassword() {
-        return mProvider.equals(EMAIL_PASSWORD);
+        return mUser == null;
     }
 
     @Override
@@ -80,8 +76,7 @@ public class SignUpArgs implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mProvider);
-        if(mEmail != null) dest.writeString(mEmail.toString());
-        if(mUser != null) dest.writeParcelable(mUser, flags);
+        dest.writeParcelable(mEmail, flags);
+        dest.writeParcelable(mUser, flags);
     }
 }

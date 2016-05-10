@@ -15,13 +15,12 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
-        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -60,6 +59,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final PresenterContext mPresenterContext;
     private final LocationServicesApi mLocationServices;
 
+    private DataAuthor mAuthor;
     private ReviewsFeed mFeed;
 
     private ApplicationInstance(Context context) {
@@ -72,7 +72,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
         mReviewPacker = new ReviewPacker();
-        setUser(AUTHOR);
+        setAuthor(AUTHOR);
     }
 
     //Static methods
@@ -183,9 +183,10 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getUsersManager();
     }
 
-    private void setUser(DatumAuthor user) {
+    public void setAuthor(DataAuthor author) {
+        mAuthor = author;
         FactoryReviews reviewsFactory = getReviewsFactory();
-        reviewsFactory.setAuthorsStamp(new AuthorsStamp(user));
+        reviewsFactory.setAuthorsStamp(new AuthorsStamp(mAuthor));
         mFeed = mPresenterContext.getFeedFactory().newFeed(reviewsFactory);
     }
 }

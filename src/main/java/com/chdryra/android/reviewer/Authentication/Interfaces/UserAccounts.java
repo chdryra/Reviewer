@@ -40,4 +40,6 @@ public interface UserAccounts {
     void addProfile(AuthenticatedUser authUser, AuthorProfile profile, AddProfileCallback callback);
 
     void getProfile(AuthenticatedUser authUser, GetProfileCallback callback);
+
+    AuthorProfile newProfie(String name);
 }

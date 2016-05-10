@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
 
 
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterSignUp;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -31,7 +35,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentSignUp extends Fragment  {
+public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpListener {
     private static final String ARGS = TagKeyGenerator.getKey(FragmentSignUp.class, "Args");
 
     private static final int LAYOUT = R.layout.fragment_sign_up;
@@ -45,8 +49,9 @@ public class FragmentSignUp extends Fragment  {
 
     private static final int SIGN_UP_BUTTON = R.id.sign_up_button;
 
-    private boolean mIsEmailPassword;
     private PresenterSignUp mPresenter;
+    private AuthenticatedUser mUser;
+
     private EditText mName;
     private EditText mEmail;
     private EditText mPassword;
@@ -94,12 +99,12 @@ public class FragmentSignUp extends Fragment  {
             SignUpArgs args = bundle.getParcelable(ARGS);
             if (args != null) {
                 if (args.isEmailPassword()) {
-                    mIsEmailPassword = true;
                     EmailAddress emailAddress = args.getEmail();
                     if (emailAddress != null) mEmail.setText(emailAddress.toString());
                 } else {
-                    mIsEmailPassword = false;
-                    String text = args.getProvider() + " log in";
+                    mUser = args.getUser();
+                    if(mUser == null) throw new IllegalStateException("User should not be null!");
+                    String text = mUser.getProvider() + " log in";
                     mEmail.setText(text);
                     emailSignUp.setActivated(false);
                 }
@@ -107,13 +112,34 @@ public class FragmentSignUp extends Fragment  {
         }
     }
 
-    private void validateAndRequestCreateUser() {
-        String password1 = mPassword.getText().toString();
-        String password2 = mPasswordConfirm.getText().toString();
-        if(!password1.equals(password2)) {
-            Toast.makeText(getActivity(), "Passwords don't match", Toast.LENGTH_SHORT).show();
-            return;
+    @Override
+    public void onSignUpComplete(AuthorProfile profile, @Nullable AuthenticationError error) {
+        if(error != null) {
+            makeToast(error.getMessage());
+        } else {
+            mPresenter.onSignUpSuccessful(profile, getActivity());
+            getActivity().finish();
         }
+    }
 
+    private void validateAndRequestCreateUser() {
+        String name = mName.getText().toString();
+        if(mUser != null) {
+            mPresenter.signUpNewAuthor(mUser, name);
+        } else {
+            String password = mPassword.getText().toString();
+            String passwordConfirm = mPasswordConfirm.getText().toString();
+            if(!password.equals(passwordConfirm)) {
+                makeToast("Passwords don't match");
+                return;
+            }
+
+            String email = mEmail.getText().toString();
+            mPresenter.signUpNewAuthor(email, password, name);
+        }
+    }
+
+    private void makeToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

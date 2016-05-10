@@ -16,12 +16,14 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 public class AuthenticationError {
     public enum Reason {
         PROVIDER_ERROR("Provider error"),
+        INVALID_NAME("Name is invalid"),
         INVALID_EMAIL("Email doesn't make sense"),
         INVALID_PASSWORD("Password is invalid"),
         INVALID_CREDENTIALS("Credentials are invalid"),
         AUTHORISATION_REFUSED("Authorisation refused"),
         UNKNOWN_USER("Unknown user"),
         EMAIL_TAKEN("Email is already taken"),
+        NAME_TAKEN("Name is already taken"),
         NETWORK_ERROR("Internet is having a rest"),
         UNKNOWN_ERROR("Beats me...");
 

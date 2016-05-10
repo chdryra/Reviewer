@@ -76,4 +76,9 @@ public class UserAccountsBackend implements UserAccounts {
             }
         });
     }
+
+    @Override
+    public AuthorProfile newProfie(String name) {
+        return mUsersFactory.newProfile(name);
+    }
 }

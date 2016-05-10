@@ -10,11 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,6 +20,16 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UserProfileTranslator {
+    private FactoryAuthorProfile mProfileFactory;
+
+    public UserProfileTranslator(FactoryAuthorProfile profileFactory) {
+        mProfileFactory = profileFactory;
+    }
+
+    public FactoryAuthorProfile getProfileFactory() {
+        return mProfileFactory;
+    }
+
     public User newUser(String providerName, String providerUserId) {
         return new User(providerName, providerUserId);
     }
@@ -52,11 +60,14 @@ public class UserProfileTranslator {
 
     public AuthorProfile toAuthorProfile(Profile profile) {
         Author author = profile.getAuthor();
-        DatumAuthor da = new DatumAuthor(author.getName(), new DatumAuthorId(author.getAuthorId()));
-        return new AuthorProfile(da, new DatumDate(profile.getDateJoined()));
+        return mProfileFactory.newProfile(author.getName(), author.getAuthorId(), profile.getDateJoined());
+    }
+
+    public AuthorProfile newProfile(String name) {
+        return mProfileFactory.newProfile(name);
     }
 
     public AuthorProfile newNullAuthorProfile() {
-        return new AuthorProfile();
+        return mProfileFactory.newNullAuthorProfile();
     }
 }

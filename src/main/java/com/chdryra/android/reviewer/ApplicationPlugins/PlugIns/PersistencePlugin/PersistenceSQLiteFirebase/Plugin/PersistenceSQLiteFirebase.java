@@ -20,6 +20,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Plugin.BackendFirebase;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.FactoryReviewerDbCache;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Plugin.FactoryLocalReviewerDb;
+
+import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
@@ -38,7 +40,7 @@ public class PersistenceSQLiteFirebase implements PersistencePlugin {
         AndroidSqlLiteDb relationalDb = new AndroidSqlLiteDb();
         mLocalFactory = new FactoryLocalReviewerDb(context, relationalDb, localName, localVersion);
         mCacheFactory = new FactoryReviewerDbCache(mLocalFactory);
-        mBackend = new BackendFirebase(context);
+        mBackend = new BackendFirebase(context, new FactoryAuthorProfile());
     }
 
     @Override
