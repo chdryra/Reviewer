@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.facebook.AccessToken;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;

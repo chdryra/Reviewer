@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,11 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityUsersFeed;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterSignUp;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +32,8 @@ import com.chdryra.android.reviewer.R;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FragmentSignUp extends Fragment  {
+    private static final String ARGS = TagKeyGenerator.getKey(FragmentSignUp.class, "Args");
+
     private static final int LAYOUT = R.layout.fragment_sign_up;
 
     private static final int EMAIL_SIGN_UP = R.id.email_sign_up;
@@ -42,12 +45,22 @@ public class FragmentSignUp extends Fragment  {
 
     private static final int SIGN_UP_BUTTON = R.id.sign_up_button;
 
-    private PresenterLogin mPresenter;
-    private EmailPasswordEditTexts mEmailPassword;
+    private boolean mIsEmailPassword;
+    private PresenterSignUp mPresenter;
+    private EditText mName;
+    private EditText mEmail;
+    private EditText mPassword;
+    private EditText mPasswordConfirm;
 
-    public static FragmentSignUp newInstance() {
+    public static FragmentSignUp newInstance(@Nullable SignUpArgs args) {
+        FragmentSignUp fragment = new FragmentSignUp();
+        if(args != null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(ARGS, args);
+            fragment.setArguments(bundle);
+        }
 
-        return new FragmentSignUp();
+        return fragment;
     }
 
     @Nullable
@@ -56,33 +69,51 @@ public class FragmentSignUp extends Fragment  {
         View view = inflater.inflate(LAYOUT, container, false);
 
         LinearLayout emailSignUp = (LinearLayout) view.findViewById(EMAIL_SIGN_UP);
-        EditText email = (EditText) emailSignUp.findViewById(EMAIL_EDIT_TEXT);
-        EditText password = (EditText) emailSignUp.findViewById(PASSWORD_EDIT_TEXT);
-        EditText passwordConfirm = (EditText) emailSignUp.findViewById(PASSWORD_CONFIRM_EDIT_TEXT);
+        mEmail = (EditText) emailSignUp.findViewById(EMAIL_EDIT_TEXT);
+        mPassword = (EditText) emailSignUp.findViewById(PASSWORD_EDIT_TEXT);
+        mPasswordConfirm = (EditText) emailSignUp.findViewById(PASSWORD_CONFIRM_EDIT_TEXT);
 
-        EditText name = (EditText) emailSignUp.findViewById(NAME_EDIT_TEXT);
+        mName = (EditText) view.findViewById(NAME_EDIT_TEXT);
+
+        initWithArgs(emailSignUp);
 
         Button signUpButton = (Button) view.findViewById(SIGN_UP_BUTTON);
-
-        mEmailPassword = new EmailPasswordEditTexts(email, password);
-
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateAndCreateUser();
+                validateAndRequestCreateUser();
             }
         });
 
         return view;
     }
 
-    private void validateAndCreateUser() {
-
+    private void initWithArgs(LinearLayout emailSignUp) {
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            SignUpArgs args = bundle.getParcelable(ARGS);
+            if (args != null) {
+                if (args.isEmailPassword()) {
+                    mIsEmailPassword = true;
+                    EmailAddress emailAddress = args.getEmail();
+                    if (emailAddress != null) mEmail.setText(emailAddress.toString());
+                } else {
+                    mIsEmailPassword = false;
+                    String text = args.getProvider() + " log in";
+                    mEmail.setText(text);
+                    emailSignUp.setActivated(false);
+                }
+            }
+        }
     }
 
-    private void launchFeedScreen() {
-        Intent intent = new Intent(getActivity(), ActivityUsersFeed.class);
-        startActivity(intent);
-        getActivity().finish();
+    private void validateAndRequestCreateUser() {
+        String password1 = mPassword.getText().toString();
+        String password2 = mPasswordConfirm.getText().toString();
+        if(!password1.equals(password2)) {
+            Toast.makeText(getActivity(), "Passwords don't match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
     }
 }

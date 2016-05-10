@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 
 /**

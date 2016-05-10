@@ -21,15 +21,17 @@ import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsH
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.FeedArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
@@ -75,6 +77,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mListener = listener;
     }
 
+    @NonNull
+    public String getSignUpMessage() {
+        return "Looks like you're a new user. Would you like to sign up?";
+    }
+
     public void authenticate(EmailPassword emailPassword) {
         if (!mAuthenticating) authenticateWithCredentials(emailPassword);
     }
@@ -105,20 +112,33 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandler = null;
     }
 
-    public void signUpNewAuthor(@Nullable AuthenticatedUser user, EmailPassword emailPassword) {
+    public void signUpNewAuthor() {
+        launchSignUp(new SignUpArgs());
+    }
+
+    public void signUpNewAuthor(AuthenticatedUser user) {
+        launchSignUp(new SignUpArgs(user));
+    }
+
+    public void signUpNewAuthor(EmailAddress address) {
+        launchSignUp(new SignUpArgs(address));
+    }
+
+    private void launchSignUp(SignUpArgs signUpArgs) {
         Bundle args = new Bundle();
-        if(user == null) {
-            SignUpArgs signUpArgs = new SignUpArgs(emailPassword.getEmail());
-            ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
-            packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
-        }
+        ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
         launchLaunchable(mActivity, mApp.getConfigUi().getSignUpConfig(), SIGN_UP, args);
     }
 
     public void onAuthorAuthenticated(AuthorProfile profile) {
         Bundle args = new Bundle();
-        args.putString(FeedArgs.AuthorId,profile.getAuthor().getAuthorId().toString());
+        args.putString(FeedArgs.AuthorId, profile.getAuthor().getAuthorId().toString());
         launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, args);
+    }
+
+    public EmailPasswordValidation validateEmailPassword(String email, String password) {
+        return new EmailPasswordValidation(email, password);
     }
 
     @Override
@@ -157,12 +177,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         }
     }
 
-    @NonNull
-    public String getSignUpMessage() {
-        return "Looks like you're a new user. Would you like to sign up?";
-    }
-
-    private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code, Bundle args) {
+    private void launchLaunchable(Activity activity, LaunchableConfig launchable, int code,
+                                  Bundle args) {
         LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
         uiLauncher.launch(launchable, activity, code, args);
     }

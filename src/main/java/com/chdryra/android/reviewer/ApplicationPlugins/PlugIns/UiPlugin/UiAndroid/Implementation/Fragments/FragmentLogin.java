@@ -25,12 +25,14 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.EmailPasswordEditTexts;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
 import com.chdryra.android.reviewer.R;
 
@@ -55,8 +57,9 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private static final int EMAIL_LOGIN = R.id.login_email;
 
     private PresenterLogin mPresenter;
-    private EmailPasswordEditTexts mEmailPassword;
     private AuthenticatedUser mUser;
+    private EditText mEmail;
+    private EditText mPassword;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
@@ -74,12 +77,11 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         Button googleButton = (Button) view.findViewById(GOOGLE_BUTTON);
         Button twitterButton = (Button) view.findViewById(TWITTER_BUTTON);
 
-        EditText email = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
-        EditText password = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
+        mEmail = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
+        mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
         mPresenter = new PresenterLogin.Builder(app).build(getActivity(), this);
-        mEmailPassword = new EmailPasswordEditTexts(email, password);
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
@@ -120,7 +122,9 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        mPresenter.signUpNewAuthor(mUser, mEmailPassword);
+        if(mUser != null) {
+            mPresenter.signUpNewAuthor(mUser);
+        }
     }
 
     private void bindButtonsToProviders(Button facebookButton, Button googleButton,
@@ -130,11 +134,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEmailPassword.isValid()) {
-                    mPresenter.authenticate(mEmailPassword);
-                } else {
-                    onSignUpRequested(null, mPresenter.getSignUpMessage());
-                }
+                authenticateOrSignUp();
             }
         });
 
@@ -158,5 +158,17 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
                 mPresenter.authenticate(providers.newTwitterLogin(FragmentLogin.this));
             }
         });
+    }
+
+    private void authenticateOrSignUp() {
+        String email = mEmail.getText().toString();
+        String password = mPassword.getText().toString();
+        EmailPasswordValidation validation = mPresenter.validateEmailPassword(email, password);
+        EmailPassword emailPassword = validation.getEmailPassword();
+        if (emailPassword != null) {
+            mPresenter.authenticate(emailPassword);
+        } else {
+            onSignUpRequested(null, mPresenter.getSignUpMessage());
+        }
     }
 }

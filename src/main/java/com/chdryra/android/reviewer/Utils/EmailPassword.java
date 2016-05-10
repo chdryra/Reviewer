@@ -10,19 +10,23 @@ package com.chdryra.android.reviewer.Utils;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 24/04/2016
+ * On: 28/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class EmailAddress {
-    private String mEmail;
+public class EmailPassword {
+    private final EmailAddress mEmail;
+    private final Password mPassword;
 
-    public EmailAddress(String email) throws EmailAddressException{
-        if(!EmailValidator.isValid(email)) throw new EmailAddressException(email);
+    public EmailPassword(EmailAddress email, Password password) {
         mEmail = email;
+        mPassword = password;
     }
 
-    @Override
-    public String toString() {
+    public EmailAddress getEmail() {
         return mEmail;
+    }
+
+    public Password getPassword() {
+        return mPassword;
     }
 }

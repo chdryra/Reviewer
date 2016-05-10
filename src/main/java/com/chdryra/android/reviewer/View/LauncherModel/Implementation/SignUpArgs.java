@@ -12,8 +12,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
-import com.chdryra.android.reviewer.Utils.EmailAddressException;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,10 +36,16 @@ public class SignUpArgs implements Parcelable {
     public static final String EMAIL_PASSWORD = "EmailPassword";
     private final String mProvider;
     private EmailAddress mEmail;
+    private AuthenticatedUser mUser;
 
-    public SignUpArgs(String provider) {
-        mProvider = provider;
+    public SignUpArgs() {
+        mProvider = EMAIL_PASSWORD;
+    }
+
+    public SignUpArgs(AuthenticatedUser user) {
+        mProvider = user.getProvider();
         mEmail = null;
+        mUser = user;
     }
 
     public SignUpArgs(EmailAddress emailAddress){
@@ -50,11 +56,8 @@ public class SignUpArgs implements Parcelable {
     public SignUpArgs(Parcel in) {
         mProvider = in.readString();
         String emailAddress = in.readString();
-        try {
-            mEmail = new EmailAddress(emailAddress);
-        } catch (EmailAddressException e) {
-            mEmail = null;
-        }
+        if(emailAddress != null) mEmail = new EmailAddress(emailAddress);
+        mUser = in.readParcelable(AuthenticatedUser.class.getClassLoader());
     }
 
     public String getProvider() {
@@ -79,5 +82,6 @@ public class SignUpArgs implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mProvider);
         if(mEmail != null) dest.writeString(mEmail.toString());
+        if(mUser != null) dest.writeParcelable(mUser, flags);
     }
 }

@@ -19,24 +19,27 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:id="@+id/edit_text_sign_up_email"
+            android:inputType="textEmailAddress"
             android:layout_gravity="center"
-            android:hint="@string/edit_text_email"/>
+            android:hint="@string/edit_text_email"
+            android:imeOptions="actionNext"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:id="@+id/edit_text_sign_up_password"
-            android:hint="@string/edit_text_password"/>
+            android:hint="@string/edit_text_password"
+            android:imeOptions="actionNext"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:id="@+id/edit_text_confirm_password"
-            android:hint="@string/edit_text_confirm_password"/>
+            android:hint="@string/edit_text_confirm_password"
+            android:imeOptions="actionNext"/>
     </LinearLayout>
 
         <EditText

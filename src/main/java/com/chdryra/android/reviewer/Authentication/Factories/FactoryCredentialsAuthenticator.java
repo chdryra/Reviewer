@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Authentication.Factories;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.CredentialsAuthenticator;
-import com.chdryra.android.reviewer.Authentication.Interfaces.EmailPassword;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.facebook.AccessToken;

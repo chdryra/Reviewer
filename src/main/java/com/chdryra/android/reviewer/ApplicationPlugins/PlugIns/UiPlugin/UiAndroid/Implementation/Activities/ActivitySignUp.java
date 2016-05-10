@@ -12,10 +12,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentSignUp;
+
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -36,7 +40,10 @@ public class ActivitySignUp extends ActivitySingleFragment implements Launchable
 
     @Override
     protected Fragment createFragment() {
-        mFragment = FragmentSignUp.newInstance();
+        Bundle bundleArgs = getIntent().getBundleExtra(KEY);
+        ParcelablePacker<SignUpArgs> unpacker = new ParcelablePacker<>();
+        SignUpArgs args = unpacker.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, bundleArgs);
+        mFragment = FragmentSignUp.newInstance(args);
         return mFragment;
     }
 
