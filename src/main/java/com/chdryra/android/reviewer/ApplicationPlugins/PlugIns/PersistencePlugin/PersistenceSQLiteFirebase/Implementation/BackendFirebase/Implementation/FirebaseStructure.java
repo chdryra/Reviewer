@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.PathMaker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.UpdaterBuilder;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
@@ -36,12 +38,14 @@ public class FirebaseStructure {
     public static final String REVIEWS_LIST = "List";
     public static final String TAGS = "Tags";
     public static final String USERS = "Users";
+    public static final String AUTHOR_NAMES = "AuthorNames";
     public static final String PROFILE = "Profile";
     public static final String USERS_MAP = "ProviderUsersMap";
     public static final String FEED = "Feed";
 
     private final StructureUserProfile mUserProfile;
     private final StructureUsersMap mUsersMap;
+    private final StructureNamesMap mAuthorsMap;
     private final StructureReviews mReviews;
     private final StructureUserData mUserData;
     private final StructureTags mTags;
@@ -52,6 +56,7 @@ public class FirebaseStructure {
     public FirebaseStructure() {
         mUserProfile = new StructureUserProfileImpl();
         mUsersMap = new StructureUsersMapImpl();
+        mAuthorsMap = new StructureNamesMapImpl();
         mUserData = new StructureUserDataImpl(REVIEWS, TAGS, FEED);
         mReviews = new StructureReviewsImpl(REVIEWS_DATA, REVIEWS_LIST);
         mTags = new StructureTagsImpl(REVIEWS, USERS);
@@ -67,10 +72,16 @@ public class FirebaseStructure {
         mUsersMap.setPathMaker(new PathMaker<User>() {
             @Override
             public String getPath(User user) {
-                return pathToUserAuthorMapping(user.getProviderUserId());
+                return pathToUserAuthorMap();
             }
         });
 
+        mAuthorsMap.setPathMaker(new PathMaker<User>() {
+            @Override
+            public String getPath(User item) {
+                return pathToNamesAuthorIdMap();
+            }
+        });
 
         mUserData.setPathMaker(new PathMaker<ReviewDb>() {
             @Override
@@ -97,7 +108,7 @@ public class FirebaseStructure {
         mReviewUploadUpdater = builderReview.add(mReviews).add(mTags).add(mUserData).build();
 
         UpdaterBuilder<User> builderUser = new UpdaterBuilder<>();
-        mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).build();
+        mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).add(mAuthorsMap).build();
     }
 
     public DbUpdater<User> getProfileUpdater() {
@@ -113,7 +124,11 @@ public class FirebaseStructure {
     }
 
     public String pathToUserAuthorMapping(String userId) {
-        return path(USERS_MAP, mUsersMap.getPathToUserAuthorMapping(userId));
+        return path(pathToUserAuthorMap(), mUsersMap.getPathToUserAuthorMapping(userId));
+    }
+
+    public String pathToUserAuthorMap() {
+        return USERS_MAP;
     }
 
     public String pathToReviewsData() {
@@ -134,6 +149,14 @@ public class FirebaseStructure {
 
     public String pathToAuthor(String authorId) {
         return path(pathToUsers(), authorId);
+    }
+
+    public String pathToAuthorNameMapping(String name) {
+        return path(pathToNamesAuthorIdMap(), mAuthorsMap.getPathToAuthorNameMapping(name));
+    }
+
+    public String pathToNamesAuthorIdMap() {
+        return path(pathToUsers(), AUTHOR_NAMES);
     }
 
     public String pathToReview(String reviewId) {

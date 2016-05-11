@@ -12,9 +12,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdaterBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +25,12 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUsersMapImpl extends DbUpdaterBasic<User> implements StructureUsersMap {
+public class StructureNamesMapImpl extends DbUpdaterBasic<User> implements StructureNamesMap {
+
 
     @Override
-    public String getPathToUserAuthorMapping(String authorId) {
-        return authorId;
+    public String getPathToAuthorNameMapping(String name) {
+        return name;
     }
 
     @NonNull
@@ -37,10 +39,12 @@ public class StructureUsersMapImpl extends DbUpdaterBasic<User> implements Struc
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
 
         Map<String, Object> updates = new HashMap<>();
-        String authorId = user.getAuthorId();
-        if(authorId == null) return updates;
 
-        updates.put(path(getPath(user), getPathToUserAuthorMapping(authorId)), update ? authorId : null);
+        Profile profile = user.getProfile();
+        if(profile == null) return updates;
+
+        String name = profile.getAuthor().getName();
+        updates.put(path(getPath(user), name), update ? user.getAuthorId() : null);
 
         return updates;
     }
