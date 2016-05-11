@@ -10,13 +10,17 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.ByteArray;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowImageImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Implementation.ByteArray;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowImageImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

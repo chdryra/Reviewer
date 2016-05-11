@@ -10,9 +10,12 @@ package test.Plugins.PersistencePlugin.PersistenceReviewerDb;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Implementation.DbEntryType;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.DbEntryType;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 
 import java.util.HashMap;
 import java.util.Map;

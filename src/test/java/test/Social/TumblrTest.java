@@ -8,7 +8,7 @@
 
 package test.Social;
 
-import com.tumblr.jumblr.JumblrClient;
+//import com.tumblr.jumblr.JumblrClient;
 
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class TumblrTest {
 
     @Test
     public void test() {
-        JumblrClient client = new JumblrClient(CONSUMER_KEY, CONSUMER_SECRET);
+        //JumblrClient client = new JumblrClient(CONSUMER_KEY, CONSUMER_SECRET);
         //client.setToken("oauth_token", "oauth_token_secret");
     }
 }

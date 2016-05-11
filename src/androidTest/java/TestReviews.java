@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.webkit.URLUtil;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
@@ -37,7 +38,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryMessage;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
@@ -408,12 +408,12 @@ public class TestReviews {
                     break;
                 }
             }
-            callback.onFetchedFromRepo(ret, RepositoryMessage.none());
+            callback.onFetchedFromRepo(ret, CallbackMessage.ok());
         }
 
         @Override
         public void getReviews(CallbackRepository callback) {
-            callback.onFetchedFromRepo(mReviews, RepositoryMessage.none());
+            callback.onFetchedFromRepo(mReviews, CallbackMessage.ok());
         }
 
         @Override

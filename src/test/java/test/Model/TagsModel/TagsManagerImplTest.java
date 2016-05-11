@@ -147,29 +147,32 @@ public class TagsManagerImplTest {
     }
 
     @Test
-    public void untagItemRemovesItemIdFromItemTag() {
+    public void clearTagsRemovesItemIdFromTags() {
         String id1 = "abc";
         String id2 = "def";
-        String tag = "tag";
+        String id3 = "ghi";
+        String tag1 = "tag";
+        String tag2 = "tag";
 
-        mManager.tagItem(id1, tag);
-        mManager.tagItem(id2, tag);
+        mManager.tagItem(id1, tag1);
+        mManager.tagItem(id2, tag1);
+        mManager.tagItem(id1, tag2);
+        mManager.tagItem(id3, tag2);
+
+        mManager.clearTags(id1);
         ItemTagCollection tags = mManager.getTags();
-        assertThat(tags.size(), is(1));
+        assertThat(tags.size(), is(2));
         ItemTag itemTag = tags.getItemTag(0);
-        assertThat(itemTag.tagsItem(id1), is(true));
-        assertThat(itemTag.tagsItem(id2), is(true));
-
-        mManager.untagItem(id1, itemTag);
-        tags = mManager.getTags();
-        assertThat(tags.size(), is(1));
-        itemTag = tags.getItemTag(0);
         assertThat(itemTag.tagsItem(id1), is(false));
         assertThat(itemTag.tagsItem(id2), is(true));
+
+        itemTag = tags.getItemTag(1);
+        assertThat(itemTag.tagsItem(id1), is(false));
+        assertThat(itemTag.tagsItem(id3), is(true));
     }
 
     @Test
-    public void untagItemRemovesItemTagIfNothingElseTaggedWithThatItemTag() {
+    public void clearTagsRemovesItemTagIfNothingElseTaggedWithThatItemTag() {
         String id1 = "abc";
         String id2 = "def";
         String tag = "tag";
@@ -178,27 +181,14 @@ public class TagsManagerImplTest {
         mManager.tagItem(id2, tag);
         ItemTagCollection tags = mManager.getTags();
         assertThat(tags.size(), is(1));
-        ItemTag itemTag = tags.getItemTag(0);
-        mManager.untagItem(id1, itemTag);
-        mManager.untagItem(id2, itemTag);
+        mManager.clearTags(id1);
+
+        tags = mManager.getTags();
+        assertThat(tags.size(), is(1));
+        mManager.clearTags(id2);
 
         tags = mManager.getTags();
         assertThat(tags.size(), is(0));
-    }
-
-    @Test
-    public void untagItemReturnsFalseIfItemTagNotDeletedOrTrueIfItemTagDeleted() {
-        String id1 = "abc";
-        String id2 = "def";
-        String tag = "tag";
-
-        mManager.tagItem(id1, tag);
-        mManager.tagItem(id2, tag);
-        ItemTagCollection tags = mManager.getTags();
-        assertThat(tags.size(), is(1));
-        ItemTag itemTag = tags.getItemTag(0);
-        assertThat(mManager.untagItem(id1, itemTag), is(false));
-        assertThat(mManager.untagItem(id2, itemTag), is(true));
     }
 
     @Test

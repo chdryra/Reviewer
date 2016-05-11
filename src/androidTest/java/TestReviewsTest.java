@@ -15,6 +15,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
@@ -25,6 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.TagsManagerImpl;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.R;
@@ -62,13 +64,23 @@ public class TestReviewsTest extends InstrumentationTestCase{
 
     @Test
     public void testGetReviews() {
-        Collection<Review> reviews = mRepo.getReviews();
-        checkSize(reviews, 4);
-        Iterator<Review> it = reviews.iterator();
-        testReview1(it.next());
-        testReview2(it.next());
-        testReview3(it.next());
-        testReview4(it.next());
+        mRepo.getReviews(new CallbackRepository() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+
+            }
+
+            @Override
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+                checkSize(reviews, 4);
+                Iterator<Review> it = reviews.iterator();
+                testReview1(it.next());
+                testReview2(it.next());
+                testReview3(it.next());
+                testReview4(it.next());
+            }
+        });
+
     }
 
     private void testReview1(Review review) {

@@ -8,9 +8,11 @@
 
 package test.TestUtils;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -30,21 +32,21 @@ public class StaticReviewsRepository implements ReviewsRepository {
     }
 
     @Override
-    public Review getReview(ReviewId reviewId) {
+    public void getReview(ReviewId id, CallbackRepository callback) {
         Review result = null;
         for(Review review : mReviews) {
-            if(review.getReviewId().equals(reviewId)) {
+            if(review.getReviewId().equals(id)) {
                 result = review;
                 break;
             }
         }
 
-        return result;
+        callback.onFetchedFromRepo(result, CallbackMessage.ok("Fetched"));
     }
 
     @Override
-    public IdableCollection<Review> getReviews() {
-        return mReviews;
+    public void getReviews(CallbackRepository callback) {
+        callback.onFetchedFromRepo(mReviews, CallbackMessage.ok("Fetched"));
     }
 
     @Override

@@ -7,13 +7,18 @@
  */
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 
@@ -49,35 +54,72 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         mRepo = (ReviewsRepositoryMutable) ApplicationInstance.getInstance(mContext).getUsersFeed();
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
-        populateRepository(mTestRepo.getReviews());
+        mTestRepo.getReviews(new CallbackRepository() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+
+            }
+
+            @Override
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+                populateRepository(reviews);
+            }
+        });
     }
 
     @Test
     public void testDatabase() {
-        Collection<Review> testReviews = mTestRepo.getReviews();
-        Collection<Review> reviews = mRepo.getReviews();
-        assertEquals(testReviews.size(), reviews.size());
-        Iterator<Review> testReviewsIt = testReviews.iterator();
-        for (Review review : reviews) {
-            Review testReview = testReviewsIt.next();
-            assertThat(review.getReviewId(), is(testReview.getReviewId()));
-            assertThat(review.getSubject(), is(testReview.getSubject()));
-            assertThat(review.getRating(), is(testReview.getRating()));
-            assertThat(review.getAuthor(), is(testReview.getAuthor()));
-            assertThat(review.getPublishDate(), is(testReview.getPublishDate()));
-            assertThat(review.getComments().size(), is(testReview.getComments().size()));
-            assertThat(review.getFacts().size(), is(testReview.getFacts().size()));
-            assertThat(review.getLocations().size(), is(testReview.getLocations().size()));
-            assertThat(review.getImages().size(), is(testReview.getImages().size()));
-        }
+        mTestRepo.getReviews(new CallbackRepository() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+
+            }
+
+            @Override
+            public void onFetchedFromRepo(final Collection<Review> testReviews, CallbackMessage result) {
+                mRepo.getReviews(new CallbackRepository() {
+                    @Override
+                    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+
+                    }
+
+                    @Override
+                    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+                        assertEquals(testReviews.size(), reviews.size());
+                        Iterator<Review> testReviewsIt = testReviews.iterator();
+                        for (Review review : reviews) {
+                            Review testReview = testReviewsIt.next();
+                            assertThat(review.getReviewId(), is(testReview.getReviewId()));
+                            assertThat(review.getSubject(), is(testReview.getSubject()));
+                            assertThat(review.getRating(), is(testReview.getRating()));
+                            assertThat(review.getAuthor(), is(testReview.getAuthor()));
+                            assertThat(review.getPublishDate(), is(testReview.getPublishDate()));
+                            assertThat(review.getComments().size(), is(testReview.getComments().size()));
+                            assertThat(review.getFacts().size(), is(testReview.getFacts().size()));
+                            assertThat(review.getLocations().size(), is(testReview.getLocations().size()));
+                            assertThat(review.getImages().size(), is(testReview.getImages().size()));
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void populateRepository(Collection<Review> reviews) {
         deleteDatabaseIfNecessary();
         for (Review review : reviews) {
-            mRepo.addReview(review);
+            mRepo.addReview(review, new CallbackRepositoryMutable() {
+                @Override
+                public void onAddedCallback(Review review, CallbackMessage result) {
+                    assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));
+                }
+
+                @Override
+                public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+
+                }
+            });
         }
-        assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));
     }
 
     private void deleteDatabaseIfNecessary() {

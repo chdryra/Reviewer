@@ -11,7 +11,9 @@ package test.Model.ReviewsRepositoryModel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
@@ -21,18 +23,19 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackReviewsSource;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.testutils.RandomString;
 
@@ -42,6 +45,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.Collection;
 import java.util.Random;
 
 import test.TestUtils.RandomReview;
@@ -50,9 +54,9 @@ import test.TestUtils.StaticReviewsRepository;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -85,43 +89,72 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void asMetaReview_ReviewId_ReturnsNullIfNoReviewFound() {
-        assertThat(mSource.asMetaReview(RandomReviewId.nextReviewId()), is(nullValue()));
+        mSource.asMetaReview(RandomReviewId.nextReviewId(), new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertThat(review , is(nullValue()));
+            }
+        });
     }
 
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithOneChildOnly() {
         Review review = getRandomReview();
-        assertNumChildren(mSource.asMetaReview(review.getReviewId()), 1);
+        mSource.asMetaReview(review.getReviewId(), new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNumChildren(review, 1);
+            }
+        });
     }
 
     @Test
     public void asMetaReview_ReviewId_ReturnsMetaReviewWithCorrectChildNode() {
-        Review expectedReview = getRandomReview();
-        ReviewNode node = mSource.asMetaReview(expectedReview.getReviewId());
-        assertNotNull(node);
-        assertCorrectReview(node.getChildren().getItem(0), expectedReview);
+        final Review expectedReview = getRandomReview();
+        mSource.asMetaReview(expectedReview.getReviewId(), new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNotNull(review);
+                assertCorrectReview(review.getChildren().getItem(0), expectedReview);
+            }
+        });
     }
 
     @Test
     public void asMetaReview_Data_ReturnsNullIfNoReviewFound() {
         VerboseDatum datum = new VerboseDatum(RandomReviewId.nextReviewId());
-        assertThat(mSource.asMetaReview(datum, ""), is(nullValue()));
+        mSource.asMetaReview(datum, "", new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertThat(review, is(nullValue()));
+            }
+        });
     }
 
     @Test
     public void asMetaReview_Data_ReturnsMetaReviewWithOneChildOnlyForDatum() {
         Review review = getRandomReview();
         VerboseDatum datum = new VerboseDatum(review.getReviewId());
-        assertNumChildren(mSource.asMetaReview(datum, ""), 1);
+        mSource.asMetaReview(datum, "", new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNumChildren(review, 1);
+            }
+        });
     }
 
     @Test
     public void asMetaReview_Data_ReturnsMetaReviewWithCorrectChildNodeForDatum() {
-        Review expectedReview = getRandomReview();
+        final Review expectedReview = getRandomReview();
         VerboseDatum datum = new VerboseDatum(expectedReview.getReviewId());
-        ReviewNode node = mSource.asMetaReview(datum, "");
-        assertNotNull(node);
-        assertCorrectReview(node.getChildren().getItem(0), expectedReview);
+        mSource.asMetaReview(datum, "", new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNotNull(review);
+                assertCorrectReview(review.getChildren().getItem(0), expectedReview);
+            }
+        });
+
     }
 
     @Test
@@ -134,22 +167,31 @@ public class ReviewsSourceImplTest {
             collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
-        assertNumChildren(mSource.asMetaReview(collection, ""), 1);
+        mSource.asMetaReview(collection, "", new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNumChildren(review, 1);
+            }
+        });
     }
 
     @Test
     public void
     asMetaReview_Data_ReturnsMetaReviewWithCorrectChildNodeForDataCollectionWithReviewIdInSource() {
-        Review expectedReview = getRandomReview();
+        final Review expectedReview = getRandomReview();
         ReviewId id = expectedReview.getReviewId();
         VerboseCollection collection = new VerboseCollection(id, RandomString.nextWord());
         for (int i = 0; i < NUM; ++i) {
             collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
-        ReviewNode node = mSource.asMetaReview(collection, RandomString.nextWord());
-        assertNotNull(node);
-        assertCorrectReview(node.getChildren().getItem(0), expectedReview);
+        mSource.asMetaReview(collection, RandomString.nextWord(), new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNotNull(review);
+                assertCorrectReview(review.getChildren().getItem(0), expectedReview);
+            }
+        });
     }
 
     @Test
@@ -158,7 +200,12 @@ public class ReviewsSourceImplTest {
             () {
         VerboseCollection collection = getItemsDataCollection();
         assertThat(collection.size(), is(mReviews.size() + 1));
-        assertNumChildren(mSource.asMetaReview(collection, ""), mReviews.size());
+        mSource.asMetaReview(collection, "", new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNumChildren(review, mReviews.size());
+            }
+        });
     }
 
     @Test
@@ -166,23 +213,31 @@ public class ReviewsSourceImplTest {
     asMetaReview_Data_ReturnsMetaReviewWithCorrectReviewForDataCollectionWithReviewIdNotInSource
             () {
         VerboseCollection collection = getItemsDataCollection();
-        String subject = RandomString.nextWord();
+        final String subject = RandomString.nextWord();
 
-        ReviewNode node = mSource.asMetaReview(collection, subject);
-
-        assertNotNull(node);
-        assertNodeHasCorrectData(subject, node);
+        mSource.asMetaReview(collection, subject, new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNotNull(review);
+                assertNodeHasCorrectData(subject, review);
+            }
+        });
     }
 
     @Test
     public void
     getMetaReviewReturnsNullIfDataDoesNotHaveReviewIdsInSource() {
-        VerboseCollection collection = new VerboseCollection(RandomReviewId.nextReviewId(), "");
+        final VerboseCollection collection = new VerboseCollection(RandomReviewId.nextReviewId(), "");
         for(int i = 0; i < NUM; ++i) {
             collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
         }
 
-        assertThat(mSource.getMetaReview(collection, ""), is(nullValue()));
+        mSource.getMetaReview(collection, "", new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertThat(review, is(nullValue()));
+            }
+        });
     }
 
     @Test
@@ -190,19 +245,27 @@ public class ReviewsSourceImplTest {
     getMetaReviewReturnsMetaReviewWithCorrectNumberChildren() {
         VerboseCollection collection = getItemsDataCollection();
         assertThat(collection.size(), is(mReviews.size() + 1));
-        assertNumChildren(mSource.getMetaReview(collection, ""), mReviews.size());
+        mSource.getMetaReview(collection, "", new CallbackReviewsSource() {
+                    @Override
+                    public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                        assertNumChildren(review, mReviews.size());
+                    }
+                });
     }
 
     @Test
     public void
     getMetaReviewReturnsMetaReviewWithCorrectReview() {
         VerboseCollection collection = getItemsDataCollection();
-        String subject = RandomString.nextWord();
+        final String subject = RandomString.nextWord();
 
-        ReviewNode node = mSource.getMetaReview(collection, subject);
-
-        assertNotNull(node);
-        assertNodeHasCorrectData(subject, node);
+        mSource.getMetaReview(collection, subject, new CallbackReviewsSource() {
+            @Override
+            public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
+                assertNotNull(review);
+                assertNodeHasCorrectData(subject, review);
+            }
+        });
     }
 
     @Test
@@ -213,18 +276,57 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void getReviewReturnsNullIfReviewNotFound() {
-        assertThat(mSource.getReview(RandomReviewId.nextReviewId()), is(nullValue()));
+        mSource.getReview(RandomReviewId.nextReviewId(), new CallbackRepository() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+                assertThat(review, is(nullValue()));
+            }
+
+            @Override
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+
+            }
+        });
     }
 
     @Test
     public void getReviewReturnsCorrectReviewIfFound() {
         Review review = getRandomReview();
-        assertThat(mSource.getReview(review.getReviewId()), is(review));
+        mSource.getReview(review.getReviewId(), new CallbackRepository() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+                assertThat(review, is(review));
+            }
+
+            @Override
+            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+
+            }
+        });
     }
 
     @Test
     public void getReviewsReturnsReviewsInRepository() {
-        assertThat(mSource.getReviews(), is(mRepo.getReviews()));
+        mSource.getReviews(new CallbackRepository() {
+            @Override
+            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+
+            }
+
+            @Override
+            public void onFetchedFromRepo(final Collection<Review> fromSource, CallbackMessage result) {
+                mRepo.getReviews(new CallbackRepository() {
+                    @Override
+                    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
+                    }
+
+                    @Override
+                    public void onFetchedFromRepo(Collection<Review> fromRepo, CallbackMessage result) {
+                        assertThat(fromSource, is(fromRepo));
+                    }
+                });
+            }
+        });
     }
 
     @Test
@@ -257,7 +359,7 @@ public class ReviewsSourceImplTest {
     @NonNull
     private FactoryReviews getReviewFactory() {
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter);
+        FactoryReviews factoryReviews = new FactoryReviews(new FactoryReviewNode(), converter, new DataValidator());
         factoryReviews.setAuthorsStamp(new AuthorsStamp(AUTHOR));
         return factoryReviews;
     }

@@ -8,6 +8,7 @@
 
 package test.Model.Factories;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
@@ -67,7 +68,7 @@ public class FactoryReviewsTest {
     public void setup() {
         mAuthor = RandomAuthor.nextAuthor();
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        mFactory = new FactoryReviews(new FactoryReviewNode(), converter);
+        mFactory = new FactoryReviews(new FactoryReviewNode(), converter, new DataValidator());
         mFactory.setAuthorsStamp(new AuthorsStamp(mAuthor));
         mDataMocker = new MdDataMocker();
     }
@@ -269,10 +270,7 @@ public class FactoryReviewsTest {
     @Test
     public void recreateReview() {
         Review review = RandomReview.nextReview();
-        ArrayList<Review> criteria = new ArrayList<>();
-        for(DataCriterionReview criterion : review.getCriteria()) {
-            criteria.add(criterion.getReview());
-        }
+        IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
 
         ReviewDataHolder holder = new ReviewDataHolderImpl(review.getReviewId(), review.getAuthor(),
                 review.getPublishDate(), review.getSubject().getSubject(),

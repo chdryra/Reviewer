@@ -8,15 +8,16 @@
 
 package test.Plugins.PersistencePlugin.DatabaseAndroidSqLite;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDbPlugin
-        .AndroidSqLiteDb.Implementation.SqLiteTypeDefinitions;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.LocalRelationalDb.RelationalDb
-        .Implementation.DbEntryType;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .RelationalDb.Implementation.DbEntryType;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+        .SqLiteTypeDefinitions;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.core.Is.is;
 
 /**
