@@ -44,6 +44,7 @@ public class ComparitorCriterionTest {
         mSubjectRhs = RandomString.nextWord();
         mRatingLhs = RandomRating.nextRating();
         mRatingRhs = RandomRating.nextRating();
+        while(mRatingRhs == mRatingLhs) mRatingRhs = RandomRating.nextRating();
     }
 
     @Test

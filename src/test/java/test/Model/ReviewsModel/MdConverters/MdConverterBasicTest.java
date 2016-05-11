@@ -42,7 +42,8 @@ public abstract class MdConverterBasicTest<T1 extends HasReviewId, T2 extends Ha
 
     protected abstract T1 newDatum();
     protected abstract void checkDatumEquivalence(T1 datum, T2 mdDatum);
-    
+    protected abstract void checkDatumEquivalence(T1 datum, T2 mdDatum, ReviewId mdDatumId);
+
     @Test
     public void convertDatum() {
         T1 datum = newDatum();
@@ -58,12 +59,6 @@ public abstract class MdConverterBasicTest<T1 extends HasReviewId, T2 extends Ha
     }
 
     @Test
-    public void convertDatumWithWrongReviewIdThrowsIllegalArgumentExceptionException() {
-        expectedException.expect(IllegalArgumentException.class);
-        mConverter.convert(newDatum(), RandomReviewId.nextReviewId());
-    }
-
-    @Test
     public void convertIterable() {
         ArrayList<T1> data = new ArrayList<>();
         for (int i = 0; i < NUM; ++i) {
@@ -76,7 +71,7 @@ public abstract class MdConverterBasicTest<T1 extends HasReviewId, T2 extends Ha
         assertThat(mdData.getReviewId().toString(), is(id.toString()));
         assertThat(mdData.size(), is(NUM));
         for (int i = 0; i < NUM; ++i) {
-            checkDatumEquivalence(data.get(i), mdData.getItem(i));
+            checkDatumEquivalence(data.get(i), mdData.getItem(i), id);
         }
     }
 

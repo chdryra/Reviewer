@@ -40,6 +40,11 @@ public class MdConverterLocationsTest extends MdConverterBasicTest<DataLocation,
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
+    @Override
+    protected void checkDatumEquivalence(DataLocation datum, MdLocation mdDatum, ReviewId mdDatumId) {
+        DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
+    }
+
     private static class Location implements DataLocation {
         private LatLng mLatLng;
         private String mName;

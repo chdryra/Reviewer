@@ -28,16 +28,25 @@ import static org.hamcrest.MatcherAssert.*;
  */
 public class DataEquivalence {
     public static void checkEquivalence(DataComment lhs, DataComment rhs) {
-        assertThat(rhs.getReviewId().toString(), is(lhs.getReviewId().toString()));
+        checkEquivalence(lhs, rhs, lhs.getReviewId());
+    }
+
+    public static void checkEquivalence(DataComment lhs, DataComment rhs, ReviewId rhsIdExpected) {
+        assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getComment(), is(lhs.getComment()));
         assertThat(rhs.isHeadline(), is(lhs.isHeadline()));
     }
 
     public static void checkEquivalence(DataCriterionReview lhs, DataCriterionReview rhs) {
-        assertThat(rhs.getReviewId().toString(), is(lhs.getReviewId().toString()));
+        checkEquivalence(lhs, rhs, lhs.getReviewId());
+    }
+
+    public static void checkEquivalence(DataCriterionReview lhs, DataCriterionReview rhs, ReviewId rhsIdExpected) {
+        assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getSubject(), is(lhs.getSubject()));
         assertThat(rhs.getRating(), is(lhs.getRating()));
-        assertThat(rhs.getReview(), is(lhs.getReview()));
+        assertThat(rhs.getReview().getSubject(), is(lhs.getReview().getSubject()));
+        assertThat(rhs.getReview().getRating(), is(lhs.getReview().getRating()));
     }
 
     public static void checkEquivalence(ReviewId parentId, Review review, DataCriterionReview rhs) {
@@ -48,14 +57,22 @@ public class DataEquivalence {
     }
     
     public static void checkEquivalence(DataFact lhs, DataFact rhs) {
-        assertThat(rhs.getReviewId().toString(), is(lhs.getReviewId().toString()));
+        checkEquivalence(lhs, rhs, lhs.getReviewId());
+    }
+
+    public static void checkEquivalence(DataFact lhs, DataFact rhs, ReviewId rhsIdExpected) {
+        assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getLabel(), is(lhs.getLabel()));
         assertThat(rhs.getValue(), is(lhs.getValue()));
         assertThat(rhs.isUrl(), is(lhs.isUrl()));
     }
 
     public static void checkEquivalence(DataImage lhs, DataImage rhs) {
-        assertThat(rhs.getReviewId().toString(), is(lhs.getReviewId().toString()));
+        checkEquivalence(lhs, rhs, lhs.getReviewId());
+    }
+
+    public static void checkEquivalence(DataImage lhs, DataImage rhs, ReviewId rhsIdExpected) {
+        assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getBitmap(), is(lhs.getBitmap()));
         assertThat(rhs.getDate().getTime(), is(lhs.getDate().getTime()));
         assertThat(rhs.getCaption(), is(lhs.getCaption()));
@@ -63,16 +80,25 @@ public class DataEquivalence {
     }
 
     public static void checkEquivalence(DataLocation lhs, DataLocation rhs) {
-        assertThat(rhs.getReviewId().toString(), is(lhs.getReviewId().toString()));
+        checkEquivalence(lhs, rhs, lhs.getReviewId());
+    }
+
+    public static void checkEquivalence(DataLocation lhs, DataLocation rhs, ReviewId rhsIdExpected) {
+        assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getLatLng(), is(lhs.getLatLng()));
         assertThat(rhs.getName(), is(lhs.getName()));
     }
 
     public static void checkEquivalence(DataUrl lhs, MdUrl rhs) {
+        checkEquivalence(lhs, rhs, lhs.getReviewId());
+    }
+
+    public static void checkEquivalence(DataUrl lhs, MdUrl rhs, ReviewId rhsIdExpected) {
         //Don't test urls are equal as extremely slow. Value check good enough.
-        assertThat(rhs.getReviewId().toString(), is(lhs.getReviewId().toString()));
+        assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getLabel(), is(lhs.getLabel()));
         assertThat(rhs.getValue(), is(lhs.getValue()));
         assertThat(rhs.isUrl(), is(lhs.isUrl()));
     }
+
 }

@@ -151,8 +151,8 @@ public class TagsManagerImplTest {
         String id1 = "abc";
         String id2 = "def";
         String id3 = "ghi";
-        String tag1 = "tag";
-        String tag2 = "tag";
+        String tag1 = "tag1";
+        String tag2 = "tag2";
 
         mManager.tagItem(id1, tag1);
         mManager.tagItem(id2, tag1);

@@ -50,6 +50,11 @@ public class MdConverterImageTest extends MdConverterBasicTest<DataImage, MdImag
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
+    @Override
+    protected void checkDatumEquivalence(DataImage datum, MdImage mdDatum, ReviewId mdDatumId) {
+        DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
+    }
+
     private static class Image implements DataImage {
         private static final Random RAND = new Random();
 

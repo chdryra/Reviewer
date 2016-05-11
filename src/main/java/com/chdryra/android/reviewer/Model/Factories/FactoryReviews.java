@@ -120,7 +120,14 @@ public class FactoryReviews implements ReviewMaker {
         Iterable<? extends DataCriterion> criteria = reviewData.getCriteria();
         ArrayList<Review> critList = new ArrayList<>();
         for(DataCriterion criterion : criteria) {
-            critList.add(createUserReview(criterion.getSubject(), criterion.getRating()));
+            critList.add(newReviewUser(new MdReviewId(criterion.getReviewId()), reviewData.getAuthor(),
+                    reviewData.getPublishDate(), criterion.getSubject(), criterion.getRating(),
+                    new ArrayList<DataComment>(),
+                    new ArrayList<DataImage>(),
+                    new ArrayList<DataFact>(),
+                    new ArrayList<DataLocation>(),
+                    new ArrayList<Review>(),
+                    false));
         }
 
         return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthor(),

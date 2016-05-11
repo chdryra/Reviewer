@@ -41,7 +41,7 @@ public class StaticReviewsRepository implements ReviewsRepository {
             }
         }
 
-        callback.onFetchedFromRepo(result, CallbackMessage.ok("Fetched"));
+        callback.onFetchedFromRepo(result, result == null ? CallbackMessage.error(id + " not found") : CallbackMessage.ok());
     }
 
     @Override

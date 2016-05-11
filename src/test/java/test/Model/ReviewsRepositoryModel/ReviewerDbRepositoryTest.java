@@ -93,13 +93,33 @@ public class ReviewerDbRepositoryTest {
     }
 
     @Test
-    public void addReviewAddsReviewToDb() {
+    public void addReviewAddsReviewToDbAndDoesNotReturnError() {
         final TableTransactor mockDb = mockWriteTransaction();
         Review review = RandomReview.nextReview();
+        when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(true);
         mRepo.addReview(review, new CallbackRepositoryMutable() {
             @Override
             public void onAddedCallback(Review review, CallbackMessage result) {
                 verify(mDb).addReviewToDb(review, mTagsManager, mockDb);
+                assertThat(result.isError(), is(false));
+            }
+
+            @Override
+            public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+
+            }
+        });
+    }
+
+    @Test
+    public void addReviewReturnsErrorIfAddingUnsuccessful() {
+        final TableTransactor mockDb = mockWriteTransaction();
+        Review review = RandomReview.nextReview();
+        when(mDb.addReviewToDb(review, mTagsManager, mockDb)).thenReturn(false);
+        mRepo.addReview(review, new CallbackRepositoryMutable() {
+            @Override
+            public void onAddedCallback(Review review, CallbackMessage result) {
+                assertThat(result.isError(), is(true));
             }
 
             @Override
@@ -135,7 +155,7 @@ public class ReviewerDbRepositoryTest {
     }
 
     @Test
-    public void addReviewDoesNotCallsObserversOnUnsuccessfulAddingOfReview() {
+    public void addReviewDoesNotCallsObserversAndReturnsErrorOnUnsuccessfulAddingOfReview() {
         final ReviewsRepositoryObserver observer1 = mock(ReviewsRepositoryObserver.class);
         final ReviewsRepositoryObserver observer2 = mock(ReviewsRepositoryObserver.class);
         mRepo.registerObserver(observer1);
@@ -149,6 +169,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onAddedCallback(Review review, CallbackMessage result) {
                 verifyZeroInteractions(observer1, observer2);
+                assertThat(result.isError(),is(true));
             }
 
             @Override
@@ -178,7 +199,7 @@ public class ReviewerDbRepositoryTest {
     }
 
     @Test
-    public void getReviewReturnsNullIfNoReviewInDb() {
+    public void getReviewReturnsNullAndErrorIfNoReviewInDb() {
         ReviewId id = RandomReviewId.nextReviewId();
         ArrayList<Review> reviews = new ArrayList<>();
         mockLoadFromDb(id, reviews);
@@ -186,6 +207,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
                 assertThat(review, is(nullValue()));
+                assertThat(result.isError(),is(true));
             }
 
             @Override
@@ -206,6 +228,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
                 assertThat(review, is(review));
+                assertThat(result.isError(),is(false));
             }
 
             @Override
@@ -269,7 +292,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.getReview(id, new CallbackRepository() {
             @Override
             public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-                verify(mDb, never()).loadTable(mDb.getTagsTable(), transactor);
+                verify(mDb, atMost(1)).loadTable(mDb.getTagsTable(), transactor);
             }
 
             @Override
@@ -280,9 +303,7 @@ public class ReviewerDbRepositoryTest {
     }
 
     @Test
-    public void getReviewThrowsExceptionIfMoreThanOneReviewFoundInDbWithId() {
-        expectedException.expect(IllegalStateException.class);
-
+    public void getReviewReturnsErrorIfMoreThanOneReviewFoundInDbWithId() {
         Review review = RandomReview.nextReview();
         ReviewId id = review.getReviewId();
         ArrayList<Review> reviews = new ArrayList<>();
@@ -294,7 +315,8 @@ public class ReviewerDbRepositoryTest {
         mRepo.getReview(id, new CallbackRepository() {
             @Override
             public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-
+                assertThat(review, is(nullValue()));
+                assertThat(result.isError(), is(true));
             }
 
             @Override
@@ -338,14 +360,16 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
                 assertThat(reviews, is(reviews));
+                assertThat(result.isError(),is(false));
             }
         });
     }
 
     @Test
-    public void removeReviewRemovesReviewToDb() {
+    public void removeReviewRemovesReviewFromDbAndDoesNotReturnError() {
         final TableTransactor mockTransactor = mockWriteTransaction();
         final ReviewId id = RandomReviewId.nextReviewId();
+        when(mDb.deleteReviewFromDb(id, mTagsManager, mockTransactor)).thenReturn(true);
         mRepo.removeReview(id, new CallbackRepositoryMutable() {
             @Override
             public void onAddedCallback(Review review, CallbackMessage result) {
@@ -355,6 +379,25 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
                 verify(mDb).deleteReviewFromDb(id, mTagsManager, mockTransactor);
+                assertThat(result.isError(), is(false));
+            }
+        });
+    }
+
+    @Test
+    public void removeReviewReturnsErrorIfProblemDeleteing() {
+        final TableTransactor mockTransactor = mockWriteTransaction();
+        final ReviewId id = RandomReviewId.nextReviewId();
+        when(mDb.deleteReviewFromDb(id, mTagsManager, mockTransactor)).thenReturn(false);
+        mRepo.removeReview(id, new CallbackRepositoryMutable() {
+            @Override
+            public void onAddedCallback(Review review, CallbackMessage result) {
+
+            }
+
+            @Override
+            public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+                assertThat(result.isError(), is(true));
             }
         });
     }
@@ -385,7 +428,7 @@ public class ReviewerDbRepositoryTest {
     }
 
     @Test
-    public void removeReviewDoesNotCallsObserversOnUnsuccessfulRemovingOfReview() {
+    public void removeReviewDoesNotCallsObserversAndReturnsErrorOnUnsuccessfulRemovingOfReview() {
         final ReviewsRepositoryObserver observer1 = mock(ReviewsRepositoryObserver.class);
         final ReviewsRepositoryObserver observer2 = mock(ReviewsRepositoryObserver.class);
         mRepo.registerObserver(observer1);
@@ -404,6 +447,7 @@ public class ReviewerDbRepositoryTest {
             @Override
             public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
                 verifyZeroInteractions(observer1, observer2);
+                assertThat(result.isError(),is(true));
             }
         });
     }

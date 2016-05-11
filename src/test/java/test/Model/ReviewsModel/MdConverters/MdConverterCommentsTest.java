@@ -40,6 +40,11 @@ public class MdConverterCommentsTest extends MdConverterBasicTest<DataComment, M
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
+    @Override
+    protected void checkDatumEquivalence(DataComment datum, MdComment mdDatum, ReviewId mdDatumId) {
+        DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
+    }
+
     private static class Comment implements DataComment {
         private static final Random RAND = new Random();
         private String mComment;

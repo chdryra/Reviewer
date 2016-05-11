@@ -49,6 +49,11 @@ public class MdConverterCriteriaTest extends MdConverterBasicTest<DataCriterionR
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
+    @Override
+    protected void checkDatumEquivalence(DataCriterionReview datum, MdCriterion mdDatum, ReviewId mdDatumId) {
+        DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
+    }
+
     @Test
     public void testConvertReviews() {
         ArrayList<Review> reviews = new ArrayList<>();

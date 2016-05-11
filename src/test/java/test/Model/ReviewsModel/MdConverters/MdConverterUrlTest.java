@@ -43,6 +43,11 @@ public class MdConverterUrlTest extends MdConverterBasicTest<DataUrl, MdUrl> {
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
+    @Override
+    protected void checkDatumEquivalence(DataUrl datum, MdUrl mdDatum, ReviewId mdDatumId) {
+        DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
+    }
+
     private static class Url implements DataUrl {
         private URL mUrl;
         private String mLabel;

@@ -93,12 +93,14 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable{
         if(iterator.hasNext()) review = iterator.next();
         if(iterator.hasNext()) {
             message = CallbackMessage.error("There is more than 1 review with id: " + reviewId);
+            review = null;
         } else if(review == null) {
             message = CallbackMessage.error("Review not found: " + reviewId);
         }
 
         callback.onFetchedFromRepo(review, message);
     }
+
 
     @Override
     public void getReviews(CallbackRepository callback) {

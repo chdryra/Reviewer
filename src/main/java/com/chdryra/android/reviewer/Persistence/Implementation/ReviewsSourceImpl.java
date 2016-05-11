@@ -123,7 +123,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Nullable
     private ReviewId getSingleSourceId(VerboseDataReview datum) {
-        ReviewId id = null;
+        ReviewId id = datum.getReviewId();
         if (datum.isVerboseCollection() && datum.hasElements()) {
             VerboseIdableCollection<? extends VerboseDataReview> data =
                     (VerboseIdableCollection<? extends VerboseDataReview>) datum;

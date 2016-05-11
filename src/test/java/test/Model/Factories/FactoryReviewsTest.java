@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
@@ -270,13 +271,12 @@ public class FactoryReviewsTest {
     @Test
     public void recreateReview() {
         Review review = RandomReview.nextReview();
-        IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
 
         ReviewDataHolder holder = new ReviewDataHolderImpl(review.getReviewId(), review.getAuthor(),
                 review.getPublishDate(), review.getSubject().getSubject(),
                 review.getRating().getRating(), review.getRating().getRatingWeight(),
                 review.getComments(), review.getImages(),
-                review.getFacts(), review.getLocations(), criteria,
+                review.getFacts(), review.getLocations(), review.getCriteria(),
                 review.isRatingAverageOfCriteria());
 
         Review recreation = mFactory.makeReview(holder);
@@ -288,7 +288,7 @@ public class FactoryReviewsTest {
         checkSubject(review.getSubject(), recreation);
         checkRating(review.getRating(), recreation);
         checkComments(review.getComments(), recreation);
-        checkCriteria(criteria, recreation);
+        checkCriteria(review.getCriteria(), recreation);
         checkFacts(review.getFacts(), recreation);
         checkImages(review.getImages(), recreation);
         checkLocations(review.getLocations(), recreation);
@@ -301,64 +301,83 @@ public class FactoryReviewsTest {
         checkPublishDate(node);
         assertThat(node.getTreeRepresentation(), is(node));
 
-        checkCriteria(review.getCriteria(), node);
-        checkComments(review.getComments(), node);
-        checkFacts(review.getFacts(), node);
-        checkImages(review.getImages(), node);
-        checkLocations(review.getLocations(), node);
+        checkCriteria(review.getCriteria(), node, review.getReviewId());
+        checkComments(review.getComments(), node, review.getReviewId());
+        checkFacts(review.getFacts(), node, review.getReviewId());
+        checkImages(review.getImages(), node, review.getReviewId());
+        checkLocations(review.getLocations(), node, review.getReviewId());
     }
 
     private void checkLocations(Iterable<? extends DataLocation> locations, Review review) {
+        checkLocations(locations, review, review.getReviewId());
+    }
+
+    private void checkLocations(Iterable<? extends DataLocation> locations, Review review, ReviewId reviewId) {
         IdableList<? extends DataLocation> reviewLocations = review.getLocations();
         assertThat(reviewLocations.getReviewId(), is(review.getReviewId()));
         int i = 0;
         for(DataLocation location : locations) {
             assertThat(reviewLocations.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(location, reviewLocations.getItem(i++));
+            DataEquivalence.checkEquivalence(location, reviewLocations.getItem(i++), reviewId);
         }
         assertThat(reviewLocations.size(), is(i));
     }
-
     private void checkImages(Iterable<? extends DataImage> images, Review review) {
+        checkImages(images, review, review.getReviewId());
+    }
+
+    private void checkImages(Iterable<? extends DataImage> images, Review review, ReviewId reviewId) {
         IdableList<? extends DataImage> reviewImages = review.getImages();
         assertThat(reviewImages.getReviewId(), is(review.getReviewId()));
         int i = 0;
         for(DataImage image : images) {
             assertThat(reviewImages.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(image, reviewImages.getItem(i++));
+            DataEquivalence.checkEquivalence(image, reviewImages.getItem(i++), reviewId);
         }
         assertThat(reviewImages.size(), is(i));
     }
 
     private void checkFacts(Iterable<? extends DataFact> facts, Review review) {
+        checkFacts(facts, review, review.getReviewId());
+    }
+
+    private void checkFacts(Iterable<? extends DataFact> facts, Review review, ReviewId reviewId) {
         IdableList<? extends DataFact> reviewFacts = review.getFacts();
         assertThat(reviewFacts.getReviewId(), is(review.getReviewId()));
         int i = 0;
         for(DataFact fact : facts) {
             assertThat(reviewFacts.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(fact, reviewFacts.getItem(i++));
+            DataEquivalence.checkEquivalence(fact, reviewFacts.getItem(i++), reviewId);
         }
         assertThat(reviewFacts.size(), is(i));
     }
-    
+
     private void checkComments(Iterable<? extends DataComment> comments, Review review) {
+        checkComments(comments, review, review.getReviewId());
+    }
+
+    private void checkComments(Iterable<? extends DataComment> comments, Review review, ReviewId reviewId) {
         IdableList<? extends DataComment> reviewComments = review.getComments();
         assertThat(reviewComments.getReviewId(), is(review.getReviewId()));
         int i = 0;
         for(DataComment comment : comments) {
             assertThat(reviewComments.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(comment, reviewComments.getItem(i++));
+            DataEquivalence.checkEquivalence(comment, reviewComments.getItem(i++), reviewId);
         }
         assertThat(reviewComments.size(), is(i));
     }
 
     private void checkCriteria(Iterable<? extends DataCriterionReview> criteria, Review review) {
+        checkCriteria(criteria, review, review.getReviewId());
+    }
+
+    private void checkCriteria(Iterable<? extends DataCriterionReview> criteria, Review review, ReviewId reviewId) {
         IdableList<? extends DataCriterionReview> reviewCriteria = review.getCriteria();
         assertThat(reviewCriteria.getReviewId(), is(review.getReviewId()));
         int i = 0;
-        for(DataCriterionReview comment : criteria) {
+        for(DataCriterionReview criterion : criteria) {
             assertThat(reviewCriteria.size(), greaterThan(i));
-            DataEquivalence.checkEquivalence(comment, reviewCriteria.getItem(i++));
+            DataEquivalence.checkEquivalence(criterion, reviewCriteria.getItem(i++), reviewId);
         }
         assertThat(reviewCriteria.size(), is(i));
     }

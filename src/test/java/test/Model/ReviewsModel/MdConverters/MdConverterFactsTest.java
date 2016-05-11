@@ -75,6 +75,11 @@ public class MdConverterFactsTest extends MdConverterBasicTest<DataFact, MdFact>
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
+    @Override
+    protected void checkDatumEquivalence(DataFact datum, MdFact mdDatum, ReviewId mdDatumId) {
+        DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
+    }
+
     private static class FactUrl extends Fact implements DataUrl {
         private URL mUrl;
 

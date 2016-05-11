@@ -45,6 +45,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
@@ -182,13 +183,14 @@ public class ReviewsSourceImplTest {
         ReviewId id = expectedReview.getReviewId();
         VerboseCollection collection = new VerboseCollection(id, RandomString.nextWord());
         for (int i = 0; i < NUM; ++i) {
-            collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
+            collection.add(new VerboseDatum(id));
         }
 
         mSource.asMetaReview(collection, RandomString.nextWord(), new CallbackReviewsSource() {
             @Override
             public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
                 assertNotNull(review);
+                assertThat(review.getChildren().size(), is(1));
                 assertCorrectReview(review.getChildren().getItem(0), expectedReview);
             }
         });
@@ -373,9 +375,16 @@ public class ReviewsSourceImplTest {
         IdableList<ReviewNode> children = node.getChildren();
         float averageRating = 0;
         int numChildren = children.size();
+        ArrayList<Review> reviewsAssessed = new ArrayList<>();
         for (int i = 0; i < numChildren; ++i) {
             ReviewNode child = children.getItem(i);
-            assertCorrectReview(child, mReviews.getItem(i));
+            Review review = child.getReview();
+
+            assertThat(mReviews.contains(review), is(true));
+            assertThat(reviewsAssessed.contains(review), is(false));
+            reviewsAssessed.add(review);
+
+            assertCorrectReview(child, mReviews.getItem());
             averageRating += child.getRating().getRating() / numChildren;
         }
 
