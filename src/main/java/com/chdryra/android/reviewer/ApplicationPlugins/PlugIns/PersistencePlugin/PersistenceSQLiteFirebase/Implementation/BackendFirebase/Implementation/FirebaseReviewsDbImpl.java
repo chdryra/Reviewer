@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
         .BackendError;
@@ -123,8 +124,9 @@ public class FirebaseReviewsDbImpl implements BackendReviewsDb {
         };
     }
 
+    @Nullable
     private BackendError newBackendError(FirebaseError firebaseError) {
-        return FirebaseBackend.backendError(firebaseError);
+        return firebaseError != null ? FirebaseBackend.backendError(firebaseError) : null;
     }
 
     private void doDelete(ReviewDb review, DeleteReviewCallback callback) {

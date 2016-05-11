@@ -107,7 +107,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     public void onAuthenticated(AuthorProfile profile) {
         Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
         mPresenter.onAuthorAuthenticated(profile);
-        close();
     }
 
     @Override
@@ -173,9 +172,5 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         } else {
             onSignUpRequested(null, mPresenter.getSignUpMessage());
         }
-    }
-
-    private void close() {
-        getActivity().finish();;
     }
 }

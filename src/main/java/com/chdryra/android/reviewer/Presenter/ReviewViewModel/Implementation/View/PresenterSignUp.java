@@ -52,7 +52,7 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
         void onSignUpComplete(AuthorProfile profile, @Nullable AuthenticationError error);
     }
 
-    public PresenterSignUp(ApplicationInstance app, SignUpListener listener, Activity activity) {
+    public PresenterSignUp(ApplicationInstance app, SignUpListener listener) {
         mApp = app;
         mListener = listener;
     }
@@ -135,6 +135,18 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
             return INVALID_CHARACTERS;
         } else {
             return UNKNOWN_ERROR;
+        }
+    }
+
+    public static class Builder {
+        private ApplicationInstance mApp;
+
+        public Builder(ApplicationInstance app) {
+            mApp = app;
+        }
+
+        public PresenterSignUp build(SignUpListener listener) {
+            return new PresenterSignUp(mApp, listener);
         }
     }
 }

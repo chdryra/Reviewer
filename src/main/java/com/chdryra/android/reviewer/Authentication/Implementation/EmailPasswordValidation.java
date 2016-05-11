@@ -49,7 +49,7 @@ public class EmailPasswordValidation {
             if (!isPasswordValid) mReason = Reason.INVALID_PASSWORD;
         }
 
-        if (mReason == null) {
+        if (mReason == Reason.OK) {
             try {
                 EmailAddress emailAddress = new EmailAddress(email);
                 mIfValid = new EmailPassword(emailAddress, new Password(password));

@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Fragments;
 
 
 import android.app.Fragment;
@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
@@ -59,7 +60,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
 
     public static FragmentSignUp newInstance(@Nullable SignUpArgs args) {
         FragmentSignUp fragment = new FragmentSignUp();
-        if(args != null) {
+        if (args != null) {
             Bundle bundle = new Bundle();
             bundle.putParcelable(ARGS, args);
             fragment.setArguments(bundle);
@@ -80,41 +81,26 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
 
         mName = (EditText) view.findViewById(NAME_EDIT_TEXT);
 
-        initWithArgs(emailSignUp);
-
         Button signUpButton = (Button) view.findViewById(SIGN_UP_BUTTON);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                validateAndRequestCreateUser();
+                validateAndRequestSignUp();
             }
         });
+
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        mPresenter = new PresenterSignUp.Builder(app).build(this);
+
+        Bundle args = getArguments();
+        if (args != null) initWithArgs(emailSignUp, args);
 
         return view;
     }
 
-    private void initWithArgs(LinearLayout emailSignUp) {
-        Bundle bundle = getArguments();
-        if(bundle != null) {
-            SignUpArgs args = bundle.getParcelable(ARGS);
-            if (args != null) {
-                if (args.isEmailPassword()) {
-                    EmailAddress emailAddress = args.getEmail();
-                    if (emailAddress != null) mEmail.setText(emailAddress.toString());
-                } else {
-                    mUser = args.getUser();
-                    if(mUser == null) throw new IllegalStateException("User should not be null!");
-                    String text = mUser.getProvider() + " log in";
-                    mEmail.setText(text);
-                    emailSignUp.setActivated(false);
-                }
-            }
-        }
-    }
-
     @Override
     public void onSignUpComplete(AuthorProfile profile, @Nullable AuthenticationError error) {
-        if(error != null) {
+        if (error != null) {
             makeToast(error.getMessage());
         } else {
             mPresenter.onSignUpSuccessful(profile, getActivity());
@@ -122,14 +108,28 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
         }
     }
 
-    private void validateAndRequestCreateUser() {
+    private void initWithArgs(LinearLayout emailSignUp, Bundle args) {
+        SignUpArgs signUpArgs = args.getParcelable(ARGS);
+        if (signUpArgs != null) {
+            if (signUpArgs.isEmailPassword()) {
+                EmailAddress emailAddress = signUpArgs.getEmail();
+                if (emailAddress != null) mEmail.setText(emailAddress.toString());
+            } else {
+                mUser = signUpArgs.getUser();
+                if (mUser == null) throw new IllegalStateException("User should not be null!");
+                emailSignUp.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void validateAndRequestSignUp() {
         String name = mName.getText().toString();
-        if(mUser != null) {
+        if (mUser != null) {
             mPresenter.signUpNewAuthor(mUser, name);
         } else {
             String password = mPassword.getText().toString();
             String passwordConfirm = mPasswordConfirm.getText().toString();
-            if(!password.equals(passwordConfirm)) {
+            if (!password.equals(passwordConfirm)) {
                 makeToast("Passwords don't match");
                 return;
             }

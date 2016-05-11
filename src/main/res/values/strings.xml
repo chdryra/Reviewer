@@ -63,7 +63,7 @@
     <string name="edit_text_email">email</string>
     <string name="edit_text_password">password</string>
     <string name="edit_text_confirm_password">confirm password</string>
-    <string name="edit_text_author_name">user name</string>
+    <string name="edit_text_author_name">choose author name</string>
 
     <!-- SearchViews -->
     <string name="search_view_location_hint">search for location&#8230;</string>

@@ -128,6 +128,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     public void onAuthorAuthenticated(AuthorProfile profile) {
         mApp.setAuthor(profile.getAuthor());
         launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, new Bundle());
+        mActivity.finish();
     }
 
     public EmailPasswordValidation validateEmailPassword(String email, String password) {

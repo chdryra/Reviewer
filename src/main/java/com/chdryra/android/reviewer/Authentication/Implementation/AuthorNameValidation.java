@@ -46,7 +46,7 @@ public class AuthorNameValidation {
             mReason = Reason.INVALID_CHARACTERS;
         }
 
-        if (mReason == null) mIfValid = name;
+        if (mReason == Reason.OK) mIfValid = name;
     }
 
     public Reason getReason() {
