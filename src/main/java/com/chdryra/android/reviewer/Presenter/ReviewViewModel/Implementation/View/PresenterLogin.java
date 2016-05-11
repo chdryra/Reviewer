@@ -113,7 +113,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public void signUpNewAuthor(String email) {
-        EmailAddress address;
         try {
             launchSignUp(new SignUpArgs(new EmailAddress(email)));
         } catch (EmailAddressException e) {

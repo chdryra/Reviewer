@@ -6,7 +6,7 @@
  *
  */
 
-package test.Model.ReviewsRepositoryModel;
+package test.Persistence;
 
 import android.support.annotation.Nullable;
 

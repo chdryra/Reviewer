@@ -45,8 +45,7 @@ public class EmailPasswordValidation {
         if (!isEmailValid) {
             mReason = Reason.INVALID_EMAIL;
         } else {
-            boolean isPasswordValid = password.length() >= MIN_PASSWORD;
-            if (!isPasswordValid) mReason = Reason.INVALID_PASSWORD;
+            if (password.length() < MIN_PASSWORD) mReason = Reason.INVALID_PASSWORD;
         }
 
         if (mReason == Reason.OK) {

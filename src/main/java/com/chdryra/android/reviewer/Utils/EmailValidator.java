@@ -16,8 +16,9 @@ import android.widget.EditText;
  * Email: rizwan.choudrey@gmail.com
  */
 public class EmailValidator {
-    public static boolean isValid(CharSequence target) {
-        return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    public static boolean isValid(String target) {
+        return target != null
+                && org.apache.commons.validator.routines.EmailValidator.getInstance().isValid(target);
     }
 
     public static boolean isValid(EditText editText) {
