@@ -58,7 +58,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.closeTo;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 /**
@@ -89,11 +88,11 @@ public class ReviewsSourceImplTest {
     }
 
     @Test
-    public void asMetaReview_ReviewId_ReturnsNullIfNoReviewFound() {
+    public void asMetaReview_ReviewId_ReturnsErrorIfNoReviewFound() {
         mSource.asMetaReview(RandomReviewId.nextReviewId(), new CallbackReviewsSource() {
             @Override
             public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
-                assertThat(review , is(nullValue()));
+                assertThat(message.isError(), is(true));
             }
         });
     }
@@ -122,12 +121,12 @@ public class ReviewsSourceImplTest {
     }
 
     @Test
-    public void asMetaReview_Data_ReturnsNullIfNoReviewFound() {
+    public void asMetaReview_Data_ReturnsErrorIfNoReviewFound() {
         VerboseDatum datum = new VerboseDatum(RandomReviewId.nextReviewId());
         mSource.asMetaReview(datum, "", new CallbackReviewsSource() {
             @Override
             public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
-                assertThat(review, is(nullValue()));
+                assertThat(message.isError(), is(true));
             }
         });
     }
@@ -165,7 +164,7 @@ public class ReviewsSourceImplTest {
         ReviewId id = getRandomReview().getReviewId();
         VerboseCollection collection = new VerboseCollection(id, RandomString.nextWord());
         for (int i = 0; i < NUM; ++i) {
-            collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
+            collection.add(new VerboseDatum(id));
         }
 
         mSource.asMetaReview(collection, "", new CallbackReviewsSource() {
@@ -228,7 +227,7 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void
-    getMetaReviewReturnsNullIfDataDoesNotHaveReviewIdsInSource() {
+    getMetaReviewReturnsErrorIfDataDoesNotHaveReviewIdsInSource() {
         final VerboseCollection collection = new VerboseCollection(RandomReviewId.nextReviewId(), "");
         for(int i = 0; i < NUM; ++i) {
             collection.add(new VerboseDatum(RandomReviewId.nextReviewId()));
@@ -237,7 +236,7 @@ public class ReviewsSourceImplTest {
         mSource.getMetaReview(collection, "", new CallbackReviewsSource() {
             @Override
             public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
-                assertThat(review, is(nullValue()));
+                assertThat(message.isError(), is(true));
             }
         });
     }
@@ -271,17 +270,11 @@ public class ReviewsSourceImplTest {
     }
 
     @Test
-    public void getFlattenedMetaReview() {
-        fail(); //TODO write test when flattening strategy more concrete
-    }
-
-
-    @Test
-    public void getReviewReturnsNullIfReviewNotFound() {
+    public void getReviewReturnsErrorIfReviewNotFound() {
         mSource.getReview(RandomReviewId.nextReviewId(), new CallbackRepository() {
             @Override
             public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-                assertThat(review, is(nullValue()));
+                assertThat(result.isError(), is(true));
             }
 
             @Override
@@ -384,7 +377,9 @@ public class ReviewsSourceImplTest {
             assertThat(reviewsAssessed.contains(review), is(false));
             reviewsAssessed.add(review);
 
-            assertCorrectReview(child, mReviews.getItem());
+            Review item = mReviews.getItem(review.getReviewId());
+            assertNotNull(item);
+            assertCorrectReview(child, item);
             averageRating += child.getRating().getRating() / numChildren;
         }
 
@@ -457,6 +452,16 @@ public class ReviewsSourceImplTest {
         public VerboseCollection(ReviewId id, String summary) {
             mId = id;
             mSummary = summary;
+        }
+
+        @Nullable
+        @Override
+        public VerboseDatum getItem(ReviewId id) {
+            for (VerboseDatum datum : this) {
+                if(datum.getReviewId().equals(id)) return datum;
+            }
+
+            return null;
         }
 
         @Override

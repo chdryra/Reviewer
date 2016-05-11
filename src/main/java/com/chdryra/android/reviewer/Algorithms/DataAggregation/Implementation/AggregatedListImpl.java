@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
@@ -40,6 +42,17 @@ public class AggregatedListImpl<T extends HasReviewId>
     @Override
     public AggregatedData<T> getItem(int position) {
         return mData.get(position);
+    }
+
+
+    @Nullable
+    @Override
+    public AggregatedData<T> getItem(ReviewId id) {
+        for (AggregatedData<T> datum : this) {
+            if(datum.getReviewId().equals(id)) return datum;
+        }
+
+        return null;
     }
 
     @Override

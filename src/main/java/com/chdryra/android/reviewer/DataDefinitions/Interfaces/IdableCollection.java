@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
+import android.support.annotation.Nullable;
+
 import java.util.Collection;
 
 /**
@@ -17,4 +19,7 @@ import java.util.Collection;
  */
 public interface IdableCollection<T extends HasReviewId> extends Collection<T> {
     T getItem(int position);
+
+    @Nullable
+    T getItem(ReviewId id);
 }

@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
@@ -111,6 +112,16 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     @Override
     public T getItem(int position) {
         return mData.getItem(position);
+    }
+
+    @Nullable
+    @Override
+    public T getItem(ReviewId id) {
+        for (T datum : this) {
+            if(datum.getReviewId().equals(id)) return datum;
+        }
+
+        return null;
     }
 
     @Override

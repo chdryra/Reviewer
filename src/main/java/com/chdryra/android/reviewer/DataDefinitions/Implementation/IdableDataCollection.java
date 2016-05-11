@@ -8,8 +8,11 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
@@ -36,6 +39,16 @@ public class IdableDataCollection<T extends HasReviewId> extends AbstractCollect
     @Override
     public T getItem(int position) {
         return mData.get(position);
+    }
+
+    @Nullable
+    @Override
+    public T getItem(ReviewId id) {
+        for (T datum : this) {
+            if(datum.getReviewId().equals(id)) return datum;
+        }
+
+        return null;
     }
 
     @Override

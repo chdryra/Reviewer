@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
@@ -46,6 +46,15 @@ public class IdableRowList<T extends ReviewDataRow> extends AbstractCollection<T
     @Override
     public T getItem(int position) {
         return mData.get(position);
+    }
+
+    @Override
+    public T getItem(ReviewId id) {
+        for (T datum : this) {
+            if(datum.getReviewId().equals(id)) return datum;
+        }
+
+        return null;
     }
 
     @Override

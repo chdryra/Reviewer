@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
@@ -92,6 +93,15 @@ public class GvDataListImpl<T extends GvData> extends VhDataList<T> implements G
         return mReviewId;
     }
 
+    @Nullable
+    @Override
+    public T getItem(ReviewId id) {
+        for (T datum : this) {
+            if(datum.getReviewId().equals(id)) return datum;
+        }
+
+        return null;
+    }
 
     @Override
     protected Comparator<? super T> getDefaultComparator() {
