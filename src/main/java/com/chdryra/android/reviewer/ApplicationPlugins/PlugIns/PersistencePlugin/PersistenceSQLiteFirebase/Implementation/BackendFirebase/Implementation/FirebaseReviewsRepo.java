@@ -136,10 +136,10 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, DbObserver
     }
 
     @NonNull
-    private FirebaseReviewsDbImpl.GetCollectionCallback reviewListCallback(final CallbackRepository
+    private FirebaseReviewsDb.GetCollectionCallback reviewListCallback(final CallbackRepository
                                                                                      callback) {
         final ArrayList<Review> reviews = new ArrayList<>();
-        return new FirebaseReviewsDbImpl.GetCollectionCallback() {
+        return new FirebaseReviewsDb.GetCollectionCallback() {
             @Override
             public void onReviewCollection(Collection<ReviewDb> fetched, @Nullable
             BackendError error) {
@@ -155,10 +155,10 @@ public class FirebaseReviewsRepo implements ReviewsRepositoryMutable, DbObserver
     }
 
     @NonNull
-    private FirebaseReviewsDbImpl.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
+    private FirebaseReviewsDb.GetCollectionCallback reviewCollectionCallback(final CallbackRepository
                                                                                callback) {
         final ArrayList<Review> reviews = new ArrayList<>();
-        return new FirebaseReviewsDbImpl.GetCollectionCallback() {
+        return new FirebaseReviewsDb.GetCollectionCallback() {
             @Override
             public void onReviewCollection(Collection<ReviewDb> fetched, @Nullable
             BackendError error) {

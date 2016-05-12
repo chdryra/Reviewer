@@ -6,26 +6,38 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation
         .ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.PathMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.UpdaterBuilder;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
+        .UpdaterBuilder;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Interfaces.StructureTags;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Interfaces.StructureUserData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,15 +45,15 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class FirebaseStructure {
-    public static final String REVIEWS = "Reviews";
-    public static final String REVIEWS_DATA = "Data";
-    public static final String REVIEWS_LIST = "List";
-    public static final String TAGS = "Tags";
-    public static final String USERS = "Users";
-    public static final String AUTHOR_NAMES = "AuthorNames";
-    public static final String PROFILE = "Profile";
-    public static final String USERS_MAP = "ProviderUsersMap";
-    public static final String FEED = "Feed";
+    private static final String REVIEWS = "Reviews";
+    private static final String REVIEWS_DATA = "Data";
+    private static final String REVIEWS_LIST = "List";
+    private static final String TAGS = "Tags";
+    private static final String USERS = "Users";
+    private static final String AUTHOR_NAMES = "AuthorNames";
+    private static final String PROFILE = "Profile";
+    private static final String USERS_MAP = "ProviderUsersMap";
+    private static final String FEED = "Feed";
 
     private final StructureUserProfile mUserProfile;
     private final StructureUsersMap mUsersMap;
@@ -61,7 +73,7 @@ public class FirebaseStructure {
         mReviews = new StructureReviewsImpl(REVIEWS_DATA, REVIEWS_LIST);
         mTags = new StructureTagsImpl(REVIEWS, USERS);
 
-        mUserProfile.setPathMaker(new PathMaker<User>() {
+        mUserProfile.setPathToStructure(new Path<User>() {
             @Override
             public String getPath(User user) {
                 String authorId = user.getAuthorId();
@@ -69,35 +81,35 @@ public class FirebaseStructure {
             }
         });
 
-        mUsersMap.setPathMaker(new PathMaker<User>() {
+        mUsersMap.setPathToStructure(new Path<User>() {
             @Override
             public String getPath(User user) {
                 return pathToUserAuthorMap();
             }
         });
 
-        mAuthorsMap.setPathMaker(new PathMaker<User>() {
+        mAuthorsMap.setPathToStructure(new Path<User>() {
             @Override
             public String getPath(User item) {
                 return pathToNamesAuthorIdMap();
             }
         });
 
-        mUserData.setPathMaker(new PathMaker<ReviewDb>() {
+        mUserData.setPathToStructure(new Path<ReviewDb>() {
             @Override
             public String getPath(ReviewDb item) {
                 return pathToAuthor(item.getAuthor().getAuthorId());
             }
         });
 
-        mTags.setPathMaker(new PathMaker<ReviewDb>() {
+        mTags.setPathToStructure(new Path<ReviewDb>() {
             @Override
             public String getPath(ReviewDb item) {
                 return pathToTags();
             }
         });
 
-        mReviews.setPathMaker(new PathMaker<ReviewDb>() {
+        mReviews.setPathToStructure(new Path<ReviewDb>() {
             @Override
             public String getPath(ReviewDb item) {
                 return pathToReviews();
@@ -123,20 +135,17 @@ public class FirebaseStructure {
         return mReviewUploadUpdater;
     }
 
-    public String pathToUserAuthorMapping(String userId) {
-        return path(pathToUserAuthorMap(), mUsersMap.getPathToUserAuthorMapping(userId));
-    }
 
-    public String pathToUserAuthorMap() {
-        return USERS_MAP;
+    public String pathToUserAuthorMapping(String userId) {
+        return path(pathToUserAuthorMap(), mUsersMap.relativePathToUser(userId));
     }
 
     public String pathToReviewsData() {
-        return path(pathToReviews(), mReviews.getReviewDataPath());
+        return path(pathToReviews(), mReviews.relativePathToReviewData());
     }
 
     public String pathToReviewsList() {
-        return path(pathToReviews(), mReviews.getReviewListPath());
+        return path(pathToReviews(), mReviews.relativePathToReviewsList());
     }
 
     public String pathToProfile(String authorId) {
@@ -144,23 +153,27 @@ public class FirebaseStructure {
     }
 
     public String pathToFeed(String authorId) {
-        return path(pathToAuthor(authorId), mUserData.getPathToFeed());
-    }
-
-    public String pathToAuthor(String authorId) {
-        return path(pathToUsers(), authorId);
+        return path(pathToAuthor(authorId), mUserData.relativePathToFeed());
     }
 
     public String pathToAuthorNameMapping(String name) {
-        return path(pathToNamesAuthorIdMap(), mAuthorsMap.getPathToAuthorNameMapping(name));
-    }
-
-    public String pathToNamesAuthorIdMap() {
-        return path(pathToUsers(), AUTHOR_NAMES);
+        return path(pathToNamesAuthorIdMap(), mAuthorsMap.relativePathToAuthor(name));
     }
 
     public String pathToReview(String reviewId) {
-        return path(pathToReviews(), mReviews.getReviewPath(reviewId));
+        return path(pathToReviews(), mReviews.relativePathToReview(reviewId));
+    }
+
+    private String pathToUserAuthorMap() {
+        return USERS_MAP;
+    }
+
+    private String pathToAuthor(String authorId) {
+        return path(pathToUsers(), authorId);
+    }
+
+    private String pathToNamesAuthorIdMap() {
+        return path(pathToUsers(), AUTHOR_NAMES);
     }
 
     private String pathToReviews() {
@@ -176,6 +189,6 @@ public class FirebaseStructure {
     }
 
     private String path(String root, String... elements) {
-        return PathMaker.path(root, elements);
+        return Path.path(root, elements);
     }
 }

@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
 
 import java.util.HashMap;
@@ -24,11 +24,11 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUsersMapImpl extends DbUpdaterBasic<User> implements StructureUsersMap {
+public class StructureUsersMapImpl extends DbStructureBasic<User> implements StructureUsersMap {
 
     @Override
-    public String getPathToUserAuthorMapping(String authorId) {
-        return authorId;
+    public String relativePathToUser(String userId) {
+        return userId;
     }
 
     @NonNull
@@ -37,10 +37,11 @@ public class StructureUsersMapImpl extends DbUpdaterBasic<User> implements Struc
         boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
 
         Map<String, Object> updates = new HashMap<>();
+        String userId = user.getProviderUserId();
         String authorId = user.getAuthorId();
-        if(authorId == null) return updates;
+        if(userId == null) return updates;
 
-        updates.put(path(getPath(user), getPathToUserAuthorMapping(authorId)), update ? authorId : null);
+        updates.put(absolutePath(user, relativePathToUser(userId)), update ? authorId : null);
 
         return updates;
     }

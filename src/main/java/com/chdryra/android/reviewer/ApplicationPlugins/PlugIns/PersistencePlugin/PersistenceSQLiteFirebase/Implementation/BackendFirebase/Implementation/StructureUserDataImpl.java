@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
         .ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
@@ -28,7 +28,7 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUserDataImpl extends DbUpdaterBasic<ReviewDb> implements StructureUserData {
+public class StructureUserDataImpl extends DbStructureBasic<ReviewDb> implements StructureUserData {
     private final String mReviewsPath;
     private final String mTagsPath;
     private final String mFeedPath;
@@ -40,20 +40,16 @@ public class StructureUserDataImpl extends DbUpdaterBasic<ReviewDb> implements S
     }
 
     @Override
-    public String getPathToFeed() {
+    public String relativePathToFeed() {
         return mFeedPath;
     }
 
-    private String getPathToTag(ReviewDb review, String tag) {
-        return path(getPath(review), mTagsPath, tag);
+    private String pathToTag(String tag) {
+        return path(mTagsPath, tag);
     }
 
-    private String getPathToReviews(ReviewDb review) {
-        return path(getPath(review), mReviewsPath);
-    }
-
-    private String getPathToFeed(ReviewDb review) {
-        return path(getPath(review), mFeedPath);
+    private String pathToReviews() {
+        return mReviewsPath;
     }
 
     @NonNull
@@ -66,11 +62,11 @@ public class StructureUserDataImpl extends DbUpdaterBasic<ReviewDb> implements S
         String reviewId = review.getReviewId();
 
         for (String tag : review.getTags()) {
-            updates.put(path(getPathToTag(review, tag), reviewId), trueValue);
+            updates.put(absolutePath(review, pathToTag(tag), reviewId), trueValue);
         }
 
-        updates.put(path(getPathToReviews(review), reviewId), trueValue);
-        updates.put(path(getPathToFeed(review), reviewId), trueValue);
+        updates.put(absolutePath(review, pathToReviews(), reviewId), trueValue);
+        updates.put(absolutePath(review, relativePathToFeed(), reviewId), trueValue);
 
         return updates;
     }

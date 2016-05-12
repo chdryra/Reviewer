@@ -13,13 +13,17 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class PathMaker<T> {
+public abstract class Path<T> {
     public abstract String getPath(T item);
 
     public static String path(String root, String...elements) {
-        String path = root;
-        for(String element : elements) {
-            path += "/" + element;
+        boolean hasRoot = root.length() > 0;
+        boolean hasElements = elements.length > 0;
+        String path = hasRoot ? root : hasElements ? elements[0] : "";
+
+        int elementStart = hasRoot ? 0 : hasElements ? 1 : elements.length;
+        for(int i = elementStart; i < elements.length; ++i) {
+            path += "/" + elements[elementStart];
         }
 
         return path;

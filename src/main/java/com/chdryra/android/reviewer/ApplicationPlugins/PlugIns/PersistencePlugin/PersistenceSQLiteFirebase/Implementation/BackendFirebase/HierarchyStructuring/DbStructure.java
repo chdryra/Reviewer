@@ -8,26 +8,11 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring;
 
-
-
 /**
  * Created by: Rizwan Choudrey
- * On: 29/04/2016
+ * On: 12/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class DbUpdaterBasic<T> implements DbUpdater<T> {
-    private PathMaker<T> mPathMaker;
-
-    public void setPathMaker(PathMaker<T> pathMaker) {
-        mPathMaker = pathMaker;
-    }
-
-    protected String path(String root, String...elements) {
-        return PathMaker.path(root, elements);
-    }
-
-
-    protected String getPath(T item) {
-        return mPathMaker != null ? mPathMaker.getPath(item) : "";
-    }
+public interface DbStructure<T> extends DbUpdater<T> {
+    void setPathToStructure(Path<T> path);
 }

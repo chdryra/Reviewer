@@ -11,11 +11,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .HierarchyStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .HierarchyStructuring.PathMaker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
 
 import java.util.Map;
 
@@ -24,14 +22,15 @@ import java.util.Map;
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StructureReviews extends DbUpdater<ReviewDb> {
-    void setPathMaker(PathMaker<ReviewDb> pathMaker);
+public interface StructureReviews extends DbStructure<ReviewDb> {
+    String relativePathToReviewData();
 
-    String getReviewDataPath();
+    String relativePathToReviewsList();
 
-    String getReviewListPath();
+    String relativePathToReview(String reviewId);
 
-    String getReviewPath(String reviewId);
+    @Override
+    void setPathToStructure(Path<ReviewDb> path);
 
     @NonNull
     @Override

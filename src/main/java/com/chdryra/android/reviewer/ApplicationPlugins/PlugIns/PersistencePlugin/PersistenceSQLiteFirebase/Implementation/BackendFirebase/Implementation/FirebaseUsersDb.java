@@ -33,7 +33,7 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseUsersDbImpl implements BackendUsersDb {
+public class FirebaseUsersDb implements BackendUsersDb {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
 
@@ -41,8 +41,8 @@ public class FirebaseUsersDbImpl implements BackendUsersDb {
     private FirebaseStructure mStructure;
     private UserProfileTranslator mUserFactory;
 
-    public FirebaseUsersDbImpl(Firebase dataRoot,
-                               FirebaseStructure structure, UserProfileTranslator userFactory) {
+    public FirebaseUsersDb(Firebase dataRoot,
+                           FirebaseStructure structure, UserProfileTranslator userFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mUserFactory = userFactory;

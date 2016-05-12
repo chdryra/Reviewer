@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 
 import java.util.HashMap;
@@ -25,11 +25,9 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureNamesMapImpl extends DbUpdaterBasic<User> implements StructureNamesMap {
-
-
+public class StructureNamesMapImpl extends DbStructureBasic<User> implements StructureNamesMap {
     @Override
-    public String getPathToAuthorNameMapping(String name) {
+    public String relativePathToAuthor(String name) {
         return name;
     }
 
@@ -44,7 +42,8 @@ public class StructureNamesMapImpl extends DbUpdaterBasic<User> implements Struc
         if(profile == null) return updates;
 
         String name = profile.getAuthor().getName();
-        updates.put(path(getPath(user), name), update ? user.getAuthorId() : null);
+        String path = absolutePath(user, relativePathToAuthor(name));
+        updates.put(path, update ? user.getAuthorId() : null);
 
         return updates;
     }

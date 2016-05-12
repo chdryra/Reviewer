@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
         .ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
@@ -28,7 +28,7 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureTagsImpl extends DbUpdaterBasic<ReviewDb> implements StructureTags {
+public class StructureTagsImpl extends DbStructureBasic<ReviewDb> implements StructureTags {
     private String mReviewsPath;
     private String mUsersPath;
 
@@ -47,8 +47,8 @@ public class StructureTagsImpl extends DbUpdaterBasic<ReviewDb> implements Struc
         String reviewId = review.getReviewId();
         String authorId = review.getAuthor().getAuthorId();
         for (String tag : review.getTags()) {
-            updates.put(path(getPath(review), tag, mReviewsPath, reviewId), trueValue);
-            updates.put(path(getPath(review), tag, mUsersPath, authorId, reviewId), trueValue);
+            updates.put(absolutePath(review, tag, mReviewsPath, reviewId), trueValue);
+            updates.put(absolutePath(review, tag, mUsersPath, authorId, reviewId), trueValue);
         }
 
         return updates;

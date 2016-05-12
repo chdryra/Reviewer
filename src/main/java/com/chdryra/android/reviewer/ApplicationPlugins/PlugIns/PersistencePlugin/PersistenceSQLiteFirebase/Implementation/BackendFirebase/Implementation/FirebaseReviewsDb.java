@@ -34,15 +34,15 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseReviewsDbImpl implements BackendReviewsDb {
+public class FirebaseReviewsDb implements BackendReviewsDb {
     private Firebase mDataBase;
     private FirebaseStructure mStructure;
     private FirebaseValidator mValidator;
     private ArrayList<DbObserver<ReviewDb>> mObservers;
 
-    public FirebaseReviewsDbImpl(Firebase dataBase,
-                                 FirebaseStructure structure,
-                                 FirebaseValidator validator) {
+    public FirebaseReviewsDb(Firebase dataBase,
+                             FirebaseStructure structure,
+                             FirebaseValidator validator) {
         mDataBase = dataBase;
         mStructure = structure;
         mValidator = validator;

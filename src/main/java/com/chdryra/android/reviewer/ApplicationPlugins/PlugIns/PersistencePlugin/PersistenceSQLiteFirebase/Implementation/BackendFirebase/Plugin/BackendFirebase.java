@@ -29,20 +29,14 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
         .FirebaseReviewMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .FirebaseReviewsDbImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
         .FirebaseReviewsRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .FirebaseUserAuthenticator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .FirebaseUsersDbImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseAuthenticator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseUsersDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseValidator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
@@ -73,7 +67,7 @@ public class BackendFirebase implements Backend {
     @Override
     public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator) {
         FirebaseValidator fbValidator = new FirebaseValidator(validator);
-        BackendReviewsDb db = new FirebaseReviewsDbImpl(mDatabase, mStructure, fbValidator);
+        BackendReviewsDb db = new FirebaseReviewsDb(mDatabase, mStructure, fbValidator);
         FactoryReviewDb reviewsFactory = new FactoryReviewDb(fbValidator);
         FirebaseReviewMaker maker = new FirebaseReviewMaker(model.getReviewsFactory());
 
@@ -82,8 +76,8 @@ public class BackendFirebase implements Backend {
 
     @Override
     public UsersManager newUsersManager() {
-        UserAuthenticator authenticator = new FirebaseUserAuthenticator(mDatabase);
-        BackendUsersDb usersDb = new FirebaseUsersDbImpl(mDatabase, mStructure, mTranslator);
+        UserAuthenticator authenticator = new FirebaseAuthenticator(mDatabase);
+        BackendUsersDb usersDb = new FirebaseUsersDb(mDatabase, mStructure, mTranslator);
         UserAccounts accounts = new UserAccountsBackend(usersDb, mTranslator);
 
         return new UsersManager(authenticator, accounts);

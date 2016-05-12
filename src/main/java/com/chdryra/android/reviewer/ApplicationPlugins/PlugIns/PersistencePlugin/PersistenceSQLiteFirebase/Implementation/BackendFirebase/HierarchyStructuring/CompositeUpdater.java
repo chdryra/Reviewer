@@ -22,7 +22,7 @@ import java.util.Map;
  * On: 29/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class CompositeUpdater<T> extends DbUpdaterBasic<T> {
+public class CompositeUpdater<T> extends DbStructureBasic<T> {
     private Iterable<DbUpdater<T>> mStructures;
 
     private CompositeUpdater(Iterable<DbUpdater<T>> structures) {

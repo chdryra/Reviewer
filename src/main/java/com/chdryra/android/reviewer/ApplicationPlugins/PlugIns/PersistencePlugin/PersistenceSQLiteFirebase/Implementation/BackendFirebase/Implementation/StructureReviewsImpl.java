@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdaterBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Interfaces.StructureReviews;
@@ -27,7 +27,7 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImpl extends DbUpdaterBasic<ReviewDb> implements StructureReviews {
+public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements StructureReviews {
     public final String mReviewsDataPath;
     public final String mReviewsListPath;
 
@@ -37,17 +37,17 @@ public class StructureReviewsImpl extends DbUpdaterBasic<ReviewDb> implements St
     }
 
     @Override
-    public String getReviewDataPath() {
+    public String relativePathToReviewData() {
         return mReviewsDataPath;
     }
 
     @Override
-    public String getReviewListPath() {
+    public String relativePathToReviewsList() {
         return mReviewsListPath;
     }
 
     @Override
-    public String getReviewPath(String reviewId) {
+    public String relativePathToReview(String reviewId) {
         return path(mReviewsDataPath, reviewId);
     }
 
@@ -68,8 +68,8 @@ public class StructureReviewsImpl extends DbUpdaterBasic<ReviewDb> implements St
 
         Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
-        updates.put(path(getPath(review), mReviewsDataPath, reviewId), reviewMap);
-        updates.put(path(getPath(review), mReviewsListPath, reviewId), listMap);
+        updates.put(absolutePath(review, relativePathToReviewData(), reviewId), reviewMap);
+        updates.put(absolutePath(review, relativePathToReviewsList(), reviewId), listMap);
 
         return updates;
     }
