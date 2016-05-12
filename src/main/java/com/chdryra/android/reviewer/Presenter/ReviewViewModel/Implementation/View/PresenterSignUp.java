@@ -37,10 +37,6 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
     private static final AuthenticationError INVALID_CHARACTERS = new AuthenticationError(APP,
             AuthenticationError.Reason.INVALID_NAME, AuthorNameValidation.Reason
             .INVALID_CHARACTERS.getMessage());
-    private static final AuthenticationError INVALID_EMAIL = new AuthenticationError(APP,
-            AuthenticationError.Reason.INVALID_EMAIL);
-    private static final AuthenticationError INVALID_PASSWORD = new AuthenticationError(APP,
-            AuthenticationError.Reason.INVALID_PASSWORD);
     private static final AuthenticationError UNKNOWN_ERROR = new AuthenticationError(APP,
             AuthenticationError.Reason.UNKNOWN_ERROR);
 
@@ -72,7 +68,7 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
         EmailPasswordValidation epValidation = new EmailPasswordValidation(email, password);
         EmailPassword emailPassword = epValidation.getEmailPassword();
         if (emailPassword == null) {
-            mListener.onSignUpComplete(NULL_PROFILE, getError(epValidation.getReason()));
+            mListener.onSignUpComplete(NULL_PROFILE, getError(epValidation.getError()));
             return;
         }
 
@@ -118,11 +114,13 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
         });
     }
 
-    private AuthenticationError getError(EmailPasswordValidation.Reason reason) {
-        if (reason.equals(EmailPasswordValidation.Reason.INVALID_EMAIL)) {
-            return INVALID_EMAIL;
-        } else if (reason.equals(EmailPasswordValidation.Reason.INVALID_PASSWORD)) {
-            return INVALID_PASSWORD;
+    private AuthenticationError getError(EmailPasswordValidation.Error error) {
+        if (error.getReason().equals(EmailPasswordValidation.Reason.INVALID_EMAIL)) {
+            return new AuthenticationError(APP,
+                    AuthenticationError.Reason.INVALID_EMAIL, error.getMessage());
+        } else if (error.getReason().equals(EmailPasswordValidation.Reason.INVALID_PASSWORD)) {
+            return new AuthenticationError(APP,
+                    AuthenticationError.Reason.INVALID_PASSWORD, error.getMessage());
         } else {
             return UNKNOWN_ERROR;
         }

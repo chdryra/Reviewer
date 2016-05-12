@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatformsPublisher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.crashlytics.android.Crashlytics;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -38,7 +37,6 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
         TwitterAuthConfig authConfig
                 = new TwitterAuthConfig(context.getString(KEY), context.getString(SECRET));
         Fabric.with(context, new Twitter(authConfig));
-        Fabric.with(context, new Crashlytics());
         setAccessToken(getAccessToken());
     }
 

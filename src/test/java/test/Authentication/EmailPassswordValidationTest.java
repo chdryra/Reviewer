@@ -37,7 +37,7 @@ public class EmailPassswordValidationTest {
         assertThat(emailPassword.getEmail().toString(), is(email));
         assertThat(emailPassword.getPassword(), not(nullValue()));
         assertThat(emailPassword.getPassword().toString(), is(password));
-        assertThat(validation.getReason(), is(EmailPasswordValidation.Reason.OK));
+        assertThat(validation.getError(), is(nullValue()));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class EmailPassswordValidationTest {
 
         EmailPassword emailPassword = validation.getEmailPassword();
         assertThat(emailPassword, is(nullValue()));
-        assertThat(validation.getReason(), is(EmailPasswordValidation.Reason.INVALID_PASSWORD));
+        assertThat(validation.getError().getReason(), is(EmailPasswordValidation.Reason.INVALID_PASSWORD));
     }
 
     @Test
@@ -61,6 +61,6 @@ public class EmailPassswordValidationTest {
 
         EmailPassword emailPassword = validation.getEmailPassword();
         assertThat(emailPassword, is(nullValue()));
-        assertThat(validation.getReason(), is(EmailPasswordValidation.Reason.INVALID_EMAIL));
+        assertThat(validation.getError().getReason(), is(EmailPasswordValidation.Reason.INVALID_EMAIL));
     }
 }

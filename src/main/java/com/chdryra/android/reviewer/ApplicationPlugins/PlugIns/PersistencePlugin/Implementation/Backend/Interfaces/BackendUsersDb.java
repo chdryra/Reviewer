@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
@@ -21,6 +23,10 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BackendUsersDb {
+    interface UserConflictCallback {
+        void onUserName(String name, @Nullable AuthenticationError error);
+    }
+
     interface CreateUserCallback {
         void onUserCreated(User user);
 
@@ -46,6 +52,8 @@ public interface BackendUsersDb {
     }
 
     String getProviderName();
+
+    void checkNameConflict(String authorName, UserConflictCallback callback);
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 

@@ -31,10 +31,13 @@ import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
-import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
+import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.chdryra.android.reviewer.Utils.Password;
 
 /**
  * Created by: Rizwan Choudrey
@@ -55,6 +58,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private static final int TWITTER_BUTTON = R.id.login_button_twitter;
 
     private static final int EMAIL_LOGIN = R.id.login_email;
+    private static final String EMAIL_IS_INVALID = "Email is invalid";
+    private static final String PASSWORD_IS_INCORRECT = "Password is incorrect";
 
     private PresenterLogin mPresenter;
     private AuthenticatedUser mUser;
@@ -105,14 +110,13 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onAuthenticated(AuthorProfile profile) {
-        Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+        makeToast("Login successful");
         mPresenter.onAuthorAuthenticated(profile);
     }
 
     @Override
     public void onAuthenticationFailed(AuthenticationError error) {
-        Toast.makeText(getActivity(), "Login unsuccessful: " + error, Toast
-                .LENGTH_SHORT).show();
+        makeToast("Login unsuccessful: " + error);
     }
 
     @Override
@@ -164,13 +168,26 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     private void authenticateOrSignUp() {
         String email = mEmail.getText().toString();
-        String password = mPassword.getText().toString();
-        EmailPasswordValidation validation = mPresenter.validateEmailPassword(email, password);
-        EmailPassword emailPassword = validation.getEmailPassword();
-        if (emailPassword != null) {
-            mPresenter.authenticate(emailPassword);
-        } else {
+        if(email.length() == 0) {
             onSignUpRequested(null, mPresenter.getSignUpMessage());
+            return;
         }
+
+        String password = mPassword.getText().toString();
+        EmailValidation emailValid = mPresenter.validateEmail(email);
+        PasswordValidation pwValid = mPresenter.validatePassword(password);
+
+        EmailAddress address = emailValid.getEmailAddress();
+        Password pw = pwValid.getPassword();
+
+        if (address != null && pw != null) {
+            mPresenter.authenticate(new EmailPassword(address, pw));
+        } else {
+            makeToast(address == null ? EMAIL_IS_INVALID : PASSWORD_IS_INCORRECT);
+        }
+    }
+
+    private void makeToast(String toast) {
+        Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
     }
 }

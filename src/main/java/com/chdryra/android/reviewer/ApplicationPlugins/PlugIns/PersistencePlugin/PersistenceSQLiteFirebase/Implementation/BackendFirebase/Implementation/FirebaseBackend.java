@@ -22,7 +22,7 @@ import com.firebase.client.FirebaseError;
  */
 public class FirebaseBackend         {
     public static final String ROOT = "https://teeqr.firebaseio.com/";
-    public static final String NAME = "Firebase";
+    public static final String NAME = "database";
     
     public static AuthenticationError authenticationError(FirebaseError error) {
         if (error.getCode() == FirebaseError.EMAIL_TAKEN) {

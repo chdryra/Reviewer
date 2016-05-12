@@ -10,15 +10,21 @@ package com.chdryra.android.reviewer.Utils;
 
 import android.widget.EditText;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class EmailValidator {
+    private static final String EMAIL_REGEX =
+            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final Pattern EMAI_PATTERN = Pattern.compile(EMAIL_REGEX);
+
     public static boolean isValid(String target) {
-        return target != null
-                && org.apache.commons.validator.routines.EmailValidator.getInstance().isValid(target);
+        return target != null && EMAI_PATTERN.matcher(target).matches();
     }
 
     public static boolean isValid(EditText editText) {

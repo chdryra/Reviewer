@@ -6,17 +6,24 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Implementation;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileTranslator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileTranslator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Interfaces.BackendUsersDb;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -36,13 +43,17 @@ import java.util.Map;
 public class FirebaseUsersDb implements BackendUsersDb {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
+    private static final String NAME = FirebaseBackend.NAME;
+    private static final AuthenticationError NAME_TAKEN_ERROR = new AuthenticationError("app",
+            AuthenticationError.Reason.NAME_TAKEN);
 
     private Firebase mDataRoot;
     private FirebaseStructure mStructure;
     private UserProfileTranslator mUserFactory;
 
     public FirebaseUsersDb(Firebase dataRoot,
-                           FirebaseStructure structure, UserProfileTranslator userFactory) {
+                           FirebaseStructure structure,
+                           UserProfileTranslator userFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mUserFactory = userFactory;
@@ -57,32 +68,78 @@ public class FirebaseUsersDb implements BackendUsersDb {
     public void createUser(EmailPassword emailPassword, CreateUserCallback callback) {
         EmailAddress email = emailPassword.getEmail();
         Password password = emailPassword.getPassword();
-        mDataRoot.createUser(email.toString(), password.toString(), newCreateUserListener
-                (callback));
+        mDataRoot.createUser(email.toString(), password.toString(), createUserCallback(callback));
     }
 
     @Override
     public void addProfile(final User user, final AddProfileCallback callback) {
+        Profile profile = user.getProfile();
+        if (profile == null) {
+            callback.onProfileAddedError(new AuthenticationError(NAME,
+                    AuthenticationError.Reason.AUTHORISATION_REFUSED, "No profile"));
+            return;
+        }
+
+        String name = profile.getAuthor().getName();
+        checkNameConflict(name, new UserConflictCallback() {
+            @Override
+            public void onUserName(String name, @Nullable AuthenticationError error) {
+                if(error == null) {
+                    addNewProfile(user, callback);
+                } else {
+                    callback.onProfileAddedError(error);
+                }
+            }
+        });
+    }
+
+    private void addNewProfile(User user, AddProfileCallback callback) {
         DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
         Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, newAddProfileListener(user, callback));
+        mDataRoot.updateChildren(map, addProfileCallback(user, callback));
+    }
+
+    @Override
+    public void checkNameConflict(final String authorName, final UserConflictCallback callback) {
+        String path = mStructure.pathToAuthorNameMapping(authorName);
+        doSingleEvent(mDataRoot.child(path), checkNameDoesNotExist(authorName, callback));
+    }
+
+    @NonNull
+    private ValueEventListener checkNameDoesNotExist(final String authorName, final
+    UserConflictCallback callback) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null) {
+                    callback.onUserName(authorName, null);
+                } else {
+                    callback.onUserName(authorName, NAME_TAKEN_ERROR);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                callback.onUserName(authorName, FirebaseBackend.authenticationError(firebaseError));
+            }
+        };
     }
 
     @Override
     public void getProfile(User user, GetProfileCallback callback) {
         String path = mStructure.pathToUserAuthorMapping(user.getProviderUserId());
-        doSingleEvent(mDataRoot.child(path), newGetProfileForUserListener(callback));
+        doSingleEvent(mDataRoot.child(path), getAuthorIdThenProfile(callback));
     }
 
     @Override
     public void updateProfile(final User user, final UpdateProfileCallback callback) {
-        Map<String, Object> map = mStructure.getProfileUpdater().getUpdatesMap(user,
-                INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, newUpdateProfileListener(user, callback));
+        Map<String, Object> map
+                = mStructure.getProfileUpdater().getUpdatesMap(user, INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(map, updateProfileCallback(user, callback));
     }
 
     @NonNull
-    private Firebase.CompletionListener newUpdateProfileListener(final User user, final
+    private Firebase.CompletionListener updateProfileCallback(final User user, final
     UpdateProfileCallback callback) {
         return new Firebase.CompletionListener() {
             @Override
@@ -97,7 +154,7 @@ public class FirebaseUsersDb implements BackendUsersDb {
     }
 
     @NonNull
-    private Firebase.CompletionListener newAddProfileListener(final User user, final
+    private Firebase.CompletionListener addProfileCallback(final User user, final
     AddProfileCallback callback) {
         return new Firebase.CompletionListener() {
             @Override
@@ -117,7 +174,7 @@ public class FirebaseUsersDb implements BackendUsersDb {
 
     @NonNull
     private Firebase.ValueResultHandler<Map<String, Object>>
-    newCreateUserListener(final CreateUserCallback callback) {
+    createUserCallback(final CreateUserCallback callback) {
         return new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
@@ -133,7 +190,7 @@ public class FirebaseUsersDb implements BackendUsersDb {
     }
 
     @NonNull
-    private ValueEventListener newGetProfileForUserListener(final GetProfileCallback listener) {
+    private ValueEventListener getAuthorIdThenProfile(final GetProfileCallback listener) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

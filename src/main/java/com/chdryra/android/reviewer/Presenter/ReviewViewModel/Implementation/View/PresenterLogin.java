@@ -21,7 +21,8 @@ import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsH
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
+import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
+import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
@@ -79,7 +80,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @NonNull
     public String getSignUpMessage() {
-        return "Looks like you're a new user. Would you like to sign up?";
+        return "Looks like you're a new user?";
     }
 
     public void authenticate(EmailPassword emailPassword) {
@@ -130,8 +131,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mActivity.finish();
     }
 
-    public EmailPasswordValidation validateEmailPassword(String email, String password) {
-        return new EmailPasswordValidation(email, password);
+    public EmailValidation validateEmail(String email) {
+        return new EmailValidation(email);
+    }
+
+    public PasswordValidation validatePassword(String password) {
+        return new PasswordValidation(password);
     }
 
     @Override
