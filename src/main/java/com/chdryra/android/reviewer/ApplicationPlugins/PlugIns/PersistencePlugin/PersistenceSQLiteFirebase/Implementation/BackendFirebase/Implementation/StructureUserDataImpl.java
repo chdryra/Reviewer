@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Interfaces.StructureUserData;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -55,19 +54,16 @@ public class StructureUserDataImpl extends DbStructureBasic<ReviewDb> implements
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
-        boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
-        Boolean trueValue = update ? true : null;
-
-        Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
 
+        Updates updates = new Updates(updateType);
         for (String tag : review.getTags()) {
-            updates.put(absolutePath(review, pathToTag(tag), reviewId), trueValue);
+            updates.atPath(review, pathToTag(tag), reviewId).putValue(true);
         }
 
-        updates.put(absolutePath(review, pathToReviews(), reviewId), trueValue);
-        updates.put(absolutePath(review, relativePathToFeed(), reviewId), trueValue);
+        updates.atPath(review, pathToReviews(), reviewId).putValue(true);;
+        updates.atPath(review, relativePathToFeed(), reviewId).putValue(true);
 
-        return updates;
+        return updates.toMap();
     }
 }

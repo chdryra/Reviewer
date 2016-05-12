@@ -15,9 +15,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,14 +28,9 @@ public class StructureUserProfileImpl extends DbStructureBasic<User> implements 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
-        boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
+        Updates updates = new Updates(updateType);
+        updates.atPath(user).putObject(user.getProfile());
 
-        Map<String, Object> profileMap = null;
-        if(update) profileMap = new ObjectMapper().convertValue(user.getProfile(), Map.class);
-
-        Map<String, Object> updates = new HashMap<>();
-        updates.put(absolutePath(user), profileMap);
-
-        return updates;
+        return updates.toMap();
     }
 }

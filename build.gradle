@@ -23,6 +23,8 @@ configurations {
     compile.exclude group: 'com.google.guava'
     compile.exclude module: 'guava:19.0-rc2'
 
+    all*.exclude group: 'commons-logging', module: 'commons-logging'
+
     androidTestCompile.exclude group: 'com.google.code.findbugs'
     androidTestCompile.exclude module: 'jsr305:2.0.1'
 }

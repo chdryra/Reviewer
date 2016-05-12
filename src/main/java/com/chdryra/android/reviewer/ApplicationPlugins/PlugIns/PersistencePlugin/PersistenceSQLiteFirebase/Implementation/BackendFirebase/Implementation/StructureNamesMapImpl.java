@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,17 +33,15 @@ public class StructureNamesMapImpl extends DbStructureBasic<User> implements Str
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
-        boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
-
-        Map<String, Object> updates = new HashMap<>();
-
         Profile profile = user.getProfile();
-        if(profile == null) return updates;
+        if(profile == null) return noUpdates();
 
         String name = profile.getAuthor().getName();
-        String path = absolutePath(user, relativePathToAuthor(name));
-        updates.put(path, update ? user.getAuthorId() : null);
+        String authorId = user.getAuthorId();
 
-        return updates;
+        Updates updates = new Updates(updateType);
+        updates.atPath(user, relativePathToAuthor(name)).putValue(authorId);
+
+        return updates.toMap();
     }
 }

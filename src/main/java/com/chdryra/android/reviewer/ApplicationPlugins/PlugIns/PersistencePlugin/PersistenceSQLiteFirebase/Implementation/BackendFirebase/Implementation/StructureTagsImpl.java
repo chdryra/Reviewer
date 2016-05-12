@@ -12,15 +12,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
-        .ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureTags;
 
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .Interfaces.StructureTags;
-
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,17 +35,15 @@ public class StructureTagsImpl extends DbStructureBasic<ReviewDb> implements Str
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
-        boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
-        Boolean trueValue = update ? true : null;
-
-        Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
         String authorId = review.getAuthor().getAuthorId();
+
+        Updates updates = new Updates(updateType);
         for (String tag : review.getTags()) {
-            updates.put(absolutePath(review, tag, mReviewsPath, reviewId), trueValue);
-            updates.put(absolutePath(review, tag, mUsersPath, authorId, reviewId), trueValue);
+            updates.atPath(review, tag, mReviewsPath, reviewId).putValue(true);
+            updates.atPath(review, tag, mUsersPath, authorId, reviewId).putValue(true);
         }
 
-        return updates;
+        return updates.toMap();
     }
 }

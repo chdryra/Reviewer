@@ -14,12 +14,8 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .Interfaces.StructureReviews;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -54,24 +50,15 @@ public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
-        boolean update = updateType == UpdateType.INSERT_OR_UPDATE;
-
-        Map<String, Object> listMap = null;
-        Map<String, Object> reviewMap = null;
-
-        if (update) {
-            ListEntry entry = new ListEntry(review.getSubject(), review.getRating(), review
-                    .getPublishDate());
-            listMap = new ObjectMapper().convertValue(entry, Map.class);
-            reviewMap = new ObjectMapper().convertValue(review, Map.class);
-        }
-
-        Map<String, Object> updates = new HashMap<>();
         String reviewId = review.getReviewId();
-        updates.put(absolutePath(review, relativePathToReviewData(), reviewId), reviewMap);
-        updates.put(absolutePath(review, relativePathToReviewsList(), reviewId), listMap);
+        ListEntry entry
+                = new ListEntry(review.getSubject(), review.getRating(), review.getPublishDate());
 
-        return updates;
+        Updates updates = new Updates(updateType);
+        updates.atPath(review, relativePathToReviewData(), reviewId).putObject(review);
+        updates.atPath(review, relativePathToReviewsList(), reviewId).putObject(entry);
+
+        return updates.toMap();
     }
 
     private class ListEntry {
