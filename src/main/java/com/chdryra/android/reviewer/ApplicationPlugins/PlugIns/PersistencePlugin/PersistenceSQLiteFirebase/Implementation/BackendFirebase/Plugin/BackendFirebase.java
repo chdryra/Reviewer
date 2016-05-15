@@ -14,31 +14,18 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.UserAccountsBackend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.UserProfileTranslator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.BackendReviewsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.BackendUsersDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FactoryReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .FirebaseReviewMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseReviewsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .FirebaseReviewsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserAccountsBackend;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileTranslator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FactoryReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseAuthenticator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseReviewMaker;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseReviewsRepo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseUsersDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseValidator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseValidator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
@@ -76,9 +63,9 @@ public class BackendFirebase implements Backend {
 
     @Override
     public UsersManager newUsersManager() {
-        UserAuthenticator authenticator = new FirebaseAuthenticator(mDatabase);
-        BackendUsersDb usersDb = new FirebaseUsersDb(mDatabase, mStructure, mTranslator);
+        FirebaseUsersDb usersDb = new FirebaseUsersDb(mDatabase, mStructure, mTranslator);
         UserAccounts accounts = new UserAccountsBackend(usersDb, mTranslator);
+        UserAuthenticator authenticator = new FirebaseAuthenticator(mDatabase, usersDb, mTranslator);
 
         return new UsersManager(authenticator, accounts);
     }

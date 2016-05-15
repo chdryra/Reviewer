@@ -34,10 +34,6 @@ public class UserProfileTranslator {
         return new User(providerName, providerUserId);
     }
 
-    public User newUser(String providerName, String providerUserId, String authorId) {
-        return new User(providerName, providerUserId, authorId);
-    }
-
     public User toUser(AuthenticatedUser user) {
         return newUser(user.getProvider(), user.getUserId());
     }
@@ -50,12 +46,12 @@ public class UserProfileTranslator {
         return new AuthenticatedUser(user.getProviderName(), user.getProviderUserId());
     }
 
-    public AuthenticatedUser newNullAuthenticatedUser() {
-        return new AuthenticatedUser();
+    public AuthenticatedUser newAuthenticatedUser(String providerName, String providerUserId) {
+        return new AuthenticatedUser(providerName, providerUserId);
     }
 
-    public Profile toProfile(AuthorProfile profile) {
-        return new Profile(profile);
+    public AuthenticatedUser newNullAuthenticatedUser() {
+        return new AuthenticatedUser();
     }
 
     public AuthorProfile toAuthorProfile(Profile profile) {
