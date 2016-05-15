@@ -17,10 +17,11 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationCo
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -47,10 +48,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 /**
  * Singleton that controls app-wide duties.
  */
-public class ApplicationInstance extends ApplicationSingleton {
+public class ApplicationInstance extends ApplicationSingleton implements UserAuthenticator.UserStateObserver{
     public static final String APP_NAME = "Teeqr";
-
-    private static final DatumAuthor AUTHOR = new DatumAuthor("Rizwan Choudrey", new DatumAuthorId("123"));
     private static final String NAME = "ApplicationInstance";
 
     private static ApplicationInstance sSingleton;
@@ -58,9 +57,13 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final ReviewPacker mReviewPacker;
     private final PresenterContext mPresenterContext;
     private final LocationServicesApi mLocationServices;
+    private LoginObserver mObserver;
 
-    private DataAuthor mAuthor;
-    private ReviewsFeed mFeed;
+    public interface LoginObserver {
+        void onLoggedIn(AuthorProfile profile);
+
+        void onLoggedOut(AuthorProfile profile);
+    }
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -72,7 +75,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
         mReviewPacker = new ReviewPacker();
-        setAuthor(AUTHOR);
+        getUsersManager().getAuthenticator().registerObserver(this);
     }
 
     //Static methods
@@ -91,7 +94,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewsFeed getUsersFeed() {
-        return mFeed;
+        return mPresenterContext.getFeedFactory().newFeed(getReviewsFactory());
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -183,10 +186,21 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mPresenterContext.getUsersManager();
     }
 
-    public void setAuthor(DataAuthor author) {
-        mAuthor = author;
-        FactoryReviews reviewsFactory = getReviewsFactory();
-        reviewsFactory.setAuthorsStamp(new AuthorsStamp(mAuthor));
-        mFeed = mPresenterContext.getFeedFactory().newFeed(reviewsFactory);
+    @Override
+    public void onUserChanged(@Nullable AuthenticatedUser oldUser,
+                              @Nullable AuthenticatedUser newUser) {
+
+    }
+
+    public void getUserProfile(UserAccounts.GetProfileCallback callback) {
+        mPresenterContext.getCurrentProfile(callback);
+    }
+
+    private void setAuthor(AuthorProfile profile) {
+        getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
+    }
+
+    public void logout() {
+        mPresenterContext.logoutCurrentUser();
     }
 }

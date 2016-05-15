@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
@@ -33,6 +34,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterSession;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ import java.util.Map;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseAuthenticator implements UserAuthenticator {
+public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthStateListener {
     private static final String FACEBOOK = "facebook";
     private static final String TWITTER = "twitter";
     private static final String GOOGLE = "google";
@@ -50,11 +52,49 @@ public class FirebaseAuthenticator implements UserAuthenticator {
     private Firebase mRoot;
     private UserProfileTranslator mUsersFactory;
     private FirebaseUsersDb mDb;
+    private AuthenticatedUser mLoggedIn;
+    private ArrayList<UserStateObserver> mObservers;
 
     public FirebaseAuthenticator(Firebase root, FirebaseUsersDb db, UserProfileTranslator usersFactory) {
         mRoot = root;
         mUsersFactory = usersFactory;
         mDb = db;
+        mRoot.addAuthStateListener(this);
+        mObservers = new ArrayList<>();
+    }
+
+    @Override
+    public void registerObserver(UserStateObserver observer) {
+        if(!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterObserver(UserStateObserver observer) {
+        if(mObservers.contains(observer)) mObservers.remove(observer);
+    }
+
+    @Override
+    public void onAuthStateChanged(AuthData authData) {
+        AuthenticatedUser old = mLoggedIn;
+        mLoggedIn = mUsersFactory.newAuthenticatedUser(authData.getProvider(), authData.getUid());
+        notifyObservers(old);
+    }
+
+    private void notifyObservers(AuthenticatedUser old) {
+        for(UserStateObserver observer : mObservers) {
+            observer.onUserChanged(old, mLoggedIn);
+        }
+    }
+
+    @Override
+    public void logout() {
+        mRoot.unauth();
+    }
+
+    @Nullable
+    @Override
+    public AuthenticatedUser getAuthenticatedUser() {
+        return mLoggedIn;
     }
 
     @Override

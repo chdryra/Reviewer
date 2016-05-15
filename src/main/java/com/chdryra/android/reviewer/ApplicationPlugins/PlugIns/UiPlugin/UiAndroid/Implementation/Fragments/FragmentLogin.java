@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -65,9 +66,15 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private AuthenticatedUser mUser;
     private EditText mEmail;
     private EditText mPassword;
+    private ProgressDialog mProgress;
 
     public static FragmentLogin newInstance() {
         return new FragmentLogin();
+    }
+
+    public void cancelAuthentication() {
+        if (mPresenter != null) mPresenter.authenticationFinished();
+        closeLoggingInDialog();
     }
 
     @Nullable
@@ -90,11 +97,10 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
-        return view;
-    }
+        mPresenter.getCurrentUsersProfile();
+        showLoggingInDialog();
 
-    public void cancelAuthentication() {
-        if(mPresenter != null) mPresenter.authenticationFinished();
+        return view;
     }
 
     @Override
@@ -110,8 +116,9 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onAuthenticated(AuthorProfile profile) {
-        makeToast("Login successful");
-        mPresenter.onAuthorAuthenticated(profile);
+        closeLoggingInDialog();
+        makeToast("Welcome " + profile.getAuthor().getName());
+        mPresenter.onAuthorAuthenticated();
     }
 
     @Override
@@ -126,11 +133,20 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
-        if(mUser != null) {
+        if (mUser != null) {
             mPresenter.signUpNewAuthor(mUser);
         } else {
             mPresenter.signUpNewAuthor(mEmail.getText().toString());
         }
+    }
+
+    private void showLoggingInDialog() {
+        mProgress = ProgressDialog.show(getActivity(), "Checking user",
+                "Please wait...", true);
+    }
+
+    private void closeLoggingInDialog() {
+        if (mProgress != null) mProgress.dismiss();
     }
 
     private void bindButtonsToProviders(Button facebookButton, Button googleButton,
@@ -140,35 +156,38 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authenticateOrSignUp();
+                authenticateEmailOrSignUp();
             }
         });
 
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.authenticate(providers.newFacebookLogin(FragmentLogin.this));
+                showLoggingInDialog();
+                mPresenter.logIn(providers.newFacebookLogin(FragmentLogin.this));
             }
         });
 
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.authenticate(providers.newGoogleLogin(FragmentLogin.this));
+                showLoggingInDialog();
+                mPresenter.logIn(providers.newGoogleLogin(FragmentLogin.this));
             }
         });
 
         twitterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.authenticate(providers.newTwitterLogin(FragmentLogin.this));
+                showLoggingInDialog();
+                mPresenter.logIn(providers.newTwitterLogin(FragmentLogin.this));
             }
         });
     }
 
-    private void authenticateOrSignUp() {
+    private void authenticateEmailOrSignUp() {
         String email = mEmail.getText().toString();
-        if(email.length() == 0) {
+        if (email.length() == 0) {
             onSignUpRequested(null, mPresenter.getSignUpMessage());
             return;
         }
@@ -181,7 +200,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         Password pw = pwValid.getPassword();
 
         if (address != null && pw != null) {
-            mPresenter.authenticate(new EmailPassword(address, pw));
+            showLoggingInDialog();
+            mPresenter.logIn(new EmailPassword(address, pw));
         } else {
             makeToast(address == null ? EMAIL_IS_INVALID : PASSWORD_IS_INCORRECT);
         }

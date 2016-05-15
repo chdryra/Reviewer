@@ -103,7 +103,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
         if (error != null) {
             makeToast(error.getMessage());
         } else {
-            mPresenter.onSignUpSuccessful(profile, getActivity());
+            mPresenter.onSignUpSuccessful(getActivity());
             getActivity().finish();
         }
     }

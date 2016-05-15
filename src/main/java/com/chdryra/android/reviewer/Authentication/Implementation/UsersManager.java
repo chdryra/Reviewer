@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UsersManager {
+    private static final String PROVIDER = "UsersManager";
     private final UserAuthenticator mAuthenticator;
     private final UserAccounts mAccounts;
 
@@ -31,5 +32,21 @@ public class UsersManager {
 
     public UserAccounts getAccounts() {
         return mAccounts;
+    }
+
+    public boolean getCurrentUsersProfile(UserAccounts.GetProfileCallback callback) {
+        AuthenticatedUser user = mAuthenticator.getAuthenticatedUser();
+        if(user == null) {
+            callback.onProfile( new AuthenticatedUser(), new AuthorProfile(),
+                    new AuthenticationError(PROVIDER, AuthenticationError.Reason.NO_AUTHENTICATED_USER));
+            return false;
+        } else {
+            mAccounts.getProfile(user, callback);
+            return true;
+        }
+    }
+
+    public void logoutCurrentUser() {
+        mAuthenticator.logout();
     }
 }

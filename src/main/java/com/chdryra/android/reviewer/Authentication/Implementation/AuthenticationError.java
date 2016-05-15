@@ -25,6 +25,7 @@ public class AuthenticationError {
         EMAIL_TAKEN("Email is already taken"),
         NAME_TAKEN("Name is already taken"),
         NETWORK_ERROR("Internet is having a rest"),
+        NO_AUTHENTICATED_USER("No authenticated user available"),
         UNKNOWN_ERROR("Beats me...");
 
 

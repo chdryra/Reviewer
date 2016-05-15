@@ -82,8 +82,8 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
         createUserWithProfile(emailPassword, author);
     }
 
-    public void onSignUpSuccessful(AuthorProfile profile, Activity activity) {
-        mApp.setAuthor(profile.getAuthor());
+    public void onSignUpSuccessful(Activity activity) {
+        mApp.logInCurrentUser(null);
         LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
         uiLauncher.launch(mApp.getConfigUi().getFeedConfig(), activity, FEED, new Bundle());
     }
