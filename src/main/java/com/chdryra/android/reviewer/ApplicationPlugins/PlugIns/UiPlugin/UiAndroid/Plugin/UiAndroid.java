@@ -12,6 +12,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.Api.UiPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityBuildReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditLocationMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditUrlBrowser;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityLogin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityPublishReview;
 
@@ -53,9 +56,10 @@ public class UiAndroid implements UiPlugin {
     private static final class AndroidLaunchables extends LaunchablesListBasic {
 
         private AndroidLaunchables() {
-            super(ActivitySignUp.class, ActivityUsersFeed.class, ActivityBuildReview.class,
-                    ActivityEditLocationMap.class, ActivityPublishReview.class,
-                    DialogShareEditReview.class, ActivityReviewView.class);
+            super(ActivityLogin.class, ActivitySignUp.class, ActivityUsersFeed.class,
+                    ActivityBuildReview.class, ActivityEditLocationMap.class,
+                    ActivityPublishReview.class, DialogShareEditReview.class,
+                    ActivityReviewView.class);
 
             addDataClasses(new AddEditViewClasses<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
                     GvDataDialogs.EditTag.class, GvDataDialogs.ViewTag.class));

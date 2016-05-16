@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
 import android.util.SparseArray;
 import android.view.Menu;
@@ -41,7 +42,7 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         this(-1, null, true);
     }
 
-    public MenuActionNone(int menuId, String title, boolean displayHomeAsUp) {
+    public MenuActionNone(int menuId, @Nullable String title, boolean displayHomeAsUp) {
         mMenuId = menuId;
         mTitle = title;
         mDisplayHomeAsUp = displayHomeAsUp;

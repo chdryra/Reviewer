@@ -164,11 +164,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     @Override
-    public void onLoggedOut() {
-
-    }
-
-    @Override
     public void onAuthenticationError(AuthenticationError error) {
         resolveError(null, error);
         authenticationFinished();

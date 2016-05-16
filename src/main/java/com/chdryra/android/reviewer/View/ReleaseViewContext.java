@@ -21,14 +21,13 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesLis
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReleaseViewContext extends ViewContextBasic {
-
     public ReleaseViewContext(UiPlugin ui) {
-        LaunchablesList uiLaunchables = ui.getUiLaunchables();
+        LaunchablesList uis = ui.getUiLaunchables();
 
         FactoryLauncherUi launcherFactory
-                = new FactoryLauncherUi(uiLaunchables.getDefaultReviewViewActivity());
+                = new FactoryLauncherUi(uis.getDefaultReviewViewActivity());
 
-        setConfigUi(new FactoryConfigUi().newUiConfig(uiLaunchables));
+        setConfigUi(new FactoryConfigUi().newUiConfig(uis));
 
         setLauncher(new LaunchableUiLauncher(launcherFactory));
     }

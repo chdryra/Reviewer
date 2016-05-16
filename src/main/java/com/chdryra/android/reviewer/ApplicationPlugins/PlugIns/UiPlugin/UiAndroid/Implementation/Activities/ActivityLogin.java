@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     private static final String KEY = TagKeyGenerator.getKey(ActivityLogin.class, "Key");
     private static final String RETAIN_VIEW
             = TagKeyGenerator.getKey(ActivityLogin.class, "RetainView");
+
     private FragmentLogin mFragment;
 
     @Override
@@ -35,7 +37,9 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
 
     @Override
     public void launch(LauncherUi launcher) {
-        launcher.launch(getClass(), KEY);
+        Activity commissioner = launcher.getCommissioner();
+        launcher.launch(new Intent(commissioner, ActivityLogin.class), KEY);
+        commissioner.finish();
     }
 
     @Override

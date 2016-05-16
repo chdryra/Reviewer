@@ -23,6 +23,8 @@ public interface ConfigUi {
 
     LaunchableConfig getAdderConfig(String datumName);
 
+    LaunchableConfig getSplashConfig();
+
     LaunchableConfig getSignUpConfig();
 
     LaunchableConfig getFeedConfig();

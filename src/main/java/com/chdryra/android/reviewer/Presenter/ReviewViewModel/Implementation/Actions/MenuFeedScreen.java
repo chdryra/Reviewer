@@ -45,15 +45,15 @@ public class MenuFeedScreen extends MenuActionNone<GvReviewAsync> {
     @Override
     protected void addMenuItems() {
         bindMenuActionItem(launchBuildScreen(), NEW_REVIEW, false);
-        bindMenuActionItem(logoutOfSocialPlatforms(), LOGOUT, false);
+        bindMenuActionItem(logout(), LOGOUT, false);
     }
 
     @NonNull
-    private MenuActionItem logoutOfSocialPlatforms() {
+    private MenuActionItem logout() {
         return new MenuActionItem() {
             @Override
             public void doAction(Context context, MenuItem item) {
-                ApplicationInstance.getInstance(context).getSocialPlatformList().logout();
+                ApplicationInstance.getInstance(context).logout(getActivity());
             }
         };
     }

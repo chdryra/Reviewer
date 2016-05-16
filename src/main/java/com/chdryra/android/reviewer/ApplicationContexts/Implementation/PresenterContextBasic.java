@@ -214,6 +214,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     @Override
     public void logoutCurrentUser() {
         getUsersManager().logoutCurrentUser();
+        getSocialPlatformList().logout();
     }
 
     private void launchReview(Activity activity, ReviewNode reviewNode) {

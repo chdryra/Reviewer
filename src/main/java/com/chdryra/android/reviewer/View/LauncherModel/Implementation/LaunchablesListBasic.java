@@ -25,28 +25,32 @@ import java.util.ArrayList;
  */
 public abstract class LaunchablesListBasic implements LaunchablesList {
     private final ArrayList<AddEditViewClasses<?>> mDataLaunchables;
-    private final Class<? extends LaunchableUi> mSignUpLaunchable;
-    private final Class<? extends LaunchableUi> mFeedLaunchable;
-    private final Class<? extends LaunchableUi> mReviewBuilderLaunchable;
-    private final Class<? extends LaunchableUi> mMapEditorLaunchable;
-    private final Class<? extends LaunchableUi> mShareLaunchable;
-    private final Class<? extends LaunchableUiAlertable> mShareEditLaunchable;
+    private final Class<? extends LaunchableUi> mSplash;
+    private final Class<? extends LaunchableUi> mSignUp;
+    private final Class<? extends LaunchableUi> mFeed;
+    private final Class<? extends LaunchableUi> mReviewBuilder;
+    private final Class<? extends LaunchableUi> mMapEditor;
+    private final Class<? extends LaunchableUi> mShare;
+    private final Class<? extends LaunchableUiAlertable> mShareEdit;
+
     //TODO make this independent of Android
     private Class<? extends Activity> mDefaultReviewViewActivity;
 
-    public LaunchablesListBasic(Class<? extends LaunchableUi> signUpLaunchable,
-                                Class<? extends LaunchableUi> feedLaunchable,
-                                Class<? extends LaunchableUi> reviewBuilderLaunchable,
-                                Class<? extends LaunchableUi> mapEditorLaunchable,
-                                Class<? extends LaunchableUi> shareLaunchable,
-                                Class<? extends LaunchableUiAlertable> shareEditLaunchable,
+    public LaunchablesListBasic(Class<? extends LaunchableUi> splash,
+                                Class<? extends LaunchableUi> signUp,
+                                Class<? extends LaunchableUi> feed,
+                                Class<? extends LaunchableUi> reviewBuilder,
+                                Class<? extends LaunchableUi> mapEditor,
+                                Class<? extends LaunchableUi> share,
+                                Class<? extends LaunchableUiAlertable> shareEdit,
                                 Class<? extends Activity> defaultReviewViewActivity) {
-        mSignUpLaunchable = signUpLaunchable;
-        mFeedLaunchable = feedLaunchable;
-        mReviewBuilderLaunchable = reviewBuilderLaunchable;
-        mMapEditorLaunchable = mapEditorLaunchable;
-        mShareLaunchable = shareLaunchable;
-        mShareEditLaunchable = shareEditLaunchable;
+        mSplash = splash;
+        mSignUp = signUp;
+        mFeed = feed;
+        mReviewBuilder = reviewBuilder;
+        mMapEditor = mapEditor;
+        mShare = share;
+        mShareEdit = shareEdit;
         mDefaultReviewViewActivity = defaultReviewViewActivity;
         mDataLaunchables = new ArrayList<>();
     }
@@ -56,33 +60,38 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     }
 
     @Override
+    public Class<? extends LaunchableUi> getSplashUi() {
+        return mSplash;
+    }
+
+    @Override
     public Class<? extends LaunchableUi> getSignUpUi() {
-        return mSignUpLaunchable;
+        return mSignUp;
     }
 
     @Override
     public Class<? extends LaunchableUi> getFeedUi() {
-        return mFeedLaunchable;
+        return mFeed;
     }
 
     @Override
     public Class<? extends LaunchableUi> getReviewBuilderUi() {
-        return mReviewBuilderLaunchable;
+        return mReviewBuilder;
     }
 
     @Override
     public Class<? extends LaunchableUi> getMapEditorUi() {
-        return mMapEditorLaunchable;
+        return mMapEditor;
     }
 
     @Override
     public Class<? extends LaunchableUi> getShareReviewUi() {
-        return mShareLaunchable;
+        return mShare;
     }
 
     @Override
     public Class<? extends LaunchableUiAlertable> getShareEditReviewUi() {
-        return mShareEditLaunchable;
+        return mShareEdit;
     }
 
     @Override

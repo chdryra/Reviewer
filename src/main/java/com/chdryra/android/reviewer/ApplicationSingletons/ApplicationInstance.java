@@ -13,12 +13,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
-        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
@@ -47,12 +46,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Singleton that controls app-wide duties.
  */
 public class ApplicationInstance extends ApplicationSingleton implements UserAuthenticator
         .UserStateObserver {
+    private static final int LAUNCH_SPLASH = RequestCodeGenerator.getCode("LaunchSplash");
+
     public static final String APP_NAME = "Teeqr";
     private static final String NAME = "ApplicationInstance";
 
@@ -68,8 +70,6 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
     public interface LoginObserver {
         void onLoggedIn(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
         AuthenticationError error);
-
-        void onLoggedOut();
     }
 
     private ApplicationInstance(Context context) {
@@ -216,9 +216,11 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
         mObserver = null;
     }
 
-    public void logout() {
+    public void logout(Activity activity) {
         mPresenterContext.logoutCurrentUser();
-        notifyLogout();
+        LaunchableConfig splashConfig = getConfigUi().getSplashConfig();
+        getUiLauncher().launch(splashConfig, activity, LAUNCH_SPLASH);
+        activity.finish();
     }
 
     @Override
@@ -230,11 +232,6 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
         if (oldUser == null && newUser == null) {
             notifyLogin(null, null,
                     new AuthenticationError("app", AuthenticationError.Reason.NO_AUTHENTICATED_USER));
-            return;
-        }
-
-        if (newUser == null) {
-            notifyLogout();
             return;
         }
 
@@ -257,9 +254,5 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
     private void notifyLogin(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
     AuthenticationError error) {
         if (mObserver != null) mObserver.onLoggedIn(user, profile, error);
-    }
-
-    private void notifyLogout() {
-        if (mObserver != null) mObserver.onLoggedOut();
     }
 }

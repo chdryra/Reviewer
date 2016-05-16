@@ -13,9 +13,9 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -48,21 +48,30 @@ public class LauncherUiImpl implements LauncherUi {
     }
 
     @Override
+    public Activity getCommissioner() {
+        return mCommissioner;
+    }
+
+    @Override
     public void launch(DialogFragment launchableUI) {
         DialogShower.show(launchableUI, mCommissioner, mRequestCode, mTag, mArgs);
     }
 
     @Override
     public void launch(Class<? extends Activity> activityClass, String argsKey) {
-        Intent i = new Intent(mCommissioner, activityClass);
-        i.putExtra(argsKey, mArgs);
-        mCommissioner.startActivityForResult(i, mRequestCode);
+        launch(new Intent(mCommissioner, activityClass), argsKey);
     }
 
     @Override
     public void launch(ReviewView<?> view) {
         Intent i = new Intent(mCommissioner, mReviewViewActivity);
         ReviewViewPacker.packView(mCommissioner, view, i);
+        mCommissioner.startActivityForResult(i, mRequestCode);
+    }
+
+    @Override
+    public void launch(Intent i, String argsKey) {
+        i.putExtra(argsKey, mArgs);
         mCommissioner.startActivityForResult(i, mRequestCode);
     }
 }
