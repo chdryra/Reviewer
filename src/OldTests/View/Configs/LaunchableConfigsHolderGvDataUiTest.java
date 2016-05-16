@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.test.View.Configs;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.Configs.Interfaces.LaunchableConfigsHolder;

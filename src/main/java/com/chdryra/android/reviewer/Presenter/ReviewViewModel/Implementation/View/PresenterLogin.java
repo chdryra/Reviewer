@@ -15,7 +15,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserContextImpl;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
@@ -42,7 +44,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, ApplicationInstance.LoginObserver {
+public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, UserContextImpl.LoginObserver {
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
 
@@ -50,6 +52,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
     private ApplicationInstance mApp;
+    private UserContext mUserContext;
     private Activity mActivity;
     private CredentialsHandler mHandler;
     private LoginListener mListener;
@@ -74,12 +77,13 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mActivity = activity;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
-        mApp.setLoginObserver(this);
+        mUserContext = mApp.getUserContext();
+        mUserContext.setLoginObserver(this);
     }
 
     public void setLoginListener(LoginListener listener) {
         mListener = listener;
-        mApp.observeCurrentUser();
+        mUserContext.observeCurrentUser();
     }
 
     @NonNull
@@ -131,7 +135,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void onLoginComplete() {
         launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, new Bundle());
-        mApp.unsetLoginObserver();
+        mUserContext.unsetLoginObserver();
         mActivity.finish();
     }
 

@@ -12,7 +12,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;

@@ -16,7 +16,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;

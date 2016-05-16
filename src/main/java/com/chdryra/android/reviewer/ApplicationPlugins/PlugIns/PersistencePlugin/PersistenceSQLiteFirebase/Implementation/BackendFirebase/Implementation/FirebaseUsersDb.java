@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.UserProfileTranslator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -44,8 +45,8 @@ public class FirebaseUsersDb implements BackendUsersDb {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
     private static final String NAME = FirebaseBackend.NAME;
-    private static final AuthenticationError NAME_TAKEN_ERROR = new AuthenticationError("app",
-            AuthenticationError.Reason.NAME_TAKEN);
+    private static final AuthenticationError NAME_TAKEN_ERROR =
+            new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError.Reason.NAME_TAKEN);
 
     private Firebase mDataRoot;
     private FirebaseStructure mStructure;

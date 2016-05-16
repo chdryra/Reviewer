@@ -17,8 +17,8 @@ import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ReviewViewPacker;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;

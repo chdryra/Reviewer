@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.test.TestUtils;
 
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;

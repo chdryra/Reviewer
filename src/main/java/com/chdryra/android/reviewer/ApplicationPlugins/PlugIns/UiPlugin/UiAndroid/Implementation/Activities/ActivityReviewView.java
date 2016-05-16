@@ -13,7 +13,7 @@ import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
+import com.chdryra.android.reviewer.Application.ReviewViewPacker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**

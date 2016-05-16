@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
         .BackendError;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.firebase.client.FirebaseError;
 
@@ -22,7 +23,7 @@ import com.firebase.client.FirebaseError;
  */
 public class FirebaseBackend         {
     public static final String ROOT = "https://teeqr.firebaseio.com/";
-    public static final String NAME = "database";
+    public static final String NAME = ApplicationInstance.APP_NAME;
     
     public static AuthenticationError authenticationError(FirebaseError error) {
         if (error.getCode() == FirebaseError.EMAIL_TAKEN) {

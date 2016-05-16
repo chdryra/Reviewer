@@ -13,7 +13,7 @@ import android.test.InstrumentationTestCase;
 import android.test.UiThreadTest;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerPersistence;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation
         .MdIdableCollection;

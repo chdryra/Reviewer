@@ -6,13 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationSingletons;
+package com.chdryra.android.reviewer.Application;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ObjectHolder;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
@@ -21,23 +21,11 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewPacker {
-    private static final String REVIEW_ID = "com.chdryra.android.reviewer.reviewcache.review_id";
+    private static final String REVIEW_ID = TagKeyGenerator.getKey(ReviewPacker.class, "ReviewId");
     private final ObjectHolder mReviews;
 
     public ReviewPacker() {
         mReviews = new ObjectHolder();
-    }
-
-    public void packReview(Review review, Intent i) {
-        String id = review.getReviewId().toString();
-        mReviews.addObject(id, review);
-        i.putExtra(REVIEW_ID, id);
-    }
-
-    public
-    @Nullable
-    Review unpackReview(Intent i) {
-        return getReview(i.getStringExtra(REVIEW_ID));
     }
 
     public void packReview(Review review, Bundle args) {

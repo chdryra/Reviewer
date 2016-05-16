@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 
@@ -17,7 +18,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UsersManager {
-    private static final String PROVIDER = "UsersManager";
+    private static final String PROVIDER = ApplicationInstance.APP_NAME;
     private final UserAuthenticator mAuthenticator;
     private final UserAccounts mAccounts;
 

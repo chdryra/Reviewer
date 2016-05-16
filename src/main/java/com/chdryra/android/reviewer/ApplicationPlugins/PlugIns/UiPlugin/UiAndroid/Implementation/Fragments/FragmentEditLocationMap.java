@@ -47,7 +47,7 @@ import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
         .LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;

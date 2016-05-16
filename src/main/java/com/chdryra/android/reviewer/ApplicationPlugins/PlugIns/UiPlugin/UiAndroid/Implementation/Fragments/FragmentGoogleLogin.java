@@ -23,7 +23,7 @@ import android.view.ViewGroup;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformGoogle;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;

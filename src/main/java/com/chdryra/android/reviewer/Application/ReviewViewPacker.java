@@ -6,12 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationSingletons;
+package com.chdryra.android.reviewer.Application;
 
 import android.content.Context;
 import android.content.Intent;
 
 import com.chdryra.android.mygenerallibrary.CacheUtils.ObjectHolder;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 import java.util.UUID;
@@ -23,7 +24,7 @@ import java.util.UUID;
  */
 public class ReviewViewPacker extends ApplicationSingleton {
     private static final String NAME = "ReviewViewPacker";
-    private static final String REVIEWVIEW_ID = "com.chdryra.android.reviewer.review_id";
+    private static final String REVIEWVIEW_ID = TagKeyGenerator.getKey(ReviewViewPacker.class, "ReviewId");
     private final ObjectHolder mViews;
 
     private static ReviewViewPacker sSingleton;

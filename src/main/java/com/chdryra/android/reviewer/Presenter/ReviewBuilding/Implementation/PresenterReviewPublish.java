@@ -12,7 +12,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;

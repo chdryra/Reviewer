@@ -16,7 +16,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryEditActions;

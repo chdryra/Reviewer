@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationSingletons;
+package com.chdryra.android.reviewer.Application;
 
 import android.content.Context;
 

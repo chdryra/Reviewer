@@ -4,7 +4,7 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.DataAdapterModel.MdGvConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCommentList;

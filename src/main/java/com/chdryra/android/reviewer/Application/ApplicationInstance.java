@@ -6,24 +6,19 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationSingletons;
+package com.chdryra.android.reviewer.Application;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -35,7 +30,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -46,52 +40,41 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Singleton that controls app-wide duties.
  */
-public class ApplicationInstance extends ApplicationSingleton implements UserAuthenticator
-        .UserStateObserver {
-    private static final int LAUNCH_SPLASH = RequestCodeGenerator.getCode("LaunchSplash");
-
+public class ApplicationInstance extends ApplicationSingleton {
     public static final String APP_NAME = "Teeqr";
     private static final String NAME = "ApplicationInstance";
 
     private static ApplicationInstance sSingleton;
 
     private final ReviewPacker mReviewPacker;
-    private final PresenterContext mPresenterContext;
+    private final PresenterContext mAppContext;
     private final LocationServicesApi mLocationServices;
-    private LoginObserver mObserver;
-    private AuthorProfile mCurrentProfile;
-    private AuthenticatedUser mCurrentUser;
-
-    public interface LoginObserver {
-        void onLoggedIn(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
-        AuthenticationError error);
-    }
+    private final UserContext mUser;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
         throw new IllegalStateException("Need to call newInstance(.)!");
     }
 
-    private ApplicationInstance(Context context, ApplicationContext applicationContext) {
-        super(context, NAME);
-        mPresenterContext = applicationContext.getContext();
+    private ApplicationInstance(Context androidContext,
+                                ApplicationContext applicationContext,
+                                UserContext userContext) {
+        super(androidContext, NAME);
+        mAppContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
+        mUser = userContext;
         mReviewPacker = new ReviewPacker();
-
-        UserAuthenticator authenticator = getUsersManager().getAuthenticator();
-        onUserStateChanged(null, authenticator.getAuthenticatedUser());
-        authenticator.registerObserver(this);
     }
 
     //Static methods
-    public static void newInstance(Context context,
-                                   ApplicationContext applicationContext) {
-        sSingleton = new ApplicationInstance(context, applicationContext);
+    public static void newInstance(Context androidContext,
+                                   ApplicationContext applicationContext,
+                                   UserContext userContext) {
+        sSingleton = new ApplicationInstance(androidContext, applicationContext, userContext);
     }
 
     public static ApplicationInstance getInstance(Context context) {
@@ -100,35 +83,35 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
     }
 
     public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
-        return mPresenterContext.getReviewBuilderAdapter();
+        return mAppContext.getReviewBuilderAdapter();
     }
 
     public ReviewsFeed getUsersFeed() {
-        return mPresenterContext.getFeedFactory().newFeed(getReviewsFactory());
+        return mAppContext.getFeedFactory().newFeed(getReviewsFactory());
     }
 
     public FactoryReviews getReviewsFactory() {
-        return mPresenterContext.getReviewsFactory();
+        return mAppContext.getReviewsFactory();
     }
 
     public SocialPlatformList getSocialPlatformList() {
-        return mPresenterContext.getSocialPlatformList();
+        return mAppContext.getSocialPlatformList();
     }
 
     public ConfigUi getConfigUi() {
-        return mPresenterContext.getConfigUi();
+        return mAppContext.getConfigUi();
     }
 
     public LaunchableUiLauncher getUiLauncher() {
-        return mPresenterContext.getUiLauncher();
+        return mAppContext.getUiLauncher();
     }
 
     public FactoryReviewViewLaunchable getLaunchableFactory() {
-        return mPresenterContext.getReviewViewLaunchableFactory();
+        return mAppContext.getReviewViewLaunchableFactory();
     }
 
     public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
-        return mPresenterContext.getReviewViewAdapterFactory();
+        return mAppContext.getReviewViewAdapterFactory();
     }
 
     public FactoryReviewViewParams getParamsFactory() {
@@ -136,7 +119,7 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
     }
 
     public FactoryGvData getGvDataFactory() {
-        return mPresenterContext.getGvDataFactory();
+        return mAppContext.getGvDataFactory();
     }
 
     public LocationServicesApi getLocationServices() {
@@ -144,115 +127,64 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
     }
 
     public TagsManager getTagsManager() {
-        return mPresenterContext.getTagsManager();
+        return mAppContext.getTagsManager();
     }
 
     public ReviewPublisher getPublisher() {
-        return mPresenterContext.getReviewPublisher();
+        return mAppContext.getReviewPublisher();
     }
 
     public UsersManager getUsersManager() {
-        return mPresenterContext.getUsersManager();
+        return mAppContext.getUsersManager();
     }
 
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
-        return mPresenterContext.getDataBuilderAdapter(dataType);
+        return mAppContext.getDataBuilderAdapter(dataType);
     }
 
     public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
-        return mPresenterContext.newReviewBuilderAdapter(template);
+        return mAppContext.newReviewBuilderAdapter(template);
     }
 
     public void discardReviewBuilderAdapter() {
-        mPresenterContext.discardReviewBuilderAdapter();
+        mAppContext.discardReviewBuilderAdapter();
     }
 
     public Review executeReviewBuilder() {
-        return mPresenterContext.executeReviewBuilder();
+        return mAppContext.executeReviewBuilder();
     }
 
     public void packReview(Review review, Bundle args) {
         mReviewPacker.packReview(review, args);
     }
 
-    public
     @Nullable
-    Review unpackReview(Bundle args) {
+    public Review unpackReview(Bundle args) {
         return mReviewPacker.unpackReview(args);
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
-        mPresenterContext.launchReview(activity, reviewId);
+        mAppContext.launchReview(activity, reviewId);
     }
 
     public void getReview(ReviewId id, CallbackRepository callback) {
-        mPresenterContext.getReview(id, callback);
+        mAppContext.getReview(id, callback);
     }
 
     public ReviewDeleter newReviewDeleter(ReviewId id) {
-        return mPresenterContext.newReviewDeleter(id);
+        return mAppContext.newReviewDeleter(id);
     }
 
     public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
-        return mPresenterContext.getBackendRepository();
+        return mAppContext.getBackendRepository();
     }
 
-    public void setLoginObserver(LoginObserver observer) {
-        mObserver = observer;
-        observeCurrentUser();
-    }
-
-    public void observeCurrentUser() {
-        if (mCurrentUser == null || mCurrentProfile == null) {
-            notifyLogin(null, null,
-                    new AuthenticationError("app", AuthenticationError.Reason.NO_AUTHENTICATED_USER));
-        } else {
-            notifyLogin(mCurrentUser, mCurrentProfile, null);
-        }
-    }
-
-    public void unsetLoginObserver() {
-        mObserver = null;
+    public UserContext getUserContext() {
+        return mUser;
     }
 
     public void logout(Activity activity) {
-        mPresenterContext.logoutCurrentUser();
-        LaunchableConfig splashConfig = getConfigUi().getSplashConfig();
-        getUiLauncher().launch(splashConfig, activity, LAUNCH_SPLASH);
-        activity.finish();
-    }
-
-    @Override
-    public void onUserStateChanged(@Nullable AuthenticatedUser oldUser,
-                                   @Nullable AuthenticatedUser newUser) {
-        mCurrentUser = newUser;
-        mCurrentProfile = null;
-
-        if (oldUser == null && newUser == null) {
-            notifyLogin(null, null,
-                    new AuthenticationError("app", AuthenticationError.Reason.NO_AUTHENTICATED_USER));
-            return;
-        }
-
-        mPresenterContext.getCurrentProfile(new UserAccounts.GetProfileCallback() {
-            @Override
-            public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable
-            AuthenticationError error) {
-                if (error == null) setAuthor(user, profile);
-                notifyLogin(user, profile, error);
-            }
-        });
-    }
-
-    private void setAuthor(AuthenticatedUser user, AuthorProfile profile) {
-        getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
-        mCurrentUser = user;
-        mCurrentProfile = profile;
-    }
-
-    private void notifyLogin(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
-    AuthenticationError error) {
-        if (mObserver != null) mObserver.onLoggedIn(user, profile, error);
+        mUser.logout(activity);
     }
 }

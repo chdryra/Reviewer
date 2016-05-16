@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Social.Implementation;
 
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Social.Interfaces.ReviewFormatter;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 

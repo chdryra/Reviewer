@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterCont
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -204,17 +203,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
     @Override
     public ReviewDeleter newReviewDeleter(ReviewId id) {
         return mNetworkContext.getDeleterFactory().newDeleter(id);
-    }
-
-    @Override
-    public boolean getCurrentProfile(final UserAccounts.GetProfileCallback callback) {
-        return getUsersManager().getCurrentUsersProfile(callback);
-    }
-
-    @Override
-    public void logoutCurrentUser() {
-        getUsersManager().logoutCurrentUser();
-        getSocialPlatformList().logout();
     }
 
     private void launchReview(Activity activity, ReviewNode reviewNode) {

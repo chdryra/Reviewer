@@ -22,7 +22,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;

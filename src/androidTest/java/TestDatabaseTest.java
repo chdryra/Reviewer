@@ -13,8 +13,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationLaunch;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationLaunch;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;

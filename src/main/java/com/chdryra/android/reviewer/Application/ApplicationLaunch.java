@@ -6,13 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationSingletons;
+package com.chdryra.android.reviewer.Application;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserContextImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
@@ -33,8 +35,8 @@ public class ApplicationLaunch {
 
             FactoryApplicationContext factory = new FactoryApplicationContext();
             ApplicationContext appContext = factory.newReleaseContext(context, plugins);
-
-            ApplicationInstance.newInstance(context, appContext);
+            UserContext user = new UserContextImpl(appContext);
+            ApplicationInstance.newInstance(context, appContext, user);
 
             sLaunched = true;
         }

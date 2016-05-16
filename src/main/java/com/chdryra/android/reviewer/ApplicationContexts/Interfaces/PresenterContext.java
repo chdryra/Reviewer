@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -78,8 +77,4 @@ public interface PresenterContext {
     UsersManager getUsersManager();
 
     ReviewDeleter newReviewDeleter(ReviewId id);
-
-    boolean getCurrentProfile(UserAccounts.GetProfileCallback callback);
-
-    void logoutCurrentUser();
 }

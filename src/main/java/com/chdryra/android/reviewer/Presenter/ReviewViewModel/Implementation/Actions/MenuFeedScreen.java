@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;

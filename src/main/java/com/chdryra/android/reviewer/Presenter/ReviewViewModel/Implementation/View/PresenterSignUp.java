@@ -12,8 +12,7 @@ import android.app.Activity;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
@@ -28,8 +27,7 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterSignUp implements UserAccounts.AddProfileCallback {
-    private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
-    private static final String APP = "app";
+    private static final String APP = ApplicationInstance.APP_NAME;
     private static final AuthenticationError INVALID_LENGTH = new AuthenticationError(APP,
             AuthenticationError.Reason.INVALID_NAME, AuthorNameValidation.Reason.INVALID_LENGTH
             .getMessage());

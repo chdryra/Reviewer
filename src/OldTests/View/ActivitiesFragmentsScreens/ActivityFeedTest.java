@@ -18,7 +18,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.util.Log;
 import android.widget.GridView;
 
-import com.chdryra.android.reviewer.ApplicationSingletons.ReviewViewPacker;
+import com.chdryra.android.reviewer.Application.ReviewViewPacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters
