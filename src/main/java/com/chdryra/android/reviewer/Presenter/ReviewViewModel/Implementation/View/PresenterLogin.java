@@ -28,7 +28,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
@@ -43,7 +42,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback {
+public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, ApplicationInstance.LoginObserver {
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
 
@@ -63,6 +62,8 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         void onAuthenticated(AuthorProfile profile);
 
         void onAuthenticationFailed(AuthenticationError error);
+
+        void onNoCurrentUser();
     }
 
     private PresenterLogin(ApplicationInstance app,
@@ -75,6 +76,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
         mListener = listener;
+        mApp.setLoginObserver(this);
     }
 
     @NonNull
@@ -124,8 +126,9 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         launchSignUp(new SignUpArgs(user));
     }
 
-    public void onAuthorAuthenticated() {
+    public void onLoginComplete() {
         launchLaunchable(mActivity, mApp.getConfigUi().getFeedConfig(), FEED, new Bundle());
+        mApp.unsetLoginObserver();
         mActivity.finish();
     }
 
@@ -144,17 +147,22 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onAuthenticated(AuthenticatedUser user) {
+        //wait for onLoggedIn to be called
+    }
+
+    @Override
+    public void onLoggedIn(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error) {
+        if (error == null) {
+            mListener.onAuthenticated(profile);
+        } else {
+            resolveError(user, error);
+        }
         authenticationFinished();
-        mApp.getUserProfile(new UserAccounts.GetProfileCallback() {
-            @Override
-            public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error) {
-                if (error == null) {
-                    mListener.onAuthenticated(profile);
-                } else {
-                    resolveError(user, error);
-                }
-            }
-        });
+    }
+
+    @Override
+    public void onLoggedOut() {
+
     }
 
     @Override
@@ -171,10 +179,16 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
-        if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-            mListener.onSignUpRequested(user, getSignUpMessage());
+        if(mAuthenticating) {
+            if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+                mListener.onSignUpRequested(user, getSignUpMessage());
+            } else {
+                mListener.onAuthenticationFailed(error);
+            }
         } else {
-            mListener.onAuthenticationFailed(error);
+            if(error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
+                mListener.onNoCurrentUser();
+            }
         }
     }
 

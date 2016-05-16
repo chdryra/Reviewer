@@ -97,7 +97,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
 
-        mPresenter.getCurrentUsersProfile();
         showLoggingInDialog();
 
         return view;
@@ -110,6 +109,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onSignUpRequested(@Nullable AuthenticatedUser user, String message) {
+        closeLoggingInDialog();
         mUser = user;
         DialogShower.showAlert(message, getActivity(), SIGN_UP, new Bundle());
     }
@@ -118,12 +118,19 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     public void onAuthenticated(AuthorProfile profile) {
         closeLoggingInDialog();
         makeToast("Welcome " + profile.getAuthor().getName());
-        mPresenter.onAuthorAuthenticated();
+        mPresenter.onLoginComplete();
     }
 
     @Override
     public void onAuthenticationFailed(AuthenticationError error) {
+        closeLoggingInDialog();
         makeToast("Login unsuccessful: " + error);
+    }
+
+    @Override
+    public void onNoCurrentUser() {
+        if(mProgress != null) mProgress.setMessage("No one logged in");
+        closeLoggingInDialog();
     }
 
     @Override
@@ -141,7 +148,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     private void showLoggingInDialog() {
-        mProgress = ProgressDialog.show(getActivity(), "Checking user",
+        mProgress = ProgressDialog.show(getActivity(), "Checking who's logged in",
                 "Please wait...", true);
     }
 

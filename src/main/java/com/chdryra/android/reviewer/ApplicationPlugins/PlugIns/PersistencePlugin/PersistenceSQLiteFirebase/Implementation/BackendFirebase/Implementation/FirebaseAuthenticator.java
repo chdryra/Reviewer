@@ -76,13 +76,14 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     @Override
     public void onAuthStateChanged(AuthData authData) {
         AuthenticatedUser old = mLoggedIn;
-        mLoggedIn = mUsersFactory.newAuthenticatedUser(authData.getProvider(), authData.getUid());
+        mLoggedIn = authData != null ?
+                mUsersFactory.newAuthenticatedUser(authData.getProvider(), authData.getUid()) : null;
         notifyObservers(old);
     }
 
     private void notifyObservers(AuthenticatedUser old) {
         for(UserStateObserver observer : mObservers) {
-            observer.onUserChanged(old, mLoggedIn);
+            observer.onUserStateChanged(old, mLoggedIn);
         }
     }
 

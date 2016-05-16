@@ -15,9 +15,12 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
@@ -48,7 +51,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
 /**
  * Singleton that controls app-wide duties.
  */
-public class ApplicationInstance extends ApplicationSingleton implements UserAuthenticator.UserStateObserver{
+public class ApplicationInstance extends ApplicationSingleton implements UserAuthenticator
+        .UserStateObserver {
     public static final String APP_NAME = "Teeqr";
     private static final String NAME = "ApplicationInstance";
 
@@ -58,11 +62,14 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
     private final PresenterContext mPresenterContext;
     private final LocationServicesApi mLocationServices;
     private LoginObserver mObserver;
+    private AuthorProfile mCurrentProfile;
+    private AuthenticatedUser mCurrentUser;
 
     public interface LoginObserver {
-        void onLoggedIn(AuthorProfile profile);
+        void onLoggedIn(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
+        AuthenticationError error);
 
-        void onLoggedOut(AuthorProfile profile);
+        void onLoggedOut();
     }
 
     private ApplicationInstance(Context context) {
@@ -137,6 +144,14 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
         return mPresenterContext.getTagsManager();
     }
 
+    public ReviewPublisher getPublisher() {
+        return mPresenterContext.getReviewPublisher();
+    }
+
+    public UsersManager getUsersManager() {
+        return mPresenterContext.getUsersManager();
+    }
+
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mPresenterContext.getDataBuilderAdapter(dataType);
     }
@@ -157,12 +172,10 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
         mReviewPacker.packReview(review, args);
     }
 
-    public @Nullable Review unpackReview(Bundle args) {
+    public
+    @Nullable
+    Review unpackReview(Bundle args) {
         return mReviewPacker.unpackReview(args);
-    }
-
-    public ReviewPublisher getPublisher() {
-        return mPresenterContext.getReviewPublisher();
     }
 
     public void launchReview(Activity activity, ReviewId reviewId) {
@@ -182,25 +195,62 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
         return mPresenterContext.getBackendRepository();
     }
 
-    public UsersManager getUsersManager() {
-        return mPresenterContext.getUsersManager();
+    public void setLoginObserver(LoginObserver observer) {
+        mObserver = observer;
+        if (mCurrentUser == null || mCurrentProfile == null) {
+            notifyLogin(null, null,
+                    new AuthenticationError("app", AuthenticationError.Reason.NO_AUTHENTICATED_USER));
+        }
     }
 
-    @Override
-    public void onUserChanged(@Nullable AuthenticatedUser oldUser,
-                              @Nullable AuthenticatedUser newUser) {
-
-    }
-
-    public void getUserProfile(UserAccounts.GetProfileCallback callback) {
-        mPresenterContext.getCurrentProfile(callback);
-    }
-
-    private void setAuthor(AuthorProfile profile) {
-        getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
+    public void unsetLoginObserver() {
+        mObserver = null;
     }
 
     public void logout() {
         mPresenterContext.logoutCurrentUser();
+        notifyLogout();
+    }
+
+    @Override
+    public void onUserStateChanged(@Nullable AuthenticatedUser oldUser,
+                                   @Nullable AuthenticatedUser newUser) {
+        mCurrentUser = newUser;
+        mCurrentProfile = null;
+
+        if (oldUser == null && newUser == null) {
+            notifyLogin(null, null,
+                    new AuthenticationError("app", AuthenticationError.Reason.NO_AUTHENTICATED_USER));
+            return;
+        }
+
+        if (newUser == null) {
+            notifyLogout();
+            return;
+        }
+
+        mPresenterContext.getCurrentProfile(new UserAccounts.GetProfileCallback() {
+            @Override
+            public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable
+            AuthenticationError error) {
+                if (error == null) setAuthor(user, profile);
+                notifyLogin(user, profile, error);
+            }
+        });
+    }
+
+    private void setAuthor(AuthenticatedUser user, AuthorProfile profile) {
+        getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
+        mCurrentUser = user;
+        mCurrentProfile = profile;
+    }
+
+    private void notifyLogin(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
+    AuthenticationError error) {
+        if (mObserver != null) mObserver.onLoggedIn(user, profile, error);
+    }
+
+    private void notifyLogout() {
+        if (mObserver != null) mObserver.onLoggedOut();
     }
 }

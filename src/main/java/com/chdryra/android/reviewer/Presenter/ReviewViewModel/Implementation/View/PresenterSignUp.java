@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -83,9 +82,8 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
     }
 
     public void onSignUpSuccessful(Activity activity) {
-        mApp.logInCurrentUser(null);
-        LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
-        uiLauncher.launch(mApp.getConfigUi().getFeedConfig(), activity, FEED, new Bundle());
+        Toast.makeText(activity, "Sign up sucessful!", Toast.LENGTH_SHORT).show();
+        activity.finish();
     }
 
     @Override
