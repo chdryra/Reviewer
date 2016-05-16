@@ -26,8 +26,8 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
@@ -71,9 +71,12 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         return new FragmentLogin();
     }
 
-    public void cancelAuthentication() {
-        if (mPresenter != null) mPresenter.authenticationFinished();
-        closeLoggingInDialog();
+    public void reobserveUser() {
+        showLoggingInDialog();
+        if (mPresenter != null) {
+            mPresenter.authenticationFinished();
+            mPresenter.observeUser();
+        }
     }
 
     @Override
@@ -220,4 +223,5 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     private void makeToast(String toast) {
         Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
     }
+
 }

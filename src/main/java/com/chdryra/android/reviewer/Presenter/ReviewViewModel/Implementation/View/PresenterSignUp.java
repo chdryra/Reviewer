@@ -9,9 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
@@ -27,6 +28,8 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterSignUp implements UserAccounts.AddProfileCallback {
+    public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterSignUp.class, "EmailPassword");
+
     private static final String APP = ApplicationInstance.APP_NAME;
     private static final AuthenticationError INVALID_LENGTH = new AuthenticationError(APP,
             AuthenticationError.Reason.INVALID_NAME, AuthorNameValidation.Reason.INVALID_LENGTH
@@ -37,12 +40,12 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
     private static final AuthenticationError UNKNOWN_ERROR = new AuthenticationError(APP,
             AuthenticationError.Reason.UNKNOWN_ERROR);
 
-    private static final AuthorProfile NULL_PROFILE = new AuthorProfile();
     private final ApplicationInstance mApp;
     private final SignUpListener mListener;
+    private EmailPassword mEmailPassword;
 
     public interface SignUpListener {
-        void onSignUpComplete(AuthorProfile profile, @Nullable AuthenticationError error);
+        void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable AuthenticationError error);
     }
 
     public PresenterSignUp(ApplicationInstance app, SignUpListener listener) {
@@ -54,7 +57,7 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
         AuthorNameValidation validation = new AuthorNameValidation(name);
         String author = validation.getName();
         if (author == null) {
-            mListener.onSignUpComplete(new AuthorProfile(), getError(validation.getReason()));
+            notifySignUpError(getError(validation.getReason()));
             return;
         }
 
@@ -65,29 +68,39 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
         EmailPasswordValidation epValidation = new EmailPasswordValidation(email, password);
         EmailPassword emailPassword = epValidation.getEmailPassword();
         if (emailPassword == null) {
-            mListener.onSignUpComplete(NULL_PROFILE, getError(epValidation.getError()));
+            notifySignUpError(getError(epValidation.getError()));
             return;
         }
 
         AuthorNameValidation validation = new AuthorNameValidation(name);
         final String author = validation.getName();
         if (author == null) {
-            mListener.onSignUpComplete(new AuthorProfile(), getError(validation.getReason()));
+            notifySignUpError(getError(validation.getReason()));
             return;
         }
 
+        mEmailPassword = emailPassword;
         createUserWithProfile(emailPassword, author);
     }
 
-    public void onSignUpSuccessful(Activity activity) {
-        Toast.makeText(activity, "Sign up sucessful!", Toast.LENGTH_SHORT).show();
+    public void onSignUpComplete(@Nullable EmailPassword emailPassword, Activity activity) {
+        if(emailPassword != null) {
+            Intent i = new Intent();
+            i.putExtra(EMAIL_PASSWORD, emailPassword);
+            activity.setResult(Activity.RESULT_OK, i);
+        }
+
         activity.finish();
+    }
+
+    private void notifySignUpError(AuthenticationError error) {
+        mListener.onSignUpComplete(null, error);
     }
 
     @Override
     public void onProfileAdded(AuthenticatedUser user, AuthorProfile profile, @Nullable
     AuthenticationError error) {
-        mListener.onSignUpComplete(profile, error);
+        mListener.onSignUpComplete(mEmailPassword, error);
     }
 
     private void addProfile(AuthenticatedUser user, String author) {
@@ -102,7 +115,7 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
                 if (error != null) {
-                    mListener.onSignUpComplete(NULL_PROFILE, error);
+                    notifySignUpError(error);
                 } else {
                     addProfile(user, author);
                 }

@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public final class ConfigUiImpl implements ConfigUi {
     private final Map<String, LaunchableConfigsHolder<? extends GvData>> mConfigsMap;
-    private LaunchableConfig mSplashConfig;
+    private LaunchableConfig mLoginConfig;
     private LaunchableConfig mSignUpConfig;
     private LaunchableConfig mFeedConfig;
     private LaunchableConfig mBuildReviewConfig;
@@ -37,7 +37,7 @@ public final class ConfigUiImpl implements ConfigUi {
     private LaunchableConfigAlertable mShareEditConfig;
 
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
-                        LaunchableConfig splashConfig,
+                        LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
                         LaunchableConfig feedConfig,
                         LaunchableConfig buildReviewConfig,
@@ -48,7 +48,7 @@ public final class ConfigUiImpl implements ConfigUi {
         for (LaunchableConfigsHolder<?> config : configs) {
             mConfigsMap.put(config.getGvDataType().getDatumName(), config);
         }
-        mSplashConfig = splashConfig;
+        mLoginConfig = loginConfig;
         mSignUpConfig = signUpConfig;
         mFeedConfig = feedConfig;
         mBuildReviewConfig = buildReviewConfig;
@@ -73,8 +73,8 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfig getSplashConfig() {
-        return mSplashConfig;
+    public LaunchableConfig getLoginConfig() {
+        return mLoginConfig;
     }
 
     @Override

@@ -22,8 +22,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryConfigUi {
-    private static final String SPLASH_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "SplashScreen");
-    private static final int SPLASH = RequestCodeGenerator.getCode(SPLASH_TAG);
+    private static final String LOGIN_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "LoginScreen");
+    private static final int LOGIN = RequestCodeGenerator.getCode(LOGIN_TAG);
     private static final String SIGN_UP_TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "SignUpScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode(SIGN_UP_TAG);
     private static final String FEED_SCREEN__TAG = TagKeyGenerator.getTag(FactoryConfigUi.class, "FeedScreen");
@@ -44,7 +44,7 @@ public class FactoryConfigUi {
             dataConfigs.add(new LaunchableConfigsHolder<>(uiClasses));
         }
 
-        LaunchableConfig splash = getSplashConfig(launchables);
+        LaunchableConfig login = getLoginConfig(launchables);
         LaunchableConfig signUp = getSignUpConfig(launchables);
         LaunchableConfig feed = getFeedScreenConfig(launchables);
         LaunchableConfig builder = getReviewBuilderConfig(launchables);
@@ -52,11 +52,11 @@ public class FactoryConfigUi {
         LaunchableConfig sharer = getShareReviewConfig(launchables);
         LaunchableConfigAlertable shareEditer = getShareEditReviewConfig(launchables);
 
-        return new ConfigUiImpl(dataConfigs, splash, signUp, feed, builder, mapper, sharer, shareEditer);
+        return new ConfigUiImpl(dataConfigs, login, signUp, feed, builder, mapper, sharer, shareEditer);
     }
 
-    private LaunchableConfig getSplashConfig(LaunchablesList classes) {
-        return new LaunchableConfigImpl(classes.getSplashUi(), SPLASH, SPLASH_TAG);
+    private LaunchableConfig getLoginConfig(LaunchablesList classes) {
+        return new LaunchableConfigImpl(classes.getLoginUi(), LOGIN, LOGIN_TAG);
     }
 
     private LaunchableConfig getSignUpConfig(LaunchablesList classes) {

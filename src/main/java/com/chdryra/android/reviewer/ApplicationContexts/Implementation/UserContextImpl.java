@@ -73,7 +73,7 @@ public class UserContextImpl implements UserContext {
     @Override
     public void logout(Activity activity) {
         logoutCurrentUser();
-        LaunchableConfig splashConfig = mContext.getConfigUi().getSplashConfig();
+        LaunchableConfig splashConfig = mContext.getConfigUi().getLoginConfig();
         mContext.getUiLauncher().launch(splashConfig, activity, LAUNCH_SPLASH);
         activity.finish();
     }

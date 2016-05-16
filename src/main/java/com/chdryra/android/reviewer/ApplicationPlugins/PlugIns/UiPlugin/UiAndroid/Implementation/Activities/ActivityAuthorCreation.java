@@ -46,7 +46,7 @@ public class ActivityAuthorCreation extends ActivitySingleFragment implements La
     @Override
     protected void onResume() {
         super.onResume();
-        if(mFragment != null) mFragment.cancelAuthentication();
+        if(mFragment != null) mFragment.reobserveUser();
     }
 
     @Override

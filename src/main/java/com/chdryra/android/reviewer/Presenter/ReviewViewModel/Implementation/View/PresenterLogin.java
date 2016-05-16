@@ -86,6 +86,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mUserContext.observeCurrentUser();
     }
 
+    public void observeUser() {
+        mUserContext.observeCurrentUser();
+    }
+
     @NonNull
     public String getSignUpMessage() {
         return "Looks like you're a new user?";
@@ -149,7 +153,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SIGN_UP && data != null) {
+            EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
+            if(emailPassword != null) authenticateWithCredentials(emailPassword);
+        } else {
+            if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

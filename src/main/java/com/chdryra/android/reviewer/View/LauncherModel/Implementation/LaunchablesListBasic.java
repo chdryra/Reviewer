@@ -60,7 +60,7 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     }
 
     @Override
-    public Class<? extends LaunchableUi> getSplashUi() {
+    public Class<? extends LaunchableUi> getLoginUi() {
         return mSplash;
     }
 

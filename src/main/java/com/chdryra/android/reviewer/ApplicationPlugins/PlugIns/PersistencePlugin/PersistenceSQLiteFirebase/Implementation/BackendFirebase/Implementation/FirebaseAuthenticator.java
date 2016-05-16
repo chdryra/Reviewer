@@ -55,36 +55,29 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     private AuthenticatedUser mLoggedIn;
     private ArrayList<UserStateObserver> mObservers;
 
-    public FirebaseAuthenticator(Firebase root, FirebaseUsersDb db, UserProfileTranslator usersFactory) {
+    public FirebaseAuthenticator(Firebase root, FirebaseUsersDb db, UserProfileTranslator
+            usersFactory) {
         mRoot = root;
         mUsersFactory = usersFactory;
         mDb = db;
+        mObservers = new ArrayList<>();
         newUser(mRoot.getAuth());
         mRoot.addAuthStateListener(this);
-        mObservers = new ArrayList<>();
     }
 
     @Override
     public void registerObserver(UserStateObserver observer) {
-        if(!mObservers.contains(observer)) mObservers.add(observer);
+        if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
     public void unregisterObserver(UserStateObserver observer) {
-        if(mObservers.contains(observer)) mObservers.remove(observer);
+        if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
     @Override
     public void onAuthStateChanged(AuthData authData) {
-        AuthenticatedUser old = mLoggedIn;
         newUser(authData);
-        notifyObservers(old);
-    }
-
-    private void notifyObservers(AuthenticatedUser old) {
-        for(UserStateObserver observer : mObservers) {
-            observer.onUserStateChanged(old, mLoggedIn);
-        }
     }
 
     @Override
@@ -95,13 +88,15 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     @Nullable
     @Override
     public AuthenticatedUser getAuthenticatedUser() {
-        if(mLoggedIn == null) newUser(mRoot.getAuth());
+        if (mLoggedIn == null) newUser(mRoot.getAuth());
 
         return mLoggedIn;
     }
 
-    private void newUser(AuthData auth) {
-        mLoggedIn = auth != null ? mUsersFactory.newAuthenticatedUser(auth.getProvider(), auth.getUid()) : null;
+    private void setAuthenticatedUser(@Nullable AuthenticatedUser user) {
+        AuthenticatedUser old = mLoggedIn;
+        mLoggedIn = user;
+        notifyObservers(old);
     }
 
     @Override
@@ -158,6 +153,19 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
                 }
             });
         }
+    }
+
+    private void notifyObservers(AuthenticatedUser old) {
+        for (UserStateObserver observer : mObservers) {
+            observer.onUserStateChanged(old, mLoggedIn);
+        }
+    }
+
+    private void newUser(AuthData auth) {
+        AuthenticatedUser user = auth != null ?
+                mUsersFactory.newAuthenticatedUser(auth.getProvider(), auth.getUid()) : null;
+
+        setAuthenticatedUser(user);
     }
 
     @NonNull

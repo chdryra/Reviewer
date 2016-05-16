@@ -64,7 +64,9 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     @Override
     protected void onResume() {
         super.onResume();
-        if(mFragment != null) mFragment.cancelAuthentication();
+        if(mFragment != null) {
+            mFragment.reobserveUser();
+        }
     }
 
     @Override

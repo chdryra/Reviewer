@@ -25,10 +25,10 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterSignUp;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.SignUpArgs;
 
 /**
@@ -57,6 +57,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
     private EditText mEmail;
     private EditText mPassword;
     private EditText mPasswordConfirm;
+    private boolean mEmailSignup = false;
 
     public static FragmentSignUp newInstance(@Nullable SignUpArgs args) {
         FragmentSignUp fragment = new FragmentSignUp();
@@ -99,12 +100,12 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
     }
 
     @Override
-    public void onSignUpComplete(AuthorProfile profile, @Nullable AuthenticationError error) {
+    public void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable AuthenticationError error) {
         if (error != null) {
             makeToast(error.getMessage());
         } else {
-            mPresenter.onSignUpSuccessful(getActivity());
-            getActivity().finish();
+            makeToast("Sign up successful!");
+            mPresenter.onSignUpComplete(emailPassword, getActivity());
         }
     }
 
@@ -135,6 +136,7 @@ public class FragmentSignUp extends Fragment implements PresenterSignUp.SignUpLi
             }
 
             String email = mEmail.getText().toString();
+            mEmailSignup = true;
             mPresenter.signUpNewAuthor(email, password, name);
         }
     }
