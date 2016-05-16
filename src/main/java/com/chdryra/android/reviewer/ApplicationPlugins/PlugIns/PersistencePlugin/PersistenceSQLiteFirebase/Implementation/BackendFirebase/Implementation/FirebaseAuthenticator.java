@@ -59,6 +59,7 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
         mRoot = root;
         mUsersFactory = usersFactory;
         mDb = db;
+        newUser(mRoot.getAuth());
         mRoot.addAuthStateListener(this);
         mObservers = new ArrayList<>();
     }
@@ -76,8 +77,7 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     @Override
     public void onAuthStateChanged(AuthData authData) {
         AuthenticatedUser old = mLoggedIn;
-        mLoggedIn = authData != null ?
-                mUsersFactory.newAuthenticatedUser(authData.getProvider(), authData.getUid()) : null;
+        newUser(authData);
         notifyObservers(old);
     }
 
@@ -95,7 +95,13 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     @Nullable
     @Override
     public AuthenticatedUser getAuthenticatedUser() {
+        if(mLoggedIn == null) newUser(mRoot.getAuth());
+
         return mLoggedIn;
+    }
+
+    private void newUser(AuthData auth) {
+        mLoggedIn = auth != null ? mUsersFactory.newAuthenticatedUser(auth.getProvider(), auth.getUid()) : null;
     }
 
     @Override

@@ -26,8 +26,7 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Other.FactoryCredentialProviders;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Other.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.ApplicationSingletons.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
@@ -77,6 +76,13 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         closeLoggingInDialog();
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        showLoggingInDialog();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedState) {
@@ -93,11 +99,10 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
         ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        mPresenter = new PresenterLogin.Builder(app).build(getActivity(), this);
+        mPresenter = new PresenterLogin.Builder(app).build(getActivity());
+        mPresenter.setLoginListener(this);
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
-
-        showLoggingInDialog();
 
         return view;
     }
@@ -117,7 +122,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     @Override
     public void onAuthenticated(AuthorProfile profile) {
         closeLoggingInDialog();
-        makeToast("Welcome " + profile.getAuthor().getName());
         mPresenter.onLoginComplete();
     }
 
@@ -148,8 +152,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     private void showLoggingInDialog() {
-        mProgress = ProgressDialog.show(getActivity(), "Checking who's logged in",
-                "Please wait...", true);
+        mProgress = ProgressDialog.show(getActivity(), "Logging in", "Please wait...", true);
     }
 
     private void closeLoggingInDialog() {

@@ -69,14 +69,17 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private PresenterLogin(ApplicationInstance app,
                            Activity activity,
                            FactoryCredentialsHandler handlerFactory,
-                           FactoryCredentialsAuthenticator authenticatorFactory,
-                           LoginListener listener) {
+                           FactoryCredentialsAuthenticator authenticatorFactory) {
         mApp = app;
         mActivity = activity;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
-        mListener = listener;
         mApp.setLoginObserver(this);
+    }
+
+    public void setLoginListener(LoginListener listener) {
+        mListener = listener;
+        mApp.observeCurrentUser();
     }
 
     @NonNull
@@ -153,7 +156,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     @Override
     public void onLoggedIn(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error) {
         if (error == null) {
-            mListener.onAuthenticated(profile);
+            if(mListener != null) mListener.onAuthenticated(profile);
         } else {
             resolveError(user, error);
         }
@@ -179,15 +182,17 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
-        if(mAuthenticating) {
-            if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-                mListener.onSignUpRequested(user, getSignUpMessage());
+        if(mListener != null) {
+            if (mAuthenticating) {
+                if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+                    mListener.onSignUpRequested(user, getSignUpMessage());
+                } else {
+                    mListener.onAuthenticationFailed(error);
+                }
             } else {
-                mListener.onAuthenticationFailed(error);
-            }
-        } else {
-            if(error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
-                mListener.onNoCurrentUser();
+                if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
+                    mListener.onNoCurrentUser();
+                }
             }
         }
     }
@@ -216,10 +221,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
             mApp = app;
         }
 
-        public PresenterLogin build(Activity activity, LoginListener listener) {
+        public PresenterLogin build(Activity activity) {
             return new PresenterLogin(mApp, activity, new FactoryCredentialsHandler(),
                     new FactoryCredentialsAuthenticator(mApp.getUsersManager().getAuthenticator()
-                    ), listener);
+                    ));
         }
     }
 

@@ -82,7 +82,10 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
         mPresenterContext = applicationContext.getContext();
         mLocationServices = applicationContext.getLocationServices();
         mReviewPacker = new ReviewPacker();
-        getUsersManager().getAuthenticator().registerObserver(this);
+
+        UserAuthenticator authenticator = getUsersManager().getAuthenticator();
+        onUserStateChanged(null, authenticator.getAuthenticatedUser());
+        authenticator.registerObserver(this);
     }
 
     //Static methods
@@ -197,9 +200,15 @@ public class ApplicationInstance extends ApplicationSingleton implements UserAut
 
     public void setLoginObserver(LoginObserver observer) {
         mObserver = observer;
+        observeCurrentUser();
+    }
+
+    public void observeCurrentUser() {
         if (mCurrentUser == null || mCurrentProfile == null) {
             notifyLogin(null, null,
                     new AuthenticationError("app", AuthenticationError.Reason.NO_AUTHENTICATED_USER));
+        } else {
+            notifyLogin(mCurrentUser, mCurrentProfile, null);
         }
     }
 

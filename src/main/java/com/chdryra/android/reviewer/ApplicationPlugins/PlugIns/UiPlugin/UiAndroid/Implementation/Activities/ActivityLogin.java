@@ -24,6 +24,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 public class ActivityLogin extends ActivitySingleFragment implements LaunchableUiAlertable {
     private static final String TAG = TagKeyGenerator.getTag(ActivityLogin.class);
     private static final String KEY = TagKeyGenerator.getKey(ActivityLogin.class, "Key");
+    private static final String RETAIN_VIEW
+            = TagKeyGenerator.getKey(ActivityLogin.class, "RetainView");
     private FragmentLogin mFragment;
 
     @Override
@@ -37,9 +39,21 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState != null) mFragment = ((FragmentLogin) getFragment());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(RETAIN_VIEW, true);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected Fragment createFragment() {
         ApplicationLaunch.launchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
-        mFragment = FragmentLogin.newInstance();
+        if(mFragment == null) mFragment = FragmentLogin.newInstance();
         return mFragment;
     }
 
