@@ -6,14 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation;
+
+
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
 
 import java.util.Map;
 
@@ -22,21 +22,16 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements StructureReviews {
-    public final String mReviewsDataPath;
+public class StructureUserTagsImpl extends DbStructureBasic<ReviewDb> implements StructureUserTags {
+    private final String mTagsPath;
 
-    public StructureReviewsImpl(String reviewsDataPath) {
-        mReviewsDataPath = reviewsDataPath;
+    public StructureUserTagsImpl(String tagsPath) {
+        mTagsPath = tagsPath;
     }
 
     @Override
-    public String relativePathToReviewData() {
-        return mReviewsDataPath;
-    }
-
-    @Override
-    public String relativePathToReview(String reviewId) {
-        return path(mReviewsDataPath, reviewId);
+    public String relativePathToTag(String tag) {
+        return path(mTagsPath, tag);
     }
 
     @NonNull
@@ -45,7 +40,9 @@ public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements 
         String reviewId = review.getReviewId();
 
         Updates updates = new Updates(updateType);
-        updates.atPath(review, relativePathToReviewData(), reviewId).putObject(review);
+        for (String tag : review.getTags()) {
+            updates.atPath(review, relativePathToTag(tag), reviewId).putValue(true);
+        }
 
         return updates.toMap();
     }

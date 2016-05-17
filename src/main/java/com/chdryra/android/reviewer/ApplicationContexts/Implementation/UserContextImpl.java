@@ -30,10 +30,10 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class UserContextImpl implements UserContext {
-    private static final int LAUNCH_SPLASH = RequestCodeGenerator.getCode("LaunchSplash");
+    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
-    private static final AuthenticationError NO_PROFIE_ERROR = new AuthenticationError
+    private static final AuthenticationError NO_PROFILE_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.UNKNOWN_USER);
 
     private AuthenticatedUser mUser;
@@ -64,7 +64,7 @@ public class UserContextImpl implements UserContext {
     @Override
     public void observeCurrentUser() {
         if (mUser == null || mProfile == null) {
-            notifyLogin(mUser, mProfile, mUser == null ? NO_USER_ERROR : NO_PROFIE_ERROR);
+            notifyLogin(mUser, mProfile, mUser == null ? NO_USER_ERROR : NO_PROFILE_ERROR);
         } else {
             notifyLogin(mUser, mProfile, null);
         }
@@ -74,7 +74,7 @@ public class UserContextImpl implements UserContext {
     public void logout(Activity activity) {
         logoutCurrentUser();
         LaunchableConfig splashConfig = mContext.getConfigUi().getLoginConfig();
-        mContext.getUiLauncher().launch(splashConfig, activity, LAUNCH_SPLASH);
+        mContext.getUiLauncher().launch(splashConfig, activity, LAUNCH_LOGIN);
         activity.finish();
     }
 
@@ -96,9 +96,7 @@ public class UserContextImpl implements UserContext {
         mProfile = null;
 
         if (oldUser == null && newUser == null) {
-            notifyLogin(null, null,
-                    new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError
-                            .Reason.NO_AUTHENTICATED_USER));
+            notifyLogin(null, null, NO_USER_ERROR);
             return;
         }
 
@@ -123,5 +121,4 @@ public class UserContextImpl implements UserContext {
                              @Nullable AuthenticationError error) {
         if (mObserver != null) mObserver.onLoggedIn(user, profile, error);
     }
-
 }

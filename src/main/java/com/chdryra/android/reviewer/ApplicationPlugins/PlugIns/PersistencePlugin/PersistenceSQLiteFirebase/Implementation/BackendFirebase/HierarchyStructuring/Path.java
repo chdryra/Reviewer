@@ -23,7 +23,9 @@ public abstract class Path<T> {
 
         int elementStart = hasRoot ? 0 : hasElements ? 1 : elements.length;
         for(int i = elementStart; i < elements.length; ++i) {
-            path += "/" + elements[elementStart];
+            String element = elements[i];
+            if(element.length() == 0) continue;
+            path += "/" + element;
         }
 
         return path;

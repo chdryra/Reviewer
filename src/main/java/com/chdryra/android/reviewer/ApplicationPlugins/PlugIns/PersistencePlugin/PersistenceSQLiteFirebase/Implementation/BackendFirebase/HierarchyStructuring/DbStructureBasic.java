@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,10 @@ import java.util.Map;
  */
 public abstract class DbStructureBasic<T> implements DbStructure<T> {
     private Path<T> mPath;
+
+    @NonNull
+    @Override
+    public abstract Map<String, Object> getUpdatesMap(T item, UpdateType updateType);
 
     protected String path(String root, String... elements) {
         return Path.path(root, elements);
@@ -52,7 +57,7 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
     }
 
     private String getPath(T item) {
-        return mPath != null ? mPath.getPath(item) : "";
+        return mPath != null ? mPath.getPath(item) : item.toString();
     }
 
     protected class Updates {
@@ -97,17 +102,30 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
         public class Update<P extends T> {
             private String mPath;
             private Object mValue;
+            private Map<String, Object> mMap;
 
             private Update(P itemPath, String root, String... elements) {
-                mPath = path(itemPath, root, elements);
+                setPath(path(itemPath, root, elements));
+            }
+
+            private void setPath(String path) {
+                if(path == null || path.length() == 0) {
+                    throw new IllegalArgumentException("Path must have length");
+                }
+
+                mPath = path;
             }
 
             private Update(P itemPath) {
-                mPath = path(itemPath);
+                setPath(path(itemPath));
             }
 
             public void putValue(@Nullable Object value) {
                 mValue = value;
+            }
+
+            public void putMap(Map<String, Object> updatesMap) {
+                mMap = updatesMap;
             }
 
             public void putObject(@Nullable Object value) {
@@ -115,8 +133,17 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
             }
 
             private void commit() {
-                mUpdatesMap.put(mPath, mDelete ? null : mValue);
+                if(mMap == null) {
+                    mUpdatesMap.put(mPath, mDelete ? null : mValue);
+                } else {
+                    for(Map.Entry<String, Object> entry : mMap.entrySet()) {
+                        String absolutePath = path(mPath, entry.getKey());
+                        Object value = mDelete ? null : entry.getValue();
+                        mUpdatesMap.put(absolutePath, value);
+                    }
+                }
             }
+
         }
     }
 }

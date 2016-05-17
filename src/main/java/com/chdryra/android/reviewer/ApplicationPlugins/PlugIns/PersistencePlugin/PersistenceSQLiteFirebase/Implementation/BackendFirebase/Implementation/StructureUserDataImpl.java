@@ -17,6 +17,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
 
 
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviewsList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
         .Interfaces.StructureUserData;
 
@@ -28,41 +31,29 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUserDataImpl extends DbStructureBasic<ReviewDb> implements StructureUserData {
-    private final String mReviewsPath;
-    private final String mTagsPath;
-    private final String mFeedPath;
+    private final StructureReviewsList mReviews;
+    private final StructureReviewsList mFeed;
+    private final StructureUserTags mTags;
 
-    public StructureUserDataImpl(String reviewsPath, String tagsPath, String feedPath) {
-        mReviewsPath = reviewsPath;
-        mTagsPath = tagsPath;
-        mFeedPath = feedPath;
+    public StructureUserDataImpl(StructureReviewsList reviews, StructureReviewsList feed, StructureUserTags tags) {
+        mReviews = reviews;
+        mTags = tags;
+        mFeed = feed;
     }
 
     @Override
     public String relativePathToFeed() {
-        return mFeedPath;
-    }
-
-    private String pathToTag(String tag) {
-        return path(mTagsPath, tag);
-    }
-
-    private String pathToReviews() {
-        return mReviewsPath;
+        return mFeed.relativePathToReviewsList();
     }
 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
-        String reviewId = review.getReviewId();
-
         Updates updates = new Updates(updateType);
-        for (String tag : review.getTags()) {
-            updates.atPath(review, pathToTag(tag), reviewId).putValue(true);
-        }
 
-        updates.atPath(review, pathToReviews(), reviewId).putValue(true);;
-        updates.atPath(review, relativePathToFeed(), reviewId).putValue(true);
+        updates.atPath(review).putMap(mTags.getUpdatesMap(review, updateType));
+        updates.atPath(review).putMap(mFeed.getUpdatesMap(review, updateType));
+        updates.atPath(review).putMap(mReviews.getUpdatesMap(review, updateType));
 
         return updates.toMap();
     }

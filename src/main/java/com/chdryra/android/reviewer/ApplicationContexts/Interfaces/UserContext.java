@@ -24,8 +24,9 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
  */
 public interface UserContext extends UserAuthenticator.UserStateObserver {
     interface LoginObserver {
-        void onLoggedIn(@Nullable AuthenticatedUser user, @Nullable AuthorProfile profile, @Nullable
-        AuthenticationError error);
+        void onLoggedIn(@Nullable AuthenticatedUser user,
+                        @Nullable AuthorProfile profile,
+                        @Nullable AuthenticationError error);
     }
 
     void unsetLoginObserver();
@@ -41,6 +42,6 @@ public interface UserContext extends UserAuthenticator.UserStateObserver {
     void logoutCurrentUser();
 
     @Override
-    void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable
-    AuthenticatedUser newUser);
+    void onUserStateChanged(@Nullable AuthenticatedUser oldUser,
+                            @Nullable AuthenticatedUser newUser);
 }

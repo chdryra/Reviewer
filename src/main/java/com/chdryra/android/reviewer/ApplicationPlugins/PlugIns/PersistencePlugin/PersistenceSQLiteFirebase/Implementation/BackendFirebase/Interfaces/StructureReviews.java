@@ -25,8 +25,6 @@ import java.util.Map;
 public interface StructureReviews extends DbStructure<ReviewDb> {
     String relativePathToReviewData();
 
-    String relativePathToReviewsList();
-
     String relativePathToReview(String reviewId);
 
     @Override

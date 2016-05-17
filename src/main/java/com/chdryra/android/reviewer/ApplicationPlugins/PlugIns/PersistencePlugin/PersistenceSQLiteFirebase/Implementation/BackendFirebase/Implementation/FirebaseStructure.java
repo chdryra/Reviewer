@@ -12,28 +12,26 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation
-        .ReviewDb;
+        .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.CompositeStructure;
+
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
-        .UpdaterBuilder;
-
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
-
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .Interfaces.StructureTags;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviewsList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .Interfaces.StructureUserData;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureTags;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
@@ -59,7 +57,8 @@ public class FirebaseStructure {
     private final StructureUsersMap mUsersMap;
     private final StructureNamesMap mAuthorsMap;
     private final StructureReviews mReviews;
-    private final StructureUserData mUserData;
+    private final StructureReviewsList mReviewsList;
+    private final DbStructure<ReviewDb> mUserData;
     private final StructureTags mTags;
 
     private final DbUpdater<User> mUserUpdater;
@@ -67,12 +66,6 @@ public class FirebaseStructure {
 
     public FirebaseStructure() {
         mUserProfile = new StructureUserProfileImpl();
-        mUsersMap = new StructureUsersMapImpl();
-        mAuthorsMap = new StructureNamesMapImpl();
-        mUserData = new StructureUserDataImpl(REVIEWS, TAGS, FEED);
-        mReviews = new StructureReviewsImpl(REVIEWS_DATA, REVIEWS_LIST);
-        mTags = new StructureTagsImpl(REVIEWS, USERS);
-
         mUserProfile.setPathToStructure(new Path<User>() {
             @Override
             public String getPath(User user) {
@@ -81,6 +74,7 @@ public class FirebaseStructure {
             }
         });
 
+        mUsersMap = new StructureUsersMapImpl();
         mUsersMap.setPathToStructure(new Path<User>() {
             @Override
             public String getPath(User user) {
@@ -88,6 +82,7 @@ public class FirebaseStructure {
             }
         });
 
+        mAuthorsMap = new StructureNamesMapImpl();
         mAuthorsMap.setPathToStructure(new Path<User>() {
             @Override
             public String getPath(User item) {
@@ -95,6 +90,10 @@ public class FirebaseStructure {
             }
         });
 
+        CompositeStructure.Builder<ReviewDb> builder = new CompositeStructure.Builder<>();
+        mUserData = builder.add(new StructureReviewsListImpl(REVIEWS))
+                .add(new StructureReviewsListImpl(FEED))
+                .add(new StructureUserTagsImpl(TAGS)).build();
         mUserData.setPathToStructure(new Path<ReviewDb>() {
             @Override
             public String getPath(ReviewDb item) {
@@ -102,13 +101,7 @@ public class FirebaseStructure {
             }
         });
 
-        mTags.setPathToStructure(new Path<ReviewDb>() {
-            @Override
-            public String getPath(ReviewDb item) {
-                return pathToTags();
-            }
-        });
-
+        mReviews = new StructureReviewsImpl(REVIEWS_DATA);
         mReviews.setPathToStructure(new Path<ReviewDb>() {
             @Override
             public String getPath(ReviewDb item) {
@@ -116,10 +109,27 @@ public class FirebaseStructure {
             }
         });
 
-        UpdaterBuilder<ReviewDb> builderReview = new UpdaterBuilder<>();
-        mReviewUploadUpdater = builderReview.add(mReviews).add(mTags).add(mUserData).build();
+        mReviewsList = new StructureReviewsListImpl(REVIEWS_LIST);
+        mReviewsList.setPathToStructure(new Path<ReviewDb>() {
+            @Override
+            public String getPath(ReviewDb item) {
+                return pathToReviews();
+            }
+        });
 
-        UpdaterBuilder<User> builderUser = new UpdaterBuilder<>();
+        mTags = new StructureTagsImpl(REVIEWS, USERS);
+        mTags.setPathToStructure(new Path<ReviewDb>() {
+            @Override
+            public String getPath(ReviewDb item) {
+                return pathToTags();
+            }
+        });
+
+        CompositeStructure.Builder<ReviewDb> builderReview = new CompositeStructure.Builder<>();
+        mReviewUploadUpdater = builderReview
+                .add(mReviews).add(mReviewsList).add(mTags).add(mUserData).build();
+
+        CompositeStructure.Builder<User> builderUser = new CompositeStructure.Builder<>();
         mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).add(mAuthorsMap).build();
     }
 
@@ -145,7 +155,7 @@ public class FirebaseStructure {
     }
 
     public String pathToReviewsList() {
-        return path(pathToReviews(), mReviews.relativePathToReviewsList());
+        return path(pathToReviews(), mReviewsList.relativePathToReviewsList());
     }
 
     public String pathToProfile(String authorId) {
@@ -153,7 +163,7 @@ public class FirebaseStructure {
     }
 
     public String pathToFeed(String authorId) {
-        return path(pathToAuthor(authorId), mUserData.relativePathToFeed());
+        return path(pathToAuthor(authorId), FEED);
     }
 
     public String pathToAuthorNameMapping(String name) {

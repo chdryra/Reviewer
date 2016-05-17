@@ -6,14 +6,16 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase
-        .Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructureBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
+
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviewsList;
 
 import java.util.Map;
 
@@ -22,31 +24,28 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements StructureReviews {
-    public final String mReviewsDataPath;
+public class StructureReviewsListImpl extends DbStructureBasic<ReviewDb> implements StructureReviewsList {
+    public final String mReviewsListPath;
 
-    public StructureReviewsImpl(String reviewsDataPath) {
-        mReviewsDataPath = reviewsDataPath;
+    public StructureReviewsListImpl(String reviewsListPath) {
+        mReviewsListPath = reviewsListPath;
     }
 
     @Override
-    public String relativePathToReviewData() {
-        return mReviewsDataPath;
-    }
-
-    @Override
-    public String relativePathToReview(String reviewId) {
-        return path(mReviewsDataPath, reviewId);
+    public String relativePathToReviewsList() {
+        return mReviewsListPath;
     }
 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         String reviewId = review.getReviewId();
+        ReviewListEntry entry = new ReviewListEntry(review);
 
         Updates updates = new Updates(updateType);
-        updates.atPath(review, relativePathToReviewData(), reviewId).putObject(review);
+        updates.atPath(review, relativePathToReviewsList(), reviewId).putObject(entry);
 
         return updates.toMap();
     }
+
 }
