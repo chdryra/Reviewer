@@ -6,7 +6,7 @@
  *
  */
 
-package test.Plugins.PersistencePlugin.BackendFirebase;
+package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 
 import android.support.annotation.NonNull;
 
@@ -92,7 +92,8 @@ public class CompositeStructureTest {
         @NonNull
         @Override
         public Map<String, Object> getUpdatesMap(NameAddress item, UpdateType updateType) {
-            boolean delete = updateType == UpdateType.DELETE;
+            boolean
+                    delete = updateType == UpdateType.DELETE;
             Map<String, Object> updatesMap = new HashMap<>();
             updatesMap.put(path(item.getName(), item.getAddress()), delete ? null : item.getName());
             updatesMap.put(item.getName(), delete ? null : item.getAddress());

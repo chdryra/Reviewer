@@ -15,9 +15,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.CompositeStructure;
-
-
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
+        .CompositeStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
@@ -36,6 +36,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
+import com.firebase.client.Firebase;
 
 /**
  * Created by: Rizwan Choudrey
@@ -43,15 +44,16 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class FirebaseStructure {
-    private static final String REVIEWS = "Reviews";
-    private static final String REVIEWS_DATA = "Data";
-    private static final String REVIEWS_LIST = "List";
-    private static final String TAGS = "Tags";
-    private static final String USERS = "Users";
-    private static final String AUTHOR_NAMES = "AuthorNames";
-    private static final String PROFILE = "Profile";
-    private static final String USERS_MAP = "ProviderUsersMap";
-    private static final String FEED = "Feed";
+    //public for testing
+    public static final String REVIEWS = "Reviews";
+    public static final String REVIEWS_DATA = "Data";
+    public static final String REVIEWS_LIST = "List";
+    public static final String TAGS = "Tags";
+    public static final String USERS = "Users";
+    public static final String AUTHOR_NAMES = "AuthorNames";
+    public static final String PROFILE = "Profile";
+    public static final String USERS_MAP = "ProviderUsersMap";
+    public static final String FEED = "Feed";
 
     private final StructureUserProfile mUserProfile;
     private final StructureUsersMap mUsersMap;
@@ -145,33 +147,60 @@ public class FirebaseStructure {
         return mReviewUploadUpdater;
     }
 
-
-    public String pathToUserAuthorMapping(String userId) {
-        return path(pathToUserAuthorMap(), mUsersMap.relativePathToUser(userId));
+    public Firebase getUserAuthorMappingDb(Firebase root, String userId) {
+        return root.child(pathToUserAuthorMapping(userId));
     }
 
-    public String pathToReviewsData() {
-        return path(pathToReviews(), mReviews.relativePathToReviewData());
+    public Firebase getReviewsDb(Firebase root) {
+        return root.child(pathToReviewsData());
     }
 
-    public String pathToReviewsList() {
-        return path(pathToReviews(), mReviewsList.relativePathToReviewsList());
+    public Firebase getReviewsListDb(Firebase root) {
+        return root.child(pathToReviewsList());
     }
 
-    public String pathToProfile(String authorId) {
-        return path(pathToAuthor(authorId), PROFILE);
+    public Firebase getProfileDb(Firebase root, String authorId) {
+        return root.child(pathToProfile(authorId));
     }
 
-    public String pathToFeed(String authorId) {
+    public Firebase getFeedDb(Firebase root, String authorId) {
+        return root.child(pathToFeed(authorId));
+    }
+
+    public Firebase getAuthorNameMappingDb(Firebase root, String name) {
+        return root.child(pathToAuthorNameMapping(name));
+    }
+
+    public Firebase getReviewDb(Firebase root, String reviewId) {
+        return root.child(pathToReview(reviewId));
+    }
+
+    private String pathToFeed(String authorId) {
         return path(pathToAuthor(authorId), FEED);
     }
 
-    public String pathToAuthorNameMapping(String name) {
+    private String pathToAuthorNameMapping(String name) {
         return path(pathToNamesAuthorIdMap(), mAuthorsMap.relativePathToAuthor(name));
     }
 
-    public String pathToReview(String reviewId) {
+    private String pathToReview(String reviewId) {
         return path(pathToReviews(), mReviews.relativePathToReview(reviewId));
+    }
+
+    private String pathToReviewsData() {
+        return path(pathToReviews(), mReviews.relativePathToReviewData());
+    }
+
+    private String pathToReviewsList() {
+        return path(pathToReviews(), mReviewsList.relativePathToReviewsList());
+    }
+
+    private String pathToUserAuthorMapping(String userId) {
+        return path(pathToUserAuthorMap(), mUsersMap.relativePathToUser(userId));
+    }
+
+    private String pathToProfile(String authorId) {
+        return path(pathToAuthor(authorId), PROFILE);
     }
 
     private String pathToUserAuthorMap() {

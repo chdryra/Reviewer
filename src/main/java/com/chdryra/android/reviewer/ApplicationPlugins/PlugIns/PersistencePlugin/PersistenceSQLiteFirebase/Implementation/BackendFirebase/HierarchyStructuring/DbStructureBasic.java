@@ -129,21 +129,30 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
             }
 
             public void putObject(@Nullable Object value) {
-                mValue = value != null ? new ObjectMapper().convertValue(value, Map.class) : null;
+                mMap = value != null ? new ObjectMapper().convertValue(value, Map.class) : null;
             }
 
             private void commit() {
                 if(mMap == null) {
                     mUpdatesMap.put(mPath, mDelete ? null : mValue);
                 } else {
-                    for(Map.Entry<String, Object> entry : mMap.entrySet()) {
-                        String absolutePath = path(mPath, entry.getKey());
-                        Object value = mDelete ? null : entry.getValue();
-                        mUpdatesMap.put(absolutePath, value);
-                    }
+                    Map<String, Object> absolute = new HashMap<>();
+                    makeAbsolute(mPath, mMap, absolute);
+                    mUpdatesMap.putAll(absolute);
                 }
             }
 
+            private void makeAbsolute(String stem, Map<String, Object> relativeMap, Map<String, Object> absolute) {
+                for(Map.Entry<String, Object> entry : relativeMap.entrySet()) {
+                    String newPath = path(stem, entry.getKey());
+                    Object value = entry.getValue();
+                    try {
+                        makeAbsolute(newPath, (Map<String, Object>) value, absolute);
+                    } catch (ClassCastException e) {
+                        absolute.put(newPath, value);
+                    }
+                }
+            }
         }
     }
 }

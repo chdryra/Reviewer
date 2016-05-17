@@ -102,8 +102,8 @@ public class FirebaseUsersDb implements BackendUsersDb {
 
     @Override
     public void checkNameConflict(final String authorName, final UserConflictCallback callback) {
-        String path = mStructure.pathToAuthorNameMapping(authorName);
-        doSingleEvent(mDataRoot.child(path), checkNameDoesNotExist(authorName, callback));
+        Firebase db = mStructure.getAuthorNameMappingDb(mDataRoot, authorName);
+        doSingleEvent(db, checkNameDoesNotExist(authorName, callback));
     }
 
     @NonNull
@@ -128,8 +128,8 @@ public class FirebaseUsersDb implements BackendUsersDb {
 
     @Override
     public void getProfile(User user, GetProfileCallback callback) {
-        String path = mStructure.pathToUserAuthorMapping(user.getProviderUserId());
-        doSingleEvent(mDataRoot.child(path), getAuthorIdThenProfile(callback));
+        Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, user.getProviderUserId());
+        doSingleEvent(db, getAuthorIdThenProfile(callback));
     }
 
     @Override
@@ -200,7 +200,7 @@ public class FirebaseUsersDb implements BackendUsersDb {
                     notifyNoProfile(listener, new FirebaseError(FirebaseError.USER_DOES_NOT_EXIST,
                             "No mapping for user " + dataSnapshot.getKey()));
                 } else {
-                    Firebase profile = mDataRoot.child(mStructure.pathToProfile(value.toString()));
+                    Firebase profile = mStructure.getProfileDb(mDataRoot, value.toString());
                     doSingleEvent(profile, newGetProfileForAuthorListener(listener));
                 }
             }

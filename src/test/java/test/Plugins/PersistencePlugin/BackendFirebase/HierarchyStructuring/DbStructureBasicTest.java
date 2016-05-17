@@ -6,7 +6,7 @@
  *
  */
 
-package test.Plugins.PersistencePlugin.BackendFirebase;
+package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 
 import android.support.annotation.NonNull;
 

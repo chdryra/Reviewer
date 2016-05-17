@@ -87,15 +87,15 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     private Firebase getReviewsRoot() {
-        return mDataBase.child(mStructure.pathToReviewsData());
+        return mStructure.getReviewsDb(mDataBase);
     }
 
     private Firebase getReviewsListRoot() {
-        return mDataBase.child(mStructure.pathToReviewsList());
+        return mStructure.getReviewsListDb(mDataBase);
     }
 
     private Firebase getReviewRoot(String reviewId) {
-        return mDataBase.child(mStructure.pathToReview(reviewId));
+        return mStructure.getReviewDb(mDataBase, reviewId);
     }
 
     @NonNull
