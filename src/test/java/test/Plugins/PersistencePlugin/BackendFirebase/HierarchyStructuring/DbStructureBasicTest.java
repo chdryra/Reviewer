@@ -10,13 +10,9 @@ package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
-        .DbStructureBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructureBasic;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;
@@ -25,7 +21,6 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.fail;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -109,23 +104,28 @@ public class DbStructureBasicTest {
     private void putMapReturnsMapWithAbsolutePathKeys(DbUpdater.UpdateType type) {
         boolean isDelete = type == DbUpdater.UpdateType.DELETE;
 
+
+        TestObject1 obj1 = new TestObject1();
+        TestObject2 obj2 = new TestObject2();
+        Structure.UpdatesTest preUpdates = mStructure.new UpdatesTest(type);
+        preUpdates.atPath("c", "d", "e").putObject(obj1);
+        preUpdates.atPath("f", "g", "h").putObject(obj2);
+        Map<String, Object> insertObject = preUpdates.toMap();
+
         Structure.UpdatesTest updates = mStructure.new UpdatesTest(type);
-
-        Map<String, Object> insertObject = new HashMap<>();
-        String value1 = "Value1";
-        String value2 = "Value2";
-        insertObject.put("c/d/e", value1);
-        insertObject.put("f/g/h", value2);
-
         updates.atPath("a", "b").putMap(insertObject);
         Map<String, Object> updatesMap = updates.toMap();
 
         assertThat(updatesMap, not(nullValue()));
-        assertThat(updatesMap.size(), is(2));
-        assertThat(updatesMap.containsKey("a/b/c/d/e"), is(true));
-        assertThat(updatesMap.containsKey("a/b/f/g/h"), is(true));
-        assertThat(updatesMap.get("a/b/c/d/e"), isDelete ? nullValue() : is((Object) value1));
-        assertThat(updatesMap.get("a/b/f/g/h"), isDelete ? nullValue() : is((Object) value2));
+        assertThat(updatesMap.size(), is(4));
+        assertThat(updatesMap.containsKey("a/b/c/d/e/name"), is(true));
+        assertThat(updatesMap.containsKey("a/b/c/d/e/address"), is(true));
+        assertThat(updatesMap.containsKey("a/b/f/g/h/member/name"), is(true));
+        assertThat(updatesMap.containsKey("a/b/f/g/h/member/address"), is(true));
+        assertThat(updatesMap.get("a/b/c/d/e/name"), isDelete ? nullValue() : is((Object) obj1.getName()));
+        assertThat(updatesMap.get("a/b/c/d/e/address"), isDelete ? nullValue() : is((Object) obj1.getAddress()));
+        assertThat(updatesMap.get("a/b/f/g/h/member/name"), isDelete ? nullValue() : is((Object) obj2.getMember().getName()));
+        assertThat(updatesMap.get("a/b/f/g/h/member/address"), isDelete ? nullValue() : is((Object) obj2.getMember().getAddress()));
     }
 
     private void putObjectReturnsMappedObject(DbUpdater.UpdateType type) {
@@ -134,25 +134,17 @@ public class DbStructureBasicTest {
         Structure.UpdatesTest updates = mStructure.new UpdatesTest(type);
 
         String path = RandomString.nextWord();
-        TestObject insertObject = new TestObject();
+        TestObject2 insertObject = new TestObject2();
         updates.atPath(path).putObject(insertObject);
         Map<String, Object> updatesMap = updates.toMap();
 
         assertThat(updatesMap, not(nullValue()));
-        assertThat(updatesMap.size(), is(1));
-        try {
-            Map<String, Object> value = (Map<String, Object>) updatesMap.get(path);
-            if(isDelete) {
-                assertThat(value, is(nullValue()));
-            } else {
-                assertThat(value, not(nullValue()));
-                assertThat(value.size(), is(2));
-                assertThat(value.get("name"), is((Object) insertObject.getName()));
-                assertThat(value.get("address"), is((Object) insertObject.getAddress()));
-            }
-        } catch (Exception e) {
-            fail();
-        }
+        assertThat(updatesMap.size(), is(2));
+        assertThat(updatesMap, not(nullValue()));
+        assertThat(updatesMap.containsKey(path + "/member/name"), is(true));
+        assertThat(updatesMap.containsKey(path + "/member/address"), is(true));
+        assertThat(updatesMap.get(path + "/member/name"), isDelete ? nullValue() : is((Object) insertObject.getMember().getName()));
+        assertThat(updatesMap.get(path + "/member/address"), isDelete ? nullValue() : is((Object) insertObject.getMember().getAddress()));
     }
 
     private void putValueWithExtraElementsReturnsCorrectPathAndValue(DbUpdater.UpdateType type) {
@@ -169,7 +161,7 @@ public class DbStructureBasicTest {
         });
 
         String stem = RandomString.nextWord();
-        TestObject insertObject = new TestObject();
+        TestObject1 insertObject = new TestObject1();
         updates.atPath(stem, "a", "b", "c").putValue(insertObject);
         Map<String, Object> updatesMap = updates.toMap();
 
@@ -193,7 +185,7 @@ public class DbStructureBasicTest {
         });
 
         String stem = RandomString.nextWord();
-        TestObject insertObject = new TestObject();
+        TestObject1 insertObject = new TestObject1();
         updates.atPath(stem).putValue(insertObject);
         Map<String, Object> updatesMap = updates.toMap();
 
@@ -211,7 +203,7 @@ public class DbStructureBasicTest {
         Structure.UpdatesTest updates = mStructure.new UpdatesTest(type);
 
         String key = RandomString.nextWord();
-        TestObject insertObject = new TestObject();
+        TestObject1 insertObject = new TestObject1();
         updates.atPath(key).putValue(insertObject);
         Map<String, Object> updatesMap = updates.toMap();
 
@@ -248,11 +240,11 @@ public class DbStructureBasicTest {
         }
     }
 
-    private class TestObject {
+    private class TestObject1 {
         private String name;
         private String address;
 
-        public TestObject() {
+        public TestObject1() {
             this.name = RandomString.nextWord();
             this.address = RandomString.nextWord();
         }
@@ -263,6 +255,18 @@ public class DbStructureBasicTest {
 
         public String getAddress() {
             return address;
+        }
+    }
+
+    private class TestObject2 {
+        private TestObject1 member;
+
+        public TestObject2() {
+            member = new TestObject1();
+        }
+
+        public TestObject1 getMember() {
+            return member;
         }
     }
 }

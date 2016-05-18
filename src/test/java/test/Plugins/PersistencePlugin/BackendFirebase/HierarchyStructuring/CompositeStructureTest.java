@@ -11,17 +11,17 @@ package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
         .CompositeStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructure;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
         .DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;

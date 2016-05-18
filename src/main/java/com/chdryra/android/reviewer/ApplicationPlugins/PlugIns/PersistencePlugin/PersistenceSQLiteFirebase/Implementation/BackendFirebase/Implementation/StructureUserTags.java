@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructure;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 
 import java.util.Map;
 

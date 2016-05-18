@@ -7,7 +7,7 @@
  */
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring;
 
 
 import android.support.annotation.NonNull;
@@ -19,6 +19,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,17 +63,12 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
 
     protected class Updates {
         private Map<String, Object> mUpdatesMap;
-        private ArrayList<Update<T>> mUpdates;
+        private List<Update<T>> mUpdates;
         private boolean mDelete;
 
         public Updates(UpdateType type) {
             mDelete = type == UpdateType.DELETE;
             initialise();
-        }
-
-        private void initialise() {
-            mUpdatesMap = new HashMap<>();
-            mUpdates = new ArrayList<>();
         }
 
         public Update<T> atPath(T itemPathToStructure, String root, String... elements) {
@@ -99,6 +95,11 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
             }
         }
 
+        private void initialise() {
+            mUpdatesMap = new HashMap<>();
+            mUpdates = new ArrayList<>();
+        }
+
         public class Update<P extends T> {
             private String mPath;
             private Object mValue;
@@ -106,14 +107,6 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
 
             private Update(P itemPath, String root, String... elements) {
                 setPath(path(itemPath, root, elements));
-            }
-
-            private void setPath(String path) {
-                if(path == null || path.length() == 0) {
-                    throw new IllegalArgumentException("Path must have length");
-                }
-
-                mPath = path;
             }
 
             private Update(P itemPath) {
@@ -132,8 +125,16 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
                 mMap = value != null ? new ObjectMapper().convertValue(value, Map.class) : null;
             }
 
+            private void setPath(String path) {
+                if (path == null || path.length() == 0) {
+                    throw new IllegalArgumentException("Path must have length");
+                }
+
+                mPath = path;
+            }
+
             private void commit() {
-                if(mMap == null) {
+                if (mMap == null) {
                     mUpdatesMap.put(mPath, mDelete ? null : mValue);
                 } else {
                     Map<String, Object> absolute = new HashMap<>();
@@ -142,14 +143,24 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
                 }
             }
 
-            private void makeAbsolute(String stem, Map<String, Object> relativeMap, Map<String, Object> absolute) {
-                for(Map.Entry<String, Object> entry : relativeMap.entrySet()) {
-                    String newPath = path(stem, entry.getKey());
-                    Object value = entry.getValue();
+            private void makeAbsolute(String pathStem,
+                                      Map<String, Object> relativeMap,
+                                      Map<String, Object> result) {
+                for (Map.Entry<String, Object> entry : relativeMap.entrySet()) {
+                    String newPath = path(pathStem, entry.getKey());
+                    resolveValueIsNullOrMapOrAsIs(entry.getValue(), newPath, result);
+                }
+            }
+
+            private void resolveValueIsNullOrMapOrAsIs(Object value, String newPath,
+                                                       Map<String, Object> result) {
+                if (value == null) {
+                    result.put(newPath, null);
+                } else {
                     try {
-                        makeAbsolute(newPath, (Map<String, Object>) value, absolute);
+                        makeAbsolute(newPath, (Map<String, Object>) value, result);
                     } catch (ClassCastException e) {
-                        absolute.put(newPath, value);
+                        result.put(newPath, mDelete ? null : value);
                     }
                 }
             }

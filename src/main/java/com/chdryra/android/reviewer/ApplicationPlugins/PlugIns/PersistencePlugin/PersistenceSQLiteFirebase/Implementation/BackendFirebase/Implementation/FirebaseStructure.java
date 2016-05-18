@@ -16,14 +16,14 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
         .CompositeStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbStructure;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.DbUpdater;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.HierarchyStructuring.Path;
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
