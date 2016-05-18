@@ -23,15 +23,9 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUserTagsImpl extends DbStructureBasic<ReviewDb> implements StructureUserTags {
-    private final String mTagsPath;
-
-    public StructureUserTagsImpl(String tagsPath) {
-        mTagsPath = tagsPath;
-    }
-
     @Override
     public String relativePathToTag(String tag) {
-        return path(mTagsPath, tag);
+        return tag;
     }
 
     @NonNull

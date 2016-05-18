@@ -47,6 +47,16 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
         mPath = path;
     }
 
+    @Override
+    public void setPathToStructure(final String path) {
+        mPath = new Path<T>() {
+            @Override
+            public String getPath(T item) {
+                return path;
+            }
+        };
+    }
+
     private String path(T item) {
         return getPath(item);
     }
@@ -126,10 +136,6 @@ public abstract class DbStructureBasic<T> implements DbStructure<T> {
             }
 
             private void setPath(String path) {
-                if (path == null || path.length() == 0) {
-                    throw new IllegalArgumentException("Path must have length");
-                }
-
                 mPath = path;
             }
 

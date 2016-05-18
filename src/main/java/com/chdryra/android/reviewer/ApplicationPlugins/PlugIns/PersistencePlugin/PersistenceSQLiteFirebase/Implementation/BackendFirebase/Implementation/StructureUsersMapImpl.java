@@ -24,6 +24,12 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUsersMapImpl extends DbStructureBasic<User> implements StructureUsersMap {
+    public StructureUsersMapImpl() {
+    }
+
+    public StructureUsersMapImpl(String path) {
+        setPathToStructure(path);
+    }
 
     @Override
     public String relativePathToUser(String userId) {

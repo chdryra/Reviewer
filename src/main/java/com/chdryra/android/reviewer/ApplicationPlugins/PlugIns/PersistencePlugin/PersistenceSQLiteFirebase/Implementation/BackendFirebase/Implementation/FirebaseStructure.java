@@ -16,9 +16,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
-        .CompositeStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
@@ -36,6 +33,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.StructureBuilder;
 import com.firebase.client.Firebase;
 
 /**
@@ -67,72 +66,41 @@ public class FirebaseStructure {
     private final DbUpdater<ReviewDb> mReviewUploadUpdater;
 
     public FirebaseStructure() {
-        mUserProfile = new StructureUserProfileImpl();
-        mUserProfile.setPathToStructure(new Path<User>() {
+        Path<User> pathToProfile = new Path<User>() {
             @Override
             public String getPath(User user) {
                 String authorId = user.getAuthorId();
-                return authorId != null ? pathToProfile(authorId) : "";
+                if(authorId == null) throw new IllegalArgumentException("User must have authorId");
+                return pathToProfile(authorId);
             }
-        });
+        };
+        mUserProfile = new StructureUserProfileImpl(pathToProfile);
+        mUsersMap = new StructureUsersMapImpl(pathToUserAuthorMap());
+        mAuthorsMap = new StructureNamesMapImpl(pathToNamesAuthorIdMap());
 
-        mUsersMap = new StructureUsersMapImpl();
-        mUsersMap.setPathToStructure(new Path<User>() {
+        StructureBuilder<User> builderUser = new StructureBuilder<>();
+        mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).add(mAuthorsMap).build();
+
+        mReviews = new StructureReviewsImpl(pathToReviewsData());
+        mReviewsList = new StructureReviewsListImpl(pathToReviewsList());
+        mTags = new StructureTagsImpl(REVIEWS, USERS, pathToTags());
+        Path<ReviewDb> pathToUserData = new Path<ReviewDb>() {
             @Override
-            public String getPath(User user) {
-                return pathToUserAuthorMap();
+            public String getPath(ReviewDb review) {
+                return pathToAuthor(review.getAuthor().getAuthorId());
             }
-        });
+        };
+        StructureBuilder<ReviewDb> builder = new StructureBuilder<>();
+        mUserData = builder.add(REVIEWS, new StructureReviewsListImpl())
+                .add(FEED, new StructureReviewsListImpl())
+                .add(TAGS, new StructureUserTagsImpl())
+                .setPath(pathToUserData)
+                .build();
 
-        mAuthorsMap = new StructureNamesMapImpl();
-        mAuthorsMap.setPathToStructure(new Path<User>() {
-            @Override
-            public String getPath(User item) {
-                return pathToNamesAuthorIdMap();
-            }
-        });
-
-        CompositeStructure.Builder<ReviewDb> builder = new CompositeStructure.Builder<>();
-        mUserData = builder.add(new StructureReviewsListImpl(REVIEWS))
-                .add(new StructureReviewsListImpl(FEED))
-                .add(new StructureUserTagsImpl(TAGS)).build();
-        mUserData.setPathToStructure(new Path<ReviewDb>() {
-            @Override
-            public String getPath(ReviewDb item) {
-                return pathToAuthor(item.getAuthor().getAuthorId());
-            }
-        });
-
-        mReviews = new StructureReviewsImpl(REVIEWS_DATA);
-        mReviews.setPathToStructure(new Path<ReviewDb>() {
-            @Override
-            public String getPath(ReviewDb item) {
-                return pathToReviews();
-            }
-        });
-
-        mReviewsList = new StructureReviewsListImpl(REVIEWS_LIST);
-        mReviewsList.setPathToStructure(new Path<ReviewDb>() {
-            @Override
-            public String getPath(ReviewDb item) {
-                return pathToReviews();
-            }
-        });
-
-        mTags = new StructureTagsImpl(REVIEWS, USERS);
-        mTags.setPathToStructure(new Path<ReviewDb>() {
-            @Override
-            public String getPath(ReviewDb item) {
-                return pathToTags();
-            }
-        });
-
-        CompositeStructure.Builder<ReviewDb> builderReview = new CompositeStructure.Builder<>();
+        StructureBuilder<ReviewDb> builderReview = new StructureBuilder<>();
         mReviewUploadUpdater = builderReview
                 .add(mReviews).add(mReviewsList).add(mTags).add(mUserData).build();
 
-        CompositeStructure.Builder<User> builderUser = new CompositeStructure.Builder<>();
-        mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).add(mAuthorsMap).build();
     }
 
     public DbUpdater<User> getProfileUpdater() {
@@ -188,11 +156,11 @@ public class FirebaseStructure {
     }
 
     private String pathToReviewsData() {
-        return path(pathToReviews(), mReviews.relativePathToReviewData());
+        return path(pathToReviews(), REVIEWS_DATA);
     }
 
     private String pathToReviewsList() {
-        return path(pathToReviews(), mReviewsList.relativePathToReviewsList());
+        return path(pathToReviews(), REVIEWS_LIST);
     }
 
     private String pathToUserAuthorMapping(String userId) {

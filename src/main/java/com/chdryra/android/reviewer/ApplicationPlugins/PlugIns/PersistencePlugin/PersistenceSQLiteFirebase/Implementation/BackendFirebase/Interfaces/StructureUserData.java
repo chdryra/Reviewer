@@ -25,8 +25,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface StructureUserData extends DbStructure<ReviewDb> {
-    String relativePathToFeed();
-
     @Override
     void setPathToStructure(Path<ReviewDb> path);
 

@@ -23,8 +23,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface StructureReviews extends DbStructure<ReviewDb> {
-    String relativePathToReviewData();
-
     String relativePathToReview(String reviewId);
 
     @Override

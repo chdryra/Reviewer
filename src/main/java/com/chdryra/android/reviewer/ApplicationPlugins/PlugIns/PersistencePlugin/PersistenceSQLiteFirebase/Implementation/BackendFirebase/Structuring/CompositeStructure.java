@@ -12,8 +12,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -22,10 +20,11 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class CompositeStructure<T> extends DbStructureBasic<T> {
-    private Iterable<DbUpdater<T>> mStructures;
+    private Iterable<DbStructure<T>> mStructures;
 
-    private CompositeStructure(Iterable<DbUpdater<T>> structures) {
+    public CompositeStructure(Iterable<DbStructure<T>> structures) {
         mStructures = structures;
+        setPathToStructure("");
     }
 
     @NonNull
@@ -39,25 +38,4 @@ public class CompositeStructure<T> extends DbStructureBasic<T> {
         return updates.toMap();
     }
 
-    public static class Builder<T> {
-        private ArrayList<DbUpdater<T>> mStructures;
-
-        public Builder() {
-            mStructures = new ArrayList<>();
-        }
-
-        public Builder<T> add(DbUpdater<T> structure) {
-            mStructures.add(structure);
-            return this;
-        }
-
-        public Builder<T> add(Collection<DbUpdater<T>> structures) {
-            mStructures.addAll(structures);
-            return this;
-        }
-
-        public DbStructure<T> build() {
-            return new CompositeStructure<>(mStructures);
-        }
-    }
 }

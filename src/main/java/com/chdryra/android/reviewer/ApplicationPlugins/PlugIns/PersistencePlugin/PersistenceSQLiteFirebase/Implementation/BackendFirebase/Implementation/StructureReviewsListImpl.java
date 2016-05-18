@@ -25,25 +25,20 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureReviewsListImpl extends DbStructureBasic<ReviewDb> implements StructureReviewsList {
-    public final String mReviewsListPath;
-
-    public StructureReviewsListImpl(String reviewsListPath) {
-        mReviewsListPath = reviewsListPath;
+    public StructureReviewsListImpl() {
     }
 
-    @Override
-    public String relativePathToReviewsList() {
-        return mReviewsListPath;
+    public StructureReviewsListImpl(String path) {
+        setPathToStructure(path);
     }
 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         String reviewId = review.getReviewId();
-        ReviewListEntry entry = new ReviewListEntry(review);
 
         Updates updates = new Updates(updateType);
-        updates.atPath(review, relativePathToReviewsList(), reviewId).putObject(entry);
+        updates.atPath(review, reviewId).putObject(new ReviewListEntry(review));
 
         return updates.toMap();
     }

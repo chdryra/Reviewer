@@ -23,20 +23,16 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements StructureReviews {
-    public final String mReviewsDataPath;
-
-    public StructureReviewsImpl(String reviewsDataPath) {
-        mReviewsDataPath = reviewsDataPath;
+    public StructureReviewsImpl() {
     }
 
-    @Override
-    public String relativePathToReviewData() {
-        return mReviewsDataPath;
+    public StructureReviewsImpl(String path) {
+        setPathToStructure(path);
     }
 
     @Override
     public String relativePathToReview(String reviewId) {
-        return path(mReviewsDataPath, reviewId);
+        return reviewId;
     }
 
     @NonNull
@@ -45,7 +41,7 @@ public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements 
         String reviewId = review.getReviewId();
 
         Updates updates = new Updates(updateType);
-        updates.atPath(review, relativePathToReviewData(), reviewId).putObject(review);
+        updates.atPath(review, reviewId).putObject(review);
 
         return updates.toMap();
     }

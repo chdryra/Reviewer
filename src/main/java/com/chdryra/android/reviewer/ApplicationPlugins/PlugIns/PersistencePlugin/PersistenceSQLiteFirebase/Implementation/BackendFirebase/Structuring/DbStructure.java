@@ -15,4 +15,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
  */
 public interface DbStructure<T> extends DbUpdater<T> {
     void setPathToStructure(Path<T> path);
+
+    void setPathToStructure(String path);
 }

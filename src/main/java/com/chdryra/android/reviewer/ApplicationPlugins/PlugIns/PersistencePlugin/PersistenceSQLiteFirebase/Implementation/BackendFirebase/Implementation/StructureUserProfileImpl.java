@@ -16,6 +16,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
 
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
+
 import java.util.Map;
 
 /**
@@ -24,6 +28,12 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUserProfileImpl extends DbStructureBasic<User> implements StructureUserProfile {
+    public StructureUserProfileImpl() {
+    }
+
+    public StructureUserProfileImpl(Path<User> path) {
+        setPathToStructure(path);
+    }
 
     @NonNull
     @Override

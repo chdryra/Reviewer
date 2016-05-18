@@ -11,9 +11,6 @@ package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
-        .CompositeStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
@@ -22,6 +19,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.StructureBuilder;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -57,7 +56,7 @@ public class CompositeStructureTest {
         NameToAddress n2a = new NameToAddress();
         AddressToName a2n = new AddressToName();
 
-        CompositeStructure.Builder<NameAddress> builder = new CompositeStructure.Builder<>();
+        StructureBuilder<NameAddress> builder = new StructureBuilder<>();
         DbStructure<NameAddress> structure = builder.add(n2a).add(a2n).build();
 
         structure.setPathToStructure(new Path<NameAddress>() {

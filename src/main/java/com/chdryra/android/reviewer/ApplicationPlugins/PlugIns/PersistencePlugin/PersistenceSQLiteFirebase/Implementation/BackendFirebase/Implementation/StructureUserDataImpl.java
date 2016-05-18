@@ -41,11 +41,6 @@ public class StructureUserDataImpl extends DbStructureBasic<ReviewDb> implements
         mFeed = feed;
     }
 
-    @Override
-    public String relativePathToFeed() {
-        return mFeed.relativePathToReviewsList();
-    }
-
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {

@@ -32,6 +32,12 @@ public class StructureTagsImpl extends DbStructureBasic<ReviewDb> implements Str
         mUsersPath = usersPath;
     }
 
+    public StructureTagsImpl(String reviewsPath, String usersPath, String pathToStructure) {
+        mReviewsPath = reviewsPath;
+        mUsersPath = usersPath;
+        setPathToStructure(pathToStructure);
+    }
+
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
