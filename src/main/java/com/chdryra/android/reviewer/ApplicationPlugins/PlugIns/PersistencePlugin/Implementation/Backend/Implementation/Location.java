@@ -34,4 +34,9 @@ public class Location {
     public String getName() {
         return name;
     }
+
+
+    public static int size() {
+        return 1 + LatitudeLongitude.size();
+    }
 }

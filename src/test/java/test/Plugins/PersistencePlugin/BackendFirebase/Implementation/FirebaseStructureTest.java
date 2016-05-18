@@ -10,18 +10,13 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.testutils.RandomString;
 
@@ -32,6 +27,7 @@ import java.util.Map;
 
 import test.TestUtils.RandomAuthor;
 import test.TestUtils.RandomDataDate;
+import test.TestUtils.RandomReview;
 
 import static junit.framework.Assert.assertNotNull;
 import static org.hamcrest.MatcherAssert.*;
@@ -96,6 +92,14 @@ public class FirebaseStructureTest {
         String keyDate = path(FirebaseStructure.USERS, authorId, FirebaseStructure.PROFILE, "dateJoined");
         assertThat(updatesMap.containsKey(keyDate), is(true));
         assertThat(updatesMap.get(keyDate), isDelete ? nullValue() : is((Object) profile.getDateJoined()));
+    }
+
+    private void testReviewUploadUpdater(DbUpdater.UpdateType type) {
+        boolean isDelete = type == DbUpdater.UpdateType.DELETE;
+
+        ReviewDb reviewDb= new ReviewDb(RandomReview.nextReview(), RandomString.nextWordArray(3));
+        DbUpdater<ReviewDb> updater = mStructure.getReviewUploadUpdater();
+        Map<String, Object> updatesMap = updater.getUpdatesMap(reviewDb, type);
     }
 
     @NonNull

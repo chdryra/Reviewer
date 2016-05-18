@@ -40,4 +40,8 @@ public class Fact {
     public boolean isUrl() {
         return url;
     }
+
+    public static int size() {
+        return 3;
+    }
 }

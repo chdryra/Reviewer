@@ -34,4 +34,8 @@ public class Author {
     public String getAuthorId() {
         return authorId;
     }
+
+    public static int size() {
+        return 2;
+    }
 }

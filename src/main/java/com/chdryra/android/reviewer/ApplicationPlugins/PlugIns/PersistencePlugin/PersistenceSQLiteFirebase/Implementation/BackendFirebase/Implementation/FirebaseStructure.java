@@ -100,7 +100,6 @@ public class FirebaseStructure {
         StructureBuilder<ReviewDb> builderReview = new StructureBuilder<>();
         mReviewUploadUpdater = builderReview
                 .add(mReviews).add(mReviewsList).add(mTags).add(mUserData).build();
-
     }
 
     public DbUpdater<User> getProfileUpdater() {

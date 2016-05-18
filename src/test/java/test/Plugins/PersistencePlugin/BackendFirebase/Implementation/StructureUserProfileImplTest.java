@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
         .StructureUserProfileImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
@@ -47,6 +49,10 @@ import static org.hamcrest.Matchers.nullValue;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUserProfileImplTest {
+
+    private static final String USERS = FirebaseStructure.USERS;
+    private static final String PROFILE = FirebaseStructure.PROFILE;
+
     @Test
     public void testInsert() {
         testStructureUserProfile(DbUpdater.UpdateType.INSERT_OR_UPDATE);
@@ -64,7 +70,7 @@ public class StructureUserProfileImplTest {
             @Override
             public String getPath(User user) {
                 String authorId = user.getAuthorId();
-                return authorId != null ? "users/" + authorId + "/profile" : "";
+                return authorId != null ? path(USERS, authorId, PROFILE) : "";
             }
         });
 
@@ -78,9 +84,10 @@ public class StructureUserProfileImplTest {
         assertThat(updatesMap, not(nullValue()));
         assertThat(updatesMap.size(), is(3));
 
-        String keyId = "users/" + user.getAuthorId() + "/profile/author/authorId";
-        String keyName = "users/" + user.getAuthorId() + "/profile/author/name";
-        String keyDate = "users/" + user.getAuthorId() + "/profile/dateJoined";
+        String profilePath = path(USERS, user.getAuthorId(), PROFILE);
+        String keyId = path(profilePath, "author", "authorId");
+        String keyName = path(profilePath, "author", "name");
+        String keyDate = path(profilePath, "dateJoined");
         assertThat(updatesMap.containsKey(keyId), is(true));
         assertThat(updatesMap.containsKey(keyName), is(true));
         assertThat(updatesMap.containsKey(keyDate), is(true));
@@ -99,5 +106,9 @@ public class StructureUserProfileImplTest {
     private Profile randomProfile() {
         return new Profile(new AuthorProfile(RandomAuthor.nextAuthor(),
                     RandomDataDate.nextDate()));
+    }
+
+    private String path(String root, String... elements) {
+        return Path.path(root, elements);
     }
 }

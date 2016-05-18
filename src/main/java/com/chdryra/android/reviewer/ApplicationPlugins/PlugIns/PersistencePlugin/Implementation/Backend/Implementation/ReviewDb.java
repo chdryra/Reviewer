@@ -14,9 +14,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,19 +38,22 @@ public class ReviewDb {
     private List<ImageData> images;
     private List<Location> locations;
     private List<String> tags;
-
-    private boolean ratingAverageOfCriteria;
+    private boolean average;
 
     public ReviewDb() {
     }
 
-    public ReviewDb(Review review, TagsManager tagsManager) {
+    public int size(){
+        return 2 + Rating.size() + Author.size() + 1 + 6 + 1;
+    }
+
+    public ReviewDb(Review review, List<String> reviewTags) {
         reviewId = review.getReviewId().toString();
         subject = review.getSubject().getSubject();
         rating = new Rating(review.getRating());
         author = new Author(review.getAuthor());
         publishDate = review.getPublishDate().getTime();
-        ratingAverageOfCriteria = review.isRatingAverageOfCriteria();
+        average = review.isRatingAverageOfCriteria();
 
         criteria = new ArrayList<>();
         for(DataCriterion criterion : review.getCriteria()) {
@@ -80,11 +80,7 @@ public class ReviewDb {
             locations.add(new Location(location));
         }
 
-        tags = new ArrayList<>();
-        ItemTagCollection itemtags = tagsManager.getTags(reviewId);
-        for(ItemTag tag : itemtags) {
-            tags.add(tag.getTag());
-        }
+        tags = reviewTags;
     }
 
     public void setReviewId(String reviewId) {
@@ -111,8 +107,8 @@ public class ReviewDb {
         return publishDate;
     }
 
-    public boolean isRatingAverageOfCriteria() {
-        return ratingAverageOfCriteria;
+    public boolean isAverage() {
+        return average;
     }
 
     public List<String> getTags() {

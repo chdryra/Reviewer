@@ -56,4 +56,8 @@ public class ImageData {
     public boolean isCover() {
         return cover;
     }
+
+    public static int size() {
+        return 4;
+    }
 }

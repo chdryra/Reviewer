@@ -34,4 +34,8 @@ public class Criterion {
     public double getRating() {
         return rating;
     }
+
+    public static int size() {
+        return 2;
+    }
 }

@@ -36,4 +36,8 @@ public class Rating {
     public long getRatingWeight() {
         return ratingWeight;
     }
+
+    public static int size() {
+        return 2;
+    }
 }

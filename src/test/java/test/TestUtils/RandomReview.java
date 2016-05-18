@@ -27,7 +27,7 @@ import test.Model.ReviewsModel.Utils.MdDataMocker;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomReview {
-    private static final int NUM = 3;
+    public static final int NUM = 3;
     private static final FactoryReviewNode NODE_FACTORY = new FactoryReviewNode();
 
     public static Review nextReview() {

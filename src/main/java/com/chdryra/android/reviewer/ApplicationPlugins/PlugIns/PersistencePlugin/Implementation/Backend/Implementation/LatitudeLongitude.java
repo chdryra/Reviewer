@@ -34,4 +34,8 @@ public class LatitudeLongitude {
     public double getLongitude() {
         return longitude;
     }
+
+    public static int size() {
+        return 2;
+    }
 }

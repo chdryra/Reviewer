@@ -63,7 +63,7 @@ public class FactoryReviewDb {
     }
 
     public ReviewDb newFbReview(Review review, TagsManager tagsManager) {
-        return new ReviewDb(review, tagsManager);
+        return new ReviewDb(review, tagsManager.getTags(review.getReviewId().toString()).toStringArray());
     }
 
     public ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
@@ -90,7 +90,7 @@ public class FactoryReviewDb {
         Rating fbRating = review.getRating();
         float rating = (float)fbRating.getRating();
         int ratingWeight = (int)fbRating.getRatingWeight();
-        boolean isAverage = review.isRatingAverageOfCriteria();
+        boolean isAverage = review.isAverage();
 
         ArrayList<DataCriterion> criteria = new ArrayList<>();
         for(Criterion criterion : review.getCriteria()) {

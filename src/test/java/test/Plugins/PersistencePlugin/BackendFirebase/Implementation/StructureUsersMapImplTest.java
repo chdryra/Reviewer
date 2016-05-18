@@ -11,9 +11,15 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureUsersMapImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -31,7 +37,7 @@ import static org.hamcrest.Matchers.nullValue;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureUsersMapImplTest {
-    private static final String PATH = "ProviderUsersMap";
+    private static final String USERS_MAP = FirebaseStructure.USERS_MAP;
 
     @Test
     public void testInsert() {
@@ -47,13 +53,13 @@ public class StructureUsersMapImplTest {
         boolean isDelete = type == DbUpdater.UpdateType.DELETE;
         User user = randomUser();
 
-        StructureUsersMap db = new StructureUsersMapImpl(PATH);
+        StructureUsersMap db = new StructureUsersMapImpl(USERS_MAP);
         Map<String, Object> updatesMap = db.getUpdatesMap(user, type);
 
         assertThat(updatesMap, not(nullValue()));
         assertThat(updatesMap.size(), is(1));
 
-        String key = PATH + "/" + user.getProviderUserId();
+        String key = path(USERS_MAP, user.getProviderUserId());
         assertThat(updatesMap.containsKey(key), is(true));
         assertThat(updatesMap.get(key), isDelete ? nullValue() : is((Object) user.getAuthorId()));
     }
@@ -61,5 +67,9 @@ public class StructureUsersMapImplTest {
     @NonNull
     private User randomUser() {
         return new User(RandomString.nextWord(), RandomString.nextWord(), RandomString.nextWord());
+    }
+
+    private String path(String root, String... elements) {
+        return Path.path(root, elements);
     }
 }

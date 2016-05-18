@@ -13,9 +13,15 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureNamesMapImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.testutils.RandomString;
 
@@ -38,7 +44,7 @@ import static org.hamcrest.Matchers.nullValue;
  * Email: rizwan.choudrey@gmail.com
  */
 public class StructureNamesMapImplTest {
-    private static final String PATH = "Users/AuthorNames";
+    private static final String PATH = FirebaseStructure.USERS + "/" + FirebaseStructure.AUTHOR_NAMES;
 
     @Test
     public void testInsert() {
@@ -65,7 +71,7 @@ public class StructureNamesMapImplTest {
         assertThat(updatesMap, not(nullValue()));
         assertThat(updatesMap.size(), is(1));
 
-        String key = PATH + "/" + author.getName();
+        String key = path(PATH, author.getName());
         assertThat(updatesMap.containsKey(key), is(true));
         assertThat(updatesMap.get(key), isDelete ? nullValue() : is((Object) author.getAuthorId()));
     }
@@ -79,5 +85,9 @@ public class StructureNamesMapImplTest {
     private Profile randomProfile() {
         return new Profile(new AuthorProfile(RandomAuthor.nextAuthor(),
                 RandomDataDate.nextDate()));
+    }
+
+    private String path(String root, String... elements) {
+        return Path.path(root, elements);
     }
 }

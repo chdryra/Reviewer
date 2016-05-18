@@ -34,4 +34,8 @@ public class Comment {
     public boolean isHeadline() {
         return headline;
     }
+
+    public static int size() {
+        return 2;
+    }
 }
