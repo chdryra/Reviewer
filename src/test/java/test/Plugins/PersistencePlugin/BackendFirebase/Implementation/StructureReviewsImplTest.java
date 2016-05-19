@@ -30,21 +30,14 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
         .StructureReviewsImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
-import com.chdryra.android.testutils.RandomString;
 
-import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import test.TestUtils.RandomReview;
 
 import static junit.framework.Assert.fail;
 import static org.hamcrest.MatcherAssert.*;
@@ -57,37 +50,17 @@ import static org.hamcrest.Matchers.nullValue;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImplTest {
+public class StructureReviewsImplTest extends StructureTestBasic<ReviewDb>{
     private static final String REVIEWS = FirebaseStructure.REVIEWS;
-    private static final int NUM = RandomReview.NUM;
 
-    private Map<String, Object> mUpdatesMap;
-    private DbUpdater.UpdateType mUpdateType;
-
-    public void setUpdatesMap(Map<String, Object> updatesMap) {
-        mUpdatesMap = updatesMap;
+    @Before
+    public void setUp() {
+        setStructure(new StructureReviewsImpl(REVIEWS));
     }
 
-    public void setUpdateType(DbUpdater.UpdateType updateType) {
-        mUpdateType = updateType;
-    }
-
-    @Test
-    public void testInsert() {
-        testStructureReviews(DbUpdater.UpdateType.INSERT_OR_UPDATE);
-    }
-
-    @Test
-    public void testDelete() {
-        testStructureReviews(DbUpdater.UpdateType.DELETE);
-    }
-
-    private void testStructureReviews(DbUpdater.UpdateType type) {
-        StructureReviews db = new StructureReviewsImpl(REVIEWS);
-        ReviewDb reviewDb = randomReview();
-
-        setUpdateType(type);
-        setUpdatesMap(db.getUpdatesMap(reviewDb, type));
+    @Override
+    protected void testStructure() {
+        ReviewDb reviewDb = setData(randomReview());
 
         String reviewPath = path(REVIEWS, reviewDb.getReviewId());
 
@@ -291,39 +264,7 @@ public class StructureReviewsImplTest {
         }
     }
 
-    private void checkMapSize(int size) {
-        checkMapSize(mUpdatesMap, size);
-    }
-
-    private void checkMapSize(Map<String, Object> map, int size) {
-        assertThat(map, not(nullValue()));
-        assertThat(map.size(), is(size));
-    }
-
-    private void checkKeyValue(String key, Object value) {
-        checkKeyValue(mUpdatesMap, key, value);
-    }
-
-    private void checkKeyValue(Map<String, Object> map, String key, Object value) {
-        assertThat(map.containsKey(key), is(true));
-        assertThat(map.get(key), isValue(value));
-    }
-
-    private Matcher<Object> isValue(Object value) {
-        boolean isDelete = mUpdateType == DbUpdater.UpdateType.DELETE;
-        return isDelete ? nullValue() : is(value);
-    }
-
-    @NonNull
-    private ReviewDb randomReview() {
-        return new ReviewDb(RandomReview.nextReview(), RandomString.nextWordArray(NUM));
-    }
-
-    private String path(String root, String... elements) {
-        return Path.path(root, elements);
-    }
-
-    abstract class DataGetter<In, Out> {
+    private abstract class DataGetter<In, Out> {
         private String mDataName;
         private List<DataGetter<Out, ?>> mOutGetters;
 

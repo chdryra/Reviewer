@@ -8,107 +8,50 @@
 
 package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
-import android.support.annotation.NonNull;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureUserProfileImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .StructureUserProfileImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUserProfile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.testutils.RandomString;
-
-import org.junit.Test;
-
-import java.util.Map;
-
-import test.TestUtils.RandomAuthor;
-import test.TestUtils.RandomDataDate;
+import org.junit.Before;
 
 import static junit.framework.Assert.assertNotNull;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUserProfileImplTest {
-
+public class StructureUserProfileImplTest extends StructureTestBasic<User> {
     private static final String USERS = FirebaseStructure.USERS;
     private static final String PROFILE = FirebaseStructure.PROFILE;
 
-    @Test
-    public void testInsert() {
-        testStructureUserProfile(DbUpdater.UpdateType.INSERT_OR_UPDATE);
-    }
-
-    @Test
-    public void testDelete() {
-        testStructureUserProfile(DbUpdater.UpdateType.DELETE);
-    }
-
-    private void testStructureUserProfile(DbUpdater.UpdateType type) {
-        boolean isDelete = type == DbUpdater.UpdateType.DELETE;
-
-        StructureUserProfile db = new StructureUserProfileImpl(new Path<User>() {
+    @Before
+    public void setUp() {
+        setStructure(new StructureUserProfileImpl(new Path<User>() {
             @Override
             public String getPath(User user) {
                 String authorId = user.getAuthorId();
                 return authorId != null ? path(USERS, authorId, PROFILE) : "";
             }
-        });
+        }));
+    }
 
-        User user = randomUser();
+    @Override
+    protected void testStructure() {
+        User user = setData(randomUser());
         Profile profile = user.getProfile();
         assertNotNull(profile);
         Author author = profile.getAuthor();
 
-        Map<String, Object> updatesMap = db.getUpdatesMap(user, type);
-
-        assertThat(updatesMap, not(nullValue()));
-        assertThat(updatesMap.size(), is(3));
-
         String profilePath = path(USERS, user.getAuthorId(), PROFILE);
-        String keyId = path(profilePath, "author", "authorId");
-        String keyName = path(profilePath, "author", "name");
-        String keyDate = path(profilePath, "dateJoined");
-        assertThat(updatesMap.containsKey(keyId), is(true));
-        assertThat(updatesMap.containsKey(keyName), is(true));
-        assertThat(updatesMap.containsKey(keyDate), is(true));
 
-        assertThat(updatesMap.get(keyId), isDelete ? nullValue() : is((Object) author.getAuthorId()));
-        assertThat(updatesMap.get(keyName), isDelete ? nullValue() : is((Object) author.getName()));
-        assertThat(updatesMap.get(keyDate), isDelete ? nullValue() : is((Object) profile.getDateJoined()));
+        checkMapSize(3);
+        checkKeyValue(path(profilePath, "author", "authorId"), author.getAuthorId());
+        checkKeyValue(path(profilePath, "author", "name"), author.getName());
+        checkKeyValue(path(profilePath, "dateJoined"), profile.getDateJoined());
     }
 
-    @NonNull
-    private User randomUser() {
-        return new User(RandomString.nextWord(), RandomString.nextWord(), randomProfile());
-    }
-
-    @NonNull
-    private Profile randomProfile() {
-        return new Profile(new AuthorProfile(RandomAuthor.nextAuthor(),
-                    RandomDataDate.nextDate()));
-    }
-
-    private String path(String root, String... elements) {
-        return Path.path(root, elements);
-    }
 }
