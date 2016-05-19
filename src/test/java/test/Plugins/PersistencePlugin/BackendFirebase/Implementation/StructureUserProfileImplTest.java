@@ -8,14 +8,19 @@
 
 package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureUserProfileImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
+
+import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.BackendTestUtils;
+import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.StructureTester;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -40,18 +45,23 @@ public class StructureUserProfileImplTest extends StructureTestBasic<User> {
     }
 
     @Override
-    protected void testStructure() {
-        User user = setData(randomUser());
+    protected User getTestData() {
+        return BackendTestUtils.randomUser();
+    }
+
+    @Override
+    public void testStructure(StructureTester<User> tester) {
+        User user = tester.getTestData();
         Profile profile = user.getProfile();
         assertNotNull(profile);
         Author author = profile.getAuthor();
 
-        String profilePath = path(USERS, user.getAuthorId(), PROFILE);
+        String profilePath = Path.path(USERS, user.getAuthorId(), PROFILE);
 
-        checkMapSize(3);
-        checkKeyValue(path(profilePath, "author", "authorId"), author.getAuthorId());
-        checkKeyValue(path(profilePath, "author", "name"), author.getName());
-        checkKeyValue(path(profilePath, "dateJoined"), profile.getDateJoined());
+        tester.checkMapSize(3);
+        tester.checkKeyValue(Path.path(profilePath, "author", "authorId"), author.getAuthorId());
+        tester.checkKeyValue(Path.path(profilePath, "author", "name"), author.getName());
+        tester.checkKeyValue(Path.path(profilePath, "dateJoined"), profile.getDateJoined());   
     }
 
 }

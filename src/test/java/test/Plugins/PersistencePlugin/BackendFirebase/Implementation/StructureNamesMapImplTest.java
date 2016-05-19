@@ -8,13 +8,24 @@
 
 package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureNamesMapImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Profile;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.User;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Implementation
+        .StructureNamesMapImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
+        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
+
+import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.BackendTestUtils;
+import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.StructureTester;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -27,18 +38,23 @@ public class StructureNamesMapImplTest extends StructureTestBasic<User>{
     private static final String PATH = FirebaseStructure.USERS + "/" + FirebaseStructure.AUTHOR_NAMES;
 
     @Before
-    public void setUp() {
+    public void setUp(){
         setStructure(new StructureNamesMapImpl(PATH));
     }
 
     @Override
-    protected void testStructure() {
-        User user = setData(randomUser());
+    protected User getTestData() {
+        return BackendTestUtils.randomUser();
+    }
+
+    @Override
+    public void testStructure(StructureTester<User> tester) {
+        User user = tester.getTestData();
         Profile profile = user.getProfile();
         assertNotNull(profile);
         Author author = profile.getAuthor();
 
-        checkMapSize(1);
-        checkKeyValue(path(PATH, author.getName()), author.getAuthorId());
+        tester.checkMapSize(1);
+        tester.checkKeyValue(Path.path(PATH, author.getName()), author.getAuthorId());
     }
 }
