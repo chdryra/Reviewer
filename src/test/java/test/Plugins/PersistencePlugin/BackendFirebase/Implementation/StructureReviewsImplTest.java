@@ -83,11 +83,10 @@ public class StructureReviewsImplTest {
     }
 
     private void testStructureReviews(DbUpdater.UpdateType type) {
-        setUpdateType(type);
-
         StructureReviews db = new StructureReviewsImpl(REVIEWS);
         ReviewDb reviewDb = randomReview();
 
+        setUpdateType(type);
         setUpdatesMap(db.getUpdatesMap(reviewDb, type));
 
         String reviewPath = path(REVIEWS, reviewDb.getReviewId());
@@ -96,11 +95,13 @@ public class StructureReviewsImplTest {
         checkKeyValue(path(reviewPath, "reviewId"), reviewDb.getReviewId());
         checkKeyValue(path(reviewPath, "subject"), reviewDb.getSubject());
         checkKeyValue(path(reviewPath, "rating", "rating"), reviewDb.getRating().getRating());
-        checkKeyValue(path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating().getRatingWeight());
+        checkKeyValue(path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating()
+                .getRatingWeight());
         checkKeyValue(path(reviewPath, "author", "name"), reviewDb.getAuthor().getName());
         checkKeyValue(path(reviewPath, "author", "authorId"), reviewDb.getAuthor().getAuthorId());
         checkKeyValue(path(reviewPath, "publishDate"), reviewDb.getPublishDate());
         checkKeyValue(path(reviewPath, "average"), reviewDb.isAverage());
+        checkKeyValue(path(reviewPath, "tags"), reviewDb.getTags());
 
         checkKeyList(path(reviewPath, "criteria"), reviewDb.getCriteria(), getCriterionGetters());
         checkKeyList(path(reviewPath, "comments"), reviewDb.getComments(), getCommentGetters());
@@ -110,36 +111,36 @@ public class StructureReviewsImplTest {
     }
 
     @NonNull
-    private List<DataGetter<Criterion>> getCriterionGetters() {
-        List<DataGetter<Criterion>> getters = new ArrayList<>();
-        getters.add(new DataGetter<Criterion>("subject") {
+    private List<DataGetter<Criterion, ?>> getCriterionGetters() {
+        List<DataGetter<Criterion, ?>> getters = new ArrayList<>();
+        getters.add(new DataGetter<Criterion, String>("subject") {
             @Override
-            public Object getData(Criterion item) {
+            public String getData(Criterion item) {
                 return item.getSubject();
             }
         });
-        getters.add(new DataGetter<Criterion>("rating") {
+        getters.add(new DataGetter<Criterion, Double>("rating") {
             @Override
-            public Object getData(Criterion item) {
+            public Double getData(Criterion item) {
                 return item.getRating();
             }
         });
-        
+
         return getters;
     }
 
     @NonNull
-    private List<DataGetter<Comment>> getCommentGetters() {
-        List<DataGetter<Comment>> getters = new ArrayList<>();
-        getters.add(new DataGetter<Comment>("comment") {
+    private List<DataGetter<Comment, ?>> getCommentGetters() {
+        List<DataGetter<Comment, ?>> getters = new ArrayList<>();
+        getters.add(new DataGetter<Comment, String>("comment") {
             @Override
-            public Object getData(Comment item) {
+            public String getData(Comment item) {
                 return item.getComment();
             }
         });
-        getters.add(new DataGetter<Comment>("headline") {
+        getters.add(new DataGetter<Comment, Boolean>("headline") {
             @Override
-            public Object getData(Comment item) {
+            public Boolean getData(Comment item) {
                 return item.isHeadline();
             }
         });
@@ -148,54 +149,54 @@ public class StructureReviewsImplTest {
     }
 
     @NonNull
-    private List<DataGetter<Fact>> getFactGetters() {
-        List<DataGetter<Fact>> getters = new ArrayList<>();
-        getters.add(new DataGetter<Fact>("label") {
+    private List<DataGetter<Fact, ?>> getFactGetters() {
+        List<DataGetter<Fact, ?>> getters = new ArrayList<>();
+        getters.add(new DataGetter<Fact, String>("label") {
             @Override
-            public Object getData(Fact item) {
+            public String getData(Fact item) {
                 return item.getLabel();
             }
         });
-        getters.add(new DataGetter<Fact>("value") {
+        getters.add(new DataGetter<Fact, String>("value") {
             @Override
-            public Object getData(Fact item) {
+            public String getData(Fact item) {
                 return item.getValue();
             }
         });
-        getters.add(new DataGetter<Fact>("url") {
+        getters.add(new DataGetter<Fact, Boolean>("url") {
             @Override
-            public Object getData(Fact item) {
+            public Boolean getData(Fact item) {
                 return item.isUrl();
             }
         });
-        
+
         return getters;
     }
 
     @NonNull
-    private List<DataGetter<ImageData>> getImageDataGetters() {
-        List<DataGetter<ImageData>> getters = new ArrayList<>();
-        getters.add(new DataGetter<ImageData>("bitmap") {
+    private List<DataGetter<ImageData, ?>> getImageDataGetters() {
+        List<DataGetter<ImageData, ?>> getters = new ArrayList<>();
+        getters.add(new DataGetter<ImageData, String>("bitmap") {
             @Override
-            public Object getData(ImageData item) {
+            public String getData(ImageData item) {
                 return item.getBitmap();
             }
         });
-        getters.add(new DataGetter<ImageData>("date") {
+        getters.add(new DataGetter<ImageData, Long>("date") {
             @Override
-            public Object getData(ImageData item) {
+            public Long getData(ImageData item) {
                 return item.getDate();
             }
         });
-        getters.add(new DataGetter<ImageData>("caption") {
+        getters.add(new DataGetter<ImageData, String>("caption") {
             @Override
-            public Object getData(ImageData item) {
+            public String getData(ImageData item) {
                 return item.getCaption();
             }
         });
-        getters.add(new DataGetter<ImageData>("cover") {
+        getters.add(new DataGetter<ImageData, Boolean>("cover") {
             @Override
-            public Object getData(ImageData item) {
+            public Boolean getData(ImageData item) {
                 return item.isCover();
             }
         });
@@ -204,17 +205,17 @@ public class StructureReviewsImplTest {
     }
 
     @NonNull
-    private List<DataGetter<Location>> getLocationGetters() {
-        List<DataGetter<Location>> getters = new ArrayList<>();
-        getters.add(new DataGetter<Location>("latLng") {
+    private List<DataGetter<Location, ?>> getLocationGetters() {
+        List<DataGetter<Location, ?>> getters = new ArrayList<>();
+        getters.add(new DataGetter<Location, LatitudeLongitude>("latLng", getLatLngGetters()) {
             @Override
-            public Object getData(Location item) {
-                return getLatLngGetters(item.getLatLng());
+            public LatitudeLongitude getData(Location item) {
+                return item.getLatLng();
             }
         });
-        getters.add(new DataGetter<Location>("name") {
+        getters.add(new DataGetter<Location, String>("name") {
             @Override
-            public Object getData(Location item) {
+            public String getData(Location item) {
                 return item.getName();
             }
         });
@@ -222,17 +223,17 @@ public class StructureReviewsImplTest {
         return getters;
     }
 
-    private List<DataGetter<LatitudeLongitude>> getLatLngGetters(LatitudeLongitude latLng) {
-        List<DataGetter<LatitudeLongitude>> getters = new ArrayList<>();
-        getters.add(new DataGetter<LatitudeLongitude>("latitude") {
+    private List<DataGetter<LatitudeLongitude, ?>> getLatLngGetters() {
+        List<DataGetter<LatitudeLongitude, ?>> getters = new ArrayList<>();
+        getters.add(new DataGetter<LatitudeLongitude, Double>("latitude") {
             @Override
-            public Object getData(LatitudeLongitude item) {
+            public Double getData(LatitudeLongitude item) {
                 return item.getLatitude();
             }
         });
-        getters.add(new DataGetter<LatitudeLongitude>("longitude") {
+        getters.add(new DataGetter<LatitudeLongitude, Double>("longitude") {
             @Override
-            public Object getData(LatitudeLongitude item) {
+            public Double getData(LatitudeLongitude item) {
                 return item.getLongitude();
             }
         });
@@ -240,10 +241,10 @@ public class StructureReviewsImplTest {
         return getters;
     }
 
-    private <T> void checkKeyList(String key, List<T> reviewItems, List<DataGetter<T>> getters) {
+    private <T> void checkKeyList(String key, List<T> reviewItems, List<DataGetter<T, ?>> getters) {
         boolean isDelete = mUpdateType == DbUpdater.UpdateType.DELETE;
         assertThat(mUpdatesMap.containsKey(key), is(true));
-        if(isDelete) {
+        if (isDelete) {
             assertThat(mUpdatesMap.get(key), nullValue());
             return;
         }
@@ -252,7 +253,7 @@ public class StructureReviewsImplTest {
             List<Object> list = (List<Object>) mUpdatesMap.get(key);
             assertThat(list, not(nullValue()));
             assertThat(list.size(), is(reviewItems.size()));
-            for(int i = 0; i < list.size(); ++i) {
+            for (int i = 0; i < list.size(); ++i) {
                 Map<String, Object> objectMap = (Map<String, Object>) list.get(i);
                 T item = reviewItems.get(i);
                 checkMapSize(objectMap, getters.size());
@@ -262,50 +263,30 @@ public class StructureReviewsImplTest {
             fail();
         }
     }
-    abstract class DataGetter<In, Out> {
-        private String mDataName;
-        private List<DataGetter<Out, ?>> mOutGetters;
 
-        public abstract Out getData(In item);
-
-        public DataGetter(String dataName) {
-            mDataName = dataName;
-            mOutGetters = new ArrayList<>();
-        }
-
-        public DataGetter(String dataName, List<DataGetter<Out, ?>> outGetters) {
-            mDataName = dataName;
-            mOutGetters = outGetters;
-        }
-
-        public String getDataName() {
-            return mDataName;
-        }
-
-        public List<DataGetter<Out, ?>> getOutGetters() {
-            return mOutGetters;
+    private <In> void checkMapping(Map<String, Object> objectMap,
+                                   In object,
+                                   List<DataGetter<In, ?>> objectDataGetters) {
+        for (DataGetter<In, ?> getter : objectDataGetters) {
+            checkMappingForGetter(objectMap, object, getter);
         }
     }
 
-    private <In, Out> void checkMapping(Map<String, Object> objectMap,
-                                        In object,
-                                        List<DataGetter<In, Out>> objectDataGetters) {
-        for(DataGetter<In, Out> getter : objectDataGetters) {
-            String key = getter.getDataName();
-            Out value = getter.getData(object);
+    private <In, Out> void checkMappingForGetter(Map<String, Object> objectMap,
+                                                 In object,
+                                                 DataGetter<In, Out> getter) {
+        String key = getter.getDataName();
+        Out value = getter.getData(object);
 
-            List<DataGetter<Out, ?>> valueGetters = getter.getOutGetters();
-            if(valueGetters.size() == 0) {
-                //Check mapping is correct
-                assertThat(objectMap.get(key), isValue(value));
-            } else {
-                //Recursion
-                try {
-                    Map<String, Object> valueMap = (Map<String, Object>) objectMap.get(key);
-                    checkMapping(valueMap, value, valueGetters); //***Error is here***//
-                } catch (ClassCastException e) {
-                    fail();
-                }
+        List<DataGetter<Out, ?>> valueGetters = getter.getOutGetters();
+        if (valueGetters.size() == 0) {
+            checkKeyValue(objectMap, key, value);
+        } else {
+            try {
+                Map<String, Object> valueMap = (Map<String, Object>) objectMap.get(key);
+                checkMapping(valueMap, value, valueGetters);
+            } catch (ClassCastException e) {
+                fail();
             }
         }
     }
@@ -340,5 +321,30 @@ public class StructureReviewsImplTest {
 
     private String path(String root, String... elements) {
         return Path.path(root, elements);
+    }
+
+    abstract class DataGetter<In, Out> {
+        private String mDataName;
+        private List<DataGetter<Out, ?>> mOutGetters;
+
+        public abstract Out getData(In item);
+
+        public DataGetter(String dataName) {
+            mDataName = dataName;
+            mOutGetters = new ArrayList<>();
+        }
+
+        public DataGetter(String dataName, List<DataGetter<Out, ?>> outGetters) {
+            mDataName = dataName;
+            mOutGetters = outGetters;
+        }
+
+        public String getDataName() {
+            return mDataName;
+        }
+
+        public List<DataGetter<Out, ?>> getOutGetters() {
+            return mOutGetters;
+        }
     }
 }
