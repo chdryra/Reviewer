@@ -49,12 +49,16 @@ public class StructureNamesMapImplTest extends StructureTestBasic<User>{
 
     @Override
     public void testStructure(StructureTester<User> tester) {
-        User user = tester.getTestData();
-        Profile profile = user.getProfile();
-        assertNotNull(profile);
-        Author author = profile.getAuthor();
+        Author author = getAuthor(tester);
 
         tester.checkMapSize(1);
         tester.checkKeyValue(Path.path(PATH, author.getName()), author.getAuthorId());
+    }
+
+    private Author getAuthor(StructureTester<User> tester) {
+        User user = tester.getTestData();
+        Profile profile = user.getProfile();
+        assertNotNull(profile);
+        return profile.getAuthor();
     }
 }

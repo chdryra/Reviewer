@@ -119,11 +119,51 @@ public class FirebaseStructureTest {
     }
 
     @Test
-    public void ReviewUploadUpdaterDeletesReview() {
+    public void ReviewUploadUpdaterDeletesReviewFromReviewDb() {
         testReviewDelete(new StructureTester.Testable<ReviewDb>() {
             @Override
             public void testStructure(StructureTester<ReviewDb> tester) {
                 testReviewsDb(tester);
+            }
+        });
+    }
+
+    @Test
+    public void ReviewUploadUpdaterInsertsIntoReviewsListDb() {
+        testReviewInsert(new StructureTester.Testable<ReviewDb>() {
+            @Override
+            public void testStructure(StructureTester<ReviewDb> tester) {
+                testReviewsListDb(tester);
+            }
+        });
+    }
+
+    @Test
+    public void ReviewUploadUpdaterDeletesReviewFromReviewsListDb() {
+        testReviewDelete(new StructureTester.Testable<ReviewDb>() {
+            @Override
+            public void testStructure(StructureTester<ReviewDb> tester) {
+                testReviewsListDb(tester);
+            }
+        });
+    }
+
+    @Test
+    public void ReviewUploadUpdaterInsertsIntoTagsDb() {
+        testReviewInsert(new StructureTester.Testable<ReviewDb>() {
+            @Override
+            public void testStructure(StructureTester<ReviewDb> tester) {
+                testTagsDb(tester);
+            }
+        });
+    }
+
+    @Test
+    public void ReviewUploadUpdaterDeletesTagsEntryFromTagsDb() {
+        testReviewDelete(new StructureTester.Testable<ReviewDb>() {
+            @Override
+            public void testStructure(StructureTester<ReviewDb> tester) {
+                testTagsDb(tester);
             }
         });
     }
@@ -187,7 +227,7 @@ public class FirebaseStructureTest {
     }
 
     private void testReviewsDb(StructureTester<ReviewDb> tester) {
-        ReviewDb reviewDb = tester.getTestData();
+        ReviewDb reviewDb = getReview(tester);
 
         String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_DATA, reviewDb.getReviewId());
 
@@ -216,6 +256,44 @@ public class FirebaseStructureTest {
                 BackendTestUtils.imageDataGetters());
         tester.checkKeyList(Path.path(reviewPath, "locations"), reviewDb.getLocations(),
                 BackendTestUtils.locationGetters());
+    }
+
+    private void testReviewsListDb(StructureTester<ReviewDb> tester) {
+        ReviewDb reviewDb = getReview(tester);
+
+        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_LIST, reviewDb.getReviewId());
+
+        checkReviewUploadUpdatesMapSize(tester);
+        tester.checkKeyValue(Path.path(reviewPath, "subject"), reviewDb.getSubject());
+        tester.checkKeyValue(Path.path(reviewPath, "rating", "rating"), reviewDb.getRating()
+                .getRating());
+        tester.checkKeyValue(Path.path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating()
+                .getRatingWeight());
+        tester.checkKeyValue(Path.path(reviewPath, "publishDate"), reviewDb.getPublishDate());
+    }
+
+    private ReviewDb getReview(StructureTester<ReviewDb> tester) {
+        return tester.getTestData();
+    }
+
+    private void testTagsDb(StructureTester<ReviewDb> tester) {
+        ReviewDb reviewDb = getReview(tester);
+        String reviewId = getReviewId(tester);
+        String authorId = getAuthorId(tester);
+
+        checkReviewUploadUpdatesMapSize(tester);
+        for(String tag : reviewDb.getTags()) {
+            tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.REVIEWS, reviewId), true);
+            tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.USERS, authorId, reviewId), true);
+        }
+    }
+
+    private String getAuthorId(StructureTester<ReviewDb> tester) {
+        return getReview(tester).getAuthor().getAuthorId();
+    }
+
+    private String getReviewId(StructureTester<ReviewDb> tester) {
+        return getReview(tester).getReviewId();
     }
 
     private void checkReviewUploadUpdatesMapSize(StructureTester<ReviewDb> tester) {

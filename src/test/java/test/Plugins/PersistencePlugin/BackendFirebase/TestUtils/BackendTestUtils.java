@@ -44,7 +44,7 @@ import test.TestUtils.RandomReview;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BackendTestUtils {
-    private static final int NUM = RandomReview.NUM;
+    public static final int NUM_TAGS = RandomReview.NUM;
 
     @NonNull
     public static User randomUser() {
@@ -59,7 +59,7 @@ public class BackendTestUtils {
 
     @NonNull
     public static ReviewDb randomReview() {
-        return new ReviewDb(RandomReview.nextReview(), RandomString.nextWordArray(NUM));
+        return new ReviewDb(RandomReview.nextReview(), RandomString.nextWordArray(NUM_TAGS));
     }
 
     @NonNull

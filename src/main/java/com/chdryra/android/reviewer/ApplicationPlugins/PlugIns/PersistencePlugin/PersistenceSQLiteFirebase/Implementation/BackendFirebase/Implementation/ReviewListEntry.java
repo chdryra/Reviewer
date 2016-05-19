@@ -22,12 +22,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 public class ReviewListEntry {
     private String subject;
     private Rating rating;
-    private long date;
+    private long publishDate;
 
     public ReviewListEntry(ReviewDb review) {
         this.subject = review.getSubject();
         this.rating = review.getRating();
-        this.date = review.getPublishDate();
+        this.publishDate = review.getPublishDate();
     }
 
     public String getSubject() {
@@ -38,7 +38,7 @@ public class ReviewListEntry {
         return rating;
     }
 
-    public long getDate() {
-        return date;
+    public long getPublishDate() {
+        return publishDate;
     }
 }
