@@ -9,7 +9,7 @@
 package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
+        .SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
 import org.junit.Test;
 

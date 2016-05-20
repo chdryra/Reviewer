@@ -11,7 +11,7 @@ package test.Plugins.PersistencePlugin.AndroidSqLiteDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Implementation.DbEntryType;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
         .SqLiteTypeDefinitions;
 
 import org.junit.Before;

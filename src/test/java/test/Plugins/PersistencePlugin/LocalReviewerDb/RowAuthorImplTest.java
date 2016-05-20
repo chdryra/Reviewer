@@ -13,9 +13,9 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;

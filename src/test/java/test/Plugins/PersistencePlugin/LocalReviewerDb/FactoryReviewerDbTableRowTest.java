@@ -15,22 +15,22 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Factories
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Factories
         .FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;

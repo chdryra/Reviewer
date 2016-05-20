@@ -12,7 +12,7 @@ import android.content.ContentValues;
 import android.database.MatrixCursor;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterionList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;

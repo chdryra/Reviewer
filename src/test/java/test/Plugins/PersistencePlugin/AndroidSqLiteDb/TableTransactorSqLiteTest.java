@@ -24,47 +24,47 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
         .EntryToStringConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
         .RowToValuesConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation.SqLiteDb;
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation.SqLiteDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
         .SqLiteTypeDefinitions;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation
         .TableTransactorSqLite;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation.TablesSql;
+        .SQLiteFirebase.Implementation.AndroidSqLiteDb.Implementation.TablesSql;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Factories
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Factories
         .FactoryReviewerDbContract;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Factories
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Factories
         .FactoryReviewerDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowEntryImpl;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowEntryImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowFactImpl;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowFactImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableRowList;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableRowList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbContract;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
+        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Before;

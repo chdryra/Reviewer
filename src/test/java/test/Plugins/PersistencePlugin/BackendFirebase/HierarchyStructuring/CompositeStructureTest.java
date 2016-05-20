@@ -11,16 +11,16 @@ package test.Plugins.PersistencePlugin.BackendFirebase.HierarchyStructuring;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
+        .SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring
+        .SQLiteFirebase.Implementation.BackendFirebase.Structuring
         .DbStructureBasic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+        .SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
+        .SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .PersistenceSQLiteFirebase.Implementation.BackendFirebase.Structuring.StructureBuilder;
+        .SQLiteFirebase.Implementation.BackendFirebase.Structuring.StructureBuilder;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
