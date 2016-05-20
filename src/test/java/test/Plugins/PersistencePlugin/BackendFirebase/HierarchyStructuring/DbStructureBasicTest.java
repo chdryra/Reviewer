@@ -104,7 +104,6 @@ public class DbStructureBasicTest {
     private void putMapReturnsMapWithAbsolutePathKeys(DbUpdater.UpdateType type) {
         boolean isDelete = type == DbUpdater.UpdateType.DELETE;
 
-
         TestObject1 obj1 = new TestObject1();
         TestObject2 obj2 = new TestObject2();
         Structure.UpdatesTest preUpdates = mStructure.new UpdatesTest(type);

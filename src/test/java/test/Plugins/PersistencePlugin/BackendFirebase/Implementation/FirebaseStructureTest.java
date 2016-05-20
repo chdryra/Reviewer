@@ -168,6 +168,26 @@ public class FirebaseStructureTest {
         });
     }
 
+    @Test
+    public void ReviewUploadUpdaterInsertsIntoUserDataDb() {
+        testReviewInsert(new StructureTester.Testable<ReviewDb>() {
+            @Override
+            public void testStructure(StructureTester<ReviewDb> tester) {
+                testUserDataDb(tester);
+            }
+        });
+    }
+
+    @Test
+    public void ReviewUploadUpdaterDeletesFromUserDataDb() {
+        testReviewDelete(new StructureTester.Testable<ReviewDb>() {
+            @Override
+            public void testStructure(StructureTester<ReviewDb> tester) {
+                testUserDataDb(tester);
+            }
+        });
+    }
+
     private void testUserInsert(StructureTester.Testable<User> testable) {
         testInsert(testable, mStructure.getUsersUpdater(), getRandomUser());
     }
@@ -260,16 +280,9 @@ public class FirebaseStructureTest {
 
     private void testReviewsListDb(StructureTester<ReviewDb> tester) {
         ReviewDb reviewDb = getReview(tester);
-
-        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_LIST, reviewDb.getReviewId());
-
         checkReviewUploadUpdatesMapSize(tester);
-        tester.checkKeyValue(Path.path(reviewPath, "subject"), reviewDb.getSubject());
-        tester.checkKeyValue(Path.path(reviewPath, "rating", "rating"), reviewDb.getRating()
-                .getRating());
-        tester.checkKeyValue(Path.path(reviewPath, "rating", "ratingWeight"), reviewDb.getRating()
-                .getRatingWeight());
-        tester.checkKeyValue(Path.path(reviewPath, "publishDate"), reviewDb.getPublishDate());
+        String reviewPath = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_LIST, reviewDb.getReviewId());
+        testListEntry(tester, reviewDb, reviewPath);
     }
 
     private ReviewDb getReview(StructureTester<ReviewDb> tester) {
@@ -286,6 +299,34 @@ public class FirebaseStructureTest {
             tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.REVIEWS, reviewId), true);
             tester.checkKeyValue(Path.path(FirebaseStructure.TAGS, tag, FirebaseStructure.USERS, authorId, reviewId), true);
         }
+    }
+
+    private void testUserDataDb(StructureTester<ReviewDb> tester) {
+        ReviewDb reviewDb = getReview(tester);
+        String reviewId = getReviewId(tester);
+        String authorId = getAuthorId(tester);
+
+        String authorPath = Path.path(FirebaseStructure.USERS, authorId);
+
+        checkReviewUploadUpdatesMapSize(tester);
+        for(String tag : reviewDb.getTags()) {
+            tester.checkKeyValue(Path.path(authorPath, FirebaseStructure.TAGS, tag, reviewId), true);
+        }
+
+        String reviewPath = Path.path(authorPath, FirebaseStructure.REVIEWS, reviewDb.getReviewId());
+        testListEntry(tester, reviewDb, reviewPath);
+
+        String feedPath = Path.path(authorPath, FirebaseStructure.FEED, reviewDb.getReviewId());
+        testListEntry(tester, reviewDb, feedPath);
+    }
+
+    private void testListEntry(StructureTester<ReviewDb> tester, ReviewDb reviewDb, String path) {
+        tester.checkKeyValue(Path.path(path, "subject"), reviewDb.getSubject());
+        tester.checkKeyValue(Path.path(path, "rating", "rating"), reviewDb.getRating()
+                .getRating());
+        tester.checkKeyValue(Path.path(path, "rating", "ratingWeight"), reviewDb.getRating()
+                .getRatingWeight());
+        tester.checkKeyValue(Path.path(path, "publishDate"), reviewDb.getPublishDate());
     }
 
     private String getAuthorId(StructureTester<ReviewDb> tester) {
