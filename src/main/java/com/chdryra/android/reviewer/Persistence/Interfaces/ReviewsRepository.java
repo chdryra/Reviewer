@@ -8,8 +8,10 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,13 +19,19 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository {
-    void getReview(ReviewId id, CallbackRepository callback);
+    void getReview(ReviewId id, RepositoryCallback callback);
 
-    void getReviews(CallbackRepository callback);
+    void getReviews(RepositoryCallback callback);
+
+    void getReviews(DataAuthor author, RepositoryCallback callback);
 
     TagsManager getTagsManager();
     
     void registerObserver(ReviewsRepositoryObserver observer);
 
     void unregisterObserver(ReviewsRepositoryObserver observer);
+
+    interface RepositoryCallback {
+        void onRepositoryCallback(RepositoryResult result);
+    }
 }

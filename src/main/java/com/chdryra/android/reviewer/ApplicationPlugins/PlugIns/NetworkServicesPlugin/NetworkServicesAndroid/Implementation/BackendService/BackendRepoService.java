@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesP
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
@@ -20,8 +21,9 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepositoryMutable;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -107,37 +109,34 @@ public class BackendRepoService extends IntentService {
         }
     }
 
-    private class Callbacks implements ReviewPublisher.QueueCallback, CallbackRepositoryMutable {
+    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsRepositoryMutable.RepositoryMutableCallback {
+
         @Override
-        public void onAddedCallback(Review review, CallbackMessage result) {
-            String messageString = review.getSubject().getSubject() + ": ";
+        public void onAddedToRepoCallback(RepositoryResult result) {
+            Review review = result.getReview();
+            String subject = review != null ? review.getSubject().getSubject() + ": " : "";
             CallbackMessage message;
             if (result.isError()) {
-                messageString += getApplicationContext().getString(UPLOAD_ERROR)
-                        + " - " + result.getMessage();
-                message = CallbackMessage.error(messageString);
+                message = CallbackMessage.error(subject + getErrorString(result, UPLOAD_ERROR));
             } else {
-                messageString += getApplicationContext().getString(UPLOAD_SUCCESSFUL);
-                message = CallbackMessage.ok(messageString);
+                message = CallbackMessage.ok(subject + getString(UPLOAD_SUCCESSFUL));
             }
 
             broadcastUploadComplete(message);
         }
 
         @Override
-        public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+        public void onRemovedFromRepoCallback(RepositoryResult result) {
             CallbackMessage message;
             if (result.isError()) {
-                String messageString = getApplicationContext().getString(DELETE_ERROR) + " - " +
-                        result.getMessage();
-                message = CallbackMessage.error(messageString);
+                message = CallbackMessage.error(getErrorString(result, DELETE_ERROR));
             } else {
-                String messageString = getApplicationContext().getString(DELETE_SUCCESSFUL);
-                message = CallbackMessage.ok(messageString);
+                message = CallbackMessage.ok(getString(DELETE_SUCCESSFUL));
             }
 
             broadcastDeleteComplete(message);
         }
+
 
         @Override
         public void onAddedToQueue(ReviewId id, CallbackMessage message) {
@@ -154,5 +153,10 @@ public class BackendRepoService extends IntentService {
                 message) {
             broadcastUploadComplete(message);
         }
+    }
+
+    @NonNull
+    private String getErrorString(RepositoryResult result, int error) {
+        return getString(error) + " - " + result.getMessage();
     }
 }

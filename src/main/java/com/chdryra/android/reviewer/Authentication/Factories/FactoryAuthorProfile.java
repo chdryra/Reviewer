@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Authentication.Factories;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
@@ -29,7 +29,7 @@ public class FactoryAuthorProfile {
     }
 
     public AuthorProfile newProfile(String name) {
-        DataAuthor author = new DatumAuthor(name, AuthorId.generateId());
+        DataAuthor author = new DatumAuthor(name, AuthorIdGenerator.newId());
         return new AuthorProfile(author, new DatumDate(new Date().getTime()));
     }
 

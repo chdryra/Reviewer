@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.Persistence.Factories;
 
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceAuthored;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsFeedImpl;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,13 +19,13 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewsFeed {
-    ReviewsRepositoryMutable mMainRepo;
+    ReviewsRepository mMainRepo;
 
-    public FactoryReviewsFeed(ReviewsRepositoryMutable mainRepo) {
+    public FactoryReviewsFeed(ReviewsRepository mainRepo) {
         mMainRepo = mainRepo;
     }
 
-    public ReviewsFeed newFeed(FactoryReviews reviewsFactory) {
-        return new ReviewsSourceAuthored(mMainRepo, reviewsFactory);
+    public ReviewsFeed newFeed(DataAuthor author) {
+        return new ReviewsFeedImpl(author, mMainRepo);
     }
 }

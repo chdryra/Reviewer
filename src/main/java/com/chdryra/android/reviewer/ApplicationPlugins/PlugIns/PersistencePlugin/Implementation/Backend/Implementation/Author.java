@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
 /**
@@ -33,6 +35,10 @@ public class Author {
 
     public String getAuthorId() {
         return authorId;
+    }
+
+    public DataAuthor toDataAuthor() {
+        return new DatumAuthor(name, AuthorIdGenerator.toId(authorId));
     }
 
     public static int size() {

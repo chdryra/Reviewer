@@ -11,7 +11,7 @@ package test.Plugins.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.AuthorAlphabetical;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -29,9 +29,9 @@ public class AuthorAlphabeticalTest extends ComparatorTest<DataAuthor> {
 
     @Test
     public void alphabeticalAscendingDifferentFirstLetter() {
-        DataAuthor A = new DatumAuthor("A" + RandomString.nextWord(), AuthorId.generateId());
-        DataAuthor B = new DatumAuthor("B" + RandomString.nextWord(), AuthorId.generateId());
-        DataAuthor C = new DatumAuthor("C" + RandomString.nextWord(), AuthorId.generateId());
+        DataAuthor A = new DatumAuthor("A" + RandomString.nextWord(), AuthorIdGenerator.newId());
+        DataAuthor B = new DatumAuthor("B" + RandomString.nextWord(), AuthorIdGenerator.newId());
+        DataAuthor C = new DatumAuthor("C" + RandomString.nextWord(), AuthorIdGenerator.newId());
 
         ComparatorTester<DataAuthor> tester = newComparatorTester();
         tester.testFirstSecond(A, B);
@@ -43,8 +43,8 @@ public class AuthorAlphabeticalTest extends ComparatorTest<DataAuthor> {
     public void alphabeticalAscendingStartingStemSame() {
         String name1 = RandomString.nextWord();
         String name2 = name1 + RandomString.nextWord();
-        DataAuthor author1 = new DatumAuthor(name1, AuthorId.generateId());
-        DataAuthor author2 = new DatumAuthor(name2, AuthorId.generateId());
+        DataAuthor author1 = new DatumAuthor(name1, AuthorIdGenerator.newId());
+        DataAuthor author2 = new DatumAuthor(name2, AuthorIdGenerator.newId());
 
         ComparatorTester<DataAuthor> tester = newComparatorTester();
         if(name1.compareToIgnoreCase(name2) < 0) {
@@ -59,8 +59,8 @@ public class AuthorAlphabeticalTest extends ComparatorTest<DataAuthor> {
     @Test
     public void comparatorEquality() {
         String name = RandomString.nextWord();
-        DataAuthor author = new DatumAuthor(name, AuthorId.generateId());
-        DataAuthor author2 = new DatumAuthor(name, AuthorId.generateId());
+        DataAuthor author = new DatumAuthor(name, AuthorIdGenerator.newId());
+        DataAuthor author2 = new DatumAuthor(name, AuthorIdGenerator.newId());
 
         ComparatorTester<DataAuthor> tester = newComparatorTester();
         tester.testEquals(author, author);
@@ -70,9 +70,9 @@ public class AuthorAlphabeticalTest extends ComparatorTest<DataAuthor> {
     @Test
     public void comparatorEqualityIgnoresCase() {
         String name = RandomString.nextWord();
-        DataAuthor author = new DatumAuthor(name, AuthorId.generateId());
-        DataAuthor authorLower = new DatumAuthor(name.toLowerCase(), AuthorId.generateId());
-        DataAuthor authorUpper = new DatumAuthor(name.toUpperCase(), AuthorId.generateId());
+        DataAuthor author = new DatumAuthor(name, AuthorIdGenerator.newId());
+        DataAuthor authorLower = new DatumAuthor(name.toLowerCase(), AuthorIdGenerator.newId());
+        DataAuthor authorUpper = new DatumAuthor(name.toUpperCase(), AuthorIdGenerator.newId());
 
         ComparatorTester<DataAuthor> tester = newComparatorTester();
         tester.testEquals(author, authorLower);

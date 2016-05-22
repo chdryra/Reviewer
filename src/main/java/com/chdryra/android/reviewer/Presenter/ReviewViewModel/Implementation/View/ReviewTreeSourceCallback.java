@@ -8,12 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackReviewsSource;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,13 +19,14 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewTreeSourceCallback extends ReviewTreeAsync
-        implements CallbackReviewsSource {
+        implements ReviewsSource.ReviewsSourceCallback {
     public ReviewTreeSourceCallback(ReviewNode initial) {
         super(initial);
     }
 
     @Override
-    public void onMetaReviewCallback(@Nullable ReviewNode review, CallbackMessage message) {
-        if (review != null && !message.isError()) updateNode(review);
+    public void onMetaReviewCallback(RepositoryResult result) {
+        ReviewNode node = result.getReviewNode();
+        if (!result.isError() && node != null) updateNode(node);
     }
 }

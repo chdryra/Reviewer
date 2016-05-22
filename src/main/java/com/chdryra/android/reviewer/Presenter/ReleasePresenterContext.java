@@ -12,19 +12,18 @@ import android.content.Context;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Factories.FactoryDataAggregatorParams;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.PresenterContextBasic;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.DeviceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuildersGridUi;
@@ -64,7 +63,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setFactoryGvData(new FactoryGvData());
 
-        ConverterGv gvConverter = newConverterGv(modelContext.getTagsManager(), persistenceContext.getReviewsSource());
+        ConverterGv gvConverter = newConverterGv(persistenceContext.getReviewsSource());
         setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
                 gvConverter, aggregatorsPlugin.getAggregatorsApi());
 
@@ -74,8 +73,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 getGvDataFactory(), validator);
     }
 
-    private ConverterGv newConverterGv(TagsManager tagsManager, ReviewsSource source) {
-        FactoryGvConverter converterFactory = new FactoryGvConverter(tagsManager, source);
+    private ConverterGv newConverterGv(ReviewsSource source) {
+        FactoryGvConverter converterFactory = new FactoryGvConverter(source);
         return converterFactory.newGvConverter();
     }
 

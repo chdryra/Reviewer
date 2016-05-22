@@ -6,15 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.reviewer.Persistence.Implementation;
 
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.FunctionPointer;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -31,17 +30,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewDyna
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewLazy extends ReviewDynamic implements ReviewNode, CallbackRepository {
+public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepository.RepositoryCallback {
     private ReviewId mId;
     private DataSubject mSubject;
     private DataRating mRating;
@@ -60,16 +56,11 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, CallbackRep
     }
 
     @Override
-    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-        if (review != null && !result.isError()) {
-            mReview = review;
+    public void onRepositoryCallback(RepositoryResult result) {
+        if (!result.isError()) {
+            mReview = result.getReview();
             notifyReviewObservers();
         }
-    }
-
-    @Override
-    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
-        throw new UnsupportedOperationException("Should never be called!");
     }
 
     @Override

@@ -16,17 +16,20 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -86,8 +89,12 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mAppContext.getReviewBuilderAdapter();
     }
 
-    public ReviewsFeed getUsersFeed() {
-        return mAppContext.getFeedFactory().newFeed(getReviewsFactory());
+    public ReviewsFeed getCurrentFeed() {
+        return mAppContext.getFeedFactory().newFeed(mUser.getCurrentUserAsAuthor());
+    }
+
+    public ReviewsFeed getFeed(DataAuthor author) {
+        return mAppContext.getFeedFactory().newFeed(author);
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -167,7 +174,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         mAppContext.launchReview(activity, reviewId);
     }
 
-    public void getReview(ReviewId id, CallbackRepository callback) {
+    public void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback) {
         mAppContext.getReview(id, callback);
     }
 

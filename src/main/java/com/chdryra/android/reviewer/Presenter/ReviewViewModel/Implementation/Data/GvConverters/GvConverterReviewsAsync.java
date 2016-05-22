@@ -12,7 +12,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
@@ -30,25 +29,19 @@ public class GvConverterReviewsAsync
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
-    private GvConverterDateReviews mConverterDate;
     private GvConverterAuthors mGvConverterAuthor;
     private ReviewsRepository mRepo;
-    private TagsManager mTagsManager;
 
-    public GvConverterReviewsAsync(TagsManager tagsManager,
-                                   ReviewsRepository repo,
+    public GvConverterReviewsAsync(ReviewsRepository repo,
                                    GvConverterImages converterImages,
                                    GvConverterComments converterComments,
                                    GvConverterLocations converterLocations,
-                                   GvConverterDateReviews converterDate,
                                    GvConverterAuthors gvConverterAuthor) {
         super(GvReviewAsyncList.class);
-        mTagsManager = tagsManager;
         mRepo = repo;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
-        mConverterDate = converterDate;
         mGvConverterAuthor = gvConverterAuthor;
     }
 
@@ -58,7 +51,7 @@ public class GvConverterReviewsAsync
         return new GvReviewAsync(id, review.getSubject().getSubject(),
                 review.getRating().getRating(),
                 new GvDate(id, review.getPublishDate().getTime()),
-                mRepo, mTagsManager, mConverterImages,
+                mRepo, mConverterImages,
                 mConverterComments, mConverterLocations, mGvConverterAuthor);
     }
 

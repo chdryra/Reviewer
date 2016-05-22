@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend
         .Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend
@@ -36,7 +38,7 @@ public interface BackendReviewsDb {
     }
 
     interface GetCollectionCallback {
-        void onReviewCollection(Collection<ReviewDb> reviews, @Nullable BackendError error);
+        void onReviewCollection(@Nullable Author author, Collection<ReviewDb> reviews, @Nullable BackendError error);
     }
 
     void addReview(ReviewDb review, AddReviewCallback callback);
@@ -45,9 +47,9 @@ public interface BackendReviewsDb {
 
     void getReview(String id, GetReviewCallback callback);
 
-    void getReviews(GetCollectionCallback callback);
+    void getReviews(@Nullable Author author, GetCollectionCallback callback);
 
-    void getReviewsList(GetCollectionCallback callback);
+    void getReviewsList(@Nullable Author author, GetCollectionCallback callback);
 
     void registerObserver(DbObserver<ReviewDb> observer);
 

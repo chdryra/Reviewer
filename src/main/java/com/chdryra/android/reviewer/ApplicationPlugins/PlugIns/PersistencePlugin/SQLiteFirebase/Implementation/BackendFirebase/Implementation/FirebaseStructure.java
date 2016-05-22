@@ -11,6 +11,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation;
 
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -122,16 +126,12 @@ public class FirebaseStructure {
         return root.child(pathToReviewsData());
     }
 
-    public Firebase getReviewsListDb(Firebase root) {
-        return root.child(pathToReviewsList());
+    public Firebase getReviewsListDb(Firebase root, @Nullable Author author) {
+        return author == null ? root.child(pathToReviewsList()) : root.child(pathToAuthorReviews(author));
     }
 
     public Firebase getProfileDb(Firebase root, String authorId) {
         return root.child(pathToProfile(authorId));
-    }
-
-    public Firebase getFeedDb(Firebase root, String authorId) {
-        return root.child(pathToFeed(authorId));
     }
 
     public Firebase getAuthorNameMappingDb(Firebase root, String name) {
@@ -143,10 +143,6 @@ public class FirebaseStructure {
     }
 
     //************Private**********//
-    private String pathToFeed(String authorId) {
-        return path(pathToAuthor(authorId), FEED);
-    }
-
     private String pathToAuthorNameMapping(String name) {
         return path(pathToNamesAuthorIdMap(), mAuthorsMap.relativePathToAuthor(name));
     }
@@ -157,6 +153,10 @@ public class FirebaseStructure {
 
     private String pathToReviewsData() {
         return path(pathToReviews(), REVIEWS_DATA);
+    }
+
+    private String pathToAuthorReviews(Author author) {
+        return path(pathToAuthor(author.getAuthorId()), REVIEWS);
     }
 
     private String pathToReviewsList() {

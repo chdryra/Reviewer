@@ -13,18 +13,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -44,8 +41,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfi
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -197,7 +192,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
     }
 
-    public static class Builder implements CallbackRepository {
+    public static class Builder  {
         public static final int BUTTON_TITLE = R.string.button_add_review_data;
         private static final int SCREEN_TITLE = R.string.activity_title_build_review;
         private FactoryReviewEditor mEditorFactory;
@@ -219,16 +214,6 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             if (adapter == null) adapter = mApp.newReviewBuilderAdapter(mReview);
 
             return buildPresenter(adapter);
-        }
-
-        @Override
-        public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-
-        }
-
-        @Override
-        public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
-
         }
 
         private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -66,7 +66,7 @@ public interface PresenterContext {
 
     FactoryReviewsFeed getFeedFactory();
 
-    void getReview(ReviewId id, CallbackRepository callback);
+    void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback);
 
     TagsManager getTagsManager();
 

@@ -6,22 +6,27 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase
         .Implementation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
-        .BackendError;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.BackendValidator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation
-        .ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.DbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase
-        .Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Interfaces.BackendReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Interfaces.DbObserver;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -69,13 +74,14 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @Override
-    public void getReviews(GetCollectionCallback callback) {
-        doSingleEvent(getReviewsRoot(), newGetCollectionListener(callback));
+    public void getReviews(@Nullable final Author author, final GetCollectionCallback callback) {
+        Firebase root = author == null ? getReviewsRoot() : getReviewsListRoot(author);
+        doSingleEvent(root, newGetCollectionListener(author, callback));
     }
 
     @Override
-    public void getReviewsList(GetCollectionCallback callback) {
-        doSingleEvent(getReviewsListRoot(), newGetCollectionListener(callback));
+    public void getReviewsList(@Nullable Author author, GetCollectionCallback callback) {
+        doSingleEvent(getReviewsListRoot(author), newGetCollectionListener(author, callback));
     }
 
     @Override
@@ -92,8 +98,15 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
         return mStructure.getReviewsDb(mDataBase);
     }
 
-    private Firebase getReviewsListRoot() {
-        return mStructure.getReviewsListDb(mDataBase);
+    @NonNull
+    private ReviewDb toReviewDb(DataSnapshot childSnapshot) {
+        ReviewDb review = childSnapshot.getValue(ReviewDb.class);
+        review.setReviewId(childSnapshot.getKey());
+        return review;
+    }
+
+    private Firebase getReviewsListRoot(@Nullable Author author) {
+        return mStructure.getReviewsListDb(mDataBase, author);
     }
 
     private Firebase getReviewRoot(String reviewId) {
@@ -153,23 +166,35 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @NonNull
-    private ValueEventListener newGetCollectionListener(final GetCollectionCallback listener) {
+    private ValueEventListener newGetCollectionListener(@Nullable final Author author, final
+    GetCollectionCallback listener) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<ReviewDb> reviews = new ArrayList<>();
+                final ArrayList<ReviewDb> reviews = new ArrayList<>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    ReviewDb review = childSnapshot.getValue(ReviewDb.class);
-                    review.setReviewId(childSnapshot.getKey());
-                    if (mValidator.isIdValid(review)) reviews.add(review);
+                    ReviewDb review = toReviewDb(childSnapshot);
+                    if (mValidator.isIdValid(review)) {
+                        if (author == null) {
+                            reviews.add(review);
+                        } else {
+                            getReview(review.getReviewId(), new GetReviewCallback() {
+                                @Override
+                                public void onReview(ReviewDb review, @Nullable BackendError
+                                        error) {
+                                    if (error == null) reviews.add(review);
+                                }
+                            });
+                        }
+                    }
                 }
 
-                listener.onReviewCollection(reviews, null);
+                listener.onReviewCollection(author, reviews, null);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.onReviewCollection(new ArrayList<ReviewDb>(), newBackendError
+                listener.onReviewCollection(author, new ArrayList<ReviewDb>(), newBackendError
                         (firebaseError));
             }
         };

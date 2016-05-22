@@ -15,8 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewBasicInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterAuthors;
@@ -50,7 +48,6 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
     private float mRating;
     private GvDate mPublishDate;
     private ReviewsRepository mRepo;
-    private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
@@ -65,7 +62,6 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
                          float rating,
                          GvDate publishDate,
                          ReviewsRepository repo,
-                         TagsManager tagsManager,
                          GvConverterImages converterImages,
                          GvConverterComments converterComments,
                          GvConverterLocations converterLocations,
@@ -75,7 +71,6 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
         mRating = rating;
         mPublishDate = publishDate;
         mRepo = repo;
-        mTagsManager = tagsManager;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
@@ -86,7 +81,7 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
         super(in);
     }
 
-    public void getReview(CallbackRepository callback) {
+    public void getReview(ReviewsRepository.RepositoryCallback callback) {
         mRepo.getReview(getReviewId(), callback);
     }
 
@@ -107,7 +102,7 @@ public class GvReviewAsync extends GvDataBasic<GvReviewAsync> implements DataRev
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewAsync(mTagsManager, mConverterImages, mConverterComments,
+        return new VhReviewAsync(mRepo.getTagsManager(), mConverterImages, mConverterComments,
                 mConverterLocations, mGvConverterAuthor);
     }
 

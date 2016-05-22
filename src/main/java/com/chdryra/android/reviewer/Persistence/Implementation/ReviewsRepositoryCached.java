@@ -8,18 +8,13 @@
 
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
-import android.support.annotation.Nullable;
-
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,17 +33,22 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public void getReview(ReviewId id, CallbackRepository callback) {
+    public void getReview(ReviewId id, RepositoryCallback callback) {
         if(mCache.contains(id)) {
-            callback.onFetchedFromRepo(mCache.get(id), CallbackMessage.ok("Fetched"));
+            callback.onRepositoryCallback(new RepositoryResult(mCache.get(id)));
         } else {
             mArchive.getReview(id, new ArchiveCallBack(callback));
         }
     }
 
     @Override
-    public void getReviews(CallbackRepository callback) {
+    public void getReviews(RepositoryCallback callback) {
         mArchive.getReviews(new ArchiveCallBack(callback));
+    }
+
+    @Override
+    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        mArchive.getReviews(author, new ArchiveCallBack(callback));
     }
 
     @Override
@@ -74,27 +74,30 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
         return mArchive;
     }
 
-    private class ArchiveCallBack implements CallbackRepository {
-        private CallbackRepository mCallback;
+    private class ArchiveCallBack implements RepositoryCallback {
+        private RepositoryCallback mCallback;
 
-        public ArchiveCallBack(CallbackRepository callback) {
+        public ArchiveCallBack(RepositoryCallback callback) {
             mCallback = callback;
         }
 
         @Override
-        public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-            if(review != null) mCache.add(review);
-            mCallback.onFetchedFromRepo(review, result);
+        public void onRepositoryCallback(RepositoryResult result) {
+            if(!result.isError()) {
+                if(result.isReview()) {
+                    Review review = result.getReview();
+                    if(review != null) mCache.add(review);
+                } else if(result.isCollection()) {
+                    for(Review review : result.getReviews()) {
+                        mCache.add(review);
+                    }
+                }
+            }
+
+            //TODO caching strategy for when retrieved reviews are just partial
+            mCallback.onRepositoryCallback(result);
         }
 
-        @Override
-        public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
-            for(Review review : reviews) {
-                mCache.add(review);
-            }
-            //TODO caching strategy for when retrieved reviews are just partial
-            mCallback.onFetchedFromRepo(reviews, result);
-        }
     }
 
     @Override

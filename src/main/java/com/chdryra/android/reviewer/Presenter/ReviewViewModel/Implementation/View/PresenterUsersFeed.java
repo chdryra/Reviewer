@@ -242,7 +242,7 @@ public class PresenterUsersFeed implements
         }
 
         public PresenterUsersFeed build() {
-            ReviewsFeed usersFeed = mApp.getUsersFeed();
+            ReviewsFeed usersFeed = mApp.getCurrentFeed();
             String title = usersFeed.getAuthor().getName() + "'s feed";
             ReviewTreeLive node = new ReviewTreeLive(usersFeed, mApp.getReviewsFactory(), title);
 

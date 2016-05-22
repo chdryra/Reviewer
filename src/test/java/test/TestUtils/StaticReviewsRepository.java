@@ -9,13 +9,16 @@
 package test.TestUtils;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,7 +35,7 @@ public class StaticReviewsRepository implements ReviewsRepository {
     }
 
     @Override
-    public void getReview(ReviewId id, CallbackRepository callback) {
+    public void getReview(ReviewId id, RepositoryCallback callback) {
         Review result = null;
         for(Review review : mReviews) {
             if(review.getReviewId().equals(id)) {
@@ -41,12 +44,23 @@ public class StaticReviewsRepository implements ReviewsRepository {
             }
         }
 
-        callback.onFetchedFromRepo(result, result == null ? CallbackMessage.error(id + " not found") : CallbackMessage.ok());
+        CallbackMessage message = result == null ? CallbackMessage.error(id + " not found") :
+                CallbackMessage.ok();
+        callback.onRepositoryCallback(new RepositoryResult(result, message));
     }
 
     @Override
-    public void getReviews(CallbackRepository callback) {
-        callback.onFetchedFromRepo(mReviews, CallbackMessage.ok("Fetched"));
+    public void getReviews(RepositoryCallback callback) {
+        callback.onRepositoryCallback(new RepositoryResult(mReviews));
+    }
+
+    @Override
+    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        ArrayList<Review> result = new ArrayList<>();
+        for(Review review : mReviews) {
+            if(review.getAuthor().getAuthorId().equals(author.getAuthorId())) result.add(review);
+        }
+        callback.onRepositoryCallback(new RepositoryResult(author, result));
     }
 
     @Override

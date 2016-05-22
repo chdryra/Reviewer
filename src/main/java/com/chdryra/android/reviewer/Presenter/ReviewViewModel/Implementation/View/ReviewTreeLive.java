@@ -8,26 +8,22 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeLive extends ReviewTreeMutableAsync implements CallbackRepository,
+public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRepository.RepositoryCallback,
         ReviewsRepositoryObserver {
 
     private ReviewsRepository mRepo;
@@ -41,15 +37,11 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements CallbackRe
         mRepo.getReviews(this);
     }
 
-    @Override
-    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-        if (review != null && !result.isError()) onReviewAdded(review);
-    }
 
     @Override
-    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+    public void onRepositoryCallback(RepositoryResult result) {
         if (!result.isError()) {
-            for (Review review : reviews) {
+            for (Review review : result.getReviews()) {
                 addChild(review);
             }
             notifyNodeObservers();

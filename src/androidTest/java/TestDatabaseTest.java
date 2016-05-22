@@ -7,18 +7,14 @@
  */
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.ApplicationLaunch;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 
@@ -51,17 +47,13 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
         ApplicationLaunch.launchIfNecessary(mContext, ApplicationLaunch.LaunchState.TEST);
-        mRepo = (ReviewsRepositoryMutable) ApplicationInstance.getInstance(mContext).getUsersFeed();
+        mRepo = (ReviewsRepositoryMutable) ApplicationInstance.getInstance(mContext).getCurrentFeed();
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
-        mTestRepo.getReviews(new CallbackRepository() {
+        mTestRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-
-            }
-
-            @Override
-            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+            public void onRepositoryCallback(RepositoryResult result) {
+                Collection<Review> reviews = result.getReviews();
                 populateRepository(reviews);
             }
         });
@@ -69,22 +61,14 @@ public class TestDatabaseTest extends InstrumentationTestCase {
 
     @Test
     public void testDatabase() {
-        mTestRepo.getReviews(new CallbackRepository() {
+        mTestRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-
-            }
-
-            @Override
-            public void onFetchedFromRepo(final Collection<Review> testReviews, CallbackMessage result) {
-                mRepo.getReviews(new CallbackRepository() {
+            public void onRepositoryCallback(RepositoryResult result) {
+                final Collection<Review> testReviews = result.getReviews();
+                mRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
                     @Override
-                    public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-
-                    }
-
-                    @Override
-                    public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage result) {
+                    public void onRepositoryCallback(RepositoryResult result) {
+                        Collection<Review> reviews = result.getReviews();
                         assertEquals(testReviews.size(), reviews.size());
                         Iterator<Review> testReviewsIt = testReviews.iterator();
                         for (Review review : reviews) {
@@ -108,14 +92,14 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     private void populateRepository(Collection<Review> reviews) {
         deleteDatabaseIfNecessary();
         for (Review review : reviews) {
-            mRepo.addReview(review, new CallbackRepositoryMutable() {
+            mRepo.addReview(review, new ReviewsRepositoryMutable.RepositoryMutableCallback() {
                 @Override
-                public void onAddedCallback(Review review, CallbackMessage result) {
+                public void onAddedToRepoCallback(RepositoryResult result) {
                     assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));
                 }
 
                 @Override
-                public void onRemovedCallback(ReviewId reviewId, CallbackMessage result) {
+                public void onRemovedFromRepoCallback(RepositoryResult result) {
 
                 }
             });

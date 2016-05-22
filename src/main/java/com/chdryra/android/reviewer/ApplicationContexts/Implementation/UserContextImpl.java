@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -68,6 +69,11 @@ public class UserContextImpl implements UserContext {
         } else {
             notifyLogin(mUser, mProfile, null);
         }
+    }
+
+    @Override
+    public DataAuthor getCurrentUserAsAuthor() {
+        return mProfile.getAuthor();
     }
 
     @Override

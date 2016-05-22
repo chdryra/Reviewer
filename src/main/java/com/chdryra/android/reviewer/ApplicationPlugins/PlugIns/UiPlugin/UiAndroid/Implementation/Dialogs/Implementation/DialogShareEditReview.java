@@ -13,34 +13,28 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .DeleteRequestListener;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
 import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewFormatterTwitter;
 import com.chdryra.android.reviewer.Social.Implementation.ReviewSummariser;
-import com.chdryra.android.reviewer.Social.Implementation.PublisherAndroid;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
-
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -135,23 +129,18 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     }
 
     @NonNull
-    private CallbackRepository fetchReviewCallback(final TagsManager tagsManager) {
-        return new CallbackRepository() {
+    private ReviewsRepository.RepositoryCallback fetchReviewCallback(final TagsManager tagsManager) {
+        return new ReviewsRepository.RepositoryCallback() {
             @Override
-            public void onFetchedFromRepo(@Nullable Review review, CallbackMessage result) {
-                if (review != null) {
+            public void onRepositoryCallback(RepositoryResult result) {
+                Review review = result.getReview();
+                if (!result.isError() && review != null) {
                     mSharer.publish(review, tagsManager);
                 } else {
                     String message = "Review not found";
                     if (result.isError()) message += ": " + result.getMessage();
                     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFetchedFromRepo(Collection<Review> reviews, CallbackMessage
-                    result) {
-
             }
         };
     }

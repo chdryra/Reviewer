@@ -6,10 +6,12 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.reviewer.Persistence.Implementation;
 
 
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
@@ -25,15 +27,15 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
  * On: 12/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BackendReviewMaker implements ReviewMaker {
+public class LazyReviewMaker implements ReviewMaker {
     private FactoryReviews mFactory;
 
-    public BackendReviewMaker(FactoryReviews factory) {
+    public LazyReviewMaker(FactoryReviews factory) {
         mFactory = factory;
     }
 
     public Review makeLazyReview(String reviewId, String subject, Rating rating, long date,
-                                     ReviewsRepository repo) {
+                                 ReviewsRepository repo) {
         DatumReviewId id = new DatumReviewId(reviewId);
         return new ReviewLazy(id, new DatumSubject(id, subject),
                 new DatumRating(id, (float)rating.getRating(), (int)rating.getRatingWeight()),

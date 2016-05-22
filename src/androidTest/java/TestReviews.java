@@ -17,6 +17,7 @@ import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
@@ -24,26 +25,26 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Interfaces.CallbackRepository;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -72,16 +73,6 @@ public class TestReviews {
     private FactoryReviewNode mNodeFactory;
     private FactoryReviews mFactory;
 
-    private TestReviews(Instrumentation instr) {
-        mInstr = instr;
-        mReviews = new IdableDataCollection<>();
-        FactoryMdConverter converter = new FactoryMdConverter();
-        mNodeFactory = new FactoryReviewNode();
-        mFactory = new FactoryReviews(mNodeFactory,
-                converter.newMdConverter(), new DataValidator());
-        mFactory.setAuthorsStamp(new AuthorsStamp(AUTHOR));
-    }
-
     //Static methods
     public static ReviewsRepository getReviews(Instrumentation instr, TagsManager tagsManager) {
         TestReviews testReviews = get(instr);
@@ -95,6 +86,16 @@ public class TestReviews {
         }
 
         return new StaticReviewsRepository(reviews, tagsManager);
+    }
+
+    private TestReviews(Instrumentation instr) {
+        mInstr = instr;
+        mReviews = new IdableDataCollection<>();
+        FactoryMdConverter converter = new FactoryMdConverter();
+        mNodeFactory = new FactoryReviewNode();
+        mFactory = new FactoryReviews(mNodeFactory,
+                converter.newMdConverter(), new DataValidator());
+        mFactory.setAuthorsStamp(new AuthorsStamp(AUTHOR));
     }
 
     private static TestReviews get(Instrumentation instr) {
@@ -400,20 +401,27 @@ public class TestReviews {
         }
 
         @Override
-        public void getReview(ReviewId id, CallbackRepository callback) {
+        public void getReview(ReviewId id, RepositoryCallback callback) {
             Review ret = null;
+            CallbackMessage message = CallbackMessage.error("Review not found");
             for(Review review : mReviews) {
                 if(review.getReviewId().equals(id)) {
                     ret = review;
+                    message = CallbackMessage.ok();
                     break;
                 }
             }
-            callback.onFetchedFromRepo(ret, CallbackMessage.ok());
+            callback.onRepositoryCallback(new RepositoryResult(ret, message));
         }
 
         @Override
-        public void getReviews(CallbackRepository callback) {
-            callback.onFetchedFromRepo(mReviews, CallbackMessage.ok());
+        public void getReviews(RepositoryCallback callback) {
+            callback.onRepositoryCallback(new RepositoryResult(mReviews, CallbackMessage.ok()));
+        }
+
+        @Override
+        public void getReviews(DataAuthor author, RepositoryCallback callback) {
+
         }
 
         @Override

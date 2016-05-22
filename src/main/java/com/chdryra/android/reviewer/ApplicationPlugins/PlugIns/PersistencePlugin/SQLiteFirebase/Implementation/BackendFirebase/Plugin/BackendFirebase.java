@@ -15,7 +15,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.Backend;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.FactoryReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendReviewMaker;
+import com.chdryra.android.reviewer.Persistence.Implementation.LazyReviewMaker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendReviewsRepo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendUserAccounts;
@@ -56,7 +56,7 @@ public class BackendFirebase implements Backend {
         BackendValidator fbValidator = new BackendValidator(validator);
         BackendReviewsDb db = new FirebaseReviewsDb(mDatabase, mStructure, fbValidator);
         FactoryReviewDb reviewsFactory = new FactoryReviewDb(fbValidator);
-        BackendReviewMaker maker = new BackendReviewMaker(model.getReviewsFactory());
+        LazyReviewMaker maker = new LazyReviewMaker(model.getReviewsFactory());
 
         return new BackendReviewsRepo(db, reviewsFactory, model.getTagsManager(), maker);
     }

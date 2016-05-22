@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,6 +35,8 @@ public interface UserContext extends UserAuthenticator.UserStateObserver {
     void setLoginObserver(LoginObserver observer);
 
     void observeCurrentUser();
+
+    DataAuthor getCurrentUserAsAuthor();
 
     void logout(Activity activity);
 

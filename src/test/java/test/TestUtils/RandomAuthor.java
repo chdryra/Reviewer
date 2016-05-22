@@ -12,7 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.testutils.RandomString;
 
 /**
@@ -22,11 +22,11 @@ import com.chdryra.android.testutils.RandomString;
  */
 public class RandomAuthor {
     public static DataAuthor nextAuthor() {
-        return new DatumAuthor(RandomString.nextWord(), AuthorId.generateId());
+        return new DatumAuthor(RandomString.nextWord(), AuthorIdGenerator.newId());
     }
 
     public static DataAuthorReview nextAuthorReview() {
         return new DatumAuthorReview(RandomReviewId.nextReviewId(), RandomString.nextWord(),
-                AuthorId.generateId());
+                AuthorIdGenerator.newId());
     }
 }
