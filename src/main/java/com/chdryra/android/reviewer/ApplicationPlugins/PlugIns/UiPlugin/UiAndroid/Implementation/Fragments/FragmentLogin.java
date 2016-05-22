@@ -224,4 +224,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
     }
 
+    public void closeDialogs() {
+        closeLoggingInDialog();
+    }
 }

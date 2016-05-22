@@ -17,17 +17,13 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
-        .Configs.DefaultLayoutConfig;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
-        .Factories.FactoryDialogLayout;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
-        .Interfaces.DialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.DialogLayout;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -38,8 +34,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public abstract class DialogGvDataView<T extends GvData> extends DialogOneButtonFragment
         implements LaunchableUi {
-    private static final int VIEW = R.string.view;
-
     private GvDataType<T> mDataType;
     private DialogLayout<T> mLayout;
     private T mDatum;
@@ -55,7 +49,7 @@ public abstract class DialogGvDataView<T extends GvData> extends DialogOneButton
 
     @Override
     public String getLaunchTag() {
-        return getString(VIEW) + mDataType.getDatumName();
+        return "View" + mDataType.getDatumName();
     }
 
     @Override

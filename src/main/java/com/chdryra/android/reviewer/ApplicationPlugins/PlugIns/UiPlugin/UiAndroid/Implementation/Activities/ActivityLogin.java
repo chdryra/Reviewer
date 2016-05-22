@@ -83,4 +83,10 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     public void onAlertPositive(int requestCode, Bundle args) {
         mFragment.onAlertPositive(requestCode, args);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFragment.closeDialogs(); //stop "Leaked window" error.
+    }
 }

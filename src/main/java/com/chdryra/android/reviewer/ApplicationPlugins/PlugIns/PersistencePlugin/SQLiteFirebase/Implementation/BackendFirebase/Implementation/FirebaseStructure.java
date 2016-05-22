@@ -148,7 +148,7 @@ public class FirebaseStructure {
     }
 
     private String pathToReview(String reviewId) {
-        return path(pathToReviews(), mReviews.relativePathToReview(reviewId));
+        return path(pathToReviewsData(), mReviews.relativePathToReview(reviewId));
     }
 
     private String pathToReviewsData() {
