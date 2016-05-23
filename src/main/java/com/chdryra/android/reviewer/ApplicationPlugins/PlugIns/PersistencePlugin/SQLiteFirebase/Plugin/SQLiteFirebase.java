@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 
 /**
@@ -54,8 +55,8 @@ public class SQLiteFirebase implements PersistencePlugin {
     }
 
     @Override
-    public ReviewsRepositoryMutable newBackendPersistence(ModelContext model, DataValidator validator) {
-        return mBackend.newPersistence(model, validator);
+    public ReviewsRepositoryMutable newBackendPersistence(ModelContext model, DataValidator validator, ReviewsCache cache) {
+        return mBackend.newPersistence(model, validator, cache);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 
 /**
@@ -32,15 +33,14 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
 
         setLocalRepository(plugin.newLocalPersistence(model, validator));
 
-        setBackendRepository(plugin.newBackendPersistence(model, validator));
-
         setUsersManager(plugin.newUsersManager());
 
         FactoryReviewsRepository repoFactory = newRepoFactory(model, validator, plugin);
-        ReviewsRepositoryMutable cachedRepo = repoFactory.newCachedRepo(getBackendRepository());
+        ReviewsCache reviewsCache = repoFactory.newCache();
+        setBackendRepository(plugin.newBackendPersistence(model, validator, reviewsCache));
 
+        ReviewsRepositoryMutable cachedRepo = repoFactory.newCachedRepo(getBackendRepository(), reviewsCache);
         setFeedFactory(new FactoryReviewsFeed(cachedRepo));
-
         setReviewsSource(repoFactory.newReviewsSource(cachedRepo, model.getReviewsFactory()));
     }
 

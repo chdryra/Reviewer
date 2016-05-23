@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Persistence.Factories;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryMutableCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -32,7 +33,11 @@ public class FactoryReviewsRepository {
         return new ReviewsSourceImpl(repository, reviewsFactory);
     }
 
-    public ReviewsRepositoryMutable newCachedRepo(ReviewsRepositoryMutable archive) {
-        return new ReviewsRepositoryMutableCached(mCacheFactory.newCache(), archive);
+    public ReviewsRepositoryMutable newCachedRepo(ReviewsRepositoryMutable archive, ReviewsCache cache) {
+        return new ReviewsRepositoryMutableCached(cache, archive);
+    }
+
+    public ReviewsCache newCache() {
+        return mCacheFactory.newCache();
     }
 }

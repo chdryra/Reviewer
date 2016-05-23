@@ -62,7 +62,6 @@ public class VhReviewLive extends ViewHolderBasic implements Review.ReviewObserv
     private TextView mTags;
     private TextView mPublishDate;
     private Review mReview;
-    private boolean mFetching = false;
 
     public VhReviewLive(TagsManager tagsManager,
                         GvConverterImages converterImages,

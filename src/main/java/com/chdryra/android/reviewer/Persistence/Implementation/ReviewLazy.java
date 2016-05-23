@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.FunctionPointer;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendReviewsRepo;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
@@ -30,6 +32,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewDyna
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
@@ -38,27 +41,30 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepository.RepositoryCallback {
-    private ReviewId mId;
-    private DataSubject mSubject;
-    private DataRating mRating;
-    private DataDateReview mPublishDate;
-    private ReviewsRepository mRepo;
-    private Review mReview;
+    private final ReviewId mId;
+    private final DataSubject mSubject;
+    private final DataRating mRating;
+    private final DataDateReview mPublishDate;
+    private final BackendReviewsRepo mRepo;
+    private final ReviewsCache mCache;
+
     private boolean mFetching = false;
 
     public ReviewLazy(ReviewId id, DataSubject subject, DataRating rating,
-                      DataDateReview publishDate, ReviewsRepository repo) {
+                      DataDateReview publishDate, BackendReviewsRepo repo, ReviewsCache cache) {
         mId = id;
         mSubject = subject;
         mRating = rating;
         mPublishDate = publishDate;
         mRepo = repo;
+        mCache = cache;
     }
 
     @Override
     public void onRepositoryCallback(RepositoryResult result) {
-        if (!result.isError()) {
-            mReview = result.getReview();
+        Review review = result.getReview();
+        if (!result.isError() && review != null) {
+            mCache.add(review);
             notifyReviewObservers();
         }
         mFetching = false;
@@ -66,29 +72,29 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
 
     @Override
     public DataSubject getSubject() {
-        return mReview != null ? mReview.getSubject() : mSubject;
+        return mSubject;
     }
 
     @Override
     public DataRating getRating() {
-        return mReview != null ? mReview.getRating() : mRating;
+        return mRating;
     }
 
     @Override
     public DataAuthorReview getAuthor() {
         return returnData(new DatumAuthorReview(mId, "loading",
                 new DatumAuthorId(mId.toString())),
-                new FunctionPointer<Void, DataAuthorReview>() {
+                new FunctionPointer<Review, DataAuthorReview>() {
                     @Override
-                    public DataAuthorReview execute(@Nullable Void data) {
-                        return mReview.getAuthor();
+                    public DataAuthorReview execute(Review review) {
+                        return review.getAuthor();
                     }
                 });
     }
 
     @Override
     public DataDateReview getPublishDate() {
-        return mReview != null ? mReview.getPublishDate() : mPublishDate;
+        return mPublishDate;
     }
 
     @Override
@@ -98,16 +104,21 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
 
     @Override
     public boolean isRatingAverageOfCriteria() {
-        return mReview != null && mReview.isRatingAverageOfCriteria();
+        return returnData(false, new FunctionPointer<Review, Boolean>() {
+            @Override
+            public Boolean execute(Review data) {
+                return getReview().isRatingAverageOfCriteria();
+            }
+        });
     }
 
     @Override
     public IdableList<? extends DataCriterionReview> getCriteria() {
         return returnData(new IdableDataList<DataCriterionReview>(mId),
-                new FunctionPointer<Void, IdableList<? extends DataCriterionReview>>() {
+                new FunctionPointer<Review, IdableList<? extends DataCriterionReview>>() {
                     @Override
-                    public IdableList<? extends DataCriterionReview> execute(@Nullable Void data) {
-                        return mReview.getCriteria();
+                    public IdableList<? extends DataCriterionReview> execute(Review review) {
+                        return review.getCriteria();
                     }
                 });
     }
@@ -115,10 +126,10 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     @Override
     public IdableList<? extends DataComment> getComments() {
         return returnData(new IdableDataList<DataComment>(mId),
-                new FunctionPointer<Void, IdableList<? extends DataComment>>() {
+                new FunctionPointer<Review, IdableList<? extends DataComment>>() {
                     @Override
-                    public IdableList<? extends DataComment> execute(@Nullable Void data) {
-                        return mReview.getComments();
+                    public IdableList<? extends DataComment> execute(Review review) {
+                        return review.getComments();
                     }
                 });
     }
@@ -126,10 +137,10 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     @Override
     public IdableList<? extends DataFact> getFacts() {
         return returnData(new IdableDataList<DataFact>(mId),
-                new FunctionPointer<Void, IdableList<? extends DataFact>>() {
+                new FunctionPointer<Review, IdableList<? extends DataFact>>() {
                     @Override
-                    public IdableList<? extends DataFact> execute(@Nullable Void data) {
-                        return mReview.getFacts();
+                    public IdableList<? extends DataFact> execute(Review review) {
+                        return review.getFacts();
                     }
                 });
     }
@@ -137,10 +148,10 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     @Override
     public IdableList<? extends DataImage> getImages() {
         return returnData(new IdableDataList<DataImage>(mId),
-                new FunctionPointer<Void, IdableList<? extends DataImage>>() {
+                new FunctionPointer<Review, IdableList<? extends DataImage>>() {
                     @Override
-                    public IdableList<? extends DataImage> execute(@Nullable Void data) {
-                        return mReview.getImages();
+                    public IdableList<? extends DataImage> execute(Review review) {
+                        return review.getImages();
                     }
                 });
     }
@@ -148,10 +159,10 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     @Override
     public IdableList<? extends DataImage> getCovers() {
         return returnData(new IdableDataList<DataImage>(mId),
-                new FunctionPointer<Void, IdableList<? extends DataImage>>() {
+                new FunctionPointer<Review, IdableList<? extends DataImage>>() {
                     @Override
-                    public IdableList<? extends DataImage> execute(@Nullable Void data) {
-                        return mReview.getCovers();
+                    public IdableList<? extends DataImage> execute(Review review) {
+                        return review.getCovers();
                     }
                 });
     }
@@ -159,10 +170,10 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     @Override
     public IdableList<? extends DataLocation> getLocations() {
         return returnData(new IdableDataList<DataLocation>(mId),
-                new FunctionPointer<Void, IdableList<? extends DataLocation>>() {
+                new FunctionPointer<Review, IdableList<? extends DataLocation>>() {
                     @Override
-                    public IdableList<? extends DataLocation> execute(@Nullable Void data) {
-                        return mReview.getLocations();
+                    public IdableList<? extends DataLocation> execute(Review review) {
+                        return review.getLocations();
                     }
                 });
 
@@ -233,16 +244,15 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
         return false;
     }
 
-    private <T1, T2 extends T1> T1 returnData(T2 ifNull, FunctionPointer<Void, T1> returnFunction) {
-        if (mReview == null) {
-            if (!mFetching) {
-                mFetching = true;
-                mRepo.getReview(mId, this);
-            }
-
-            return ifNull;
-        } else {
-            return returnFunction.execute(null);
+    private <T1, T2 extends T1> T1 returnData(T2 ifNull, FunctionPointer<Review, T1> returnFunction) {
+        if (mCache.contains(mId)) {
+            Review data = mCache.get(mId);
+            return returnFunction.execute(data);
+        } else if (!mFetching) {
+            mFetching = true;
+            mRepo.getReviewActual(mId, this);
         }
+
+        return ifNull;
     }
 }

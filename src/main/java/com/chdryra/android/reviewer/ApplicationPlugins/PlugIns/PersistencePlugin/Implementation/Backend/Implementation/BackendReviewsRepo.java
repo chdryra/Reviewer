@@ -15,12 +15,9 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.FunctionPointer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.FactoryReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.BackendReviewsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.DbObserver;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.FactoryReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.DbObserver;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
@@ -50,6 +47,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     private FactoryReviewDb mReviewsFactory;
     private TagsManager mTagsManager;
     private LazyReviewMaker mRecreater;
+
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
     public BackendReviewsRepo(BackendReviewsDb db,
@@ -76,17 +74,21 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
 
     @Override
     public void getReview(ReviewId id, final RepositoryCallback callback) {
+        mDb.getReview(id.toString(), reviewCallbackLazy(callback));
+    }
+
+    public void getReviewActual(ReviewId id, final RepositoryCallback callback) {
         mDb.getReview(id.toString(), reviewCallback(callback));
     }
 
     @Override
     public void getReviews(final RepositoryCallback callback) {
-        getReviewsPrivate(null, callback);
+        getReviewsLazy(null, callback);
     }
 
     @Override
     public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        getReviewsPrivate(author, callback);
+        getReviewsLazy(author, callback);
     }
 
     @Override
@@ -119,15 +121,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
         notifyOnDeleteReview(new DatumReviewId(review.getReviewId()));
     }
 
-    private void getReviewsPrivate(@Nullable DataAuthor author, RepositoryCallback callback) {
-//        mDb.getReviews(author == null ? null : new Author(author),
-//                reviewCollectionCallback(callback, new FunctionPointer<ReviewDb, Review>() {
-//                    @Override
-//                    public Review execute(ReviewDb data) {
-//                        return recreateReview(data);
-//                    }
-//                }));
-
+    private void getReviewsLazy(@Nullable DataAuthor author, RepositoryCallback callback) {
         mDb.getReviewsList(author == null ? null : new Author(author),
                 reviewCollectionCallback(callback, new FunctionPointer<ReviewDb, Review>() {
                     @Override
@@ -135,6 +129,19 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
                         return recreateLazyReview(data);
                     }
                 }));
+    }
+
+    @NonNull
+    private BackendReviewsDb.GetReviewCallback reviewCallbackLazy(final RepositoryCallback callback) {
+        return new BackendReviewsDb.GetReviewCallback() {
+            @Override
+            public void onReview(ReviewDb reviewDb, @Nullable BackendError error) {
+                CallbackMessage result = error != null ?
+                        CallbackMessage.error(ERROR_FETCHING_REVIEW + error.getMessage())
+                        : CallbackMessage.ok(REVIEW_FOUND);
+                callback.onRepositoryCallback(new RepositoryResult(recreateLazyReview(reviewDb), result));
+            }
+        };
     }
 
     @NonNull
