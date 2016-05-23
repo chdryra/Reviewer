@@ -40,7 +40,7 @@ public class ReviewInserterImpl implements ReviewInserter {
     public void addReviewToDb(Review review, TagsManager tagsManager,
                               ReviewerDb db, TableTransactor transactor) {
         addToTable(review, db.getReviewsTable(), transactor);
-        addToTable(review.getCriteria(), db.getReviewsTable(), transactor, false);
+        addToTable(review.getCriteria(), db.getCriteriaTable(), transactor, true);
         addToTable(review.getComments(), db.getCommentsTable(), transactor, true);
         addToTable(review.getFacts(), db.getFactsTable(), transactor, true);
         addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);

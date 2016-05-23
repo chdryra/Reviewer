@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -213,9 +213,10 @@ public class FactoryReviewViewAdapter {
 
     @NonNull
     private ReviewTreeSourceCallback newAsyncNode() {
-        ReviewNode fetching = mReviewsFactory.createUserReview("Fetching...", 0f, new ArrayList
+        ReviewNode fetching = mReviewsFactory.createUserReview("Fetching...", 0f,
+                new ArrayList<DataCriterion>(), new ArrayList
                         <DataComment>(), new ArrayList<DataImage>(), new ArrayList<DataFact>(),
-                new ArrayList<DataLocation>(), new ArrayList<Review>(), true)
+                new ArrayList<DataLocation>(), true)
                 .getTreeRepresentation();
         return new ReviewTreeSourceCallback(fetching);
     }

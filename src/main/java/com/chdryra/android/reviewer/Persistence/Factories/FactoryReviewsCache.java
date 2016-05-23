@@ -42,8 +42,8 @@ public class FactoryReviewsCache {
         QueueCache.Cache<Review> persistentCache
                 = mCacheFactory.newReviewsCache(mModelContext.getTagsManager(),
                 mModelContext.getReviewsFactory(), mValidator);
-        QueueCache<Review> slowCache = new QueueCache<>(persistentCache, MAX_REVIEWS_SLOW);
         QueueCache<Review> fastCache = new QueueCache<>(new InMemoryCache<Review>(), MAX_REVIEWS_FAST);
-        return new ReviewsCacheHybrid(slowCache, fastCache);
+        QueueCache<Review> slowCache = new QueueCache<>(persistentCache, MAX_REVIEWS_SLOW);
+        return new ReviewsCacheHybrid(fastCache, slowCache);
     }
 }

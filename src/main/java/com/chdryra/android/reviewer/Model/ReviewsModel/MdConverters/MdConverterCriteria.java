@@ -9,33 +9,19 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterCriteria extends MdConverterDataReview<DataCriterionReview, MdCriterion> {
+public class MdConverterCriteria extends MdConverterDataReview<DataCriterion, MdCriterion> {
 
     @Override
-    public MdCriterion convert(DataCriterionReview datum, ReviewId reviewId) {
-        return new MdCriterion(newMdReviewId(reviewId), datum.getReview());
+    public MdCriterion convert(DataCriterion datum, ReviewId reviewId) {
+        return new MdCriterion(newMdReviewId(reviewId), datum.getSubject(), datum.getRating());
     }
-
-    public MdDataList<MdCriterion> convertReviews(Iterable<? extends Review> reviews, ReviewId parentId) {
-        MdReviewId id = newMdReviewId(parentId);
-        MdDataList<MdCriterion> list = new MdDataList<>(id);
-        for(Review review : reviews) {
-            list.add(new MdCriterion(id, review));
-        }
-        return list;
-    }
-
-
 }

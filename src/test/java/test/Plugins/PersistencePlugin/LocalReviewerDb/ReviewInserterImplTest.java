@@ -107,7 +107,6 @@ public class ReviewInserterImplTest {
 
         ArrayList<RowReview> rows = new ArrayList<>();
         rows.add(asRow(RowReview.class, review));
-        rows.addAll(getExpectedRows(review.getCriteria(), RowReview.class, false));
 
         checkInsertCalled(review, mDb.getReviewsTable(), TableReviews.NAME, rows);
     }

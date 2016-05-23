@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
@@ -171,17 +172,23 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     }
 
     private Review assembleReview() {
-        IdableCollection<Review> criteria = new IdableDataCollection<>();
+        IdableCollection<Review> criteriaReviews = new IdableDataCollection<>();
         for (ReviewBuilderImpl child : mChildren) {
-            criteria.add(child.assembleReview());
+            criteriaReviews.add(child.assembleReview());
+        }
+
+        ArrayList<DataCriterion> criteria = new ArrayList<>();
+        for(Review criterion : criteriaReviews) {
+            criteria.add(new GvCriterion(criterion.getSubject().getSubject(), criterion.getRating().getRating()));
         }
 
         return mReviewFactory.createUserReview(getSubject(), getRating(),
+                criteria,
                 getData(GvComment.TYPE),
                 getData(GvImage.TYPE),
                 getData(GvFact.TYPE),
                 getData(GvLocation.TYPE),
-                criteria, mIsAverage);
+                mIsAverage);
     }
 
     private void setCriteria(GvDataList children) {

@@ -9,39 +9,35 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MdCriterion implements DataCriterionReview {
+public class MdCriterion implements DataCriterion {
     private MdReviewId mParentId;
-    private Review mCriterion;
+    private String mSubject;
+    private float mRating;
 
     //Constructors
-    public MdCriterion(MdReviewId parent, Review criterion) {
+    public MdCriterion(MdReviewId parent, String subject, float rating) {
         mParentId = parent;
-        mCriterion = criterion;
+        mSubject = subject;
+        mRating = rating;
     }
 
     //Overridden
     @Override
     public String getSubject() {
-        return mCriterion.getSubject().getSubject();
+        return mSubject;
     }
 
     @Override
     public float getRating() {
-        return mCriterion.getRating().getRating();
-    }
-
-    @Override
-    public Review getReview() {
-        return mCriterion;
+        return mRating;
     }
 
     @Override
@@ -51,7 +47,7 @@ public class MdCriterion implements DataCriterionReview {
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return mCriterion != null && mParentId != null;
+        return dataValidator.validate(this);
     }
 
     @Override
@@ -61,16 +57,18 @@ public class MdCriterion implements DataCriterionReview {
 
         MdCriterion that = (MdCriterion) o;
 
-        if (!mParentId.equals(that.mParentId)) return false;
-        return !(mCriterion != null ? !mCriterion.equals(that.mCriterion) : that.mCriterion
-                != null);
+        if (Float.compare(that.mRating, mRating) != 0) return false;
+        if (mParentId != null ? !mParentId.equals(that.mParentId) : that.mParentId != null)
+            return false;
+        return mSubject != null ? mSubject.equals(that.mSubject) : that.mSubject == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = mParentId.hashCode();
-        result = 31 * result + (mCriterion != null ? mCriterion.hashCode() : 0);
+        int result = mParentId != null ? mParentId.hashCode() : 0;
+        result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
+        result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
         return result;
     }
 }

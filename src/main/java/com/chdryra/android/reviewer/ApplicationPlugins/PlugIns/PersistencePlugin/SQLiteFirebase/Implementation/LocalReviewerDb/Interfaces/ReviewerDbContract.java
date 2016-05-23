@@ -21,6 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 public interface ReviewerDbContract extends DbContract {
     DbTable<RowReview> getReviewsTable();
 
+    DbTable<RowCriterion> getCriteriaTable();
+
     DbTable<RowComment> getCommentsTable();
 
     DbTable<RowFact> getFactsTable();

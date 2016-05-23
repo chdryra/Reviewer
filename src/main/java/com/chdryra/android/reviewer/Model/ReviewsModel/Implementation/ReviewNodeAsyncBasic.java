@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -155,7 +155,7 @@ public abstract class ReviewNodeAsyncBasic<T extends ReviewNode>
     }
 
     @Override
-    public IdableList<? extends DataCriterionReview> getCriteria() {
+    public IdableList<? extends DataCriterion> getCriteria() {
         return mNode.getCriteria();
     }
 

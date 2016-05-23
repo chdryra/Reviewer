@@ -79,13 +79,14 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public Review createUserReview(String subject, float rating,
+                                   Iterable<? extends DataCriterion> criteria,
                                    Iterable<? extends DataComment> comments,
                                    Iterable<? extends DataImage> images,
                                    Iterable<? extends DataFact> facts,
                                    Iterable<? extends DataLocation> locations,
-                                   Iterable<Review> criteria, boolean ratingIsAverage) {
-        return newReviewUser(subject, rating, comments,
-                images, facts, locations, criteria, ratingIsAverage);
+                                   boolean ratingIsAverage) {
+        return newReviewUser(subject, rating, criteria, comments,
+                images, facts, locations, ratingIsAverage);
     }
 
     public ReviewNode createMetaReview(Review review) {
@@ -122,18 +123,18 @@ public class FactoryReviews implements ReviewMaker {
         for(DataCriterion criterion : criteria) {
             critList.add(newReviewUser(new MdReviewId(criterion.getReviewId()), reviewData.getAuthor(),
                     reviewData.getPublishDate(), criterion.getSubject(), criterion.getRating(),
+                    new ArrayList<DataCriterion>(),
                     new ArrayList<DataComment>(),
                     new ArrayList<DataImage>(),
                     new ArrayList<DataFact>(),
                     new ArrayList<DataLocation>(),
-                    new ArrayList<Review>(),
                     false));
         }
 
         return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthor(),
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
-                reviewData.getComments(), reviewData.getImages(), reviewData.getFacts(), reviewData.getLocations(),
-                critList, reviewData.isAverage());
+                reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
+                reviewData.getFacts(), reviewData.getLocations(), reviewData.isAverage());
     }
 
     public Review getNullReview() {
@@ -150,19 +151,20 @@ public class FactoryReviews implements ReviewMaker {
     //private methods
     private Review createUserReview(String subject, float rating) {
         return newReviewUser(subject, rating,
+                new ArrayList<MdCriterion>(),
                 new ArrayList<MdComment>(),
                 new ArrayList<MdImage>(),
                 new ArrayList<MdFact>(),
-                new ArrayList<MdLocation>(),
-                new MdDataCollection<Review>(), false);
+                new ArrayList<MdLocation>(), false);
     }
 
     private Review newReviewUser(String subject, float rating,
+                                 Iterable<? extends DataCriterion> criteria,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
-                                 Iterable<Review> criteria, boolean ratingIsAverage) {
+                                 boolean ratingIsAverage) {
         if(mAuthorsStamp == null) throw new IllegalStateException("No author stamp!");
         
         ReviewStamp stamp = mAuthorsStamp.newStamp();
@@ -172,18 +174,27 @@ public class FactoryReviews implements ReviewMaker {
         MdReviewId id = new MdReviewId(author.getAuthorId().toString(),
                 date.getTime(), stamp.getPublishedIndex());
 
-        if (ratingIsAverage) {
-            Review meta = createMetaReview(criteria, "");
-            rating = meta.getRating().getRating();
-        }
+        if (ratingIsAverage) rating = getAverageRating(criteria);
 
         return newReviewUser(id, author, date, subject, rating,
+                criteria,
                 comments,
                 images,
                 facts,
                 locations,
-                criteria,
                 ratingIsAverage);
+    }
+
+    private float getAverageRating(Iterable<? extends DataCriterion> criteria) {
+        float rating;
+        double average = 0;
+        int size = 0;
+        for(DataCriterion criterion : criteria) {
+            average += criterion.getRating();
+            size++;
+        }
+        rating = (float)average / (float)size;
+        return rating;
     }
 
     private Review newReviewUser(MdReviewId id,
@@ -191,11 +202,11 @@ public class FactoryReviews implements ReviewMaker {
                                  DataDate publishDate,
                                  String subject,
                                  float rating,
+                                 Iterable<? extends DataCriterion> criteria,
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
-                                 Iterable<Review> criteria,
                                  boolean ratingIsAverage) {
         MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getAuthorId());
         MdDate mdDate = new MdDate(id, publishDate.getTime());

@@ -10,14 +10,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowValues;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +25,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  */
 public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview {
     private String mReviewId;
-    private String mParentId;
     private String mAuthorId;
     private long mPublishDate;
     private String mSubject;
@@ -46,18 +44,12 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         mRatingIsAverage = review.isRatingAverageOfCriteria();
     }
 
-    public RowReviewImpl(DataCriterionReview criterion) {
-        this(criterion.getReview());
-        mParentId = criterion.getReviewId().toString();
-    }
-
     //Via reflection
     public RowReviewImpl() {
     }
 
     public RowReviewImpl(RowValues values) {
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
-        mParentId = values.getValue(PARENT_ID.getName(), PARENT_ID.getType());
         mAuthorId = values.getValue(USER_ID.getName(), USER_ID.getType());
 
         Long time = values.getValue(PUBLISH_DATE.getName(), PUBLISH_DATE.getType());
@@ -79,11 +71,6 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
     @Override
     public ReviewId getReviewId() {
         return new DatumReviewId(mReviewId);
-    }
-
-    @Override
-    public String getParentId() {
-        return mParentId;
     }
 
     @Override
@@ -141,7 +128,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
     @Override
     protected int size() {
-        return 8;
+        return 7;
     }
 
     @Override
@@ -149,18 +136,16 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         if(position == 0) {
             return new RowEntryImpl<>(RowReview.class, REVIEW_ID, mReviewId);
         } else if(position == 1) {
-            return new RowEntryImpl<>(RowReview.class, PARENT_ID, mParentId);
-        } else if(position == 2) {
             return new RowEntryImpl<>(RowReview.class, USER_ID, mAuthorId);
-        } else if(position == 3) {
+        } else if(position == 2) {
             return new RowEntryImpl<>(RowReview.class, PUBLISH_DATE, mPublishDate);
-        } else if(position == 4) {
+        } else if(position == 3) {
             return new RowEntryImpl<>(RowReview.class, SUBJECT, mSubject);
-        } else if(position == 5) {
+        } else if(position == 4) {
             return new RowEntryImpl<>(RowReview.class, RATING, mRating);
-        } else if(position == 6) {
+        } else if(position == 5) {
             return new RowEntryImpl<>(RowReview.class, RATING_WEIGHT, mRatingWeight);
-        } else if(position == 7) {
+        } else if(position == 6) {
             return new RowEntryImpl<>(RowReview.class, IS_AVERAGE, mRatingIsAverage);
         } else {
             throw noElement();
@@ -181,8 +166,6 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         if (mValidIsAverage != that.mValidIsAverage) return false;
         if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
             return false;
-        if (mParentId != null ? !mParentId.equals(that.mParentId) : that.mParentId != null)
-            return false;
         if (mAuthorId != null ? !mAuthorId.equals(that.mAuthorId) : that.mAuthorId != null)
             return false;
         return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
@@ -192,7 +175,6 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
     @Override
     public int hashCode() {
         int result = mReviewId != null ? mReviewId.hashCode() : 0;
-        result = 31 * result + (mParentId != null ? mParentId.hashCode() : 0);
         result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
         result = 31 * result + (int) (mPublishDate ^ (mPublishDate >>> 32));
         result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);

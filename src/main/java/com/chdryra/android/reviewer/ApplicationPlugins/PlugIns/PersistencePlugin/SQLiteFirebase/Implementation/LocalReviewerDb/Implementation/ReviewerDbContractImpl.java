@@ -13,6 +13,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbContract;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
@@ -30,23 +33,27 @@ import java.util.ArrayList;
  */
 
 public final class ReviewerDbContractImpl implements ReviewerDbContract {
-    private TableAuthors mAuthorsTable;
-    private TableTags mTagsTable;
-    private TableReviews mReviewsTable;
-    private TableComments mCommentsTable;
-    private TableFacts mFactsTable;
-    private TableImages mImagesTable;
-    private TableLocations mLocationsTable;
+    private DbTable<RowAuthor> mAuthorsTable;
+    private DbTable<RowTag> mTagsTable;
+    private DbTable<RowReview> mReviewsTable;
+    private DbTable<RowCriterion> mCriteriaTable;
+    private DbTable<RowComment> mCommentsTable;
+    private DbTable<RowFact> mFactsTable;
+    private DbTable<RowImage> mImagesTable;
+    private DbTable<RowLocation> mLocationsTable;
 
     ArrayList<DbTable<? extends DbTableRow>> mTablesList;
     ArrayList<String> mTableNames;
 
-    public ReviewerDbContractImpl(TableAuthors authorsTable, TableTags
-            tagsTable, TableReviews reviewsTable, TableComments commentsTable, TableFacts
-                                          factsTable, TableImages imagesTable, TableLocations locationsTable) {
+    public ReviewerDbContractImpl(DbTable<RowAuthor> authorsTable, DbTable<RowTag> tagsTable,
+                                  DbTable<RowReview> reviewsTable, DbTable<RowCriterion>
+                                          criteriaTable, DbTable<RowComment> commentsTable,
+                                  DbTable<RowFact> factsTable, DbTable<RowImage> imagesTable,
+                                  DbTable<RowLocation> locationsTable) {
         mAuthorsTable = authorsTable;
         mTagsTable = tagsTable;
         mReviewsTable = reviewsTable;
+        mCriteriaTable = criteriaTable;
         mCommentsTable = commentsTable;
         mFactsTable = factsTable;
         mImagesTable = imagesTable;
@@ -55,6 +62,7 @@ public final class ReviewerDbContractImpl implements ReviewerDbContract {
         mTablesList = new ArrayList<>();
         mTablesList.add(getAuthorsTable());
         mTablesList.add(getReviewsTable());
+        mTablesList.add(getCriteriaTable());
         mTablesList.add(getCommentsTable());
         mTablesList.add(getFactsTable());
         mTablesList.add(getLocationsTable());
@@ -80,6 +88,11 @@ public final class ReviewerDbContractImpl implements ReviewerDbContract {
     @Override
     public DbTable<RowReview> getReviewsTable() {
         return mReviewsTable;
+    }
+
+    @Override
+    public DbTable<RowCriterion> getCriteriaTable() {
+        return mCriteriaTable;
     }
 
     @Override

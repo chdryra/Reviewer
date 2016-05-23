@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -74,7 +74,7 @@ public interface Review extends HasReviewId {
 
     boolean isRatingAverageOfCriteria();
 
-    IdableList<? extends DataCriterionReview> getCriteria();
+    IdableList<? extends DataCriterion> getCriteria();
 
     IdableList<? extends DataComment> getComments();
 

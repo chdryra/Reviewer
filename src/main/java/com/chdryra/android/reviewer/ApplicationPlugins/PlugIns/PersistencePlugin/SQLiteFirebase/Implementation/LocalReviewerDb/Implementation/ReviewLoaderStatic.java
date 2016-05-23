@@ -12,29 +12,28 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewLoader;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 
 import java.util.ArrayList;
 
@@ -67,12 +66,13 @@ public class ReviewLoaderStatic implements ReviewLoader {
                 asClause(RowLocation.class, RowLocation.REVIEW_ID, id), db, transactor);
         Iterable<RowImage> images = loadData(db.getImagesTable(),
                 asClause(RowImage.class, RowImage.REVIEW_ID, id), db, transactor);
-
-        Iterable<Review> critList = loadCriteria(id, db, transactor);
+        Iterable<RowCriterion> criteria = loadData(db.getCriteriaTable(),
+                asClause(RowCriterion.class, RowCriterion.REVIEW_ID, id), db, transactor);
+        
         DataAuthor author = loadAuthor(reviewRow.getAuthorId(), db, transactor);
 
         ReviewDataHolder reviewDb = newReviewDataHolder(reviewRow, comments, facts, locations,
-                images, critList, author);
+                images, criteria, author);
 
         return mRecreater.makeReview(reviewDb);
     }
@@ -83,7 +83,7 @@ public class ReviewLoaderStatic implements ReviewLoader {
                                                      Iterable<RowFact> facts,
                                                      Iterable<RowLocation> locations,
                                                      Iterable<RowImage> images,
-                                                     Iterable<Review> critList,
+                                                     Iterable<RowCriterion> criteria,
                                                      DataAuthor author) {
         ReviewId reviewId = reviewRow.getReviewId();
         String subject = reviewRow.getSubject();
@@ -91,13 +91,6 @@ public class ReviewLoaderStatic implements ReviewLoader {
         int ratingWeight = reviewRow.getRatingWeight();
         boolean isAverage = reviewRow.isRatingIsAverage();
         PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
-
-        ArrayList<DataCriterion> criteria = new ArrayList<>();
-        for(Review crit : critList) {
-            String critSubject = crit.getSubject().getSubject();
-            float critRating = crit.getRating().getRating();
-            criteria.add(new DatumCriterion(reviewId, critSubject, critRating));
-        }
 
         return new ReviewDataHolderImpl(reviewId, author,
                 publishDate, subject, rating, ratingWeight, comments, images, facts, locations,
@@ -111,13 +104,6 @@ public class ReviewLoaderStatic implements ReviewLoader {
         ArrayList<DbRow> data = new ArrayList<>();
         data.addAll(db.getRowsWhere(table, idClause, transactor));
         return data;
-    }
-
-    private Iterable<Review> loadCriteria(String reviewId, ReviewerDbReadable db,
-                                           TableTransactor transactor) {
-        RowEntry<RowReview, String> clause
-                = asClause(RowReview.class, RowReview.PARENT_ID, reviewId);
-        return db.loadReviewsWhere(db.getReviewsTable(), clause, transactor);
     }
 
     @NonNull

@@ -40,6 +40,9 @@ public interface ReviewerDb extends ReviewerDbReadable {
     void endTransaction(TableTransactor db);
 
     @Override
+    Collection<Review> loadReviews(TableTransactor transactor);
+
+    @Override
     <DbRow extends DbTableRow, Type> Collection<Review> loadReviewsWhere(DbTable<DbRow> table,
                                                                          RowEntry<DbRow, Type> clause,
                                                                          TableTransactor transactor);

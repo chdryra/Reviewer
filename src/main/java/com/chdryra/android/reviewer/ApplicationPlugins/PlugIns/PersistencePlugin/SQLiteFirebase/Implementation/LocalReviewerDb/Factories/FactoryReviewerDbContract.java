@@ -13,6 +13,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbContractImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableComments;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.TableCriteria;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableFacts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableImages;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableLocations;
@@ -40,12 +43,13 @@ public class FactoryReviewerDbContract {
         TableAuthors authors = new TableAuthors(mColumnFactory);
         TableTags tags = new TableTags(mColumnFactory);
         TableReviews reviews = new TableReviews(mColumnFactory, authors, mFkFactory);
+        TableCriteria criteria = new TableCriteria(mColumnFactory, reviews, mFkFactory);
         TableComments comments = new TableComments(mColumnFactory, reviews, mFkFactory);
         TableFacts facts = new TableFacts(mColumnFactory, reviews, mFkFactory);
         TableImages images = new TableImages(mColumnFactory, reviews, mFkFactory);
         TableLocations locations = new TableLocations(mColumnFactory, reviews, mFkFactory);
 
-        return new ReviewerDbContractImpl(authors, tags, reviews, comments, facts, images, locations);
+        return new ReviewerDbContractImpl(authors, tags, reviews, criteria, comments, facts, images, locations);
     }
 
 }

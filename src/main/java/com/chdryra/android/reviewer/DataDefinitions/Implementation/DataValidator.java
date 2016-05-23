@@ -46,6 +46,10 @@ public class DataValidator {
         return NotNull(rating) && rating.getRating() >= 0f && rating.getRatingWeight() > 0;
     }
 
+    public boolean validate(DataCriterion criterion) {
+        return NotNull(criterion) && criterion.getRating() >= 0f && validateString(criterion.getSubject());
+    }
+
     public boolean validate(DataTag tag) {
         return NotNull(tag) && validateString(tag.getTag());
     }
@@ -59,10 +63,6 @@ public class DataValidator {
             return validateString(fact.getLabel()) && validateString(fact.getValue());
 
         }
-    }
-
-    public boolean validate(DataCriterion criterion) {
-        return NotNull(criterion) && validateString(criterion.getSubject());
     }
 
     public boolean validate(DataImage image) {

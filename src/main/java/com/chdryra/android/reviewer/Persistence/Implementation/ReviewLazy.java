@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorRe
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -113,11 +113,11 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     }
 
     @Override
-    public IdableList<? extends DataCriterionReview> getCriteria() {
-        return returnData(new IdableDataList<DataCriterionReview>(mId),
-                new FunctionPointer<Review, IdableList<? extends DataCriterionReview>>() {
+    public IdableList<? extends DataCriterion> getCriteria() {
+        return returnData(new IdableDataList<DataCriterion>(mId),
+                new FunctionPointer<Review, IdableList<? extends DataCriterion>>() {
                     @Override
-                    public IdableList<? extends DataCriterionReview> execute(Review review) {
+                    public IdableList<? extends DataCriterion> execute(Review review) {
                         return review.getCriteria();
                     }
                 });

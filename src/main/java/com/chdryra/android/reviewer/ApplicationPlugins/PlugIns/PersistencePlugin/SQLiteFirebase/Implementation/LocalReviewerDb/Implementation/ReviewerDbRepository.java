@@ -45,8 +45,6 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbRepository implements ReviewsRepositoryMutable {
-    public static final RowEntryImpl<RowReview, String> REVIEW_CLAUSE
-            = new RowEntryImpl<>(RowReview.class, RowReview.PARENT_ID, null);
     private final ReviewerDb mDatabase;
     private final TagsManager mTagsManager;
     private final DbTable<RowReview> mTable;
@@ -157,7 +155,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
 
     private Collection<Review> getAllReviews() {
         TableTransactor transactor = mDatabase.beginReadTransaction();
-        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, REVIEW_CLAUSE, transactor);
+        Collection<Review> reviews = mDatabase.loadReviews(transactor);
         loadTagsIfNecessary(transactor);
         mDatabase.endTransaction(transactor);
         return reviews;

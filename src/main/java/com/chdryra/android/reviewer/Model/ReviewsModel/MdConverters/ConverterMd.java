@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters;
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -22,7 +23,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -71,8 +71,8 @@ public class ConverterMd {
         return mConverterUrl.convert(urls, reviewId);
     }
 
-    public MdDataList<MdCriterion> toMdCriterionList(Iterable<? extends Review> criteria,
+    public MdDataList<MdCriterion> toMdCriterionList(Iterable<? extends DataCriterion> criteria,
                                                      ReviewId reviewId) {
-        return mConverterCriteria.convertReviews(criteria, reviewId);
+        return mConverterCriteria.convert(criteria, reviewId);
     }
 }

@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -201,10 +201,10 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
     }
 
     @Override
-    public IdableList<? extends DataCriterionReview> getCriteria() {
-        return getReviewData(new DataGetter<DataCriterionReview>() {
+    public IdableList<? extends DataCriterion> getCriteria() {
+        return getReviewData(new DataGetter<DataCriterion>() {
             @Override
-            IdableList<? extends DataCriterionReview> getData(Review review) {
+            IdableList<? extends DataCriterion> getData(Review review) {
                 return review.getCriteria();
             }
         });
