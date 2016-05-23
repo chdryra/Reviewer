@@ -33,6 +33,7 @@ public class DatumAuthorReview implements DataAuthorReview {
         return mName;
     }
 
+    @Override
     public AuthorId getAuthorId() {
         return mAuthorId;
     }

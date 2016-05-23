@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterAsyncWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
@@ -99,14 +99,14 @@ public class FactoryReviewViewAdapter {
         return newAsyncReviewsListAdapter(asyncNode);
     }
 
-    public ReviewViewAdapter<GvReviewAsync> newChildListAdapter(ReviewNodeAsync<?> node) {
-        GridDataViewer<GvReviewAsync> viewer;
+    public ReviewViewAdapter<GvReview> newChildListAdapter(ReviewNodeAsync<?> node) {
+        GridDataViewer<GvReview> viewer;
         viewer = new ViewerChildList(node, mConverter.getConverterReviews(), this);
         return newNodeAdapter(node, viewer);
     }
 
-    public ReviewViewAdapter<GvReviewAsync> newChildListAdapter(ReviewNode node) {
-        GridDataViewer<GvReviewAsync> viewer;
+    public ReviewViewAdapter<GvReview> newChildListAdapter(ReviewNode node) {
+        GridDataViewer<GvReview> viewer;
         viewer = new ViewerChildList(node, mConverter.getConverterReviews(), this);
         return newNodeAdapter(node, viewer);
     }

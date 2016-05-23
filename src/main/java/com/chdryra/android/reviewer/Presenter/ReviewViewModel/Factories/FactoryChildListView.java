@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
@@ -24,11 +24,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryChildListView {
-    public ReviewView<GvReviewAsync>
-    newView(ReviewViewAdapter<GvReviewAsync> adapter, ReviewViewActions<GvReviewAsync> actions) {
+    public ReviewView<GvReview>
+    newView(ReviewViewAdapter<GvReview> adapter, ReviewViewActions<GvReview> actions) {
         ReviewViewParams params = getReviewViewParams();
 
-        ReviewViewPerspective<GvReviewAsync> perspective;
+        ReviewViewPerspective<GvReview> perspective;
         perspective = new ReviewViewPerspective<>(adapter, actions, params);
 
         return new ReviewViewDefault<>(perspective);

@@ -54,7 +54,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
         mStructure = structure;
         mValidator = validator;
         mObservers = new ArrayList<>();
-        getReviewsRoot().addChildEventListener(new ChildListener());
+        //getReviewsRoot().addChildEventListener(new ChildListener());
     }
 
     @Override
@@ -175,17 +175,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     ReviewDb review = toReviewDb(childSnapshot);
                     if (mValidator.isIdValid(review)) {
-                        if (author == null) {
-                            reviews.add(review);
-                        } else {
-                            getReview(review.getReviewId(), new GetReviewCallback() {
-                                @Override
-                                public void onReview(ReviewDb review, @Nullable BackendError
-                                        error) {
-                                    if (error == null) reviews.add(review);
-                                }
-                            });
-                        }
+                        reviews.add(review);
                     }
                 }
 

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemFeedScreen extends GridItemLauncher<GvReviewAsync>
+public class GridItemFeedScreen extends GridItemLauncher<GvReview>
         implements DialogAlertFragment.DialogAlertListener, NewReviewListener,
         ReviewsRepository.RepositoryCallback {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
@@ -48,11 +48,11 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReviewAsync>
     }
 
     @Override
-    public void onGridItemLongClick(GvReviewAsync item, int position, View v) {
+    public void onGridItemLongClick(GvReview item, int position, View v) {
         launchShareEdit(item);
     }
 
-    private void launchShareEdit(GvReviewAsync item) {
+    private void launchShareEdit(GvReview item) {
         Bundle args = new Bundle();
         args.putParcelable(mShareEditUi.getLaunchTag(), item.getGvReviewId());
         launch(mShareEditUi, SHARE_EDIT, args);

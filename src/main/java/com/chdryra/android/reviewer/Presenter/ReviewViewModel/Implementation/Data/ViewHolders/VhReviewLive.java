@@ -20,25 +20,15 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterAuthors;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterImages;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterAuthors;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.R;
 
 import java.text.DateFormat;
@@ -50,8 +40,7 @@ import java.util.Date;
  * On: 07/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VhReviewAsync extends ViewHolderBasic implements ReviewsRepository
-        .RepositoryCallback, Review.ReviewObserver {
+public class VhReviewLive extends ViewHolderBasic implements Review.ReviewObserver {
     private static final int LAYOUT = R.layout.grid_cell_review_overview;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -75,11 +64,11 @@ public class VhReviewAsync extends ViewHolderBasic implements ReviewsRepository
     private Review mReview;
     private boolean mFetching = false;
 
-    public VhReviewAsync(TagsManager tagsManager,
-                         GvConverterImages converterImages,
-                         GvConverterComments converterComments,
-                         GvConverterLocations converterLocations,
-                         GvConverterAuthors converterAuthor) {
+    public VhReviewLive(TagsManager tagsManager,
+                        GvConverterImages converterImages,
+                        GvConverterComments converterComments,
+                        GvConverterLocations converterLocations,
+                        GvConverterAuthors converterAuthor) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
@@ -90,8 +79,6 @@ public class VhReviewAsync extends ViewHolderBasic implements ReviewsRepository
 
     @Override
     public void updateView(ViewHolderData data) {
-        if(mFetching) return;
-
         if (mSubject == null) mSubject = (TextView) getView(SUBJECT);
         if (mRating == null) mRating = (RatingBar) getView(RATING);
         if (mImage == null) mImage = (ImageView) getView(IMAGE);
@@ -100,26 +87,9 @@ public class VhReviewAsync extends ViewHolderBasic implements ReviewsRepository
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
 
-        GvReviewAsync review = (GvReviewAsync) data;
-        mSubject.setText(review.getSubject());
-        mRating.setRating(review.getRating());
-        mPublishDate.setText("loading...");
-
-        if ((mReview == null || !mReview.getReviewId().equals(review.getReviewId()))) {
-            mFetching = true;
-            review.getReview(this);
-        } else {
-            updateUi();
-        }
-    }
-
-    @Override
-    public void onRepositoryCallback(RepositoryResult result) {
-        Review review = result.getReview();
-        if (review == null || result.isError()) return;
-        setReview(review);
-        onReviewChanged();
-        mFetching = false;
+        GvReview review = (GvReview) data;
+        setReview(review.getReview());
+        updateUi();
     }
 
     @Override

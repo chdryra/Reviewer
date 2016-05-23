@@ -88,13 +88,13 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
                     Review review = result.getReview();
                     if(review != null) mCache.add(review);
                 } else if(result.isCollection()) {
-                    for(Review review : result.getReviews()) {
-                        mCache.add(review);
-                    }
+//                    //TODO caching strategy for when retrieved reviews are just partial
+//                    for(Review review : result.getReviews()) {
+//                        mCache.add(review);
+//                    }
                 }
             }
 
-            //TODO caching strategy for when retrieved reviews are just partial
             mCallback.onRepositoryCallback(result);
         }
 

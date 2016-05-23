@@ -16,8 +16,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsyncList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverviewList;
 
 /**
@@ -29,15 +29,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 /**
  * Grid data is {@link GvReviewOverviewList}.
  */
-public class ViewerChildList implements GridDataViewer<GvReviewAsync> {
-    private static final GvDataType<GvReviewAsync> TYPE = GvReviewAsync.TYPE;
+public class ViewerChildList implements GridDataViewer<GvReview> {
+    private static final GvDataType<GvReview> TYPE = GvReview.TYPE;
 
     private ReviewNode mNode;
-    private DataConverter<Review, GvReviewAsync, GvReviewAsyncList> mConverter;
+    private DataConverter<Review, GvReview, GvReviewList> mConverter;
     private FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerChildList(ReviewNode node,
-                           DataConverter<Review, GvReviewAsync, GvReviewAsyncList> converter,
+                           DataConverter<Review, GvReview, GvReviewList> converter,
                            FactoryReviewViewAdapter adapterFactory) {
         mNode = node;
         mConverter = converter;
@@ -55,17 +55,17 @@ public class ViewerChildList implements GridDataViewer<GvReviewAsync> {
     }
 
     @Override
-    public GvReviewAsyncList getGridData() {
+    public GvReviewList getGridData() {
         return mConverter.convert(mNode.getChildren());
     }
 
     @Override
-    public boolean isExpandable(GvReviewAsync datum) {
+    public boolean isExpandable(GvReview datum) {
         return mNode.hasChild(datum.getReviewId());
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(GvReviewAsync datum) {
+    public ReviewViewAdapter expandGridCell(GvReview datum) {
         if (isExpandable(datum)) {
             return newNodeDataAdapter(mNode.getChild(datum.getReviewId()));
         } else {

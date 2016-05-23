@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeAsync;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -33,7 +32,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewAsync;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
@@ -66,18 +65,18 @@ public class FactoryReviewViewLaunchable {
     }
 
     public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
-        return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReviewAsync.TYPE));
+        return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReview.TYPE));
     }
+//
+//    public ReviewView<GvReview> newReviewsListScreen(ReviewNodeAsync<?> node,
+//                                                     FactoryReviewViewAdapter adapterFactory,
+//                                                     ReviewViewActions<GvReview> actions) {
+//        return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
+//    }
 
-    public ReviewView<GvReviewAsync> newReviewsListScreen(ReviewNodeAsync<?> node,
-                                                          FactoryReviewViewAdapter adapterFactory,
-                                                          ReviewViewActions<GvReviewAsync> actions) {
-        return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
-    }
-
-    public ReviewView<GvReviewAsync> newReviewsListScreen(ReviewNode node,
+    public ReviewView<GvReview> newReviewsListScreen(ReviewNode node,
                                                              FactoryReviewViewAdapter adapterFactory,
-                                             ReviewViewActions<GvReviewAsync> actions) {
+                                             ReviewViewActions<GvReview> actions) {
         return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
     }
 

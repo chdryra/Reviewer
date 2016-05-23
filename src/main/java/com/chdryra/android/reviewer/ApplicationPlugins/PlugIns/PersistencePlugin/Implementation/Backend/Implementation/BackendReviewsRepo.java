@@ -106,7 +106,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
 
     @Override
     public void onAdded(ReviewDb review) {
-        notifyOnAddReview(recreateReview(review));
+        notifyOnAddReview(recreateLazyReview(review));
     }
 
     @Override
@@ -162,11 +162,9 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     }
 
     @NonNull
-    private BackendReviewsDb.GetCollectionCallback reviewCollectionCallback(final
-                                                                            RepositoryCallback
-                                                                                        callback,
-                                                                            final
-                                                                            FunctionPointer<ReviewDb, Review> recreateReview) {
+    private BackendReviewsDb.GetCollectionCallback
+    reviewCollectionCallback(final RepositoryCallback callback,
+                             final FunctionPointer<ReviewDb, Review> recreateFp) {
         final ArrayList<Review> reviews = new ArrayList<>();
         return new BackendReviewsDb.GetCollectionCallback() {
             @Override
@@ -174,7 +172,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
                                            @Nullable
                                            BackendError error) {
                 for (ReviewDb review : fetched) {
-                    reviews.add(recreateReview.execute(review));
+                    reviews.add(recreateFp.execute(review));
                 }
 
                 CallbackMessage result = getCollectionCallbackMessage(error);
