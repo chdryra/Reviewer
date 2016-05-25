@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class BuildScreenModifier implements ReviewViewModifier {
     private static final int LAUNCH_SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
     private static final int BUTTON_DIVIDER = R.layout.horizontal_divider;
-    private static final int BUTTON_LAYOUT = R.layout.review_banner_button;
+    private static final int BUTTON_LAYOUT = R.layout.review_button;
     private static final int SHARE_BUTTON = R.string.button_share;
     private static final int TOAST_ENTER_SUBJECT = R.string.toast_enter_subject;
 

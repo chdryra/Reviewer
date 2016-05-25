@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PublishButton implements ReviewViewModifier {
-    private static final int PUBLISH_BUTTON = R.layout.review_banner_button;
+    private static final int PUBLISH_BUTTON = R.layout.review_button;
     private static final int DIVIDER = R.layout.horizontal_divider;
     private static final int BUTTON_TEXT = R.string.button_publish;
 

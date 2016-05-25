@@ -57,13 +57,15 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private static final int LINEAR_LAYOUT = R.id.linearlayout;
     private static final int SUBJECT = R.id.subject_edit_text;
     private static final int RATING = R.id.review_rating;
-    private static final int BUTTON = R.id.banner_button;
+    private static final int BANNER = R.id.banner_button;
     private static final int GRID = R.id.gridview_data;
+    private static final int OPTIONAL = R.id.optional_button;
 
     private LinearLayout mLinearLayout;
     private TextView mSubjectView;
     private RatingBar mRatingBar;
     private Button mBannerButton;
+    private Button mOptionalButton;
     private GridView mGridView;
 
     private ReviewView<?> mReviewView;
@@ -154,9 +156,11 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mLinearLayout = (LinearLayout) v.findViewById(LINEAR_LAYOUT);
         mSubjectView = (ClearableEditText) v.findViewById(SUBJECT);
         mRatingBar = (RatingBar) v.findViewById(RATING);
-        mBannerButton = (Button) v.findViewById(BUTTON);
+        mBannerButton = (Button) v.findViewById(BANNER);
         mGridView = (GridView) v.findViewById(GRID);
         mGridView.setDrawSelectorOnTop(true);
+        mOptionalButton = (Button) v.findViewById(OPTIONAL);
+        mOptionalButton.setText("Hello");
 
         initGridCellDimensions();
         initUi();
