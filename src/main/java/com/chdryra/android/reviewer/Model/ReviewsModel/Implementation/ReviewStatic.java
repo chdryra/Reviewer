@@ -25,4 +25,9 @@ public abstract class ReviewStatic implements Review {
     public void unregisterObserver(ReviewObserver observer) {
         //Does nothing
     }
+
+    @Override
+    public boolean isCacheable() {
+        return true;
+    }
 }

@@ -32,6 +32,8 @@ public class ReviewsCacheHybrid implements ReviewsCache {
     @Override
     @Nullable
     public Review add(Review review) {
+        if(!review.isCacheable()) return review;
+
         Review overflow = mFastCache.add(review.getReviewId().toString(), review);
         if(overflow != null) {
             overflow = mSlowCache.add(overflow.getReviewId().toString(), overflow);

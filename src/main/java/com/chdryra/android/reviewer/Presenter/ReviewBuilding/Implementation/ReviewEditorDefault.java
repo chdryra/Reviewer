@@ -41,7 +41,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
 
     @Override
     public void setSubject() {
-        mBuilder.setSubject(getFragmentSubject());
+        mBuilder.setSubject(getContainerSubject());
     }
 
     @Override

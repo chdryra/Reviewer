@@ -13,8 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments
-        .FragmentReviewView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +22,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
  */
 //TODO remove android dependency
 public interface ReviewViewModifier {
-    View modify(FragmentReviewView parent, View v, LayoutInflater inflater,
+    View modify(ReviewView view, View v, LayoutInflater inflater,
                 ViewGroup container, Bundle savedInstanceState);
 }

@@ -39,4 +39,9 @@ public abstract class ReviewDynamic implements Review {
             observer.onReviewChanged();
         }
     }
+
+    @Override
+    public boolean isCacheable() {
+        return false;
+    }
 }

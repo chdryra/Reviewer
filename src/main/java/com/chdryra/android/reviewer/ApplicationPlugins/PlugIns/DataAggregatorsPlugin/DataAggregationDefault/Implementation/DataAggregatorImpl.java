@@ -64,8 +64,7 @@ public class DataAggregatorImpl<T extends HasReviewId, D extends DifferenceLevel
                                                  IdableList<T> allocated) {
         int candidate = 0;
         while (candidate < unallocated.size()) {
-            candidate = allocateCandidateIfSimilar(unallocated, allocated, reference,
-                    candidate);
+            candidate = allocateCandidateIfSimilar(unallocated, allocated, reference, candidate);
         }
     }
 

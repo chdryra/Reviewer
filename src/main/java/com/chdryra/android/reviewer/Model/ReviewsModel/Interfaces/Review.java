@@ -86,6 +86,8 @@ public interface Review extends HasReviewId {
 
     IdableList<? extends DataLocation> getLocations();
 
+    boolean isCacheable();
+
     @Override
     ReviewId getReviewId();
 

@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -38,6 +39,11 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     @Override
     public GvDataList<T> getGridData() {
         return mData.toList();
+    }
+
+    @Override
+    public GvAuthor getUniqueAuthor() {
+        return new GvAuthor();
     }
 
     @Override

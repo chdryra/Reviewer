@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +15,8 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
@@ -41,26 +38,26 @@ public interface ReviewView<T extends GvData> extends DataObservable, DataObserv
 
     ReviewViewAdapter<T> getAdapter();
 
+    ReviewViewContainer getContainer();
+
     ReviewViewParams getParams();
 
     ReviewViewActions<T> getActions();
 
-    Activity getActivity();
-
     boolean isEditable();
 
-    String getFragmentSubject();
+    String getContainerSubject();
 
-    float getFragmentRating();
+    float getContainerRating();
 
-    void attachFragment(FragmentReviewView parent);
+    void attachContainer(ReviewViewContainer container);
 
-    void detachFragment(FragmentReviewView parent);
+    void detachContainer(ReviewViewContainer container);
 
     void updateCover();
 
-    View modifyIfNeccessary(View v, LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState);
+    View modifyIfNecessary(View v, LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState);
 
     @Override
     void registerDataObserver(DataObservable.DataObserver observer);

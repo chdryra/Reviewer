@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 import java.util.ArrayList;
@@ -86,5 +87,10 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
         for (DataObserver observer : mObservers) {
             observer.onDataChanged();
         }
+    }
+
+    @Override
+    public GvAuthor getUniqueAuthor() {
+        return new GvAuthor();
     }
 }

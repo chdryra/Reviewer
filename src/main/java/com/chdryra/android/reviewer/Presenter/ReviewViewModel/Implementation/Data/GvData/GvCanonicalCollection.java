@@ -17,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhDataCollection;
 
@@ -46,7 +47,7 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
     };
 
     private GvReviewId mReviewId;
-    private GvDataListImpl<GvCanonical> mData;
+    private GvDataList<GvCanonical> mData;
     private GvDataType<T> mType;
     private Comparator<GvCanonical> mComparator;
 
@@ -126,7 +127,7 @@ public class GvCanonicalCollection<T extends GvData> extends AbstractCollection<
     }
 
     @Override
-    public GvDataListImpl<GvCanonical> toList() {
+    public GvDataList<GvCanonical> toList() {
         return mData;
     }
 

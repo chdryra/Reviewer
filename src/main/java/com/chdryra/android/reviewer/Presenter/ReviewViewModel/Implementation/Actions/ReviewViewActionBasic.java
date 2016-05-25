@@ -43,7 +43,7 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     @Override
     public Activity getActivity() {
-        return getReviewView().getActivity();
+        return getReviewView().getContainer().getActivity();
     }
 
     @Override

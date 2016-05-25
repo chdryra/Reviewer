@@ -43,7 +43,7 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
     //public methods
     @Override
     public void setSubject() {
-        mSubject = getFragmentSubject();
+        mSubject = getContainerSubject();
     }
 
     @Override
@@ -59,11 +59,10 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
 
     @Override
     public void setRating(float rating, boolean fromUser) {
+        mRating = rating;
         if(fromUser) {
             setRatingIsAverage(false);
-            mRating = rating;
         } else {
-            mRating = rating;
             getParent().setRating(mRating);
         }
     }
@@ -90,9 +89,9 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
 
     @Override
     public void commitEdits() {
-        mBuilder.setSubject(getFragmentSubject());
+        mBuilder.setSubject(getContainerSubject());
         mBuilder.setRatingIsAverage(mRatingIsAverage);
-        mBuilder.setRating(getFragmentRating());
+        mBuilder.setRating(getContainerRating());
         mBuilder.publishData();
     }
 

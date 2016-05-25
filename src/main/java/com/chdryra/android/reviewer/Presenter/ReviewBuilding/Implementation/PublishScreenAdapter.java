@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -69,6 +70,11 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
         @Override
         public GvDataListImpl<GvSocialPlatform> getGridData() {
             return mSocialPlatforms;
+        }
+
+        @Override
+        public GvAuthor getUniqueAuthor() {
+            return new GvAuthor();
         }
 
         @Override

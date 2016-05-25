@@ -15,6 +15,8 @@ import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.ReviewViewPacker;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
@@ -35,7 +37,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
-           mView = ((FragmentReviewView) getFragment()).getReviewView();
+           mView = ((ReviewViewContainer) getFragment()).getReviewView();
        }
     }
 

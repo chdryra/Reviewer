@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
 
@@ -23,11 +24,16 @@ public class ViewerAggregateToReviews<T extends GvData> extends ViewerDataToRevi
     private GvCanonicalCollection<T> mData;
     private FactoryReviewViewAdapter mAdapterFactory;
 
-    public ViewerAggregateToReviews(GvCanonicalCollection<T> data, FactoryReviewViewAdapter
-            adapterFactory) {
+    public ViewerAggregateToReviews(GvCanonicalCollection<T> data,
+                                    FactoryReviewViewAdapter adapterFactory) {
         super(data, adapterFactory);
         mData = data;
         mAdapterFactory = adapterFactory;
+    }
+
+    @Override
+    public GvAuthor getUniqueAuthor() {
+        return new GvAuthor();
     }
 
     @Override

@@ -126,8 +126,7 @@ public class FactoryReviewViewLaunchable {
         SubjectAction<T> subject = new SubjectActionNone<>();
         RatingBarAction<T> rb = new RatingBarExpandGrid<>(this, mLauncher);
         BannerButtonAction<T> bb = new BannerButtonActionNone<>();
-        GridItemAction<T> giAction
-                = new GridItemLauncher<>(this, mLauncher);
+        GridItemAction<T> giAction = new GridItemLauncher<>(this, mLauncher);
         MenuAction<T> menuAction = new MenuActionNone<>();
 
         return new ReviewViewActions<>(subject, rb, bb, giAction, menuAction);

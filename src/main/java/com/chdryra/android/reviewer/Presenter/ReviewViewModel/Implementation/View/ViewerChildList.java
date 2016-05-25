@@ -15,10 +15,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverviewList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -44,11 +47,6 @@ public class ViewerChildList implements GridDataViewer<GvReview> {
         mAdapterFactory = adapterFactory;
     }
 
-    private ReviewViewAdapter newNodeDataAdapter(ReviewNode node) {
-        return mAdapterFactory.newNodeDataAdapter(node);
-    }
-
-    //Overridden
     @Override
     public GvDataType<? extends GvData> getGvDataType() {
         return TYPE;
@@ -60,21 +58,31 @@ public class ViewerChildList implements GridDataViewer<GvReview> {
     }
 
     @Override
+    public GvAuthor getUniqueAuthor() {
+        return new GvAuthor();
+    }
+
+    @Override
     public boolean isExpandable(GvReview datum) {
         return mNode.hasChild(datum.getReviewId());
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(GvReview datum) {
+    public ReviewViewAdapter<?> expandGridCell(GvReview datum) {
         if (isExpandable(datum)) {
-            return newNodeDataAdapter(mNode.getChild(datum.getReviewId()));
+            ReviewNode child = mNode.getChild(datum.getReviewId());
+            return child != null ? newNodeDataAdapter(child) : null;
         } else {
             return null;
         }
     }
 
     @Override
-    public ReviewViewAdapter expandGridData() {
+    public ReviewViewAdapter<?> expandGridData() {
         return newNodeDataAdapter(mNode);
+    }
+
+    private ReviewViewAdapter<?> newNodeDataAdapter(ReviewNode node) {
+        return mAdapterFactory.newNodeDataAdapter(node);
     }
 }

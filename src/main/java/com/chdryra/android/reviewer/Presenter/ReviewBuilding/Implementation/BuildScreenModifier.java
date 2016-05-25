@@ -18,10 +18,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -48,9 +49,10 @@ public class BuildScreenModifier implements ReviewViewModifier {
 
     //Overridden
     @Override
-    public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
+    public View modify(ReviewView view, View v, LayoutInflater inflater,
                        ViewGroup container, Bundle savedInstanceState) {
-        parent.setBannerNotClickable();
+        ReviewViewContainer parent = view.getContainer();
+        parent.setBannerAsDisplay();
         parent.addView(getShareButton(parent, inflater, container));
         parent.addView(getButtonDivider(inflater, container));
 
@@ -62,7 +64,7 @@ public class BuildScreenModifier implements ReviewViewModifier {
     }
 
     @NonNull
-    private Button getShareButton(final FragmentReviewView parent, LayoutInflater inflater,
+    private Button getShareButton(final ReviewViewContainer parent, LayoutInflater inflater,
                                   ViewGroup container) {
         Button shareButton = (Button) inflater.inflate(BUTTON_LAYOUT, container, false);
         shareButton.setText(parent.getActivity().getResources().getString(SHARE_BUTTON));
@@ -72,7 +74,7 @@ public class BuildScreenModifier implements ReviewViewModifier {
     }
 
     @NonNull
-    private View.OnClickListener newLaunchShareScreenListener(final FragmentReviewView parent) {
+    private View.OnClickListener newLaunchShareScreenListener(final ReviewViewContainer parent) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +83,7 @@ public class BuildScreenModifier implements ReviewViewModifier {
         };
     }
 
-    private void launchShareScreen(FragmentReviewView parent) {
+    private void launchShareScreen(ReviewViewContainer parent) {
         Activity activity = parent.getActivity();
 
         if (parent.getSubject().length() == 0) {

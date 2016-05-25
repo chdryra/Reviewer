@@ -126,7 +126,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
     //private methods
     private Activity getActivity() {
-        return mEditor.getActivity();
+        return mEditor.getContainer().getActivity();
     }
 
     private int getImageRequestCode() {

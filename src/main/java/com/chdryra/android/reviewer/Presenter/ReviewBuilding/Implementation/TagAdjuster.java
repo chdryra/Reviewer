@@ -35,7 +35,7 @@ public class TagAdjuster {
     }
 
     public void adjustTagsIfNecessary(ReviewDataEditor<GvTag> editor) {
-        GvTag toAdd = new GvTag(editor.getFragmentSubject());
+        GvTag toAdd = new GvTag(editor.getContainerSubject());
         GvTag toRemove = mCurrentSubjectTag;
         if(toAdd.equals(toRemove)) return;
 

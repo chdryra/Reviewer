@@ -19,13 +19,14 @@ import android.widget.Button;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentReviewView;
-
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvSocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .ReviewViewModifier;
 import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
@@ -49,9 +50,10 @@ public class PublishButton implements ReviewViewModifier {
     }
 
     @Override
-    public View modify(final FragmentReviewView parent, View v, LayoutInflater inflater,
+    public View modify(final ReviewView view, View v, LayoutInflater inflater,
                        ViewGroup container, Bundle savedInstanceState) {
 
+        ReviewViewContainer parent = view.getContainer();
         final Activity activity = parent.getActivity();
 
         Button publishButton = (Button) inflater.inflate(PUBLISH_BUTTON, container, false);
