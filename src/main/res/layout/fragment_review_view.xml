@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) Rizwan Choudrey 2016 - All Rights Reserved
+  ~ Unauthorized copying of this file via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ rizwan.choudrey@gmail.com
+  ~
+  -->
+
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/review_view"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+    <include
+        android:id="@+id/contextual_view"
+        layout="@layout/fragment_review_view_contextual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
+
+    <include
+        android:id="@+id/main_view"
+        layout="@layout/fragment_review_view_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/contextual_view"/>
+
+</RelativeLayout>

@@ -18,6 +18,7 @@ public class ReviewViewParams {
     private boolean mSubjectVisible = true;
     private boolean mRatingVisible = true;
     private boolean mBannerButtonVisible = true;
+    private boolean mContextualVisible = false;
     private boolean mCoverManager = true;
 
     public enum GridViewAlpha {
@@ -31,7 +32,6 @@ public class ReviewViewParams {
             this.mAlpha = alpha;
         }
 
-        //public methods
         public int getAlpha() {
             return mAlpha;
         }
@@ -52,7 +52,6 @@ public class ReviewViewParams {
         }
     }
 
-    //public methods
     public GridViewParams getGridViewParams() {
         return mGridViewParams;
     }
@@ -84,6 +83,15 @@ public class ReviewViewParams {
         return this;
     }
 
+    public boolean isContextualVisible() {
+        return mContextualVisible;
+    }
+
+    public ReviewViewParams setContextualVisible(boolean contextualVisible) {
+        mContextualVisible = contextualVisible;
+        return this;
+    }
+
     public boolean manageCover() {
         return mCoverManager;
     }
@@ -108,13 +116,11 @@ public class ReviewViewParams {
         return this;
     }
 
-    //Classes
     public static class GridViewParams {
         private GridViewAlpha mGridAlpha = GridViewAlpha.MEDIUM;
         private CellDimension mCellWidth = CellDimension.HALF;
         private CellDimension mCellHeight = CellDimension.QUARTER;
 
-        //public methods
         public int getGridAlpha() {
             return mGridAlpha.getAlpha();
         }

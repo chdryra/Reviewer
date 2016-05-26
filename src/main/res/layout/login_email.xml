@@ -8,7 +8,7 @@
   -->
 
 <LinearLayout
-    android:id="@+id/linearlayout"
+    android:id="@+id/main_layout"
     style="@style/LineaLayoutVertical.WrappedVertical"
     android:layout_gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android">
