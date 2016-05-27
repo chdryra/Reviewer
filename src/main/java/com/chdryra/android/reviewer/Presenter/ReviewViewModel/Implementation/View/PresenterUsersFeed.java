@@ -37,7 +37,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 import org.apache.commons.lang3.StringUtils;
@@ -243,7 +243,7 @@ public class PresenterUsersFeed implements
         @NonNull
         private PresenterUsersFeed.Actions getActions() {
             FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
-            LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
+            UiLauncher uiLauncher = mApp.getUiLauncher();
             ConfigUi configUi = mApp.getConfigUi();
             LaunchableUi reviewBuildUi = configUi.getBuildReviewConfig().getLaunchable();
 

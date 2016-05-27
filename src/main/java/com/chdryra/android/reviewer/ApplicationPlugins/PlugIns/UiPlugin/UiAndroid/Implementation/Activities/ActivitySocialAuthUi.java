@@ -43,10 +43,11 @@ public class ActivitySocialAuthUi extends ActivitySingleFragment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
-        mFragmentFactory = new FactoryFragmentSocialLogin();
-        mHandlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
         super.onCreate(savedInstanceState);
+        ApplicationInstance.setActivity(this);
+        mFragmentFactory = new FactoryFragmentSocialLogin();
+        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        mHandlerFactory = new FactoryLoginResultHandler(app.getSocialPlatformList());
     }
 
     @Override

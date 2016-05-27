@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDa
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -27,7 +27,7 @@ public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
     private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
     public GridItemDataEditImage(LaunchableConfig editorConfig,
-                                 LaunchableUiLauncher launchableFactory,
+                                 UiLauncher launchableFactory,
                                  ParcelablePacker<GvImage> dataPacker) {
         super(editorConfig, launchableFactory, dataPacker);
     }

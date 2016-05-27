@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAct
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -36,7 +36,7 @@ public class BannerButtonAdd<T extends GvData> extends LaunchAndAlertableAction<
     private GvDataList<T> mAdded;
 
     public BannerButtonAdd(LaunchableConfig adderConfig,
-                           LaunchableUiLauncher launcher, String title,
+                           UiLauncher launcher, String title,
                            GvDataList<T> emptyListToAddTo,
                            ParcelablePacker<T> dataPacker) {
         super(TAG, adderConfig, launcher);

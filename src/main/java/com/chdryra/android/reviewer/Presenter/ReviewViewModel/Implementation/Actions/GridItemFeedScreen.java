@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
@@ -39,7 +39,7 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReview>
     private LaunchableUi mBuildScreenUi;
 
     public GridItemFeedScreen(FactoryReviewViewLaunchable launchableFactory,
-                              LaunchableUiLauncher launcher,
+                              UiLauncher launcher,
                               LaunchableUiAlertable shareEditUi,
                               LaunchableUi buildScreenUi) {
         super(launchableFactory, launcher);

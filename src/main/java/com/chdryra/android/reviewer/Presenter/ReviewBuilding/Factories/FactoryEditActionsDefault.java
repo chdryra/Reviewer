@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
         .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -40,14 +40,14 @@ public class FactoryEditActionsDefault<T extends GvData> {
     private Context mContext;
     private GvDataType<T> mDataType;
     private ConfigUi mConfig;
-    private LaunchableUiLauncher mLaunchableFactory;
+    private UiLauncher mLaunchableFactory;
     private FactoryGvData mDataFactory;
     private ParcelablePacker<T> mPacker;
 
     public FactoryEditActionsDefault(Context context,
                                      GvDataType<T> dataType,
                                      ConfigUi config,
-                                     LaunchableUiLauncher launchableFactory,
+                                     UiLauncher launchableFactory,
                                      FactoryGvData dataFactory,
                                      ParcelablePacker<T> packer) {
         mContext = context;
@@ -87,7 +87,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
         return mDataFactory;
     }
 
-    protected LaunchableUiLauncher getLaunchableFactory() {
+    protected UiLauncher getLaunchableFactory() {
         return mLaunchableFactory;
     }
 

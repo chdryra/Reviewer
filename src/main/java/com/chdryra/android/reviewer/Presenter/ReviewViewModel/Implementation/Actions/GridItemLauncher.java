@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -27,20 +27,20 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final String TAG = "GridItemLauncher:";
 
     private FactoryReviewViewLaunchable mLaunchableFactory;
-    private LaunchableUiLauncher mLauncher;
+    private UiLauncher mLauncher;
 
     public GridItemLauncher(FactoryReviewViewLaunchable launchableFactory,
-                            LaunchableUiLauncher launcher) {
+                            UiLauncher launcher) {
         mLauncher = launcher;
         mLaunchableFactory = launchableFactory;
     }
 
-    protected LaunchableUiLauncher getLauncher() {
+    protected UiLauncher getLauncher() {
         return mLauncher;
     }
 
     protected void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        mLauncher.launch(ui, getActivity(), requestCode, args);
+        mLauncher.launch(ui, requestCode, args);
     }
 
     @Override

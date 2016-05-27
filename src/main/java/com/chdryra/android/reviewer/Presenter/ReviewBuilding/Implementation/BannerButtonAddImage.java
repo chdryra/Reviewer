@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvImageList;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -31,7 +31,7 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     private ImageChooser mImageChooser;
 
     public BannerButtonAddImage(LaunchableConfig adderConfig,
-                                LaunchableUiLauncher launchableFactory, String title,
+                                UiLauncher launchableFactory, String title,
                                 GvDataList<GvImage> emptyImageList,
                                 ParcelablePacker<GvImage> dataPacker,
                                 ImageChooser imageChooser) {

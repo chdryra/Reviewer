@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagA
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
@@ -34,7 +34,7 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     private TagAdjuster mTagAdjuster;
 
     public FactoryEditActionsTags(Context context, ConfigUi config,
-                                  LaunchableUiLauncher launchableFactory,
+                                  UiLauncher launchableFactory,
                                   FactoryGvData dataFactory,
                                   ParcelablePacker<GvTag> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);

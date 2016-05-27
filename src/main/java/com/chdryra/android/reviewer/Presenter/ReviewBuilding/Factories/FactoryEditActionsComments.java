@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.Menu
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 public class FactoryEditActionsComments extends FactoryEditActionsDefault<GvComment> {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
     public FactoryEditActionsComments(Context context, ConfigUi config,
-                                      LaunchableUiLauncher launchableFactory,
+                                      UiLauncher launchableFactory,
                                       FactoryGvData dataFactory,
                                       ParcelablePacker<GvComment> packer) {
         super(context, TYPE, config, launchableFactory, dataFactory, packer);

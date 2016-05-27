@@ -9,22 +9,17 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewModifier;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,22 +27,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BuildScreenModifier implements ReviewViewModifier {
-    private static final int LAUNCH_SHARE_SCREEN = RequestCodeGenerator.getCode("ShareScreen");
     private static final int BUTTON_DIVIDER = R.layout.horizontal_divider;
     private static final int BUTTON_LAYOUT = R.layout.review_button;
     private static final int SHARE_BUTTON = R.string.button_share;
-    private static final int TOAST_ENTER_SUBJECT = R.string.toast_enter_subject;
 
-    private LaunchableUiLauncher mLauncher;
-    private LaunchableUi mShareScreenUi;
+    private BuildScreenShareButton mButton;
 
-    public BuildScreenModifier(LaunchableUiLauncher launcher,
-                               LaunchableUi shareScreenUi) {
-        mLauncher = launcher;
-        mShareScreenUi = shareScreenUi;
+    public BuildScreenModifier(BuildScreenShareButton button) {
+        mButton = button;
     }
 
-    //Overridden
     @Override
     public View modify(ReviewView view, View v, LayoutInflater inflater,
                        ViewGroup container, Bundle savedInstanceState) {
@@ -78,19 +67,8 @@ public class BuildScreenModifier implements ReviewViewModifier {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchShareScreen(parent);
+                mButton.execute(parent.getReviewView());
             }
         };
-    }
-
-    private void launchShareScreen(ReviewViewContainer parent) {
-        Activity activity = parent.getActivity();
-
-        if (parent.getSubject().length() == 0) {
-            Toast.makeText(activity, TOAST_ENTER_SUBJECT, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        mLauncher.launch(mShareScreenUi, activity, LAUNCH_SHARE_SCREEN, new Bundle());
     }
 }

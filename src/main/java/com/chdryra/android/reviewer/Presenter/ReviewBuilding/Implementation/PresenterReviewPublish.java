@@ -41,7 +41,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -65,8 +65,8 @@ public class PresenterReviewPublish {
 
     public void  onQueuedToPublish(Activity activity) {
         mApp.getConfigUi().getFeedConfig();
-        LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
-        uiLauncher.launch(mApp.getConfigUi().getFeedConfig(), activity, FEED);
+        UiLauncher uiLauncher = mApp.getUiLauncher();
+        uiLauncher.launch(mApp.getConfigUi().getFeedConfig(), FEED);
         activity.finish();
     }
 

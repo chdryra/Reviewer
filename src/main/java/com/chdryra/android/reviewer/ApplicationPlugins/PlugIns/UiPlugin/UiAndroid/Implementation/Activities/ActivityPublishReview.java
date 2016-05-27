@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -54,7 +54,7 @@ public class ActivityPublishReview extends ActivityReviewView
 
     @Override
     public void seekAuthorisation(SocialPlatform<?> platform, AuthorisationListener listener) {
-        LaunchableUiLauncher launcher = mApp.getUiLauncher();
+        UiLauncher launcher = mApp.getUiLauncher();
         mAuthUi = platform.getLoginUi(this, new ActivitySocialAuthUi(), listener);
         mAuthUi.launchUi(launcher);
     }

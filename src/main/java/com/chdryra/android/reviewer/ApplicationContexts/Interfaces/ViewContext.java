@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ViewContext {
-    LaunchableUiLauncher getUiLauncher();
+    FactoryUiLauncher getLauncherFactory();
 
     ConfigUi getUiConfig();
 }

@@ -14,7 +14,7 @@ import android.view.View;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -30,7 +30,7 @@ public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
 
     public GridItemDataEditFact(LaunchableConfig factConfig,
                                 LaunchableConfig urlConfig,
-                                LaunchableUiLauncher launchableFactory,
+                                UiLauncher launchableFactory,
                                 ParcelablePacker<GvFact> dataPacker) {
         super(factConfig, launchableFactory, dataPacker);
         mUrlConfig = urlConfig;

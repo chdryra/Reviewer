@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -46,7 +46,7 @@ public class LoginUiDefault<T> implements LoginUi {
     }
 
     @Override
-    public void launchUi(LaunchableUiLauncher launcher) {
+    public void launchUi(UiLauncher launcher) {
         Bundle args = new Bundle();
         args.putString(mAuthorisationUi.getLaunchTag(), mPlatform.getName());
         launcher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);

@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,19 +19,19 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
  */
 public abstract class ViewContextBasic implements ViewContext {
     private ConfigUi mConfigUi;
-    private LaunchableUiLauncher mLauncher;
+    private FactoryUiLauncher mLauncherFactory;
 
     public void setConfigUi(ConfigUi configUi) {
         mConfigUi = configUi;
     }
 
-    public void setLauncher(LaunchableUiLauncher launcher) {
-        mLauncher = launcher;
+    public void setLauncherFactory(FactoryUiLauncher launcherFactory) {
+        mLauncherFactory = launcherFactory;
     }
 
     @Override
-    public LaunchableUiLauncher getUiLauncher() {
-        return mLauncher;
+    public FactoryUiLauncher getLauncherFactory() {
+        return mLauncherFactory;
     }
 
     @Override

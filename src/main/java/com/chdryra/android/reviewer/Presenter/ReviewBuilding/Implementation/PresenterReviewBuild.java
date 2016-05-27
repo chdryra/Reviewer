@@ -36,7 +36,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -53,7 +53,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         ReviewViewActions.ReviewViewAttachedObserver,
         GridItemClickObserved.ClickObserver<GC> {
     private final ConfigUi mUiConfig;
-    private final LaunchableUiLauncher mLauncher;
+    private final UiLauncher mLauncher;
     private ReviewEditor<GC> mEditor;
     private LocationClientConnector mLocationClient;
     private ImageChooser mImageChooser;
@@ -61,7 +61,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
     private PresenterReviewBuild(ReviewEditor<GC> editor,
                                  ConfigUi uiConfig,
-                                 LaunchableUiLauncher launcher) {
+                                 UiLauncher launcher) {
         mEditor = editor;
         mUiConfig = uiConfig;
         mLauncher = launcher;
@@ -173,8 +173,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         Bundle args = new Bundle();
         args.putBoolean(AdderConfig.QUICK_SET, true);
         packLatLng(args);
-        mLauncher.launch(adderConfig, getActivity(),
-                RequestCodeGenerator.getCode(adderConfig.getTag()), args);
+        mLauncher.launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag()), args);
     }
 
     private void packLatLng(Bundle args) {
@@ -218,7 +217,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
         private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {
             ConfigUi config = mApp.getConfigUi();
-            LaunchableUiLauncher uiLauncher = mApp.getUiLauncher();
+            UiLauncher uiLauncher = mApp.getUiLauncher();
             ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter, uiLauncher,
                     config.getShareReviewConfig().getLaunchable(), mEditorFactory);
 
@@ -227,7 +226,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
         private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(Context context,
                                                                       ReviewBuilderAdapter<GC> builder,
-                                                                      LaunchableUiLauncher launcher,
+                                                                      UiLauncher launcher,
                                                                       LaunchableUi shareScreenUi,
                                                                       FactoryReviewEditor factory) {
             ReviewViewParams params = new ReviewViewParams();
@@ -241,7 +240,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
                     new GridItemClickObserved<GC>(), new MenuBuildScreen<GC>(screenTitle));
 
             return factory.newEditor(builder, params, actions,
-                    new BuildScreenModifier(launcher, shareScreenUi));
+                    new BuildScreenModifier(new BuildScreenShareButton(launcher, shareScreenUi)));
         }
     }
 }

@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -39,7 +39,7 @@ public class DefaultOAuthUi<T> implements
     private AuthorisationListener mListener;
     private ParcelablePacker<OAuthRequest>mPacker;
 
-    private LaunchableUiLauncher mLauncher;
+    private UiLauncher mLauncher;
 
     public DefaultOAuthUi(Activity activity,
                           LaunchableUi authorisationUi,
@@ -54,7 +54,7 @@ public class DefaultOAuthUi<T> implements
     }
 
     @Override
-    public void launchUi(LaunchableUiLauncher launcher) {
+    public void launchUi(UiLauncher launcher) {
         OAuthRequester<T> requester = mPlatform.getOAuthRequester();
         mLauncher = launcher;
         requester.generateAuthorisationRequest(this);

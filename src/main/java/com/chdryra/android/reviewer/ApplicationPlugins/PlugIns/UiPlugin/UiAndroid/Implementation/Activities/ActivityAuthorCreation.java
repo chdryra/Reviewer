@@ -12,9 +12,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.Application.ApplicationLaunch;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -25,6 +27,12 @@ public class ActivityAuthorCreation extends ActivitySingleFragment implements La
     private static final String KEY = TagKeyGenerator.getKey(ActivityAuthorCreation.class, "key");
 
     private FragmentLogin mFragment;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ApplicationInstance.setActivity(this);
+    }
 
     @Override
     public String getLaunchTag() {

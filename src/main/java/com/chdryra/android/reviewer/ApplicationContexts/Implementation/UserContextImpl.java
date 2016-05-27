@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -80,7 +81,8 @@ public class UserContextImpl implements UserContext {
     public void logout(Activity activity) {
         logoutCurrentUser();
         LaunchableConfig splashConfig = mContext.getConfigUi().getLoginConfig();
-        mContext.getUiLauncher().launch(splashConfig, activity, LAUNCH_LOGIN);
+        UiLauncher uiLauncher = mContext.getLauncherFactory().newLauncher(activity);
+        uiLauncher.launch(splashConfig, LAUNCH_LOGIN);
         activity.finish();
     }
 

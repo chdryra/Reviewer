@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -29,7 +29,7 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
 
     public BannerButtonAddLocation(LaunchableConfig adderConfig,
                                    LaunchableConfig mapScreenConfig,
-                                   LaunchableUiLauncher launchableFactory, String title,
+                                   UiLauncher launchableFactory, String title,
                                    GvDataList<GvLocation> emptyLocationList,
                                    ParcelablePacker<GvLocation> dataPacker) {
         super(adderConfig, launchableFactory, title, emptyLocationList, dataPacker);

@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCanonical;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -34,7 +34,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
 
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
                                   FactoryReviewViewLaunchable launchableFactory,
-                                  LaunchableUiLauncher launcher,
+                                  UiLauncher launcher,
                                   ParcelablePacker<GvData> packer) {
         super(launchableFactory, launcher);
         mDataConfig = dataConfig;

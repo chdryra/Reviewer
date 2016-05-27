@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.widget.Toast;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -23,7 +23,7 @@ public class GridItemDataEditTag extends GridItemDataEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
     public GridItemDataEditTag(LaunchableConfig editorConfig,
-                               LaunchableUiLauncher launchableFactory,
+                               UiLauncher launchableFactory,
                                ParcelablePacker<GvTag> dataPacker,
                                TagAdjuster tagAdjuster) {
         super(editorConfig, launchableFactory, dataPacker);

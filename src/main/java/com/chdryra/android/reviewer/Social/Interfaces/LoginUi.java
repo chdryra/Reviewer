@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Social.Interfaces;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLau
  * Email: rizwan.choudrey@gmail.com
  */
 public interface LoginUi extends ActivityResultListener {
-    void launchUi(LaunchableUiLauncher launcher);
+    void launchUi(UiLauncher launcher);
 
     @Override
     void onActivityResult(int requestCode, int resultCode, Intent data);

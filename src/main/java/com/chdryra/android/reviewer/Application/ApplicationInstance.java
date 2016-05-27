@@ -13,6 +13,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
@@ -25,12 +26,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
@@ -42,7 +46,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.LaunchableUiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Singleton that controls app-wide duties.
@@ -57,6 +62,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final PresenterContext mAppContext;
     private final LocationServicesApi mLocationServices;
     private final UserContext mUser;
+    private Activity mActivity;
 
     private ApplicationInstance(Context context) {
         super(context, NAME);
@@ -85,16 +91,16 @@ public class ApplicationInstance extends ApplicationSingleton {
         return sSingleton;
     }
 
+    public static void setActivity(Activity activity) {
+        getInstance(activity).setCurrentActivity(activity);
+    }
+
     public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
         return mAppContext.getReviewBuilderAdapter();
     }
 
     public ReviewsFeed getCurrentFeed() {
         return mAppContext.getFeedFactory().newFeed(mUser.getCurrentUserAsAuthor());
-    }
-
-    public ReviewsFeed getFeed(DataAuthor author) {
-        return mAppContext.getFeedFactory().newFeed(author);
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -109,8 +115,8 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mAppContext.getConfigUi();
     }
 
-    public LaunchableUiLauncher getUiLauncher() {
-        return mAppContext.getUiLauncher();
+    public UiLauncher getUiLauncher() {
+        return mAppContext.getLauncherFactory().newLauncher(mActivity);
     }
 
     public FactoryReviewViewLaunchable getLaunchableFactory() {
@@ -145,6 +151,14 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mAppContext.getUsersManager();
     }
 
+    public UserContext getUserContext() {
+        return mUser;
+    }
+
+    public ReviewsFeed getFeed(DataAuthor author) {
+        return mAppContext.getFeedFactory().newFeed(author);
+    }
+
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mAppContext.getDataBuilderAdapter(dataType);
     }
@@ -170,8 +184,14 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mReviewPacker.unpackReview(args);
     }
 
-    public void launchReview(Activity activity, ReviewId reviewId) {
-        mAppContext.launchReview(activity, reviewId);
+    public void launchReview(ReviewId reviewId) {
+        mAppContext.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
+            @Override
+            public void onMetaReviewCallback(RepositoryResult result) {
+                ReviewNode node = result.getReviewNode();
+                if(!result.isError() && node != null) launchReview(node);
+            }
+        });
     }
 
     public void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback) {
@@ -187,11 +207,17 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mAppContext.getBackendRepository();
     }
 
-    public UserContext getUserContext() {
-        return mUser;
+    public void logout() {
+        mUser.logout(mActivity);
     }
 
-    public void logout(Activity activity) {
-        mUser.logout(activity);
+    private void setCurrentActivity(Activity activity) {
+        mActivity = activity;
+    }
+
+    private void launchReview(ReviewNode reviewNode) {
+        LaunchableUi ui = mAppContext.getReviewsListLaunchable(reviewNode);
+        String tag = reviewNode.getSubject().getSubject();
+        getUiLauncher().launch(ui, RequestCodeGenerator.getCode(tag));
     }
 }

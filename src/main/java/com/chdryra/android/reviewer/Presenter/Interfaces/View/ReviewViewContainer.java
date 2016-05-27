@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 
 /**
@@ -33,7 +33,7 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
 
     void setBannerAsDisplay();
 
-    Activity getActivity();
+    ApplicationInstance getApp();
 
     ReviewView<?> getReviewView();
 
