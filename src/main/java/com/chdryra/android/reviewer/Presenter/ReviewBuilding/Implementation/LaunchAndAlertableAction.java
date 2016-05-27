@@ -10,11 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -26,16 +24,13 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
         implements AlertListener {
     private final String mLaunchTag;
     private final LaunchableConfig mConfig;
-    private final UiLauncher mLauncher;
 
     private int mLaunchableRequestCode = -1;
     private int mAlertDialogRequestCode;
 
-    public LaunchAndAlertableAction(String launchTag, LaunchableConfig config, UiLauncher
-            launcher) {
+    public LaunchAndAlertableAction(String launchTag, LaunchableConfig config) {
         mLaunchTag = launchTag;
         mConfig = config;
-        mLauncher = launcher;
     }
 
     public int getLaunchableRequestCode() {
@@ -52,7 +47,7 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
 
     protected void launch(LaunchableConfig config, Bundle args) {
         setLaunchableRequestCode(config.getTag());
-        mLauncher.launch(config, getActivity(), getLaunchableRequestCode(), args);
+        getApp().getUiLauncher().launch(config, getLaunchableRequestCode(), args);
     }
 
     public int getAlertRequestCode() {
@@ -77,8 +72,8 @@ public class LaunchAndAlertableAction<T extends GvData> extends ReviewDataEditor
         if (requestCode == mAlertDialogRequestCode) doAlertNegative(args);
     }
 
-    protected void showAlertDialog(String alert, int requestCode, Bundle args) {
+    protected void showAlert(String alert, int requestCode, Bundle args) {
         mAlertDialogRequestCode = requestCode;
-        DialogShower.showAlert(alert, getActivity(), requestCode, args);
+        getApp().getCurrentScreen().showAlert(alert, requestCode, args);
     }
 }

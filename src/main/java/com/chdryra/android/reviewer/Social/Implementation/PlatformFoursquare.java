@@ -34,10 +34,8 @@ public class PlatformFoursquare extends SocialPlatformBasic<AccessTokenDefault> 
     }
 
     @Override
-    public LoginUi getLoginUi(Activity activity,
-                                      LaunchableUi loginLaunchable,
-                                      AuthorisationListener listener) {
-        return new DefaultOAuthUi<>(activity, loginLaunchable, this, listener,
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener) {
+        return new DefaultOAuthUi<>(loginLaunchable, this, listener,
                 new ParcelablePacker<OAuthRequest>());
     }
 

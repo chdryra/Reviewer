@@ -18,16 +18,6 @@
     <!-- Line -->
     <string name="line_or">or</string>
 
-    <!-- Alerts -->
-    <string name="alert_set_image_as_background">Set image as cover?</string>
-    <string name="alert_set_comment_as_headline">Set comment as headline?</string>
-    <string name="alert_edit_on_map">Edit on map?</string>
-    <string name="alert_add_on_map">Add using map?</string>
-    <string name="alert_edit_on_browser">Edit on browser?</string>
-    <string name="alert_add_on_browser">Add link using browser?</string>
-    <string name="alert_delete_review">Delete published review?</string>
-    <string name="alert_goto_review">Go to review?</string>
-
     <!-- Dialogs -->
     <string name="dialog_url_title">Link</string>
     <string name="dialog_image_content_description">Review image</string>
@@ -105,18 +95,6 @@
     <string name="menu_new_review">new review</string>
     <string name="menu_settings">settings</string>
     <string name="menu_logout">log out</string>
-
-    <!-- Toasts -->
-    <string name="toast_enter_subject">Please enter a subject&#8230;</string>
-    <string name="toast_has">You\'ve already added this</string>
-    <string name="toast_split_comment">Showing sentences&#8230;</string>
-    <string name="toast_unsplit_comment">Showing headlines&#8230;</string>
-    <string name="toast_bad_url">Link does not make sense&#8230;</string>
-    <string name="toast_map_search_failed">Couldn\'t find location&#8230;</string>
-    <string name="toast_enter_tag">Please enter at least one tag to help categorise it&#8230;</string>
-    <string name="toast_enter_location">Please enter a location name&#8230;</string>
-    <string name="publishing">Publishing&#8230;</string>
-    <string name="problem_publishing">Problem publishing</string>
 
     <!-- Social -->
     <string name="facebook">facebook</string>

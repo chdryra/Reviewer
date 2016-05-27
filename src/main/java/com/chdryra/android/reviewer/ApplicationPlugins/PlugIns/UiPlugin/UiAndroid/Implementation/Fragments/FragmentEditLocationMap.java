@@ -37,7 +37,6 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
@@ -45,9 +44,9 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.LocationServices.Implementation.StringAutoCompleterLocation;
 import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AddressesSuggester;
@@ -91,8 +90,6 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private static final int NAME_LOCATION_HINT = R.string.edit_text_name_location_hint;
     private static final int SEARCH_HINT = R.string.search_view_location_hint;
-    private static final int TOAST_SEARCH_FAILED = R.string.toast_map_search_failed;
-    private static final int TOAST_ENTER_LOCATION = R.string.toast_enter_location;
 
     private static final int LAYOUT = R.layout.fragment_review_location_map_edit;
     private static final int LOCATION_NAME_EDIT_TEXT = R.id.edit_text_name_location;
@@ -204,7 +201,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     protected void onDoneSelected() {
         if (mLocationName == null || mLocationName.length() == 0) {
-            makeToast(TOAST_ENTER_LOCATION);
+            makeToast(Strings.Toasts.ENTER_LOCATION);
             setDismissOnDone(false);
             return;
         }
@@ -216,7 +213,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     public void onSearchResultsFound(ArrayList<LocationDetails> results) {
         if (results.size() == 0) {
-            makeToast(TOAST_SEARCH_FAILED);
+            makeToast(Strings.Toasts.MAP_SEARCH_FAILED);
             mLocationName.setHint(getResources().getString(NAME_LOCATION_HINT));
         } else {
             LocationDetails firstHit = results.get(0);
@@ -547,9 +544,9 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
         };
     }
 
-    private void makeToast(int messageId) {
-        Toast.makeText(getActivity(), getResources().getString(messageId), Toast.LENGTH_SHORT)
-                .show();
+    private void makeToast(String toast) {
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        app.getCurrentScreen().showToast(toast);
     }
 
     private class LocationSuggestionsObserver extends DataSetObserver {

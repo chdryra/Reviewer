@@ -26,19 +26,16 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class RatingBarExpandGrid<T extends GvData> extends RatingBarActionNone<T> {
     private static final int REQUEST_CODE = RequestCodeGenerator.getCode("RbTreePerspective");
     FactoryReviewViewLaunchable mLaunchableFactory;
-    FactoryUiLauncher mLauncher;
 
-    public RatingBarExpandGrid(FactoryReviewViewLaunchable launchableFactory,
-                               FactoryUiLauncher launcher) {
+    public RatingBarExpandGrid(FactoryReviewViewLaunchable launchableFactory) {
         mLaunchableFactory = launchableFactory;
-        mLauncher = launcher;
     }
 
     @Override
     public void onClick(View v) {
         ReviewViewAdapter<?> expanded = getAdapter().expandGridData();
         if (expanded == null) return;
-        mLauncher.launch(getLaunchableUi(expanded), getActivity(), REQUEST_CODE);
+        getApp().getUiLauncher().launch(getLaunchableUi(expanded), REQUEST_CODE);
     }
 
     private LaunchableUi getLaunchableUi(ReviewViewAdapter<?> expanded) {

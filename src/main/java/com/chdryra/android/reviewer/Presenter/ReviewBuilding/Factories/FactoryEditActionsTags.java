@@ -14,14 +14,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditTag;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditTags;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectDataEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
@@ -34,10 +33,9 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
     private TagAdjuster mTagAdjuster;
 
     public FactoryEditActionsTags(Context context, ConfigUi config,
-                                  UiLauncher launchableFactory,
                                   FactoryGvData dataFactory,
                                   ParcelablePacker<GvTag> packer) {
-        super(context, TYPE, config, launchableFactory, dataFactory, packer);
+        super(context, TYPE, config, dataFactory, packer);
         mTagAdjuster = new TagAdjuster();
     }
 
@@ -48,7 +46,7 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
 
     @Override
     protected GridItemAction<GvTag> newGridItemEdit() {
-        return new GridItemDataEditTag(getEditorConfig(), getLaunchableFactory(), getPacker(), mTagAdjuster);
+        return new GridItemDataEditTag(getEditorConfig(), getPacker(), mTagAdjuster);
     }
 
     @Override

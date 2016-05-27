@@ -18,16 +18,14 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAdd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEdit;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEdit;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingBarDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectDataEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -40,20 +38,17 @@ public class FactoryEditActionsDefault<T extends GvData> {
     private Context mContext;
     private GvDataType<T> mDataType;
     private ConfigUi mConfig;
-    private UiLauncher mLaunchableFactory;
     private FactoryGvData mDataFactory;
     private ParcelablePacker<T> mPacker;
 
     public FactoryEditActionsDefault(Context context,
                                      GvDataType<T> dataType,
                                      ConfigUi config,
-                                     UiLauncher launchableFactory,
                                      FactoryGvData dataFactory,
                                      ParcelablePacker<T> packer) {
         mContext = context;
         mDataType = dataType;
         mConfig = config;
-        mLaunchableFactory = launchableFactory;
         mDataFactory = dataFactory;
         mPacker = packer;
     }
@@ -87,10 +82,6 @@ public class FactoryEditActionsDefault<T extends GvData> {
         return mDataFactory;
     }
 
-    protected UiLauncher getLaunchableFactory() {
-        return mLaunchableFactory;
-    }
-
     protected ParcelablePacker<T> getPacker() {
         return mPacker;
     }
@@ -104,12 +95,12 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected BannerButtonAction<T> newBannerButtonAdd() {
-        return new BannerButtonAdd<>(getAdderConfig(), mLaunchableFactory, getBannerButtonTitle(),
+        return new BannerButtonAdd<>(getAdderConfig(), getBannerButtonTitle(),
                 mDataFactory.newDataList(mDataType), mPacker);
     }
 
     protected GridItemAction<T> newGridItemEdit() {
-        return new GridItemDataEdit<>(getEditorConfig(), mLaunchableFactory, mPacker);
+        return new GridItemDataEdit<>(getEditorConfig(), mPacker);
     }
 
     protected MenuAction<T> newMenuEdit() {

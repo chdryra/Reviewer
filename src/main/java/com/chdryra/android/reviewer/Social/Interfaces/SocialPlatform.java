@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Interfaces;
 
-import android.app.Activity;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
@@ -25,7 +24,7 @@ public interface SocialPlatform<T> extends DataSocialPlatform, OAuthorisable<T>{
 
     OAuthRequester<T> getOAuthRequester();
 
-    LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
+    LoginUi getLoginUi(LaunchableUi loginLaunchable,
                        AuthorisationListener listener);
 
     void logout();

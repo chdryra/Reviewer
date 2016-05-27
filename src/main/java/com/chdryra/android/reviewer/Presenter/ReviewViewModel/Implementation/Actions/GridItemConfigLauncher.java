@@ -34,9 +34,8 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
 
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
                                   FactoryReviewViewLaunchable launchableFactory,
-                                  UiLauncher launcher,
                                   ParcelablePacker<GvData> packer) {
-        super(launchableFactory, launcher);
+        super(launchableFactory);
         mDataConfig = dataConfig;
         mPacker = packer;
         mLaunchCode = RequestCodeGenerator.getCode(TAG + mDataConfig.getTag());

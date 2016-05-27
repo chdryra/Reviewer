@@ -8,17 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import android.app.ActionBar;
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
@@ -37,7 +34,6 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
     private int mMenuId = -1;
     private boolean mDisplayHomeAsUp = true;
 
-    //Constructors
     public MenuActionNone() {
         this(-1, null, true);
     }
@@ -52,6 +48,17 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
 
     public MenuActionNone(String title) {
         this(-1, title, true);
+    }
+
+    protected void addMenuItems() {
+    }
+
+    protected void sendResult(ActivityResultCode result) {
+        getApp().setReturnResult(result);
+    }
+
+    protected void doUpSelected() {
+        returnToPreviousActivity();
     }
 
     @Override
@@ -74,63 +81,45 @@ public class MenuActionNone<T extends GvData> extends ReviewViewActionBasic<T>
         int itemId = item.getItemId();
         MenuActionItemInfo actionItem = mActionItems.get(itemId);
         if (actionItem != null) {
-            actionItem.mItem.doAction(getActivity(), item);
-            if (actionItem.mFinishActivity) getActivity().finish();
+            actionItem.mItem.doAction(item);
+            if (actionItem.mCloseScreen) getApp().getCurrentScreen().close();
             return true;
         }
 
         return false;
     }
 
-    protected void addMenuItems() {
-    }
-
-    protected void sendResult(ActivityResultCode result) {
-        if (result != null) getActivity().setResult(result.get(), null);
-    }
-
-    protected void doUpSelected() {
-        returnToPreviousActivity();
-    }
-
-    private void returnToPreviousActivity() {
-        if (NavUtils.getParentActivityName(getActivity()) != null) {
-            Intent i = NavUtils.getParentActivityIntent(getActivity());
-            NavUtils.navigateUpTo(getActivity(), i);
+    @Override
+    public void onAttachReviewView() {
+        CurrentScreen screen = getApp().getCurrentScreen();
+        if (screen.hasActionBar()) {
+            screen.setHomeAsUp(mDisplayHomeAsUp);
+            screen.setTitle(mTitle);
+            addMenuItems();
         }
     }
 
-    //private methods
     private MenuActionItem getUpActionItem() {
         return new MenuActionItem() {
-            //Overridden
             @Override
-            public void doAction(Context context, MenuItem item) {
+            public void doAction(MenuItem item) {
                 doUpSelected();
                 sendResult(RESULT_UP);
             }
         };
     }
 
-    //Overridden
-    @Override
-    public void onAttachReviewView() {
-        ActionBar actionBar = getActivity().getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(mDisplayHomeAsUp);
-            actionBar.setDisplayShowHomeEnabled(false);
-            if (mTitle != null) actionBar.setTitle(mTitle);
-            addMenuItems();
-        }
+    private void returnToPreviousActivity() {
+        getApp().getCurrentScreen().returnToPrevious();
     }
 
     private class MenuActionItemInfo {
-        private final boolean mFinishActivity;
+        private final boolean mCloseScreen;
         private final MenuActionItem mItem;
 
-        private MenuActionItemInfo(MenuActionItem item, boolean finishActivity) {
+        private MenuActionItemInfo(MenuActionItem item, boolean closeScreen) {
             mItem = item;
-            mFinishActivity = finishActivity;
+            mCloseScreen = closeScreen;
         }
     }
 }

@@ -27,20 +27,13 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
     private static final String TAG = "GridItemLauncher:";
 
     private FactoryReviewViewLaunchable mLaunchableFactory;
-    private UiLauncher mLauncher;
 
-    public GridItemLauncher(FactoryReviewViewLaunchable launchableFactory,
-                            UiLauncher launcher) {
-        mLauncher = launcher;
+    public GridItemLauncher(FactoryReviewViewLaunchable launchableFactory) {
         mLaunchableFactory = launchableFactory;
     }
 
-    protected UiLauncher getLauncher() {
-        return mLauncher;
-    }
-
     protected void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        mLauncher.launch(ui, requestCode, args);
+        getApp().getUiLauncher().launch(ui, requestCode, args);
     }
 
     @Override

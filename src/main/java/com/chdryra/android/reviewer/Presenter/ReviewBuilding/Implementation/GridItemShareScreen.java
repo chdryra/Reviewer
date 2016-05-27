@@ -9,14 +9,9 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.view.View;
-import android.widget.Toast;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatform;
-
-
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
@@ -70,7 +65,6 @@ public class GridItemShareScreen extends GridItemActionNone<GvSocialPlatform>
     }
 
     private void makeToast(SocialPlatform<?> platform, String message) {
-        Toast.makeText(getActivity(), platform.getName() + ": " + message,
-                Toast.LENGTH_SHORT).show();
+        getApp().getCurrentScreen().showToast(platform.getName() + ": " + message);
     }
 }

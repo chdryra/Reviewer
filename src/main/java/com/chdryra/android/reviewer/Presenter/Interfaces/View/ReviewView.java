@@ -13,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -56,21 +56,8 @@ public interface ReviewView<T extends GvData> extends DataObservable, DataObserv
 
     void updateCover();
 
+    CurrentScreen getScreen();
+
     View modifyIfNecessary(View v, LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState);
-
-    @Override
-    void registerDataObserver(DataObservable.DataObserver observer);
-
-    @Override
-    void unregisterDataObserver(DataObservable.DataObserver observer);
-
-    @Override
-    void notifyDataObservers();
-
-    @Override
-    void onDataChanged();
-
-    @Override
-    void launch(LauncherUi launcher);
 }

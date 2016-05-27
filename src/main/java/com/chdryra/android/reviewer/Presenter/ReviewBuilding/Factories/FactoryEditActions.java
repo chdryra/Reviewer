@@ -54,28 +54,27 @@ public class FactoryEditActions {
         mFactoriesMap = new HashMap<>();
 
         addFactory(GvComment.TYPE,
-                new FactoryEditActionsComments(mContext, mConfig, mLaunchableFactory, mDataFactory,
+                new FactoryEditActionsComments(mContext, mConfig, mDataFactory,
                         new ParcelablePacker<GvComment>()));
 
         addFactory(GvCriterion.TYPE,
-                new FactoryEditActionsCriteria(mContext, mConfig, mLaunchableFactory, mDataFactory,
+                new FactoryEditActionsCriteria(mContext, mConfig, mDataFactory,
                         new ParcelablePacker<GvCriterion>()));
 
         addFactory(GvFact.TYPE,
-                new FactoryEditActionsFacts(mContext, mConfig, mLaunchableFactory, mDataFactory,
+                new FactoryEditActionsFacts(mContext, mConfig, mDataFactory,
                         new ParcelablePacker<GvFact>()));
 
         addFactory(GvImage.TYPE,
-                new FactoryEditActionsImages(mContext, mConfig, mLaunchableFactory, mDataFactory,
-                        new ParcelablePacker<GvImage>(),
-                        imageChooser));
+                new FactoryEditActionsImages(mContext, mConfig, mDataFactory,
+                        new ParcelablePacker<GvImage>(), imageChooser));
 
         addFactory(GvLocation.TYPE,
-                new FactoryEditActionsLocations(mContext, mConfig, mLaunchableFactory, mDataFactory,
+                new FactoryEditActionsLocations(mContext, mConfig, mDataFactory,
                         new ParcelablePacker<GvLocation>()));
 
         addFactory(GvTag.TYPE,
-                new FactoryEditActionsTags(mContext, mConfig, mLaunchableFactory, mDataFactory,
+                new FactoryEditActionsTags(mContext, mConfig, mDataFactory,
                         new ParcelablePacker<GvTag>()));
     }
 
@@ -87,8 +86,8 @@ public class FactoryEditActions {
         //TODO make type safe
         FactoryEditActionsDefault<T> factory = (FactoryEditActionsDefault<T>) mFactoriesMap.get(dataType);
         if(factory == null) {
-            factory = new FactoryEditActionsDefault<>(mContext, dataType, mConfig,
-                    mLaunchableFactory, mDataFactory, new ParcelablePacker<T>());
+            factory = new FactoryEditActionsDefault<>(mContext, dataType, mConfig, mDataFactory,
+                    new ParcelablePacker<T>());
         }
 
         return factory;

@@ -8,16 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -32,13 +29,10 @@ public class MenuFeedScreen extends MenuActionNone<GvReview> {
     public static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 
-    private UiLauncher mUiLauncher;
     private LaunchableUi mBuildScreenUi;
 
-    public MenuFeedScreen(UiLauncher uiLauncher,
-                          LaunchableUi buildScreenUi) {
+    public MenuFeedScreen(LaunchableUi buildScreenUi) {
         super(MENU, null, false);
-        mUiLauncher = uiLauncher;
         mBuildScreenUi = buildScreenUi;
     }
 
@@ -52,8 +46,8 @@ public class MenuFeedScreen extends MenuActionNone<GvReview> {
     private MenuActionItem logout() {
         return new MenuActionItem() {
             @Override
-            public void doAction(Context context, MenuItem item) {
-                ApplicationInstance.getInstance(context).logout();
+            public void doAction(MenuItem item) {
+                getApp().logout();
             }
         };
     }
@@ -62,9 +56,8 @@ public class MenuFeedScreen extends MenuActionNone<GvReview> {
     private MenuActionItem launchBuildScreen() {
         return new MenuActionItem() {
             @Override
-            public void doAction(Context context, MenuItem item) {
-                mUiLauncher.launch(mBuildScreenUi, getActivity(), LAUNCH_BUILD_SCREEN,
-                        new Bundle());
+            public void doAction(MenuItem item) {
+                getApp().getUiLauncher().launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, new Bundle());
             }
         };
     }

@@ -31,24 +31,24 @@ public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage>
     private static final GvDataType<GvImage> TYPE = GvImage.TYPE;
     private ImageChooser mImageChooser;
 
-    public FactoryEditActionsImages(Context context, ConfigUi config, UiLauncher launchableFactory,
+    public FactoryEditActionsImages(Context context, ConfigUi config,
                                     FactoryGvData dataFactory,
                                     ParcelablePacker<GvImage> packer,
                                     ImageChooser imageChooser) {
-        super(context, TYPE, config, launchableFactory, dataFactory, packer);
+        super(context, TYPE, config, dataFactory, packer);
         mImageChooser = imageChooser;
     }
 
     @Override
     protected BannerButtonAction<GvImage> newBannerButtonAdd() {
-        return new BannerButtonAddImage(getAdderConfig(), getLaunchableFactory(),
+        return new BannerButtonAddImage(getAdderConfig(),
                 getBannerButtonTitle(), getDataFactory().newDataList(TYPE), getPacker(),
                 mImageChooser);
     }
 
     @Override
     protected GridItemAction<GvImage> newGridItemEdit() {
-        return new GridItemDataEditImage(getEditorConfig(), getLaunchableFactory(), getPacker());
+        return new GridItemDataEditImage(getEditorConfig(), getPacker());
     }
 
 }

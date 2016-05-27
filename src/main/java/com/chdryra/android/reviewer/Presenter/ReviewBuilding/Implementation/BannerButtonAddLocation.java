@@ -11,11 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.R;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -29,16 +28,16 @@ public class BannerButtonAddLocation extends BannerButtonAdd<GvLocation> {
 
     public BannerButtonAddLocation(LaunchableConfig adderConfig,
                                    LaunchableConfig mapScreenConfig,
-                                   UiLauncher launchableFactory, String title,
+                                   String title,
                                    GvDataList<GvLocation> emptyLocationList,
                                    ParcelablePacker<GvLocation> dataPacker) {
-        super(adderConfig, launchableFactory, title, emptyLocationList, dataPacker);
+        super(adderConfig, title, emptyLocationList, dataPacker);
         mMapScreenConfig = mapScreenConfig;
     }
 
     @Override
     public boolean onLongClick(View v) {
-        showAlertDialog(getActivity().getString(R.string.alert_add_on_map), LAUNCH_MAP, new Bundle());
+        showAlert(Strings.Alerts.ADD_ON_MAP, LAUNCH_MAP, new Bundle());
         return true;
     }
 

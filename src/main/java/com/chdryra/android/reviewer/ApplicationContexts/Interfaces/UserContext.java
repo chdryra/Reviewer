@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
-import android.app.Activity;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
@@ -38,11 +37,9 @@ public interface UserContext extends UserAuthenticator.UserStateObserver {
 
     DataAuthor getCurrentUserAsAuthor();
 
-    void logout(Activity activity);
+    void logout();
 
     boolean getCurrentProfile(UserAccounts.GetProfileCallback callback);
-
-    void logoutCurrentUser();
 
     @Override
     void onUserStateChanged(@Nullable AuthenticatedUser oldUser,

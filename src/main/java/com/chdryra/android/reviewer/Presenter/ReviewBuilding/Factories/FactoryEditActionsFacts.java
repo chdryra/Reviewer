@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
@@ -33,23 +32,22 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
 
 
     public FactoryEditActionsFacts(Context context, ConfigUi config,
-                                   UiLauncher launchableFactory,
                                    FactoryGvData dataFactory,
                                    ParcelablePacker<GvFact> packer) {
-        super(context, TYPE, config, launchableFactory, dataFactory, packer);
+        super(context, TYPE, config, dataFactory, packer);
     }
 
     @Override
     protected BannerButtonAction<GvFact> newBannerButtonAdd() {
         LaunchableConfig urlConfig = getConfig().getAdderConfig(GvUrl.TYPE.getDatumName());
         return new BannerButtonAddFacts(getBannerButtonTitle(), getAdderConfig(), urlConfig,
-                getLaunchableFactory(), getDataFactory().newDataList(TYPE), getPacker());
+                getDataFactory().newDataList(TYPE), getPacker());
     }
 
     @Override
     protected GridItemAction<GvFact> newGridItemEdit() {
         LaunchableConfig urlConfig = getConfig().getEditorConfig(GvUrl.TYPE.getDatumName());
-        return new GridItemDataEditFact(getEditorConfig(), urlConfig, getLaunchableFactory(), getPacker());
+        return new GridItemDataEditFact(getEditorConfig(), urlConfig, getPacker());
     }
 
 }

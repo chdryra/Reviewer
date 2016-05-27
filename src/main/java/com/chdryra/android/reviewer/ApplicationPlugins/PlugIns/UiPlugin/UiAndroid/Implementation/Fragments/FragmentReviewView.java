@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
@@ -97,6 +98,11 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public ReviewView<?> getReviewView() {
         return mReviewView;
+    }
+
+    @Override
+    public ApplicationInstance getApp() {
+        return ApplicationInstance.getInstance(getActivity());
     }
 
     @Override

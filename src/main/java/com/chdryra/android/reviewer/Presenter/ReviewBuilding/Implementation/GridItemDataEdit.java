@@ -14,12 +14,10 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataEditListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -34,9 +32,8 @@ public class GridItemDataEdit<T extends GvData> extends LaunchAndAlertableAction
     private final ParcelablePacker<T> mDataPacker;
 
     public GridItemDataEdit(LaunchableConfig editorConfig,
-                            UiLauncher launcher,
                             ParcelablePacker<T> dataPacker) {
-        super(TAG, editorConfig, launcher);
+        super(TAG, editorConfig);
         mDataPacker = dataPacker;
     }
 

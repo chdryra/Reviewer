@@ -13,14 +13,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
-        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -38,6 +37,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
@@ -47,12 +47,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Singleton that controls app-wide duties.
  */
 public class ApplicationInstance extends ApplicationSingleton {
+    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     public static final String APP_NAME = "Teeqr";
     private static final String NAME = "ApplicationInstance";
 
@@ -62,6 +64,7 @@ public class ApplicationInstance extends ApplicationSingleton {
     private final PresenterContext mAppContext;
     private final LocationServicesApi mLocationServices;
     private final UserContext mUser;
+    private CurrentScreen mScreen;
     private Activity mActivity;
 
     private ApplicationInstance(Context context) {
@@ -208,11 +211,28 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public void logout() {
-        mUser.logout(mActivity);
+        mUser.logout();
+        LaunchableConfig loginConfig = mAppContext.getConfigUi().getLoginConfig();
+        getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
+        mScreen.close();
+    }
+
+
+    public void launchImageChooser(ImageChooser chooser, int requestCode) {
+        mActivity.startActivityForResult(chooser.getChooserIntents(), requestCode);
+    }
+
+    public CurrentScreen getCurrentScreen() {
+        return mScreen;
+    }
+
+    public void setReturnResult(ActivityResultCode result) {
+        if (result != null) mActivity.setResult(result.get(), null);
     }
 
     private void setCurrentActivity(Activity activity) {
         mActivity = activity;
+        mScreen = new CurrentScreen(activity);
     }
 
     private void launchReview(ReviewNode reviewNode) {

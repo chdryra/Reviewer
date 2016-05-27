@@ -26,11 +26,12 @@ import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
-import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.R;
@@ -61,7 +62,6 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     private static final int MENU = R.menu.menu_search_delete_done;
     private static final int MENU_ITEM_SEARCH = R.id.menu_item_search;
 
-    private static final int BAD_URL = R.string.toast_bad_url;
     private static final int SEARCH_URL = R.string.google_search;
 
     private GvUrl mCurrent;
@@ -199,14 +199,15 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
             url = new GvUrl(mWebView.getTitle(), new URL(urlString));
         } catch (MalformedURLException e1) {
             Log.i(TAG, "MalformedURLException: " + urlString, e1);
-            makeToast(BAD_URL);
+            makeToast(Strings.Toasts.BAD_URL);
         }
 
         return url;
     }
 
-    private void makeToast(int messageId) {
-        Toast.makeText(getActivity(), getResources().getString(messageId), Toast.LENGTH_SHORT).show();
+    private void makeToast(String toast) {
+        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        app.getCurrentScreen().showToast(toast);
     }
 
     private void loadUrlInEditText() {

@@ -10,18 +10,17 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.content.Context;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import com.chdryra.android.reviewer.Application.CurrentScreen;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCommentList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .AdapterCommentsAggregate;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -32,8 +31,6 @@ import com.chdryra.android.reviewer.R;
 public class MaiSplitComments<T extends GvData> implements MenuActionNone.MenuActionItem {
     private static final int UNSPLIT_ICON = R.drawable.ic_action_return_from_full_screen;
     private static final int SPLIT_ICON = R.drawable.ic_action_full_screen;
-    private static final int TOAST_SPLIT = R.string.toast_split_comment;
-    private static final int TOAST_UNSPLIT = R.string.toast_unsplit_comment;
 
     private boolean mCommentsAreSplit = false;
     private MenuAction<T> mParent;
@@ -65,14 +62,15 @@ public class MaiSplitComments<T extends GvData> implements MenuActionNone.MenuAc
 
     //Overridden
     @Override
-    public void doAction(Context context, MenuItem item) {
+    public void doAction(MenuItem item) {
         mCommentsAreSplit = !mCommentsAreSplit;
 
         item.setIcon(mCommentsAreSplit ? UNSPLIT_ICON : SPLIT_ICON);
+        CurrentScreen screen = mParent.getReviewView().getScreen();
         if (mCommentsAreSplit) {
-            Toast.makeText(context, TOAST_SPLIT, Toast.LENGTH_SHORT).show();
+            screen.showToast(Strings.Toasts.SPLIT_COMMENT);
         } else {
-            Toast.makeText(context, TOAST_UNSPLIT, Toast.LENGTH_SHORT).show();
+            screen.showToast(Strings.Toasts.UNSPLIT_COMMENT);
         }
 
         updateGridDataUi();

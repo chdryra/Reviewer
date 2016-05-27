@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
@@ -54,8 +55,13 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
 
     @Override
     public ReviewViewContainer getContainer() {
-        if(mContainer == null ) throw new IllegalStateException("Cannot call before Container attached");
+        if(mContainer == null) throw new IllegalStateException("Cannot call before Container attached");
         return mContainer;
+    }
+
+    @Override
+    public CurrentScreen getScreen() {
+        return getContainer().getApp().getCurrentScreen();
     }
 
     @Override

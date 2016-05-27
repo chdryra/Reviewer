@@ -11,10 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -30,9 +29,8 @@ public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
 
     public GridItemDataEditFact(LaunchableConfig factConfig,
                                 LaunchableConfig urlConfig,
-                                UiLauncher launchableFactory,
                                 ParcelablePacker<GvFact> dataPacker) {
-        super(factConfig, launchableFactory, dataPacker);
+        super(factConfig, dataPacker);
         mUrlConfig = urlConfig;
     }
 
@@ -41,8 +39,7 @@ public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
         if (!item.isUrl()) {
             super.onGridItemLongClick(item, position, v);
         } else {
-            showAlertDialog(getActivity().getString(R.string.alert_edit_on_browser), LAUNCH_BROWSER,
-                    packItem(item));
+            showAlert(Strings.Alerts.EDIT_ON_BROWSER, LAUNCH_BROWSER, packItem(item));
         }
     }
 

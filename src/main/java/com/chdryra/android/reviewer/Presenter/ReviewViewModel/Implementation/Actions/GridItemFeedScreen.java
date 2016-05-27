@@ -13,14 +13,12 @@ import android.view.View;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
@@ -39,10 +37,9 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReview>
     private LaunchableUi mBuildScreenUi;
 
     public GridItemFeedScreen(FactoryReviewViewLaunchable launchableFactory,
-                              UiLauncher launcher,
                               LaunchableUiAlertable shareEditUi,
                               LaunchableUi buildScreenUi) {
-        super(launchableFactory, launcher);
+        super(launchableFactory);
         mShareEditUi = shareEditUi;
         mBuildScreenUi = buildScreenUi;
     }
@@ -60,8 +57,7 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReview>
 
     @Override
     public void onNewReviewUsingTemplate(ReviewId template) {
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        app.getReview(template, this);
+        getApp().getReview(template, this);
     }
 
     @Override
@@ -69,10 +65,9 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReview>
         Review review = result.getReview();
         if(result.isError() || review == null) return;
 
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
         Bundle args = new Bundle();
         args.putString(NewReviewListener.TEMPLATE_ID, review.getReviewId().toString());
-        app.packReview(review, args);
+        getApp().packReview(review, args);
         launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, args);
     }
 

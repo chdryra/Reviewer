@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewDataEditorActionBasic<T extends GvData>
-        extends ReviewViewActionBasic<T> {
+public abstract class ReviewDataEditorActionBasic<T extends GvData> extends ReviewViewActionBasic<T> {
     private ReviewDataEditor<T> mEditor;
 
     public ReviewDataEditor<T> getEditor() {

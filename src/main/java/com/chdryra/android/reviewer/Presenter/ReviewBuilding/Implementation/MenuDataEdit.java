@@ -8,20 +8,18 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
+import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewDataEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 
 /**
  * Created by: Rizwan Choudrey
@@ -71,7 +69,7 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T>
         mDeleteAction = new MenuActionItem() {
             //Overridden
             @Override
-            public void doAction(Context context, MenuItem item) {
+            public void doAction(MenuItem item) {
                 if (hasDataToDelete()) showDeleteConfirmDialog();
             }
         };
@@ -79,7 +77,7 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T>
         mDoneAction = new MenuActionItem() {
             //Overridden
             @Override
-            public void doAction(Context context, MenuItem item) {
+            public void doAction(MenuItem item) {
                 doDoneSelected();
                 sendResult(RESULT_DONE);
             }
@@ -132,7 +130,7 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T>
             getBuilder().deleteAll();
             if (mDismissOnDelete) {
                 sendResult(RESULT_DELETE);
-                getActivity().finish();
+                getApp().getCurrentScreen().close();
             }
         }
     }
@@ -143,7 +141,7 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T>
 
     private void showDeleteConfirmDialog() {
         String deleteWhat = "all " + mDeleteWhat;
-        DialogDeleteConfirm.showDialog(deleteWhat, ALERT_DIALOG, getActivity().getFragmentManager());
+        getApp().getCurrentScreen().showDeleteConfirm(deleteWhat, ALERT_DIALOG);
     }
 
     private boolean hasDataToDelete() {

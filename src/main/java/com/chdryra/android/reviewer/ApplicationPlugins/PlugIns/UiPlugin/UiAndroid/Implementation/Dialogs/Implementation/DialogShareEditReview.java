@@ -15,13 +15,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -50,12 +49,12 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     private static final int ANOTHER = R.id.button_another_review;
     private static final int DELETE = R.id.button_delete_review;
     private static final int DIALOG_ALERT = RequestCodeGenerator.getCode("DeleteReview");
-    private static final int ALERT_DELETE_REVIEW = R.string.alert_delete_review;
 
     private DeleteRequestListener mDeleteRequestListener;
     private NewReviewListener mNewReviewListener;
     private ReviewId mReviewId;
     private PublisherAndroid mSharer;
+    private ApplicationInstance mApp;
 
     @Override
     protected Intent getReturnData() {
@@ -99,6 +98,8 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
 
         mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new
                 ReviewFormatterTwitter());
+
+        mApp = ApplicationInstance.getInstance(getActivity());
     }
 
     @Override
@@ -123,11 +124,6 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         };
     }
 
-    private void shareIntent() {
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
-        app.getReview(mReviewId, fetchReviewCallback(app.getTagsManager()));
-    }
-
     @NonNull
     private ReviewsRepository.RepositoryCallback fetchReviewCallback(final TagsManager tagsManager) {
         return new ReviewsRepository.RepositoryCallback() {
@@ -137,9 +133,9 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
                 if (!result.isError() && review != null) {
                     mSharer.publish(review, tagsManager);
                 } else {
-                    String message = "Review not found";
+                    String message = Strings.Toasts.REVIEW_NOT_FOUND;
                     if (result.isError()) message += ": " + result.getMessage();
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                    mApp.getCurrentScreen().showToast(message);
                 }
             }
         };
@@ -158,8 +154,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String alert = getActivity().getResources().getString(ALERT_DELETE_REVIEW);
-                DialogShower.showAlert(alert, getActivity(), DIALOG_ALERT, new Bundle());
+                mApp.getCurrentScreen().showAlert(Strings.Alerts.DELETE_REVIEW, DIALOG_ALERT, new Bundle());
             }
         };
     }
@@ -168,7 +163,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareIntent();
+                mApp.getReview(mReviewId, fetchReviewCallback(mApp.getTagsManager()));
             }
         };
     }

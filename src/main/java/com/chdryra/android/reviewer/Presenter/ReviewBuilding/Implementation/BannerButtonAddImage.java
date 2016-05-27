@@ -15,9 +15,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -31,19 +29,18 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
     private ImageChooser mImageChooser;
 
     public BannerButtonAddImage(LaunchableConfig adderConfig,
-                                UiLauncher launchableFactory, String title,
+                                String title,
                                 GvDataList<GvImage> emptyImageList,
                                 ParcelablePacker<GvImage> dataPacker,
                                 ImageChooser imageChooser) {
-        super(adderConfig, launchableFactory, title, emptyImageList, dataPacker);
+        super(adderConfig, title, emptyImageList, dataPacker);
         mImageChooser = imageChooser;
     }
 
     @Override
     public void onClick(View v) {
         setLaunchableRequestCode(LAUNCH_TAG);
-        getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
-                getLaunchableRequestCode());
+        getApp().launchImageChooser(mImageChooser, getLaunchableRequestCode());
     }
 
     @Override

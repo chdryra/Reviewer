@@ -8,26 +8,19 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.content.Context;
-import android.widget.Toast;
-
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterionList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterionList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,15 +30,12 @@ import com.chdryra.android.reviewer.R;
 public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapterBasic<T>
     implements DataBuilderAdapter<T> {
 
-    private final Context mContext;
     private final ReviewBuilderAdapter mParentBuilder;
     private final ReviewBuilder mBuilder;
     private final DataBuilder<T> mDataBuilder;
     private final GvDataType<T> mType;
 
-    public DataBuilderAdapterImpl(Context context, GvDataType<T> type,
-                                  ReviewBuilderAdapter parentBuilder) {
-        mContext = context;
+    public DataBuilderAdapterImpl(GvDataType<T> type, ReviewBuilderAdapter parentBuilder) {
         mType = type;
         mParentBuilder = parentBuilder;
         mBuilder = parentBuilder.getBuilder();
@@ -86,7 +76,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
             return true;
         } else {
             if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
-                makeToastHasItem(mContext, datum);
+                makeToastHasItem(datum);
             }
             return false;
         }
@@ -111,7 +101,7 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
             this.notifyDataObservers();
         } else {
             if (res == DataBuilder.ConstraintResult.HAS_DATUM) {
-                makeToastHasItem(mContext, newDatum);
+                makeToastHasItem(newDatum);
             }
         }
     }
@@ -164,10 +154,9 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
                 : getParentBuilder().getCovers();
     }
 
-    private void makeToastHasItem(Context context, GvData datum) {
-        String toast = context.getResources().getString(R.string.toast_has) + " " + datum
-                .getGvDataType().getDatumName();
-        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show();
+    private void makeToastHasItem(GvData datum) {
+        String toast = Strings.Toasts.HAS_DATA + " " + datum.getGvDataType().getDatumName();
+        getReviewView().getScreen().showToast(toast);
     }
 }
 

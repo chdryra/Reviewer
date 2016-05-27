@@ -37,7 +37,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 import org.apache.commons.lang3.StringUtils;
@@ -243,21 +242,19 @@ public class PresenterUsersFeed implements
         @NonNull
         private PresenterUsersFeed.Actions getActions() {
             FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
-            UiLauncher uiLauncher = mApp.getUiLauncher();
             ConfigUi configUi = mApp.getConfigUi();
             LaunchableUi reviewBuildUi = configUi.getBuildReviewConfig().getLaunchable();
 
-            GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory, uiLauncher,
+            GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory,
                     configUi.getShareEditConfig().getLaunchable(), reviewBuildUi);
 
             SubjectAction<GvReview> sa = new SubjectActionNone<>();
 
-            RatingBarAction<GvReview> rb
-                    = new RatingBarExpandGrid<>(launchableFactory, uiLauncher);
+            RatingBarAction<GvReview> rb = new RatingBarExpandGrid<>(launchableFactory);
 
             BannerButtonAction<GvReview> bba = new BannerButtonActionNone<>();
 
-            MenuFeedScreen ma = new MenuFeedScreen(uiLauncher, reviewBuildUi);
+            MenuFeedScreen ma = new MenuFeedScreen(reviewBuildUi);
 
             return new Actions(sa, rb, bba, gi, ma);
         }

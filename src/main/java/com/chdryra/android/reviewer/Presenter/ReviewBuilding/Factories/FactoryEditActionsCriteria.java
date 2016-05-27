@@ -11,13 +11,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditCriteria;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
@@ -30,10 +28,9 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
             = GvCriterion.TYPE;
 
     public FactoryEditActionsCriteria(Context context, ConfigUi config,
-                                      UiLauncher launchableFactory,
                                       FactoryGvData dataFactory,
                                       ParcelablePacker<GvCriterion> packer) {
-        super(context, TYPE, config, launchableFactory, dataFactory, packer);
+        super(context, TYPE, config, dataFactory, packer);
     }
 
     @Override

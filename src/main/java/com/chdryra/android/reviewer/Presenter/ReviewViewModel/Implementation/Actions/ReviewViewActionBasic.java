@@ -8,15 +8,13 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import android.app.Activity;
-
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ReviewViewAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation
-        .UnattachedReviewViewException;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.UnattachedReviewViewException;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,6 +29,11 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     }
 
     @Override
+    public ApplicationInstance getApp() {
+        return getReviewView().getContainer().getApp();
+    }
+
+    @Override
     public ReviewView<T> getReviewView() {
         throwIfNoReviewViewAttached();
         return mReviewView;
@@ -39,11 +42,6 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
     @Override
     public ReviewViewAdapter<T> getAdapter() {
         return getReviewView().getAdapter();
-    }
-
-    @Override
-    public Activity getActivity() {
-        return getReviewView().getContainer().getActivity();
     }
 
     @Override

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.R;
@@ -41,9 +40,8 @@ public abstract class PlatformTwitter<T> extends SocialPlatformBasic<T> {
     }
 
     @Override
-    public LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
-                                      AuthorisationListener listener) {
-        return new LoginUiDefault<>(activity, loginLaunchable, this,
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener) {
+        return new LoginUiDefault<>(loginLaunchable, this,
                 listener, new AuthorisationTokenGetter<T>() {
             @Override
             public T getAuthorisationToken() {

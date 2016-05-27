@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -79,15 +80,14 @@ public class PresenterReviewPublish {
 
         public PresenterReviewPublish build(ReviewViewAdapter<?> reviewAdapter,
                                             PlatformAuthoriser authoriser,
-                                            PublishAction.PublishCallback publishCallback,
-                                            String title) {
+                                            PublishAction.PublishCallback publishCallback) {
             GvSocialPlatformList platforms = getGvSocialPlatforms(mApp.getSocialPlatformList());
             PublishScreenAdapter adapter = new PublishScreenAdapter(platforms, reviewAdapter);
             PublishAction publishAction = new PublishAction(mApp, publishCallback);
             ReviewViewModifier modifier = new PublishButton(platforms, publishAction);
 
             ReviewViewPerspective<GvSocialPlatform> perspective =
-                    new ReviewViewPerspective<>(adapter, getActions(title, authoriser), getParams(), modifier);
+                    new ReviewViewPerspective<>(adapter, getActions(authoriser), getParams(), modifier);
 
             return new PresenterReviewPublish(mApp, new ReviewViewDefault<>(perspective));
         }
@@ -111,7 +111,8 @@ public class PresenterReviewPublish {
         }
 
         @NonNull
-        private ReviewViewActions<GvSocialPlatform> getActions(String title, PlatformAuthoriser authoriser) {
+        private ReviewViewActions<GvSocialPlatform> getActions(PlatformAuthoriser authoriser) {
+            String title = Strings.Screens.SHARE;
             SubjectAction<GvSocialPlatform> sa = new SubjectActionNone<>();
             RatingBarAction<GvSocialPlatform> rb = new RatingBarActionNone<>();
             BannerButtonAction<GvSocialPlatform> bba = new BannerButtonActionNone<>(title);

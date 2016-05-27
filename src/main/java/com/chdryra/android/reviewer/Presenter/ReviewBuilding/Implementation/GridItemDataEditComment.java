@@ -11,10 +11,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
-import com.chdryra.android.reviewer.R;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -27,9 +26,8 @@ public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
             = RequestCodeGenerator.getCode("CommentAsHeadline");
 
     public GridItemDataEditComment(LaunchableConfig editorConfig,
-                                   UiLauncher launchableFactory,
                                    ParcelablePacker<GvComment> dataPacker) {
-        super(editorConfig, launchableFactory, dataPacker);
+        super(editorConfig, dataPacker);
     }
 
     @Override
@@ -43,8 +41,7 @@ public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
         if (item.isHeadline()) {
             super.onGridItemLongClick(item, position, v);
         } else {
-            showAlertDialog(getActivity().getString(R.string.alert_set_comment_as_headline),
-                    COMMENT_AS_HEADLINE, packItem(item));
+            showAlert(Strings.Alerts.SET_COMMENT_AS_HEADLINE, COMMENT_AS_HEADLINE, packItem(item));
         }
     }
 

@@ -8,17 +8,16 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthListener;
 import com.chdryra.android.reviewer.Social.Interfaces.OAuthRequester;
-import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -33,7 +32,6 @@ public class DefaultOAuthUi<T> implements
         LoginUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
-    private Activity mActivity;
     private LaunchableUi mAuthorisationUi;
     private SocialPlatform<T> mPlatform;
     private AuthorisationListener mListener;
@@ -41,12 +39,10 @@ public class DefaultOAuthUi<T> implements
 
     private UiLauncher mLauncher;
 
-    public DefaultOAuthUi(Activity activity,
-                          LaunchableUi authorisationUi,
+    public DefaultOAuthUi(LaunchableUi authorisationUi,
                           SocialPlatform<T> platform,
                           AuthorisationListener listener,
                           ParcelablePacker<OAuthRequest> packer) {
-        mActivity = activity;
         mAuthorisationUi = authorisationUi;
         mPlatform = platform;
         mListener = listener;
@@ -84,7 +80,7 @@ public class DefaultOAuthUi<T> implements
     private void launchUi(OAuthRequest request) {
         Bundle args = new Bundle();
         mPacker.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, request, args);
-        mLauncher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);
+        mLauncher.launch(mAuthorisationUi, AUTHORISATION, args);
         mLauncher = null;
     }
 

@@ -101,7 +101,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     private void setLaunchablesFactory(ViewContext viewContext) {
         FactoryReviewViewLaunchable launchableFactory
                 = new FactoryReviewViewLaunchable(viewContext.getUiConfig(),
-                viewContext.getLauncherFactory(), new FactoryReviewViewParams());
+                new FactoryReviewViewParams());
         setFactoryReviewViewLaunchable(launchableFactory);
     }
 
@@ -128,7 +128,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 new FactoryDataBuildersGridUi(),
                 new FactoryVhBuildReviewData(),
                 validator,
-                new FactoryDataBuilderAdapter(context),
+                new FactoryDataBuilderAdapter(),
                 incrementorFactory,
                 new FactoryImageChooser(context));
 

@@ -54,6 +54,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         GridItemClickObserved.ClickObserver<GC> {
     private final ConfigUi mUiConfig;
     private final UiLauncher mLauncher;
+    private final Activity mActivity;
     private ReviewEditor<GC> mEditor;
     private LocationClientConnector mLocationClient;
     private ImageChooser mImageChooser;
@@ -61,11 +62,12 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
     private PresenterReviewBuild(ReviewEditor<GC> editor,
                                  ConfigUi uiConfig,
-                                 UiLauncher launcher) {
+                                 UiLauncher launcher,
+                                 Activity activity) {
         mEditor = editor;
         mUiConfig = uiConfig;
         mLauncher = launcher;
-
+        mActivity = activity;
         setGridItemObservation();
     }
 
@@ -88,7 +90,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         if (quickDialog && !gridCell.hasData()) {
             launchAdder(type);
         } else {
-            ActivityEditData.start(getActivity(), type);
+            ActivityEditData.start(mActivity, type);
         }
     }
 
@@ -120,15 +122,11 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     @Override
     public <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView) {
         mImageChooser = mEditor.getImageChooser();
-        mLocationClient = new LocationClientConnector(getActivity(), PresenterReviewBuild.this);
+        mLocationClient = new LocationClientConnector(mActivity, PresenterReviewBuild.this);
         mLocationClient.connect();
     }
 
     //private methods
-    private Activity getActivity() {
-        return mEditor.getContainer().getActivity();
-    }
-
     private int getImageRequestCode() {
         return getAdderConfig(GvImage.TYPE).getRequestCode();
     }
@@ -165,8 +163,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     }
 
     private void launchImageChooser() {
-        getActivity().startActivityForResult(mImageChooser.getChooserIntents(),
-                getImageRequestCode());
+        mActivity.startActivityForResult(mImageChooser.getChooserIntents(), getImageRequestCode());
     }
 
     private void showQuickSetLaunchable(LaunchableConfig adderConfig) {
@@ -208,20 +205,20 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             return this;
         }
 
-        public PresenterReviewBuild<?> build() {
+        public PresenterReviewBuild<?> build(Activity activity) {
             ReviewBuilderAdapter<?> adapter = mApp.getReviewBuilderAdapter();
             if (adapter == null) adapter = mApp.newReviewBuilderAdapter(mReview);
 
-            return buildPresenter(adapter);
+            return buildPresenter(activity, adapter);
         }
 
-        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {
+        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(Activity activity, ReviewBuilderAdapter<GC> adapter) {
             ConfigUi config = mApp.getConfigUi();
             UiLauncher uiLauncher = mApp.getUiLauncher();
             ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter, uiLauncher,
                     config.getShareReviewConfig().getLaunchable(), mEditorFactory);
 
-            return new PresenterReviewBuild<>(editor, config, uiLauncher);
+            return new PresenterReviewBuild<>(editor, config, uiLauncher, activity);
         }
 
         private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(Context context,
@@ -240,7 +237,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
                     new GridItemClickObserved<GC>(), new MenuBuildScreen<GC>(screenTitle));
 
             return factory.newEditor(builder, params, actions,
-                    new BuildScreenModifier(new BuildScreenShareButton(launcher, shareScreenUi)));
+                    new BuildScreenModifier(new BuildScreenShareButton(shareScreenUi)));
         }
     }
 }

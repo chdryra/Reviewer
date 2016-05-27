@@ -20,33 +20,23 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemConfigLauncher;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemConfigLauncher;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewPerspective;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.FactoryUiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -59,13 +49,10 @@ public class FactoryReviewViewLaunchable {
     private FactoryChildListView mChildListScreenBuilder;
     private FactoryReviewViewParams mParamsFactory;
     private ConfigUi mConfig;
-    private FactoryUiLauncher mLauncher;
 
-    public FactoryReviewViewLaunchable(ConfigUi config, FactoryUiLauncher launcher,
-                                       FactoryReviewViewParams paramsFactory) {
+    public FactoryReviewViewLaunchable(ConfigUi config, FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mParamsFactory = paramsFactory;
-        mLauncher = launcher;
         mChildListScreenBuilder = new FactoryChildListView();
     }
 
@@ -104,7 +91,7 @@ public class FactoryReviewViewLaunchable {
     private <T extends GvData> ReviewViewActions<T> newViewScreenActions(GvDataType<T> dataType) {
         if(dataType.equals(GvList.TYPE)) return getDefaultScreenActions(dataType);
         SubjectAction<T> subject = new SubjectActionNone<>();
-        RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this, mLauncher);
+        RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this);
         BannerButtonAction<T> bannerButton = new BannerButtonActionNone<>();
         GridItemAction<T> gridItem = getGridItem(dataType);
         MenuAction<T> menu = getMenu(dataType);
@@ -115,9 +102,9 @@ public class FactoryReviewViewLaunchable {
     private <T extends GvData> GridItemAction<T> getGridItem(GvDataType<T> dataType) {
         LaunchableConfig viewerConfig = mConfig.getViewerConfig(dataType.getDatumName());
         if (dataType.equals(GvComment.TYPE)) {
-            return (GridItemAction<T>) new GridItemComments(viewerConfig, this, mLauncher, new ParcelablePacker<GvData>());
+            return (GridItemAction<T>) new GridItemComments(viewerConfig, this, new ParcelablePacker<GvData>());
         } else {
-            return new GridItemConfigLauncher<>(viewerConfig, this, mLauncher, new ParcelablePacker<GvData>());
+            return new GridItemConfigLauncher<>(viewerConfig, this, new ParcelablePacker<GvData>());
         }
     }
 
@@ -133,9 +120,9 @@ public class FactoryReviewViewLaunchable {
     @NonNull
     private <T extends GvData> ReviewViewActions<T> getDefaultScreenActions(GvDataType<T> type) {
         SubjectAction<T> subject = new SubjectActionNone<>();
-        RatingBarAction<T> rb = new RatingBarExpandGrid<>(this, mLauncher);
+        RatingBarAction<T> rb = new RatingBarExpandGrid<>(this);
         BannerButtonAction<T> bb = new BannerButtonActionNone<>();
-        GridItemAction<T> giAction = new GridItemLauncher<>(this, mLauncher);
+        GridItemAction<T> giAction = new GridItemLauncher<>(this);
         MenuAction<T> menuAction = new MenuActionNone<>();
 
         return new ReviewViewActions<>(subject, rb, bb, giAction, menuAction);

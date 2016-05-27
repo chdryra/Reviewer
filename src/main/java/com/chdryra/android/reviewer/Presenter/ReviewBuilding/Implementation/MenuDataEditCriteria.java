@@ -75,7 +75,7 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
         }
 
         @Override
-        public void doAction(Context context, MenuItem item) {
+        public void doAction(MenuItem item) {
             getEditor().setRatingIsAverage(true);
         }
     }

@@ -25,9 +25,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
 public class GridItemComments extends GridItemConfigLauncher<GvComment> {
     public GridItemComments(LaunchableConfig commentsViewConfig,
                             FactoryReviewViewLaunchable launchableFactory,
-                            UiLauncher launcher,
                             ParcelablePacker<GvData> packer) {
-        super(commentsViewConfig, launchableFactory, launcher, packer);
+        super(commentsViewConfig, launchableFactory, packer);
     }
 
     @Override

@@ -8,10 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.widget.Toast;
-
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -23,18 +21,16 @@ public class GridItemDataEditTag extends GridItemDataEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
     public GridItemDataEditTag(LaunchableConfig editorConfig,
-                               UiLauncher launchableFactory,
                                ParcelablePacker<GvTag> dataPacker,
                                TagAdjuster tagAdjuster) {
-        super(editorConfig, launchableFactory, dataPacker);
+        super(editorConfig, dataPacker);
         mTagAdjuster = tagAdjuster;
     }
 
     @Override
     public void onDelete(GvTag data, int requestCode) {
         if (data.equals(mTagAdjuster.getCurrentSubjectTag())) {
-            String toast = "Cannot delete subject tag...";
-            Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
+            getApp().getCurrentScreen().showToast(Strings.Toasts.CANNOT_DELETE_SUBJECT_TAG);
         } else {
             super.onDelete(data, requestCode);
         }

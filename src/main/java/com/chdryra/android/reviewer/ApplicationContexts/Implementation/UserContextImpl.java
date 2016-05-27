@@ -8,10 +8,8 @@
 
 package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
-import android.app.Activity;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
@@ -23,8 +21,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,7 +28,6 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public class UserContextImpl implements UserContext {
-    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
     private static final AuthenticationError NO_PROFILE_ERROR = new AuthenticationError
@@ -78,23 +73,14 @@ public class UserContextImpl implements UserContext {
     }
 
     @Override
-    public void logout(Activity activity) {
-        logoutCurrentUser();
-        LaunchableConfig splashConfig = mContext.getConfigUi().getLoginConfig();
-        UiLauncher uiLauncher = mContext.getLauncherFactory().newLauncher(activity);
-        uiLauncher.launch(splashConfig, LAUNCH_LOGIN);
-        activity.finish();
+    public void logout() {
+        mContext.getUsersManager().logoutCurrentUser();
+        mContext.getSocialPlatformList().logout();
     }
 
     @Override
     public boolean getCurrentProfile(final UserAccounts.GetProfileCallback callback) {
         return mContext.getUsersManager().getCurrentUsersProfile(callback);
-    }
-
-    @Override
-    public void logoutCurrentUser() {
-        mContext.getUsersManager().logoutCurrentUser();
-        mContext.getSocialPlatformList().logout();
     }
 
     @Override

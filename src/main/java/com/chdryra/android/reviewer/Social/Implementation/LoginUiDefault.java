@@ -8,15 +8,14 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationTokenGetter;
 import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -28,17 +27,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 public class LoginUiDefault<T> implements LoginUi {
     private static final int AUTHORISATION = RequestCodeGenerator.getCode("PlatformAuthorisation");
 
-    private Activity mActivity;
     private LaunchableUi mAuthorisationUi;
     private SocialPlatform<T> mPlatform;
     private AuthorisationTokenGetter<T> mGetter;
     private AuthorisationListener mListener;
 
-    public LoginUiDefault(Activity activity, LaunchableUi authorisationUi,
+    public LoginUiDefault(LaunchableUi authorisationUi,
                           SocialPlatform<T> platform,
                           AuthorisationListener listener,
                           AuthorisationTokenGetter<T> getter) {
-        mActivity = activity;
         mAuthorisationUi = authorisationUi;
         mPlatform = platform;
         mGetter = getter;
@@ -49,7 +46,7 @@ public class LoginUiDefault<T> implements LoginUi {
     public void launchUi(UiLauncher launcher) {
         Bundle args = new Bundle();
         args.putString(mAuthorisationUi.getLaunchTag(), mPlatform.getName());
-        launcher.launch(mAuthorisationUi, mActivity, AUTHORISATION, args);
+        launcher.launch(mAuthorisationUi, AUTHORISATION, args);
     }
 
     @Override

@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Social.Implementation;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
@@ -54,9 +53,8 @@ public class PlatformGoogle extends SocialPlatformBasic<String>
     }
 
     @Override
-    public LoginUi getLoginUi(Activity activity, LaunchableUi loginLaunchable,
-                                      AuthorisationListener listener) {
-        return new LoginUiDefault<>(activity, loginLaunchable, this, listener,
+    public LoginUi getLoginUi(LaunchableUi loginLaunchable, AuthorisationListener listener) {
+        return new LoginUiDefault<>(loginLaunchable, this, listener,
                 new AuthorisationTokenGetter<String>() {
             @Override
             public String getAuthorisationToken() {

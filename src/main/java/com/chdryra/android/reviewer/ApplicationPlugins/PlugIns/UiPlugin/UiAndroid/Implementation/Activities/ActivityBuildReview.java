@@ -43,7 +43,7 @@ public class ActivityBuildReview extends ActivityReviewView {
 
         setTemplateReviewIfRequested(app, builder);
 
-        mPresenter = builder.build();
+        mPresenter = builder.build(this);
 
         return mPresenter.getEditor();
     }

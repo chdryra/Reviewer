@@ -8,13 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.Actions;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.RatingBar;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,22 +24,4 @@ public interface RatingBarAction<T extends GvData> extends ReviewViewAction<T> {
     void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser);
 
     float getRating();
-
-    @Override
-    void onAttachReviewView();
-
-    @Override
-    void onUnattachReviewView();
-
-    @Override
-    void attachReviewView(ReviewView<T> reviewView);
-
-    @Override
-    Activity getActivity();
-
-    @Override
-    ReviewViewAdapter<T> getAdapter();
-
-    @Override
-    ReviewView<T> getReviewView();
 }

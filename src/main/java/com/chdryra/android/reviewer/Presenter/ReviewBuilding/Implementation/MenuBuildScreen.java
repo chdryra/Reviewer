@@ -8,11 +8,9 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
@@ -42,7 +40,7 @@ public class MenuBuildScreen<T extends GvData> extends MenuActionNone<T> {
     private MenuActionItem setAverageRating() {
         return new MenuActionItem() {
             @Override
-            public void doAction(Context context, MenuItem item) {
+            public void doAction(MenuItem item) {
                 mEditor.setRatingIsAverage(true);
             }
         };
@@ -60,8 +58,7 @@ public class MenuBuildScreen<T extends GvData> extends MenuActionNone<T> {
 
     @Override
     protected void doUpSelected() {
-        ApplicationInstance instance = ApplicationInstance.getInstance(getActivity());
-        instance.discardReviewBuilderAdapter();
+        getApp().discardReviewBuilderAdapter();
         super.doUpSelected();
     }
 }
