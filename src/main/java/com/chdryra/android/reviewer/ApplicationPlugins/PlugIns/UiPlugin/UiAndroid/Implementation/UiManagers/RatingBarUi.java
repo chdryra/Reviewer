@@ -45,11 +45,6 @@ public class RatingBarUi {
     }
 
     private void initialise() {
-        if (!mReviewView.getParams().isRatingVisible()) {
-            mView.setVisibility(View.GONE);
-            return;
-        }
-
         boolean isEditable = mReviewView.isEditable();
 
         mView.setIsIndicator(!isEditable);

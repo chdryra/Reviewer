@@ -8,11 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -152,17 +147,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     public void notifyDataObservers() {
         for (DataObservable.DataObserver observer : mObservers) {
             observer.onDataChanged();
-        }
-    }
-
-    @Override
-    public View modifyIfNecessary(View v, LayoutInflater inflater, ViewGroup container,
-                                  Bundle savedInstanceState) {
-        ReviewViewModifier modifier = mPerspective.getModifier();
-        if (modifier != null) {
-            return modifier.modify(this, v, inflater, container, savedInstanceState);
-        } else {
-            return v;
         }
     }
 

@@ -39,7 +39,6 @@ import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -212,19 +211,19 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             return buildPresenter(activity, adapter);
         }
 
-        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(Activity activity, ReviewBuilderAdapter<GC> adapter) {
+        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(Activity activity,
+                                                                                   ReviewBuilderAdapter<GC> adapter) {
             ConfigUi config = mApp.getConfigUi();
             UiLauncher uiLauncher = mApp.getUiLauncher();
-            ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter, uiLauncher,
-                    config.getShareReviewConfig().getLaunchable(), mEditorFactory);
+            ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter,
+                    config.getShareReviewConfig(), mEditorFactory);
 
             return new PresenterReviewBuild<>(editor, config, uiLauncher, activity);
         }
 
         private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(Context context,
                                                                       ReviewBuilderAdapter<GC> builder,
-                                                                      UiLauncher launcher,
-                                                                      LaunchableUi shareScreenUi,
+                                                                      LaunchableConfig shareScreenUi,
                                                                       FactoryReviewEditor factory) {
             ReviewViewParams params = new ReviewViewParams();
             params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
@@ -234,10 +233,10 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             ReviewViewActions<GC> actions = new ReviewViewActions<>(new
                     SubjectEditBuildScreen<GC>(),
                     new RatingBarBuildScreen<GC>(), new BannerButtonActionNone<GC>(buttonTitle),
-                    new GridItemClickObserved<GC>(), new MenuBuildScreen<GC>(screenTitle));
+                    new GridItemClickObserved<GC>(), new MenuBuildScreen<GC>(screenTitle),
+                    new BuildScreenShareButton<GC>(shareScreenUi));
 
-            return factory.newEditor(builder, params, actions,
-                    new BuildScreenModifier(new BuildScreenShareButton(shareScreenUi)));
+            return factory.newEditor(builder, params, actions);
         }
     }
 }

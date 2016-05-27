@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -47,11 +46,6 @@ public class SubjectUi {
     }
 
     private void initialise() {
-        if (!mReviewView.getParams().isSubjectVisible()) {
-            mView.setVisibility(View.GONE);
-            return;
-        }
-
         boolean isEditable = mReviewView.isEditable();
         mView.setFocusable(isEditable);
         ((ClearableEditText) mView).makeClearable(isEditable);

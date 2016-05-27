@@ -10,9 +10,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 
 /**
@@ -25,9 +28,48 @@ public class ContextualUi {
     private LinearLayout mView;
     private Button mButton;
 
-    public ContextualUi(ReviewView reviewView, LinearLayout view, int buttonId) {
+    public ContextualUi(ReviewView reviewView, LinearLayout view, int buttonId, int textColour) {
         mReviewView = reviewView;
         mView = view;
         mButton = (Button) mView.findViewById(buttonId);
+        initialise(textColour);
+    }
+
+    private void initialise(int textColour) {
+        ContextualButtonAction<?> action = mReviewView.getActions().getContextualAction();
+        if (action == null) {
+            mView.setVisibility(View.GONE);
+            return;
+        }
+
+        mButton.setText(action.getButtonTitle());
+        mButton.setTextColor(textColour);
+        mView.setOnClickListener(newClickListener(action));
+        mView.setOnLongClickListener(newLongClickListener(action));
+
+        update();
+    }
+
+    public void update() {
+    }
+
+    @NonNull
+    private View.OnLongClickListener newLongClickListener(final ContextualButtonAction<?> action) {
+        return new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return action.onLongClick(v);
+            }
+        };
+    }
+
+    @NonNull
+    private View.OnClickListener newClickListener(final ContextualButtonAction<?> action) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                action.onClick(v);
+            }
+        };
     }
 }

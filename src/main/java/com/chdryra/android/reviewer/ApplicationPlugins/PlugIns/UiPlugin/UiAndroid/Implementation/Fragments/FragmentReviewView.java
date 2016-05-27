@@ -141,17 +141,17 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mMainView = (LinearLayout) v.findViewById(MAIN_VIEW);
         mSubject = new SubjectUi(mReviewView, (TextView) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
-        mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER),
-                mSubject.getTextColour());
+        int colour = mSubject.getTextColour();
+        mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER), colour);
         mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), getActivity());
         mMenu= new MenuUi(mReviewView);
         mCover = new CoverUi(mReviewView, mMainView, mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,
-                (LinearLayout) v.findViewById(CONTEXTUAL_VIEW), CONTEXTUAL_BUTTON);
+                (LinearLayout) v.findViewById(CONTEXTUAL_VIEW), CONTEXTUAL_BUTTON, colour);
 
         attachToReviewViewIfNecessary();
 
-        return mReviewView.modifyIfNecessary(v, inflater, container, savedInstanceState);
+        return v;
     }
 
     @Override
@@ -207,6 +207,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mRatingBar.update();
         mBannerButton.update();
         mGridView.update();
+        mContextual.update();
         mCover.update();
     }
 }

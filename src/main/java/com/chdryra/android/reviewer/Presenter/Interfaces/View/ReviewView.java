@@ -8,11 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -25,7 +20,8 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewView<T extends GvData> extends DataObservable, DataObservable.DataObserver, LaunchableUi {
+public interface ReviewView<T extends GvData>
+        extends DataObservable, DataObservable.DataObserver, LaunchableUi {
     String getSubject();
 
     float getRating();
@@ -57,7 +53,4 @@ public interface ReviewView<T extends GvData> extends DataObservable, DataObserv
     void updateCover();
 
     CurrentScreen getScreen();
-
-    View modifyIfNecessary(View v, LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState);
 }

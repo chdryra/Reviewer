@@ -39,22 +39,17 @@ public class BannerButtonUi {
     }
 
     private void initialise(int textColour) {
-        if (!mReviewView.getParams().isBannerButtonVisible()) {
-            mView.setVisibility(View.GONE);
-            return;
-        }
-
         BannerButtonAction action = mReviewView.getActions().getBannerButtonAction();
         mView.setText(action.getButtonTitle());
         mView.setTextColor(textColour);
-        mView.setOnClickListener(newBannerButtonClickListener(action));
-        mView.setOnLongClickListener(newBannerButtonLongClickListener(action));
+        mView.setOnClickListener(newClickListener(action));
+        mView.setOnLongClickListener(newLongClickListener(action));
 
         update();
     }
 
     @NonNull
-    private View.OnLongClickListener newBannerButtonLongClickListener(final BannerButtonAction action) {
+    private View.OnLongClickListener newLongClickListener(final BannerButtonAction action) {
         return new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -64,7 +59,7 @@ public class BannerButtonUi {
     }
 
     @NonNull
-    private View.OnClickListener newBannerButtonClickListener(final BannerButtonAction action) {
+    private View.OnClickListener newClickListener(final BannerButtonAction action) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {

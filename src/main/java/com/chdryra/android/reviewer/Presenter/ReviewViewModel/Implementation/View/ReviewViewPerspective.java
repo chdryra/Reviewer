@@ -10,9 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.firebase.client.annotations.Nullable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,22 +21,13 @@ public class ReviewViewPerspective<T extends GvData> {
     private ReviewViewAdapter<T> mAdapter;
     private ReviewViewParams mParams;
     private ReviewViewActions<T> mActions;
-    private ReviewViewModifier mModifier;
 
     public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
                                  ReviewViewActions<T> actions,
                                  ReviewViewParams params) {
-        this(adapter, actions, params, null);
-    }
-
-    public ReviewViewPerspective(ReviewViewAdapter<T> adapter,
-                                 ReviewViewActions<T> actions,
-                                 ReviewViewParams params,
-                                 @Nullable ReviewViewModifier modifier) {
         mAdapter = adapter;
         mParams = params;
         mActions = actions;
-        mModifier = modifier;
     }
 
     public ReviewViewAdapter<T> getAdapter() {
@@ -51,10 +40,6 @@ public class ReviewViewPerspective<T extends GvData> {
 
     public ReviewViewActions<T> getActions() {
         return mActions;
-    }
-
-    public ReviewViewModifier getModifier() {
-        return mModifier;
     }
 }
 

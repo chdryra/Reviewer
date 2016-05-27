@@ -15,10 +15,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  */
 public class ReviewViewParams {
     private GridViewParams mGridViewParams = new GridViewParams();
-    private boolean mSubjectVisible = true;
-    private boolean mRatingVisible = true;
-    private boolean mBannerButtonVisible = true;
-    private boolean mContextualVisible = false;
     private boolean mCoverManager = true;
 
     public enum GridViewAlpha {
@@ -54,42 +50,6 @@ public class ReviewViewParams {
 
     public GridViewParams getGridViewParams() {
         return mGridViewParams;
-    }
-
-    public boolean isSubjectVisible() {
-        return mSubjectVisible;
-    }
-
-    public ReviewViewParams setSubjectVisible(boolean subjectVisible) {
-        mSubjectVisible = subjectVisible;
-        return this;
-    }
-
-    public boolean isRatingVisible() {
-        return mRatingVisible;
-    }
-
-    public ReviewViewParams setRatingVisible(boolean ratingVisible) {
-        mRatingVisible = ratingVisible;
-        return this;
-    }
-
-    public boolean isBannerButtonVisible() {
-        return mBannerButtonVisible;
-    }
-
-    public ReviewViewParams setBannerButtonVisible(boolean bannerButtonVisible) {
-        mBannerButtonVisible = bannerButtonVisible;
-        return this;
-    }
-
-    public boolean isContextualVisible() {
-        return mContextualVisible;
-    }
-
-    public ReviewViewParams setContextualVisible(boolean contextualVisible) {
-        mContextualVisible = contextualVisible;
-        return this;
     }
 
     public boolean manageCover() {

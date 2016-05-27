@@ -52,5 +52,6 @@ public class Strings {
 
     public static class Buttons {
         public static final String SHARE = "Share";
+        public static final String PUBLISH = "Publish";
     }
 }

@@ -8,26 +8,15 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewModifier;
-import com.chdryra.android.reviewer.R;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActionBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 
 import java.util.ArrayList;
 
@@ -36,11 +25,8 @@ import java.util.ArrayList;
  * On: 18/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishButton implements ReviewViewModifier {
-    private static final int PUBLISH_BUTTON = R.layout.review_button;
-    private static final int DIVIDER = R.layout.horizontal_divider;
-    private static final int BUTTON_TEXT = R.string.button_publish;
-
+public class PublishButton extends ReviewViewActionBasic<GvSocialPlatform>
+        implements ContextualButtonAction<GvSocialPlatform>{
     private final GvSocialPlatformList mPlatforms;
     private final PublishAction mPublishAction;
 
@@ -50,34 +36,20 @@ public class PublishButton implements ReviewViewModifier {
     }
 
     @Override
-    public View modify(final ReviewView view, View v, LayoutInflater inflater,
-                       ViewGroup container, Bundle savedInstanceState) {
-
-        ReviewViewContainer parent = view.getContainer();
-        final Activity activity = parent.getActivity();
-
-        Button publishButton = (Button) inflater.inflate(PUBLISH_BUTTON, container, false);
-        publishButton.setText(activity.getResources().getString(BUTTON_TEXT));
-        publishButton.getLayoutParams().height = ActionBar.LayoutParams.MATCH_PARENT;
-        publishButton.setOnClickListener(buildAndPublish(activity));
-
-        View divider = inflater.inflate(DIVIDER, container, false);
-
-        parent.addView(publishButton);
-        parent.addView(divider);
-
-        return v;
+    public boolean onLongClick(View v) {
+        onClick(v);
+        return true;
     }
 
-    @NonNull
-    private View.OnClickListener buildAndPublish(final Activity activity) {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Review review = ApplicationInstance.getInstance(activity).executeReviewBuilder();
-                mPublishAction.publish(review, getChosenPlatforms());
-            }
-        };
+    @Override
+    public void onClick(View v) {
+        Review review = getApp().executeReviewBuilder();
+        mPublishAction.publish(review, getChosenPlatforms());
+    }
+
+    @Override
+    public String getButtonTitle() {
+        return Strings.Buttons.PUBLISH;
     }
 
     @NonNull

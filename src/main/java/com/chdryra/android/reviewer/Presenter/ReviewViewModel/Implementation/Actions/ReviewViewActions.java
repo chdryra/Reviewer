@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
@@ -29,6 +32,7 @@ public class ReviewViewActions<T extends GvData> {
     private BannerButtonAction<T> mBannerButtonAction;
     private GridItemAction<T> mGridItemAction;
     private MenuAction<T> mMenuAction;
+    private ContextualButtonAction<T> mContextualAction;
     private ArrayList<ReviewViewAttachedObserver> mObservers;
 
     public interface ReviewViewAttachedObserver {
@@ -38,15 +42,22 @@ public class ReviewViewActions<T extends GvData> {
     public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
                              BannerButtonAction<T> bannerButtonAction, GridItemAction<T>
                                      gridItemAction, MenuAction<T> menuAction) {
+        this(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction, null);
+    }
+
+    public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
+                             BannerButtonAction<T> bannerButtonAction, GridItemAction<T>
+                                     gridItemAction, MenuAction<T> menuAction,
+                             @Nullable ContextualButtonAction<T> contextualAction) {
         mSubjectAction = subjectAction;
         mRatingBarAction = ratingBarAction;
         mBannerButtonAction = bannerButtonAction;
         mGridItemAction = gridItemAction;
         mMenuAction = menuAction;
+        mContextualAction = contextualAction;
         mObservers = new ArrayList<>();
     }
 
-    //public methods
     public SubjectAction<T> getSubjectAction() {
         return mSubjectAction;
     }
@@ -67,12 +78,18 @@ public class ReviewViewActions<T extends GvData> {
         return mMenuAction;
     }
 
+    @Nullable
+    public ContextualButtonAction<T> getContextualAction() {
+        return mContextualAction;
+    }
+
     public void attachReviewView(ReviewView<T> view) {
         mMenuAction.attachReviewView(view);
         mSubjectAction.attachReviewView(view);
         mRatingBarAction.attachReviewView(view);
         mBannerButtonAction.attachReviewView(view);
         mGridItemAction.attachReviewView(view);
+        if(mContextualAction != null ) mContextualAction.attachReviewView(view);
         notifyObservers(view);
     }
 

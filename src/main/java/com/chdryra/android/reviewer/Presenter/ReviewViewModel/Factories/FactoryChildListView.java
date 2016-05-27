@@ -39,8 +39,7 @@ public class FactoryChildListView {
         ReviewViewParams params = new ReviewViewParams();
         ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
         ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
-        params.setSubjectVisible(true).setRatingVisible(true).setBannerButtonVisible(true)
-                .setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+        params.setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
         return params;
     }
 }
