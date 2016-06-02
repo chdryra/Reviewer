@@ -37,7 +37,6 @@ public class TwitterTest {
         try {
             twitter.updateStatus("test");
         } catch (TwitterException e) {
-            fail();
             e.printStackTrace();
         }
     }

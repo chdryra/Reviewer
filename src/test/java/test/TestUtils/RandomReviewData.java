@@ -9,12 +9,12 @@
 package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -49,12 +49,12 @@ public class RandomReviewData {
                 RandomString.nextWord());
     }
 
-    public static DataCriterionReview nextCriterionReview() {
-        return nextCriterionReview(RandomReviewId.nextReviewId());
+    public static DataCriterion nextCriterion() {
+        return nextCriterion(RandomReviewId.nextReviewId());
     }
 
-    public static DataCriterionReview nextCriterionReview(ReviewId reviewId) {
-        return new DatumCriterionReview(reviewId, RandomReview.nextReview());
+    public static DataCriterion nextCriterion(ReviewId reviewId) {
+        return new DatumCriterion(reviewId, RandomString.nextWord(), RandomRating.nextRating());
     }
 
     public static DataLocation nextLocation() {

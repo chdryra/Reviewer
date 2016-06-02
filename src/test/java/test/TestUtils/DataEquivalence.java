@@ -9,7 +9,7 @@
 package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -37,23 +37,20 @@ public class DataEquivalence {
         assertThat(rhs.isHeadline(), is(lhs.isHeadline()));
     }
 
-    public static void checkEquivalence(DataCriterionReview lhs, DataCriterionReview rhs) {
+    public static void checkEquivalence(DataCriterion lhs, DataCriterion rhs) {
         checkEquivalence(lhs, rhs, lhs.getReviewId());
     }
 
-    public static void checkEquivalence(DataCriterionReview lhs, DataCriterionReview rhs, ReviewId rhsIdExpected) {
+    public static void checkEquivalence(DataCriterion lhs, DataCriterion rhs, ReviewId rhsIdExpected) {
         assertThat(rhs.getReviewId().toString(), is(rhsIdExpected.toString()));
         assertThat(rhs.getSubject(), is(lhs.getSubject()));
         assertThat(rhs.getRating(), is(lhs.getRating()));
-        assertThat(rhs.getReview().getSubject(), is(lhs.getReview().getSubject()));
-        assertThat(rhs.getReview().getRating(), is(lhs.getReview().getRating()));
     }
 
-    public static void checkEquivalence(ReviewId parentId, Review review, DataCriterionReview rhs) {
+    public static void checkEquivalence(ReviewId parentId, Review review, DataCriterion rhs) {
         assertThat(rhs.getReviewId().toString(), is(parentId.toString()));
         assertThat(rhs.getSubject(), is(review.getSubject().getSubject()));
         assertThat(rhs.getRating(), is(review.getRating().getRating()));
-        assertThat(rhs.getReview(), is(review));
     }
     
     public static void checkEquivalence(DataFact lhs, DataFact rhs) {

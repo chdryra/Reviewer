@@ -23,11 +23,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FactoryCredentialProviders;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .CredentialProviders.FactoryCredentialProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
@@ -44,8 +45,7 @@ import com.chdryra.android.reviewer.Utils.Password;
  * On: 23/02/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FragmentLogin extends Fragment implements PresenterLogin.LoginListener,
-        DialogAlertFragment.DialogAlertListener {
+public class FragmentLogin extends Fragment implements PresenterLogin.LoginListener, AlertListener {
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUp");
     private static final int LAYOUT = R.layout.fragment_login;
 
@@ -77,6 +77,10 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
             mPresenter.authenticationFinished();
             mPresenter.observeUser();
         }
+    }
+
+    public void closeDialogs() {
+        closeLoggingInDialog();
     }
 
     @Override
@@ -136,7 +140,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     @Override
     public void onNoCurrentUser() {
-        if(mProgress != null) mProgress.setMessage("No one logged in");
+        if (mProgress != null) mProgress.setMessage("No one logged in");
         closeLoggingInDialog();
     }
 
@@ -222,9 +226,5 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     private void makeToast(String toast) {
         Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
-    }
-
-    public void closeDialogs() {
-        closeLoggingInDialog();
     }
 }

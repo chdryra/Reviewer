@@ -91,6 +91,6 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     @Override
     public GvAuthor getUniqueAuthor() {
-        return new GvAuthor();
+        return mWrapper != null ? mWrapper.getUniqueAuthor() : new GvAuthor();
     }
 }

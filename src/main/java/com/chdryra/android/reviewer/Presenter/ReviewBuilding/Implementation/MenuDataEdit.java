@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -26,8 +26,7 @@ import com.chdryra.android.reviewer.R;
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuDataEdit<T extends GvData> extends MenuActionNone<T>
-        implements DialogAlertFragment.DialogAlertListener{
+public class MenuDataEdit<T extends GvData> extends MenuActionNone<T> implements AlertListener {
     private static final int MENU = R.menu.menu_delete_done;
     public static final int MENU_DELETE_ID = R.id.menu_item_delete;
     public static final int MENU_DONE_ID = R.id.menu_item_done;

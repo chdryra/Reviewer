@@ -11,7 +11,7 @@ package test.Model.Factories;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -87,13 +87,10 @@ public class FactoryReviewsTest {
         Iterable<? extends DataImage> images = new ArrayList<>(); //Android can't mock bitmaps
         Iterable<? extends DataFact> facts = mDataMocker.newFactList(NUM);
         Iterable<? extends DataLocation> locations = mDataMocker.newLocationList(NUM);
-        ArrayList<Review> criteria = new ArrayList<>();
-        for(int i = 0; i < NUM; ++i) {
-            criteria.add(RandomReview.nextReview());
-        }
+        Iterable<? extends DataCriterion> criteria = mDataMocker.newCriterionList(NUM);
 
         Review review = mFactory.createUserReview(subject,
-                rating, comments, images, facts, locations, criteria, false);
+                rating, criteria, comments, images, facts, locations, false);
 
         assertThat(review.isRatingAverageOfCriteria(), is(false));
         checkRating(rating, review);
@@ -118,16 +115,14 @@ public class FactoryReviewsTest {
         Iterable<? extends DataImage> images = new ArrayList<>(); //Android can't mock bitmaps
         Iterable<? extends DataFact> facts = mDataMocker.newFactList(NUM);
         Iterable<? extends DataLocation> locations = mDataMocker.newLocationList(NUM);
+        Iterable<? extends DataCriterion> criteria = mDataMocker.newCriterionList(NUM);
         float averageRating = 0f;
-        ArrayList<Review> criteria = new ArrayList<>();
-        for(int i = 0; i < NUM; ++i) {
-            Review criterion = RandomReview.nextReview();
-            criteria.add(criterion);
-            averageRating += criterion.getRating().getRating() / NUM;
+        for(DataCriterion criterion : criteria) {
+            averageRating += criterion.getRating() / NUM;
         }
 
         Review review = mFactory.createUserReview(subject,
-                rating, comments, images, facts, locations, criteria, true);
+                rating, criteria, comments, images, facts, locations, true);
 
         assertThat(review.isRatingAverageOfCriteria(), is(true));
         assertThat(review.getRating().getReviewId(), is(review.getReviewId()));
@@ -367,15 +362,15 @@ public class FactoryReviewsTest {
         assertThat(reviewComments.size(), is(i));
     }
 
-    private void checkCriteria(Iterable<? extends DataCriterionReview> criteria, Review review) {
+    private void checkCriteria(Iterable<? extends DataCriterion> criteria, Review review) {
         checkCriteria(criteria, review, review.getReviewId());
     }
 
-    private void checkCriteria(Iterable<? extends DataCriterionReview> criteria, Review review, ReviewId reviewId) {
-        IdableList<? extends DataCriterionReview> reviewCriteria = review.getCriteria();
+    private void checkCriteria(Iterable<? extends DataCriterion> criteria, Review review, ReviewId reviewId) {
+        IdableList<? extends DataCriterion> reviewCriteria = review.getCriteria();
         assertThat(reviewCriteria.getReviewId(), is(review.getReviewId()));
         int i = 0;
-        for(DataCriterionReview criterion : criteria) {
+        for(DataCriterion criterion : criteria) {
             assertThat(reviewCriteria.size(), greaterThan(i));
             DataEquivalence.checkEquivalence(criterion, reviewCriteria.getItem(i++), reviewId);
         }
@@ -383,7 +378,7 @@ public class FactoryReviewsTest {
     }
     
     private void checkCriteria(ArrayList<Review> criteria, Review review) {
-        IdableList<? extends DataCriterionReview> reviewCriteria = review.getCriteria();
+        IdableList<? extends DataCriterion> reviewCriteria = review.getCriteria();
         assertThat(reviewCriteria.getReviewId(), is(review.getReviewId()));
         assertThat(reviewCriteria.size(), is(criteria.size()));
         for(int i = 0; i < criteria.size(); ++i) {

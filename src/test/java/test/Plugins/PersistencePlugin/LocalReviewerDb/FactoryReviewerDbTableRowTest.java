@@ -21,6 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
@@ -93,6 +95,11 @@ public class FactoryReviewerDbTableRowTest {
     }
 
     @Test
+    public void emptyRowCriterion() {
+        checkEmptyRowConstruction(RowCriterion.class);
+    }
+    
+    @Test
     public void emptyRowFact() {
         checkEmptyRowConstruction(RowFact.class);
     }
@@ -116,18 +123,9 @@ public class FactoryReviewerDbTableRowTest {
     }
 
     @Test
-    public void newRowReviewWithCriterionConstructor() {
-        RowReview row = mFactory.newRow(RowReview.class, RandomReviewData.nextCriterionReview());
-
-        assertThat(row, not(nullValue()));
-        assertThat(row.hasData(mValidator), is(true));
-    }
-
-    @Test
     public void newRowReviewWithRowValuesConstructor() {
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, RandomReviewId.nextIdString());
-        values.put(RowReview.PARENT_ID, RandomReviewId.nextIdString());
         values.put(RowReview.USER_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
         values.put(RowReview.PUBLISH_DATE, RandomDataDate.nextDate().getTime());
         values.put(RowReview.SUBJECT, RandomString.nextWord());
@@ -183,6 +181,28 @@ public class FactoryReviewerDbTableRowTest {
         assertThat(row.hasData(mValidator), is(true));
     }
 
+    @Test
+    public void newRowCriterionWithDataCriterionConstructor() {
+        RowCriterion row = mFactory.newRow(RowCriterion.class, RandomReviewData.nextCriterion(), INDEX);
+
+        assertThat(row, not(nullValue()));
+        assertThat(row.hasData(mValidator), is(true));
+    }
+
+    @Test
+    public void newRowCriterionWithRowValuesConstructor() {
+        RowValuesForTest values = new RowValuesForTest();
+        values.put(RowCriterion.CRITERION_ID, RandomString.nextWord());
+        values.put(RowCriterion.SUBJECT, RandomString.nextWord());
+        values.put(RowCriterion.REVIEW_ID, RandomReviewId.nextIdString());
+        values.put(RowCriterion.RATING, RandomRating.nextRating());
+
+        RowCriterion row = mFactory.newRow(RowCriterion.class, values);
+
+        assertThat(row, not(nullValue()));
+        assertThat(row.hasData(mValidator), is(true));
+    }
+    
     @Test
     public void newRowCommentWithDataCommentConstructor() {
         RowComment row = mFactory.newRow(RowComment.class, RandomReviewData.nextComment(), INDEX);

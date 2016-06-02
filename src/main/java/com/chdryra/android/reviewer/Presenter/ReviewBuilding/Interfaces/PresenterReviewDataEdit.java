@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
 
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PresenterReviewDataEdit<T extends GvData> extends
-        DialogAlertFragment.DialogAlertListener,
+        AlertListener,
         DataAddListener<T>,
         DataEditListener<T>,
         ActivityResultListener {

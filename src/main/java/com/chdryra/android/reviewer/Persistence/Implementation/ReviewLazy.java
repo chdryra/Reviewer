@@ -83,7 +83,7 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     @Override
     public DataAuthorReview getAuthor() {
         return returnData(new DatumAuthorReview(mId, "loading",
-                new DatumAuthorId(mId.toString())),
+                new DatumAuthorId("loading")),
                 new FunctionPointer<Review, DataAuthorReview>() {
                     @Override
                     public DataAuthorReview execute(Review review) {

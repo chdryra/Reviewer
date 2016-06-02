@@ -62,8 +62,6 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewerDbRepositoryTest {
-    public static final RowEntryImpl<RowReview, String> REVIEW_CLAUSE
-            = new RowEntryImpl<>(RowReview.class, RowReview.PARENT_ID, null);
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
     @Mock
@@ -299,7 +297,7 @@ public class ReviewerDbRepositoryTest {
         mRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
-                verify(mDb).loadReviewsWhere(mReviewsTable, REVIEW_CLAUSE, mockTransactor);
+                verify(mDb).loadReviews(mockTransactor);
             }
         });
     }
@@ -312,7 +310,7 @@ public class ReviewerDbRepositoryTest {
         reviews.add(review);
 
         TableTransactor mockDb = mockReadTransaction();
-        when(mDb.loadReviewsWhere(mReviewsTable, REVIEW_CLAUSE, mockDb)).thenReturn(reviews);
+        when(mDb.loadReviews(mockDb)).thenReturn(reviews);
         mRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {

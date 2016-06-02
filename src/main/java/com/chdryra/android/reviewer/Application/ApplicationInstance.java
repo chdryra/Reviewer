@@ -103,7 +103,11 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public ReviewsFeed getCurrentFeed() {
-        return mAppContext.getFeedFactory().newFeed(mUser.getCurrentUserAsAuthor());
+        return getFeed(mUser.getCurrentUserAsAuthor());
+    }
+
+    public ReviewsFeed getFeed(DataAuthor author) {
+        return mAppContext.getFeedFactory().newFeed(author);
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -156,10 +160,6 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public UserContext getUserContext() {
         return mUser;
-    }
-
-    public ReviewsFeed getFeed(DataAuthor author) {
-        return mAppContext.getFeedFactory().newFeed(author);
     }
 
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {

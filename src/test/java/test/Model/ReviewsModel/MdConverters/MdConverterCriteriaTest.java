@@ -9,97 +9,65 @@
 package test.Model.ReviewsModel.MdConverters;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.MdConverterCriteria;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-
-import org.junit.Test;
-
-import java.util.ArrayList;
+import com.chdryra.android.testutils.RandomString;
 
 import test.TestUtils.DataEquivalence;
-import test.TestUtils.RandomReview;
+import test.TestUtils.RandomRating;
 import test.TestUtils.RandomReviewId;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 04/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdConverterCriteriaTest extends MdConverterBasicTest<DataCriterionReview, MdCriterion> {
-    private static final int NUM_REVIEWS = 3;
-
+public class MdConverterCriteriaTest extends MdConverterBasicTest<DataCriterion, MdCriterion> {
     public MdConverterCriteriaTest() {
         super(new MdConverterCriteria());
     }
 
     @Override
-    protected DataCriterionReview newDatum() {
+    protected DataCriterion newDatum() {
         return new Criterion();
     }
 
     @Override
-    protected void checkDatumEquivalence(DataCriterionReview datum, MdCriterion mdDatum) {
+    protected void checkDatumEquivalence(DataCriterion datum, MdCriterion mdDatum) {
         DataEquivalence.checkEquivalence(datum, mdDatum);
     }
 
     @Override
-    protected void checkDatumEquivalence(DataCriterionReview datum, MdCriterion mdDatum, ReviewId mdDatumId) {
+    protected void checkDatumEquivalence(DataCriterion datum, MdCriterion mdDatum, ReviewId mdDatumId) {
         DataEquivalence.checkEquivalence(datum, mdDatum, mdDatumId);
     }
 
-    @Test
-    public void testConvertReviews() {
-        ArrayList<Review> reviews = new ArrayList<>();
-        for(int i = 0; i < NUM_REVIEWS; ++i) {
-            reviews.add(RandomReview.nextReview());
-        }
-        MdConverterCriteria converter = (MdConverterCriteria) getConverter();
-        ReviewId id = RandomReviewId.nextReviewId();
-        MdDataList<MdCriterion> criteria = converter.convertReviews(reviews, id);
-
-        assertThat(criteria.size(), is(NUM_REVIEWS));
-        for(int i = 0; i < NUM_REVIEWS; ++i) {
-            MdCriterion criterion = criteria.getItem(i);
-            Review review = reviews.get(i);
-            assertThat(criterion.getReviewId().toString(), is(id.toString()));
-            assertThat(criterion.getSubject(), is(review.getSubject().getSubject()));
-            assertThat(criterion.getRating(), is(review.getRating().getRating()));
-            assertThat(criterion.getReview(), is(review));
-        }
-    }
-
-    private static class Criterion implements DataCriterionReview {
-        private Review mReview;
+    private static class Criterion implements DataCriterion {
+        private ReviewId mId;
+        private String mSubject;
+        private float mRating;
 
         public Criterion() {
-            mReview = RandomReview.nextReview();
-        }
-
-        @Override
-        public Review getReview() {
-            return mReview;
+            mId = RandomReviewId.nextReviewId();
+            mSubject = RandomString.nextWord();
+            mRating = RandomRating.nextRating();
         }
 
         @Override
         public String getSubject() {
-            return mReview.getSubject().getSubject();
+            return mSubject;
         }
 
         @Override
         public float getRating() {
-            return mReview.getRating().getRating();
+            return mRating;
         }
 
         @Override
         public ReviewId getReviewId() {
-            return mReview.getReviewId();
+            return mId;
         }
 
         @Override

@@ -65,7 +65,6 @@ public class TablesSqlTest {
     public void createReviewsTableSql() {
         String expected = "CREATE TABLE Reviews(\n" +
                 "review_id TEXT NOT NULL,\n" +
-                "parent_id TEXT,\n" +
                 "user_id TEXT NOT NULL,\n" +
                 "publish_date INTEGER NOT NULL,\n" +
                 "subject TEXT NOT NULL,\n" +
@@ -73,7 +72,6 @@ public class TablesSqlTest {
                 "rating_weight INTEGER NOT NULL,\n" +
                 "rating_is_average INTEGER NOT NULL,\n" +
                 "PRIMARY KEY(review_id),\n" +
-                "FOREIGN KEY(parent_id) REFERENCES Reviews(review_id),\n" +
                 "FOREIGN KEY(user_id) REFERENCES Authors(user_id)\n" +
                 ")";
         assertThat(mSql.createTableSql(mContract.getReviewsTable()), is(expected));
@@ -138,7 +136,7 @@ public class TablesSqlTest {
     @Test
     public void dropAllTablesSql() {
         String expected = "SET foreign_key_checks = 0;\n" +
-                "DROP TABLE IF EXISTS Authors,Reviews,Comments,Facts,Locations,Images,Tags;\n" +
+                "DROP TABLE IF EXISTS Authors,Reviews,Criteria,Comments,Facts,Locations,Images,Tags;\n" +
                 "SET foreign_key_checks = 1;";
         assertThat(mSql.dropAllTablesSql(mContract.getTableNames()), is(expected));
     }

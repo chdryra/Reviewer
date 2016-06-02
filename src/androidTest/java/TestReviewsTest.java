@@ -17,7 +17,7 @@ import android.test.InstrumentationTestCase;
 
 import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -86,7 +86,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
         checkTags(reviewId, new String[]{"Restaurant", "Pakistani", "London"});
 
         //Children
-        IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
+        IdableList<? extends DataCriterion> criteria = review.getCriteria();
         checkSize(criteria, 3);
         checkCriterion(criteria.getItem(0), "Food", 4f, reviewId);
         checkCriterion(criteria.getItem(1), "Service", 2f, reviewId);
@@ -128,7 +128,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
         checkTags(reviewId, new String[]{"Reading", "Mum", "KewGardens", "Baby"});
 
         //Children
-        IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
+        IdableList<? extends DataCriterion> criteria = review.getCriteria();
         checkSize(criteria, 3);
         checkCriterion(criteria.getItem(0), "Friday", 4f, reviewId);
         checkCriterion(criteria.getItem(1), "Saturday", 3.5f, reviewId);
@@ -181,7 +181,7 @@ public class TestReviewsTest extends InstrumentationTestCase{
         checkTags(reviewId, new String[]{"Restaurant", "Pakistani", "London"});
 
         //Children
-        IdableList<? extends DataCriterionReview> criteria = review.getCriteria();
+        IdableList<? extends DataCriterion> criteria = review.getCriteria();
         checkSize(criteria, 3);
         checkCriterion(criteria.getItem(0), "Food", 3f, reviewId);
         checkCriterion(criteria.getItem(1), "Service", 1f, reviewId);
@@ -274,12 +274,10 @@ public class TestReviewsTest extends InstrumentationTestCase{
         assertThat(location.getLatLng().longitude, is(lng));
     }
 
-    private void checkCriterion(DataCriterionReview criterion, String criterionSubject, float criterionRating, ReviewId reviewId) {
-        Review child = criterion.getReview();
+    private void checkCriterion(DataCriterion criterion, String criterionSubject, float criterionRating, ReviewId reviewId) {
         assertThat(criterion.getReviewId(), is(reviewId));
-        assertThat(child.getSubject().getSubject(), is(criterionSubject));
-        assertThat(child.getRating().getRating(), is(criterionRating));
-        checkSize(child.getCriteria(), 0);
+        assertThat(criterion.getSubject(), is(criterionSubject));
+        assertThat(criterion.getRating(), is(criterionRating));
     }
 
     @Nullable

@@ -22,8 +22,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdUrl;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.testutils.BitmapMocker;
 import com.chdryra.android.testutils.RandomDate;
 import com.chdryra.android.testutils.RandomLatLng;
@@ -134,7 +132,7 @@ public class MdDataMocker {
     }
 
     public MdCriterion newCriterion() {
-        return new MdCriterion(mMdReviewId, randomCriterionReview());
+        return new MdCriterion(mMdReviewId, newSubject().getSubject(), newRating().getRating());
     }
 
     public MdComment newComment() {
@@ -166,11 +164,5 @@ public class MdDataMocker {
         }
 
         return new MdUrl(mMdReviewId, URL_LABEL, sUrl);
-    }
-
-    private Review randomCriterionReview() {
-        return new ReviewUser(mMdReviewId, newAuthor(), newDate(), newSubject(), newRating(),
-                newCommentList(0), newImageList(0), newFactList(0), newLocationList(0),
-                new MdDataList<MdCriterion>(mMdReviewId), false, mFactory);
     }
 }

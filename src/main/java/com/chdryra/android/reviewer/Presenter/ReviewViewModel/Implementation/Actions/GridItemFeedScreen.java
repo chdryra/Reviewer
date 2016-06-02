@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.os.Bundle;
 import android.view.View;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemFeedScreen extends GridItemLauncher<GvReview>
-        implements DialogAlertFragment.DialogAlertListener, NewReviewListener,
+        implements AlertListener, NewReviewListener,
         ReviewsRepository.RepositoryCallback {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenTemplateReview");

@@ -44,8 +44,8 @@ public class ContextualUi {
 
         mButton.setText(action.getButtonTitle());
         mButton.setTextColor(textColour);
-        mView.setOnClickListener(newClickListener(action));
-        mView.setOnLongClickListener(newLongClickListener(action));
+        mButton.setOnClickListener(newClickListener(action));
+        mButton.setOnLongClickListener(newLongClickListener(action));
 
         update();
     }

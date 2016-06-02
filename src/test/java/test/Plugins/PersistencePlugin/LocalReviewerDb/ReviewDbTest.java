@@ -10,67 +10,45 @@ package test.Plugins.PersistencePlugin.LocalReviewerDb;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Api.TableTransactor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ColumnInfo;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowCommentImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowEntryImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowFactImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowLocationImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowReviewImpl;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableAuthors;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableComments;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableFacts;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableImages;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableLocations;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableRowList;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableTags;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowAuthorImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowCommentImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowCriterionImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowEntryImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowFactImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowLocationImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowReviewImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableAuthors;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableComments;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.TableCriteria;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableFacts;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableImages;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableLocations;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableRowList;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableTags;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowCriterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterionReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -85,8 +63,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.ArrayList;
 
 import test.TestUtils.DataEquivalence;
 import test.TestUtils.RandomReview;
@@ -121,6 +97,9 @@ public class ReviewDbTest {
 
         when(mDb.getLocationsTable()).thenReturn(mock(TableLocations.class));
         when(mDb.getLocationsTable().getRowClass()).thenReturn(RowLocation.class);
+
+        when(mDb.getCriteriaTable()).thenReturn(mock(TableCriteria.class));
+        when(mDb.getCriteriaTable().getRowClass()).thenReturn(RowCriterion.class);
 
         when(mDb.getCommentsTable()).thenReturn(mock(TableComments.class));
         when(mDb.getCommentsTable().getRowClass()).thenReturn(RowComment.class);
@@ -175,30 +154,30 @@ public class ReviewDbTest {
     }
 
     @Test
-    public void getCriteriaLoadsCriteriaFromReviewsTable() {
+    public void getCriteriaLoadsCriterriaFromCriteriaTable() {
         Review review = RandomReview.nextReview();
+
+        TableRowList<RowCriterion> dataRows = new TableRowList<>();
+        dataRows.add(new RowCriterionImpl(RandomReviewData.nextCriterion(review.getReviewId()), 1));
+        dataRows.add(new RowCriterionImpl(RandomReviewData.nextCriterion(review.getReviewId()), 2));
+        dataRows.add(new RowCriterionImpl(RandomReviewData.nextCriterion(review.getReviewId()), 3));
+
+        DbTable<RowCriterion> dataTable = mDb.getCriteriaTable();
+
         RowReview row = newRow(review);
         ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
-        ArrayList<Review> criteriaRows = new ArrayList<>();
-        criteriaRows.add(RandomReview.nextReview());
-        criteriaRows.add(RandomReview.nextReview());
-        criteriaRows.add(RandomReview.nextReview());
+        RowEntry<RowCriterion, String> dataClause = setUpDbReturn(dataRows, dataTable, RowFact
+                .REVIEW_ID, row);
 
-        DbTable<RowReview> reviewsTable = mDb.getReviewsTable();
-        RowEntry<RowReview, String> criteriaClause
-                = asClause(RowReview.class, RowReview.PARENT_ID, row.getReviewId().toString());
-        when(mDb.loadReviewsWhere(reviewsTable, criteriaClause, mTransactor)).thenReturn
-                (criteriaRows);
+        IdableList<? extends DataCriterion> data = reviewDb.getCriteria();
 
-        IdableList<? extends DataCriterionReview> criteria = reviewDb.getCriteria();
-
-        verify(mDb).loadReviewsWhere(reviewsTable, criteriaClause, mTransactor);
-        assertThat(criteria.getReviewId(), is(review.getReviewId()));
-        assertThat(criteria.size(), is(3));
-        assertThat(criteria.getItem(0).getReview(), is(criteriaRows.get(0)));
-        assertThat(criteria.getItem(1).getReview(), is(criteriaRows.get(1)));
-        assertThat(criteria.getItem(2).getReview(), is(criteriaRows.get(2)));
+        verify(mDb).getRowsWhere(dataTable, dataClause, mTransactor);
+        assertThat(data.getReviewId(), is(review.getReviewId()));
+        assertThat(data.size(), is(3));
+        DataEquivalence.checkEquivalence(data.getItem(0), dataRows.getItem(0));
+        DataEquivalence.checkEquivalence(data.getItem(1), dataRows.getItem(1));
+        DataEquivalence.checkEquivalence(data.getItem(2), dataRows.getItem(2));
     }
 
     @Test

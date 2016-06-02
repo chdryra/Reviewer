@@ -8,18 +8,22 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.Dialogs.DialogAlertFragment;
+import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .DeleteRequestListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
+        .PresenterUsersFeed;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
 import java.util.Collection;
@@ -28,7 +32,7 @@ import java.util.Collection;
  * UI Activity holding published reviews feed.
  */
 public class ActivityUsersFeed extends ActivityReviewView implements
-        DialogAlertFragment.DialogAlertListener,
+        AlertListener,
         DeleteRequestListener,
         NewReviewListener,
         PresenterUsersFeed.PresenterListener {

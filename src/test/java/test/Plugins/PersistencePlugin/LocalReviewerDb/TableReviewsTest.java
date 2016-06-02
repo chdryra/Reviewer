@@ -31,13 +31,12 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  */
 public class TableReviewsTest extends ReviewerDbTableTest<RowReview>{
     private static final String NAME = "Reviews";
-    private static final ColumnInfo<?>[] ROWS = {RowReview.REVIEW_ID, RowReview.PARENT_ID,
+    private static final ColumnInfo<?>[] ROWS = {RowReview.REVIEW_ID,
             RowReview.USER_ID, RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING,
             RowReview.RATING_WEIGHT, RowReview.IS_AVERAGE};
-    private static final ColumnInfo<?>[] NULLABLE = {RowReview.PARENT_ID};
+    private static final ColumnInfo<?>[] NULLABLE = {};
 
     private TableAuthors mAuthorsTable;
-    private TableReviews mReviewsTable;
 
     public TableReviewsTest() {
         super(NAME, ROWS, NULLABLE);
@@ -46,14 +45,11 @@ public class TableReviewsTest extends ReviewerDbTableTest<RowReview>{
     @Override
     protected DbTable<RowReview> getTableToTest(FactoryDbColumnDef colFactory, FactoryForeignKeyConstraint constraintFactory) {
         mAuthorsTable = new TableAuthors(colFactory);
-        mReviewsTable = new TableReviews(colFactory, mAuthorsTable, constraintFactory);
-
-        return mReviewsTable;
+        return new TableReviews(colFactory, mAuthorsTable, constraintFactory);
     }
 
     @Override
     protected void setFkConstraints() {
-        addConstraint(mReviewsTable, RowReview.PARENT_ID);
         addConstraint(mAuthorsTable, RowReview.USER_ID);
     }
 }

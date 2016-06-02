@@ -61,9 +61,9 @@ public class ReviewViewActionBasicTest {
     }
 
     @Test
-    public void getActivityThrowsExceptionIfNoReviewViewAttached() {
+    public void getAppThrowsExceptionIfNoReviewViewAttached() {
         mExpectedException.expect(UnattachedReviewViewException.class);
-        mReviewViewAction.getActivity();
+        mReviewViewAction.getApp();
     }
 
     @Test

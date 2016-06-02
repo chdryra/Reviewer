@@ -73,4 +73,10 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
     public void launch(LauncherUi launcher) {
         launcher.launch(getClass(), getLaunchTag());
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ApplicationInstance.setActivity(this);
+    }
 }

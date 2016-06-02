@@ -20,6 +20,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.RowReviewImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableAuthors;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableComments;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Implementation.TableCriteria;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableFacts;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableImages;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.TableLocations;
@@ -29,6 +32,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
@@ -82,6 +88,7 @@ public class ReviewDeleterImplTest {
         when(mDb.getImagesTable()).thenReturn(mock(TableImages.class));
         when(mDb.getFactsTable()).thenReturn(mock(TableFacts.class));
         when(mDb.getLocationsTable()).thenReturn(mock(TableLocations.class));
+        when(mDb.getCriteriaTable()).thenReturn(mock(TableCriteria.class));
         when(mDb.getCommentsTable()).thenReturn(mock(TableComments.class));
         when(mDb.getReviewsTable()).thenReturn(mock(TableReviews.class));
         when(mDb.getAuthorsTable()).thenReturn(mock(TableAuthors.class));
@@ -125,28 +132,9 @@ public class ReviewDeleterImplTest {
 
     @Test
     public void deleteCriteriaCallsTransactorWithCorrectTableAndClause() {
-        setToCapture(mDb.getReviewsTable(), TableReviews.NAME);
-
         RowReview review = newRowReview();
-        mWhereRows.add(newRowReview());
-        mWhereRows.add(newRowReview());
-        mWhereRows.add(newRowReview());
-
-        checkNumberCaptured(0);
-
-        mDeleter.deleteReviewFromDb(review, mTagsManager, mDb, mTransactor);
-
-        //Including deleting of review itself
-        checkNumberCaptured(mWhereRows.size() + 1);
-
-        ColumnInfo<String> columnOfInterest = RowReview.REVIEW_ID;
-        ArrayList<RowEntry<RowReview, ?>> expected = new ArrayList<>();
-        expected.add(asClause(RowReview.class, columnOfInterest, review.getRowId()));
-        for (int i = 0; i < mWhereRows.size(); ++i) {
-            expected.add(asClause(RowReview.class, columnOfInterest, mWhereRows.getItem(i).getRowId()));
-        }
-
-        checkCaptures(expected);
+        checkDeleteCalled(review, mDb.getCriteriaTable(), TableCriteria.NAME,
+                asClause(RowCriterion.class, RowCriterion.REVIEW_ID, review.getRowId()));
     }
 
     @Test
@@ -279,8 +267,7 @@ public class ReviewDeleterImplTest {
                 return dbRows;
             }
 
-            if (clause.getColumnName().equals(RowReview.PARENT_ID.getName()) ||
-                    clause.getColumnName().equals(RowReview.USER_ID.getName())) {
+            if (clause.getColumnName().equals(RowReview.USER_ID.getName())) {
                 return (TableRowList<DbRow>) mWhereRows;
             }
 
