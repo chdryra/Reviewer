@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 
 import android.view.View;
 
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
@@ -21,9 +22,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class ContextButtonAuthor<T extends GvData> extends ReviewViewActionBasic<T>
         implements ContextualButtonAction<T> {
+    private ApplicationInstance mApp;
     private GvAuthor mAuthor;
 
-    public ContextButtonAuthor(GvAuthor author) {
+    public ContextButtonAuthor(ApplicationInstance app, GvAuthor author) {
+        mApp = app;
         mAuthor = author;
     }
 
@@ -35,7 +38,7 @@ public class ContextButtonAuthor<T extends GvData> extends ReviewViewActionBasic
 
     @Override
     public void onClick(View v) {
-
+        mApp.launchFeed(mAuthor);
     }
 
     @Override

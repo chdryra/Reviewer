@@ -43,6 +43,10 @@ public class GvAuthorId implements GvData, AuthorId {
     private GvReviewId mReviewId;
     private String mUserId;
 
+    public GvAuthorId(String userId) {
+        this(null, userId);
+    }
+
     public GvAuthorId(@Nullable GvReviewId reviewId, String userId) {
         mReviewId = reviewId;
         mUserId = userId;

@@ -57,9 +57,9 @@ public class PresenterReviewPublish {
     }
 
     public void  onQueuedToPublish(Activity activity) {
-        mApp.getConfigUi().getFeedConfig();
+        mApp.getConfigUi().getUsersFeed();
         UiLauncher uiLauncher = mApp.getUiLauncher();
-        uiLauncher.launch(mApp.getConfigUi().getFeedConfig(), FEED);
+        uiLauncher.launch(mApp.getConfigUi().getUsersFeed(), FEED);
         activity.finish();
     }
 

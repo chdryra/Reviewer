@@ -11,11 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
@@ -44,7 +43,7 @@ public class GridItemLauncher<T extends GvData> extends GridItemExpander<T> {
 
     private LaunchableUi getLaunchableUi(ReviewViewAdapter<?> expanded) {
         LaunchableUi screen = expanded.getReviewView();
-        if (screen == null) screen = mLaunchableFactory.newViewScreen(expanded);
+        if (screen == null) screen = mLaunchableFactory.newViewScreen(getApp(), expanded);
         return screen;
     }
 }

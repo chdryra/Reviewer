@@ -250,10 +250,10 @@ public class PresenterUsersFeed implements
         private PresenterUsersFeed.Actions getActions() {
             FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
             ConfigUi configUi = mApp.getConfigUi();
-            LaunchableUi reviewBuildUi = configUi.getBuildReviewConfig().getLaunchable();
+            LaunchableUi reviewBuildUi = configUi.getBuildReview().getLaunchable();
 
             GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory,
-                    configUi.getShareEditConfig().getLaunchable(), reviewBuildUi);
+                    configUi.getShareEdit().getLaunchable(), reviewBuildUi);
 
             SubjectAction<GvReview> sa = new SubjectActionNone<>();
 

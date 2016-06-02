@@ -60,8 +60,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     private static final int CONTEXTUAL_VIEW = R.id.contextual_view;
     private static final int CONTEXTUAL_BUTTON = R.id.contextual_button;
 
-    private LinearLayout mMainView;
-
     private SubjectUi mSubject;
     private RatingBarUi mRatingBar;
     private BannerButtonUi mBannerButton;
@@ -91,11 +89,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     }
 
     @Override
-    public void setBannerAsDisplay() {
-        mBannerButton.setAsDisplay();
-    }
-
-    @Override
     public ReviewView<?> getReviewView() {
         return mReviewView;
     }
@@ -103,16 +96,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
     @Override
     public ApplicationInstance getApp() {
         return ApplicationInstance.getInstance(getActivity());
-    }
-
-    @Override
-    public void addView(View v) {
-        if (!mIsModified) {
-            mGridView.wrap();
-            mIsModified = true;
-        }
-
-        mMainView.addView(v);
     }
 
     @Override
@@ -138,14 +121,14 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
         View v = inflater.inflate(LAYOUT, container, false);
 
-        mMainView = (LinearLayout) v.findViewById(MAIN_VIEW);
+        LinearLayout mainView = (LinearLayout) v.findViewById(MAIN_VIEW);
         mSubject = new SubjectUi(mReviewView, (TextView) v.findViewById(SUBJECT));
         mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
         mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER), colour);
         mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), getActivity());
         mMenu= new MenuUi(mReviewView);
-        mCover = new CoverUi(mReviewView, mMainView, mGridView, getActivity());
+        mCover = new CoverUi(mReviewView, mainView, mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,
                 (LinearLayout) v.findViewById(CONTEXTUAL_VIEW), CONTEXTUAL_BUTTON, colour);
 

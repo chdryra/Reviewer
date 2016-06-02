@@ -37,14 +37,14 @@ public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLoc
 
     @Override
     protected BannerButtonAction<GvLocation> newBannerButtonAdd() {
-        return new BannerButtonAddLocation(getAdderConfig(), getConfig().getMapEditorConfig(),
+        return new BannerButtonAddLocation(getAdderConfig(), getConfig().getMapEditor(),
                 getBannerButtonTitle(), getDataFactory().newDataList(TYPE),
                 getPacker());
     }
 
     @Override
     protected GridItemAction<GvLocation> newGridItemEdit() {
-        return new GridItemDataEditLocation(getEditorConfig(), getConfig().getMapEditorConfig(),
+        return new GridItemDataEditLocation(getEditorConfig(), getConfig().getMapEditor(),
                 getPacker());
     }
 

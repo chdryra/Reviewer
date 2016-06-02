@@ -36,6 +36,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -43,6 +44,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryG
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -212,7 +214,7 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public void logout() {
         mUser.logout();
-        LaunchableConfig loginConfig = mAppContext.getConfigUi().getLoginConfig();
+        LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
         getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
         mScreen.close();
     }
@@ -239,5 +241,13 @@ public class ApplicationInstance extends ApplicationSingleton {
         LaunchableUi ui = mAppContext.getReviewsListLaunchable(reviewNode);
         String tag = reviewNode.getSubject().getSubject();
         getUiLauncher().launch(ui, RequestCodeGenerator.getCode(tag));
+    }
+
+    public void launchFeed(GvAuthor author) {
+        LaunchableConfig feed = getConfigUi().getFeed();
+        ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
+        Bundle args = new Bundle();
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, author, args);
+        getUiLauncher().launch(feed, feed.getRequestCode(), args);
     }
 }

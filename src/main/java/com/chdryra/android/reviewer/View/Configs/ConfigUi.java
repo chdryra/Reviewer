@@ -17,23 +17,25 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ConfigUi {
-    LaunchableConfig getViewerConfig(String datumName);
+    LaunchableConfig getViewer(String datumName);
 
-    LaunchableConfig getEditorConfig(String datumName);
+    LaunchableConfig getEditor(String datumName);
 
-    LaunchableConfig getAdderConfig(String datumName);
+    LaunchableConfig getAdder(String datumName);
 
-    LaunchableConfig getLoginConfig();
+    LaunchableConfig getLogin();
 
-    LaunchableConfig getSignUpConfig();
+    LaunchableConfig getSignUp();
 
-    LaunchableConfig getFeedConfig();
+    LaunchableConfig getUsersFeed();
 
-    LaunchableConfig getBuildReviewConfig();
+    LaunchableConfig getFeed();
 
-    LaunchableConfig getMapEditorConfig();
+    LaunchableConfig getBuildReview();
 
-    LaunchableConfig getShareReviewConfig();
+    LaunchableConfig getMapEditor();
 
-    LaunchableConfigAlertable getShareEditConfig();
+    LaunchableConfig getShareReview();
+
+    LaunchableConfigAlertable getShareEdit();
 }

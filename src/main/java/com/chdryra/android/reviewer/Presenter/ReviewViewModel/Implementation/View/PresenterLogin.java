@@ -138,7 +138,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public void onLoginComplete() {
-        launchLaunchable(mApp.getConfigUi().getFeedConfig(), FEED, new Bundle());
+        launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
         mUserContext.unsetLoginObserver();
         mActivity.finish();
     }
@@ -186,7 +186,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         Bundle args = new Bundle();
         ParcelablePacker<SignUpArgs> packer = new ParcelablePacker<>();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, signUpArgs, args);
-        launchLaunchable(mApp.getConfigUi().getSignUpConfig(), SIGN_UP, args);
+        launchLaunchable(mApp.getConfigUi().getSignUp(), SIGN_UP, args);
     }
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {

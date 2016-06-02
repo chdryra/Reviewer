@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -28,10 +27,6 @@ public interface ReviewViewContainer extends DataObservable.DataObserver {
     float getRating();
 
     void setRating(float rating);
-
-    void addView(View v);
-
-    void setBannerAsDisplay();
 
     ApplicationInstance getApp();
 

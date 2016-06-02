@@ -16,7 +16,6 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
@@ -24,19 +23,13 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -51,22 +44,20 @@ public class PresenterFeed implements
         NewReviewListener,
         ReviewNodeMutable.NodeObserver {
 
-    private ApplicationInstance mApp;
     private ReviewTreeLive mFeedNode;
     private ReviewView<GvReview> mReviewView;
     private GridItemFeedScreen mGridItem;
-    private ReviewDeleter mDeleter;
 
     private PresenterFeed(ApplicationInstance app,
                           ReviewTreeLive feedNode,
                           Actions actions) {
-        mApp = app;
         mFeedNode = feedNode;
         mFeedNode.registerNodeObserver(this);
 
         mGridItem = (GridItemFeedScreen) actions.getGridItemAction();
-        mReviewView = mApp.getLaunchableFactory().newReviewsListScreen(mFeedNode,
-                mApp.getReviewViewAdapterFactory(), actions);
+
+        mReviewView = app.getLaunchableFactory().newReviewsListScreen(mFeedNode,
+                app.getReviewViewAdapterFactory(), actions);
     }
 
     public ReviewView<GvReview> getView() {
@@ -121,10 +112,10 @@ public class PresenterFeed implements
         private PresenterFeed.Actions getActions() {
             FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
             ConfigUi configUi = mApp.getConfigUi();
-            LaunchableUi reviewBuildUi = configUi.getBuildReviewConfig().getLaunchable();
+            LaunchableUi reviewBuildUi = configUi.getBuildReview().getLaunchable();
 
             GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory,
-                    configUi.getShareEditConfig().getLaunchable(), reviewBuildUi);
+                    configUi.getShareEdit().getLaunchable(), reviewBuildUi);
 
             SubjectAction<GvReview> sa = new SubjectActionNone<>();
 
@@ -132,7 +123,7 @@ public class PresenterFeed implements
 
             BannerButtonAction<GvReview> bba = new BannerButtonActionNone<>();
 
-            MenuFeedScreen ma = new MenuFeedScreen(reviewBuildUi);
+            MenuAction<GvReview> ma = new MenuActionNone<>();
 
             return new Actions(sa, rb, bba, gi, ma);
         }

@@ -25,8 +25,9 @@ import java.util.ArrayList;
  */
 public abstract class LaunchablesListBasic implements LaunchablesList {
     private final ArrayList<AddEditViewClasses<?>> mDataLaunchables;
-    private final Class<? extends LaunchableUi> mSplash;
+    private final Class<? extends LaunchableUi> mLogin;
     private final Class<? extends LaunchableUi> mSignUp;
+    private final Class<? extends LaunchableUi> mUsersFeed;
     private final Class<? extends LaunchableUi> mFeed;
     private final Class<? extends LaunchableUi> mReviewBuilder;
     private final Class<? extends LaunchableUi> mMapEditor;
@@ -36,16 +37,18 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     //TODO make this independent of Android
     private Class<? extends Activity> mDefaultReviewViewActivity;
 
-    public LaunchablesListBasic(Class<? extends LaunchableUi> splash,
+    public LaunchablesListBasic(Class<? extends LaunchableUi> login,
                                 Class<? extends LaunchableUi> signUp,
+                                Class<? extends LaunchableUi> usersFeed,
                                 Class<? extends LaunchableUi> feed,
                                 Class<? extends LaunchableUi> reviewBuilder,
                                 Class<? extends LaunchableUi> mapEditor,
                                 Class<? extends LaunchableUi> share,
                                 Class<? extends LaunchableUiAlertable> shareEdit,
                                 Class<? extends Activity> defaultReviewViewActivity) {
-        mSplash = splash;
+        mLogin = login;
         mSignUp = signUp;
+        mUsersFeed = usersFeed;
         mFeed = feed;
         mReviewBuilder = reviewBuilder;
         mMapEditor = mapEditor;
@@ -61,12 +64,17 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
 
     @Override
     public Class<? extends LaunchableUi> getLoginUi() {
-        return mSplash;
+        return mLogin;
     }
 
     @Override
     public Class<? extends LaunchableUi> getSignUpUi() {
         return mSignUp;
+    }
+
+    @Override
+    public Class<? extends LaunchableUi> getUsersFeedUi() {
+        return mUsersFeed;
     }
 
     @Override

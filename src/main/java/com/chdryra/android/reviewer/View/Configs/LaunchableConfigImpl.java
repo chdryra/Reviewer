@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.View.Configs;
 import android.util.Log;
 
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LauncherUiImpl;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * <li>A String tag that may be used (if ultimately launching a dialog)</li>
  * </ul>
  * The {@link LaunchableUi} is launched using a
- * {@link LauncherUiImpl}
+ * {@link UiLauncher.LauncherUiImpl}
  */
 public class LaunchableConfigImpl implements LaunchableConfig {
     private static final String TAG = "LaunchableConfigImpl";

@@ -138,7 +138,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     }
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
-        return mUiConfig.getAdderConfig(dataType.getDatumName());
+        return mUiConfig.getAdder(dataType.getDatumName());
     }
 
     private void setCover(GvImage image) {
@@ -216,7 +216,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             ConfigUi config = mApp.getConfigUi();
             UiLauncher uiLauncher = mApp.getUiLauncher();
             ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter,
-                    config.getShareReviewConfig(), mEditorFactory);
+                    config.getShareReview(), mEditorFactory);
 
             return new PresenterReviewBuild<>(editor, config, uiLauncher, activity);
         }

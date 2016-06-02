@@ -14,10 +14,10 @@ package com.chdryra.android.reviewer.View.LauncherModel.Interfaces;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LauncherUiImpl;
+import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 
 /**
- * For UIs that can be launched by a {@link LauncherUiImpl}.
+ * For UIs that can be launched by a {@link UiLauncher.LauncherUiImpl}.
  * Usually by calling "launcher.launch(this)".
  */
 public interface LaunchableUi {

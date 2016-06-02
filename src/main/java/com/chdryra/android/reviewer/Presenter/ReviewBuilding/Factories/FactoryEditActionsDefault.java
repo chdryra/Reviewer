@@ -67,7 +67,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected LaunchableConfig getAdderConfig() {
-        return mConfig.getAdderConfig(mDataType.getDatumName());
+        return mConfig.getAdder(mDataType.getDatumName());
     }
 
     public ConfigUi getConfig() {
@@ -75,7 +75,7 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected LaunchableConfig getEditorConfig() {
-        return mConfig.getEditorConfig(mDataType.getDatumName());
+        return mConfig.getEditor(mDataType.getDatumName());
     }
 
     protected FactoryGvData getDataFactory() {

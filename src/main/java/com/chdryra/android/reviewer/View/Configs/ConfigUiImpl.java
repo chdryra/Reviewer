@@ -31,6 +31,7 @@ public final class ConfigUiImpl implements ConfigUi {
     private LaunchableConfig mLoginConfig;
     private LaunchableConfig mSignUpConfig;
     private LaunchableConfig mFeedConfig;
+    private LaunchableConfig mUsersFeedConfig;
     private LaunchableConfig mBuildReviewConfig;
     private LaunchableConfig mEditOnMapConfig;
     private LaunchableConfig mShareReviewConfig;
@@ -39,6 +40,7 @@ public final class ConfigUiImpl implements ConfigUi {
     public ConfigUiImpl(Iterable<? extends LaunchableConfigsHolder<?>> configs,
                         LaunchableConfig loginConfig,
                         LaunchableConfig signUpConfig,
+                        LaunchableConfig usersFeedConfig,
                         LaunchableConfig feedConfig,
                         LaunchableConfig buildReviewConfig,
                         LaunchableConfig editOnMapConfig,
@@ -50,6 +52,7 @@ public final class ConfigUiImpl implements ConfigUi {
         }
         mLoginConfig = loginConfig;
         mSignUpConfig = signUpConfig;
+        mUsersFeedConfig = usersFeedConfig;
         mFeedConfig = feedConfig;
         mBuildReviewConfig = buildReviewConfig;
         mEditOnMapConfig = editOnMapConfig;
@@ -58,52 +61,57 @@ public final class ConfigUiImpl implements ConfigUi {
     }
 
     @Override
-    public LaunchableConfig getViewerConfig(String datumName) {
+    public LaunchableConfig getViewer(String datumName) {
         return getConfigs(datumName).getViewerConfig();
     }
 
     @Override
-    public LaunchableConfig getEditorConfig(String datumName) {
+    public LaunchableConfig getEditor(String datumName) {
         return getConfigs(datumName).getEditorConfig();
     }
 
     @Override
-    public LaunchableConfig getAdderConfig(String datumName) {
+    public LaunchableConfig getAdder(String datumName) {
         return getConfigs(datumName).getAdderConfig();
     }
 
     @Override
-    public LaunchableConfig getLoginConfig() {
+    public LaunchableConfig getLogin() {
         return mLoginConfig;
     }
 
     @Override
-    public LaunchableConfig getSignUpConfig() {
+    public LaunchableConfig getSignUp() {
         return mSignUpConfig;
     }
 
     @Override
-    public LaunchableConfig getFeedConfig() {
+    public LaunchableConfig getUsersFeed() {
+        return mUsersFeedConfig;
+    }
+
+    @Override
+    public LaunchableConfig getFeed() {
         return mFeedConfig;
     }
 
     @Override
-    public LaunchableConfig getBuildReviewConfig() {
+    public LaunchableConfig getBuildReview() {
         return mBuildReviewConfig;
     }
 
     @Override
-    public LaunchableConfig getMapEditorConfig() {
+    public LaunchableConfig getMapEditor() {
         return mEditOnMapConfig;
     }
 
     @Override
-    public LaunchableConfig getShareReviewConfig() {
+    public LaunchableConfig getShareReview() {
         return mShareReviewConfig;
     }
 
     @Override
-    public LaunchableConfigAlertable getShareEditConfig() {
+    public LaunchableConfigAlertable getShareEdit() {
         return mShareEditConfig;
     }
 

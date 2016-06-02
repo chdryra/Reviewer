@@ -25,6 +25,8 @@ public interface LaunchablesList {
 
     Class<? extends LaunchableUi> getSignUpUi();
 
+    Class<? extends LaunchableUi> getUsersFeedUi();
+
     Class<? extends LaunchableUi> getFeedUi();
 
     Class<? extends LaunchableUi> getReviewBuilderUi();
