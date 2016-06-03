@@ -104,7 +104,7 @@ public abstract class DialogGvDataEdit<T extends GvData>
 
     private void getTargetListener() {
         //TODO make type safe
-        mDataEditListener = (DataEditListener<T>) getTargetListener(DataEditListener.class);
+        mDataEditListener = (DataEditListener<T>) getTargetListenerOrThrow(DataEditListener.class);
     }
 
     private void getDatumToEdit() {

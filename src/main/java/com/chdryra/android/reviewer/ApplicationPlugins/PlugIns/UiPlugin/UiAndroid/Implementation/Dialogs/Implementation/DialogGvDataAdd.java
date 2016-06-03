@@ -109,7 +109,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
         mQuickSet = args != null && args.getBoolean(AdderConfig.QUICK_SET);
         if (!mQuickSet) {
             //TODO make type safe
-            mAddListener = getTargetListener(DataAddListener.class);
+            mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
             ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
             mBuilder = app.getDataBuilderAdapter(mDataType);
