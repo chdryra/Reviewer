@@ -33,7 +33,6 @@ public abstract class GridItemExpander<T extends GvData> extends GridItemActionN
     public void onLongClickNotExpandable(T item, int position, View v) {
     }
 
-    //Overridden
     @Override
     public void onGridItemClick(T item, int position, View v) {
         if (getAdapter().isExpandable(item)) {

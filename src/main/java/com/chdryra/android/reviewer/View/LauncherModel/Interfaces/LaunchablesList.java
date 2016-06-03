@@ -21,6 +21,8 @@ public interface LaunchablesList {
     //TODO make this independent of Android
     Class<? extends Activity> getDefaultReviewViewActivity();
 
+    Class<? extends Activity> getReviewsListActivity();
+
     Class<? extends LaunchableUi> getLoginUi();
 
     Class<? extends LaunchableUi> getSignUpUi();

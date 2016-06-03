@@ -14,11 +14,10 @@ import android.view.View;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCanonical;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -33,7 +32,7 @@ public class GridItemConfigLauncher<T extends GvData> extends GridItemLauncher<T
     private final int mLaunchCode;
 
     public GridItemConfigLauncher(LaunchableConfig dataConfig,
-                                  FactoryReviewViewLaunchable launchableFactory,
+                                  FactoryReviewView launchableFactory,
                                   ParcelablePacker<GvData> packer) {
         super(launchableFactory);
         mDataConfig = dataConfig;

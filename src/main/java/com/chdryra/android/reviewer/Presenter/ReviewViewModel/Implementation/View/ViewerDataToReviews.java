@@ -32,7 +32,7 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     }
 
     @Override
-    public GvDataType<? extends GvData> getGvDataType() {
+    public GvDataType<?> getGvDataType() {
         return mData.getGvDataType();
     }
 
@@ -52,7 +52,7 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(T datum) {
+    public ReviewViewAdapter<?> expandGridCell(T datum) {
         if (isExpandable(datum)) {
             return mAdapterFactory.newReviewsListAdapter(datum);
         } else {
@@ -61,7 +61,7 @@ public class ViewerDataToReviews<T extends GvData> implements GridDataViewer<T> 
     }
 
     @Override
-    public ReviewViewAdapter expandGridData() {
+    public ReviewViewAdapter<?> expandGridData() {
         return mAdapterFactory.newReviewsListAdapter(mData);
     }
 }

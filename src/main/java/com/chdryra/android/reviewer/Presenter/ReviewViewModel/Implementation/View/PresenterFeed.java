@@ -8,89 +8,28 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterFeed implements
-        AlertListener,
-        NewReviewListener,
-        ReviewNodeMutable.NodeObserver {
-
-    private ReviewTreeLive mFeedNode;
-    private ReviewView<GvReview> mReviewView;
-    private GridItemFeedScreen mGridItem;
-
-    private PresenterFeed(ApplicationInstance app,
-                          ReviewTreeLive feedNode,
-                          Actions actions) {
-        mFeedNode = feedNode;
-        mFeedNode.registerNodeObserver(this);
-
-        mGridItem = (GridItemFeedScreen) actions.getGridItemAction();
-
-        mReviewView = app.getLaunchableFactory().newReviewsListScreen(mFeedNode,
-                app.getReviewViewAdapterFactory(), actions);
+public class PresenterFeed extends PresenterReviewsList {
+    public PresenterFeed(ApplicationInstance app,
+                         ReviewTreeLive feedNode,
+                         Actions actions) {
+        super(app, feedNode, actions);
     }
 
-    public ReviewView<GvReview> getView() {
-        return mReviewView;
-    }
-
+    @Override
     public void detach() {
-        mFeedNode.unregisterNodeObserver(this);
-        mFeedNode.detachFromRepo();
-    }
-
-    @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        mGridItem.onAlertPositive(requestCode, args);
-    }
-
-    @Override
-    public void onNodeChanged() {
-        notifyReviewView();
-    }
-
-    @Override
-    public void onNewReviewUsingTemplate(ReviewId template) {
-        mGridItem.onNewReviewUsingTemplate(template);
-    }
-
-    private void notifyReviewView() {
-        if (mReviewView != null) mReviewView.onDataChanged();
+        super.detach();
+        ((ReviewTreeLive)getNode()).detachFromRepo();
     }
 
     public static class Builder {
@@ -100,41 +39,24 @@ public class PresenterFeed implements
             mApp = app;
         }
 
-        public PresenterFeed build(DataAuthor author) {
-            ReviewsFeed feed = mApp.getFeed(author);
-            String title = author.getName() + "'s feed";
-            ReviewTreeLive node = new ReviewTreeLive(feed, mApp.getReviewsFactory(), title);
+        protected ApplicationInstance getApp() {
+            return mApp;
+        }
 
-            return new PresenterFeed(mApp, node, getActions());
+        public PresenterFeed build(DataAuthor author) {
+            return new PresenterFeed(mApp, getFeedNode(author), getActions());
+        }
+
+        protected Actions getActions() {
+            FactoryReviewsListActions factory = new FactoryReviewsListActions();
+            return factory.getDefaultActions(mApp);
         }
 
         @NonNull
-        private PresenterFeed.Actions getActions() {
-            FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
-            ConfigUi configUi = mApp.getConfigUi();
-            LaunchableUi reviewBuildUi = configUi.getBuildReview().getLaunchable();
-
-            GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory,
-                    configUi.getShareEdit().getLaunchable(), reviewBuildUi);
-
-            SubjectAction<GvReview> sa = new SubjectActionNone<>();
-
-            RatingBarAction<GvReview> rb = new RatingBarExpandGrid<>(launchableFactory);
-
-            BannerButtonAction<GvReview> bba = new BannerButtonActionNone<>();
-
-            MenuAction<GvReview> ma = new MenuActionNone<>();
-
-            return new Actions(sa, rb, bba, gi, ma);
-        }
-    }
-
-    private static class Actions extends ReviewViewActions<GvReview> {
-        private Actions(SubjectAction<GvReview> subjectAction, RatingBarAction
-                <GvReview> ratingBarAction, BannerButtonAction<GvReview>
-                                bannerButtonAction, GridItemFeedScreen gridItemAction,
-                        MenuAction<GvReview> menuAction) {
-            super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
+        protected ReviewTreeLive getFeedNode(DataAuthor author) {
+            ReviewsFeed feed = mApp.getFeed(author);
+            String title = author.getName() + "'s feed";
+            return new ReviewTreeLive(feed, mApp.getReviewsFactory(), title);
         }
     }
 }

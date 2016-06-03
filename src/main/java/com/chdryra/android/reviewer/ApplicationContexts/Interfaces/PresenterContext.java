@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -40,7 +40,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PresenterContext {
-    FactoryReviewViewLaunchable getReviewViewLaunchableFactory();
+    FactoryReviewView getReviewViewLaunchableFactory();
 
     FactoryReviewViewAdapter getReviewViewAdapterFactory();
 

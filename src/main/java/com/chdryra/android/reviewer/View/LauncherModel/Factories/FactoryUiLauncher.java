@@ -16,13 +16,16 @@ import android.app.Activity;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryUiLauncher {
-    private Class<? extends Activity> mReviewViewActivity;
+    private Class<? extends Activity> mDefaultActivity;
+    private Class<? extends Activity> mReviewsListActivity;
 
-    public FactoryUiLauncher(Class<? extends Activity> reviewViewActivity) {
-        mReviewViewActivity = reviewViewActivity;
+    public FactoryUiLauncher(Class<? extends Activity> defaultActivity, Class<? extends Activity>
+            reviewsListActivity) {
+        mDefaultActivity = defaultActivity;
+        mReviewsListActivity = reviewsListActivity;
     }
 
     public UiLauncher newLauncher(Activity activity) {
-        return new UiLauncher(activity, mReviewViewActivity);
+        return new UiLauncherAndroid(activity, mDefaultActivity, mReviewsListActivity);
     }
 }

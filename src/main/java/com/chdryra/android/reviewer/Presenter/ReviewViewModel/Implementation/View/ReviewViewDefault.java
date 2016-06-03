@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
-    private static final String TAG = "ReviewViewDefault";
+    private static final String TAG = TagKeyGenerator.getTag(ReviewViewDefault.class);
     private ReviewViewPerspective<T> mPerspective;
     private ArrayList<DataObservable.DataObserver> mObservers;
     private ReviewViewContainer mContainer;

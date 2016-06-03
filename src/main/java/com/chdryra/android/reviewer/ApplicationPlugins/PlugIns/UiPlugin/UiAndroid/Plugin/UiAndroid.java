@@ -45,7 +45,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvUrl;
 import com.chdryra.android.reviewer.View.Configs.AddEditViewClasses;
-import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LaunchablesListBasic;
+import com.chdryra.android.reviewer.View.LauncherModel.Implementation.LaunchablesHolder;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchablesList;
 
 /**
@@ -62,13 +62,13 @@ public class UiAndroid implements UiPlugin {
     /**
      * Defines the adder, editor and display UIs to use with each data type.
      */
-    private static final class AndroidLaunchables extends LaunchablesListBasic {
+    private static final class AndroidLaunchables extends LaunchablesHolder {
 
         private AndroidLaunchables() {
             super(ActivityLogin.class, ActivitySignUp.class, ActivityUsersFeed.class,
                     ActivityFeed.class, ActivityBuildReview.class, ActivityEditLocationMap.class,
                     ActivityPublishReview.class, DialogShareEditReview.class,
-                    ActivityReviewView.class);
+                    ActivityReviewView.class, ActivityReviewView.class);
 
             addDataClasses(new AddEditViewClasses<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
                     GvDataDialogs.EditTag.class, GvDataDialogs.ViewTag.class));

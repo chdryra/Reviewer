@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -57,7 +57,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     private FactoryGvData mFactoryGvData;
     private FactoryReviewBuilderAdapter<?> mFactoryBuilderAdapter;
     private FactoryReviewViewAdapter mFactoryReviewViewAdapter;
-    private FactoryReviewViewLaunchable mFactoryReviewViewLaunchable;
+    private FactoryReviewView mFactoryReviewView;
     private ReviewBuilderAdapter<?> mReviewBuilderAdapter;
 
     protected PresenterContextBasic(ModelContext modelContext,
@@ -74,9 +74,9 @@ public abstract class PresenterContextBasic implements PresenterContext {
                 .getLocalRepository());
     }
 
-    public void setFactoryReviewViewLaunchable(FactoryReviewViewLaunchable
-                                                       factoryReviewViewLaunchable) {
-        mFactoryReviewViewLaunchable = factoryReviewViewLaunchable;
+    public void setFactoryReviewView(FactoryReviewView
+                                             factoryReviewView) {
+        mFactoryReviewView = factoryReviewView;
     }
 
     public void setFactoryGvData(FactoryGvData factoryGvData) {
@@ -103,8 +103,8 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public FactoryReviewViewLaunchable getReviewViewLaunchableFactory() {
-        return mFactoryReviewViewLaunchable;
+    public FactoryReviewView getReviewViewLaunchableFactory() {
+        return mFactoryReviewView;
     }
 
     @Override
@@ -198,7 +198,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
 
     @Override
     public LaunchableUi getReviewsListLaunchable(ReviewNode reviewNode) {
-        return mFactoryReviewViewLaunchable.newReviewsListScreen(reviewNode,
+        return mFactoryReviewView.newReviewsListScreen(reviewNode,
                 mFactoryReviewViewAdapter);
     }
 }

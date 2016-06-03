@@ -41,41 +41,44 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 26/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewViewLaunchable {
-    private FactoryChildListView mChildListScreenBuilder;
+public class FactoryReviewView {
     private FactoryReviewViewParams mParamsFactory;
     private ConfigUi mConfig;
 
-    public FactoryReviewViewLaunchable(ConfigUi config, FactoryReviewViewParams paramsFactory) {
+    public FactoryReviewView(ConfigUi config, FactoryReviewViewParams paramsFactory) {
         mConfig = config;
         mParamsFactory = paramsFactory;
-        mChildListScreenBuilder = new FactoryChildListView();
     }
 
     public FactoryReviewViewParams getParamsFactory() {
         return mParamsFactory;
     }
 
-    public LaunchableUi newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
+    public ReviewViewAdapter<GvReview> newReviewsListAdapter(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
+        return newReviewsListScreen(node, adapterFactory).getAdapter();
+    }
+
+    public ReviewsListView newReviewsListScreen(ReviewNode node, FactoryReviewViewAdapter adapterFactory) {
         return newReviewsListScreen(node, adapterFactory, getDefaultScreenActions(GvReview.TYPE, null, null));
     }
 
-    public ReviewView<GvReview> newReviewsListScreen(ReviewNode node,
+    public ReviewsListView newReviewsListScreen(ReviewNode node,
                                                      FactoryReviewViewAdapter adapterFactory,
                                                      ReviewViewActions<GvReview> actions) {
-        return mChildListScreenBuilder.newView(adapterFactory.newChildListAdapter(node), actions);
+        return newReviewsListView(adapterFactory.newChildListAdapter(node), actions);
     }
 
-    public <T extends GvData> LaunchableUi newViewScreen(ApplicationInstance app, ReviewViewAdapter<T> adapter) {
+    public <T extends GvData> ReviewView<T> newViewScreen(ApplicationInstance app, ReviewViewAdapter<T> adapter) {
         //TODO make type safe
         GvDataType<T> dataType = (GvDataType<T>) adapter.getGvDataType();
 
@@ -145,5 +148,24 @@ public class FactoryReviewViewLaunchable {
                 null : getContextualButton(app, adapter);
 
         return new ReviewViewActions<>(subject, rb, bb, giAction, menuAction, context);
+    }
+
+    private ReviewsListView
+    newReviewsListView(ReviewViewAdapter<GvReview> adapter, ReviewViewActions<GvReview> actions) {
+        ReviewViewParams params = getReviewViewParams();
+
+        ReviewViewPerspective<GvReview> perspective;
+        perspective = new ReviewViewPerspective<>(adapter, actions, params);
+
+        return new ReviewsListView(perspective);
+    }
+
+    @NonNull
+    private ReviewViewParams getReviewViewParams() {
+        ReviewViewParams params = new ReviewViewParams();
+        ReviewViewParams.CellDimension full = ReviewViewParams.CellDimension.FULL;
+        ReviewViewParams.GridViewAlpha trans = ReviewViewParams.GridViewAlpha.TRANSPARENT;
+        params.setCoverManager(false).setCellHeight(full).setCellWidth(full).setGridAlpha(trans);
+        return params;
     }
 }

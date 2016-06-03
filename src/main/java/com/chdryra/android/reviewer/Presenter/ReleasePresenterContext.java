@@ -35,7 +35,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryVh
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvConverter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
@@ -99,10 +99,10 @@ public class ReleasePresenterContext extends PresenterContextBasic {
     }
 
     private void setLaunchablesFactory(ViewContext viewContext) {
-        FactoryReviewViewLaunchable launchableFactory
-                = new FactoryReviewViewLaunchable(viewContext.getUiConfig(),
+        FactoryReviewView launchableFactory
+                = new FactoryReviewView(viewContext.getUiConfig(),
                 new FactoryReviewViewParams());
-        setFactoryReviewViewLaunchable(launchableFactory);
+        setFactoryReviewView(launchableFactory);
     }
 
     private void setReviewBuilderAdapterFactory(Context context,

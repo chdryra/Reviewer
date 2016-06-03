@@ -8,43 +8,17 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
         .ReviewPublisherListener;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .RatingBarExpandGrid;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .SubjectActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -56,17 +30,11 @@ import java.util.Collection;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterUsersFeed implements
-        AlertListener,
-        NewReviewListener,
+public class PresenterUsersFeed extends PresenterFeed implements
         ReviewPublisherListener,
         ReviewDeleterListener,
         ReviewNodeMutable.NodeObserver {
 
-    private ApplicationInstance mApp;
-    private ReviewTreeLive mFeedNode;
-    private ReviewView<GvReview> mReviewView;
-    private GridItemFeedScreen mGridItem;
     private PresenterListener mListener;
     private ReviewDeleter mDeleter;
 
@@ -97,34 +65,15 @@ public class PresenterUsersFeed implements
                                ReviewTreeLive feedNode,
                                Actions actions,
                                PresenterListener listener) {
-        mApp = app;
-        mFeedNode = feedNode;
-        mFeedNode.registerNodeObserver(this);
-
-        mGridItem = (GridItemFeedScreen) actions.getGridItemAction();
-        mReviewView = mApp.getLaunchableFactory().newReviewsListScreen(mFeedNode,
-                mApp.getReviewViewAdapterFactory(), actions);
-
-        mApp.getPublisher().registerListener(this);
-
+        super(app, feedNode, actions);
+        getApp().getPublisher().registerListener(this);
         mListener = listener;
     }
 
-    public ReviewView<GvReview> getView() {
-        return mReviewView;
-    }
-
     public void deleteReview(final ReviewId id) {
-        mDeleter = mApp.newReviewDeleter(id);
+        mDeleter = getApp().newReviewDeleter(id);
         mDeleter.registerListener(this);
         mDeleter.deleteReview();
-    }
-
-    public void detach() {
-        mApp.getPublisher().unregisterListener(this);
-        mFeedNode.unregisterNodeObserver(this);
-        mFeedNode.detachFromRepo();
-        if (mDeleter != null) mDeleter.unregisterListener(this);
     }
 
     public String getPublishedMessage(Collection<PublishResults> platformsOk,
@@ -170,23 +119,10 @@ public class PresenterUsersFeed implements
     }
 
     @Override
-    public void onAlertNegative(int requestCode, Bundle args) {
-
-    }
-
-    @Override
-    public void onAlertPositive(int requestCode, Bundle args) {
-        mGridItem.onAlertPositive(requestCode, args);
-    }
-
-    @Override
-    public void onNodeChanged() {
-        notifyReviewView();
-    }
-
-    @Override
-    public void onNewReviewUsingTemplate(ReviewId template) {
-        mGridItem.onNewReviewUsingTemplate(template);
+    public void detach() {
+        super.detach();
+        getApp().getPublisher().unregisterListener(this);
+        if (mDeleter != null) mDeleter.unregisterListener(this);
     }
 
     @Override
@@ -220,59 +156,22 @@ public class PresenterUsersFeed implements
 
     @Override
     public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
-        mApp.getTagsManager().clearTags(reviewId.toString());
+        getApp().getTagsManager().clearTags(reviewId.toString());
         mListener.onReviewDeleted(reviewId, result);
         mDeleter.unregisterListener(this);
     }
 
-    private void notifyReviewView() {
-        if (mReviewView != null) mReviewView.onDataChanged();
-    }
-
-    public static class Builder {
+    public static class Builder extends PresenterFeed.Builder {
         private PresenterUsersFeed.PresenterListener mListener;
-        private ApplicationInstance mApp;
 
         public Builder(ApplicationInstance app, PresenterListener listener) {
-            mApp = app;
+            super(app);
             mListener = listener;
         }
 
         public PresenterUsersFeed build() {
-            ReviewsFeed usersFeed = mApp.getCurrentFeed();
-            String title = usersFeed.getAuthor().getName() + "'s feed";
-            ReviewTreeLive node = new ReviewTreeLive(usersFeed, mApp.getReviewsFactory(), title);
-
-            return new PresenterUsersFeed(mApp, node, getActions(), mListener);
-        }
-
-        @NonNull
-        private PresenterUsersFeed.Actions getActions() {
-            FactoryReviewViewLaunchable launchableFactory = mApp.getLaunchableFactory();
-            ConfigUi configUi = mApp.getConfigUi();
-            LaunchableUi reviewBuildUi = configUi.getBuildReview().getLaunchable();
-
-            GridItemFeedScreen gi = new GridItemFeedScreen(launchableFactory,
-                    configUi.getShareEdit().getLaunchable(), reviewBuildUi);
-
-            SubjectAction<GvReview> sa = new SubjectActionNone<>();
-
-            RatingBarAction<GvReview> rb = new RatingBarExpandGrid<>(launchableFactory);
-
-            BannerButtonAction<GvReview> bba = new BannerButtonActionNone<>();
-
-            MenuFeedScreen ma = new MenuFeedScreen(reviewBuildUi);
-
-            return new Actions(sa, rb, bba, gi, ma);
-        }
-    }
-
-    private static class Actions extends ReviewViewActions<GvReview> {
-        private Actions(SubjectAction<GvReview> subjectAction, RatingBarAction
-                <GvReview> ratingBarAction, BannerButtonAction<GvReview>
-                                bannerButtonAction, GridItemFeedScreen gridItemAction,
-                        MenuAction<GvReview> menuAction) {
-            super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
+            DataAuthor author = getApp().getUserContext().getCurrentUserAsAuthor();
+            return new PresenterUsersFeed(getApp(), getFeedNode(author), getActions(), mListener);
         }
     }
 }

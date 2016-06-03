@@ -25,6 +25,6 @@ public class ReleaseViewContext extends ViewContextBasic {
 
         setConfigUi(new FactoryConfigUi().newUiConfig(uis));
 
-        setLauncherFactory(new FactoryUiLauncher(uis.getDefaultReviewViewActivity()));
+        setLauncherFactory(new FactoryUiLauncher(uis.getDefaultReviewViewActivity(), uis.getReviewsListActivity()));
     }
 }

@@ -13,6 +13,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,6 +29,8 @@ public interface LauncherUi {
     void launch(Class<? extends Activity> activityClass, String argsKey);
 
     void launch(ReviewView<?> view);
+
+    void launch(ReviewsListView view);
 
     void launch(Intent i, String argsKey);
 }

@@ -42,7 +42,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewLaunchable;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -104,10 +104,6 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mAppContext.getReviewBuilderAdapter();
     }
 
-    public ReviewsFeed getCurrentFeed() {
-        return getFeed(mUser.getCurrentUserAsAuthor());
-    }
-
     public ReviewsFeed getFeed(DataAuthor author) {
         return mAppContext.getFeedFactory().newFeed(author);
     }
@@ -128,7 +124,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mAppContext.getLauncherFactory().newLauncher(mActivity);
     }
 
-    public FactoryReviewViewLaunchable getLaunchableFactory() {
+    public FactoryReviewView getLaunchableFactory() {
         return mAppContext.getReviewViewLaunchableFactory();
     }
 
@@ -244,10 +240,10 @@ public class ApplicationInstance extends ApplicationSingleton {
     }
 
     public void launchFeed(GvAuthor author) {
-        LaunchableConfig feed = getConfigUi().getFeed();
+        LaunchableConfig feedConfig = getConfigUi().getFeed();
         ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
         Bundle args = new Bundle();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, author, args);
-        getUiLauncher().launch(feed, feed.getRequestCode(), args);
+        getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);
     }
 }

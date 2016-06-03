@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * On: 25/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class LaunchablesListBasic implements LaunchablesList {
+public class LaunchablesHolder implements LaunchablesList {
     private final ArrayList<AddEditViewClasses<?>> mDataLaunchables;
     private final Class<? extends LaunchableUi> mLogin;
     private final Class<? extends LaunchableUi> mSignUp;
@@ -36,16 +36,18 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
 
     //TODO make this independent of Android
     private Class<? extends Activity> mDefaultReviewViewActivity;
+    private Class<? extends Activity> mReviewsListActivity;
 
-    public LaunchablesListBasic(Class<? extends LaunchableUi> login,
-                                Class<? extends LaunchableUi> signUp,
-                                Class<? extends LaunchableUi> usersFeed,
-                                Class<? extends LaunchableUi> feed,
-                                Class<? extends LaunchableUi> reviewBuilder,
-                                Class<? extends LaunchableUi> mapEditor,
-                                Class<? extends LaunchableUi> share,
-                                Class<? extends LaunchableUiAlertable> shareEdit,
-                                Class<? extends Activity> defaultReviewViewActivity) {
+    public LaunchablesHolder(Class<? extends LaunchableUi> login,
+                             Class<? extends LaunchableUi> signUp,
+                             Class<? extends LaunchableUi> usersFeed,
+                             Class<? extends LaunchableUi> feed,
+                             Class<? extends LaunchableUi> reviewBuilder,
+                             Class<? extends LaunchableUi> mapEditor,
+                             Class<? extends LaunchableUi> share,
+                             Class<? extends LaunchableUiAlertable> shareEdit,
+                             Class<? extends Activity> defaultReviewViewActivity,
+                             Class<? extends Activity> reviewsListActivity) {
         mLogin = login;
         mSignUp = signUp;
         mUsersFeed = usersFeed;
@@ -55,6 +57,7 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
         mShare = share;
         mShareEdit = shareEdit;
         mDefaultReviewViewActivity = defaultReviewViewActivity;
+        mReviewsListActivity = reviewsListActivity;
         mDataLaunchables = new ArrayList<>();
     }
 
@@ -110,5 +113,10 @@ public abstract class LaunchablesListBasic implements LaunchablesList {
     @Override
     public Class<? extends Activity> getDefaultReviewViewActivity() {
         return mDefaultReviewViewActivity;
+    }
+
+    @Override
+    public Class<? extends Activity> getReviewsListActivity() {
+        return mReviewsListActivity;
     }
 }
