@@ -18,8 +18,10 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
+        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -41,23 +43,23 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuil
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Singleton that controls app-wide duties.
  */
 public class ApplicationInstance extends ApplicationSingleton {
-    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     public static final String APP_NAME = "Teeqr";
+    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
     private static final String NAME = "ApplicationInstance";
 
     private static ApplicationInstance sSingleton;
@@ -102,10 +104,6 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
         return mAppContext.getReviewBuilderAdapter();
-    }
-
-    public ReviewsFeed getFeed(DataAuthor author) {
-        return mAppContext.getFeedFactory().newFeed(author);
     }
 
     public FactoryReviews getReviewsFactory() {
@@ -160,6 +158,14 @@ public class ApplicationInstance extends ApplicationSingleton {
         return mUser;
     }
 
+    public CurrentScreen getCurrentScreen() {
+        return mScreen;
+    }
+
+    public ReviewsFeed getFeed(DataAuthor author) {
+        return mAppContext.getFeedFactory().newFeed(author);
+    }
+
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mAppContext.getDataBuilderAdapter(dataType);
     }
@@ -190,7 +196,7 @@ public class ApplicationInstance extends ApplicationSingleton {
             @Override
             public void onMetaReviewCallback(RepositoryResult result) {
                 ReviewNode node = result.getReviewNode();
-                if(!result.isError() && node != null) launchReview(node);
+                if (!result.isError() && node != null) launchReview(node);
             }
         });
     }
@@ -215,28 +221,16 @@ public class ApplicationInstance extends ApplicationSingleton {
         mScreen.close();
     }
 
-
     public void launchImageChooser(ImageChooser chooser, int requestCode) {
         mActivity.startActivityForResult(chooser.getChooserIntents(), requestCode);
-    }
-
-    public CurrentScreen getCurrentScreen() {
-        return mScreen;
     }
 
     public void setReturnResult(ActivityResultCode result) {
         if (result != null) mActivity.setResult(result.get(), null);
     }
 
-    private void setCurrentActivity(Activity activity) {
-        mActivity = activity;
-        mScreen = new CurrentScreen(activity);
-    }
-
-    private void launchReview(ReviewNode reviewNode) {
-        LaunchableUi ui = mAppContext.getReviewsListLaunchable(reviewNode);
-        String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(ui, RequestCodeGenerator.getCode(tag));
+    public ReviewsListView newReviewsListView(ReviewNode node) {
+        return mAppContext.newReviewsListView(node);
     }
 
     public void launchFeed(GvAuthor author) {
@@ -245,5 +239,15 @@ public class ApplicationInstance extends ApplicationSingleton {
         Bundle args = new Bundle();
         packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, author, args);
         getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);
+    }
+
+    private void setCurrentActivity(Activity activity) {
+        mActivity = activity;
+        mScreen = new CurrentScreen(activity);
+    }
+
+    private void launchReview(ReviewNode reviewNode) {
+        String tag = reviewNode.getSubject().getSubject();
+        getUiLauncher().launch(newReviewsListView(reviewNode), RequestCodeGenerator.getCode(tag));
     }
 }

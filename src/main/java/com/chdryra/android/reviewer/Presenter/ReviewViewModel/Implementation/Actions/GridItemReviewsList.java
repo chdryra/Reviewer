@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemFeedScreen extends GridItemLauncher<GvReview>
+public class GridItemReviewsList extends GridItemLauncher<GvReview>
         implements AlertListener, NewReviewListener,
         ReviewsRepository.RepositoryCallback {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
@@ -36,9 +36,9 @@ public class GridItemFeedScreen extends GridItemLauncher<GvReview>
     private LaunchableUiAlertable mShareEditUi;
     private LaunchableUi mBuildScreenUi;
 
-    public GridItemFeedScreen(FactoryReviewView launchableFactory,
-                              LaunchableUiAlertable shareEditUi,
-                              LaunchableUi buildScreenUi) {
+    public GridItemReviewsList(FactoryReviewView launchableFactory,
+                               LaunchableUiAlertable shareEditUi,
+                               LaunchableUi buildScreenUi) {
         super(launchableFactory);
         mShareEditUi = shareEditUi;
         mBuildScreenUi = buildScreenUi;

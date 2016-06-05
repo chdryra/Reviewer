@@ -49,7 +49,7 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         super.onSaveInstanceState(outState);
     }
 
-    protected ReviewView createReviewView() {
+    protected ReviewView<?> createReviewView() {
         return ReviewViewPacker.unpackView(this, getIntent());
     }
 

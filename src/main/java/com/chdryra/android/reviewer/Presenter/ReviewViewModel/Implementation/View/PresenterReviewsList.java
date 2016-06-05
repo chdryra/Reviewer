@@ -14,17 +14,12 @@ import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .GridItemFeedScreen;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
-        .NewReviewListener;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
+
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
+
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 
 /**
@@ -32,27 +27,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewsList implements
-        AlertListener,
-        NewReviewListener,
-        ReviewNodeMutable.NodeObserver {
+public class PresenterReviewsList implements AlertListener, NewReviewListener,
+        ReviewNode.NodeObserver {
 
     private ApplicationInstance mApp;
+    private ReviewsListView mReviewView;
     private ReviewNode mNode;
-    private ReviewView<GvReview> mReviewView;
-    private GridItemFeedScreen mGridItem;
+    private GridItemReviewsList mGridItem;
 
-    public PresenterReviewsList(ApplicationInstance app,
-                                ReviewNode node,
-                                Actions actions) {
-        mNode = node;
+    protected PresenterReviewsList(ApplicationInstance app, ReviewsListView reviewView) {
+        mApp = app;
+        mReviewView = reviewView;
+
+        mNode = mReviewView.getNode();
         mNode.registerNodeObserver(this);
 
-        mGridItem = actions.getGridItemAction();
-
-        mApp = app;
-        mReviewView = mApp.getLaunchableFactory().newReviewsListScreen(mNode,
-                mApp.getReviewViewAdapterFactory(), actions);
+        mGridItem = (GridItemReviewsList) mReviewView.getActions().getGridItemAction();
     }
 
     protected ApplicationInstance getApp() {
@@ -67,7 +57,7 @@ public class PresenterReviewsList implements
         return mReviewView;
     }
 
-    protected void detach() {
+    public void detach() {
         mNode.unregisterNodeObserver(this);
     }
 
@@ -95,23 +85,9 @@ public class PresenterReviewsList implements
         if (mReviewView != null) mReviewView.onDataChanged();
     }
 
-    /**
-     * Created by: Rizwan Choudrey
-     * On: 03/06/2016
-     * Email: rizwan.choudrey@gmail.com
-     */
-    public static class Actions extends ReviewViewActions<GvReview> {
-        public Actions(SubjectAction<GvReview> subjectAction,
-                       RatingBarAction<GvReview> ratingBarAction,
-                       BannerButtonAction<GvReview> bannerButtonAction,
-                       GridItemFeedScreen gridItemAction,
-                       MenuAction<GvReview> menuAction) {
-            super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
-        }
-
-        @Override
-        public GridItemFeedScreen getGridItemAction() {
-            return (GridItemFeedScreen) super.getGridItemAction();
+    public static class Builder {
+        public PresenterReviewsList build(ApplicationInstance app, ReviewsListView view) {
+            return new PresenterReviewsList(app, view);
         }
     }
 }

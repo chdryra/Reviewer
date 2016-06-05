@@ -24,6 +24,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityReviewView;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Activities.ActivityReviewsList;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivitySignUp;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .Activities.ActivityUsersFeed;
@@ -68,7 +70,7 @@ public class UiAndroid implements UiPlugin {
             super(ActivityLogin.class, ActivitySignUp.class, ActivityUsersFeed.class,
                     ActivityFeed.class, ActivityBuildReview.class, ActivityEditLocationMap.class,
                     ActivityPublishReview.class, DialogShareEditReview.class,
-                    ActivityReviewView.class, ActivityReviewView.class);
+                    ActivityReviewView.class, ActivityReviewsList.class);
 
             addDataClasses(new AddEditViewClasses<>(GvTag.TYPE, GvDataDialogs.AddTag.class,
                     GvDataDialogs.EditTag.class, GvDataDialogs.ViewTag.class));
