@@ -24,18 +24,18 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class ActivityReviewsList extends ActivityReviewView implements NewReviewListener{
     private static final String TAG = TagKeyGenerator.getTag(ActivityReviewsList.class);
 
-    private ApplicationInstance mApp;
     private PresenterReviewsList mPresenter;
 
     @Override
     protected ReviewView createReviewView() {
-        ReviewsListView view = (ReviewsListView) super.createReviewView();
-        mApp = ApplicationInstance.getInstance(this);
-        mPresenter = new PresenterReviewsList.Builder(mApp).build(view);
-
+        mPresenter = newPresenter();
         return mPresenter.getView();
     }
 
+    protected PresenterReviewsList newPresenter() {
+        ReviewsListView view = (ReviewsListView) super.createReviewView();
+        return new PresenterReviewsList.Builder().build(ApplicationInstance.getInstance(this), view);
+    }
 
     @Override
     public String getLaunchTag() {
@@ -44,7 +44,7 @@ public class ActivityReviewsList extends ActivityReviewView implements NewReview
 
     @Override
     protected void onResume() {
-        mApp.discardReviewBuilderAdapter();
+        ApplicationInstance.getInstance(this).discardReviewBuilderAdapter();
         super.onResume();
     }
 
