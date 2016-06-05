@@ -14,12 +14,9 @@ import android.view.View;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 
 /**
@@ -28,20 +25,18 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAl
  * Email: rizwan.choudrey@gmail.com
  */
 public class GridItemReviewsList extends GridItemLauncher<GvReview>
-        implements AlertListener, NewReviewListener,
-        ReviewsRepository.RepositoryCallback {
+        implements AlertListener, NewReviewListener {
     private static final int SHARE_EDIT = RequestCodeGenerator.getCode("ShareEditReview");
-    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenTemplateReview");
 
     private LaunchableUiAlertable mShareEditUi;
-    private LaunchableUi mBuildScreenUi;
+    private BuildScreenLauncher mLauncher;
 
     public GridItemReviewsList(FactoryReviewView launchableFactory,
                                LaunchableUiAlertable shareEditUi,
-                               LaunchableUi buildScreenUi) {
+                               BuildScreenLauncher launcher) {
         super(launchableFactory);
         mShareEditUi = shareEditUi;
-        mBuildScreenUi = buildScreenUi;
+        mLauncher = launcher;
     }
 
     @Override
@@ -57,18 +52,7 @@ public class GridItemReviewsList extends GridItemLauncher<GvReview>
 
     @Override
     public void onNewReviewUsingTemplate(ReviewId template) {
-        getApp().getReview(template, this);
-    }
-
-    @Override
-    public void onRepositoryCallback(RepositoryResult result) {
-        Review review = result.getReview();
-        if(result.isError() || review == null) return;
-
-        Bundle args = new Bundle();
-        args.putString(NewReviewListener.TEMPLATE_ID, review.getReviewId().toString());
-        getApp().packReview(review, args);
-        launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, args);
+        mLauncher.launch(getApp(), template);
     }
 
     @Override

@@ -89,6 +89,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         if (quickDialog && !gridCell.hasData()) {
             launchAdder(type);
         } else {
+            //TODO can this be moved to LaunchablesList?
             ActivityEditData.start(mActivity, type);
         }
     }

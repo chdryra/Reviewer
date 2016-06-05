@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ContextButtonStamp;
@@ -46,7 +47,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -105,10 +105,9 @@ public class FactoryReviewView {
     }
 
     @Nullable
-    private <T extends GvData> ContextualButtonAction<T> getContextualButton(ApplicationInstance
-                                                                                     app,
-                                                                             ReviewViewAdapter<T>
-                                                                                     adapter) {
+    private <T extends GvData> ContextualButtonAction<T>
+    getContextualButton(@Nullable ApplicationInstance app, @Nullable ReviewViewAdapter<T> adapter) {
+        if(app == null || adapter == null) return null;
         ReviewStamp stamp = adapter.getStamp();
         if (stamp.isValid()) {
             return new ContextButtonStamp<>(app, stamp);
@@ -138,15 +137,14 @@ public class FactoryReviewView {
     }
 
     private ReviewViewActions<GvReview> newReviewsListActions(boolean withMenu) {
-        LaunchableUi reviewBuildUi = mConfig.getBuildReview().getLaunchable();
-
+        BuildScreenLauncher buildUiLauncher = new BuildScreenLauncher();
         GridItemReviewsList gi = new GridItemReviewsList(this,
-                mConfig.getShareEdit().getLaunchable(), reviewBuildUi);
+                mConfig.getShareEdit().getLaunchable(), buildUiLauncher);
         SubjectAction<GvReview> sa = new SubjectActionNone<>();
         RatingBarAction<GvReview> rb = new RatingBarExpandGrid<>(this);
         BannerButtonAction<GvReview> bba = new BannerButtonActionNone<>();
         MenuAction<GvReview> ma = withMenu ?
-                new MenuNewReview<GvReview>(reviewBuildUi) : new MenuActionNone<GvReview>();
+                new MenuNewReview<GvReview>(buildUiLauncher) : new MenuActionNone<GvReview>();
 
         return new ReviewsListView.Actions(sa, rb, bba, gi, ma);
     }
@@ -178,10 +176,24 @@ public class FactoryReviewView {
         RatingBarAction<T> rb = new RatingBarExpandGrid<>(this);
         BannerButtonAction<T> bb = new BannerButtonActionNone<>();
         GridItemAction<T> giAction = new GridItemLauncher<>(this);
-        MenuAction<T> menuAction = new MenuActionNone<>();
-        ContextualButtonAction<T> context = (adapter == null || app == null) ?
-                null : getContextualButton(app, adapter);
+        MenuAction<T> menuAction = getMenuAction(app, adapter);
+        ContextualButtonAction<T> context = getContextualButton(app, adapter);
 
         return new ReviewViewActions<>(subject, rb, bb, giAction, menuAction, context);
+    }
+
+    @NonNull
+    private <T extends GvData> MenuAction<T> getMenuAction(@Nullable ApplicationInstance app,
+                                                                   @Nullable ReviewViewAdapter<T> adapter) {
+        if(app == null || adapter == null) {
+            return new MenuActionNone<>();
+        }
+
+        ReviewStamp stamp = adapter.getStamp();
+        if(!stamp.isValid()) {
+            return new MenuActionNone<>();
+        } else {
+            return new MenuNewReview<>(new BuildScreenLauncher(), stamp.getReviewId());
+        }
     }
 }

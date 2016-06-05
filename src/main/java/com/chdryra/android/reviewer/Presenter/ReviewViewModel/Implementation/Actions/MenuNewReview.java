@@ -8,14 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BuildScreenLauncher;
 import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,17 +23,21 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * Email: rizwan.choudrey@gmail.com
  */
 public class MenuNewReview<T extends GvData> extends MenuActionNone<T> {
-    private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenNewReview");
-
     public static final int LOGOUT = R.id.menu_item_settings_logout;
     public static final int NEW_REVIEW = R.id.menu_item_new_review;
     private static final int MENU = R.menu.menu_feed;
 
-    private LaunchableUi mBuildScreenUi;
+    private ReviewId mTemplate;
+    private BuildScreenLauncher mLauncher;
 
-    public MenuNewReview(LaunchableUi buildScreenUi) {
+    public MenuNewReview(BuildScreenLauncher launcher) {
+        this(launcher, null);
+    }
+
+    public MenuNewReview(BuildScreenLauncher launcher, @Nullable ReviewId template) {
         super(MENU, null, false);
-        mBuildScreenUi = buildScreenUi;
+        mTemplate = template;
+        mLauncher = launcher;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class MenuNewReview<T extends GvData> extends MenuActionNone<T> {
         return new MenuActionItem() {
             @Override
             public void doAction(MenuItem item) {
-                getApp().getUiLauncher().launch(mBuildScreenUi, LAUNCH_BUILD_SCREEN, new Bundle());
+                mLauncher.launch(getApp(), mTemplate);
             }
         };
     }

@@ -49,7 +49,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
     }
 
     private ActivityEditData(GvDataType<T> dataType) {
-        mDataType = dataType;
+
     }
 
     public static <T extends GvData> void start(Activity launcher, GvDataType<T> dataType) {

@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import android.os.Bundle;
 import com.chdryra.android.mygenerallibrary.Activities.ActivitySingleFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.Application.ApplicationLaunch;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Fragments.FragmentLogin;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUiAlertable;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
@@ -38,9 +36,8 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
 
     @Override
     public void launch(LauncherUi launcher) {
-        Activity commissioner = launcher.getCommissioner();
-        launcher.launch(new Intent(commissioner, ActivityLogin.class), KEY);
-        commissioner.finish();
+        launcher.launch(getClass(), KEY);
+        launcher.getCommissioner().finish();
     }
 
     @Override
@@ -58,7 +55,6 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
 
     @Override
     protected Fragment createFragment() {
-        ApplicationLaunch.launchIfNecessary(this, ApplicationLaunch.LaunchState.TEST);
         if(mFragment == null) mFragment = FragmentLogin.newInstance();
         return mFragment;
     }
@@ -66,9 +62,7 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     @Override
     protected void onResume() {
         super.onResume();
-        if(mFragment != null) {
-            mFragment.reobserveUser();
-        }
+        if(mFragment != null) mFragment.reobserveUser();
     }
 
     @Override
@@ -89,6 +83,12 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     @Override
     protected void onPause() {
         super.onPause();
+        mFragment.closeDialogs(); //stop "Leaked window" error.
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
         mFragment.closeDialogs(); //stop "Leaked window" error.
     }
 }

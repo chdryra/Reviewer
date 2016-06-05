@@ -15,13 +15,16 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserContextImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin
-        .NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
+import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -44,7 +47,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
@@ -65,35 +67,38 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     private static ApplicationInstance sSingleton;
 
-    private final ReviewPacker mReviewPacker;
-    private final PresenterContext mAppContext;
-    private final LocationServicesApi mLocationServices;
-    private final UserContext mUser;
+    private ReviewPacker mReviewPacker;
+    private PresenterContext mAppContext;
+    private LocationServicesApi mLocationServices;
+    private UserContext mUser;
     private CurrentScreen mScreen;
     private Activity mActivity;
 
+    enum LaunchState {RELEASE, TEST}
+
     private ApplicationInstance(Context context) {
         super(context, NAME);
-        throw new IllegalStateException("Need to call newInstance(.)!");
+        instantiate(context, LaunchState.TEST);
     }
 
-    private ApplicationInstance(Context androidContext,
-                                ApplicationContext applicationContext,
-                                UserContext userContext) {
-        super(androidContext, NAME);
-        mAppContext = applicationContext.getContext();
-        mLocationServices = applicationContext.getLocationServices();
-        mUser = userContext;
+    private void instantiate(Context context, LaunchState launchState) {
+        ApplicationPlugins plugins;
+        if(launchState.equals(LaunchState.RELEASE)) {
+            plugins = new ApplicationPluginsRelease(context);
+        } else {
+            plugins = new ApplicationPluginsTest(context);
+        }
+
+        FactoryApplicationContext factory = new FactoryApplicationContext();
+        ApplicationContext appContext = factory.newReleaseContext(context, plugins);
+
+        mAppContext = appContext.getContext();
+        mLocationServices = appContext.getLocationServices();
+        mUser = new UserContextImpl(appContext);
         mReviewPacker = new ReviewPacker();
     }
 
     //Static methods
-    public static void newInstance(Context androidContext,
-                                   ApplicationContext applicationContext,
-                                   UserContext userContext) {
-        sSingleton = new ApplicationInstance(androidContext, applicationContext, userContext);
-    }
-
     public static ApplicationInstance getInstance(Context context) {
         sSingleton = getSingleton(sSingleton, ApplicationInstance.class, context);
         return sSingleton;
@@ -103,6 +108,7 @@ public class ApplicationInstance extends ApplicationSingleton {
         getInstance(activity).setCurrentActivity(activity);
     }
 
+    //API
     public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
         return mAppContext.getReviewBuilderAdapter();
     }
@@ -125,10 +131,6 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     public FactoryReviewView getLaunchableFactory() {
         return mAppContext.getReviewViewLaunchableFactory();
-    }
-
-    public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
-        return mAppContext.getReviewViewAdapterFactory();
     }
 
     public FactoryReviewViewParams getParamsFactory() {
