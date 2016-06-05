@@ -8,20 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvDataListImpl;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatform;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvSocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.UnstampedViewer;
 
 /**
  * Created by: Rizwan Choudrey
@@ -60,7 +54,7 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
         return mReviewViewAdapter.getCovers();
     }
 
-    private class ShareScreenViewer implements GridDataViewer<GvSocialPlatform> {
+    private class ShareScreenViewer extends UnstampedViewer<GvSocialPlatform> {
 
         @Override
         public GvDataType<GvSocialPlatform> getGvDataType() {
@@ -70,11 +64,6 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
         @Override
         public GvDataListImpl<GvSocialPlatform> getGridData() {
             return mSocialPlatforms;
-        }
-
-        @Override
-        public GvAuthor getUniqueAuthor() {
-            return new GvAuthor();
         }
 
         @Override

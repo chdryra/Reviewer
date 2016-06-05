@@ -89,7 +89,7 @@ public class DataValidator {
     }
 
     public boolean validate(ReviewId reviewId) {
-        return validateString(reviewId.toString());
+        return ReviewStamp.checkId(reviewId);
     }
 
     public boolean validate(AuthorId authorId) {

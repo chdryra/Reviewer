@@ -12,16 +12,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvReviewOverviewList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -32,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 /**
  * Grid data is {@link GvReviewOverviewList}.
  */
-public class ViewerChildList implements GridDataViewer<GvReview> {
+public class ViewerChildList extends UnstampedViewer<GvReview> {
     private static final GvDataType<GvReview> TYPE = GvReview.TYPE;
 
     private ReviewNode mNode;
@@ -55,11 +51,6 @@ public class ViewerChildList implements GridDataViewer<GvReview> {
     @Override
     public GvReviewList getGridData() {
         return mConverter.convert(mNode.getChildren());
-    }
-
-    @Override
-    public GvAuthor getUniqueAuthor() {
-        return new GvAuthor();
     }
 
     @Override

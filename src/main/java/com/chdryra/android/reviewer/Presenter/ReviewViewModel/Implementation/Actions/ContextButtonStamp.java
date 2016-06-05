@@ -11,23 +11,23 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Ac
 import android.view.View;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ContextButtonAuthor<T extends GvData> extends ReviewViewActionBasic<T>
+public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<T>
         implements ContextualButtonAction<T> {
     private ApplicationInstance mApp;
-    private GvAuthor mAuthor;
+    private ReviewStamp mStamp;
 
-    public ContextButtonAuthor(ApplicationInstance app, GvAuthor author) {
+    public ContextButtonStamp(ApplicationInstance app, ReviewStamp stamp) {
         mApp = app;
-        mAuthor = author;
+        mStamp = stamp;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class ContextButtonAuthor<T extends GvData> extends ReviewViewActionBasic
 
     @Override
     public void onClick(View v) {
-        mApp.launchFeed(mAuthor);
+        mApp.launchFeed(mStamp.getAuthor());
     }
 
     @Override
     public String getButtonTitle() {
-        return mAuthor.getName();
+        return mStamp.toReadable();
     }
 }

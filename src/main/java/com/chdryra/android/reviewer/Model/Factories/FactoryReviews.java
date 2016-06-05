@@ -20,7 +20,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
@@ -36,12 +35,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
-import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
+import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 
 import java.util.ArrayList;
 
@@ -118,19 +118,6 @@ public class FactoryReviews implements ReviewMaker {
     public Review makeReview(ReviewDataHolder reviewData) {
         if(!reviewData.isValid(mValidator)) return sNullReview;
 
-        Iterable<? extends DataCriterion> criteria = reviewData.getCriteria();
-        ArrayList<Review> critList = new ArrayList<>();
-        for(DataCriterion criterion : criteria) {
-            critList.add(newReviewUser(new MdReviewId(criterion.getReviewId()), reviewData.getAuthor(),
-                    reviewData.getPublishDate(), criterion.getSubject(), criterion.getRating(),
-                    new ArrayList<DataCriterion>(),
-                    new ArrayList<DataComment>(),
-                    new ArrayList<DataImage>(),
-                    new ArrayList<DataFact>(),
-                    new ArrayList<DataLocation>(),
-                    false));
-        }
-
         return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthor(),
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
                 reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
@@ -171,8 +158,7 @@ public class FactoryReviews implements ReviewMaker {
         DataAuthor author = stamp.getAuthor();
         DataDate date = stamp.getDate();
 
-        MdReviewId id = new MdReviewId(author.getAuthorId().toString(),
-                date.getTime(), stamp.getPublishedIndex());
+        MdReviewId id = new MdReviewId(stamp);
 
         if (ratingIsAverage) rating = getAverageRating(criteria);
 

@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.R;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 18/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuFeedScreen extends MenuActionNone<GvReview> {
+public class MenuNewReview<T extends GvData> extends MenuActionNone<T> {
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenNewReview");
 
     public static final int LOGOUT = R.id.menu_item_settings_logout;
@@ -31,7 +31,7 @@ public class MenuFeedScreen extends MenuActionNone<GvReview> {
 
     private LaunchableUi mBuildScreenUi;
 
-    public MenuFeedScreen(LaunchableUi buildScreenUi) {
+    public MenuNewReview(LaunchableUi buildScreenUi) {
         super(MENU, null, false);
         mBuildScreenUi = buildScreenUi;
     }

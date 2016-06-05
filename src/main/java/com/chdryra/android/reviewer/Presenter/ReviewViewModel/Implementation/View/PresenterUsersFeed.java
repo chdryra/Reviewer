@@ -64,7 +64,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
     private PresenterUsersFeed(ApplicationInstance app,
                                ReviewTreeLive feedNode,
                                PresenterListener listener) {
-        super(app, feedNode);
+        super(app, feedNode, true);
         getApp().getPublisher().registerListener(this);
         mListener = listener;
     }

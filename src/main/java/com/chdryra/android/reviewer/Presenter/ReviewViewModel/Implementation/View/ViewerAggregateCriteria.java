@@ -37,7 +37,6 @@ public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> 
         mAggregater = aggregater;
     }
 
-    //Overridden
     @Override
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         GvCanonicalCollection<GvCriterion> aggregate;

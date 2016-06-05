@@ -14,11 +14,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridDataViewer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonical;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonicalCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -26,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<GvCanonical> {
+public class ViewerAggregateToData<T extends GvData> extends UnstampedViewer<GvCanonical> {
     private GvCanonicalCollection<T> mData;
     private FactoryReviewViewAdapter mAdapterFactory;
     private GridDataViewer<GvCanonical> mViewer;
@@ -57,11 +54,6 @@ public class ViewerAggregateToData<T extends GvData> implements GridDataViewer<G
     @Override
     public GvDataList<GvCanonical> getGridData() {
         return mData.toList();
-    }
-
-    @Override
-    public GvAuthor getUniqueAuthor() {
-        return new GvAuthor();
     }
 
     @Override

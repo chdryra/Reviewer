@@ -12,10 +12,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -23,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
+public class ViewerDataToData<T extends GvData> extends UnstampedViewer<T> {
     private ReviewNode mNode;
     private GvDataCollection<T> mData;
     private FactoryReviewViewAdapter mAdapterFactory;
@@ -44,11 +42,6 @@ public class ViewerDataToData<T extends GvData> implements GridDataViewer<T> {
     @Override
     public GvDataList<T> getGridData() {
         return mData.toList();
-    }
-
-    @Override
-    public GvAuthor getUniqueAuthor() {
-        return new GvAuthor();
     }
 
     @Override

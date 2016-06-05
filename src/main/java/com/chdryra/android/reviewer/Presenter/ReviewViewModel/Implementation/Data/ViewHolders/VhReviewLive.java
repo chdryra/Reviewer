@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -31,9 +32,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.R;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by: Rizwan Choudrey
@@ -106,13 +105,10 @@ public class VhReviewLive extends ViewHolderBasic implements Review.ReviewObserv
         mSubject.setText(mReview.getSubject().getSubject());
         mRating.setRating(mReview.getRating().getRating());
 
-        String author = mConverterAuthor.convert(mReview.getAuthor()).getName();
-        String date = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
-                (new Date(mReview.getPublishDate().getTime()));
+        ReviewStamp stamp = ReviewStamp.newStamp(mReview.getAuthor(), mReview.getPublishDate());
         String location = getLocationString(mReview);
-        String locationStem = validateString(location) ? " @" + location : "";
-        //TODO sort this out with resource strings with placeholders
-        mPublishDate.setText(date + " by " + author + locationStem);
+        String text = stamp.toReadable() + (validateString(location) ? " @" + location : "");
+        mPublishDate.setText(text);
 
         ItemTagCollection tags = mTagsManager.getTags(mReview.getReviewId().toString());
         mTags.setText(getTagString(tags.toStringArray()));

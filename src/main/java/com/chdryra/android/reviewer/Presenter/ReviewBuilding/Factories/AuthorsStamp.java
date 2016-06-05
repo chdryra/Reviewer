@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ReviewStampImpl;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewStamp;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 
 import java.util.Date;
 
@@ -32,7 +31,6 @@ public class AuthorsStamp {
     }
 
     public ReviewStamp newStamp() {
-        PublishDate publishDate = new PublishDate(new Date().getTime());
-        return new ReviewStampImpl(mAuthor, publishDate);
+        return ReviewStamp.newStamp(mAuthor, new PublishDate(new Date().getTime()));
     }
 }

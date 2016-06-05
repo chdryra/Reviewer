@@ -24,13 +24,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class ActivityFeed extends ActivityReviewsList {
     private static final String TAG = TagKeyGenerator.getTag(ActivityFeed.class);
-    private static final String AUTHOR
-            = TagKeyGenerator.getKey(ActivityFeed.class, "Author");
 
     @Override
     protected PresenterReviewsList newPresenter() {
         ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
-        Bundle args = getIntent().getBundleExtra(AUTHOR);
+        Bundle args = getIntent().getBundleExtra(getLaunchTag());
         GvAuthor bundledAuthor = args != null ?
                 packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : null;
         if(bundledAuthor == null) throw new IllegalArgumentException("No author!");

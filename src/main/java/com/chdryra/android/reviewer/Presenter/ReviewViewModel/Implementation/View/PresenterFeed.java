@@ -20,8 +20,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterFeed extends PresenterReviewsList {
-    public PresenterFeed(ApplicationInstance app, ReviewTreeLive feedNode) {
-        super(app, app.newReviewsListView(feedNode));
+    protected PresenterFeed(ApplicationInstance app, ReviewTreeLive feedNode, boolean withMenu) {
+        super(app, app.newReviewsListView(feedNode, withMenu));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PresenterFeed extends PresenterReviewsList {
         }
 
         public PresenterFeed build(DataAuthor author) {
-            return new PresenterFeed(mApp, getFeedNode(author));
+            return new PresenterFeed(mApp, getFeedNode(author), false);
         }
 
         @NonNull

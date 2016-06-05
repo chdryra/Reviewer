@@ -47,6 +47,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -229,15 +230,16 @@ public class ApplicationInstance extends ApplicationSingleton {
         if (result != null) mActivity.setResult(result.get(), null);
     }
 
-    public ReviewsListView newReviewsListView(ReviewNode node) {
-        return mAppContext.newReviewsListView(node);
+    public ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu) {
+        return mAppContext.newReviewsListView(node, withMenu);
     }
 
-    public void launchFeed(GvAuthor author) {
+    public void launchFeed(DataAuthor author) {
+        GvAuthor gvAuthor = new GvAuthor(author.getName(), new GvAuthorId(author.getAuthorId().toString()));
         LaunchableConfig feedConfig = getConfigUi().getFeed();
         ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
         Bundle args = new Bundle();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, author, args);
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, gvAuthor, args);
         getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);
     }
 
@@ -248,6 +250,6 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     private void launchReview(ReviewNode reviewNode) {
         String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(newReviewsListView(reviewNode), RequestCodeGenerator.getCode(tag));
+        getUiLauncher().launch(newReviewsListView(reviewNode, false), RequestCodeGenerator.getCode(tag));
     }
 }

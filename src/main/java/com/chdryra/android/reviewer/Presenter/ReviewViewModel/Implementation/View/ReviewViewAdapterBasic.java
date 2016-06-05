@@ -8,13 +8,14 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 
 import java.util.ArrayList;
 
@@ -90,7 +91,22 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public GvAuthor getUniqueAuthor() {
-        return mWrapper != null ? mWrapper.getUniqueAuthor() : new GvAuthor();
+    public String getSubject() {
+        return null;
+    }
+
+    @Override
+    public float getRating() {
+        return 0;
+    }
+
+    @Override
+    public GvImageList getCovers() {
+        return null;
+    }
+
+    @Override
+    public ReviewStamp getStamp() {
+        return mWrapper != null ? mWrapper.getStamp() : ReviewStamp.noStamp();
     }
 }

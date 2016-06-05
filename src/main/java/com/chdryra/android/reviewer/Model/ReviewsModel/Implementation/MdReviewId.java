@@ -8,12 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import android.support.annotation.NonNull;
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Review Data: Wrapper for a UUID
@@ -24,50 +20,14 @@ import org.jetbrains.annotations.NotNull;
  * <p/>
  */
 public class MdReviewId implements ReviewId, HasReviewId {
-    private static final String SPLITTER = ":";
-    private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time:Increment!";
-
     private String mId;
 
-    public MdReviewId(@NotNull String userId, long time, int increment) {
-        if(userId.length() == 0) throwException();
-        mId = userId + SPLITTER + String.valueOf(time) + SPLITTER +
-                String.valueOf(increment);
-    }
-
     public MdReviewId(ReviewId id) {
-        this(id.toString());
+        mId = id.toString();
     }
 
-    public MdReviewId(String idString) {
-        String[] split = idString.split(SPLITTER);
-        if(split.length != 3) throwException(idString);
-        try {
-            String userId = split[0];
-            long time = Long.parseLong(split[1]);
-            int increment = Integer.parseInt(split[2]);
-            mId = idString;
-            check(userId, time, increment, mId);
-        } catch (Exception e) {
-            throwException("On id: " + idString, e);
-        }
-    }
-
-    private void check(@NonNull String userId, long time, int increment, String idString) {
-        boolean correct = new MdReviewId(userId, time, increment).toString().equals(idString);
-        if(!correct) throwException(idString);
-    }
-
-    private void throwException(String id, Throwable cause) {
-        throw new IllegalArgumentException(id, cause);
-    }
-
-    private void throwException(String idString) {
-        throwException("On id: " + idString, new Throwable(ILLEGAL_FORMAT));
-    }
-
-    private void throwException() {
-        throw new IllegalArgumentException(ILLEGAL_FORMAT);
+    public MdReviewId(String id) {
+        mId = id;
     }
 
     @Override

@@ -54,7 +54,7 @@ public interface PresenterContext {
 
     FactoryUiLauncher getLauncherFactory();
 
-    ReviewsListView newReviewsListView(ReviewNode node);
+    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu);
 
     void asMetaReview(ReviewId reviewId, ReviewsSource.ReviewsSourceCallback callback);
 
