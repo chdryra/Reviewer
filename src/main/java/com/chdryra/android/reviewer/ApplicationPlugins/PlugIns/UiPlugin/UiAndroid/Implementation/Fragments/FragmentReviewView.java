@@ -42,6 +42,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGridCellAdapter;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -126,7 +127,7 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
         mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER), colour);
-        mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), getActivity());
+        mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), new FactoryGridCellAdapter(), getActivity());
         mMenu= new MenuUi(mReviewView);
         mCover = new CoverUi(mReviewView, mainView, mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,

@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 
@@ -17,10 +18,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhAuthor extends VhText {
-    //Constructors
     public VhAuthor() {
         super(new VHDataStringGetter() {
-            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvAuthor author = (GvAuthor) data;

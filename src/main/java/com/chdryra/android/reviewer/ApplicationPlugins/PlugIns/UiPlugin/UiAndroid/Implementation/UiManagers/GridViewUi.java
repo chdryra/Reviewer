@@ -34,10 +34,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 public class GridViewUi {
     private ReviewView<?> mReviewView;
     private GridView mView;
+    private FactoryGridCellAdapter mFactory;
 
-    public GridViewUi(ReviewView<?> reviewView, GridView view, Activity activity) {
+    public GridViewUi(ReviewView<?> reviewView, GridView view, FactoryGridCellAdapter factory, Activity activity) {
         mReviewView = reviewView;
         mView = view;
+        mFactory = factory;
         inititialise(activity);
     }
 
@@ -69,7 +71,7 @@ public class GridViewUi {
         int cell_width = maxCellSize / widthDivider;
         int cell_height = maxCellSize / heightDivider;
 
-        ViewHolderAdapter adapter = FactoryGridCellAdapter.newAdapter(activity,
+        ViewHolderAdapter adapter = mFactory.newAdapter(activity,
                 mReviewView.getGridViewData(), cell_width, cell_height);
         mView.setDrawSelectorOnTop(true);
         mView.setAdapter(adapter);

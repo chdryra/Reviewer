@@ -33,7 +33,6 @@ public class GvSubject extends GvText<GvSubject> implements DataSubject {
         }
     };
 
-    //Constructors
     public GvSubject() {
         super(TYPE);
     }

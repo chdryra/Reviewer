@@ -15,8 +15,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhText;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
 
 /**
  * Created by: Rizwan Choudrey
@@ -41,17 +40,20 @@ public class GvReviewId implements GvData, ReviewId {
     };
 
     private String mId;
+    private float mRating;
 
-    public GvReviewId(ReviewId id) {
-        this(id.toString());
+    public GvReviewId(ReviewId id, float rating) {
+        this(id.toString(), rating);
     }
 
     public GvReviewId(Parcel in) {
         mId = in.readString();
+        mRating = in.readFloat();
     }
 
-    public GvReviewId(String id) {
+    public GvReviewId(String id, float rating) {
         mId = id;
+        mRating = rating;
     }
 
     @Override
@@ -77,6 +79,10 @@ public class GvReviewId implements GvData, ReviewId {
     @Override
     public ReviewId getReviewId() {
         return this;
+    }
+
+    public float getRating() {
+        return mRating;
     }
 
     @Override
@@ -107,16 +113,20 @@ public class GvReviewId implements GvData, ReviewId {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewId)) return false;
+        if (!(o instanceof GvReviewId)) return false;
 
-        ReviewId that = (ReviewId) o;
+        GvReviewId that = (GvReviewId) o;
 
-        return mId.equals(that.toString());
+        if (Float.compare(that.mRating, mRating) != 0) return false;
+        return mId != null ? mId.equals(that.mId) : that.mId == null;
+
     }
 
     @Override
     public int hashCode() {
-        return mId.hashCode();
+        int result = mId != null ? mId.hashCode() : 0;
+        result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
+        return result;
     }
 
     @Override
@@ -126,6 +136,7 @@ public class GvReviewId implements GvData, ReviewId {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(toString());
+        parcel.writeString(mId);
+        parcel.writeFloat(mRating);
     }
 }

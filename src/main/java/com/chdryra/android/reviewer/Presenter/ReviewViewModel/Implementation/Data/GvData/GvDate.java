@@ -68,8 +68,6 @@ public class GvDate extends GvDataBasic<GvDate> implements DataDateReview {
         mTime = in.readLong();
     }
 
-    //Overridden
-
     @Override
     public long getTime() {
         return mTime;

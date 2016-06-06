@@ -15,14 +15,13 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhChild;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhCriterion;
 import com.chdryra.android.reviewer.Utils.RatingFormatter;
 
 /**
  * {@link GvData} version of: no equivalent as used
  * for review children (sub-reviews).
- * {@link ViewHolder}: {@link VhChild}
+ * {@link ViewHolder}: {@link VhCriterion}
  */
 public class GvCriterion extends GvDataBasic<GvCriterion> implements DataCriterion {
     public static final GvDataType<GvCriterion> TYPE =
@@ -80,7 +79,7 @@ public class GvCriterion extends GvDataBasic<GvCriterion> implements DataCriteri
     //Overridden
     @Override
     public ViewHolder getViewHolder() {
-        return new VhChild();
+        return new VhCriterion();
     }
 
     @Override

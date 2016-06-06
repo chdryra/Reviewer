@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
 import com.chdryra.android.mygenerallibrary.Viewholder.VHString;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.R;
@@ -25,7 +26,6 @@ public class VhText extends VHString {
     private static final int LAYOUT = R.layout.grid_cell_text;
     private static final int TEXTVIEW = R.id.grid_cell_text_view;
 
-    //Constructors
     public VhText() {
         super(LAYOUT, TEXTVIEW);
     }

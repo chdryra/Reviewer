@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.R;
  * and rating for review children
  * (criteria).
  */
-public class VhChild extends ViewHolderBasic {
+public class VhCriterion extends ViewHolderBasic {
     private static final int LAYOUT = R.layout.grid_cell_review_subject_rating;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -34,7 +34,7 @@ public class VhChild extends ViewHolderBasic {
     private RatingBar mRating;
 
     //Constructors
-    public VhChild() {
+    public VhCriterion() {
         super(LAYOUT, new int[]{SUBJECT, RATING});
     }
 

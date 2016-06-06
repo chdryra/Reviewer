@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
+import com.chdryra.android.mygenerallibrary.Viewholder.VHDataStringGetter;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
@@ -19,16 +20,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * location name.
  */
 public class VhLocation extends VhText {
-
-    //Constructors
     public VhLocation(final boolean showAt) {
         super(new VHDataStringGetter() {
-            //Overridden
             @Override
             public String getString(ViewHolderData data) {
                 GvLocation location = (GvLocation) data;
                 String at = showAt ? "@" : "";
-                return location != null ? at + location.getShortenedName() : null;
+                String name = location != null ? at + location.getShortenedName() : null;
+                return name != null ? name : "";
             }
         });
     }

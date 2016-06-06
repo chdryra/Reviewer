@@ -52,7 +52,6 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     private GvDataList<T> mData;
     private GvDataType<T> mType;
 
-    //Constructors
     public GvCanonical(){
 
     }
@@ -81,8 +80,6 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     public IdableList<T> getAggregatedItems() {
         return toList();
     }
-
-    //Overridden
 
     @Override
     public GvReviewId getGvReviewId() {
@@ -192,6 +189,7 @@ public class GvCanonical<T extends GvData> extends AbstractCollection<T>
     }
 
     @Override
+    @NonNull
     public Iterator<T> iterator() {
         return mData.iterator();
     }

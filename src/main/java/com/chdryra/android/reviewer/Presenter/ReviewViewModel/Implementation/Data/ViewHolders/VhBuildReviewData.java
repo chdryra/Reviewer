@@ -14,7 +14,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhBuildReviewData extends VhDataCollection {
-    //Overridden
     @Override
     protected String getUpperString(int number) {
         return number == 0 ? "+" : super.getUpperString(number);

@@ -50,7 +50,6 @@ public class GvText<T extends GvText> extends VHDString implements GvData {
     private GvDataType<T> mType;
     private GvReviewId mId;
 
-    //Constructors
     public GvText(@NotNull GvDataType<T> type) {
         super();
         mType = type;

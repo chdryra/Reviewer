@@ -24,12 +24,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public class VhCanonical implements ViewHolder {
     ViewHolder mViewHolder;
 
-    //Constructors
     public VhCanonical(ViewHolder viewHolder) {
         mViewHolder = viewHolder;
     }
 
-    //Overridden
     @Override
     public void inflate(Context context, ViewGroup parent) {
         mViewHolder.inflate(context, parent);
