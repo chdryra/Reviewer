@@ -9,15 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodesTraverser;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewDataGetter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
@@ -27,7 +22,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,21 +29,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerTreeData extends ViewerReviewData {
-    private FactoryVisitorReviewNode mVisitorFactory;
-    private FactoryNodeTraverser mTraverserFactory;
-    private GvDataAggregator mAggregater;
+    private GvDataAggregator mAggregator;
 
     public ViewerTreeData(ReviewNode node,
                    ConverterGv converter,
                    TagsManager tagsManager,
                    FactoryReviewViewAdapter adapterFactory,
-                   FactoryVisitorReviewNode visitorFactory,
-                   FactoryNodeTraverser traverserFactory,
-                   GvDataAggregator aggregater) {
+                   GvDataAggregator aggregator) {
         super(node, converter, tagsManager, adapterFactory);
-        mAggregater = aggregater;
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
+        mAggregator = aggregator;
     }
 
     @Override
@@ -61,15 +49,15 @@ public class ViewerTreeData extends ViewerReviewData {
         ConverterGv converter = getConverter();
         GvList data = new GvList(new GvReviewId(id));
         data.add(converter.toGvReviewList(nodes));
-        data.add(mAggregater.aggregateAuthors(converter.toGvAuthorList(nodes, id)));
-        data.add(mAggregater.aggregateSubjects(converter.toGvSubjectList(nodes, id)));
-        data.add(mAggregater.aggregateDates(converter.toGvDateList(nodes, id)));
-        data.add(mAggregater.aggregateTags(collectTags()));
-        data.add(mAggregater.aggregateCriteria(node.getCriteria(), GvDataAggregator.CriterionAggregation.SUBJECT));
-        data.add(mAggregater.aggregateImages(node.getImages()));
-        data.add(mAggregater.aggregateComments(node.getComments()));
-        data.add(mAggregater.aggregateLocations(node.getLocations()));
-        data.add(mAggregater.aggregateFacts(node.getFacts()));
+        data.add(mAggregator.aggregateAuthors(node));
+        data.add(mAggregator.aggregateSubjects(node));
+        data.add(mAggregator.aggregateDates(node));
+        data.add(mAggregator.aggregateTags(node, getTagsManager()));
+        data.add(mAggregator.aggregateCriteria(node));
+        data.add(mAggregator.aggregateImages(node));
+        data.add(mAggregator.aggregateComments(node));
+        data.add(mAggregator.aggregateLocations(node));
+        data.add(mAggregator.aggregateFacts(node));
 
         return data;
     }
@@ -94,13 +82,5 @@ public class ViewerTreeData extends ViewerReviewData {
         }
 
         return adapter;
-    }
-
-    private GvTagList collectTags() {
-        VisitorReviewDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(getTagsManager());
-        NodesTraverser traverser = mTraverserFactory.newTreeTraverser(getReviewNode());
-        traverser.addVisitor(visitor);
-        traverser.traverse();
-        return getConverter().toGvTagList(visitor.getData(), getReviewNode().getReviewId());
     }
 }

@@ -8,31 +8,22 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonical;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCanonicalCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvCriterion;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ViewerAggregateCriteria;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ViewerAggregateToData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ViewerAggregateToReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateCriteria;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View
-        .ViewerDataToReviews;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
 
@@ -51,15 +42,13 @@ public class FactoryGridDataViewer {
     public GridDataViewer<GvData> newNodeDataViewer(ReviewNode node,
                                                     ConverterGv converter,
                                                     TagsManager tagsManager,
-                                                    FactoryVisitorReviewNode visitorFactory,
-                                                    FactoryNodeTraverser traverserFactory,
                                                     GvDataAggregator aggregateFactory) {
         GridDataViewer<GvData> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
             viewer = new ViewerTreeData(node, converter, tagsManager, mAdapterFactory,
-                    visitorFactory, traverserFactory, aggregateFactory);
+                    aggregateFactory);
         } else {
             ReviewNode toExpand = children.size() == 0 ? node : children.getItem(0);
             ReviewNode expanded = toExpand.expand();
@@ -68,8 +57,7 @@ public class FactoryGridDataViewer {
                 viewer = new ViewerReviewData(expanded, converter, tagsManager, mAdapterFactory);
             } else {
                 //expand next layer of tree
-                viewer = newNodeDataViewer(expanded, converter, tagsManager,
-                        visitorFactory, traverserFactory, aggregateFactory);
+                viewer = newNodeDataViewer(expanded, converter, tagsManager, aggregateFactory);
             }
         }
 

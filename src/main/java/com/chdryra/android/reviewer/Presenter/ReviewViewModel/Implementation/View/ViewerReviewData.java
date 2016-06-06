@@ -91,7 +91,6 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
         return data;
     }
 
-
     @Override
     public ReviewStamp getStamp() {
         return ReviewStamp.newStamp(mNode.getAuthor(), mNode.getPublishDate());

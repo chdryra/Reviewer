@@ -85,12 +85,11 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                                     DataAggregatorsApi aggregator) {
         FactoryDataAggregatorParams paramsFactory = new FactoryDataAggregatorParams();
         DataAggregatorParams params = paramsFactory.getDefaultParams();
-        GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter);
+        GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter,
+                modelContext.getVisitorsFactory(), modelContext.getNodeTraversersFactory());
         FactoryReviewViewAdapter factory
                 = new FactoryReviewViewAdapter(getReviewViewLaunchableFactory(),
                 modelContext.getReviewsFactory(),
-                modelContext.getVisitorsFactory(),
-                modelContext.getNodeTraversersFactory(),
                 aggregater,
                 reviewsSource,
                 gvConverter);

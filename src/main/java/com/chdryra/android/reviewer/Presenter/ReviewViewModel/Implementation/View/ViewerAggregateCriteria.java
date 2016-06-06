@@ -27,20 +27,20 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class ViewerAggregateCriteria extends ViewerAggregateToData<GvCriterion> {
-    GvDataAggregator mAggregater;
+    GvDataAggregator mAggregator;
 
     public ViewerAggregateCriteria(GvCanonicalCollection<GvCriterion> data,
                                    FactoryGridDataViewer viewerFactory,
                                    FactoryReviewViewAdapter adapterFactory,
-                                   GvDataAggregator aggregater) {
+                                   GvDataAggregator aggregator) {
         super(data, viewerFactory, adapterFactory);
-        mAggregater = aggregater;
+        mAggregator = aggregator;
     }
 
     @Override
     protected ReviewViewAdapter newDataToReviewsAdapter(GvCanonical datum) {
         GvCanonicalCollection<GvCriterion> aggregate;
-        aggregate = mAggregater.aggregateCriteria((GvCriterionList) datum.toList(),
+        aggregate = mAggregator.aggregateCriteria((GvCriterionList) datum.toList(),
                 GvDataAggregator.CriterionAggregation.SUBJECT_RATING);
 
         int diffSubject = 0;

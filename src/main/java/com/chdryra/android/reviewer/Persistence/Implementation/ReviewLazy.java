@@ -250,7 +250,7 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
             return returnFunction.execute(data);
         } else if (!mFetching) {
             mFetching = true;
-            mRepo.getReviewActual(mId, this);
+            mRepo.downloadReview(mId, this);
         }
 
         return ifNull;

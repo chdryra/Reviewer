@@ -54,7 +54,6 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
         mStructure = structure;
         mValidator = validator;
         mObservers = new ArrayList<>();
-        //getReviewsRoot().addChildEventListener(new ChildListener());
     }
 
     @Override
