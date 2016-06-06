@@ -38,6 +38,7 @@ public class BuildScreenLauncher implements ReviewsRepository.RepositoryCallback
 
     public void launch(ApplicationInstance app) {
         mApp = app;
+        mApp.discardReviewBuilderAdapter();
         if (mTemplate != null) {
             mApp.getReview(mTemplate, this);
         } else {
