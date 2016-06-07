@@ -247,7 +247,7 @@ public class ApplicationInstance extends ApplicationSingleton {
 
     private void setCurrentActivity(Activity activity) {
         mActivity = activity;
-        mScreen = new CurrentScreen(activity);
+        mScreen = new CurrentScreenAndroid(activity);
     }
 
     private void launchReview(ReviewNode reviewNode) {
