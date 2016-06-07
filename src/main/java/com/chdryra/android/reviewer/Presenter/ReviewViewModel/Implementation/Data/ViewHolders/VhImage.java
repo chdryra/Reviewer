@@ -27,12 +27,10 @@ public class VhImage extends ViewHolderBasic {
 
     private ImageView mImage;
 
-    //Constructors
     public VhImage() {
         super(LAYOUT, new int[]{IMAGE});
     }
 
-    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         if (mImage == null) mImage = (ImageView) getView(IMAGE);

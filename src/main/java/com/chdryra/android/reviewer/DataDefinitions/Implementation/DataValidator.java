@@ -35,19 +35,19 @@ public class DataValidator {
     }
 
     public boolean validate(DataComment comment) {
-        return NotNull(comment) && validateString(comment.getComment());
+        return NotNull(comment) && validateString(comment.getComment()) && validate(comment.getReviewId());
     }
 
     public boolean validate(DataSubject subject) {
-        return NotNull(subject) && validateString(subject.getSubject());
+        return NotNull(subject) && validateString(subject.getSubject()) && validate(subject.getReviewId());
     }
 
     public boolean validate(DataRating rating) {
-        return NotNull(rating) && rating.getRating() >= 0f && rating.getRatingWeight() > 0;
+        return NotNull(rating) && rating.getRating() >= 0f && rating.getRatingWeight() > 0 && validate(rating.getReviewId());
     }
 
     public boolean validate(DataCriterion criterion) {
-        return NotNull(criterion) && criterion.getRating() >= 0f && validateString(criterion.getSubject());
+        return NotNull(criterion) && criterion.getRating() >= 0f && validateString(criterion.getSubject()) && validate(criterion.getReviewId());
     }
 
     public boolean validate(DataTag tag) {
@@ -60,20 +60,20 @@ public class DataValidator {
         if (fact.isUrl()) {
             return validateUrl((DataUrl) fact);
         } else {
-            return validateString(fact.getLabel()) && validateString(fact.getValue());
+            return validateString(fact.getLabel()) && validateString(fact.getValue()) && validate(fact.getReviewId());
 
         }
     }
 
     public boolean validate(DataImage image) {
-        return NotNull(image) && NotNull(image.getBitmap());
+        return NotNull(image) && NotNull(image.getBitmap()) && validate(image.getReviewId());
     }
 
     public boolean validate(DataLocation location) {
         LatLng latLng = location.getLatLng();
         return NotNull(location) && validateString(location.getName()) && NotNull(latLng)
                 && latLng.latitude >= -90. && latLng.latitude <= 90.
-                && latLng.longitude >= -180. && latLng.longitude <= 180.;
+                && latLng.longitude >= -180. && latLng.longitude <= 180. && validate(location.getReviewId());
     }
 
     public boolean validate(DataDate date) {
@@ -81,7 +81,7 @@ public class DataValidator {
     }
 
     public boolean validateUrl(DataUrl url) {
-        return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel());
+        return NotNull(url) && NotNull(url.getUrl()) && validateString(url.getLabel()) && validate(url.getReviewId());
     }
 
     public boolean validateString(String string) {

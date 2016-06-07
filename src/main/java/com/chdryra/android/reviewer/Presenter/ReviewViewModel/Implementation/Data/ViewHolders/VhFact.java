@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * fact value bottom.
  */
 public class VhFact extends VhDualText {
-    //Overridden
     @Override
     public void updateView(ViewHolderData data) {
         GvFact fact = (GvFact) data;

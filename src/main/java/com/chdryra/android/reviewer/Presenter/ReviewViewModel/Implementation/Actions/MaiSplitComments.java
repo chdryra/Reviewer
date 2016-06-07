@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions;
 
-import android.content.Context;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Application.CurrentScreen;

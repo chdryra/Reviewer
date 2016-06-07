@@ -92,11 +92,10 @@ public class GvDataAggregator {
     }
 
     public GvCanonicalCollection<GvCriterion> aggregateCriteria(ReviewNode root) {
-        return aggregateCriteria(root.getCriteria(), CriterionAggregation.SUBJECT);
+        return aggregateCriteria(mConverter.getConverterCriteria().convert(root.getCriteria()), CriterionAggregation.SUBJECT);
     }
 
-    public GvCanonicalCollection<GvCriterion> aggregateCriteria(IdableList<? extends 
-            DataCriterion> data, CriterionAggregation aggregation) {
+    public GvCanonicalCollection<GvCriterion> aggregateCriteria(GvDataList<GvCriterion> data, CriterionAggregation aggregation) {
         DataAggregator<DataCriterion> aggregator;
         if(aggregation == CriterionAggregation.SUBJECT) {
             aggregator = mAggregators.newCriteriaAggregatorSameSubject(mParams.getSimilarPercentage());

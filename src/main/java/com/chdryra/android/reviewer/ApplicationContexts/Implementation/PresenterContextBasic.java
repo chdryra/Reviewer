@@ -93,11 +93,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public FactoryReviewViewAdapter getReviewViewAdapterFactory() {
-        return mFactoryReviewViewAdapter;
-    }
-
-    @Override
     public FactoryGvData getGvDataFactory() {
         return mFactoryGvData;
     }

@@ -13,6 +13,9 @@ import android.os.Parcelable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhText;
@@ -39,26 +42,23 @@ public class GvReviewId implements GvData, ReviewId {
         }
     };
 
-    private String mId;
-    private float mRating;
+    private DataRating mRating;
 
-    public GvReviewId(ReviewId id, float rating) {
-        this(id.toString(), rating);
+    public GvReviewId(DataRating rating) {
+        mRating = rating;
     }
 
     public GvReviewId(Parcel in) {
-        mId = in.readString();
-        mRating = in.readFloat();
+        mRating = new DatumRating(new DatumReviewId(in.readString()), in.readFloat(), in.readInt());
     }
 
-    public GvReviewId(String id, float rating) {
-        mId = id;
-        mRating = rating;
+    public GvReviewId(String id) {
+
     }
 
     @Override
     public String toString() {
-        return mId;
+        return mRating.getReviewId().toString();
     }
 
     @Override
@@ -81,7 +81,7 @@ public class GvReviewId implements GvData, ReviewId {
         return this;
     }
 
-    public float getRating() {
+    public DataRating getRating() {
         return mRating;
     }
 
@@ -107,26 +107,7 @@ public class GvReviewId implements GvData, ReviewId {
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validateString(mId);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof GvReviewId)) return false;
-
-        GvReviewId that = (GvReviewId) o;
-
-        if (Float.compare(that.mRating, mRating) != 0) return false;
-        return mId != null ? mId.equals(that.mId) : that.mId == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mId != null ? mId.hashCode() : 0;
-        result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
-        return result;
+        return dataValidator.validate(mRating);
     }
 
     @Override
@@ -136,7 +117,8 @@ public class GvReviewId implements GvData, ReviewId {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mId);
-        parcel.writeFloat(mRating);
+        parcel.writeString(mRating.getReviewId().toString());
+        parcel.writeFloat(mRating.getRating());
+        parcel.writeInt(mRating.getRatingWeight());
     }
 }

@@ -15,6 +15,7 @@ import com.chdryra.android.mygenerallibrary.Viewholder.VHString;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -57,7 +58,8 @@ public class VhTextRating extends ViewHolderBasic {
     public void updateView(ViewHolderData data) {
         if (mTextView == null) mTextView = (TextView) getView(STRING_VIEW);
         if (mRatingView == null) mRatingView = (TextView) getView(RATING_VIEW);
-        mTextView.setText(mGetter.getString(data));
-        mRatingView.setText("4.0");
+        GvData gvData = (GvData) data;
+        mTextView.setText(mGetter.getString(gvData));
+        mRatingView.setText(String.valueOf(gvData.getGvReviewId().getRating().getRating()));
     }
 }

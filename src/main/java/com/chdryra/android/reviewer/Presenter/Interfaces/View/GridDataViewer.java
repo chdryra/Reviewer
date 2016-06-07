@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface GridDataViewer<T extends GvData> {
-    GvDataType<? extends GvData> getGvDataType();
+    GvDataType<?> getGvDataType();
 
     GvDataList<T> getGridData();
 
