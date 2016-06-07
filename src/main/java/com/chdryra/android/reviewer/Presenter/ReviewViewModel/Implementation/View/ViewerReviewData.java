@@ -8,15 +8,15 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -28,27 +28,21 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 05/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerReviewData implements GridDataViewer<GvData> {
+public class ViewerReviewData extends ViewerNodeBasic<GvData> {
     private static final GvDataType<GvData> TYPE = GvList.TYPE;
 
-    private ReviewNode mNode;
     private ConverterGv mConverter;
     private TagsManager mTagsManager;
     private FactoryReviewViewAdapter mAdapterFactory;
-    private GvList mCache;
 
     public ViewerReviewData(ReviewNode node,
                      ConverterGv converter,
                      TagsManager tagsManager,
                      FactoryReviewViewAdapter adapterFactory) {
-        mNode = node;
+        super(node, TYPE);
         mConverter = converter;
         mTagsManager = tagsManager;
         mAdapterFactory = adapterFactory;
-    }
-
-    protected ReviewNode getReviewNode() {
-        return mNode;
     }
 
     protected FactoryReviewViewAdapter getAdapterFactory() {
@@ -63,8 +57,9 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
         return mTagsManager;
     }
 
+    @Override
     protected GvList makeGridData() {
-        Review review = mNode.getReview();
+        Review review = getReviewNode().getReview();
         ReviewId reviewId = review.getReviewId();
         GvReviewId id = new GvReviewId(reviewId);
 
@@ -80,39 +75,29 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
     }
 
     @Override
-    public GvDataType<GvData> getGvDataType() {
-        return TYPE;
-    }
-
-    @Override
-    public GvList getGridData() {
-        GvList data = makeGridData();
-        mCache = data;
-        return data;
-    }
-
-    @Override
     public ReviewStamp getStamp() {
-        return ReviewStamp.newStamp(mNode.getAuthor(), mNode.getPublishDate());
+        ReviewNode node = getReviewNode();
+        return ReviewStamp.newStamp(node.getAuthor(), node.getPublishDate());
     }
 
     @Override
     public boolean isExpandable(GvData datum) {
-        if (!datum.hasElements() || mCache == null) return false;
+        GvDataList<GvData> cache = getCache();
+        if (!datum.hasElements() || cache == null) return false;
 
         GvDataCollection data = (GvDataCollection) datum;
-        for (GvData list : mCache) {
+        for (GvData list : cache) {
             ((GvDataCollection) list).sort();
         }
         data.sort();
 
-        return mCache.contains(datum);
+        return cache.contains(datum);
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(GvData datum) {
+    public ReviewViewAdapter<?> expandGridCell(GvData datum) {
         if (isExpandable(datum)) {
-            return mAdapterFactory.newDataToDataAdapter(mNode,
+            return mAdapterFactory.newDataToDataAdapter(getReviewNode(),
                     (GvDataCollection<? extends GvData>) datum);
         } else {
             return null;
@@ -120,7 +105,7 @@ public class ViewerReviewData implements GridDataViewer<GvData> {
     }
 
     @Override
-    public ReviewViewAdapter expandGridData() {
+    public ReviewViewAdapter<?> expandGridData() {
         return null;
     }
 }

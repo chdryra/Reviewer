@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.content.Context;
 import android.view.MenuItem;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
@@ -58,9 +57,9 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
     }
 
     @Override
-    public void onUnattachReviewView() {
+    public void onDetachReviewView() {
         getReviewView().unregisterDataObserver(this);
-        super.onUnattachReviewView();
+        super.onDetachReviewView();
     }
 
     public class MenuItemCriteriaRatingAverage implements MenuActionItem {

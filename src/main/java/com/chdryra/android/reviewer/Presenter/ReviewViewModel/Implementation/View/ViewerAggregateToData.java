@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 07/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerAggregateToData<T extends GvData> extends UnstampedViewer<GvCanonical> {
+public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasic<GvCanonical> {
     private GvCanonicalCollection<T> mData;
     private FactoryReviewViewAdapter mAdapterFactory;
     private GridDataViewer<GvCanonical> mViewer;

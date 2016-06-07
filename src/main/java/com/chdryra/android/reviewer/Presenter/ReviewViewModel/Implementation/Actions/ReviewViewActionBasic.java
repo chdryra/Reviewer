@@ -46,13 +46,19 @@ public class ReviewViewActionBasic<T extends GvData> implements ReviewViewAction
 
     @Override
     public void attachReviewView(ReviewView<T> reviewView) {
-        if (mReviewView != null) onUnattachReviewView();
+        if (mReviewView != null) detachReviewView();
         mReviewView = reviewView;
         onAttachReviewView();
     }
 
     @Override
-    public void onUnattachReviewView() {
+    public void detachReviewView() {
+        onDetachReviewView();
+        mReviewView = null;
+    }
+
+    @Override
+    public void onDetachReviewView() {
 
     }
 

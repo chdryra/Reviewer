@@ -84,7 +84,6 @@ public class VhReviewLive extends ViewHolderBasic implements Review.ReviewObserv
         if (mTags == null) mTags = (TextView) getView(TAGS);
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
 
-
         GvReview review = (GvReview) data;
         setReview(review.getReview());
         updateUi();

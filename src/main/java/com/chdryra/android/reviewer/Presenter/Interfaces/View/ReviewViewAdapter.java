@@ -22,8 +22,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using
  * {@link GvData}
  */
-public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T>, DataObservable {
+public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
     void attachReviewView(ReviewView<T> view);
+
+    void detachReviewView();
 
     ReviewView<T> getReviewView();
 

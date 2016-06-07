@@ -9,8 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,6 +42,19 @@ public class ReviewViewPerspective<T extends GvData> {
 
     public ReviewViewActions<T> getActions() {
         return mActions;
+    }
+
+    public void attachToActions(ReviewView<T> view) {
+        mActions.attachReviewView(view);
+    }
+
+    public void attachToAdapter(ReviewView<T> view) {
+        mAdapter.attachReviewView(view);
+    }
+
+    public void detach() {
+        mActions.detachReviewView();
+        mAdapter.detachReviewView();
     }
 }
 

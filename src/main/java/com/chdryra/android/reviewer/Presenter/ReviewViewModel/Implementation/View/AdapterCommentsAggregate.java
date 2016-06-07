@@ -65,7 +65,7 @@ public class AdapterCommentsAggregate extends AdapterReviewNode<GvCanonical> {
             current = mComments;
         }
 
-        setViewer(mViewerFactory.newAggregateToReviewsViewer(current));
+        setWrapper(mViewerFactory.newAggregateToReviewsViewer(current));
     }
 
     private void splitComments() {

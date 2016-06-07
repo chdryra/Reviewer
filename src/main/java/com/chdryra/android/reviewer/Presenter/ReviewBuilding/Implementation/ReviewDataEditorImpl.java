@@ -30,7 +30,6 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
 
     private DataBuilderAdapter<T> mBuilder;
 
-    //Constructors
     public ReviewDataEditorImpl(DataBuilderAdapter<T> builder,
                                 ReviewViewActions<T> actions, ReviewViewParams params) {
         super(new ReviewViewPerspective<>(builder, actions, params));
@@ -40,7 +39,6 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
         mRatingIsAverage = builder.isRatingAverage();
     }
 
-    //public methods
     @Override
     public void setSubject() {
         mSubject = getContainerSubject();
@@ -100,7 +98,6 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
         mBuilder.resetData();
     }
 
-    //Overridden
     @Override
     public String getSubject() {
         return mSubject;

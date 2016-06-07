@@ -35,8 +35,9 @@ public abstract class GridItemExpander<T extends GvData> extends GridItemActionN
 
     @Override
     public void onGridItemClick(T item, int position, View v) {
-        if (getAdapter().isExpandable(item)) {
-            onClickExpandable(item, position, v, getAdapter().expandGridCell(item));
+        ReviewViewAdapter<?> expanded = getAdapter().expandGridCell(item);
+        if (expanded != null) {
+            onClickExpandable(item, position, v, expanded);
         } else {
             onClickNotExpandable(item, position, v);
         }
@@ -44,7 +45,8 @@ public abstract class GridItemExpander<T extends GvData> extends GridItemActionN
 
     @Override
     public void onGridItemLongClick(T item, int position, View v) {
-        if (getAdapter().isExpandable(item)) {
+        ReviewViewAdapter<?> expanded = getAdapter().expandGridCell(item);
+        if (expanded != null) {
             onLongClickExpandable(item, position, v, getAdapter().expandGridCell(item));
         } else {
             onLongClickNotExpandable(item, position, v);

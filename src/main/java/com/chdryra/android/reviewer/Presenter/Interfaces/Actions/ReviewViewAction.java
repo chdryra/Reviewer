@@ -21,9 +21,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 public interface ReviewViewAction<T extends GvData> {
     void onAttachReviewView();
 
-    void onUnattachReviewView();
+    void onDetachReviewView();
 
     void attachReviewView(ReviewView<T> reviewView);
+
+    void detachReviewView();
 
     ReviewViewAdapter<T> getAdapter();
 

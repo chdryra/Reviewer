@@ -55,8 +55,8 @@ public class MenuDataEditComments extends MenuDataEdit<GvComment>
     }
 
     @Override
-    public void onUnattachReviewView() {
+    public void onDetachReviewView() {
         getReviewView().unregisterDataObserver(this);
-        super.onUnattachReviewView();
+        super.onDetachReviewView();
     }
 }

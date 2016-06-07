@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.UnstampedViewer;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapperBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,7 +31,7 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
                                 ReviewViewAdapter<?> reviewViewAdapter) {
         mSocialPlatforms = socialPlatforms;
         mReviewViewAdapter = reviewViewAdapter;
-        setViewer(new ShareScreenViewer());
+        setWrapper(new ShareScreenViewer());
     }
 
     @Override
@@ -54,7 +54,7 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
         return mReviewViewAdapter.getCovers();
     }
 
-    private class ShareScreenViewer extends UnstampedViewer<GvSocialPlatform> {
+    private class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {
 
         @Override
         public GvDataType<GvSocialPlatform> getGvDataType() {

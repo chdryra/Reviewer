@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerDataToData<T extends GvData> extends UnstampedViewer<T> {
+public class ViewerDataToData<T extends GvData> extends GridDataWrapperBasic<T> {
     private ReviewNode mNode;
     private GvDataCollection<T> mData;
     private FactoryReviewViewAdapter mAdapterFactory;

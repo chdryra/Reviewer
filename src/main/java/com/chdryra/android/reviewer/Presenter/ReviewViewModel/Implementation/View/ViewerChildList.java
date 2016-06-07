@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
+import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -28,40 +28,34 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 /**
  * Grid data is {@link GvReviewOverviewList}.
  */
-public class ViewerChildList extends UnstampedViewer<GvReview> {
+public class ViewerChildList extends ViewerNodeBasic<GvReview> {
     private static final GvDataType<GvReview> TYPE = GvReview.TYPE;
 
-    private ReviewNode mNode;
     private DataConverter<Review, GvReview, GvReviewList> mConverter;
     private FactoryReviewViewAdapter mAdapterFactory;
 
     public ViewerChildList(ReviewNode node,
                            DataConverter<Review, GvReview, GvReviewList> converter,
                            FactoryReviewViewAdapter adapterFactory) {
-        mNode = node;
+        super(node, TYPE);
         mConverter = converter;
         mAdapterFactory = adapterFactory;
     }
 
     @Override
-    public GvDataType<? extends GvData> getGvDataType() {
-        return TYPE;
-    }
-
-    @Override
-    public GvReviewList getGridData() {
-        return mConverter.convert(mNode.getChildren());
+    protected GvDataList<GvReview> makeGridData() {
+        return mConverter.convert(getReviewNode().getChildren());
     }
 
     @Override
     public boolean isExpandable(GvReview datum) {
-        return mNode.hasChild(datum.getReviewId());
+        return getReviewNode().hasChild(datum.getReviewId());
     }
 
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvReview datum) {
         if (isExpandable(datum)) {
-            ReviewNode child = mNode.getChild(datum.getReviewId());
+            ReviewNode child = getReviewNode().getChild(datum.getReviewId());
             return child != null ? newNodeDataAdapter(child) : null;
         } else {
             return null;
@@ -70,7 +64,7 @@ public class ViewerChildList extends UnstampedViewer<GvReview> {
 
     @Override
     public ReviewViewAdapter<?> expandGridData() {
-        return newNodeDataAdapter(mNode);
+        return newNodeDataAdapter(getReviewNode());
     }
 
     private ReviewViewAdapter<?> newNodeDataAdapter(ReviewNode node) {

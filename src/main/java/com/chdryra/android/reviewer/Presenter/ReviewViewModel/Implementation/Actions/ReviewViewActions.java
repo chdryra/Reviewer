@@ -37,6 +37,8 @@ public class ReviewViewActions<T extends GvData> {
 
     public interface ReviewViewAttachedObserver {
         <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView);
+
+        void onReviewViewDetached();
     }
 
     public ReviewViewActions(SubjectAction<T> subjectAction, RatingBarAction<T> ratingBarAction,
@@ -90,12 +92,28 @@ public class ReviewViewActions<T extends GvData> {
         mBannerButtonAction.attachReviewView(view);
         mGridItemAction.attachReviewView(view);
         if(mContextualAction != null ) mContextualAction.attachReviewView(view);
-        notifyObservers(view);
+        notifyAttach(view);
     }
 
-    private void notifyObservers(ReviewView<T> reviewView) {
+    public void detachReviewView() {
+        mMenuAction.detachReviewView();
+        mSubjectAction.detachReviewView();
+        mRatingBarAction.detachReviewView();
+        mBannerButtonAction.detachReviewView();
+        mGridItemAction.detachReviewView();
+        if(mContextualAction != null ) mContextualAction.detachReviewView();
+        notifyDetach();
+    }
+
+    private void notifyAttach(ReviewView<T> reviewView) {
         for(ReviewViewAttachedObserver observer : mObservers) {
             observer.onReviewViewAttached(reviewView);
+        }
+    }
+
+    private void notifyDetach() {
+        for(ReviewViewAttachedObserver observer : mObservers) {
+            observer.onReviewViewDetached();
         }
     }
 

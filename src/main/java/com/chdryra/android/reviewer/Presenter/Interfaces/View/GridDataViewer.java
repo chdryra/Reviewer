@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 
 /**
@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 12/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GridDataViewer<T extends GvData> {
+public interface GridDataViewer<T extends GvData> extends DataObservable{
     GvDataType<?> getGvDataType();
 
     GvDataList<T> getGridData();

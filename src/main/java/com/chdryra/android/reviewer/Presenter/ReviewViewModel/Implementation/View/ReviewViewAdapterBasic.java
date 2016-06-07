@@ -11,11 +11,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.DataObservable;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvImageList;
 
 import java.util.ArrayList;
 
@@ -28,19 +29,31 @@ import java.util.ArrayList;
 /**
  * Primary implementation of {@link ReviewViewAdapter}.
  */
-public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T> {
+public abstract class ReviewViewAdapterBasic<T extends GvData> implements ReviewViewAdapter<T>,
+        DataObservable.DataObserver {
     private final ArrayList<DataObserver> mObservers = new ArrayList<>();
-    private GridDataViewer<T> mWrapper;
+    private GridDataWrapper<T> mWrapper;
     private ReviewView<T> mView;
+    private boolean mIsAttached = false;
 
-    public void setViewer(GridDataViewer<T> wrapper) {
-        mWrapper = wrapper;
+    public void setWrapper(GridDataWrapper<T> wrapper) {
+        if (mWrapper != null) mWrapper.detachAdapter();
+        attachToViewer(wrapper);
         notifyDataObservers();
     }
 
     @Override
     public void attachReviewView(ReviewView<T> view) {
         mView = view;
+        registerDataObserver(view);
+        if (mWrapper != null && !mIsAttached) attachToViewer(mWrapper);
+    }
+
+    @Override
+    public void detachReviewView() {
+        unregisterDataObserver(mView);
+        mView = null;
+        if (mWrapper != null && mIsAttached) detachFromViewer();
     }
 
     @Override
@@ -74,6 +87,11 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
+    public void onDataChanged() {
+        notifyDataObservers();
+    }
+
+    @Override
     public void registerDataObserver(DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
@@ -92,7 +110,7 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     @Override
     public String getSubject() {
-        return null;
+        return "";
     }
 
     @Override
@@ -102,11 +120,22 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
 
     @Override
     public GvImageList getCovers() {
-        return null;
+        return new GvImageList();
     }
 
     @Override
     public ReviewStamp getStamp() {
         return mWrapper != null ? mWrapper.getStamp() : ReviewStamp.noStamp();
+    }
+
+    private void attachToViewer(GridDataWrapper<T> wrapper) {
+        mWrapper = wrapper;
+        mWrapper.attachAdapter(this);
+        mIsAttached = true;
+    }
+
+    private void detachFromViewer() {
+        mWrapper.detachAdapter();
+        mIsAttached = false;
     }
 }

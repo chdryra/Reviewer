@@ -13,16 +13,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
-import java.util.Random;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 09/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomReviewId {
-    private static final Random RAND = new Random();
-
     public static ReviewId nextReviewId() {
         return nextMdReviewId();
     }

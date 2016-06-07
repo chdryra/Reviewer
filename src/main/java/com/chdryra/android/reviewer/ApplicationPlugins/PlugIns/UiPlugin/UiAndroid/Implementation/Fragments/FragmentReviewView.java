@@ -71,7 +71,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
 
     private ReviewView<?> mReviewView;
 
-    private boolean mIsModified = false;
     private boolean mIsAttached = false;
 
     @Override
@@ -193,6 +192,12 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mGridView.update();
         mContextual.update();
         mCover.update();
+    }
+
+    @Override
+    public void onStop() {
+        detachFromReviewViewIfNecessary();
+        super.onStop();
     }
 }
 

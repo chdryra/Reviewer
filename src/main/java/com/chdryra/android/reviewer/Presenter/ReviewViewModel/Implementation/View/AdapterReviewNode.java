@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
@@ -33,9 +32,9 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
     public AdapterReviewNode(ReviewNode node,
                              DataConverter<DataImage, GvImage, GvImageList> coversConverter,
-                             GridDataViewer<T> viewer) {
+                             GridDataWrapper<T> viewer) {
         this(node, coversConverter);
-        setViewer(viewer);
+        setWrapper(viewer);
     }
 
     public AdapterReviewNode(ReviewNode node,
@@ -64,6 +63,4 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     public GvImageList getCovers() {
         return mCoversConverter.convert(mNode.getCovers());
     }
-
-
 }

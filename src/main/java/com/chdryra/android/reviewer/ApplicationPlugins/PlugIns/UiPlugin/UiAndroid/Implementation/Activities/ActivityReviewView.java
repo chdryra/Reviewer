@@ -79,4 +79,9 @@ public class ActivityReviewView extends ActivitySingleFragment implements Launch
         super.onResume();
         ApplicationInstance.setActivity(this);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
 }

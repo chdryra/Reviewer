@@ -13,12 +13,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.GridDataViewer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonical;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
@@ -39,11 +41,11 @@ public class FactoryGridDataViewer {
         mAdapterFactory = adapterFactory;
     }
 
-    public GridDataViewer<GvData> newNodeDataViewer(ReviewNode node,
-                                                    ConverterGv converter,
-                                                    TagsManager tagsManager,
-                                                    GvDataAggregator aggregateFactory) {
-        GridDataViewer<GvData> viewer;
+    public GridDataWrapper<GvData> newNodeDataViewer(ReviewNode node,
+                                                     ConverterGv converter,
+                                                     TagsManager tagsManager,
+                                                     GvDataAggregator aggregateFactory) {
+        GridDataWrapper<GvData> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
@@ -64,14 +66,14 @@ public class FactoryGridDataViewer {
         return viewer;
     }
 
-    public <T extends GvData> GridDataViewer<T> newDataToDataViewer(ReviewNode parent,
+    public <T extends GvData> GridDataWrapper<T> newDataToDataViewer(ReviewNode parent,
                                                                     GvDataCollection<T> data) {
         return new ViewerDataToData<>(parent, data, mAdapterFactory);
     }
 
-    public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
+    public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToDataViewer(GvCanonicalCollection<T> data,
                                                                                    GvDataAggregator aggregateFactory) {
-        GridDataViewer<GvCanonical> viewer;
+        GridDataWrapper<GvCanonical> viewer;
         if (data.getGvDataType().equals(GvCriterion.TYPE)) {
             viewer = new ViewerAggregateCriteria( (GvCanonicalCollection<GvCriterion>) data,
                     this, mAdapterFactory, aggregateFactory);
@@ -82,11 +84,11 @@ public class FactoryGridDataViewer {
         return viewer;
     }
 
-    public <T extends GvData> GridDataViewer<T> newDataToReviewsViewer(GvDataCollection<T> data) {
+    public <T extends GvData> GridDataWrapper<T> newDataToReviewsViewer(GvDataCollection<T> data) {
         return new ViewerDataToReviews<>(data, mAdapterFactory);
     }
 
-    public <T extends GvData> GridDataViewer<GvCanonical> newAggregateToReviewsViewer(GvCanonicalCollection<T> data) {
+    public <T extends GvData> GridDataWrapper<GvCanonical> newAggregateToReviewsViewer(GvCanonicalCollection<T> data) {
         return new ViewerAggregateToReviews<>(data, mAdapterFactory);
     }
 }

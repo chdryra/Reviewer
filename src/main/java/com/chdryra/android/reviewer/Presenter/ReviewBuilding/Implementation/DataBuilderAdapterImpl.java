@@ -43,7 +43,6 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
         resetData();
     }
 
-    //public methods
     @Override
     public GvDataType<T> getGvDataType() {
         return mType;

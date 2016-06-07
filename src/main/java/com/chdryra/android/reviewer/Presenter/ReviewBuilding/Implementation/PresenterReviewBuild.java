@@ -126,6 +126,11 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         mLocationClient.connect();
     }
 
+    @Override
+    public void onReviewViewDetached() {
+        mLocationClient.disconnect();
+    }
+
     //private methods
     private int getImageRequestCode() {
         return getAdderConfig(GvImage.TYPE).getRequestCode();

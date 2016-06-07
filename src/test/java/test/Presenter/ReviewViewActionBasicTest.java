@@ -87,7 +87,7 @@ public class ReviewViewActionBasicTest {
 
     private class TestReviewViewAction extends ReviewViewActionBasic<GvData> {
         @Override
-        public void onUnattachReviewView() {
+        public void onDetachReviewView() {
             mOrder.add(ON_UNATTACH);
         }
 
