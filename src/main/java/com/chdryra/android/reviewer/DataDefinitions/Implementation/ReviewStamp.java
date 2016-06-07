@@ -92,6 +92,27 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         return mId.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewStamp)) return false;
+
+        ReviewStamp stamp = (ReviewStamp) o;
+
+        if (!mAuthor.equals(stamp.mAuthor)) return false;
+        if (!mDate.equals(stamp.mDate)) return false;
+        return mId.equals(stamp.mId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mAuthor.hashCode();
+        result = 31 * result + mDate.hashCode();
+        result = 31 * result + mId.hashCode();
+        return result;
+    }
+
     private static class StampId implements ReviewId, HasReviewId {
         private static final String SPLITTER = ":";
         private static final String ILLEGAL_FORMAT = "String doesn't conform to UserId:Time";

@@ -62,7 +62,7 @@ public class GvReview extends GvDataBasic<GvReview> implements DataReviewBasicIn
                     GvConverterComments converterComments,
                     GvConverterLocations converterLocations,
                     GvConverterAuthors gvConverterAuthor) {
-        super(GvReview.TYPE, new GvReviewId(review.getRating()));
+        super(GvReview.TYPE, new GvReviewId(review.getReviewId()));
         mReview = review;
         mTagsManager = tagsManager;
         mConverterImages = converterImages;

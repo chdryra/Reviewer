@@ -60,6 +60,5 @@ public class VhTextRating extends ViewHolderBasic {
         if (mRatingView == null) mRatingView = (TextView) getView(RATING_VIEW);
         GvData gvData = (GvData) data;
         mTextView.setText(mGetter.getString(gvData));
-        mRatingView.setText(String.valueOf(gvData.getGvReviewId().getRating().getRating()));
     }
 }

@@ -8,10 +8,10 @@
 
 package test.TestUtils;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
-import com.chdryra.android.testutils.RandomString;
 
 import java.util.Random;
 
@@ -28,7 +28,8 @@ public class RandomReviewId {
     }
 
     public static MdReviewId nextMdReviewId() {
-        return new MdReviewId(RandomString.nextWord(), RAND.nextLong(), RAND.nextInt());
+        ReviewStamp stamp = ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDate());
+        return new MdReviewId(stamp);
     }
 
     public static String nextIdString() {

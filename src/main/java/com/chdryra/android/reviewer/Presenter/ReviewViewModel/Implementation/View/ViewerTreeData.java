@@ -47,7 +47,7 @@ public class ViewerTreeData extends ViewerReviewData {
         IdableList<ReviewNode> nodes = node.getChildren();
 
         ConverterGv converter = getConverter();
-        GvList data = new GvList(new GvReviewId(id, node.getRating().getRating()));
+        GvList data = new GvList(new GvReviewId(id));
         data.add(converter.toGvReviewList(nodes));
         data.add(mAggregator.aggregateAuthors(node));
         data.add(mAggregator.aggregateSubjects(node));

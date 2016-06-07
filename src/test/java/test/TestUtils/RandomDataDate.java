@@ -8,6 +8,7 @@
 
 package test.TestUtils;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
@@ -27,6 +28,7 @@ public class RandomDataDate {
     }
 
     public static DataDate nextDate() {
-        return nextDateReview();
+        Date date = RandomDate.nextDate();
+        return new DatumDate(date.getTime());
     }
 }

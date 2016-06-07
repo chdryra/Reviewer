@@ -92,7 +92,7 @@ public class GvDataAggregator {
     }
 
     public GvCanonicalCollection<GvCriterion> aggregateCriteria(ReviewNode root) {
-        return aggregateCriteria(mConverter.getConverterCriteria().convert(root.getCriteria()), CriterionAggregation.SUBJECT);
+        return aggregateCriteria(mConverter.toGvCriterionList(root.getCriteria()), CriterionAggregation.SUBJECT);
     }
 
     public GvCanonicalCollection<GvCriterion> aggregateCriteria(GvDataList<GvCriterion> data, CriterionAggregation aggregation) {
@@ -105,13 +105,10 @@ public class GvDataAggregator {
         AggregatedList<DataCriterion> aggregated = aggregator.aggregate(data);
         return aggregate(mConverter.getConverterCriteria(), aggregated, GvCriterion.TYPE);
     }
-    public GvCanonicalCollection<GvImage> aggregateImages(ReviewNode root) {
-        return aggregateImages(root.getImages());
-    }
 
-    public GvCanonicalCollection<GvImage> aggregateImages(IdableList<? extends DataImage> data) {
+    public GvCanonicalCollection<GvImage> aggregateImages(ReviewNode root) {
         DataAggregator<DataImage> aggregator = mAggregators.newImagesAggregator(mParams.getSimilarBoolean());
-        AggregatedList<DataImage> aggregated = aggregator.aggregate(data);
+        AggregatedList<DataImage> aggregated = aggregator.aggregate(root.getImages());
         return aggregate(mConverter.getConverterImages(), aggregated, GvImage.TYPE);
     }
 
@@ -126,22 +123,14 @@ public class GvDataAggregator {
     }
 
     public GvCanonicalCollection<GvLocation> aggregateLocations(ReviewNode root) {
-        return aggregateLocations(root.getLocations());
-    }
-
-    public GvCanonicalCollection<GvLocation> aggregateLocations(IdableList<? extends DataLocation> data) {
         DataAggregator<DataLocation> aggregator = mAggregators.newLocationsAggregator(mParams.getSimilarLocation());
-        AggregatedList<DataLocation> aggregated = aggregator.aggregate(data);
+        AggregatedList<DataLocation> aggregated = aggregator.aggregate(root.getLocations());
         return aggregate(mConverter.getConverterLocations(), aggregated, GvLocation.TYPE);
     }
 
     public GvCanonicalCollection<GvFact> aggregateFacts(ReviewNode root) {
-        return aggregateFacts(root.getFacts());
-    }
-
-    public GvCanonicalCollection<GvFact> aggregateFacts(IdableList<? extends DataFact> data) {
         DataAggregator<DataFact> aggregator = mAggregators.newFactsAggregator(mParams.getSimilarPercentage());
-        AggregatedList<DataFact> aggregated = aggregator.aggregate(data);
+        AggregatedList<DataFact> aggregated = aggregator.aggregate(root.getFacts());
         return aggregate(mConverter.getConverterFacts(), aggregated, GvFact.TYPE);
     }
     

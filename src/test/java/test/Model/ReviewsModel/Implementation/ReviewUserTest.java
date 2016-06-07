@@ -8,6 +8,7 @@
 
 package test.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
@@ -20,6 +21,8 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import test.Model.ReviewsModel.Utils.MdDataMocker;
+import test.TestUtils.RandomAuthor;
+import test.TestUtils.RandomDataDate;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,8 +41,8 @@ public class ReviewUserTest {
 
     @Before
     public void setup() {
-        mRightId = new MdReviewId("abc", 123l, 456);
-        MdReviewId wrongId = new MdReviewId("cde", 123l, 456);
+        mRightId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDate()));
+        MdReviewId wrongId = new MdReviewId(ReviewStamp.newStamp(RandomAuthor.nextAuthor(), RandomDataDate.nextDate()));
         mRightMocker = new MdDataMocker(mRightId);
         mWrongMocker = new MdDataMocker(wrongId);
         mNodeFactory = new FactoryReviewNode();

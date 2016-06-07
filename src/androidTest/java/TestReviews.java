@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
@@ -27,6 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -241,8 +243,8 @@ public class TestReviews {
     }
 
     private Review getReview(TestReview review, TagsManager tagsManager) {
-        ReviewId id = new MdReviewId(AUTHOR.getAuthorId().toString(),
-                review.mPublishDate.getTime(), 0);
+        ReviewStamp stamp = ReviewStamp.newStamp(AUTHOR, new DatumDate(review.mPublishDate.getTime()));
+        ReviewId id = new MdReviewId(stamp);
         
         ArrayList<DataComment> comments = new ArrayList<>();
         int i = 0;
