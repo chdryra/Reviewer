@@ -64,22 +64,21 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
 
     @Override
     public void deleteReview(String reviewId, final DeleteReviewCallback callback) {
-        doSingleEvent(getReviewRoot(reviewId), newGetAndDeleteListener(reviewId, callback));
+        doSingleEvent(getReviewRoot(author, reviewId), newGetAndDeleteListener(reviewId, callback));
     }
 
     @Override
     public void getReview(String reviewId, GetReviewCallback callback) {
-        doSingleEvent(getReviewRoot(reviewId), newGetListener(callback));
+        doSingleEvent(getReviewRoot(author, reviewId), newGetListener(callback));
     }
 
     @Override
-    public void getReviews(@Nullable final Author author, final GetCollectionCallback callback) {
-        Firebase root = author == null ? getReviewsRoot() : getReviewsListRoot(author);
-        doSingleEvent(root, newGetCollectionListener(author, callback));
+    public void getReviews(final Author author, final GetCollectionCallback callback) {
+        doSingleEvent(getReviewsRoot(author), newGetCollectionListener(author, callback));
     }
 
     @Override
-    public void getReviewsList(@Nullable Author author, GetCollectionCallback callback) {
+    public void getReviewsList(Author author, GetCollectionCallback callback) {
         doSingleEvent(getReviewsListRoot(author), newGetCollectionListener(author, callback));
     }
 
@@ -93,8 +92,8 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 
-    private Firebase getReviewsRoot() {
-        return mStructure.getReviewsDb(mDataBase);
+    private Firebase getReviewsRoot(Author author) {
+        return mStructure.getReviewsDb(mDataBase, author);
     }
 
     @NonNull
@@ -108,8 +107,8 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
         return mStructure.getReviewsListDb(mDataBase, author);
     }
 
-    private Firebase getReviewRoot(String reviewId) {
-        return mStructure.getReviewDb(mDataBase, reviewId);
+    private Firebase getReviewRoot(Author author, String reviewId) {
+        return mStructure.getReviewDb(mDataBase, author, reviewId);
     }
 
     @NonNull

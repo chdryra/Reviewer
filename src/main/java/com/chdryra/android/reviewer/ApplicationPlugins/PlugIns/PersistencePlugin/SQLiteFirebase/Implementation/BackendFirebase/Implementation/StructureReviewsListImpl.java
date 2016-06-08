@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviewsList;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.Path;
 
 import java.util.Map;
 
@@ -29,6 +31,10 @@ public class StructureReviewsListImpl extends DbStructureBasic<ReviewDb> impleme
     }
 
     public StructureReviewsListImpl(String path) {
+        setPathToStructure(path);
+    }
+
+    public StructureReviewsListImpl(Path<ReviewDb> path) {
         setPathToStructure(path);
     }
 

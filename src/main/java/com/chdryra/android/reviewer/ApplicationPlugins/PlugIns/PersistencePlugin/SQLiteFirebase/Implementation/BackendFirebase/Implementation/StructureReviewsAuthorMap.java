@@ -6,15 +6,14 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase
-        .Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
+
 
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReviewsList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructureBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
 import java.util.Map;
 
@@ -23,18 +22,9 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements StructureReviews {
-    public StructureReviewsImpl(String path) {
+public class StructureReviewsAuthorMap extends DbStructureBasic<ReviewDb> implements StructureReviewsList {
+    public StructureReviewsAuthorMap(String path) {
         setPathToStructure(path);
-    }
-
-    public StructureReviewsImpl(Path<ReviewDb> path) {
-        setPathToStructure(path);
-    }
-
-    @Override
-    public String relativePathToReview(String reviewId) {
-        return reviewId;
     }
 
     @NonNull
@@ -43,8 +33,9 @@ public class StructureReviewsImpl extends DbStructureBasic<ReviewDb> implements 
         String reviewId = review.getReviewId();
 
         Updates updates = new Updates(updateType);
-        updates.atPath(review, reviewId).putObject(review);
+        updates.atPath(review, reviewId).putValue(review.getAuthor().getAuthorId());
 
         return updates.toMap();
     }
+
 }

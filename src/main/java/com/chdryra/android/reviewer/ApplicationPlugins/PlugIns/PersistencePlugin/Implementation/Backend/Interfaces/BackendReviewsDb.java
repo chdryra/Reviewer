@@ -45,11 +45,11 @@ public interface BackendReviewsDb {
 
     void deleteReview(String reviewId, DeleteReviewCallback callback);
 
-    void getReview(String id, GetReviewCallback callback);
+    void getReview(String reviewId, GetReviewCallback callback);
 
-    void getReviews(@Nullable Author author, GetCollectionCallback callback);
+    void getReviews(Author author, GetCollectionCallback callback);
 
-    void getReviewsList(@Nullable Author author, GetCollectionCallback callback);
+    void getReviewsList(Author author, GetCollectionCallback callback);
 
     void registerObserver(DbObserver<ReviewDb> observer);
 
