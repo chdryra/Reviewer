@@ -38,13 +38,18 @@ public class StructureReviewsListImpl extends DbStructureBasic<ReviewDb> impleme
         setPathToStructure(path);
     }
 
+    @Override
+    public String relativePathToEntry(String reviewId) {
+        return reviewId;
+    }
+
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         String reviewId = review.getReviewId();
 
         Updates updates = new Updates(updateType);
-        updates.atPath(review, reviewId).putObject(new ReviewListEntry(review));
+        updates.atPath(review, relativePathToEntry(reviewId)).putObject(new ReviewListEntry(review));
 
         return updates.toMap();
     }

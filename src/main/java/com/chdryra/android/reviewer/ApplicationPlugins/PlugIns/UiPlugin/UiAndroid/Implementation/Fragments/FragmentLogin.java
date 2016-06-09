@@ -71,14 +71,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         return new FragmentLogin();
     }
 
-    public void reobserveUser() {
-        showLoggingInDialog();
-        if (mPresenter != null) {
-            mPresenter.authenticationFinished();
-            mPresenter.observeUser();
-        }
-    }
-
     public void closeDialogs() {
         closeLoggingInDialog();
     }
@@ -87,7 +79,6 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        showLoggingInDialog();
     }
 
     @Nullable
@@ -110,6 +101,8 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mPresenter.setLoginListener(this);
 
         bindButtonsToProviders(facebookButton, googleButton, twitterButton, emailButton);
+
+        if(mPresenter.userLoggedIn()) showLoggingInDialog();
 
         return view;
     }

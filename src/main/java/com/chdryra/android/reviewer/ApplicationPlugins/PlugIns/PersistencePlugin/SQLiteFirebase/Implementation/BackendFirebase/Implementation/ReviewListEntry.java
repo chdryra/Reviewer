@@ -9,6 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -22,11 +25,13 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 public class ReviewListEntry {
     private String subject;
     private Rating rating;
+    private Author author;
     private long publishDate;
 
     public ReviewListEntry(ReviewDb review) {
         this.subject = review.getSubject();
         this.rating = review.getRating();
+        this.author = review.getAuthor();
         this.publishDate = review.getPublishDate();
     }
 
@@ -36,6 +41,10 @@ public class ReviewListEntry {
 
     public Rating getRating() {
         return rating;
+    }
+
+    public Author getAuthor() {
+        return author;
     }
 
     public long getPublishDate() {

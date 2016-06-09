@@ -30,8 +30,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
 public class UserContextImpl implements UserContext {
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
-    private static final AuthenticationError NO_PROFILE_ERROR = new AuthenticationError
-            (ApplicationInstance.APP_NAME, AuthenticationError.Reason.UNKNOWN_USER);
 
     private AuthenticatedUser mUser;
     private AuthorProfile mProfile;
@@ -43,8 +41,13 @@ public class UserContextImpl implements UserContext {
         mContext = context.getContext();
 
         UserAuthenticator authenticator = mContext.getUsersManager().getAuthenticator();
-        onUserStateChanged(null, authenticator.getAuthenticatedUser());
+        onUserStateChanged(null,  authenticator.getAuthenticatedUser());
         authenticator.registerObserver(this);
+    }
+
+    @Override
+    public boolean hasUser() {
+        return mContext.getUsersManager().getAuthenticator().getAuthenticatedUser() != null;
     }
 
     @Override
@@ -53,18 +56,14 @@ public class UserContextImpl implements UserContext {
     }
 
     @Override
-    public void setLoginObserver(LoginObserver observer) {
+    public boolean setLoginObserver(LoginObserver observer) {
         mObserver = observer;
-        observeCurrentUser();
-    }
-
-    @Override
-    public void observeCurrentUser() {
-        if (mUser == null || mProfile == null) {
-            notifyLogin(mUser, mProfile, mUser == null ? NO_USER_ERROR : NO_PROFILE_ERROR);
-        } else {
-            notifyLogin(mUser, mProfile, null);
+        if(mUser != null) {
+            getCurrentProfile();
+            return true;
         }
+
+        return false;
     }
 
     @Override
@@ -94,6 +93,10 @@ public class UserContextImpl implements UserContext {
             return;
         }
 
+        getCurrentProfile();
+    }
+
+    private void getCurrentProfile() {
         getCurrentProfile(new UserAccounts.GetProfileCallback() {
             @Override
             public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable

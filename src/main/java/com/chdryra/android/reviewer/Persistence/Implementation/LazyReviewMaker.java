@@ -9,9 +9,14 @@
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
 
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendReviewsRepo;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendReviewsRepo;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Rating;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
@@ -36,10 +41,11 @@ public class LazyReviewMaker implements ReviewMaker {
         mCache = cache;
     }
 
-    public Review makeLazyReview(String reviewId, String subject, Rating rating, long date, BackendReviewsRepo backend) {
+    public Review makeLazyReview(String reviewId, String subject, Rating rating, Author author, long date, BackendReviewsRepo backend) {
         DatumReviewId id = new DatumReviewId(reviewId);
         return new ReviewLazy(id, new DatumSubject(id, subject),
                 new DatumRating(id, (float)rating.getRating(), (int)rating.getRatingWeight()),
+                new DatumAuthorReview(id, author.getName(), new DatumAuthorId(author.getAuthorId())),
                 new DatumDateReview(id, date), backend, mCache) ;
     }
 

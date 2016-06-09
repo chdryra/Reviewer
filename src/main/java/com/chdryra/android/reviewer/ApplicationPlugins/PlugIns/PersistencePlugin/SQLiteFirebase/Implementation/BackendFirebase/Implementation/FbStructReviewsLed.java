@@ -121,9 +121,14 @@ public class FbStructReviewsLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getReviewsListDb(Firebase root, @Nullable Author author) {
+    public Firebase getListEntriesDb(Firebase root, @Nullable Author author) {
         return author == null ? root.child(pathToReviewsList()) : root.child(pathToAuthorReviews
                 (author));
+    }
+
+    @Override
+    public Firebase getListEntryDb(Firebase root, String reviewId) {
+        return root.child(pathToListEntry(reviewId));
     }
 
     @Override
@@ -160,6 +165,10 @@ public class FbStructReviewsLed implements FirebaseStructure {
 
     private String pathToReviewsList() {
         return path(pathToReviews(), REVIEWS_LIST);
+    }
+
+    private String pathToListEntry(String reviewId) {
+        return path(pathToReviewsList(), mReviewsList.relativePathToEntry(reviewId));
     }
 
     private String pathToUserAuthorMapping(String userId) {

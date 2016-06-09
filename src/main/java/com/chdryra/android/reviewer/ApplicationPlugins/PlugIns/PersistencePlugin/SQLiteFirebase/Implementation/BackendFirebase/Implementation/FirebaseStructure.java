@@ -21,16 +21,15 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FirebaseStructure {
-    //public for testing
+    String USERS_MAP = "ProviderUsersMap";
     String REVIEWS = "Reviews";
-    String REVIEWS_DATA = "Data";
-    String REVIEWS_LIST = "List";
+    String REVIEWS_DATA = "ReviewsData";
+    String REVIEWS_LIST = "ReviewsList";
     String TAGS = "Tags";
     String USERS = "Users";
     String AUTHOR_DATA = "AuthorData";
     String AUTHOR_NAMES = "AuthorNames";
     String PROFILE = "Profile";
-    String USERS_MAP = "ProviderUsersMap";
     String FEED = "Feed";
 
     DbUpdater<User> getProfileUpdater();
@@ -43,7 +42,9 @@ public interface FirebaseStructure {
 
     Firebase getReviewsDb(Firebase root, Author author);
 
-    Firebase getReviewsListDb(Firebase root, Author author);
+    Firebase getListEntriesDb(Firebase root, Author author);
+
+    Firebase getListEntryDb(Firebase root, String reviewId);
 
     Firebase getProfileDb(Firebase root, String authorId);
 

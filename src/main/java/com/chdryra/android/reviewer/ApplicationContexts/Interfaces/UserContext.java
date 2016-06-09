@@ -29,11 +29,11 @@ public interface UserContext extends UserAuthenticator.UserStateObserver {
                         @Nullable AuthenticationError error);
     }
 
+    boolean hasUser();
+
     void unsetLoginObserver();
 
-    void setLoginObserver(LoginObserver observer);
-
-    void observeCurrentUser();
+    boolean setLoginObserver(LoginObserver observer);
 
     DataAuthor getCurrentUserAsAuthor();
 

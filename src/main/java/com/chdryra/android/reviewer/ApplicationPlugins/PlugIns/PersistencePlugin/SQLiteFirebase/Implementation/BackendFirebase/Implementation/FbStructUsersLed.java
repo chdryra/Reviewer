@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
@@ -47,7 +49,6 @@ public class FbStructUsersLed implements FirebaseStructure {
                 return pathToProfile(authorId);
             }
         };
-
         mUserProfile = new StructureUserProfileImpl(pathToProfile);
         mUsersMap = new StructureUsersMapImpl(pathToUserAuthorMap());
         mAuthorsMap = new StructureNamesMapImpl(pathToNamesAuthorIdMap());
@@ -55,15 +56,14 @@ public class FbStructUsersLed implements FirebaseStructure {
         StructureBuilder<User> builderUser = new StructureBuilder<>();
         mUserUpdater = builderUser.add(mUserProfile).add(mUsersMap).add(mAuthorsMap).build();
 
-        Path<ReviewDb> pathToReviews = new Path<ReviewDb>() {
+        Path<ReviewDb> pathToReview = new Path<ReviewDb>() {
             @Override
             public String getPath(ReviewDb review) {
                 return pathToReviews(review.getAuthor());
             }
         };
-        mReviews = new StructureReviewsImpl(pathToReviews);
-
-        mReviewsList = new StructureReviewsAuthorMap(pathToReviewsList());
+        mReviews = new StructureReviewsImpl(pathToReview);
+        mReviewsList = new StructureReviewsListImpl(pathToReviewsList());
 
         StructureBuilder<ReviewDb> builderReview = new StructureBuilder<>();
         mReviewUploadUpdater = builderReview.add(mReviews).add(mReviewsList).build();
@@ -95,8 +95,14 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getReviewsListDb(Firebase root, Author author) {
-        return root.child(pathToReviews(author));
+    public Firebase getListEntriesDb(Firebase root, @Nullable Author author) {
+        return author == null ? root.child(pathToReviewsList())
+                : root.child(pathToAuthorReviews(author));
+    }
+
+    @Override
+    public Firebase getListEntryDb(Firebase root, String reviewId) {
+        return root.child(pathToListEntry(reviewId));
     }
 
     @Override
@@ -123,12 +129,16 @@ public class FbStructUsersLed implements FirebaseStructure {
         return path(pathToReviews(author), mReviews.relativePathToReview(reviewId));
     }
 
-    private String pathToReviews(Author author) {
+    private String pathToAuthorReviews(Author author) {
         return path(pathToAuthor(author.getAuthorId()), REVIEWS);
     }
 
     private String pathToReviewsList() {
         return REVIEWS_LIST;
+    }
+
+    private String pathToListEntry(String reviewId) {
+        return path(pathToReviewsList(), mReviewsList.relativePathToEntry(reviewId));
     }
 
     private String pathToUserAuthorMapping(String userId) {
@@ -144,22 +154,22 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     private String pathToAuthor(String authorId) {
-        return path(pathToAuthorsData(), authorId);
+        return path(pathToUsers(), AUTHOR_DATA, authorId);
     }
 
     private String pathToNamesAuthorIdMap() {
         return path(pathToUsers(), AUTHOR_NAMES);
     }
 
-    private String pathToAuthorsData() {
-        return path(pathToUsers(), AUTHOR_DATA);
+    private String pathToReviews(Author author) {
+        return path(pathToAuthor(author.getAuthorId()), REVIEWS);
     }
 
     private String pathToUsers() {
         return USERS;
     }
 
-    private String path(String root, String... elements) {
+    private static String path(String root, String... elements) {
         return Path.path(root, elements);
     }
 }

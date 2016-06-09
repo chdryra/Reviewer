@@ -12,10 +12,7 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.FunctionPointer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.BackendReviewsRepo;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendReviewsRepo;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -44,17 +41,19 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
     private final ReviewId mId;
     private final DataSubject mSubject;
     private final DataRating mRating;
+    private final DataAuthorReview mAuthor;
     private final DataDateReview mPublishDate;
     private final BackendReviewsRepo mRepo;
     private final ReviewsCache mCache;
 
     private boolean mFetching = false;
 
-    public ReviewLazy(ReviewId id, DataSubject subject, DataRating rating,
+    public ReviewLazy(ReviewId id, DataSubject subject, DataRating rating, DataAuthorReview author,
                       DataDateReview publishDate, BackendReviewsRepo repo, ReviewsCache cache) {
         mId = id;
         mSubject = subject;
         mRating = rating;
+        mAuthor = author;
         mPublishDate = publishDate;
         mRepo = repo;
         mCache = cache;
@@ -82,14 +81,7 @@ public class ReviewLazy extends ReviewDynamic implements ReviewNode, ReviewsRepo
 
     @Override
     public DataAuthorReview getAuthor() {
-        return returnData(new DatumAuthorReview(mId, "loading",
-                new DatumAuthorId("loading")),
-                new FunctionPointer<Review, DataAuthorReview>() {
-                    @Override
-                    public DataAuthorReview execute(Review review) {
-                        return review.getAuthor();
-                    }
-                });
+        return mAuthor;
     }
 
     @Override

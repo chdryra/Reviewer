@@ -60,12 +60,6 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if(mFragment != null) mFragment.reobserveUser();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mFragment.onActivityResult(requestCode, resultCode, data);
     }

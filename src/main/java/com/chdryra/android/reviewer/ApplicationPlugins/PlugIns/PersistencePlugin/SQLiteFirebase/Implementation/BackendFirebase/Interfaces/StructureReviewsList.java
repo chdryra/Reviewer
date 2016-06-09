@@ -24,6 +24,8 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface StructureReviewsList extends DbStructure<ReviewDb> {
+    String relativePathToEntry(String reviewId);
+
     @NonNull
     @Override
     Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType);

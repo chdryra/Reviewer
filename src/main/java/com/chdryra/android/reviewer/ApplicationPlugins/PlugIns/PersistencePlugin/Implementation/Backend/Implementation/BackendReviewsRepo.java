@@ -86,12 +86,12 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
 
     @Override
     public void getReviews(final RepositoryCallback callback) {
-        getReviewsLazy(null, callback);
+        getReviewsGreedy(null, callback);
     }
 
     @Override
     public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        getReviewsLazy(author, callback);
+        getReviewsGreedy(author, callback);
     }
 
     @Override
@@ -134,19 +134,14 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
                 }));
     }
 
-    private void getReviewsGreedy(@Nullable final DataAuthor author, final RepositoryCallback
-            callback) {
-        Author authorDb = author == null ? null : new Author(author);
-        mDb.getReviewsList(authorDb, new BackendReviewsDb.GetCollectionCallback() {
-            @Override
-            public void onReviewCollection(@Nullable Author dbAuthor, Collection<ReviewDb>
-                    reviews, @Nullable BackendError error) {
-                final GreedyCallback greedy = new GreedyCallback(callback, author, reviews.size());
-                for (ReviewDb reviewDb : reviews) {
-                    mDb.getReview(reviewDb.getReviewId(), greedy);
-                }
-            }
-        });
+    private void getReviewsGreedy(@Nullable DataAuthor author, RepositoryCallback callback) {
+        mDb.getReviews(author == null ? null : new Author(author),
+                reviewCollectionCallback(callback, new FunctionPointer<ReviewDb, Review>() {
+                    @Override
+                    public Review execute(ReviewDb data) {
+                        return recreateReview(data);
+                    }
+                }));
     }
 
     @NonNull
@@ -186,7 +181,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
 
     private Review recreateLazyReview(ReviewDb reviewDb) {
         return mRecreater.makeLazyReview(reviewDb.getReviewId(), reviewDb.getSubject(),
-                reviewDb.getRating(), reviewDb.getPublishDate(), this);
+                reviewDb.getRating(), reviewDb.getAuthor(), reviewDb.getPublishDate(), this);
     }
 
     @NonNull

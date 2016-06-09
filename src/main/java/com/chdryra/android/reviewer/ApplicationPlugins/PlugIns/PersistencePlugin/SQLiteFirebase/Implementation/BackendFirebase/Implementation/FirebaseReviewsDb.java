@@ -64,12 +64,12 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
 
     @Override
     public void deleteReview(String reviewId, final DeleteReviewCallback callback) {
-        doSingleEvent(getReviewRoot(author, reviewId), newGetAndDeleteListener(reviewId, callback));
+        getReviewEntry(reviewId, newGetAndDeleteListener(reviewId, callback));
     }
 
     @Override
     public void getReview(String reviewId, GetReviewCallback callback) {
-        doSingleEvent(getReviewRoot(author, reviewId), newGetListener(callback));
+        getReviewEntry(reviewId, newGetListener(callback));
     }
 
     @Override
@@ -104,11 +104,29 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     private Firebase getReviewsListRoot(@Nullable Author author) {
-        return mStructure.getReviewsListDb(mDataBase, author);
+        return mStructure.getListEntriesDb(mDataBase, author);
     }
 
-    private Firebase getReviewRoot(Author author, String reviewId) {
-        return mStructure.getReviewDb(mDataBase, author, reviewId);
+    private void getReviewEntry(String reviewId, final ValueEventListener onReviewFound) {
+        Firebase listEntryDb = mStructure.getListEntryDb(mDataBase, reviewId);
+        doSingleEvent(listEntryDb, newOnEntryFoundListener(onReviewFound));
+    }
+
+    @NonNull
+    private ValueEventListener newOnEntryFoundListener(final ValueEventListener onReviewFound) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final ReviewListEntry entry = dataSnapshot.getValue(ReviewListEntry.class);
+                doSingleEvent(mStructure.getReviewDb(mDataBase, entry.getAuthor(), dataSnapshot
+                        .getKey()), onReviewFound);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                onReviewFound.onCancelled(firebaseError);
+            }
+        };
     }
 
     @NonNull

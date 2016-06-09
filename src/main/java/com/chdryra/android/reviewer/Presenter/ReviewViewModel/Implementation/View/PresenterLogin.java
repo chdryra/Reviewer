@@ -16,7 +16,6 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserContextImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -44,7 +43,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, UserContextImpl.LoginObserver {
+public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, UserContext.LoginObserver {
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
 
@@ -56,7 +55,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private Activity mActivity;
     private CredentialsHandler mHandler;
     private LoginListener mListener;
-
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
@@ -81,13 +79,13 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mUserContext.setLoginObserver(this);
     }
 
-    public void setLoginListener(LoginListener listener) {
-        mListener = listener;
-        mUserContext.observeCurrentUser();
+    public boolean userLoggedIn() {
+        return mUserContext.hasUser();
     }
 
-    public void observeUser() {
-        mUserContext.observeCurrentUser();
+    public void setLoginListener(LoginListener listener) {
+        mListener = listener;
+        //mUserContext.loginCurrentUser();
     }
 
     @NonNull
@@ -191,16 +189,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     private void resolveError(@Nullable AuthenticatedUser user, AuthenticationError error) {
         if(mListener != null) {
-            if (mAuthenticating) {
-                if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
-                    mListener.onSignUpRequested(user, getSignUpMessage());
-                } else {
-                    mListener.onAuthenticationFailed(error);
-                }
+            if (error.is(AuthenticationError.Reason.UNKNOWN_USER)) {
+                mListener.onSignUpRequested(user, getSignUpMessage());
+            } else if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
+                mListener.onNoCurrentUser();
             } else {
-                if (error.is(AuthenticationError.Reason.NO_AUTHENTICATED_USER)) {
-                    mListener.onNoCurrentUser();
-                }
+                mListener.onAuthenticationFailed(error);
             }
         }
     }
