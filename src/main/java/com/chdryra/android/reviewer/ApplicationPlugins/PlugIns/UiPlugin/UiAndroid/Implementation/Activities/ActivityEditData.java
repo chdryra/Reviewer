@@ -124,7 +124,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
                 app.getGvDataFactory(), parentBuilder.getImageChooser());
 
         FactoryReviewDataEditor editorFactory
-                = new FactoryReviewDataEditor(app.getParamsFactory(), actionsFactory);
+                = new FactoryReviewDataEditor(app.getViewParamsFactory(), actionsFactory);
 
         return new FactoryDataEditPresenter(this, parentBuilder, editorFactory);
     }

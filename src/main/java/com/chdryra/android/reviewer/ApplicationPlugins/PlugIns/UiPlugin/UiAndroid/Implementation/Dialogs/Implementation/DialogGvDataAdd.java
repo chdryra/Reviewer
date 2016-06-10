@@ -113,7 +113,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
             ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
-            mBuilder = app.getDataBuilderAdapter(mDataType);
+            mBuilder = app.getReviewBuilderAdapter().getDataBuilderAdapter(mDataType);
         }
     }
 

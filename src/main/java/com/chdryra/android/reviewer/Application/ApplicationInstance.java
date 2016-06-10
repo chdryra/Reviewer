@@ -13,9 +13,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
-        .LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -27,13 +26,10 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
@@ -49,54 +45,52 @@ import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 public interface ApplicationInstance {
     String APP_NAME = "Teeqr";
 
-    ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter();
+    UserSession getUserSession();
 
-    FactoryReviews getReviewsFactory();
+    void logout();
+
+    UsersManager getUsersManager();
+
+    LocationServicesApi getLocationServices();
+
+    LocationClient getLocationClient(LocationClient.Locatable locatable);
 
     SocialPlatformList getSocialPlatformList();
+
+    CurrentScreen getCurrentScreen();
 
     ConfigUi getConfigUi();
 
     UiLauncher getUiLauncher();
 
-    FactoryReviewView getLaunchableFactory();
+    ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template);
 
-    FactoryReviewViewParams getParamsFactory();
+    ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter();
+
+    Review executeReviewBuilder();
+
+    void discardReviewBuilderAdapter();
+
+    FactoryReviews getReviewsFactory();
+
+    FactoryReviewViewParams getViewParamsFactory();
 
     FactoryGvData getGvDataFactory();
-
-    LocationServicesApi getLocationServices();
 
     TagsManager getTagsManager();
 
     ReviewPublisher getPublisher();
 
-    UsersManager getUsersManager();
-
-    UserContext getUserContext();
-
-    CurrentScreen getCurrentScreen();
-
     ReviewsFeed getFeed(DataAuthor author);
 
-    <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
-
-    ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template);
-
-    void discardReviewBuilderAdapter();
-
-    Review executeReviewBuilder();
+    void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback);
 
     void packReview(Review review, Bundle args);
 
     @Nullable
     Review unpackReview(Bundle args);
 
-    void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback);
-
     ReviewDeleter newReviewDeleter(ReviewId id);
-
-    void logout();
 
     void launchReview(ReviewId reviewId);
 
@@ -109,7 +103,5 @@ public interface ApplicationInstance {
     void setReturnResult(ActivityResultCode result);
 
     ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu);
-
-    LocationClient getLocationClient(LocationClient.Locatable locatable);
 }
 

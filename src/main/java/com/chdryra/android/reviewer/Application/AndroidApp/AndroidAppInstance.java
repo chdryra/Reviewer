@@ -20,18 +20,16 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserContextImpl;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserSessionImpl;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
 import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .Activities.ActivityEditData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -46,14 +44,11 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
@@ -76,7 +71,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     private ReviewPacker mReviewPacker;
     private PresenterContext mAppContext;
     private LocationServicesApi mLocationServices;
-    private UserContext mUser;
+    private UserSession mUserSession;
     private CurrentScreen mScreen;
     private Activity mActivity;
 
@@ -100,7 +95,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
         mAppContext = appContext.getContext();
         mLocationServices = appContext.getLocationServices();
-        mUser = new UserContextImpl(appContext);
+        mUserSession = new UserSessionImpl(appContext);
         mReviewPacker = new ReviewPacker();
     }
 
@@ -141,13 +136,8 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public FactoryReviewView getLaunchableFactory() {
-        return mAppContext.getReviewViewLaunchableFactory();
-    }
-
-    @Override
-    public FactoryReviewViewParams getParamsFactory() {
-        return getLaunchableFactory().getParamsFactory();
+    public FactoryReviewViewParams getViewParamsFactory() {
+        return mAppContext.getReviewViewParamsFactory();
     }
 
     @Override
@@ -176,8 +166,8 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public UserContext getUserContext() {
-        return mUser;
+    public UserSession getUserSession() {
+        return mUserSession;
     }
 
     @Override
@@ -188,11 +178,6 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     @Override
     public ReviewsFeed getFeed(DataAuthor author) {
         return mAppContext.getFeedFactory().newFeed(author);
-    }
-
-    @Override
-    public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
-        return mAppContext.getDataBuilderAdapter(dataType);
     }
 
     @Override
@@ -249,7 +234,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public void logout() {
-        mUser.logout();
+        mUserSession.logout();
         LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
         getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
         mScreen.close();

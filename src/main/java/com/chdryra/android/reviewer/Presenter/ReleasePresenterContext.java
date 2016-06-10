@@ -88,7 +88,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         GvDataAggregator aggregater = new GvDataAggregator(aggregator, params, gvConverter,
                 modelContext.getVisitorsFactory(), modelContext.getNodeTraversersFactory());
         FactoryReviewViewAdapter factory
-                = new FactoryReviewViewAdapter(getReviewViewLaunchableFactory(),
+                = new FactoryReviewViewAdapter(getFactoryReviewView(),
                 modelContext.getReviewsFactory(),
                 aggregater,
                 reviewsSource,

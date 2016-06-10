@@ -47,7 +47,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
         ApplicationInstance instance = AndroidAppInstance.getInstance(mContext);
-        mRepo = (ReviewsRepositoryMutable) instance.getFeed(instance.getUserContext().getCurrentUserAsAuthor());
+        mRepo = (ReviewsRepositoryMutable) instance.getFeed(instance.getUserSession().getCurrentUserAsAuthor());
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
         mTestRepo.getReviews(new ReviewsRepository.RepositoryCallback() {

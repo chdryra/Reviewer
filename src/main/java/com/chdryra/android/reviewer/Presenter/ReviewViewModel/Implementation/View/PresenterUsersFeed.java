@@ -169,7 +169,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
         }
 
         public PresenterUsersFeed build() {
-            DataAuthor author = getApp().getUserContext().getCurrentUserAsAuthor();
+            DataAuthor author = getApp().getUserSession().getCurrentUserAsAuthor();
             return new PresenterUsersFeed(getApp(), getFeedNode(author), mListener);
         }
     }

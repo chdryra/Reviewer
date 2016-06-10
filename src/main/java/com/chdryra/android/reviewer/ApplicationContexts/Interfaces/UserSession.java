@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
  * On: 16/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface UserContext extends UserAuthenticator.UserStateObserver {
+public interface UserSession extends UserAuthenticator.UserStateObserver {
     interface LoginObserver {
         void onLoggedIn(@Nullable AuthenticatedUser user,
                         @Nullable AuthorProfile profile,

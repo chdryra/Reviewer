@@ -28,14 +28,12 @@ import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
@@ -92,14 +90,18 @@ public abstract class PresenterContextBasic implements PresenterContext {
         mFactoryReviewViewAdapter = factoryReviewViewAdapter;
     }
 
+    protected FactoryReviewView getFactoryReviewView() {
+        return mFactoryReviewView;
+    }
+
     @Override
     public FactoryGvData getGvDataFactory() {
         return mFactoryGvData;
     }
 
     @Override
-    public FactoryReviewView getReviewViewLaunchableFactory() {
-        return mFactoryReviewView;
+    public FactoryReviewViewParams getReviewViewParamsFactory() {
+        return mFactoryReviewView.getParamsFactory();
     }
 
     @Override
@@ -149,11 +151,6 @@ public abstract class PresenterContextBasic implements PresenterContext {
         discardReviewBuilderAdapter();
 
         return published;
-    }
-
-    @Override
-    public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
-        return mReviewBuilderAdapter.getDataBuilderAdapter(dataType);
     }
 
     @Override

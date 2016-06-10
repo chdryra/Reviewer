@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
  * On: 16/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserContextImpl implements UserContext {
+public class UserSessionImpl implements UserSession {
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
@@ -37,7 +37,7 @@ public class UserContextImpl implements UserContext {
     private LoginObserver mObserver;
 
 
-    public UserContextImpl(ApplicationContext context) {
+    public UserSessionImpl(ApplicationContext context) {
         mContext = context.getContext();
 
         UserAuthenticator authenticator = mContext.getUsersManager().getAuthenticator();
