@@ -44,7 +44,7 @@ public class Strings {
         public static final String LOCATION = "location";
         public static final String URL = "link";
         public static final String FEED = "feed";
-        public static final String CREATE = "create";
+        public static final String BUILD = "create";
         public static final String SHARE = "share";
         public static final String LOGIN = "login";
         public static final String SIGN_UP = "sign up";
@@ -53,5 +53,17 @@ public class Strings {
     public static class Buttons {
         public static final String SHARE = "Share";
         public static final String PUBLISH = "Publish";
+        public static final String BUILD_SCREEN_BANNER = "Details";
+    }
+
+    public static class EditTexts {
+        public static final String NO_SUGGESTIONS = "no suggestions found";
+        public static final String SEARCHING_NEAR_HERE = "searching near here...";
+        public static final String SEARCHING_NEAR_PHOTO = "searching near photo...";
+
+        public static class Hints {
+            public static final String ADD_LOCATION = "name current or select another";
+            public static final String NAME_IMAGE_LOCATION = "name image location";
+        }
     }
 }

@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -206,7 +207,7 @@ public class FragmentEditUrlBrowser extends FragmentDeleteDone {
     }
 
     private void makeToast(String toast) {
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         app.getCurrentScreen().showToast(toast);
     }
 

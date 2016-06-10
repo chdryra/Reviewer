@@ -18,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.R;
@@ -66,7 +68,7 @@ public class FragmentViewLocation extends Fragment implements
     private Button mGotoMapsButton;
     private Button mDoneButton;
 
-    private LocationClientConnector mLocationClient;
+    private LocationClient mLocationClient;
 
     public static Fragment newInstance(@Nullable GvLocation location) {
         return FactoryFragment.newFragment(FragmentViewLocation.class, LOCATION, location);
@@ -98,14 +100,14 @@ public class FragmentViewLocation extends Fragment implements
     }
 
     @Override
-    public void onLocationClientConnected(Location location) {
+    public void onConnected(Location location) {
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = new LocationClientConnector(getActivity(), this);
+        mLocationClient = AndroidAppInstance.getInstance(getActivity()).getLocationClient(this);
         mLocationClient.connect();
     }
 
@@ -239,7 +241,7 @@ public class FragmentViewLocation extends Fragment implements
     }
 
     private void onGotoReviewSelected() {
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         app.launchReview(mCurrent.getReviewId());
     }
 

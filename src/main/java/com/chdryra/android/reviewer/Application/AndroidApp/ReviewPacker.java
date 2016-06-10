@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.AndroidApp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.AndroidApp;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogDeleteConfirm;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
+import com.chdryra.android.reviewer.Application.CurrentScreen;
 
 /**
  * Created by: Rizwan Choudrey

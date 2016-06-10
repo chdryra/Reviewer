@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Application;
+package com.chdryra.android.reviewer.Application.AndroidApp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class ReviewViewPacker extends ApplicationSingleton {
         mViews = new ObjectHolder();
     }
 
-    public static ReviewViewPacker get(Context c) {
+    private static ReviewViewPacker get(Context c) {
         sSingleton = getSingleton(sSingleton, ReviewViewPacker.class, c);
         return sSingleton;
     }

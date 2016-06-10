@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
@@ -115,7 +116,7 @@ public class ActivityEditData<T extends GvData> extends ActivityReviewView imple
 
     @NonNull
     private FactoryDataEditPresenter newPresenterFactory() {
-        ApplicationInstance app = ApplicationInstance.getInstance(this);
+        ApplicationInstance app = AndroidAppInstance.getInstance(this);
         ReviewBuilderAdapter<?> parentBuilder = app.getReviewBuilderAdapter();
 
         FactoryEditActions actionsFactory

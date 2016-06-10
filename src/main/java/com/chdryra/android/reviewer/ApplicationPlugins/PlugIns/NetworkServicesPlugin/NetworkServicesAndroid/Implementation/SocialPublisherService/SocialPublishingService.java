@@ -17,6 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -70,13 +71,13 @@ public class SocialPublishingService extends IntentService {
     }
 
     private void batchPublish() {
-        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getApplicationContext());
         mPublisher = app.getPublisher();
         mToken = mPublisher.getFromQueue(new DatumReviewId(mReviewId), publisherCallback(), this);
     }
 
     private void doPublish(Review review) {
-        ApplicationInstance app = ApplicationInstance.getInstance(getApplicationContext());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getApplicationContext());
         TagsManager tagsManager = app.getTagsManager();
 
         Collection<SocialPlatform<?>> platforms = new ArrayList<>();

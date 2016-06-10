@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -40,7 +41,7 @@ public class ActivityPublishReview extends ActivityReviewView
 
     @Override
     protected ReviewView createReviewView() {
-        mApp = ApplicationInstance.getInstance(this);
+        mApp = AndroidAppInstance.getInstance(this);
 
         PresenterReviewPublish.Builder builder = new PresenterReviewPublish.Builder(mApp);
         mPresenter = builder.build(mApp.getReviewBuilderAdapter(), this, this);

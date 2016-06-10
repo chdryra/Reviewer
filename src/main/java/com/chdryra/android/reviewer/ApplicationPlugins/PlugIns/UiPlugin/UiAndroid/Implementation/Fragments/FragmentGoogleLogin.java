@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivitySocialAuthUi;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.R;
@@ -62,7 +63,7 @@ public class FragmentGoogleLogin extends Fragment implements GoogleApiClient.Con
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         SocialPlatformList platforms = app.getSocialPlatformList();
         mGoogle = (PlatformGoogle) platforms.getPlatform(PlatformGoogle.NAME);
         if(mGoogle == null) throw new RuntimeException("Google not found!");

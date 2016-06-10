@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.os.Bundle;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterFeed;
@@ -33,7 +33,7 @@ public class ActivityFeed extends ActivityReviewsList {
                 packer.unpack(ParcelablePacker.CurrentNewDatum.CURRENT, args) : null;
         if(bundledAuthor == null) throw new IllegalArgumentException("No author!");
 
-        return new PresenterFeed.Builder(ApplicationInstance.getInstance(this)).build(bundledAuthor);
+        return new PresenterFeed.Builder(AndroidAppInstance.getInstance(this)).build(bundledAuthor);
     }
 
     @Override

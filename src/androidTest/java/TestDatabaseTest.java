@@ -11,6 +11,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -45,7 +46,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     public void setUp() {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
-        ApplicationInstance instance = ApplicationInstance.getInstance(mContext);
+        ApplicationInstance instance = AndroidAppInstance.getInstance(mContext);
         mRepo = (ReviewsRepositoryMutable) instance.getFeed(instance.getUserContext().getCurrentUserAsAuthor());
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());

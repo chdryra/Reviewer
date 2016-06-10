@@ -17,7 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.WorkerToken;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -47,7 +47,7 @@ public class BackendRepoService extends IntentService {
     private static final String REVIEW_ID_IS_NULL = "Review Id is Null";
 
     private String mReviewId;
-    private ApplicationInstance mApp;
+    private AndroidAppInstance mApp;
     private ReviewPublisher mPublisher;
     private WorkerToken mToken;
 
@@ -72,7 +72,7 @@ public class BackendRepoService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        mApp = ApplicationInstance.getInstance(getApplicationContext());
+        mApp = AndroidAppInstance.getInstance(getApplicationContext());
         mReviewId = intent.getStringExtra(REVIEW_ID);
         Service service = (Service) intent.getSerializableExtra(REQUEST_SERVICE);
 

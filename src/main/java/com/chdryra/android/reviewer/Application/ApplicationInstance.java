@@ -8,23 +8,14 @@
 
 package com.chdryra.android.reviewer.Application;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
-import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
-import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserContextImpl;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPlugins;
-import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsRelease;
-import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api
+        .LocationServicesApi;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -34,224 +25,91 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
-import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
- * Singleton that controls app-wide duties.
+ * Created by: Rizwan Choudrey
+ * On: 10/06/2016
+ * Email: rizwan.choudrey@gmail.com
  */
-public class ApplicationInstance extends ApplicationSingleton {
-    public static final String APP_NAME = "Teeqr";
-    private static final int LAUNCH_LOGIN = RequestCodeGenerator.getCode("LaunchLogin");
-    private static final String NAME = "ApplicationInstance";
+public interface ApplicationInstance {
+    String APP_NAME = "Teeqr";
 
-    private static ApplicationInstance sSingleton;
+    ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter();
 
-    private ReviewPacker mReviewPacker;
-    private PresenterContext mAppContext;
-    private LocationServicesApi mLocationServices;
-    private UserContext mUser;
-    private CurrentScreen mScreen;
-    private Activity mActivity;
+    FactoryReviews getReviewsFactory();
 
-    enum LaunchState {RELEASE, TEST}
+    SocialPlatformList getSocialPlatformList();
 
-    private ApplicationInstance(Context context) {
-        super(context, NAME);
-        instantiate(context, LaunchState.TEST);
-    }
+    ConfigUi getConfigUi();
 
-    private void instantiate(Context context, LaunchState launchState) {
-        ApplicationPlugins plugins;
-        if(launchState.equals(LaunchState.RELEASE)) {
-            plugins = new ApplicationPluginsRelease(context);
-        } else {
-            plugins = new ApplicationPluginsTest(context);
-        }
+    UiLauncher getUiLauncher();
 
-        FactoryApplicationContext factory = new FactoryApplicationContext();
-        ApplicationContext appContext = factory.newReleaseContext(context, plugins);
+    FactoryReviewView getLaunchableFactory();
 
-        mAppContext = appContext.getContext();
-        mLocationServices = appContext.getLocationServices();
-        mUser = new UserContextImpl(appContext);
-        mReviewPacker = new ReviewPacker();
-    }
+    FactoryReviewViewParams getParamsFactory();
 
-    //Static methods
-    public static ApplicationInstance getInstance(Context context) {
-        sSingleton = getSingleton(sSingleton, ApplicationInstance.class, context);
-        return sSingleton;
-    }
+    FactoryGvData getGvDataFactory();
 
-    public static void setActivity(Activity activity) {
-        getInstance(activity).setCurrentActivity(activity);
-    }
+    LocationServicesApi getLocationServices();
 
-    //API
-    public ReviewBuilderAdapter<? extends GvDataList<?>> getReviewBuilderAdapter() {
-        return mAppContext.getReviewBuilderAdapter();
-    }
+    TagsManager getTagsManager();
 
-    public FactoryReviews getReviewsFactory() {
-        return mAppContext.getReviewsFactory();
-    }
+    ReviewPublisher getPublisher();
 
-    public SocialPlatformList getSocialPlatformList() {
-        return mAppContext.getSocialPlatformList();
-    }
+    UsersManager getUsersManager();
 
-    public ConfigUi getConfigUi() {
-        return mAppContext.getConfigUi();
-    }
+    UserContext getUserContext();
 
-    public UiLauncher getUiLauncher() {
-        return mAppContext.getLauncherFactory().newLauncher(mActivity);
-    }
+    CurrentScreen getCurrentScreen();
 
-    public FactoryReviewView getLaunchableFactory() {
-        return mAppContext.getReviewViewLaunchableFactory();
-    }
+    ReviewsFeed getFeed(DataAuthor author);
 
-    public FactoryReviewViewParams getParamsFactory() {
-        return getLaunchableFactory().getParamsFactory();
-    }
+    <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
-    public FactoryGvData getGvDataFactory() {
-        return mAppContext.getGvDataFactory();
-    }
+    ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template);
 
-    public LocationServicesApi getLocationServices() {
-        return mLocationServices;
-    }
+    void discardReviewBuilderAdapter();
 
-    public TagsManager getTagsManager() {
-        return mAppContext.getTagsManager();
-    }
+    Review executeReviewBuilder();
 
-    public ReviewPublisher getPublisher() {
-        return mAppContext.getReviewPublisher();
-    }
-
-    public UsersManager getUsersManager() {
-        return mAppContext.getUsersManager();
-    }
-
-    public UserContext getUserContext() {
-        return mUser;
-    }
-
-    public CurrentScreen getCurrentScreen() {
-        return mScreen;
-    }
-
-    public ReviewsFeed getFeed(DataAuthor author) {
-        return mAppContext.getFeedFactory().newFeed(author);
-    }
-
-    public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
-        return mAppContext.getDataBuilderAdapter(dataType);
-    }
-
-    public ReviewBuilderAdapter<?> newReviewBuilderAdapter(@Nullable Review template) {
-        return mAppContext.newReviewBuilderAdapter(template);
-    }
-
-    public void discardReviewBuilderAdapter() {
-        mAppContext.discardReviewBuilderAdapter();
-    }
-
-    public Review executeReviewBuilder() {
-        return mAppContext.executeReviewBuilder();
-    }
-
-    public void packReview(Review review, Bundle args) {
-        mReviewPacker.packReview(review, args);
-    }
+    void packReview(Review review, Bundle args);
 
     @Nullable
-    public Review unpackReview(Bundle args) {
-        return mReviewPacker.unpackReview(args);
-    }
+    Review unpackReview(Bundle args);
 
-    public void launchReview(ReviewId reviewId) {
-        mAppContext.asMetaReview(reviewId, new ReviewsSource.ReviewsSourceCallback() {
-            @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
-                ReviewNode node = result.getReviewNode();
-                if (!result.isError() && node != null) launchReview(node);
-            }
-        });
-    }
+    void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback);
 
-    public void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback) {
-        mAppContext.getReview(id, callback);
-    }
+    ReviewDeleter newReviewDeleter(ReviewId id);
 
-    public ReviewDeleter newReviewDeleter(ReviewId id) {
-        return mAppContext.newReviewDeleter(id);
-    }
+    void logout();
 
-    public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {
-        // to ensure only used by BackendRepoService
-        return mAppContext.getBackendRepository();
-    }
+    void launchReview(ReviewId reviewId);
 
-    public void logout() {
-        mUser.logout();
-        LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
-        getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
-        mScreen.close();
-    }
+    void launchImageChooser(ImageChooser chooser, int requestCode);
 
-    public void launchImageChooser(ImageChooser chooser, int requestCode) {
-        mActivity.startActivityForResult(chooser.getChooserIntents(), requestCode);
-    }
+    void launchFeed(DataAuthor author);
 
-    public void setReturnResult(ActivityResultCode result) {
-        if (result != null) mActivity.setResult(result.get(), null);
-    }
+    void launchEditScreen(GvDataType<?> type);
 
-    public ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu) {
-        return mAppContext.newReviewsListView(node, withMenu);
-    }
+    void setReturnResult(ActivityResultCode result);
 
-    public void launchFeed(DataAuthor author) {
-        GvAuthor gvAuthor = new GvAuthor(author.getName(), new GvAuthorId(author.getAuthorId().toString()));
-        LaunchableConfig feedConfig = getConfigUi().getFeed();
-        ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
-        Bundle args = new Bundle();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, gvAuthor, args);
-        getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);
-    }
+    ReviewsListView newReviewsListView(ReviewNode node, boolean withMenu);
 
-    private void setCurrentActivity(Activity activity) {
-        mActivity = activity;
-        mScreen = new CurrentScreenAndroid(activity);
-    }
-
-    private void launchReview(ReviewNode reviewNode) {
-        String tag = reviewNode.getSubject().getSubject();
-        getUiLauncher().launch(newReviewsListView(reviewNode, false), RequestCodeGenerator.getCode(tag));
-    }
+    LocationClient getLocationClient(LocationClient.Locatable locatable);
 }
+

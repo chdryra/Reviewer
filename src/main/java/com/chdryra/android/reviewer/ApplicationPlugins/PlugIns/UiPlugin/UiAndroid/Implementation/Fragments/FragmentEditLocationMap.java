@@ -39,11 +39,13 @@ import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 
 import com.chdryra.android.mygenerallibrary.Activities.FragmentDeleteDone;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.TextUtils.StringFilterAdapter;
 import com.chdryra.android.mygenerallibrary.Widgets.ClearableAutoCompleteTextView;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
@@ -110,7 +112,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     private ClearableAutoCompleteTextView mLocationName;
     private ImageButton mRevertButton;
     private LatLng mNewLatLng;
-    private LocationClientConnector mLocationClient;
+    private LocationClient mLocationClient;
     private String mSearchLocationName;
     private StringAutoCompleterLocation mAutoCompleter;
     private StringFilterAdapter mSearchAdapter;
@@ -174,7 +176,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     @Override
-    public void onLocationClientConnected(Location location) {
+    public void onConnected(Location location) {
         if (mNewLatLng == null) onLocated(location);
     }
 
@@ -247,7 +249,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     @Override
     public void onStart() {
         super.onStart();
-        mLocationClient = new LocationClientConnector(getActivity(), this);
+        mLocationClient = AndroidAppInstance.getInstance(getActivity()).getLocationClient(this);
         mLocationClient.connect();
     }
 
@@ -307,7 +309,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
 
     private void setLocationServices() {
         LocationServicesApi services
-                = ApplicationInstance.getInstance(getActivity()).getLocationServices();
+                = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
         mPlaceSearcher = services.newPlaceSearcher();
         mAddressSuggester = services.newAddressesSuggester();
     }
@@ -494,7 +496,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void updateSuggestionAdapters() {
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         LocationServicesApi api = app.getLocationServices();
         mAutoCompleter = new StringAutoCompleterLocation(api.newAutoCompleter(new UserLocatedPlace(mNewLatLng)));
         mSearchAdapter = new StringFilterAdapter(getActivity(), null, mAutoCompleter);
@@ -545,7 +547,7 @@ public class FragmentEditLocationMap extends FragmentDeleteDone implements
     }
 
     private void makeToast(String toast) {
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         app.getCurrentScreen().showToast(toast);
     }
 

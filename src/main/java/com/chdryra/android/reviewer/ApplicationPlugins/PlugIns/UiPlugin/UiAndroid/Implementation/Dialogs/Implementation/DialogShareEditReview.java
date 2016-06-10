@@ -21,6 +21,7 @@ import android.widget.Button;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogOneButtonFragment;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -107,7 +108,7 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
         mSharer = new PublisherAndroid(getActivity(), new ReviewSummariser(), new
                 ReviewFormatterTwitter());
 
-        mApp = ApplicationInstance.getInstance(getActivity());
+        mApp = AndroidAppInstance.getInstance(getActivity());
     }
 
     @Override

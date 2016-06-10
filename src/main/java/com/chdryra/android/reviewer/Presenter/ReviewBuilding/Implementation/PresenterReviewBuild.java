@@ -8,18 +8,17 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -34,9 +33,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
-import com.chdryra.android.reviewer.R;
-import com.chdryra.android.reviewer.View.Configs.ConfigUi;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.LauncherModel.Implementation.AdderConfig;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 import com.google.android.gms.maps.model.LatLng;
@@ -51,22 +47,15 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         LocationClientConnector.Locatable,
         ReviewViewActions.ReviewViewAttachedObserver,
         GridItemClickObserved.ClickObserver<GC> {
-    private final ConfigUi mUiConfig;
-    private final UiLauncher mLauncher;
-    private final Activity mActivity;
+    private final ApplicationInstance mApp;
     private ReviewEditor<GC> mEditor;
-    private LocationClientConnector mLocationClient;
+    private LocationClient mLocationClient;
     private ImageChooser mImageChooser;
     private LatLng mLatLng;
 
-    private PresenterReviewBuild(ReviewEditor<GC> editor,
-                                 ConfigUi uiConfig,
-                                 UiLauncher launcher,
-                                 Activity activity) {
+    private PresenterReviewBuild(ApplicationInstance app, ReviewEditor<GC> editor) {
         mEditor = editor;
-        mUiConfig = uiConfig;
-        mLauncher = launcher;
-        mActivity = activity;
+        mApp = app;
         setGridItemObservation();
     }
 
@@ -87,10 +76,9 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     public void executeIntent(GvDataList<? extends GvData> gridCell, boolean quickDialog) {
         GvDataType<? extends GvData> type = gridCell.getGvDataType();
         if (quickDialog && !gridCell.hasData()) {
-            launchAdder(type);
+            launchQuickSetAdder(type);
         } else {
-            //TODO can this be moved to LaunchablesList?
-            ActivityEditData.start(mActivity, type);
+            mApp.launchEditScreen(type);
         }
     }
 
@@ -110,7 +98,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     }
 
     @Override
-    public void onLocationClientConnected(Location location) {
+    public void onConnected(Location location) {
         onLocated(location);
     }
 
@@ -122,7 +110,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     @Override
     public <T extends GvData> void onReviewViewAttached(ReviewView<T> reviewView) {
         mImageChooser = mEditor.getImageChooser();
-        mLocationClient = new LocationClientConnector(mActivity, PresenterReviewBuild.this);
+        mLocationClient = mApp.getLocationClient(this);
         mLocationClient.connect();
     }
 
@@ -144,7 +132,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     }
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
-        return mUiConfig.getAdder(dataType.getDatumName());
+        return mApp.getConfigUi().getAdder(dataType.getDatumName());
     }
 
     private void setCover(GvImage image) {
@@ -159,23 +147,19 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         mLatLng = latLng;
     }
 
-    private void launchAdder(GvDataType<? extends GvData> type) {
+    private void launchQuickSetAdder(GvDataType<? extends GvData> type) {
         if (type.equals(GvImage.TYPE)) {
-            launchImageChooser();
+            mApp.launchImageChooser(mImageChooser, getImageRequestCode());
         } else {
             showQuickSetLaunchable(getAdderConfig(type));
         }
-    }
-
-    private void launchImageChooser() {
-        mActivity.startActivityForResult(mImageChooser.getChooserIntents(), getImageRequestCode());
     }
 
     private void showQuickSetLaunchable(LaunchableConfig adderConfig) {
         Bundle args = new Bundle();
         args.putBoolean(AdderConfig.QUICK_SET, true);
         packLatLng(args);
-        mLauncher.launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag()), args);
+        mApp.getUiLauncher().launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag()), args);
     }
 
     private void packLatLng(Bundle args) {
@@ -194,8 +178,6 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
     }
 
     public static class Builder  {
-        public static final int BUTTON_TITLE = R.string.button_add_review_data;
-        private static final int SCREEN_TITLE = R.string.activity_title_build_review;
         private FactoryReviewEditor mEditorFactory;
         private ApplicationInstance mApp;
         private Review mReview;
@@ -210,36 +192,32 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             return this;
         }
 
-        public PresenterReviewBuild<?> build(Activity activity) {
+        public PresenterReviewBuild<?> build() {
             ReviewBuilderAdapter<?> adapter = mApp.getReviewBuilderAdapter();
             if (adapter == null) adapter = mApp.newReviewBuilderAdapter(mReview);
 
-            return buildPresenter(activity, adapter);
+            return buildPresenter(adapter);
         }
 
-        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(Activity activity,
-                                                                                   ReviewBuilderAdapter<GC> adapter) {
-            ConfigUi config = mApp.getConfigUi();
-            UiLauncher uiLauncher = mApp.getUiLauncher();
-            ReviewEditor<GC> editor = newEditor(mApp.getContext(), adapter,
-                    config.getShareReview(), mEditorFactory);
+        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {
+            ReviewEditor<GC> editor = newEditor(adapter,
+                    mApp.getConfigUi().getShareReview(), mEditorFactory);
 
-            return new PresenterReviewBuild<>(editor, config, uiLauncher, activity);
+            return new PresenterReviewBuild<>(mApp, editor);
         }
 
-        private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(Context context,
-                                                                      ReviewBuilderAdapter<GC> builder,
+        private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC> builder,
                                                                       LaunchableConfig shareScreenUi,
                                                                       FactoryReviewEditor factory) {
             ReviewViewParams params = new ReviewViewParams();
             params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
 
-            String screenTitle = context.getResources().getString(SCREEN_TITLE);
-            String buttonTitle = context.getResources().getString(BUTTON_TITLE);
             ReviewViewActions<GC> actions = new ReviewViewActions<>(new
                     SubjectEditBuildScreen<GC>(),
-                    new RatingBarBuildScreen<GC>(), new BannerButtonActionNone<GC>(buttonTitle),
-                    new GridItemClickObserved<GC>(), new MenuBuildScreen<GC>(screenTitle),
+                    new RatingBarBuildScreen<GC>(),
+                    new BannerButtonActionNone<GC>(Strings.Buttons.BUILD_SCREEN_BANNER),
+                    new GridItemClickObserved<GC>(),
+                    new MenuBuildScreen<GC>(Strings.Screens.BUILD),
                     new BuildScreenShareButton<GC>(shareScreenUi));
 
             return factory.newEditor(builder, params, actions);

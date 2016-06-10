@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogCancelAddDoneFragment;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Configs.DefaultLayoutConfig;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Factories.FactoryDialogLayout;
@@ -111,7 +112,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
             //TODO make type safe
             mAddListener = getTargetListenerOrThrow(DataAddListener.class);
         } else {
-            ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+            ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
             mBuilder = app.getDataBuilderAdapter(mDataType);
         }
     }
@@ -125,7 +126,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     }
 
     private void setLayout() {
-        LocationServicesApi provider = ApplicationInstance.getInstance(getActivity()).getLocationServices();
+        LocationServicesApi provider = AndroidAppInstance.getInstance(getActivity()).getLocationServices();
         FactoryDialogLayout layoutFactory = new FactoryDialogLayout(new DefaultLayoutConfig(), provider);
         mLayout = layoutFactory.newLayout(mDataType, this);
         mLayout.onActivityAttached(getActivity(), getArguments());

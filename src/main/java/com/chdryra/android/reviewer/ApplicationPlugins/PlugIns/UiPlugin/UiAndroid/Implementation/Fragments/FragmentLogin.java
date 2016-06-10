@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
         .CredentialProviders.FactoryCredentialProviders;
@@ -96,7 +97,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
         mEmail = (EditText) emailLoginLayout.findViewById(EMAIL_EDIT_TEXT);
         mPassword = (EditText) emailLoginLayout.findViewById(PASSWORD_EDIT_TEXT);
 
-        ApplicationInstance app = ApplicationInstance.getInstance(getActivity());
+        ApplicationInstance app = AndroidAppInstance.getInstance(getActivity());
         mPresenter = new PresenterLogin.Builder(app).build(getActivity());
         mPresenter.setLoginListener(this);
 

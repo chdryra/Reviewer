@@ -10,13 +10,13 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 
 import android.os.Parcel;
 
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Used for Review summaries in published feed
  *
- * @see ApplicationInstance
+ * @see AndroidAppInstance
  */
 public class GvReviewList extends GvDataListImpl<GvReview> {
     public static final Creator<GvReviewList> CREATOR = new Creator<GvReviewList>() {

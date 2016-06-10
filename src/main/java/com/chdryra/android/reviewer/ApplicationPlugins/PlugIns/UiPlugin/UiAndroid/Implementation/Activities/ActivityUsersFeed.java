@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
@@ -36,7 +36,7 @@ public class ActivityUsersFeed extends ActivityReviewsList implements
 
     @Override
     protected PresenterReviewsList newPresenter() {
-        mPresenter = new PresenterUsersFeed.Builder(ApplicationInstance.getInstance(this), this).build();
+        mPresenter = new PresenterUsersFeed.Builder(AndroidAppInstance.getInstance(this), this).build();
         return mPresenter;
     }
 

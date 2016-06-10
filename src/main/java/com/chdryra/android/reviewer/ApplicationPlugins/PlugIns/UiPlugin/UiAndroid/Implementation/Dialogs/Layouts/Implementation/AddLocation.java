@@ -20,24 +20,25 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
-import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
+import com.chdryra.android.mygenerallibrary.OtherUtils.TagKeyGenerator;
 import com.chdryra.android.mygenerallibrary.Viewholder.VhDataList;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderAdapterFiltered;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderDataList;
+import com.chdryra.android.mygenerallibrary.Widgets.ClearableEditText;
+import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
+import com.chdryra.android.reviewer.Application.Strings;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Interfaces.GvDataAdder;
+import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.AutoCompleter;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocatedPlace;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetails;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.LocationDetailsFetcher;
 import com.chdryra.android.reviewer.LocationServices.Interfaces.NearestPlacesSuggester;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts
-        .Interfaces.GvDataAdder;
-import com.chdryra.android.reviewer.LocationServices.Implementation.UserLocatedPlace;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
-        .VhdLocatedPlace;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhdLocatedPlace;
 import com.chdryra.android.reviewer.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -59,18 +60,17 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     public static final String LATLNG = TagKeyGenerator.getKey(AddLocation.class, "LatLng");
     public static final String FROM_IMAGE = TagKeyGenerator.getKey(AddLocation.class, "FromImage");
 
-    private static final int SEARCHING_NEARBY = R.string.edit_text_searching_near_here;
-    private static final int SEARCHING_IMAGE = R.string.edit_text_searching_near_image;
-    private static final int NO_LOCATION = R.string.edit_text_no_suggestions;
+    private static final String NO_LOCATIONS = Strings.EditTexts.NO_SUGGESTIONS;
+    private static final String SEARCHING_HERE = Strings.EditTexts.SEARCHING_NEAR_HERE;
+    private static final String SEARCHING_PHOTO = Strings.EditTexts.SEARCHING_NEAR_PHOTO;
 
-    private Activity mActivity;
+    private Context mContext;
     private LatLng mCurrentLatLng;
     private LatLng mSelectedLatLng;
     private ViewHolderAdapterFiltered mFilteredAdapter;
 
-    private String mNoLocation;
     private String mSearching;
-    private int mHint;
+    private String mHint;
 
     private VhdLocatedPlace mNoLocationMessage;
     private VhdLocatedPlace mSearchingMessage;
@@ -109,7 +109,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     private void setNewSuggestionsAdapter(ViewHolderDataList<VhdLocatedPlace> names) {
         LocatedPlace place = new UserLocatedPlace(mCurrentLatLng);
         mAutoCompleter = mLocationServices.newAutoCompleter(place);
-        mFilteredAdapter = new ViewHolderAdapterFiltered(mActivity, names, mAutoCompleter);
+        mFilteredAdapter = new ViewHolderAdapterFiltered(mContext, names, mAutoCompleter);
         ((ListView) getView(LIST)).setAdapter(mFilteredAdapter);
     }
 
@@ -121,7 +121,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     private void setMessages() {
-        mNoLocationMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, mNoLocation));
+        mNoLocationMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, NO_LOCATIONS));
         mSearchingMessage = new VhdLocatedPlace(new UserLocatedPlace(mCurrentLatLng, mSearching));
     }
 
@@ -177,7 +177,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
         if (mCurrentLatLng != null) {
             onLatLngFound(mCurrentLatLng);
         } else {
-            LocationClientConnector locationClient = new LocationClientConnector(mActivity, this);
+            LocationClient locationClient = AndroidAppInstance.getInstance(context).getLocationClient(this);
             locationClient.connect();
         }
 
@@ -186,15 +186,13 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public void onActivityAttached(Activity activity, Bundle args) {
-        mActivity = activity;
-        mNoLocation = mActivity.getResources().getString(NO_LOCATION);
-        mSearching = mActivity.getResources().getString(SEARCHING_NEARBY);
-        mHint = R.string.edit_text_add_a_location;
-
         mCurrentLatLng = args.getParcelable(LATLNG);
         if (mCurrentLatLng != null && args.getBoolean(FROM_IMAGE)) {
-            mSearching = mActivity.getResources().getString(SEARCHING_IMAGE);
-            mHint = R.string.edit_text_name_image_location_hint;
+            mSearching = SEARCHING_PHOTO;
+            mHint = Strings.EditTexts.Hints.NAME_IMAGE_LOCATION;
+        } else {
+            mSearching = SEARCHING_HERE;
+            mHint = Strings.EditTexts.Hints.ADD_LOCATION;
         }
     }
 
@@ -204,7 +202,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
     }
 
     @Override
-    public void onLocationClientConnected(Location location) {
+    public void onConnected(Location location) {
         onLocated(location);
     }
 
