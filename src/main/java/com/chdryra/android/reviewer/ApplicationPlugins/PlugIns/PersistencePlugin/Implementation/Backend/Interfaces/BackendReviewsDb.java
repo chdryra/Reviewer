@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend
         .Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ReviewReference;
 
 import java.util.Collection;
 
@@ -34,11 +36,13 @@ public interface BackendReviewsDb {
     }
 
     interface GetReviewCallback {
-        void onReview(ReviewDb review, @Nullable BackendError error);
+        void onReview(ReviewReference reference, @Nullable BackendError error);
     }
 
     interface GetCollectionCallback {
-        void onReviewCollection(@Nullable Author author, Collection<ReviewDb> reviews, @Nullable BackendError error);
+        void onReviewCollection(@Nullable Author author,
+                                Collection<ReviewReference> references,
+                                @Nullable BackendError error);
     }
 
     void addReview(ReviewDb review, AddReviewCallback callback);

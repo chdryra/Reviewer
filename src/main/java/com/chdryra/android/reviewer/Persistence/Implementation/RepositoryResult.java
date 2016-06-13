@@ -11,6 +11,9 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ReviewReference;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -29,7 +32,9 @@ public class RepositoryResult {
     private Review mReview;
     private ReviewNode mNode;
     private ReviewId mId;
+    private ReviewReference mReference;
     private Collection<Review> mReviews = new ArrayList<>();
+    private Collection<ReviewReference> mReferences = new ArrayList<>();
     private CallbackMessage mMessage;
 
     public RepositoryResult(CallbackMessage message) {
@@ -50,8 +55,13 @@ public class RepositoryResult {
 
     public RepositoryResult(@Nullable DataAuthor author, Collection<Review> reviews, CallbackMessage message) {
         mAuthor = author;
-        mReviews = new ArrayList<>();
         mReviews.addAll(reviews);
+        mMessage = message;
+    }
+
+    public RepositoryResult(Collection<ReviewReference> references, @Nullable DataAuthor author, CallbackMessage message) {
+        mAuthor = author;
+        mReferences.addAll(references);
         mMessage = message;
     }
 
@@ -70,6 +80,15 @@ public class RepositoryResult {
     public RepositoryResult(@Nullable Review review, CallbackMessage message) {
         mReview = review;
         mId = review != null ? mReview.getReviewId() : null;
+        mMessage = message;
+    }
+    public RepositoryResult(ReviewReference reference) {
+        this(reference, CallbackMessage.ok());
+    }
+
+    public RepositoryResult(ReviewReference reference, CallbackMessage message) {
+        mReference = reference;
+        mId = reference != null ? new DatumReviewId(mReference.getBasicInfo().getReviewId()) : null;
         mMessage = message;
     }
 
@@ -100,6 +119,15 @@ public class RepositoryResult {
 
     public Collection<Review> getReviews() {
         return mReviews;
+    }
+
+    @Nullable
+    public ReviewReference getReference() {
+        return mReference;
+    }
+
+    public Collection<ReviewReference> getReferences() {
+        return mReferences;
     }
 
     @Nullable

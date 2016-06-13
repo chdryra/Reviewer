@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
 /**
@@ -22,21 +21,6 @@ public interface ReviewsRepositoryMutable extends ReviewsRepository{
     void addReview(Review review, RepositoryMutableCallback callback);
 
     void removeReview(ReviewId reviewId, RepositoryMutableCallback callback);
-
-    @Override
-    void getReview(ReviewId id, RepositoryCallback callback);
-
-    @Override
-    void getReviews(RepositoryCallback callback);
-
-    @Override
-    TagsManager getTagsManager();
-
-    @Override
-    void registerObserver(ReviewsRepositoryObserver observer);
-
-    @Override
-    void unregisterObserver(ReviewsRepositoryObserver observer);
 
     interface RepositoryMutableCallback {
         void onAddedToRepoCallback(RepositoryResult result);

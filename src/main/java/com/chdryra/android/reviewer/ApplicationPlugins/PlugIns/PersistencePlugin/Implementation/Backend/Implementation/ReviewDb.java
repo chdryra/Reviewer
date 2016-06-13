@@ -25,13 +25,23 @@ import java.util.List;
  */
 public class ReviewDb {
     public static final String SUBJECT = "subject";
-    public static final String RATING = Rating.PATH;
+    public static final String RATING = "rating";
+    public static final String AUTHOR = "author";
+    public static final String PUBLISH_DATE = "publishDate";
+    public static final String COVER = "cover";
+    public static final String CRITERIA = "criteria";
+    public static final String COMMENTS = "comments";
+    public static final String FACTS = "facts";
+    public static final String IMAGES = "images";
+    public static final String LOCATIONS = "locations";
+    public static final String TAGS = "tags";
 
     private String reviewId;
     private String subject;
     private Rating rating;
     private Author author;
     private long publishDate;
+    private ImageData cover;
     private List<Criterion> criteria;
     private List<Comment> comments;
     private List<Fact> facts;
@@ -44,7 +54,7 @@ public class ReviewDb {
     }
 
     public int size(){
-        return 2 + Rating.size() + Author.size() + 1 + 6 + 1;
+        return 2 + Rating.size() + Author.size() + 2 + 6 + 1;
     }
 
     public ReviewDb(Review review, List<String> reviewTags) {
@@ -72,7 +82,9 @@ public class ReviewDb {
 
         images = new ArrayList<>();
         for(DataImage image : review.getImages()) {
-            images.add(new ImageData(image));
+            ImageData data = new ImageData(image);
+            images.add(data);
+            if(cover == null && image.isCover()) cover = data;
         }
 
         locations = new ArrayList<>();
@@ -105,6 +117,10 @@ public class ReviewDb {
 
     public long getPublishDate() {
         return publishDate;
+    }
+
+    public ImageData getCover() {
+        return cover;
     }
 
     public boolean isAverage() {

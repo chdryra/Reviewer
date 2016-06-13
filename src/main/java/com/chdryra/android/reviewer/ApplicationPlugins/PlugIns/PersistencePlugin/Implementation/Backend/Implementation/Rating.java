@@ -16,7 +16,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
  * Email: rizwan.choudrey@gmail.com
  */
 public class Rating {
-    public static final String PATH = "rating";
+    public static final String RATING = "rating";
+    public static final String RATING_WEIGHT = "ratingWeight";
 
     private float rating;
     private int ratingWeight;

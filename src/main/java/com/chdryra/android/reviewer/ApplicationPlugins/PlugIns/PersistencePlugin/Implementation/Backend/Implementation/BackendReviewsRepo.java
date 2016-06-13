@@ -21,6 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Interfaces.BackendReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Interfaces.DbObserver;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ReviewReference;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
@@ -149,11 +151,11 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
                                                                               callback) {
         return new BackendReviewsDb.GetReviewCallback() {
             @Override
-            public void onReview(ReviewDb reviewDb, @Nullable BackendError error) {
+            public void onReview(ReviewReference reference, @Nullable BackendError error) {
                 CallbackMessage result = error != null ?
                         CallbackMessage.error(ERROR_FETCHING_REVIEW + error.getMessage())
                         : CallbackMessage.ok(REVIEW_FOUND);
-                callback.onRepositoryCallback(new RepositoryResult(recreateLazyReview(reviewDb),
+                callback.onRepositoryCallback(new RepositoryResult(recreateLazyReview(reference),
                         result));
             }
         };
@@ -163,11 +165,11 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     private BackendReviewsDb.GetReviewCallback reviewCallback(final RepositoryCallback callback) {
         return new BackendReviewsDb.GetReviewCallback() {
             @Override
-            public void onReview(ReviewDb reviewDb, @Nullable BackendError error) {
+            public void onReview(ReviewReference reference, @Nullable BackendError error) {
                 CallbackMessage result = error != null ?
                         CallbackMessage.error(ERROR_FETCHING_REVIEW + error.getMessage())
                         : CallbackMessage.ok(REVIEW_FOUND);
-                callback.onRepositoryCallback(new RepositoryResult(recreateReview(reviewDb),
+                callback.onRepositoryCallback(new RepositoryResult(recreateReview(reference),
                         result));
             }
         };
@@ -191,10 +193,10 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
         final ArrayList<Review> reviews = new ArrayList<>();
         return new BackendReviewsDb.GetCollectionCallback() {
             @Override
-            public void onReviewCollection(@Nullable Author author, Collection<ReviewDb> fetched,
-                                           @Nullable
-                                           BackendError error) {
-                for (ReviewDb review : fetched) {
+            public void onReviewCollection(@Nullable Author author,
+                                           Collection<ReviewReference> fetched,
+                                           @Nullable BackendError error) {
+                for (ReviewReference review : fetched) {
                     reviews.add(recreateFp.execute(review));
                 }
 
@@ -260,38 +262,6 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     private void notifyOnDeleteReview(ReviewId reviewId) {
         for (ReviewsRepositoryObserver observer : mObservers) {
             observer.onReviewRemoved(reviewId);
-        }
-    }
-
-    public class GreedyCallback implements BackendReviewsDb.GetReviewCallback {
-        private RepositoryCallback mCallback;
-        private DataAuthor mAuthor;
-        private int mExpectedSize;
-        private int mCountdown;
-        private ArrayList<Review> mDownloaded;
-
-        public GreedyCallback(RepositoryCallback callback, @Nullable DataAuthor author, int
-                expectedSize) {
-            mCallback = callback;
-            mAuthor = author;
-            mExpectedSize = expectedSize;
-            mCountdown = mExpectedSize;
-            mDownloaded = new ArrayList<>();
-        }
-
-        @Override
-        public void onReview(ReviewDb review, @Nullable BackendError error) {
-            if (error == null) {
-                ReviewDataHolder data = mReviewsFactory.newReviewDataHolder(review, mTagsManager);
-                mDownloaded.add(mRecreater.makeReview(data));
-            }
-
-            mCountdown--;
-            if (mCountdown == 0) callbackOnCompletion();
-        }
-
-        private void callbackOnCompletion() {
-            mCallback.onRepositoryCallback(new RepositoryResult(mAuthor, mDownloaded));
         }
     }
 }

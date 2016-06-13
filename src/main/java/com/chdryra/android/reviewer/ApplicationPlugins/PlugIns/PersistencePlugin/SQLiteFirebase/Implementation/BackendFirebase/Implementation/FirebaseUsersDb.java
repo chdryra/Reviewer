@@ -14,6 +14,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -46,14 +48,15 @@ public class FirebaseUsersDb implements BackendUsersDb {
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
     private static final String NAME = FirebaseBackend.NAME;
     private static final AuthenticationError NAME_TAKEN_ERROR =
-            new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError.Reason.NAME_TAKEN);
+            new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError.Reason
+                    .NAME_TAKEN);
 
     private Firebase mDataRoot;
-    private FirebaseStructure mStructure;
+    private FbUsersStructure mStructure;
     private UserProfileTranslator mUserFactory;
 
     public FirebaseUsersDb(Firebase dataRoot,
-                           FirebaseStructure structure,
+                           FbUsersStructure structure,
                            UserProfileTranslator userFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
@@ -85,7 +88,7 @@ public class FirebaseUsersDb implements BackendUsersDb {
         checkNameConflict(name, new UserConflictCallback() {
             @Override
             public void onUserName(String name, @Nullable AuthenticationError error) {
-                if(error == null) {
+                if (error == null) {
                     addNewProfile(user, callback);
                 } else {
                     callback.onProfileAddedError(error);
@@ -94,16 +97,29 @@ public class FirebaseUsersDb implements BackendUsersDb {
         });
     }
 
-    private void addNewProfile(User user, AddProfileCallback callback) {
-        DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
-        Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, addProfileCallback(user, callback));
-    }
-
     @Override
     public void checkNameConflict(final String authorName, final UserConflictCallback callback) {
         Firebase db = mStructure.getAuthorNameMappingDb(mDataRoot, authorName);
         doSingleEvent(db, checkNameDoesNotExist(authorName, callback));
+    }
+
+    @Override
+    public void getProfile(User user, GetProfileCallback callback) {
+        Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, user.getProviderUserId());
+        doSingleEvent(db, getAuthorIdThenProfile(callback));
+    }
+
+    @Override
+    public void updateProfile(final User user, final UpdateProfileCallback callback) {
+        Map<String, Object> map
+                = mStructure.getProfileUpdater().getUpdatesMap(user, INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(map, updateProfileCallback(user, callback));
+    }
+
+    private void addNewProfile(User user, AddProfileCallback callback) {
+        DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
+        Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
+        mDataRoot.updateChildren(map, addProfileCallback(user, callback));
     }
 
     @NonNull
@@ -124,19 +140,6 @@ public class FirebaseUsersDb implements BackendUsersDb {
                 callback.onUserName(authorName, FirebaseBackend.authenticationError(firebaseError));
             }
         };
-    }
-
-    @Override
-    public void getProfile(User user, GetProfileCallback callback) {
-        Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, user.getProviderUserId());
-        doSingleEvent(db, getAuthorIdThenProfile(callback));
-    }
-
-    @Override
-    public void updateProfile(final User user, final UpdateProfileCallback callback) {
-        Map<String, Object> map
-                = mStructure.getProfileUpdater().getUpdatesMap(user, INSERT_OR_UPDATE);
-        mDataRoot.updateChildren(map, updateProfileCallback(user, callback));
     }
 
     @NonNull

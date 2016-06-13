@@ -23,16 +23,26 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewListEntry {
+    private String reviewId;
     private String subject;
     private Rating rating;
     private Author author;
     private long publishDate;
 
+    public ReviewListEntry() {
+
+    }
+
     public ReviewListEntry(ReviewDb review) {
+        this.reviewId = review.getReviewId();
         this.subject = review.getSubject();
         this.rating = review.getRating();
         this.author = review.getAuthor();
         this.publishDate = review.getPublishDate();
+    }
+
+    public String getReviewId() {
+        return reviewId;
     }
 
     public String getSubject() {
