@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutableAsync;
@@ -29,12 +30,12 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
     private ReviewsRepository mRepo;
     private FactoryReviews mReviewsFactory;
 
-    public ReviewTreeLive(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
+    public ReviewTreeLive(DataAuthor author, ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
         super(reviewsFactory.createMetaReviewMutable(new ArrayList<Review>(), title));
         mRepo = repo;
         mReviewsFactory = reviewsFactory;
         mRepo.registerObserver(this);
-        mRepo.getReviews(this);
+        mRepo.getReviews(author, this);
     }
 
 

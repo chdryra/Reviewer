@@ -115,6 +115,11 @@ public abstract class ReviewNodeAsyncBasic<T extends ReviewNode>
     }
 
     @Override
+    public IdableList<? extends DataImage> getCovers() {
+        return mNode.getCovers();
+    }
+
+    @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
         visitor.visit(mNode);
     }
@@ -145,13 +150,13 @@ public abstract class ReviewNodeAsyncBasic<T extends ReviewNode>
     }
 
     @Override
-    public ReviewNode getTreeRepresentation() {
-        return this;
+    public DataImage getCover() {
+        return mNode.getCover();
     }
 
     @Override
-    public boolean isRatingAverageOfCriteria() {
-        return mNode.isRatingAverageOfChildren();
+    public ReviewNode getTreeRepresentation() {
+        return this;
     }
 
     @Override
@@ -172,11 +177,6 @@ public abstract class ReviewNodeAsyncBasic<T extends ReviewNode>
     @Override
     public IdableList<? extends DataImage> getImages() {
         return mNode.getImages();
-    }
-
-    @Override
-    public IdableList<? extends DataImage> getCovers() {
-        return mNode.getCovers();
     }
 
     @Override

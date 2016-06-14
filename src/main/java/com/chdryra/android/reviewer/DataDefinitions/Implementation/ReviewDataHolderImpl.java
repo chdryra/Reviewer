@@ -35,7 +35,6 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
     private final Iterable<? extends DataFact> mFacts;
     private final Iterable<? extends DataLocation> mLocations;
     private final Iterable<? extends DataCriterion> mCriteria;
-    private final boolean mIsAverage;
 
     public ReviewDataHolderImpl(ReviewId id, DataAuthor author, DataDate publishDate,
                                 String subject, float rating, int ratingWeight,
@@ -43,8 +42,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
                                 Iterable<? extends DataImage> images,
                                 Iterable<? extends DataFact> facts,
                                 Iterable<? extends DataLocation> locations,
-                                Iterable<? extends DataCriterion> criteria,
-                                boolean isAverage) {
+                                Iterable<? extends DataCriterion> criteria) {
         mId = id;
         mAuthor = author;
         mPublishDate = publishDate;
@@ -56,7 +54,6 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
         mFacts = facts;
         mLocations = locations;
         mCriteria = criteria;
-        mIsAverage = isAverage;
     }
 
     @Override
@@ -112,11 +109,6 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
     @Override
     public Iterable<? extends DataCriterion> getCriteria() {
         return mCriteria;
-    }
-
-    @Override
-    public boolean isAverage() {
-        return mIsAverage;
     }
 
     @Override

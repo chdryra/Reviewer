@@ -13,14 +13,25 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.DbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendError;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Interfaces.BackendReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Interfaces.DbObserver;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -37,15 +48,18 @@ import java.util.Map;
 public class FirebaseReviewsDb implements BackendReviewsDb {
     private Firebase mDataBase;
     private FbReviewsStructure mStructure;
-    private BackendValidator mValidator;
+    private BackendDataConverter mDataConverter;
+    private BackendReviewConverter mReviewConverter;
     private ArrayList<DbObserver<ReviewDb>> mObservers;
 
     public FirebaseReviewsDb(Firebase dataBase,
                              FbReviewsStructure structure,
-                             BackendValidator validator) {
+                             BackendDataConverter dataConverter,
+                             BackendReviewConverter reviewConverter) {
         mDataBase = dataBase;
         mStructure = structure;
-        mValidator = validator;
+        mDataConverter = dataConverter;
+        mReviewConverter = reviewConverter;
         mObservers = new ArrayList<>();
     }
 
@@ -62,19 +76,14 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
 
     @Override
     public void getReview(final String reviewId, final GetReviewCallback callback) {
-        Firebase listEntryDb = mStructure.getListEntryDb(mDataBase, reviewId);
-        doSingleEvent(listEntryDb, newGetReferenceListener(reviewId, callback));
+        Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
+        doSingleEvent(entry, newGetReferenceListener(reviewId, callback));
     }
 
     @Override
     public void getReviews(final Author author, final GetCollectionCallback callback) {
-        Firebase listEntriesDb = mStructure.getListEntriesDb(mDataBase, author);
-        doSingleEvent(listEntriesDb, newGetReferenceCollectionListener(author, callback));
-    }
-
-    @Override
-    public void getReviewsList(Author author, GetCollectionCallback callback) {
-        getReviews(author, callback);
+        Firebase entries = mStructure.getListEntriesDb(mDataBase, author);
+        doSingleEvent(entries, newGetReferenceCollectionListener(author, callback));
     }
 
     @Override
@@ -95,7 +104,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ReviewListEntry entry = dataSnapshot.getValue(ReviewListEntry.class);
                 Firebase reviewDb = mStructure.getReviewDb(mDataBase, entry.getAuthor(), reviewId);
-                callback.onReview(new FbReviewReference(entry, reviewDb), null);
+                callback.onReview(newReference(entry, reviewDb), null);
             }
 
             @Override
@@ -104,6 +113,11 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
                         (firebaseError));
             }
         };
+    }
+
+    @NonNull
+    private FbReviewReference newReference(ReviewListEntry entry, Firebase reviewDb) {
+        return new FbReviewReference(entry, reviewDb, mDataConverter, mReviewConverter);
     }
 
     @NonNull
@@ -117,7 +131,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
                     ReviewListEntry entry = child.getValue(ReviewListEntry.class);
                     Firebase reviewDb = mStructure.getReviewDb(mDataBase, entry.getAuthor(),
                             entry.getReviewId());
-                    references.add(new FbReviewReference(entry, reviewDb));
+                    references.add(newReference(entry, reviewDb));
                 }
 
                 callback.onReviewCollection(author, references, null);
@@ -169,7 +183,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final ReviewDb review = dataSnapshot.getValue(ReviewDb.class);
-                if (mValidator.isValid(review)) doDelete(review, callback);
+                if (mReviewConverter.isValid(review)) doDelete(review, callback);
             }
 
             @Override

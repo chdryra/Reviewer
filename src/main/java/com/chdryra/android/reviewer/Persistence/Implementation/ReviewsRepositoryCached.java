@@ -42,13 +42,18 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
-        mArchive.getReviews(new ArchiveCallBack(callback));
+    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        mArchive.getReviews(author, new ArchiveCallBack(callback));
     }
 
     @Override
-    public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        mArchive.getReviews(author, new ArchiveCallBack(callback));
+    public void getReference(ReviewId id, RepositoryCallback callback) {
+        mArchive.getReference(id, callback);
+    }
+
+    @Override
+    public void getReferences(DataAuthor author, RepositoryCallback callback) {
+        mArchive.getReferences(author, callback);
     }
 
     @Override
@@ -88,10 +93,9 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
                     Review review = result.getReview();
                     if(review != null) mCache.add(review);
                 } else if(result.isCollection()) {
-//                    //TODO caching strategy for when retrieved reviews are just partial
-//                    for(Review review : result.getReviews()) {
-//                        mCache.add(review);
-//                    }
+                    for(Review review : result.getReviews()) {
+                        mCache.add(review);
+                    }
                 }
             }
 

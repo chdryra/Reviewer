@@ -9,13 +9,17 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Criterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Fact;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ImageData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 
 import java.util.List;
 
@@ -35,91 +39,120 @@ public class NullReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerSubjectObserver(ValueObserver<String> observer) {
+    public void registerSubjectObserver(ValueObserver<DataSubject> observer) {
+
     }
 
     @Override
-    public void registerRatingObserver(ValueObserver<Rating> observer) {
+    public void registerRatingObserver(ValueObserver<DataRating> observer) {
+
     }
 
     @Override
-    public void registerAuthorObserver(ValueObserver<Author> observer) {
+    public void registerAuthorObserver(ValueObserver<DataAuthorReview> observer) {
+
     }
 
     @Override
-    public void registerPublishDateObserver(ValueObserver<Long> observer) {
+    public void registerPublishDateObserver(ValueObserver<DataDateReview> observer) {
+
     }
 
     @Override
-    public void registerCoverObserver(ValueObserver<ImageData> observer) {
+    public void registerCriteriaObserver(ValueObserver<IdableList<? extends DataCriterion>>
+                                                     observer) {
+
     }
 
     @Override
-    public void registerCriteriaObserver(ValueObserver<List<Criterion>> observer) {
+    public void registerCommentsObserver(ValueObserver<IdableList<? extends DataComment>> observer) {
+
     }
 
     @Override
-    public void registerCommentsObserver(ValueObserver<List<Comment>> observer) {
+    public void registerFactsObserver(ValueObserver<IdableList<? extends DataFact>> observer) {
+
     }
 
     @Override
-    public void registerFactsObserver(ValueObserver<List<Fact>> observer) {
+    public void registerImagesObserver(ValueObserver<IdableList<? extends DataImage>> observer) {
+
     }
 
     @Override
-    public void registerImagesObserver(ValueObserver<List<ImageData>> observer) {
+    public void registerCoverObserver(ValueObserver<DataImage> observer) {
+
     }
 
     @Override
-    public void registerLocationsObserver(ValueObserver<List<Location>> observer) {
+    public void registerLocationsObserver(ValueObserver<IdableList<? extends DataLocation>>
+                                                      observer) {
+
     }
 
     @Override
     public void registerTagsObserver(ValueObserver<List<String>> observer) {
+
     }
 
     @Override
-    public void unregisterSubjectObserver(ValueObserver<String> observer) {
+    public void unregisterSubjectObserver(ValueObserver<DataSubject> observer) {
+
     }
 
     @Override
-    public void unregisterRatingObserver(ValueObserver<Rating> observer) {
+    public void unregisterRatingObserver(ValueObserver<DataRating> observer) {
+
     }
 
     @Override
-    public void unregisterAuthorObserver(ValueObserver<Author> observer) {
+    public void unregisterAuthorObserver(ValueObserver<DataAuthorReview> observer) {
+
     }
 
     @Override
-    public void unregisterPublishDateObserver(ValueObserver<Long> observer) {
+    public void unregisterPublishDateObserver(ValueObserver<DataDateReview> observer) {
+
     }
 
     @Override
-    public void unregisterCriteriaObserver(ValueObserver<List<Criterion>> observer) {
+    public void unregisterCoverObserver(ValueObserver<DataImage> observer) {
+
     }
 
     @Override
-    public void unregisterCommentsObserver(ValueObserver<List<Comment>> observer) {
+    public void unregisterCriteriaObserver(ValueObserver<IdableList<? extends DataCriterion>> observer) {
+
     }
 
     @Override
-    public void unregisterFactsObserver(ValueObserver<List<Fact>> observer) {
+    public void unregisterCommentsObserver(ValueObserver<IdableList<? extends DataComment>>
+                                                       observer) {
+
     }
 
     @Override
-    public void unregisterImagesObserver(ValueObserver<List<ImageData>> observer) {
+    public void unregisterFactsObserver(ValueObserver<IdableList<? extends DataFact>> observer) {
+
     }
 
     @Override
-    public void unregisterLocationsObserver(ValueObserver<List<Location>> observer) {
+    public void unregisterImagesObserver(ValueObserver<IdableList<? extends DataImage>> observer) {
+
+    }
+
+    @Override
+    public void unregisterLocationsObserver(ValueObserver<IdableList<? extends DataLocation>> observer) {
+
     }
 
     @Override
     public void unregisterTagsObserver(ValueObserver<List<String>> observer) {
+
     }
 
     @Override
     public void dereference(DereferenceCallback callback) {
-    }
 
+    }
 }

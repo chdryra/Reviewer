@@ -114,6 +114,11 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
     }
 
     @Override
+    public IdableList<? extends DataImage> getCovers() {
+        return mNode.getCovers();
+    }
+
+    @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
         visitor.visit(mNode);
     }
@@ -149,11 +154,6 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
     }
 
     @Override
-    public boolean isRatingAverageOfCriteria() {
-        return mNode.isRatingAverageOfChildren();
-    }
-
-    @Override
     public IdableList<? extends DataCriterion> getCriteria() {
         return mNode.getCriteria();
     }
@@ -174,8 +174,8 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
     }
 
     @Override
-    public IdableList<? extends DataImage> getCovers() {
-        return mNode.getCovers();
+    public DataImage getCover() {
+        return mNode.getCover();
     }
 
     @Override

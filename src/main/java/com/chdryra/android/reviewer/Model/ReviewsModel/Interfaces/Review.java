@@ -70,9 +70,9 @@ public interface Review extends HasReviewId {
 
     DataDateReview getPublishDate();
 
-    ReviewNode getTreeRepresentation();
+    DataImage getCover();
 
-    boolean isRatingAverageOfCriteria();
+    ReviewNode getTreeRepresentation();
 
     IdableList<? extends DataCriterion> getCriteria();
 
@@ -81,8 +81,6 @@ public interface Review extends HasReviewId {
     IdableList<? extends DataFact> getFacts();
 
     IdableList<? extends DataImage> getImages();
-
-    IdableList<? extends DataImage> getCovers();
 
     IdableList<? extends DataLocation> getLocations();
 

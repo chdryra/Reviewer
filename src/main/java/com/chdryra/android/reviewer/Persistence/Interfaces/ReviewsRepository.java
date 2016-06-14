@@ -21,9 +21,11 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 public interface ReviewsRepository {
     void getReview(ReviewId id, RepositoryCallback callback);
 
-    void getReviews(RepositoryCallback callback);
-
     void getReviews(DataAuthor author, RepositoryCallback callback);
+
+    void getReference(ReviewId id, RepositoryCallback callback);
+
+    void getReferences(DataAuthor author, RepositoryCallback callback);
 
     TagsManager getTagsManager();
     

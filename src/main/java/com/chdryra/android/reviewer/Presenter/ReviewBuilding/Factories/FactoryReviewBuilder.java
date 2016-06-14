@@ -63,7 +63,7 @@ public class FactoryReviewBuilder {
 
             setTags(template, builder);
             setCriteria(template, builder);
-            setCovers(template, builder);
+            setCover(template, builder);
             setLocations(template, builder);
             setFacts(template, builder);
         }
@@ -91,19 +91,14 @@ public class FactoryReviewBuilder {
         dataBuilder.buildData();
     }
 
-    private void setCovers(Review template, ReviewBuilder builder) {
+    private void setCover(Review template, ReviewBuilder builder) {
         DataBuilder<GvImage> dataBuilder = builder.getDataBuilder(GvImage.TYPE);
-        template.getCovers();
-        for(GvImage datum : mConverterGv.getConverterImages().convert(template.getCovers())){
-            dataBuilder.add(datum);
-        }
-
+        dataBuilder.add(mConverterGv.getConverterImages().convert(template.getCover()));
         dataBuilder.buildData();
     }
 
     private void setLocations(Review template, ReviewBuilder builder) {
         DataBuilder<GvLocation> dataBuilder = builder.getDataBuilder(GvLocation.TYPE);
-        template.getCovers();
         for(GvLocation datum : mConverterGv.getConverterLocations().convert(template.getLocations())){
             dataBuilder.add(datum);
         }
@@ -113,7 +108,6 @@ public class FactoryReviewBuilder {
 
     private void setFacts(Review template, ReviewBuilder builder) {
         DataBuilder<GvFact> dataBuilder = builder.getDataBuilder(GvFact.TYPE);
-        template.getCovers();
         for(GvFact datum : mConverterGv.getConverterFacts().convert(template.getFacts())){
             dataBuilder.add(datum);
         }

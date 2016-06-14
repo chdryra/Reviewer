@@ -48,7 +48,6 @@ public class ReviewDb {
     private List<ImageData> images;
     private List<Location> locations;
     private List<String> tags;
-    private boolean average;
 
     public ReviewDb() {
     }
@@ -63,7 +62,6 @@ public class ReviewDb {
         rating = new Rating(review.getRating());
         author = new Author(review.getAuthor());
         publishDate = review.getPublishDate().getTime();
-        average = review.isRatingAverageOfCriteria();
 
         criteria = new ArrayList<>();
         for(DataCriterion criterion : review.getCriteria()) {
@@ -121,10 +119,6 @@ public class ReviewDb {
 
     public ImageData getCover() {
         return cover;
-    }
-
-    public boolean isAverage() {
-        return average;
     }
 
     public List<String> getTags() {

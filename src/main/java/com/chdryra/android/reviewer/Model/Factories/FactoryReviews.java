@@ -121,7 +121,7 @@ public class FactoryReviews implements ReviewMaker {
         return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthor(),
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
                 reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
-                reviewData.getFacts(), reviewData.getLocations(), reviewData.isAverage());
+                reviewData.getFacts(), reviewData.getLocations());
     }
 
     public Review getNullReview() {
@@ -167,8 +167,7 @@ public class FactoryReviews implements ReviewMaker {
                 comments,
                 images,
                 facts,
-                locations,
-                ratingIsAverage);
+                locations);
     }
 
     private float getAverageRating(Iterable<? extends DataCriterion> criteria) {
@@ -192,8 +191,7 @@ public class FactoryReviews implements ReviewMaker {
                                  Iterable<? extends DataComment> comments,
                                  Iterable<? extends DataImage> images,
                                  Iterable<? extends DataFact> facts,
-                                 Iterable<? extends DataLocation> locations,
-                                 boolean ratingIsAverage) {
+                                 Iterable<? extends DataLocation> locations) {
         MdAuthor mdAuthor = new MdAuthor(id, author.getName(), author.getAuthorId());
         MdDate mdDate = new MdDate(id, publishDate.getTime());
         MdSubject mdSubject = new MdSubject(id, subject);
@@ -205,6 +203,6 @@ public class FactoryReviews implements ReviewMaker {
         MdDataList<MdCriterion> mdCriteria = mConverter.toMdCriterionList(criteria, id);
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria, ratingIsAverage, mNodeFactory);
+                mdImages, mdFacts, mdLocations, mdCriteria, mNodeFactory);
     }
 }

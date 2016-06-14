@@ -12,7 +12,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Criterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Fact;
@@ -20,8 +24,17 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -39,11 +52,22 @@ import java.util.Map;
 public class FbReviewReference implements ReviewReference {
     private final ReviewListEntry mEntry;
     private final Firebase mReference;
+    private final BackendDataConverter mDataConverter;
+    private final BackendReviewConverter mReviewConverter;
     private final Map<ValueObserver<?>, ValueEventListener> mBindings;
 
-    public FbReviewReference(ReviewListEntry entry, Firebase reference) {
+    private interface SnapshotConverter<T> {
+        T convert(String reviewId, DataSnapshot snapshot);
+    }
+
+    public FbReviewReference(ReviewListEntry entry,
+                             Firebase reference,
+                             BackendDataConverter dataConverter,
+                             BackendReviewConverter reviewConverter) {
         mEntry = entry;
         mReference = reference;
+        mDataConverter = dataConverter;
+        mReviewConverter = reviewConverter;
         mBindings = new HashMap<>();
     }
 
@@ -53,102 +77,167 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerSubjectObserver(ValueObserver<String> observer) {
-        bindObserver(ReviewDb.SUBJECT, observer);
+    public void registerSubjectObserver(final ValueObserver<DataSubject> observer) {
+        bindObserver(ReviewDb.SUBJECT, observer, new SnapshotConverter<DataSubject>() {
+            @Override
+            public DataSubject convert(String reviewId, DataSnapshot snapshot) {
+                return mDataConverter.convert(reviewId, (String) snapshot.getValue());
+            }
+        });
     }
 
     @Override
-    public void registerRatingObserver(ValueObserver<Rating> observer) {
-        bindObserver(ReviewDb.RATING, observer);
+    public void registerRatingObserver(ValueObserver<DataRating> observer) {
+        bindObserver(ReviewDb.RATING, observer, new SnapshotConverter<DataRating>() {
+            @Override
+            public DataRating convert(String id, DataSnapshot snapshot) {
+                return mDataConverter.convert(id, snapshot.getValue(Rating.class));
+            }
+        });
     }
 
     @Override
-    public void registerAuthorObserver(ValueObserver<Author> observer) {
-        bindObserver(ReviewDb.AUTHOR, observer);
+    public void registerAuthorObserver(ValueObserver<DataAuthorReview> observer) {
+        bindObserver(ReviewDb.AUTHOR, observer, new SnapshotConverter<DataAuthorReview>() {
+            @Override
+            public DataAuthorReview convert(String id, DataSnapshot snapshot) {
+                return mDataConverter.convert(id, snapshot.getValue(Author.class));
+            }
+        });
     }
 
     @Override
-    public void registerPublishDateObserver(ValueObserver<Long> observer) {
-        bindObserver(ReviewDb.PUBLISH_DATE, observer);
+    public void registerPublishDateObserver(ValueObserver<DataDateReview> observer) {
+        bindObserver(ReviewDb.PUBLISH_DATE, observer, new SnapshotConverter<DataDateReview>() {
+            @Override
+            public DataDateReview convert(String id, DataSnapshot snapshot) {
+                return mDataConverter.convert(id, snapshot.getValue(Long.class));
+            }
+        });
     }
 
     @Override
-    public void registerCoverObserver(ValueObserver<ImageData> observer) {
-        bindObserver(ReviewDb.COVER, observer);
+    public void registerCoverObserver(ValueObserver<DataImage> observer) {
+        bindObserver(ReviewDb.COVER, observer, new SnapshotConverter<DataImage>() {
+            @Override
+            public DataImage convert(String id, DataSnapshot snapshot) {
+                return mDataConverter.convert(id, snapshot.getValue(ImageData.class));
+            }
+        });
     }
 
     @Override
-    public void registerCriteriaObserver(ValueObserver<List<Criterion>> observer) {
-        bindObserver(ReviewDb.CRITERIA, observer);
+    public void registerCriteriaObserver(ValueObserver<IdableList<? extends DataCriterion>>
+                                                 observer) {
+        bindObserver(ReviewDb.CRITERIA, observer, new SnapshotConverter<IdableList<? extends DataCriterion>>() {
+            @Override
+            public IdableList<? extends DataCriterion> convert(String reviewId, DataSnapshot
+                    snapshot) {
+                return mDataConverter.convertCriteria(reviewId, (List<Criterion>)snapshot.getValue());
+            }
+        });
     }
 
     @Override
-    public void registerCommentsObserver(ValueObserver<List<Comment>> observer) {
-        bindObserver(ReviewDb.COMMENTS, observer);
+    public void registerImagesObserver(ValueObserver<IdableList<? extends DataImage>> observer) {
+        bindObserver(ReviewDb.IMAGES, observer, new SnapshotConverter<IdableList<? extends DataImage>>() {
+            @Override
+            public IdableList<? extends DataImage> convert(String reviewId, DataSnapshot snapshot) {
+                return mDataConverter.convertImages(reviewId, (List<ImageData>)snapshot.getValue());
+            }
+        });
     }
 
     @Override
-    public void registerFactsObserver(ValueObserver<List<Fact>> observer) {
-        bindObserver(ReviewDb.FACTS, observer);
+    public void registerCommentsObserver(ValueObserver<IdableList<? extends DataComment>> observer) {
+        bindObserver(ReviewDb.COMMENTS, observer, new SnapshotConverter<IdableList<? extends DataComment>>() {
+            @Override
+            public IdableList<? extends DataComment> convert(String reviewId, DataSnapshot
+                    snapshot) {
+                return mDataConverter.convertComments(reviewId, (List<Comment>)snapshot.getValue());
+            }
+        });
     }
 
     @Override
-    public void registerImagesObserver(ValueObserver<List<ImageData>> observer) {
-        bindObserver(ReviewDb.IMAGES, observer);
+    public void registerFactsObserver(ValueObserver<IdableList<? extends DataFact>> observer) {
+        bindObserver(ReviewDb.FACTS, observer, new SnapshotConverter<IdableList<? extends DataFact>>() {
+            @Override
+            public IdableList<? extends DataFact> convert(String reviewId, DataSnapshot snapshot) {
+                return mDataConverter.convertFacts(reviewId, (List<Fact>)snapshot.getValue());
+            }
+        });
     }
 
     @Override
-    public void registerLocationsObserver(ValueObserver<List<Location>> observer) {
-        bindObserver(ReviewDb.LOCATIONS, observer);
+    public void registerLocationsObserver(ValueObserver<IdableList<? extends DataLocation>> observer) {
+        bindObserver(ReviewDb.LOCATIONS, observer, new SnapshotConverter<IdableList<? extends DataLocation>>() {
+            @Override
+            public IdableList<? extends DataLocation> convert(String reviewId, DataSnapshot
+                    snapshot) {
+                return mDataConverter.convertLocations(reviewId, (List<Location>)snapshot.getValue());
+            }
+        });
     }
+
 
     @Override
     public void registerTagsObserver(ValueObserver<List<String>> observer) {
-        bindObserver(ReviewDb.TAGS, observer);
+        bindObserver(ReviewDb.TAGS, observer, new SnapshotConverter<List<String>>() {
+            @Override
+            public List<String> convert(String reviewId, DataSnapshot snapshot) {
+                return (List<String>)snapshot.getValue();
+            }
+        });
     }
 
     @Override
-    public void unregisterSubjectObserver(ValueObserver<String> observer) {
+    public void unregisterSubjectObserver(ValueObserver<DataSubject> observer) {
         unbindObserver(ReviewDb.SUBJECT, observer);
     }
 
     @Override
-    public void unregisterRatingObserver(ValueObserver<Rating> observer) {
+    public void unregisterRatingObserver(ValueObserver<DataRating> observer) {
         unbindObserver(ReviewDb.RATING, observer);
     }
 
     @Override
-    public void unregisterAuthorObserver(ValueObserver<Author> observer) {
+    public void unregisterAuthorObserver(ValueObserver<DataAuthorReview> observer) {
         unbindObserver(ReviewDb.AUTHOR, observer);
     }
 
     @Override
-    public void unregisterPublishDateObserver(ValueObserver<Long> observer) {
+    public void unregisterPublishDateObserver(ValueObserver<DataDateReview> observer) {
         unbindObserver(ReviewDb.PUBLISH_DATE, observer);
     }
 
     @Override
-    public void unregisterCriteriaObserver(ValueObserver<List<Criterion>> observer) {
+    public void unregisterCoverObserver(ValueObserver<DataImage> observer) {
+        unbindObserver(ReviewDb.COVER, observer);
+    }
+
+    @Override
+    public void unregisterCriteriaObserver(ValueObserver<IdableList<? extends DataCriterion>> observer) {
         unbindObserver(ReviewDb.CRITERIA, observer);
     }
 
     @Override
-    public void unregisterCommentsObserver(ValueObserver<List<Comment>> observer) {
+    public void unregisterCommentsObserver(ValueObserver<IdableList<? extends DataComment>> observer) {
         unbindObserver(ReviewDb.COMMENTS, observer);
     }
 
     @Override
-    public void unregisterFactsObserver(ValueObserver<List<Fact>> observer) {
+    public void unregisterFactsObserver(ValueObserver<IdableList<? extends DataFact>> observer) {
         unbindObserver(ReviewDb.FACTS, observer);
     }
 
     @Override
-    public void unregisterImagesObserver(ValueObserver<List<ImageData>> observer) {
+    public void unregisterImagesObserver(ValueObserver<IdableList<? extends DataImage>> observer) {
         unbindObserver(ReviewDb.IMAGES, observer);
     }
 
     @Override
-    public void unregisterLocationsObserver(ValueObserver<List<Location>> observer) {
+    public void unregisterLocationsObserver(ValueObserver<IdableList<? extends DataLocation>> observer) {
         unbindObserver(ReviewDb.LOCATIONS, observer);
     }
 
@@ -163,19 +252,22 @@ public class FbReviewReference implements ReviewReference {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ReviewDb value = dataSnapshot.getValue(ReviewDb.class);
-                callback.onDereferenced(value, null);
+                callback.onDereferenced(mReviewConverter.convert(value), CallbackMessage.ok());
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onDereferenced(new ReviewDb(), FirebaseBackend.backendError(firebaseError));
+                BackendError backendError = FirebaseBackend.backendError(firebaseError);
+                callback.onDereferenced(mReviewConverter.getNullReview(),
+                        CallbackMessage.error(backendError.getMessage()));
             }
         });
     }
 
-    private <T> void bindObserver(String child, ValueObserver<T> observer) {
+    private <T> void bindObserver(String child, ValueObserver<T> observer,
+                                  SnapshotConverter<T> converter) {
         if (!mBindings.containsKey(observer)) {
-            ValueEventListener listener = newListener(observer);
+            ValueEventListener listener = newListener(observer, converter);
             mReference.child(child).addValueEventListener(listener);
             mBindings.put(observer, listener);
         }
@@ -188,11 +280,12 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
-    private <T> ValueEventListener newListener(final ValueObserver<T> observer) {
+    private <T> ValueEventListener newListener(final ValueObserver<T> observer,
+                                               final SnapshotConverter<T> converter) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                observer.onValue(new DatumReviewId(mEntry.getReviewId()), (T) dataSnapshot.getValue());
+                observer.onValue(converter.convert(mEntry.getReviewId(), dataSnapshot));
             }
 
             @Override

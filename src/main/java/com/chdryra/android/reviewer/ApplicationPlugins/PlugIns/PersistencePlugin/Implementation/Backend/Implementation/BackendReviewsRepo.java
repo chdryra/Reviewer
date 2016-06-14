@@ -14,23 +14,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.mygenerallibrary.OtherUtils.FunctionPointer;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.FactoryReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.BackendReviewsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.DbObserver;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation.ReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.DbObserver;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Implementation.LazyReviewMaker;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 
@@ -49,31 +42,25 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     private static final String ERROR_FETCHING_REVIEW = "Error fetching review :";
     private static final String REVIEW_FOUND = "Review found";
     private BackendReviewsDb mDb;
-    private FactoryReviewDb mReviewsFactory;
-    private TagsManager mTagsManager;
-    private LazyReviewMaker mRecreater;
+    private BackendReviewConverter mConverter;
 
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
     public BackendReviewsRepo(BackendReviewsDb db,
-                              FactoryReviewDb reviewsFactory,
-                              TagsManager tagsManager,
-                              LazyReviewMaker recreater) {
+                              BackendReviewConverter converter) {
         mDb = db;
-        mReviewsFactory = reviewsFactory;
-        mTagsManager = tagsManager;
-        mRecreater = recreater;
+        mConverter = converter;
         mObservers = new ArrayList<>();
         mDb.registerObserver(this);
     }
 
     public void downloadReview(ReviewId id, final RepositoryCallback callback) {
-        mDb.getReview(id.toString(), reviewCallback(callback));
+        mDb.getReview(id.toString(), reviewCallback(id, callback));
     }
 
     @Override
     public void addReview(final Review review, RepositoryMutableCallback callback) {
-        mDb.addReview(mReviewsFactory.newReviewDb(review, mTagsManager), addCallback(callback));
+        mDb.addReview(mConverter.convert(review), addCallback(callback));
     }
 
     @Override
@@ -83,22 +70,27 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
 
     @Override
     public void getReview(ReviewId id, final RepositoryCallback callback) {
-        mDb.getReview(id.toString(), reviewCallbackLazy(callback));
-    }
-
-    @Override
-    public void getReviews(final RepositoryCallback callback) {
-        getReviewsGreedy(null, callback);
+        mDb.getReview(id.toString(), reviewCallback(id, callback));
     }
 
     @Override
     public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        getReviewsGreedy(author, callback);
+        mDb.getReviews(new Author(author), reviewCollectionCallback(callback));
+    }
+
+    @Override
+    public void getReference(ReviewId id, RepositoryCallback callback) {
+        mDb.getReview(id.toString(), referenceCallback(id, callback));
+    }
+
+    @Override
+    public void getReferences(DataAuthor author, RepositoryCallback callback) {
+        mDb.getReviews(new Author(author), referenceCollectionCallback(callback));
     }
 
     @Override
     public TagsManager getTagsManager() {
-        return mTagsManager;
+        return mConverter.getTagsManager();
     }
 
     @Override
@@ -113,7 +105,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
 
     @Override
     public void onAdded(ReviewDb review) {
-        notifyOnAddReview(recreateLazyReview(review));
+        notifyOnAddReview(mConverter.convert(review));
     }
 
     @Override
@@ -126,86 +118,108 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
         notifyOnDeleteReview(new DatumReviewId(review.getReviewId()));
     }
 
-    private void getReviewsLazy(@Nullable DataAuthor author, RepositoryCallback callback) {
-        mDb.getReviewsList(author == null ? null : new Author(author),
-                reviewCollectionCallback(callback, new FunctionPointer<ReviewDb, Review>() {
-                    @Override
-                    public Review execute(ReviewDb data) {
-                        return recreateLazyReview(data);
-                    }
-                }));
-    }
-
-    private void getReviewsGreedy(@Nullable DataAuthor author, RepositoryCallback callback) {
-        mDb.getReviews(author == null ? null : new Author(author),
-                reviewCollectionCallback(callback, new FunctionPointer<ReviewDb, Review>() {
-                    @Override
-                    public Review execute(ReviewDb data) {
-                        return recreateReview(data);
-                    }
-                }));
-    }
-
     @NonNull
-    private BackendReviewsDb.GetReviewCallback reviewCallbackLazy(final RepositoryCallback
-                                                                              callback) {
+    private BackendReviewsDb.GetReviewCallback referenceCallback(final ReviewId id,
+                                                                 final RepositoryCallback
+                                                                         callback) {
         return new BackendReviewsDb.GetReviewCallback() {
             @Override
             public void onReview(ReviewReference reference, @Nullable BackendError error) {
-                CallbackMessage result = error != null ?
-                        CallbackMessage.error(ERROR_FETCHING_REVIEW + error.getMessage())
-                        : CallbackMessage.ok(REVIEW_FOUND);
-                callback.onRepositoryCallback(new RepositoryResult(recreateLazyReview(reference),
-                        result));
+                CallbackMessage result = getFetchedMessage(error);
+                if (result.isError()) {
+                    callback.onRepositoryCallback(new RepositoryResult(id, result));
+                } else {
+                    callback.onRepositoryCallback(new RepositoryResult(reference, result));
+                }
             }
         };
     }
 
     @NonNull
-    private BackendReviewsDb.GetReviewCallback reviewCallback(final RepositoryCallback callback) {
+    private BackendReviewsDb.GetReviewCallback reviewCallback(final ReviewId id,
+                                                              final RepositoryCallback callback) {
         return new BackendReviewsDb.GetReviewCallback() {
             @Override
             public void onReview(ReviewReference reference, @Nullable BackendError error) {
-                CallbackMessage result = error != null ?
-                        CallbackMessage.error(ERROR_FETCHING_REVIEW + error.getMessage())
-                        : CallbackMessage.ok(REVIEW_FOUND);
-                callback.onRepositoryCallback(new RepositoryResult(recreateReview(reference),
-                        result));
+                CallbackMessage result = getFetchedMessage(error);
+                if (result.isError()) {
+                    callback.onRepositoryCallback(new RepositoryResult(id, result));
+                } else {
+                    reference.dereference(dereferenceCallback(callback, id));
+                }
             }
         };
     }
 
-    private Review recreateReview(ReviewDb reviewDb) {
-        ReviewDataHolder holder = mReviewsFactory.newReviewDataHolder(reviewDb, mTagsManager);
-        mTagsManager.tagItem(reviewDb.getReviewId(), new ArrayList<>(reviewDb.getTags()));
-        return mRecreater.makeReview(holder);
+    @NonNull
+    private ReviewReference.DereferenceCallback dereferenceCallback(final RepositoryCallback
+                                                                            callback, final
+                                                                    ReviewId id) {
+        return new ReviewReference.DereferenceCallback() {
+            @Override
+            public void onDereferenced(Review review, CallbackMessage message) {
+                if (message.isError()) {
+                    callback.onRepositoryCallback(new RepositoryResult(id, message));
+                } else {
+                    callback.onRepositoryCallback(new RepositoryResult(review, message));
+                }
+            }
+        };
     }
 
-    private Review recreateLazyReview(ReviewDb reviewDb) {
-        return mRecreater.makeLazyReview(reviewDb.getReviewId(), reviewDb.getSubject(),
-                reviewDb.getRating(), reviewDb.getAuthor(), reviewDb.getPublishDate(), this);
+    @NonNull
+    private CallbackMessage getFetchedMessage(@Nullable BackendError error) {
+        return error != null ?
+                CallbackMessage.error(ERROR_FETCHING_REVIEW + error.getMessage())
+                : CallbackMessage.ok(REVIEW_FOUND);
     }
 
     @NonNull
     private BackendReviewsDb.GetCollectionCallback
-    reviewCollectionCallback(final RepositoryCallback callback,
-                             final FunctionPointer<ReviewDb, Review> recreateFp) {
-        final ArrayList<Review> reviews = new ArrayList<>();
+    referenceCollectionCallback(final RepositoryCallback callback) {
         return new BackendReviewsDb.GetCollectionCallback() {
             @Override
-            public void onReviewCollection(@Nullable Author author,
+            public void onReviewCollection(Author author,
                                            Collection<ReviewReference> fetched,
                                            @Nullable BackendError error) {
-                for (ReviewReference review : fetched) {
-                    reviews.add(recreateFp.execute(review));
-                }
-
                 CallbackMessage result = getCollectionCallbackMessage(error);
-
                 DataAuthor da = author == null ? null : author.toDataAuthor();
-                callback.onRepositoryCallback(new RepositoryResult(da, reviews, result));
+                callback.onRepositoryCallback(new RepositoryResult(fetched, da, result));
             }
         };
+    }
+
+    @NonNull
+    private BackendReviewsDb.GetCollectionCallback
+    reviewCollectionCallback(final RepositoryCallback callback) {
+        return new BackendReviewsDb.GetCollectionCallback() {
+            @Override
+            public void onReviewCollection(Author author,
+                                           Collection<ReviewReference> fetched,
+                                           @Nullable BackendError error) {
+                CallbackMessage result = getCollectionCallbackMessage(error);
+                DataAuthor da = author.toDataAuthor();
+                final ArrayList<Review> reviews = new ArrayList<>();
+                if (result.isError()) {
+                    callback.onRepositoryCallback(new RepositoryResult(reviews, result));
+                } else {
+                    dereferenceCollectionCallback(fetched, reviews);
+                    callback.onRepositoryCallback(new RepositoryResult(da, reviews, result));
+                }
+            }
+        };
+    }
+
+    private void dereferenceCollectionCallback(Collection<ReviewReference> fetched, final
+    ArrayList<Review> reviews) {
+        for (ReviewReference reference : fetched) {
+            reference.dereference(new ReviewReference.DereferenceCallback() {
+                @Override
+                public void onDereferenced(Review review, CallbackMessage message) {
+                    if (!message.isError()) reviews.add(review);
+                }
+            });
+        }
     }
 
     @NonNull
@@ -221,7 +235,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
         return new BackendReviewsDb.AddReviewCallback() {
             @Override
             public void onReviewAdded(ReviewDb reviewDb, @Nullable BackendError error) {
-                Review review = recreateReview(reviewDb);
+                Review review = mConverter.convert(reviewDb);
                 CallbackMessage result;
                 if (error != null) {
                     result = CallbackMessage.error(error.getMessage());

@@ -30,13 +30,10 @@ public interface RowReview extends ReviewDataRow<RowReview>, DataDateReview,
     ColumnInfo<String> SUBJECT = new ColumnInfo<>("subject", DbEntryType.TEXT);
     ColumnInfo<Float> RATING = new ColumnInfo<>("rating", DbEntryType.FLOAT);
     ColumnInfo<Integer> RATING_WEIGHT = new ColumnInfo<>("rating_weight", DbEntryType.INTEGER);
-    ColumnInfo<Boolean> IS_AVERAGE = new ColumnInfo<>("rating_is_average", DbEntryType.BOOLEAN);
 
     String getAuthorId();
 
     long getPublishDate();
-
-    boolean isRatingIsAverage();
 
     @Override
     long getTime();

@@ -89,12 +89,11 @@ public class ReviewLoaderStatic implements ReviewLoader {
         String subject = reviewRow.getSubject();
         float rating = reviewRow.getRating();
         int ratingWeight = reviewRow.getRatingWeight();
-        boolean isAverage = reviewRow.isRatingIsAverage();
         PublishDate publishDate = new PublishDate(reviewRow.getPublishDate());
 
         return new ReviewDataHolderImpl(reviewId, author,
                 publishDate, subject, rating, ratingWeight, comments, images, facts, locations,
-                criteria, isAverage);
+                criteria);
     }
 
     private <DbRow extends DbTableRow> Iterable<DbRow> loadData(DbTable<DbRow> table,

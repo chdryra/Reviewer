@@ -160,6 +160,19 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
     }
 
     @Override
+    public IdableList<? extends DataImage> getCovers() {
+        IdableList<DataImage> covers = new MdDataList<>(mId);
+        DataImage cover = getCover();
+        if(cover.getBitmap() != null) covers.add(cover);
+        for(ReviewNode child : getChildren()) {
+            DataImage childCover = child.getCover();
+            if(childCover.getBitmap() != null) covers.add(childCover);
+        }
+
+        return covers;
+    }
+
+    @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
         visitor.visit(this);
     }
@@ -193,11 +206,6 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
     @Override
     public ReviewNode getTreeRepresentation() {
         return this;
-    }
-
-    @Override
-    public boolean isRatingAverageOfCriteria() {
-        return !mRatingIsAverage && mReview.isRatingAverageOfCriteria();
     }
 
     @Override
@@ -241,13 +249,8 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
     }
 
     @Override
-    public IdableList<? extends DataImage> getCovers() {
-        return getReviewData(new DataGetter<DataImage>() {
-            @Override
-            IdableList<? extends DataImage> getData(Review review) {
-                return review.getCovers();
-            }
-        });
+    public DataImage getCover() {
+        return mReview.getCover();
     }
 
     @Override

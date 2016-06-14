@@ -30,7 +30,6 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
     private String mSubject;
     private float mRating;
     private int mRatingWeight;
-    private boolean mRatingIsAverage;
 
     private boolean mValidIsAverage = true;
 
@@ -41,7 +40,6 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         mSubject = review.getSubject().getSubject();
         mRating = review.getRating().getRating();
         mRatingWeight = review.getRating().getRatingWeight();
-        mRatingIsAverage = review.isRatingAverageOfCriteria();
     }
 
     //Via reflection
@@ -62,20 +60,11 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
         Integer weight = values.getValue(RATING_WEIGHT.getName(), RATING_WEIGHT.getType());
         mRatingWeight = weight != null ? weight : 0;
-
-        Boolean average = values.getValue(IS_AVERAGE.getName(), IS_AVERAGE.getType());
-        if(average == null) mValidIsAverage = false;
-        mRatingIsAverage = mValidIsAverage && average;
     }
 
     @Override
     public ReviewId getReviewId() {
         return new DatumReviewId(mReviewId);
-    }
-
-    @Override
-    public boolean isRatingIsAverage() {
-        return mRatingIsAverage;
     }
 
     @Override
@@ -128,7 +117,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
     @Override
     protected int size() {
-        return 7;
+        return 6;
     }
 
     @Override
@@ -145,8 +134,6 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
             return new RowEntryImpl<>(RowReview.class, RATING, mRating);
         } else if(position == 5) {
             return new RowEntryImpl<>(RowReview.class, RATING_WEIGHT, mRatingWeight);
-        } else if(position == 6) {
-            return new RowEntryImpl<>(RowReview.class, IS_AVERAGE, mRatingIsAverage);
         } else {
             throw noElement();
         }
@@ -162,25 +149,21 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         if (mPublishDate != that.mPublishDate) return false;
         if (Float.compare(that.mRating, mRating) != 0) return false;
         if (mRatingWeight != that.mRatingWeight) return false;
-        if (mRatingIsAverage != that.mRatingIsAverage) return false;
         if (mValidIsAverage != that.mValidIsAverage) return false;
-        if (mReviewId != null ? !mReviewId.equals(that.mReviewId) : that.mReviewId != null)
-            return false;
-        if (mAuthorId != null ? !mAuthorId.equals(that.mAuthorId) : that.mAuthorId != null)
-            return false;
-        return !(mSubject != null ? !mSubject.equals(that.mSubject) : that.mSubject != null);
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (!mAuthorId.equals(that.mAuthorId)) return false;
+        return mSubject.equals(that.mSubject);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mReviewId != null ? mReviewId.hashCode() : 0;
-        result = 31 * result + (mAuthorId != null ? mAuthorId.hashCode() : 0);
+        int result = mReviewId.hashCode();
+        result = 31 * result + mAuthorId.hashCode();
         result = 31 * result + (int) (mPublishDate ^ (mPublishDate >>> 32));
-        result = 31 * result + (mSubject != null ? mSubject.hashCode() : 0);
+        result = 31 * result + mSubject.hashCode();
         result = 31 * result + (mRating != +0.0f ? Float.floatToIntBits(mRating) : 0);
         result = 31 * result + mRatingWeight;
-        result = 31 * result + (mRatingIsAverage ? 1 : 0);
         result = 31 * result + (mValidIsAverage ? 1 : 0);
         return result;
     }

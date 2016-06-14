@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
@@ -30,15 +31,23 @@ public class ImageData {
     }
 
     public ImageData(DataImage image) {
-        Bitmap bitmap = image.getBitmap();
+        bitmap = asString(image.getBitmap());
+        date = image.getDate().getTime();
+        caption = image.getCaption();
+        cover = image.isCover();
+    }
+
+    public static String asString(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         bitmap.recycle();
         byte[] byteArray = stream.toByteArray();
-        this.bitmap = Base64.encodeToString(byteArray, Base64.DEFAULT);
-        date = image.getDate().getTime();
-        caption = image.getCaption();
-        cover = image.isCover();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    public static Bitmap asBitmap(String base64) {
+        byte[] imageAsBytes = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }
 
     public String getBitmap() {

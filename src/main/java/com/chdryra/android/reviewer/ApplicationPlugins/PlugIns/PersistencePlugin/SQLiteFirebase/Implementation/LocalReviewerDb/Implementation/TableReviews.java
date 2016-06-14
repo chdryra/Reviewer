@@ -38,7 +38,6 @@ public class TableReviews extends ReviewerDbTableImpl<RowReview> {
         addNotNullableColumn(RowReview.SUBJECT);
         addNotNullableColumn(RowReview.RATING);
         addNotNullableColumn(RowReview.RATING_WEIGHT);
-        addNotNullableColumn(RowReview.IS_AVERAGE);
 
         ArrayList<DbColumnDefinition> fkColUser = new ArrayList<>();
         fkColUser.add(getColumn(RowReview.USER_ID.getName()));

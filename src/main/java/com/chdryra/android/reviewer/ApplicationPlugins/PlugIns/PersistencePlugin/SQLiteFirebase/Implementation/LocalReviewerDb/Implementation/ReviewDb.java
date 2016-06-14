@@ -26,6 +26,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -97,11 +98,6 @@ public class ReviewDb extends ReviewStatic {
     }
 
     @Override
-    public boolean isRatingAverageOfCriteria() {
-        return mRow.isRatingIsAverage();
-    }
-
-    @Override
     public IdableList<? extends DataCriterion> getCriteria() {
         return getData(mDb.getCriteriaTable(), RowCriterion.REVIEW_ID);
     }
@@ -127,9 +123,11 @@ public class ReviewDb extends ReviewStatic {
     }
 
     @Override
-    public IdableList<? extends DataImage> getCovers() {
-        return new IdableRowList<>(getReviewId(), loadDataWhere(mDb.getImagesTable(),
-                COVER_CLAUSE));
+    public DataImage getCover() {
+        IdableRowList<RowImage> images = new IdableRowList<>(getReviewId(), loadDataWhere(mDb
+                .getImagesTable(), COVER_CLAUSE));
+
+        return images.size() == 0 ? new DatumImage(getReviewId()) : images.getItem(0);
     }
 
     @NonNull

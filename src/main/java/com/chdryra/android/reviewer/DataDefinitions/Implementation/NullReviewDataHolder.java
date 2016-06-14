@@ -82,11 +82,6 @@ public class NullReviewDataHolder implements ReviewDataHolder {
     }
 
     @Override
-    public boolean isAverage() {
-        return false;
-    }
-
-    @Override
     public boolean isValid(DataValidator validator) {
         return false;
     }

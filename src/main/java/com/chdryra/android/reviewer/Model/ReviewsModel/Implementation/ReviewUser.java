@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
@@ -35,7 +37,6 @@ public class ReviewUser extends ReviewStatic {
     private final MdDataList<MdImage> mImages;
     private final MdDataList<MdFact> mFacts;
     private final MdDataList<MdLocation> mLocations;
-    private final boolean mRatingIsAverage;
 
     private ReviewNode mNode;
 
@@ -46,7 +47,6 @@ public class ReviewUser extends ReviewStatic {
                       MdDataList<MdFact> facts,
                       MdDataList<MdLocation> locations,
                       MdDataList<MdCriterion> criteria,
-                      boolean ratingIsAverage,
                       FactoryReviewNode nodeFactory) {
         mId = id;
 
@@ -63,7 +63,6 @@ public class ReviewUser extends ReviewStatic {
         mAuthor = author;
         mPublishDate = publishDate;
         mSubject = subject;
-        mRatingIsAverage = ratingIsAverage;
 
         mRating = rating;
         mComments = comments;
@@ -112,11 +111,6 @@ public class ReviewUser extends ReviewStatic {
     }
 
     @Override
-    public boolean isRatingAverageOfCriteria() {
-        return mRatingIsAverage;
-    }
-
-    @Override
     public MdDataList<MdCriterion> getCriteria() {
         return mCriteria;
     }
@@ -137,13 +131,13 @@ public class ReviewUser extends ReviewStatic {
     }
 
     @Override
-    public MdDataList<MdImage> getCovers() {
-        MdDataList<MdImage> covers = new MdDataList<>(mId);
+    public DataImage getCover() {
+        DataImage cover = new DatumImage(mId);
         for (MdImage image : getImages()) {
-            if (image.isCover()) covers.add(image);
+            if (image.isCover()) cover = image;
         }
 
-        return covers;
+        return cover;
     }
 
     @Override
@@ -158,7 +152,6 @@ public class ReviewUser extends ReviewStatic {
 
         ReviewUser that = (ReviewUser) o;
 
-        if (mRatingIsAverage != that.mRatingIsAverage) return false;
         if (!mId.equals(that.mId)) return false;
         if (!mAuthor.equals(that.mAuthor)) return false;
         if (!mPublishDate.equals(that.mPublishDate)) return false;
@@ -168,7 +161,9 @@ public class ReviewUser extends ReviewStatic {
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
-        return (!mLocations.equals(that.mLocations));
+        if (!mLocations.equals(that.mLocations)) return false;
+        return mNode.equals(that.mNode);
+
     }
 
     @Override
@@ -183,7 +178,7 @@ public class ReviewUser extends ReviewStatic {
         result = 31 * result + mImages.hashCode();
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
-        result = 31 * result + (mRatingIsAverage ? 1 : 0);
+        result = 31 * result + mNode.hashCode();
         return result;
     }
 }

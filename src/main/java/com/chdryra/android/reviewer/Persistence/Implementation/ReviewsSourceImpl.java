@@ -98,13 +98,18 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
-        mRepository.getReviews(callback);
+    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        mRepository.getReviews(author, callback);
     }
 
     @Override
-    public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        mRepository.getReviews(author, callback);
+    public void getReference(ReviewId id, RepositoryCallback callback) {
+        mRepository.getReference(id, callback);
+    }
+
+    @Override
+    public void getReferences(DataAuthor author, RepositoryCallback callback) {
+        mRepository.getReferences(author, callback);
     }
 
     @Override

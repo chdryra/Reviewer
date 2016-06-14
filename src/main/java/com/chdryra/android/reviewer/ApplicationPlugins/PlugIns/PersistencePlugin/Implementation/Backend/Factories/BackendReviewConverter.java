@@ -9,10 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Criterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Fact;
@@ -21,8 +20,6 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
@@ -44,6 +41,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -54,16 +52,34 @@ import java.util.ArrayList;
  * On: 21/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewDb {
+public class BackendReviewConverter {
     private static final ReviewDataHolder NULL_REVIEW = new NullReviewDataHolder();
     private BackendValidator mValidator;
+    private final ReviewMaker mMaker;
+    private final TagsManager mTagsManager;
 
-    public FactoryReviewDb(BackendValidator validator) {
+    public BackendReviewConverter(BackendValidator validator, ReviewMaker maker, TagsManager tagsManager) {
         mValidator = validator;
+        mMaker = maker;
+        mTagsManager = tagsManager;
     }
 
-    public ReviewDb newReviewDb(Review review, TagsManager tagsManager) {
-        return new ReviewDb(review, tagsManager.getTags(review.getReviewId().toString()).toStringArray());
+    public TagsManager getTagsManager() {
+        return mTagsManager;
+    }
+
+    public ReviewDb convert(Review review) {
+        return new ReviewDb(review, mTagsManager.getTags(review.getReviewId().toString()).toStringArray());
+    }
+
+    public Review convert(ReviewDb reviewDb) {
+        ReviewDataHolder data = newReviewDataHolder(reviewDb, mTagsManager);
+        mTagsManager.tagItem(reviewDb.getReviewId(), new ArrayList<>(reviewDb.getTags()));
+        return mMaker.makeReview(data);
+    }
+
+    public Review getNullReview() {
+        return mMaker.makeReview(NULL_REVIEW);
     }
 
     public ReviewDataHolder newReviewDataHolder(ReviewDb reviewDb, TagsManager tagsManager) {
@@ -78,6 +94,10 @@ public class FactoryReviewDb {
         return reviewDataHolder;
     }
 
+    public boolean isValid(ReviewDb review) {
+        return mValidator.isValid(review);
+    }
+
     private ReviewDataHolder toReviewDataHolder(ReviewDb review) {
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
 
@@ -90,7 +110,6 @@ public class FactoryReviewDb {
         Rating fbRating = review.getRating();
         float rating = (float)fbRating.getRating();
         int ratingWeight = (int)fbRating.getRatingWeight();
-        boolean isAverage = review.isAverage();
 
         ArrayList<DataCriterion> criteria = new ArrayList<>();
         for(Criterion criterion : review.getCriteria()) {
@@ -110,7 +129,7 @@ public class FactoryReviewDb {
 
         ArrayList<DataImage> images = new ArrayList<>();
         for(ImageData image : review.getImages()) {
-            Bitmap bitmap = decodeBitmapString(image.getBitmap());
+            Bitmap bitmap = ImageData.asBitmap(image.getBitmap());
             images.add(new DatumImage(reviewId, bitmap, new DatumDateReview(reviewId,
                     image.getDate()), image.getCaption(), image.isCover()));
         }
@@ -123,12 +142,6 @@ public class FactoryReviewDb {
         }
 
         return new ReviewDataHolderImpl(reviewId, author, date, subject,rating, ratingWeight,
-                comments, images, facts, locations, criteria, isAverage);
+                comments, images, facts, locations, criteria);
     }
-
-    private Bitmap decodeBitmapString(String bitmapString) {
-        byte[] imageAsBytes = Base64.decode(bitmapString, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-    }
-
 }

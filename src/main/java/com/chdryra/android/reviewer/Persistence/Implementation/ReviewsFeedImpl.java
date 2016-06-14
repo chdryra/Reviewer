@@ -45,13 +45,18 @@ public class ReviewsFeedImpl implements ReviewsFeed, ReviewsRepositoryObserver {
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
-        mRepo.getReviews(mAuthor, callback);
+    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        mRepo.getReviews(author, callback);
     }
 
     @Override
-    public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        mRepo.getReviews(author, callback);
+    public void getReference(ReviewId id, RepositoryCallback callback) {
+        mRepo.getReference(id, callback);
+    }
+
+    @Override
+    public void getReferences(DataAuthor author, RepositoryCallback callback) {
+        mRepo.getReferences(author, callback);
     }
 
     @Override
