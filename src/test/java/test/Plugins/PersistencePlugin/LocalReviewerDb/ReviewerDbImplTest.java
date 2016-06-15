@@ -208,7 +208,7 @@ public class ReviewerDbImplTest {
     @Test
     public void loadReviewsWhereCallsReviewTransactorWithAppropriateReviewRows() {
         AuthorId id = RandomAuthor.nextAuthor().getAuthorId();
-        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.USER_ID,
+        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.AUTHOR_ID,
                 id.toString());
 
         TableRowList<RowReview> ret = new TableRowList<>();
@@ -237,7 +237,7 @@ public class ReviewerDbImplTest {
     @Test
     public void loadReviewsWhereCallsTransactorWithInputClauseIfReviewsTableClause() {
         AuthorId id = RandomAuthor.nextAuthor().getAuthorId();
-        RowEntry<RowReview, String> clauseIn = asClause(RowReview.class, RowReview.USER_ID,
+        RowEntry<RowReview, String> clauseIn = asClause(RowReview.class, RowReview.AUTHOR_ID,
                 id.toString());
 
         Review review = RandomReview.nextReview();
@@ -270,7 +270,7 @@ public class ReviewerDbImplTest {
         Review review = RandomReview.nextReview();
         RowReview rowOut = new RowReviewImpl(review);
         RowEntry<RowReview, String> clauseReview
-                = asClause(RowReview.class, RowReview.USER_ID, userId);
+                = asClause(RowReview.class, RowReview.AUTHOR_ID, userId);
         returnRowForClause(mDb.getReviewsTable(), clauseReview, rowOut);
         returnReviewForRow(review, rowOut);
 

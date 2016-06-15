@@ -17,85 +17,83 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewLive;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewReference;
 
-
-public class GvReview extends GvDataBasic<GvReview> implements DataReviewInfo {
-    public static final GvDataType<GvReview> TYPE =
-            new GvDataType<>(GvReview.class, "review");
-    public static final Creator<GvReview> CREATOR = new Creator<GvReview>() {
+public class GvReference extends GvDataBasic<GvReference> implements DataReviewInfo {
+    public static final GvDataType<GvReference> TYPE =
+            new GvDataType<>(GvReference.class, "review");
+    public static final Creator<GvReference> CREATOR = new Creator<GvReference>() {
         @Override
-        public GvReview createFromParcel(Parcel in) {
-            return new GvReview(in);
+        public GvReference createFromParcel(Parcel in) {
+            return new GvReference(in);
         }
 
         @Override
-        public GvReview[] newArray(int size) {
-            return new GvReview[size];
+        public GvReference[] newArray(int size) {
+            return new GvReference[size];
         }
     };
 
     //Not really parcelable but should not need to parcel this class anyway...
-    private Review mReview;
+    private ReviewReference mReference;
     private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
 
-    public GvReview() {
-        super(GvReview.TYPE);
+    public GvReference() {
+        super(GvReference.TYPE);
     }
 
-    public GvReview(Review review,
-                    TagsManager tagsManager,
-                    GvConverterImages converterImages,
-                    GvConverterComments converterComments,
-                    GvConverterLocations converterLocations) {
-        super(GvReview.TYPE, new GvReviewId(review.getReviewId()));
-        mReview = review;
+    public GvReference(ReviewReference reference,
+                       TagsManager tagsManager,
+                       GvConverterImages converterImages,
+                       GvConverterComments converterComments,
+                       GvConverterLocations converterLocations) {
+        super(GvReference.TYPE, new GvReviewId(reference.getInfo().getReviewId()));
+        mReference = reference;
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
     }
 
-    private GvReview(Parcel in) {
+    private GvReference(Parcel in) {
         super(in);
     }
 
-    public Review getReview() {
-        return mReview;
+    public ReviewReference getReference() {
+        return mReference;
     }
 
     @Override
     public DataSubject getSubject() {
-        return mReview.getSubject();
+        return mReference.getInfo().getSubject();
     }
 
     @Override
     public DataRating getRating() {
-        return mReview.getRating();
-    }
-
-    @Override
-    public DataDate getPublishDate() {
-        return mReview.getPublishDate();
+        return mReference.getInfo().getRating();
     }
 
     @Override
     public DataAuthor getAuthor() {
-        return mReview.getAuthor();
+        return mReference.getInfo().getAuthor();
+    }
+
+    @Override
+    public DataDate getPublishDate() {
+        return mReference.getInfo().getPublishDate();
     }
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewLive(mTagsManager, mConverterImages, mConverterComments,
-                mConverterLocations);
+        return new VhReviewReference(mTagsManager, mConverterImages, mConverterComments, mConverterLocations);
     }
 
     @Override

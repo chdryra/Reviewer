@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  */
 public class TableAuthorsTest extends ReviewerDbTableTest<RowAuthor>{
     private static final String NAME = "Authors";
-    private static final ColumnInfo<?>[] COLS = {RowAuthor.USER_ID, RowAuthor.AUTHOR_NAME};
+    private static final ColumnInfo<?>[] COLS = {RowAuthor.AUTHOR_ID, RowAuthor.AUTHOR_NAME};
     private static final ColumnInfo<?>[] NULLABLE = {};
 
     public TableAuthorsTest() {

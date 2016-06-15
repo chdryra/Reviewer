@@ -37,7 +37,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     }
 
     public RowAuthorImpl(RowValues values) {
-        mUserId = values.getValue(USER_ID.getName(), USER_ID.getType());
+        mUserId = values.getValue(AUTHOR_ID.getName(), AUTHOR_ID.getType());
         mName = values.getValue(AUTHOR_NAME.getName(), AUTHOR_NAME.getType());
     }
 
@@ -58,7 +58,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
 
     @Override
     public String getRowIdColumnName() {
-        return USER_ID.getName();
+        return AUTHOR_ID.getName();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     @Override
     protected RowEntry<RowAuthor, ?> getEntry(int position) {
         if(position == 0) {
-            return new RowEntryImpl<>(RowAuthor.class, USER_ID, mUserId);
+            return new RowEntryImpl<>(RowAuthor.class, AUTHOR_ID, mUserId);
         } else if(position == 1){
             return new RowEntryImpl<>(RowAuthor.class, AUTHOR_NAME, mName);
         } else {

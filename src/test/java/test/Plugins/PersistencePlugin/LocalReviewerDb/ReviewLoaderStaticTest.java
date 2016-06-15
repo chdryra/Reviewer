@@ -132,7 +132,7 @@ public class ReviewLoaderStaticTest {
     public void loadReviewCallsDbGetUniqueWhereForAuthorWithUserIdColEqualsIdValClause() {
         RowReview review = newRowReview();
         checkLoadClassDb(review, TableAuthors.NAME,
-                asClause(RowAuthor.class, RowAuthor.USER_ID, review.getAuthorId()));
+                asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, review.getAuthorId()));
     }
 
     @Test

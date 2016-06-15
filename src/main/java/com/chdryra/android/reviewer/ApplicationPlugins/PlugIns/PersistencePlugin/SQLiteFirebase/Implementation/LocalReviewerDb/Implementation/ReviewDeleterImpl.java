@@ -84,12 +84,12 @@ public class ReviewDeleterImpl implements ReviewDeleterDb {
                                          TableTransactor transactor) {
         String userId = row.getAuthorId();
         DbTable<RowReview> reviewsTable = db.getReviewsTable();
-        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.USER_ID, userId);
+        RowEntry<RowReview, String> clause = asClause(RowReview.class, RowReview.AUTHOR_ID, userId);
 
         TableRowList<RowReview> authored = transactor.getRowsWhere(reviewsTable, clause, mRowFactory);
         if (authored.size() == 0) {
             RowEntry<RowAuthor, String> userIdClause
-                    = asClause(RowAuthor.class, RowAuthor.USER_ID, userId);
+                    = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, userId);
             deleteFromTable(db.getAuthorsTable(), userIdClause, transactor);
         }
     }

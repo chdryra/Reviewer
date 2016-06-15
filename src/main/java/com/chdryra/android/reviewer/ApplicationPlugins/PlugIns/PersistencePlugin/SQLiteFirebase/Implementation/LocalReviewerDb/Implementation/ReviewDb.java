@@ -140,7 +140,7 @@ public class ReviewDb extends ReviewStatic {
     private void loadAuthor() {
         TableTransactor transactor = mDb.beginReadTransaction();
         RowEntry<RowAuthor, String> clause
-                = asClause(RowAuthor.class, RowAuthor.USER_ID, mRow.getAuthorId());
+                = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, mRow.getAuthorId());
         RowAuthor row = mDb.getUniqueRowWhere(mDb.getAuthorsTable(), clause, transactor);
         mDb.endTransaction(transactor);
         mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getAuthorId());

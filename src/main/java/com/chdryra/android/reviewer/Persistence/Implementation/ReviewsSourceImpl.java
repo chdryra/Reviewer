@@ -103,8 +103,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void getReference(ReviewId id, RepositoryCallback callback) {
-        mRepository.getReference(id, callback);
+    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+        mRepository.getReference(reviewId, callback);
     }
 
     @Override

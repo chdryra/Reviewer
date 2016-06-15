@@ -33,11 +33,11 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public void getReview(ReviewId id, RepositoryCallback callback) {
-        if(mCache.contains(id)) {
-            callback.onRepositoryCallback(new RepositoryResult(mCache.get(id)));
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        if(mCache.contains(reviewId)) {
+            callback.onRepositoryCallback(new RepositoryResult(mCache.get(reviewId)));
         } else {
-            mArchive.getReview(id, new ArchiveCallBack(callback));
+            mArchive.getReview(reviewId, new ArchiveCallBack(callback));
         }
     }
 
@@ -47,8 +47,8 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public void getReference(ReviewId id, RepositoryCallback callback) {
-        mArchive.getReference(id, callback);
+    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+        mArchive.getReference(reviewId, callback);
     }
 
     @Override

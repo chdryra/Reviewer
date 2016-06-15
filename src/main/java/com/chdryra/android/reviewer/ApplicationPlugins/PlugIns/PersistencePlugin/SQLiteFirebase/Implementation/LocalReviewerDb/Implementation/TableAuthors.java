@@ -24,7 +24,7 @@ public class TableAuthors extends ReviewerDbTableImpl<RowAuthor> {
     public TableAuthors(FactoryDbColumnDef columnFactory) {
         super(NAME, RowAuthor.class, columnFactory);
 
-        addPkColumn(RowAuthor.USER_ID);
+        addPkColumn(RowAuthor.AUTHOR_ID);
         addNotNullableColumn(RowAuthor.AUTHOR_NAME);
     }
 }

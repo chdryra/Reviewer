@@ -69,7 +69,7 @@ public class ReviewInserterImpl implements ReviewInserter {
     private void addToAuthorsTableIfNecessary(DataAuthor author, DbTable<RowAuthor> table,
                                               TableTransactor transactor) {
         String userId = author.getAuthorId().toString();
-        if (!transactor.isIdInTable(userId, table.getColumn(RowAuthor.USER_ID.getName()), table)) {
+        if (!transactor.isIdInTable(userId, table.getColumn(RowAuthor.AUTHOR_ID.getName()), table)) {
             insertIntoTable(mRowFactory.newRow(table.getRowClass(), author), table, transactor);
         }
     }

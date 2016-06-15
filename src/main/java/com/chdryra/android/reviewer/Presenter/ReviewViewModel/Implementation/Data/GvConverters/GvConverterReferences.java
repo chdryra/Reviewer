@@ -11,29 +11,30 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Da
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewList;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReferenceList;
+
 
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvConverterReviews
-        extends GvConverterBasic<Review, GvReview, GvReviewList>
-        implements DataConverter<Review, GvReview, GvReviewList> {
+public class GvConverterReferences
+        extends GvConverterBasic<ReviewReference, GvReference, GvReferenceList>
+        implements DataConverter<ReviewReference, GvReference, GvReferenceList> {
     private TagsManager mTagsManager;
     private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
 
-    public GvConverterReviews(TagsManager tagsManager,
-                              GvConverterImages converterImages,
-                              GvConverterComments converterComments,
-                              GvConverterLocations converterLocations) {
-        super(GvReviewList.class);
+    public GvConverterReferences(TagsManager tagsManager,
+                                 GvConverterImages converterImages,
+                                 GvConverterComments converterComments,
+                                 GvConverterLocations converterLocations) {
+        super(GvReferenceList.class);
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
         mConverterComments = converterComments;
@@ -41,21 +42,21 @@ public class GvConverterReviews
     }
 
     @Override
-    public GvReview convert(Review review, ReviewId parentId) {
-        return new GvReview(review,
+    public GvReference convert(ReviewReference review, ReviewId parentId) {
+        return new GvReference(review,
                 mTagsManager, mConverterImages,
                 mConverterComments, mConverterLocations);
     }
 
     @Override
-    public GvReview convert(Review review) {
+    public GvReference convert(ReviewReference review) {
         return convert(review, null);
     }
 
     @Override
-    public GvReviewList convert(IdableList<? extends Review> data) {
-        GvReviewList list = new GvReviewList(newId(data.getReviewId()));
-        for(Review datum : data) {
+    public GvReferenceList convert(IdableList<? extends ReviewReference> data) {
+        GvReferenceList list = new GvReferenceList(newId(data.getReviewId()));
+        for(ReviewReference datum : data) {
             list.add(convert(datum, data.getReviewId()));
         }
 

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewBasicInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 
 import java.util.Comparator;
 
@@ -18,7 +18,7 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewMostRecentPublished<T extends DataReviewBasicInfo> implements Comparator<T> {
+public class ReviewMostRecentPublished<T extends DataReviewInfo> implements Comparator<T> {
     private Comparator<DataDate> mDateComparator;
 
     public ReviewMostRecentPublished(Comparator<DataDate> dateComparator) {
@@ -26,7 +26,7 @@ public class ReviewMostRecentPublished<T extends DataReviewBasicInfo> implements
     }
 
     @Override
-    public int compare(DataReviewBasicInfo lhs, DataReviewBasicInfo rhs) {
+    public int compare(DataReviewInfo lhs, DataReviewInfo rhs) {
         return mDateComparator.compare(lhs.getPublishDate(), rhs.getPublishDate());
     }
 }

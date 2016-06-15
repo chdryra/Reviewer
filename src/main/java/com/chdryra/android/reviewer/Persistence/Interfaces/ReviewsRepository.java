@@ -19,11 +19,11 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewsRepository {
-    void getReview(ReviewId id, RepositoryCallback callback);
+    void getReview(ReviewId reviewId, RepositoryCallback callback);
 
     void getReviews(DataAuthor author, RepositoryCallback callback);
 
-    void getReference(ReviewId id, RepositoryCallback callback);
+    void getReference(ReviewId reviewId, RepositoryCallback callback);
 
     void getReferences(DataAuthor author, RepositoryCallback callback);
 

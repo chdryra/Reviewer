@@ -11,12 +11,11 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,7 +86,7 @@ public class RepositoryResult {
 
     public RepositoryResult(ReviewReference reference, CallbackMessage message) {
         mReference = reference;
-        mId = reference != null ? new DatumReviewId(mReference.getBasicInfo().getReviewId()) : null;
+        mId = reference != null ? mReference.getInfo().getReviewId() : null;
         mMessage = message;
     }
 

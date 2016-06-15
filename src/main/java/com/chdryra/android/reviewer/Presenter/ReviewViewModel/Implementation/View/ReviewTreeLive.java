@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 
@@ -35,14 +36,14 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
         mRepo = repo;
         mReviewsFactory = reviewsFactory;
         mRepo.registerObserver(this);
-        mRepo.getReviews(author, this);
+        mRepo.getReferences(author, this);
     }
 
 
     @Override
     public void onRepositoryCallback(RepositoryResult result) {
         if (!result.isError()) {
-            for (Review review : result.getReviews()) {
+            for (ReviewReference review : result.getReferences()) {
                 addChild(review);
             }
             notifyNodeObservers();
@@ -61,7 +62,7 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
         notifyNodeObservers();
     }
 
-    private void addChild(Review review) {
+    private void addChild(ReviewReference review) {
         addChild(mReviewsFactory.createReviewNodeComponent(review, false));
     }
 

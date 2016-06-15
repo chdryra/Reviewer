@@ -175,7 +175,7 @@ public class ReviewDeleterImplTest {
     public void deleteAuthorDoesCallTransactorIfAuthorNoLongerAuthorsAnotherReview() {
         RowReview review = newRowReview();
         checkDeleteCalled(review, mDb.getAuthorsTable(), TableAuthors.NAME,
-                asClause(RowAuthor.class, RowAuthor.USER_ID, review.getAuthorId()));
+                asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, review.getAuthorId()));
     }
 
     private <DbRow extends DbTableRow> void checkCaptures(ArrayList<RowEntry<DbRow, ?>> clauses) {
@@ -267,7 +267,7 @@ public class ReviewDeleterImplTest {
                 return dbRows;
             }
 
-            if (clause.getColumnName().equals(RowReview.USER_ID.getName())) {
+            if (clause.getColumnName().equals(RowReview.AUTHOR_ID.getName())) {
                 return (TableRowList<DbRow>) mWhereRows;
             }
 

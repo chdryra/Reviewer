@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,9 +21,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 
-/**
- * Grid data is {@link GvReviewOverviewList}.
- */
 public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T> implements ReviewNode.NodeObserver{
     private ReviewNode mNode;
     private GvDataList<T> mCache;

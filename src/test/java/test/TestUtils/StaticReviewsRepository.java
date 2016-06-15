@@ -35,16 +35,16 @@ public class StaticReviewsRepository implements ReviewsRepository {
     }
 
     @Override
-    public void getReview(ReviewId id, RepositoryCallback callback) {
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
         Review result = null;
         for(Review review : mReviews) {
-            if(review.getReviewId().equals(id)) {
+            if(review.getReviewId().equals(reviewId)) {
                 result = review;
                 break;
             }
         }
 
-        CallbackMessage message = result == null ? CallbackMessage.error(id + " not found") :
+        CallbackMessage message = result == null ? CallbackMessage.error(reviewId + " not found") :
                 CallbackMessage.ok();
         callback.onRepositoryCallback(new RepositoryResult(result, message));
     }

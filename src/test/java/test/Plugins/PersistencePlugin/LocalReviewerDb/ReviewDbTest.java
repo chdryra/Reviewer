@@ -144,7 +144,7 @@ public class ReviewDbTest {
 
         DbTable<RowAuthor> authorsTable = mDb.getAuthorsTable();
         RowEntry<RowAuthor, String> authorClause
-                = asClause(RowAuthor.class, RowAuthor.USER_ID, row.getAuthorId());
+                = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, row.getAuthorId());
         when(mDb.getUniqueRowWhere(authorsTable, authorClause, mTransactor)).thenReturn(rowAuthor);
 
         DataAuthorReview authorOut = reviewDb.getAuthor();

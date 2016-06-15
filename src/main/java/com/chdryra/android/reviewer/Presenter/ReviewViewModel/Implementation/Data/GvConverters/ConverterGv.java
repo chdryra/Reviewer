@@ -81,6 +81,7 @@ public class ConverterGv {
                        GvConverterCriteria converterCriteria,
                        GvConverterCriteriaSubjects converterCriteriaSubjects,
                        GvConverterReviews converterReview,
+                       GvConverterReferences converterReferences,
                        GvConverterSubjects converterSubjects,
                        GvConverterAuthors converterAuthors,
                        GvConverterDateReviews converterDates,
@@ -94,6 +95,7 @@ public class ConverterGv {
         mMap.add(converterUrl.getDataType(), converterUrl);
         mMap.add(converterCriteria.getDataType(), converterCriteria);
         mMap.add(converterReview.getDataType(), converterReview);
+        mMap.add(converterReferences.getDataType(), converterReferences);
         mMap.add(converterSubjects.getDataType(), converterSubjects);
         mMap.add(converterAuthors.getDataType(), converterAuthors);
         mMap.add(converterDates.getDataType(), converterDates);

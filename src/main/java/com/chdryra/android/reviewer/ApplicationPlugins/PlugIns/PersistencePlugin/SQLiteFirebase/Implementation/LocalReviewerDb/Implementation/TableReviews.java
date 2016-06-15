@@ -33,14 +33,14 @@ public class TableReviews extends ReviewerDbTableImpl<RowReview> {
         super(NAME, RowReview.class, columnFactory);
 
         addPkColumn(RowReview.REVIEW_ID);
-        addNotNullableColumn(RowReview.USER_ID);
+        addNotNullableColumn(RowReview.AUTHOR_ID);
         addNotNullableColumn(RowReview.PUBLISH_DATE);
         addNotNullableColumn(RowReview.SUBJECT);
         addNotNullableColumn(RowReview.RATING);
         addNotNullableColumn(RowReview.RATING_WEIGHT);
 
         ArrayList<DbColumnDefinition> fkColUser = new ArrayList<>();
-        fkColUser.add(getColumn(RowReview.USER_ID.getName()));
+        fkColUser.add(getColumn(RowReview.AUTHOR_ID.getName()));
         addForeignKeyConstraint(constraintFactory.newConstraint(fkColUser, authorsTable));
     }
 

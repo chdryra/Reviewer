@@ -250,7 +250,7 @@ public class ReviewerDbImpl implements ReviewerDb {
 
         HashSet<RowEntry<RowReview, ?>> entries = new HashSet<>();
         if (row.hasData(mDataValidator)) {
-            entries.add(asClause(RowReview.class, RowReview.USER_ID, row.getAuthorId().toString()));
+            entries.add(asClause(RowReview.class, RowReview.AUTHOR_ID, row.getAuthorId().toString()));
         }
 
         return entries;

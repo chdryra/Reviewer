@@ -39,7 +39,7 @@ import static org.hamcrest.MatcherAssert.*;
 public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImpl>{
 
     public RowAuthorImplTest() {
-        super(RowAuthor.USER_ID.getName(), 2);
+        super(RowAuthor.AUTHOR_ID.getName(), 2);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
         RowAuthor reference = newRow();
 
         RowValuesForTest values = new RowValuesForTest();
-        values.put(RowAuthor.USER_ID, reference.getAuthorId().toString());
+        values.put(RowAuthor.AUTHOR_ID, reference.getAuthorId().toString());
         values.put(RowAuthor.AUTHOR_NAME, reference.getName());
 
         RowAuthorImpl row = new RowAuthorImpl(values);
@@ -97,7 +97,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
 
         assertThat(entries.size(), is(2));
 
-        checkEntry(entries.get(0), RowAuthor.USER_ID, row.getAuthorId().toString());
+        checkEntry(entries.get(0), RowAuthor.AUTHOR_ID, row.getAuthorId().toString());
         checkEntry(entries.get(1), RowAuthor.AUTHOR_NAME, row.getName());
     }
 

@@ -220,7 +220,7 @@ public class TableTransactorSqLiteTest {
         DbTable<RowAuthor> table = mContract.getAuthorsTable();
         RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
         String id = row.getRowId();
-        DbColumnDefinition idCol = table.getColumn(RowAuthor.USER_ID.getName());
+        DbColumnDefinition idCol = table.getColumn(RowAuthor.AUTHOR_ID.getName());
 
         setIdInTable(table, idCol, id, true);
 
@@ -233,7 +233,7 @@ public class TableTransactorSqLiteTest {
         DbTable<RowAuthor> table = mContract.getAuthorsTable();
         RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
         String id = row.getRowId();
-        DbColumnDefinition idCol = table.getColumn(RowAuthor.USER_ID.getName());
+        DbColumnDefinition idCol = table.getColumn(RowAuthor.AUTHOR_ID.getName());
 
         setIdInTable(table, idCol, id, false);
 
@@ -246,7 +246,7 @@ public class TableTransactorSqLiteTest {
         DbTable<RowAuthor> table = mContract.getAuthorsTable();
         RowAuthor row = new RowAuthorImpl(RandomAuthor.nextAuthor());
         String id = row.getRowId();
-        DbColumnDefinition idCol = table.getColumn(RowAuthor.USER_ID.getName());
+        DbColumnDefinition idCol = table.getColumn(RowAuthor.AUTHOR_ID.getName());
 
         setIdInTable(table, idCol, id, false);
 

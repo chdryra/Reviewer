@@ -17,7 +17,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewOverviewList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -25,9 +24,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 
-/**
- * Grid data is {@link GvReviewOverviewList}.
- */
 public class ViewerChildList extends ViewerNodeBasic<GvReview> {
     private static final GvDataType<GvReview> TYPE = GvReview.TYPE;
 

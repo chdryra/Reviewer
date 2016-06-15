@@ -23,12 +23,13 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public interface RowAuthor extends DbTableRow<RowAuthor>, DataAuthor {
-    ColumnInfo<String> USER_ID = new ColumnInfo<>("user_id", DbEntryType.TEXT);
-    ColumnInfo<String> AUTHOR_NAME = new ColumnInfo<>("name", DbEntryType.TEXT);
+    ColumnInfo<String> AUTHOR_ID = new ColumnInfo<>("author_id", DbEntryType.TEXT);
+    ColumnInfo<String> AUTHOR_NAME = new ColumnInfo<>("author_name", DbEntryType.TEXT);
 
     @Override
     String getName();
 
+    @Override
     AuthorId getAuthorId();
 
     @Override

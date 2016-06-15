@@ -48,7 +48,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
 
     public RowReviewImpl(RowValues values) {
         mReviewId = values.getValue(REVIEW_ID.getName(), REVIEW_ID.getType());
-        mAuthorId = values.getValue(USER_ID.getName(), USER_ID.getType());
+        mAuthorId = values.getValue(AUTHOR_ID.getName(), AUTHOR_ID.getType());
 
         Long time = values.getValue(PUBLISH_DATE.getName(), PUBLISH_DATE.getType());
         mPublishDate = time != null ? time : 0l;
@@ -125,7 +125,7 @@ public class RowReviewImpl extends RowTableBasic<RowReview> implements RowReview
         if(position == 0) {
             return new RowEntryImpl<>(RowReview.class, REVIEW_ID, mReviewId);
         } else if(position == 1) {
-            return new RowEntryImpl<>(RowReview.class, USER_ID, mAuthorId);
+            return new RowEntryImpl<>(RowReview.class, AUTHOR_ID, mAuthorId);
         } else if(position == 2) {
             return new RowEntryImpl<>(RowReview.class, PUBLISH_DATE, mPublishDate);
         } else if(position == 3) {

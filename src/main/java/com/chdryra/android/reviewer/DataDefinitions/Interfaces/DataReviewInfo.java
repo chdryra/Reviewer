@@ -13,10 +13,12 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataReviewBasicInfo extends HasReviewId {
-    String getSubject();
+public interface DataReviewInfo extends HasReviewId {
+    DataSubject getSubject();
 
-    float getRating();
+    DataRating getRating();
 
     DataDate getPublishDate();
+
+    DataAuthor getAuthor();
 }

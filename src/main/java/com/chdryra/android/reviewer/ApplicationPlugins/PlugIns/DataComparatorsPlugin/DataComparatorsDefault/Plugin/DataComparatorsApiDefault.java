@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewBasicInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
@@ -92,8 +92,8 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     @Override
-    public ComparatorCollection<DataReviewBasicInfo> getReviewBasicComparators() {
-        ReviewMostRecentPublished<DataReviewBasicInfo> mostRecent =
+    public ComparatorCollection<DataReviewInfo> getReviewInfoComparators() {
+        ReviewMostRecentPublished<DataReviewInfo> mostRecent =
                 new ReviewMostRecentPublished<>(getDateComparators().getDefault());
         return new ComparatorCollectionImpl<>(mostRecent);
     }

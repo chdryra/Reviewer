@@ -126,7 +126,7 @@ public class FactoryReviewerDbTableRowTest {
     public void newRowReviewWithRowValuesConstructor() {
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, RandomReviewId.nextIdString());
-        values.put(RowReview.USER_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
+        values.put(RowReview.AUTHOR_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
         values.put(RowReview.PUBLISH_DATE, RandomDataDate.nextDate().getTime());
         values.put(RowReview.SUBJECT, RandomString.nextWord());
         values.put(RowReview.RATING, RandomRating.nextRating());
@@ -151,7 +151,7 @@ public class FactoryReviewerDbTableRowTest {
     @Test
     public void newRowAuthorWithRowValuesConstructor() {
         RowValuesForTest values = new RowValuesForTest();
-        values.put(RowAuthor.USER_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
+        values.put(RowAuthor.AUTHOR_ID, RandomAuthor.nextAuthor().getAuthorId().toString());
         values.put(RowAuthor.AUTHOR_NAME, RandomString.nextWord());
 
         RowAuthor row = mFactory.newRow(RowAuthor.class, values);

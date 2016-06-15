@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.webkit.URLUtil;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
@@ -37,6 +39,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.net.MalformedURLException;
@@ -160,5 +163,12 @@ public class BackendDataConverter {
 
     public ReviewId convert(String reviewId) {
         return new DatumReviewId(reviewId);
+    }
+
+    public ReviewInfo convert(ReviewListEntry entry) {
+        String id = entry.getReviewId();
+        return new ReviewInfo(convert(id), convert(id, entry.getSubject()),
+                convert(id, entry.getRating()), convert(id, entry.getAuthor()),
+                convert(id, entry.getPublishDate()));
     }
 }

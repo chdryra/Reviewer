@@ -12,7 +12,6 @@ package com.chdryra.android.reviewer.Persistence.Interfaces;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewListEntry;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -22,10 +21,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-
-import java.util.List;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
 
 /**
  * Created by: Rizwan Choudrey
@@ -37,55 +36,69 @@ public interface ReviewReference {
         void onValue(T value);
     }
 
+    interface SubjectObserver extends ValueObserver<DataSubject> {}
+    interface RatingObserver extends ValueObserver<DataRating> {}
+    interface AuthorObserver extends ValueObserver<DataAuthorReview> {}
+    interface DateObserver extends ValueObserver<DataDateReview> {}
+    interface CoverObserver extends ValueObserver<DataImage> {}
+    interface CriteriaObserver extends ValueObserver<IdableList<? extends DataCriterion>> {}
+    interface CommentsObserver extends ValueObserver<IdableList<? extends DataComment>> {}
+    interface FactsObserver extends ValueObserver<IdableList<? extends DataFact>> {}
+    interface LocationsObserver extends ValueObserver<IdableList<? extends DataLocation>> {}
+    interface ImagesObserver extends ValueObserver<IdableList<? extends DataImage>> {}
+    interface TagsObserver extends ValueObserver<IdableList<? extends DataTag>> {}
+
     interface DereferenceCallback {
         void onDereferenced(@Nullable Review review, CallbackMessage message);
     }
 
-    ReviewListEntry getBasicInfo();
+    ReviewInfo getInfo();
 
-    void registerSubjectObserver(ValueObserver<DataSubject> observer);
+    void registerObserver(SubjectObserver observer);
 
-    void registerRatingObserver(ValueObserver<DataRating> observer);
+    void registerObserver(RatingObserver observer);
 
-    void registerAuthorObserver(ValueObserver<DataAuthorReview> observer);
+    void registerObserver(AuthorObserver observer);
 
-    void registerPublishDateObserver(ValueObserver<DataDateReview> observer);
+    void registerObserver(DateObserver observer);
 
-    void registerCriteriaObserver(ValueObserver<IdableList<? extends DataCriterion>> observer);
+    void registerObserver(CoverObserver observer);
 
-    void registerCommentsObserver(ValueObserver<IdableList<? extends DataComment>> observer);
+    void registerObserver(CriteriaObserver observer);
 
-    void registerFactsObserver(ValueObserver<IdableList<? extends DataFact>> observer);
+    void registerObserver(CommentsObserver observer);
 
-    void registerImagesObserver(ValueObserver<IdableList<? extends DataImage>> observer);
+    void registerObserver(FactsObserver observer);
 
-    void registerCoverObserver(ValueObserver<DataImage> observer);
+    void registerObserver(ImagesObserver observer);
 
-    void registerLocationsObserver(ValueObserver<IdableList<? extends DataLocation>> observer);
+    void registerObserver(LocationsObserver observer);
 
-    void registerTagsObserver(ValueObserver<List<String>> observer);
+    void registerObserver(TagsObserver observer);
 
-    void unregisterSubjectObserver(ValueObserver<DataSubject> observer);
+    void unregisterObserver(SubjectObserver observer);
 
-    void unregisterRatingObserver(ValueObserver<DataRating> observer);
+    void unregisterObserver(RatingObserver observer);
 
-    void unregisterAuthorObserver(ValueObserver<DataAuthorReview> observer);
+    void unregisterObserver(AuthorObserver observer);
 
-    void unregisterPublishDateObserver(ValueObserver<DataDateReview> observer);
+    void unregisterObserver(DateObserver observer);
 
-    void unregisterCoverObserver(ValueObserver<DataImage> observer);
+    void unregisterObserver(CoverObserver observer);
 
-    void unregisterCriteriaObserver(ValueObserver<IdableList<? extends DataCriterion>> observer);
+    void unregisterObserver(CriteriaObserver observer);
 
-    void unregisterCommentsObserver(ValueObserver<IdableList<? extends DataComment>> observer);
+    void unregisterObserver(CommentsObserver observer);
 
-    void unregisterFactsObserver(ValueObserver<IdableList<? extends DataFact>> observer);
+    void unregisterObserver(FactsObserver observer);
 
-    void unregisterImagesObserver(ValueObserver<IdableList<? extends DataImage>> observer);
+    void unregisterObserver(ImagesObserver observer);
 
-    void unregisterLocationsObserver(ValueObserver<IdableList<? extends DataLocation>> observer);
+    void unregisterObserver(LocationsObserver observer);
 
-    void unregisterTagsObserver(ValueObserver<List<String>> observer);
+    void unregisterObserver(TagsObserver observer);
 
     void dereference(DereferenceCallback callback);
+
+    boolean isValid();
 }

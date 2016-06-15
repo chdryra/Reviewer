@@ -32,7 +32,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 public class TableReviewsTest extends ReviewerDbTableTest<RowReview>{
     private static final String NAME = "Reviews";
     private static final ColumnInfo<?>[] ROWS = {RowReview.REVIEW_ID,
-            RowReview.USER_ID, RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING,
+            RowReview.AUTHOR_ID, RowReview.PUBLISH_DATE, RowReview.SUBJECT, RowReview.RATING,
             RowReview.RATING_WEIGHT, RowReview.IS_AVERAGE};
     private static final ColumnInfo<?>[] NULLABLE = {};
 
@@ -50,6 +50,6 @@ public class TableReviewsTest extends ReviewerDbTableTest<RowReview>{
 
     @Override
     protected void setFkConstraints() {
-        addConstraint(mAuthorsTable, RowReview.USER_ID);
+        addConstraint(mAuthorsTable, RowReview.AUTHOR_ID);
     }
 }

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewBasicInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSocialPlatform;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
@@ -45,7 +45,7 @@ public interface DataComparatorsApi {
 
     ComparatorCollection<DataReviewSummary> getReviewComparators();
 
-    ComparatorCollection<DataReviewBasicInfo> getReviewBasicComparators();
+    ComparatorCollection<DataReviewInfo> getReviewInfoComparators();
 
     ComparatorCollection<DataSocialPlatform> getSocialPlatformComparators();
 

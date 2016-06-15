@@ -17,16 +17,17 @@ import java.util.ArrayList;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataReviewSummary extends DataReviewBasicInfo {
+public interface DataReviewSummary extends DataReviewInfo {
     @Override
-    String getSubject();
+    DataSubject getSubject();
 
     @Override
-    float getRating();
+    DataRating getRating();
 
     @Override
     DataDate getPublishDate();
 
+    @Override
     DataAuthor getAuthor();
 
     String getHeadline();

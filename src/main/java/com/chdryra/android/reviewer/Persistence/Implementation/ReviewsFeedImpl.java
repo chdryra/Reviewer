@@ -40,8 +40,8 @@ public class ReviewsFeedImpl implements ReviewsFeed, ReviewsRepositoryObserver {
     }
 
     @Override
-    public void getReview(ReviewId id, RepositoryCallback callback) {
-        mRepo.getReview(id, callback);
+    public void getReview(ReviewId reviewId, RepositoryCallback callback) {
+        mRepo.getReview(reviewId, callback);
     }
 
     @Override
@@ -50,8 +50,8 @@ public class ReviewsFeedImpl implements ReviewsFeed, ReviewsRepositoryObserver {
     }
 
     @Override
-    public void getReference(ReviewId id, RepositoryCallback callback) {
-        mRepo.getReference(id, callback);
+    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+        mRepo.getReference(reviewId, callback);
     }
 
     @Override

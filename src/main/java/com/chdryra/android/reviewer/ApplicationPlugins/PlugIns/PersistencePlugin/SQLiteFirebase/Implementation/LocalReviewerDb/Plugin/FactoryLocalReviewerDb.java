@@ -15,6 +15,8 @@ import android.content.Context;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
         .FactoryPersistence;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Factories.FactoryReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryReviewTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryReviewerDbContract;
@@ -38,6 +40,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryLocalReviewerDb implements FactoryPersistence {
+    private static final FactoryReviewReference REFERENCE_FACTORY = new FactoryReviewReference();
+
     private FactoryContractor mContractorFactory;
     private String mExt;
     private FactoryReviewerDb mDbFactory;
@@ -60,7 +64,7 @@ public class FactoryLocalReviewerDb implements FactoryPersistence {
     @Override
     public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator) {
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, model.getReviewsFactory(), validator);
-        return new ReviewerDbRepository(db, model.getTagsManager());
+        return new ReviewerDbRepository(db, model.getTagsManager(), REFERENCE_FACTORY);
     }
 
     public ReviewerDb newReviewerDb(String name, int version, ReviewMaker recreater, DataValidator validator) {

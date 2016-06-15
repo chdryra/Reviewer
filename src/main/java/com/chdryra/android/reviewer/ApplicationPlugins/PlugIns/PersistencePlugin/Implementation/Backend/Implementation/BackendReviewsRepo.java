@@ -69,8 +69,8 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     }
 
     @Override
-    public void getReview(ReviewId id, final RepositoryCallback callback) {
-        mDb.getReview(id.toString(), reviewCallback(id, callback));
+    public void getReview(ReviewId reviewId, final RepositoryCallback callback) {
+        mDb.getReview(reviewId.toString(), reviewCallback(reviewId, callback));
     }
 
     @Override
@@ -79,8 +79,8 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     }
 
     @Override
-    public void getReference(ReviewId id, RepositoryCallback callback) {
-        mDb.getReview(id.toString(), referenceCallback(id, callback));
+    public void getReference(ReviewId reviewId, RepositoryCallback callback) {
+        mDb.getReview(reviewId.toString(), referenceCallback(reviewId, callback));
     }
 
     @Override

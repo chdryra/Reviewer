@@ -64,7 +64,7 @@ public class GvReviewList extends GvDataListImpl<GvReview> {
     @Override
     public boolean contains(Object object) {
         try {
-            GvReviewOverview item = (GvReviewOverview) object;
+            GvReview item = (GvReview) object;
             return contains(item.getReviewId());
         } catch (ClassCastException e) {
             return false;

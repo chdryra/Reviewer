@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 public interface RowReview extends ReviewDataRow<RowReview>, DataDateReview,
         DataSubject, DataRating {
     ColumnInfo<String> REVIEW_ID = new ColumnInfo<>("review_id", DbEntryType.TEXT);
-    ColumnInfo<String> USER_ID = new ColumnInfo<>("user_id", DbEntryType.TEXT);
+    ColumnInfo<String> AUTHOR_ID = new ColumnInfo<>("author_id", DbEntryType.TEXT);
     ColumnInfo<Long> PUBLISH_DATE = new ColumnInfo<>("publish_date", DbEntryType.LONG);
     ColumnInfo<String> SUBJECT = new ColumnInfo<>("subject", DbEntryType.TEXT);
     ColumnInfo<Float> RATING = new ColumnInfo<>("rating", DbEntryType.FLOAT);

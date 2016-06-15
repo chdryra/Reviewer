@@ -42,7 +42,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -84,7 +84,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, "");
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -102,7 +102,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, "");
+        values.put(RowReview.AUTHOR_ID, "");
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -120,7 +120,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, null);
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -138,7 +138,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, null);
         values.put(RowReview.RATING, reference.getRating());
@@ -156,7 +156,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, "");
         values.put(RowReview.RATING, reference.getRating());
@@ -174,7 +174,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, null);
@@ -192,7 +192,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, -1f);
@@ -210,7 +210,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -228,7 +228,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -246,7 +246,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -264,7 +264,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
 
         RowValuesForTest values = new RowValuesForTest();
         values.put(RowReview.REVIEW_ID, reference.getReviewId().toString());
-        values.put(RowReview.USER_ID, reference.getAuthorId());
+        values.put(RowReview.AUTHOR_ID, reference.getAuthorId());
         values.put(RowReview.PUBLISH_DATE, reference.getPublishDate());
         values.put(RowReview.SUBJECT, reference.getSubject());
         values.put(RowReview.RATING, reference.getRating());
@@ -285,7 +285,7 @@ public class RowReviewImplTest extends RowTableBasicTest<RowReview, RowReviewImp
         assertThat(entries.size(), is(7));
 
         checkEntry(entries.get(0), RowReview.REVIEW_ID, row.getReviewId().toString());
-        checkEntry(entries.get(1), RowReview.USER_ID, row.getAuthorId());
+        checkEntry(entries.get(1), RowReview.AUTHOR_ID, row.getAuthorId());
         checkEntry(entries.get(2), RowReview.PUBLISH_DATE, row.getPublishDate());
         checkEntry(entries.get(3), RowReview.SUBJECT, row.getSubject());
         checkEntry(entries.get(4), RowReview.RATING, row.getRating());
