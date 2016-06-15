@@ -137,12 +137,20 @@ public class RepositoryResult {
         return mMessage.isError();
     }
 
-    public boolean isCollection() {
+    public boolean isReviewCollection() {
         return mReviews.size() > 0;
+    }
+
+    public boolean isReferenceCollection() {
+        return mReferences.size() > 0;
     }
 
     public boolean isReview() {
         return mReview != null;
+    }
+
+    public boolean isReference() {
+        return mReference != null;
     }
 
     public String getMessageString() {

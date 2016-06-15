@@ -92,7 +92,7 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
                 if(result.isReview()) {
                     Review review = result.getReview();
                     if(review != null) mCache.add(review);
-                } else if(result.isCollection()) {
+                } else if(result.isReviewCollection()) {
                     for(Review review : result.getReviews()) {
                         mCache.add(review);
                     }

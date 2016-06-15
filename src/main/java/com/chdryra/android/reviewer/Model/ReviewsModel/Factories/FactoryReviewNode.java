@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMuta
  */
 public class FactoryReviewNode {
     public ReviewNodeMutable createReviewNodeComponent(Review review, boolean isAverage) {
-        MdReviewId id = new MdReviewId(review.getReviewId());
-        return new ReviewTreeMutable(id, review, isAverage);
+        return new ReviewTreeMutable(review, isAverage);
     }
 
     public ReviewNode createReviewNode(Review review, boolean isAverage) {

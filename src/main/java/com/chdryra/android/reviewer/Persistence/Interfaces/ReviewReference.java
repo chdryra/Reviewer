@@ -36,17 +36,38 @@ public interface ReviewReference {
         void onValue(T value);
     }
 
-    interface SubjectObserver extends ValueObserver<DataSubject> {}
-    interface RatingObserver extends ValueObserver<DataRating> {}
-    interface AuthorObserver extends ValueObserver<DataAuthorReview> {}
-    interface DateObserver extends ValueObserver<DataDateReview> {}
-    interface CoverObserver extends ValueObserver<DataImage> {}
-    interface CriteriaObserver extends ValueObserver<IdableList<? extends DataCriterion>> {}
-    interface CommentsObserver extends ValueObserver<IdableList<? extends DataComment>> {}
-    interface FactsObserver extends ValueObserver<IdableList<? extends DataFact>> {}
-    interface LocationsObserver extends ValueObserver<IdableList<? extends DataLocation>> {}
-    interface ImagesObserver extends ValueObserver<IdableList<? extends DataImage>> {}
-    interface TagsObserver extends ValueObserver<IdableList<? extends DataTag>> {}
+    interface SubjectObserver extends ValueObserver<DataSubject> {
+    }
+
+    interface RatingObserver extends ValueObserver<DataRating> {
+    }
+
+    interface AuthorObserver extends ValueObserver<DataAuthorReview> {
+    }
+
+    interface DateObserver extends ValueObserver<DataDateReview> {
+    }
+
+    interface CoverObserver extends ValueObserver<DataImage> {
+    }
+
+    interface CriteriaObserver extends ValueObserver<IdableList<? extends DataCriterion>> {
+    }
+
+    interface CommentsObserver extends ValueObserver<IdableList<? extends DataComment>> {
+    }
+
+    interface FactsObserver extends ValueObserver<IdableList<? extends DataFact>> {
+    }
+
+    interface LocationsObserver extends ValueObserver<IdableList<? extends DataLocation>> {
+    }
+
+    interface ImagesObserver extends ValueObserver<IdableList<? extends DataImage>> {
+    }
+
+    interface TagsObserver extends ValueObserver<IdableList<? extends DataTag>> {
+    }
 
     interface DereferenceCallback {
         void onDereferenced(@Nullable Review review, CallbackMessage message);

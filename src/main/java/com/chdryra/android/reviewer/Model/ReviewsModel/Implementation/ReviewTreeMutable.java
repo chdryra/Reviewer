@@ -39,18 +39,16 @@ import java.util.ArrayList;
  * </p>
  */
 public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutable, ReviewNode.NodeObserver, Review.ReviewObserver {
-    private final MdReviewId mId;
     private final Review mReview;
     private final MdDataList<ReviewNodeMutable> mChildren;
     private final ArrayList<NodeObserver> mObservers;
     private ReviewNodeMutable mParent;
     private boolean mRatingIsAverage = false;
 
-    public ReviewTreeMutable(MdReviewId nodeId, Review review, boolean ratingIsAverage) {
-        mId = nodeId;
+    public ReviewTreeMutable(Review review, boolean ratingIsAverage) {
         mReview = review;
         mReview.registerObserver(this);
-        mChildren = new MdDataList<>(nodeId);
+        mChildren = new MdDataList<>(getReviewId());
         mParent = null;
         mRatingIsAverage = ratingIsAverage;
         mObservers = new ArrayList<>();
@@ -60,7 +58,7 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
 
     @Override
     public ReviewId getReviewId() {
-        return mId;
+        return mReview.getReviewId();
     }
 
     @Override
@@ -121,7 +119,7 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
             return;
         }
 
-        if (mParent != null) mParent.removeChild(mId);
+        if (mParent != null) mParent.removeChild(getReviewId());
         mParent = parentNode;
         if (mParent != null) mParent.addChild(this);
         notifyNodeChanged();
@@ -161,7 +159,7 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
 
     @Override
     public IdableList<? extends DataImage> getCovers() {
-        IdableList<DataImage> covers = new MdDataList<>(mId);
+        IdableList<DataImage> covers = new MdDataList<>(getReviewId());
         DataImage cover = getCover();
         if(cover.getBitmap() != null) covers.add(cover);
         for(ReviewNode child : getChildren()) {
@@ -271,7 +269,6 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
         ReviewTreeMutable that = (ReviewTreeMutable) o;
 
         if (mRatingIsAverage != that.mRatingIsAverage) return false;
-        if (!mId.equals(that.mId)) return false;
         if (!mReview.equals(that.mReview)) return false;
         if (!mChildren.equals(that.mChildren)) return false;
         return !(mParent != null ? !mParent.equals(that.mParent) : that.mParent != null);
@@ -280,8 +277,7 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
 
     @Override
     public int hashCode() {
-        int result = mId.hashCode();
-        result = 31 * result + mReview.hashCode();
+        int result = mReview.hashCode();
         result = 31 * result + mChildren.hashCode();
         result = 31 * result + (mParent != null ? mParent.hashCode() : 0);
         result = 31 * result + (mRatingIsAverage ? 1 : 0);
@@ -298,7 +294,7 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
             weight += childRating.getRatingWeight();
         }
         if (weight > 0) rating /= weight;
-        return new MdRating(mId, rating, weight);
+        return new MdRating(new MdReviewId(getReviewId()), rating, weight);
     }
 
     private void notifyNodeChanged() {
@@ -309,7 +305,7 @@ public class ReviewTreeMutable extends ReviewDynamic implements ReviewNodeMutabl
     }
 
     private <T extends HasReviewId> IdableList<T> getReviewData(DataGetter<T> getter) {
-        MdDataList<T> data = new MdDataList<>(mId);
+        MdDataList<T> data = new MdDataList<>(getReviewId());
         data.addAll(getter.getData(mReview));
         for (ReviewNode child : getChildren()) {
             data.addAll(getter.getData(child));

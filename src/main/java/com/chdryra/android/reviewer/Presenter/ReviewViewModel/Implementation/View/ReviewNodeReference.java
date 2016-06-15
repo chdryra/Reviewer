@@ -21,9 +21,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 
@@ -32,13 +32,26 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeReference implements ReviewNode {
-
+public class ReviewNodeReference implements ReviewNodeMutable {
     private ReviewReference mReference;
-    private FactoryReviews mReviewsFactory;
 
-    public ReviewTreeReference(ReviewReference reference) {
+    public ReviewNodeReference(ReviewReference reference) {
         mReference = reference;
+    }
+
+    @Override
+    public boolean addChild(ReviewNodeMutable childNode) {
+        return false;
+    }
+
+    @Override
+    public void removeChild(ReviewId reviewId) {
+
+    }
+
+    @Override
+    public void setParent(@Nullable ReviewNodeMutable parent) {
+
     }
 
     @Override

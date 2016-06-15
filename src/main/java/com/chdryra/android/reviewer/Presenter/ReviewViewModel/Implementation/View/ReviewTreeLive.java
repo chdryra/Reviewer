@@ -29,12 +29,10 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
         ReviewsRepositoryObserver {
 
     private ReviewsRepository mRepo;
-    private FactoryReviews mReviewsFactory;
 
     public ReviewTreeLive(DataAuthor author, ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
         super(reviewsFactory.createMetaReviewMutable(new ArrayList<Review>(), title));
         mRepo = repo;
-        mReviewsFactory = reviewsFactory;
         mRepo.registerObserver(this);
         mRepo.getReferences(author, this);
     }
@@ -43,17 +41,22 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
     @Override
     public void onRepositoryCallback(RepositoryResult result) {
         if (!result.isError()) {
-            for (ReviewReference review : result.getReferences()) {
-                addChild(review);
+            if(result.isReferenceCollection()) {
+                for (ReviewReference review : result.getReferences()) {
+                    addChild(review);
+                }
+                notifyNodeObservers();
+            } else if(result.isReference()) {
+                ReviewReference reference = result.getReference();
+                if(reference != null) addChild(reference);
+                notifyNodeObservers();
             }
-            notifyNodeObservers();
         }
     }
 
     @Override
     public void onReviewAdded(Review review) {
-        addChild(review);
-        notifyNodeObservers();
+        mRepo.getReference(review.getReviewId(), this);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
     }
 
     private void addChild(ReviewReference review) {
-        addChild(mReviewsFactory.createReviewNodeComponent(review, false));
+        addChild(new ReviewNodeReference(review));
     }
 
     public void detachFromRepo() {
