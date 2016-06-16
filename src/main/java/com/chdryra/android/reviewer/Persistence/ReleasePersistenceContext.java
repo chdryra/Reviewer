@@ -12,13 +12,13 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.PersistenceContextBasic;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.PersistencePlugin;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
+        .PersistencePlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,17 +31,17 @@ public class ReleasePersistenceContext extends PersistenceContextBasic {
                                      DataValidator validator,
                                      PersistencePlugin plugin) {
 
-        setLocalRepository(plugin.newLocalPersistence(model, validator));
+        setReposFactory(newRepoFactory(model, validator, plugin));
 
         setUsersManager(plugin.newUsersManager());
 
-        FactoryReviewsRepository repoFactory = newRepoFactory(model, validator, plugin);
-        ReviewsCache reviewsCache = repoFactory.newCache();
-        setBackendRepository(plugin.newBackendPersistence(model, validator, reviewsCache));
+        setLocalRepository(plugin.newLocalPersistence(model, validator, getRepoFactory()));
 
-        ReviewsRepositoryMutable cachedRepo = repoFactory.newCachedRepo(getBackendRepository(), reviewsCache);
-        setFeedFactory(new FactoryReviewsFeed(cachedRepo));
-        setReviewsSource(repoFactory.newReviewsSource(cachedRepo, model.getReviewsFactory()));
+        setBackendRepository(plugin.newBackendPersistence(model, validator, getRepoFactory()));
+
+        ReviewsCache cache = getRepoFactory().newCache();
+        ReviewsRepository cachedRepo = getRepoFactory().newCachedRepo(getBackendRepository(), cache);
+        setReviewsSource(getRepoFactory().newReviewsSource(cachedRepo, model.getReviewsFactory()));
     }
 
     @NonNull

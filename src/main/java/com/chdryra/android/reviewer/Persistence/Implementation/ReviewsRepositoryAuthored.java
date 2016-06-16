@@ -12,7 +12,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 
@@ -23,20 +24,17 @@ import java.util.ArrayList;
  * On: 22/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsFeedImpl implements ReviewsFeed, ReviewsRepositoryObserver {
+public class ReviewsRepositoryAuthored implements ReviewsRepository, ReviewsRepositoryObserver {
     private DataAuthor mAuthor;
     private ReviewsRepository mRepo;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
+    private FactoryReviewsRepository mRepoFactory;
 
-    public ReviewsFeedImpl(DataAuthor author, ReviewsRepository repo) {
+    public ReviewsRepositoryAuthored(DataAuthor author, ReviewsRepository repo, FactoryReviewsRepository repoFactory) {
         mAuthor = author;
         mRepo = repo;
+        mRepoFactory = repoFactory;
         mObservers = new ArrayList<>();
-    }
-
-    @Override
-    public DataAuthor getAuthor() {
-        return mAuthor;
     }
 
     @Override
@@ -46,7 +44,16 @@ public class ReviewsFeedImpl implements ReviewsFeed, ReviewsRepositoryObserver {
 
     @Override
     public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        mRepo.getReviews(author, callback);
+        if(author.equals(mAuthor)) {
+            mRepo.getReviews(author, callback);
+        } else {
+            callback.onRepositoryCallback(new RepositoryResult(new ArrayList<Review>()));
+        }
+    }
+
+    @Override
+    public ReviewsRepository getReviews(DataAuthor author) {
+        return author == mAuthor ? this : mRepoFactory.newEmptyRepository(getTagsManager());
     }
 
     @Override
@@ -56,7 +63,21 @@ public class ReviewsFeedImpl implements ReviewsFeed, ReviewsRepositoryObserver {
 
     @Override
     public void getReferences(DataAuthor author, RepositoryCallback callback) {
-        mRepo.getReferences(author, callback);
+        if(author.equals(mAuthor)) {
+            mRepo.getReviews(author, callback);
+        } else {
+            callback.onRepositoryCallback(new RepositoryResult(new ArrayList<ReviewReference>(), author));
+        }
+    }
+
+    @Override
+    public void getReviews(RepositoryCallback callback) {
+        mRepo.getReviews(mAuthor, callback);
+    }
+
+    @Override
+    public void getReferences(RepositoryCallback callback) {
+        mRepo.getReferences(mAuthor, callback);
     }
 
     @Override

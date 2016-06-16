@@ -39,8 +39,8 @@ public interface BackendReviewsDb {
     }
 
     interface GetCollectionCallback {
-        void onReviewCollection(Author author,
-                                Collection<ReviewReference> references,
+        void onReviewCollection(Collection<ReviewReference> references,
+                                @Nullable Author author,
                                 @Nullable BackendError error);
     }
 
@@ -51,6 +51,8 @@ public interface BackendReviewsDb {
     void getReview(String reviewId, GetReviewCallback callback);
 
     void getReviews(Author author, GetCollectionCallback callback);
+
+    void getReviews(GetCollectionCallback callback);
 
     void registerObserver(DbObserver<ReviewDb> observer);
 

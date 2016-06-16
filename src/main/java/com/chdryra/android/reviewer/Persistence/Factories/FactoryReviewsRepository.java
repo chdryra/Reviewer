@@ -8,12 +8,15 @@
 
 package com.chdryra.android.reviewer.Persistence.Factories;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryMutableCached;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Implementation.NullReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryAuthored;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
@@ -30,11 +33,19 @@ public class FactoryReviewsRepository {
 
     public ReviewsSource newReviewsSource(ReviewsRepository repository,
                                           FactoryReviews reviewsFactory) {
-        return new ReviewsSourceImpl(repository, reviewsFactory);
+        return new ReviewsSourceImpl(repository, reviewsFactory, this);
     }
 
-    public ReviewsRepositoryMutable newCachedRepo(ReviewsRepositoryMutable archive, ReviewsCache cache) {
-        return new ReviewsRepositoryMutableCached(cache, archive);
+    public ReviewsRepository newCachedRepo(ReviewsRepository archive, ReviewsCache cache) {
+        return new ReviewsRepositoryCached<>(cache, archive, this);
+    }
+
+    public ReviewsRepository newAuthoredRepo(DataAuthor author, ReviewsRepository mainRepo) {
+        return new ReviewsRepositoryAuthored(author, mainRepo, this);
+    }
+
+    public ReviewsRepository newEmptyRepository(TagsManager manager) {
+        return new NullReviewsRepository(manager);
     }
 
     public ReviewsCache newCache() {

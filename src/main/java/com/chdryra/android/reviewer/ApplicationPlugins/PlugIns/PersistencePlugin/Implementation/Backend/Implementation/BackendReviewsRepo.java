@@ -22,8 +22,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 
@@ -43,19 +45,17 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     private static final String REVIEW_FOUND = "Review found";
     private BackendReviewsDb mDb;
     private BackendReviewConverter mConverter;
-
+    private FactoryReviewsRepository mRepoFactory;
     private ArrayList<ReviewsRepositoryObserver> mObservers;
 
     public BackendReviewsRepo(BackendReviewsDb db,
-                              BackendReviewConverter converter) {
+                              BackendReviewConverter converter,
+                              FactoryReviewsRepository repoFactory) {
         mDb = db;
         mConverter = converter;
+        mRepoFactory = repoFactory;
         mObservers = new ArrayList<>();
         mDb.registerObserver(this);
-    }
-
-    public void downloadReview(ReviewId id, final RepositoryCallback callback) {
-        mDb.getReview(id.toString(), reviewCallback(id, callback));
     }
 
     @Override
@@ -79,6 +79,11 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     }
 
     @Override
+    public void getReviews(RepositoryCallback callback) {
+        mDb.getReviews(reviewCollectionCallback(callback));
+    }
+
+    @Override
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
         mDb.getReview(reviewId.toString(), referenceCallback(reviewId, callback));
     }
@@ -86,6 +91,16 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     @Override
     public void getReferences(DataAuthor author, RepositoryCallback callback) {
         mDb.getReviews(new Author(author), referenceCollectionCallback(callback));
+    }
+
+    @Override
+    public void getReferences(RepositoryCallback callback) {
+        mDb.getReviews(referenceCollectionCallback(callback));
+    }
+
+    @Override
+    public ReviewsRepository getReviews(DataAuthor author) {
+        return mRepoFactory.newAuthoredRepo(author, this);
     }
 
     @Override
@@ -179,8 +194,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     referenceCollectionCallback(final RepositoryCallback callback) {
         return new BackendReviewsDb.GetCollectionCallback() {
             @Override
-            public void onReviewCollection(Author author,
-                                           Collection<ReviewReference> fetched,
+            public void onReviewCollection(Collection<ReviewReference> fetched, Author author,
                                            @Nullable BackendError error) {
                 CallbackMessage result = getCollectionCallbackMessage(error);
                 DataAuthor da = author == null ? null : author.toDataAuthor();
@@ -194,8 +208,7 @@ public class BackendReviewsRepo implements ReviewsRepositoryMutable, DbObserver<
     reviewCollectionCallback(final RepositoryCallback callback) {
         return new BackendReviewsDb.GetCollectionCallback() {
             @Override
-            public void onReviewCollection(Author author,
-                                           Collection<ReviewReference> fetched,
+            public void onReviewCollection(Collection<ReviewReference> fetched, Author author,
                                            @Nullable BackendError error) {
                 CallbackMessage result = getCollectionCallbackMessage(error);
                 DataAuthor da = author.toDataAuthor();

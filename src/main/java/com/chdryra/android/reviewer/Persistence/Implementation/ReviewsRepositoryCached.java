@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
@@ -25,10 +26,12 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
         implements ReviewsRepository, ReviewsRepositoryObserver {
     private ReviewsCache mCache;
     private T mArchive;
+    private FactoryReviewsRepository mRepoFactory;
 
-    public ReviewsRepositoryCached(ReviewsCache cache, T archive) {
+    public ReviewsRepositoryCached(ReviewsCache cache, T archive, FactoryReviewsRepository repoFactory) {
         mCache = cache;
         mArchive = archive;
+        mRepoFactory = repoFactory;
         mArchive.registerObserver(this);
     }
 
@@ -44,6 +47,21 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     @Override
     public void getReviews(DataAuthor author, RepositoryCallback callback) {
         mArchive.getReviews(author, new ArchiveCallBack(callback));
+    }
+
+    @Override
+    public ReviewsRepository getReviews(DataAuthor author) {
+        return mRepoFactory.newAuthoredRepo(author, this);
+    }
+
+    @Override
+    public void getReviews(RepositoryCallback callback) {
+        mArchive.getReviews(callback);
+    }
+
+    @Override
+    public void getReferences(RepositoryCallback callback) {
+        mArchive.getReferences(callback);
     }
 
     @Override

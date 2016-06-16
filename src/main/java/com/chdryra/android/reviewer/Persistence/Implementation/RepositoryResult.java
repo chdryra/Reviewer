@@ -57,6 +57,12 @@ public class RepositoryResult {
         mMessage = message;
     }
 
+    public RepositoryResult(Collection<ReviewReference> references, @Nullable DataAuthor author) {
+        mAuthor = author;
+        mReferences.addAll(references);
+        mMessage = CallbackMessage.ok();
+    }
+
     public RepositoryResult(Collection<ReviewReference> references, @Nullable DataAuthor author, CallbackMessage message) {
         mAuthor = author;
         mReferences.addAll(references);
@@ -138,23 +144,19 @@ public class RepositoryResult {
     }
 
     public boolean isReviewCollection() {
-        return mReviews.size() > 0;
+        return !isError() && mReviews.size() > 0;
     }
 
     public boolean isReferenceCollection() {
-        return mReferences.size() > 0;
+        return !isError() && mReferences.size() > 0;
     }
 
     public boolean isReview() {
-        return mReview != null;
+        return !isError() && mReview != null;
     }
 
     public boolean isReference() {
-        return mReference != null;
-    }
-
-    public String getMessageString() {
-        return mMessage.getMessage();
+        return !isError() && mReference != null;
     }
 
     public CallbackMessage getMessage() {

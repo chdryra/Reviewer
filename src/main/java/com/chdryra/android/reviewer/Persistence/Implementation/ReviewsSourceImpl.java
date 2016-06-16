@@ -18,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableColl
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -37,11 +38,14 @@ import java.util.Set;
 public class ReviewsSourceImpl implements ReviewsSource {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
+    private FactoryReviewsRepository mRepoFactory;
 
     public ReviewsSourceImpl(ReviewsRepository repository,
-                             FactoryReviews reviewFactory) {
+                             FactoryReviews reviewFactory,
+                             FactoryReviewsRepository repoFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
+        mRepoFactory = repoFactory;
     }
 
     @Override
@@ -83,23 +87,22 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public void getReview(final ReviewId reviewId, final RepositoryCallback callback) {
-        getReviewNullable(reviewId, new RepositoryCallback() {
-            @Override
-            public void onRepositoryCallback(RepositoryResult result) {
-                if(result.isError()) {
-                    Review review = mReviewFactory.getNullReview();
-                    result = new RepositoryResult(review, result.getMessage());
-                }
-
-                callback.onRepositoryCallback(result);
-            }
-        });
-
+        mRepository.getReview(reviewId, callback);
     }
 
     @Override
     public void getReviews(DataAuthor author, RepositoryCallback callback) {
         mRepository.getReviews(author, callback);
+    }
+
+    @Override
+    public void getReviews(RepositoryCallback callback) {
+        mRepository.getReviews(callback);
+    }
+
+    @Override
+    public ReviewsRepository getReviews(DataAuthor author) {
+        return mRepoFactory.newAuthoredRepo(author, this);
     }
 
     @Override
@@ -110,6 +113,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
     @Override
     public void getReferences(DataAuthor author, RepositoryCallback callback) {
         mRepository.getReferences(author, callback);
+    }
+
+    @Override
+    public void getReferences(RepositoryCallback callback) {
+        mRepository.getReferences(callback);
     }
 
     @Override
@@ -175,15 +183,11 @@ public class ReviewsSourceImpl implements ReviewsSource {
         });
     }
 
-    private void getReviewNullable(ReviewId reviewId, RepositoryCallback callback) {
-        mRepository.getReview(reviewId, callback);
-    }
-
     private void getUniqueReviews(final VerboseIdableCollection data,
                                   final RepositoryCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
-            getReviewNullable(data.getItem(i).getReviewId(), uniqueCallback);
+            getReview(data.getItem(i).getReviewId(), uniqueCallback);
         }
     }
 

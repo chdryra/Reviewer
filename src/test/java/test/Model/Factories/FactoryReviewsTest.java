@@ -92,7 +92,6 @@ public class FactoryReviewsTest {
         Review review = mFactory.createUserReview(subject,
                 rating, criteria, comments, images, facts, locations, false);
 
-        assertThat(review.isRatingAverageOfCriteria(), is(false));
         checkRating(rating, review);
 
         checkSubject(subject, review);

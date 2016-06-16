@@ -27,6 +27,8 @@ public interface FbReviewsStructure {
 
     Firebase getReviewsDb(Firebase root, Author author);
 
+    Firebase getListEntriesDb(Firebase root);
+
     Firebase getListEntriesDb(Firebase root, Author author);
 
     Firebase getListEntryDb(Firebase root, String reviewId);

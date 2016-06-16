@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
@@ -24,7 +24,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     private ReviewsRepositoryMutable mBackendRepo;
     private UsersManager mUsersManager;
     private ReviewsSource mReviewsSource;
-    private FactoryReviewsFeed mFeedFactory;
+    private FactoryReviewsRepository mRepoFactory;
 
     public void setLocalRepository(ReviewsRepositoryMutable localRepo) {
         mLocalRepo = localRepo;
@@ -42,8 +42,8 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
         mReviewsSource = reviewsSource;
     }
 
-    public void setFeedFactory(FactoryReviewsFeed feedFactory) {
-        mFeedFactory = feedFactory;
+    public void setReposFactory(FactoryReviewsRepository repoFactory) {
+        mRepoFactory = repoFactory;
     }
 
     @Override
@@ -67,7 +67,7 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public FactoryReviewsFeed getFeedFactory() {
-        return mFeedFactory;
+    public FactoryReviewsRepository getRepoFactory() {
+        return mRepoFactory;
     }
 }

@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsFeed;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -47,7 +47,7 @@ public class PresenterFeed extends PresenterReviewsList {
 
         @NonNull
         protected ReviewTreeLive getFeedNode(DataAuthor author) {
-            ReviewsFeed feed = mApp.getFeed(author);
+            ReviewsRepository feed = mApp.getReviews(author);
             String title = author.getName() + "'s feed";
             return new ReviewTreeLive(author, feed, mApp.getReviewsFactory(), title);
         }

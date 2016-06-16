@@ -80,6 +80,12 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @Override
+    public void getReviews(final GetCollectionCallback callback) {
+        Firebase entries = mStructure.getListEntriesDb(mDataBase);
+        doSingleEvent(entries, newGetReferenceCollectionListener(null, callback));
+    }
+
+    @Override
     public void registerObserver(DbObserver<ReviewDb> observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
@@ -114,7 +120,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @NonNull
-    private ValueEventListener newGetReferenceCollectionListener(final Author author, final
+    private ValueEventListener newGetReferenceCollectionListener(@Nullable final Author author, final
     GetCollectionCallback callback) {
         return new ValueEventListener() {
             @Override
@@ -127,12 +133,12 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
                     references.add(newReference(entry, reviewDb));
                 }
 
-                callback.onReviewCollection(author, references, null);
+                callback.onReviewCollection(references, author, null);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                callback.onReviewCollection(author, new ArrayList<ReviewReference>(),
+                callback.onReviewCollection(new ArrayList<ReviewReference>(), author,
                         FirebaseBackend.backendError(firebaseError));
             }
         };

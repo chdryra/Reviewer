@@ -34,6 +34,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.firebase.client.Firebase;
@@ -56,12 +57,12 @@ public class BackendFirebase implements Backend {
     }
 
     @Override
-    public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator, ReviewsCache cache) {
+    public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
         BackendValidator beValidator = new BackendValidator(validator);
         BackendReviewConverter beConverter = new BackendReviewConverter(beValidator, model.getReviewsFactory(), model.getTagsManager());
         BackendReviewsDb db = new FirebaseReviewsDb(mDatabase, mStructure, new BackendDataConverter(), beConverter);
 
-        return new BackendReviewsRepo(db, beConverter);
+        return new BackendReviewsRepo(db, beConverter, repoFactory);
     }
 
     @Override
