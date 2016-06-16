@@ -37,8 +37,10 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ValueObserver;
 
 import java.util.ArrayList;
 
@@ -64,31 +66,31 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(SubjectObserver observer) {
+    public void registerObserver(ReferenceObservers.SubjectObserver observer) {
         registerIfNecessary(observer);
         observer.onValue(mInfo.getSubject());
     }
 
     @Override
-    public void registerObserver(RatingObserver observer) {
+    public void registerObserver(ReferenceObservers.RatingObserver observer) {
         registerIfNecessary(observer);
         observer.onValue(mInfo.getRating());
     }
 
     @Override
-    public void registerObserver(AuthorObserver observer) {
+    public void registerObserver(ReferenceObservers.AuthorObserver observer) {
         registerIfNecessary(observer);
         observer.onValue(mInfo.getAuthor());
     }
 
     @Override
-    public void registerObserver(DateObserver observer) {
+    public void registerObserver(ReferenceObservers.DateObserver observer) {
         registerIfNecessary(observer);
         observer.onValue(mInfo.getPublishDate());
     }
 
     @Override
-    public void registerObserver(CoverObserver observer) {
+    public void registerObserver(ReferenceObservers.CoverObserver observer) {
         registerIfNecessary(observer);
         IdableList<RowImage> images = getData(getDb().getImagesTable(), RowImage.REVIEW_ID);
         for(RowImage image : images) {
@@ -100,40 +102,40 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(CriteriaObserver
+    public void registerObserver(ReferenceObservers.CriteriaObserver
                                                  observer) {
         registerIfNecessary(observer);
         observer.onValue(getData(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID));
     }
 
     @Override
-    public void registerObserver(CommentsObserver
+    public void registerObserver(ReferenceObservers.CommentsObserver
                                                      observer) {
         registerIfNecessary(observer);
         observer.onValue(getData(getDb().getCommentsTable(), RowComment.REVIEW_ID));
     }
 
     @Override
-    public void registerObserver(FactsObserver observer) {
+    public void registerObserver(ReferenceObservers.FactsObserver observer) {
         registerIfNecessary(observer);
         observer.onValue(getData(getDb().getFactsTable(), RowFact.REVIEW_ID));
     }
 
     @Override
-    public void registerObserver(ImagesObserver observer) {
+    public void registerObserver(ReferenceObservers.ImagesObserver observer) {
         registerIfNecessary(observer);
         observer.onValue(getData(getDb().getImagesTable(), RowImage.REVIEW_ID));
     }
 
     @Override
-    public void registerObserver(LocationsObserver
+    public void registerObserver(ReferenceObservers.LocationsObserver
                                                   observer) {
         registerIfNecessary(observer);
         observer.onValue(getData(getDb().getLocationsTable(), RowLocation.REVIEW_ID));
     }
 
     @Override
-    public void registerObserver(TagsObserver observer) {
+    public void registerObserver(ReferenceObservers.TagsObserver observer) {
         registerIfNecessary(observer);
         ItemTagCollection tags = mRepo.getTagsManager().getTags(mInfo.getReviewId().toString());
         IdableList<DataTag> dataTags = new IdableDataList<>(mInfo.getReviewId());
@@ -145,60 +147,60 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void unregisterObserver(SubjectObserver observer) {
+    public void unregisterObserver(ReferenceObservers.SubjectObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(RatingObserver observer) {
+    public void unregisterObserver(ReferenceObservers.RatingObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(AuthorObserver observer) {
+    public void unregisterObserver(ReferenceObservers.AuthorObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(DateObserver observer) {
+    public void unregisterObserver(ReferenceObservers.DateObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(CoverObserver observer) {
+    public void unregisterObserver(ReferenceObservers.CoverObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(CriteriaObserver
+    public void unregisterObserver(ReferenceObservers.CriteriaObserver
                                                        observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(CommentsObserver
+    public void unregisterObserver(ReferenceObservers.CommentsObserver
                                                    observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(FactsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.FactsObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(ImagesObserver observer) {
+    public void unregisterObserver(ReferenceObservers.ImagesObserver observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(LocationsObserver
+    public void unregisterObserver(ReferenceObservers.LocationsObserver
                                                         observer) {
         unregisterIfNecessary(observer);
     }
 
     @Override
-    public void unregisterObserver(TagsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.TagsObserver observer) {
         unregisterIfNecessary(observer);
     }
 

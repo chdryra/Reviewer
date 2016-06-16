@@ -23,6 +23,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileTranslator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.FbReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbStructUsersLed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseAuthenticator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
@@ -57,10 +60,14 @@ public class BackendFirebase implements Backend {
     }
 
     @Override
-    public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
+    public ReviewsRepositoryMutable newPersistence(ModelContext model,
+                                                   DataValidator validator,
+                                                   FactoryReviewsRepository repoFactory,
+                                                   ReviewsCache cache) {
         BackendValidator beValidator = new BackendValidator(validator);
         BackendReviewConverter beConverter = new BackendReviewConverter(beValidator, model.getReviewsFactory(), model.getTagsManager());
-        BackendReviewsDb db = new FirebaseReviewsDb(mDatabase, mStructure, new BackendDataConverter(), beConverter);
+        BackendReviewsDb db = new FirebaseReviewsDb(mDatabase, mStructure,
+                beValidator, new FbReferencer(new BackendDataConverter(), beConverter, cache));
 
         return new BackendReviewsRepo(db, beConverter, repoFactory);
     }

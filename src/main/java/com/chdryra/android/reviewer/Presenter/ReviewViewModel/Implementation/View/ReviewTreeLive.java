@@ -8,11 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutableAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReferenceWrapper;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
@@ -30,11 +30,11 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
 
     private ReviewsRepository mRepo;
 
-    public ReviewTreeLive(DataAuthor author, ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
+    public ReviewTreeLive(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
         super(reviewsFactory.createMetaReviewMutable(new ArrayList<Review>(), title));
         mRepo = repo;
         mRepo.registerObserver(this);
-        mRepo.getReferences(author, this);
+        mRepo.getReferences(this);
     }
 
 
@@ -66,7 +66,7 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
     }
 
     private void addChild(ReviewReference review) {
-        addChild(new ReviewNodeReference(review));
+        addChild(new ReviewNodeReference(new ReferenceWrapper(review)));
     }
 
     public void detachFromRepo() {

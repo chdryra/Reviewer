@@ -31,6 +31,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
@@ -206,21 +207,21 @@ public class VhReviewReference extends ViewHolderBasic {
         return string != null && string.length() > 0;
     }
 
-    private class SubjectObserver implements ReviewReference.SubjectObserver {
+    private class SubjectObserver implements ReferenceObservers.SubjectObserver {
         @Override
         public void onValue(DataSubject value) {
             mSubject.setText(value.getSubject());
         }
     }
 
-    private class RatingObserver implements ReviewReference.RatingObserver {
+    private class RatingObserver implements ReferenceObservers.RatingObserver {
         @Override
         public void onValue(DataRating value) {
             mRating.setRating(value.getRating());
         }
     }
 
-    private class CoverObserver implements ReviewReference.CoverObserver {
+    private class CoverObserver implements ReferenceObservers.CoverObserver {
         @Override
         public void onValue(DataImage value) {
             GvImage gvCover = mConverterImages.convert(value);
@@ -229,21 +230,21 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
-    private class AuthorObserver implements ReviewReference.AuthorObserver {
+    private class AuthorObserver implements ReferenceObservers.AuthorObserver {
         @Override
         public void onValue(DataAuthorReview value) {
             newStamp(value, mStamp.getDate());
         }
     }
 
-    private class DateObserver implements ReviewReference.DateObserver {
+    private class DateObserver implements ReferenceObservers.DateObserver {
         @Override
         public void onValue(DataDateReview value) {
             newStamp(mStamp.getAuthor(), value);
         }
     }
 
-    private class TagsObserver implements ReviewReference.TagsObserver {
+    private class TagsObserver implements ReferenceObservers.TagsObserver {
         @Override
         public void onValue(IdableList<? extends DataTag> value) {
             ItemTagCollection tags = mTagsManager.getTags(mReference.getInfo().getReviewId()
@@ -252,7 +253,7 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
-    private class LocationsObserver implements ReviewReference.LocationsObserver {
+    private class LocationsObserver implements ReferenceObservers.LocationsObserver {
         @Override
         public void onValue(IdableList<? extends DataLocation> value) {
             setLocationString(value);
@@ -260,7 +261,7 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
-    private class CommentsObserver implements ReviewReference.CommentsObserver {
+    private class CommentsObserver implements ReferenceObservers.CommentsObserver {
         @Override
         public void onValue(IdableList<? extends DataComment> value) {
             GvCommentList comments = mConverterComments.convert(value);

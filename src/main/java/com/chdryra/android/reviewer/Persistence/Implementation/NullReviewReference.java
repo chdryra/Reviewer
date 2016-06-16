@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
 
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 
 /**
@@ -27,115 +28,115 @@ public class NullReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(SubjectObserver observer) {
+    public void registerObserver(ReferenceObservers.SubjectObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(RatingObserver observer) {
+    public void registerObserver(ReferenceObservers.RatingObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(AuthorObserver observer) {
+    public void registerObserver(ReferenceObservers.AuthorObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(DateObserver observer) {
+    public void registerObserver(ReferenceObservers.DateObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(CriteriaObserver
+    public void registerObserver(ReferenceObservers.CriteriaObserver
                                                      observer) {
 
     }
 
     @Override
-    public void registerObserver(CommentsObserver observer) {
+    public void registerObserver(ReferenceObservers.CommentsObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(FactsObserver observer) {
+    public void registerObserver(ReferenceObservers.FactsObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(ImagesObserver observer) {
+    public void registerObserver(ReferenceObservers.ImagesObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(CoverObserver observer) {
+    public void registerObserver(ReferenceObservers.CoverObserver observer) {
 
     }
 
     @Override
-    public void registerObserver(LocationsObserver
+    public void registerObserver(ReferenceObservers.LocationsObserver
                                                       observer) {
 
     }
 
     @Override
-    public void registerObserver(TagsObserver observer) {
+    public void registerObserver(ReferenceObservers.TagsObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(SubjectObserver observer) {
+    public void unregisterObserver(ReferenceObservers.SubjectObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(RatingObserver observer) {
+    public void unregisterObserver(ReferenceObservers.RatingObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(AuthorObserver observer) {
+    public void unregisterObserver(ReferenceObservers.AuthorObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(DateObserver observer) {
+    public void unregisterObserver(ReferenceObservers.DateObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(CoverObserver observer) {
+    public void unregisterObserver(ReferenceObservers.CoverObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(CriteriaObserver observer) {
+    public void unregisterObserver(ReferenceObservers.CriteriaObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(CommentsObserver
+    public void unregisterObserver(ReferenceObservers.CommentsObserver
                                                        observer) {
 
     }
 
     @Override
-    public void unregisterObserver(FactsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.FactsObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(ImagesObserver observer) {
+    public void unregisterObserver(ReferenceObservers.ImagesObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(LocationsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.LocationsObserver observer) {
 
     }
 
     @Override
-    public void unregisterObserver(TagsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.TagsObserver observer) {
 
     }
 

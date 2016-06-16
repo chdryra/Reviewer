@@ -13,10 +13,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendDataConverter;
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.BackendReviewsDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.DbObserver;
@@ -41,18 +43,18 @@ import java.util.Map;
 public class FirebaseReviewsDb implements BackendReviewsDb {
     private Firebase mDataBase;
     private FbReviewsStructure mStructure;
-    private BackendDataConverter mDataConverter;
-    private BackendReviewConverter mReviewConverter;
+    private BackendValidator mValidator;
+    private FbReferencer mReferencer;
     private ArrayList<DbObserver<ReviewDb>> mObservers;
 
     public FirebaseReviewsDb(Firebase dataBase,
                              FbReviewsStructure structure,
-                             BackendDataConverter dataConverter,
-                             BackendReviewConverter reviewConverter) {
+                             BackendValidator validator,
+                             FbReferencer referencer) {
         mDataBase = dataBase;
         mStructure = structure;
-        mDataConverter = dataConverter;
-        mReviewConverter = reviewConverter;
+        mValidator = validator;
+        mReferencer = referencer;
         mObservers = new ArrayList<>();
     }
 
@@ -115,8 +117,8 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @NonNull
-    private FbReviewReference newReference(ReviewListEntry entry, Firebase reviewDb) {
-        return new FbReviewReference(entry, reviewDb, mDataConverter, mReviewConverter);
+    private ReviewReference newReference(ReviewListEntry entry, Firebase reviewDb) {
+        return mReferencer.newReference(entry, reviewDb);
     }
 
     @NonNull
@@ -182,7 +184,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final ReviewDb review = dataSnapshot.getValue(ReviewDb.class);
-                if (mReviewConverter.isValid(review)) doDelete(review, callback);
+                if (mValidator.isValid(review)) doDelete(review, callback);
             }
 
             @Override

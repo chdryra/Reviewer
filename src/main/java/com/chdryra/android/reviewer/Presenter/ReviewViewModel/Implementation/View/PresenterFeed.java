@@ -49,7 +49,7 @@ public class PresenterFeed extends PresenterReviewsList {
         protected ReviewTreeLive getFeedNode(DataAuthor author) {
             ReviewsRepository feed = mApp.getReviews(author);
             String title = author.getName() + "'s feed";
-            return new ReviewTreeLive(author, feed, mApp.getReviewsFactory(), title);
+            return new ReviewTreeLive(feed, mApp.getReviewsFactory(), title);
         }
     }
 }

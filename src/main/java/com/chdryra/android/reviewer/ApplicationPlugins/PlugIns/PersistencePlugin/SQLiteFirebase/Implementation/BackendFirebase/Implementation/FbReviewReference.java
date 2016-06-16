@@ -48,8 +48,12 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ValueObserver;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -69,6 +73,7 @@ public class FbReviewReference implements ReviewReference {
     private final Firebase mReference;
     private final BackendDataConverter mDataConverter;
     private final BackendReviewConverter mReviewConverter;
+    private final ReviewsCache mCache;
     private final Map<ValueObserver<?>, ValueEventListener> mBindings;
 
     private interface SnapshotConverter<T> {
@@ -78,11 +83,13 @@ public class FbReviewReference implements ReviewReference {
     public FbReviewReference(ReviewListEntry entry,
                              Firebase reference,
                              BackendDataConverter dataConverter,
-                             BackendReviewConverter reviewConverter) {
+                             BackendReviewConverter reviewConverter,
+                             ReviewsCache cache) {
         mDataConverter = dataConverter;
         mReviewConverter = reviewConverter;
         mInfo = mDataConverter.convert(entry);
         mReference = reference;
+        mCache = cache;
         mBindings = new HashMap<>();
     }
 
@@ -92,7 +99,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(final SubjectObserver observer) {
+    public void registerObserver(final ReferenceObservers.SubjectObserver observer) {
         bindObserver(ReviewDb.SUBJECT, observer, new SnapshotConverter<DataSubject>() {
             @Override
             public DataSubject convert(String reviewId, DataSnapshot snapshot) {
@@ -102,7 +109,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(RatingObserver observer) {
+    public void registerObserver(ReferenceObservers.RatingObserver observer) {
         bindObserver(ReviewDb.RATING, observer, new SnapshotConverter<DataRating>() {
             @Override
             public DataRating convert(String id, DataSnapshot snapshot) {
@@ -112,7 +119,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(AuthorObserver observer) {
+    public void registerObserver(ReferenceObservers.AuthorObserver observer) {
         bindObserver(ReviewDb.AUTHOR, observer, new SnapshotConverter<DataAuthorReview>() {
             @Override
             public DataAuthorReview convert(String id, DataSnapshot snapshot) {
@@ -122,7 +129,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(DateObserver observer) {
+    public void registerObserver(ReferenceObservers.DateObserver observer) {
         bindObserver(ReviewDb.PUBLISH_DATE, observer, new SnapshotConverter<DataDateReview>() {
             @Override
             public DataDateReview convert(String id, DataSnapshot snapshot) {
@@ -132,7 +139,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(CoverObserver observer) {
+    public void registerObserver(ReferenceObservers.CoverObserver observer) {
         bindObserver(ReviewDb.COVER, observer, new SnapshotConverter<DataImage>() {
             @Override
             public DataImage convert(String id, DataSnapshot snapshot) {
@@ -142,7 +149,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(CriteriaObserver
+    public void registerObserver(ReferenceObservers.CriteriaObserver
                                                  observer) {
         bindObserver(ReviewDb.CRITERIA, observer, new SnapshotConverter<IdableList<? extends DataCriterion>>() {
             @Override
@@ -154,7 +161,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(ImagesObserver observer) {
+    public void registerObserver(ReferenceObservers.ImagesObserver observer) {
         bindObserver(ReviewDb.IMAGES, observer, new SnapshotConverter<IdableList<? extends DataImage>>() {
             @Override
             public IdableList<? extends DataImage> convert(String reviewId, DataSnapshot snapshot) {
@@ -164,7 +171,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(CommentsObserver observer) {
+    public void registerObserver(ReferenceObservers.CommentsObserver observer) {
         bindObserver(ReviewDb.COMMENTS, observer, new SnapshotConverter<IdableList<? extends DataComment>>() {
             @Override
             public IdableList<? extends DataComment> convert(String reviewId, DataSnapshot
@@ -175,7 +182,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(FactsObserver observer) {
+    public void registerObserver(ReferenceObservers.FactsObserver observer) {
         bindObserver(ReviewDb.FACTS, observer, new SnapshotConverter<IdableList<? extends DataFact>>() {
             @Override
             public IdableList<? extends DataFact> convert(String reviewId, DataSnapshot snapshot) {
@@ -185,7 +192,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(LocationsObserver observer) {
+    public void registerObserver(ReferenceObservers.LocationsObserver observer) {
         bindObserver(ReviewDb.LOCATIONS, observer, new SnapshotConverter<IdableList<? extends DataLocation>>() {
             @Override
             public IdableList<? extends DataLocation> convert(String reviewId, DataSnapshot
@@ -197,7 +204,7 @@ public class FbReviewReference implements ReviewReference {
 
 
     @Override
-    public void registerObserver(TagsObserver observer) {
+    public void registerObserver(ReferenceObservers.TagsObserver observer) {
         bindObserver(ReviewDb.TAGS, observer, new SnapshotConverter<IdableList<? extends DataTag>>() {
             @Override
             public IdableList<DataTag> convert(String reviewId, DataSnapshot snapshot) {
@@ -213,62 +220,68 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void unregisterObserver(SubjectObserver observer) {
+    public void unregisterObserver(ReferenceObservers.SubjectObserver observer) {
         unbindObserver(ReviewDb.SUBJECT, observer);
     }
 
     @Override
-    public void unregisterObserver(RatingObserver observer) {
+    public void unregisterObserver(ReferenceObservers.RatingObserver observer) {
         unbindObserver(ReviewDb.RATING, observer);
     }
 
     @Override
-    public void unregisterObserver(AuthorObserver observer) {
+    public void unregisterObserver(ReferenceObservers.AuthorObserver observer) {
         unbindObserver(ReviewDb.AUTHOR, observer);
     }
 
     @Override
-    public void unregisterObserver(DateObserver observer) {
+    public void unregisterObserver(ReferenceObservers.DateObserver observer) {
         unbindObserver(ReviewDb.PUBLISH_DATE, observer);
     }
 
     @Override
-    public void unregisterObserver(CoverObserver observer) {
+    public void unregisterObserver(ReferenceObservers.CoverObserver observer) {
         unbindObserver(ReviewDb.COVER, observer);
     }
 
     @Override
-    public void unregisterObserver(CriteriaObserver observer) {
+    public void unregisterObserver(ReferenceObservers.CriteriaObserver observer) {
         unbindObserver(ReviewDb.CRITERIA, observer);
     }
 
     @Override
-    public void unregisterObserver(CommentsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.CommentsObserver observer) {
         unbindObserver(ReviewDb.COMMENTS, observer);
     }
 
     @Override
-    public void unregisterObserver(FactsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.FactsObserver observer) {
         unbindObserver(ReviewDb.FACTS, observer);
     }
 
     @Override
-    public void unregisterObserver(ImagesObserver observer) {
+    public void unregisterObserver(ReferenceObservers.ImagesObserver observer) {
         unbindObserver(ReviewDb.IMAGES, observer);
     }
 
     @Override
-    public void unregisterObserver(LocationsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.LocationsObserver observer) {
         unbindObserver(ReviewDb.LOCATIONS, observer);
     }
 
     @Override
-    public void unregisterObserver(TagsObserver observer) {
+    public void unregisterObserver(ReferenceObservers.TagsObserver observer) {
         unbindObserver(ReviewDb.TAGS, observer);
     }
 
     @Override
     public void dereference(final DereferenceCallback callback) {
+        ReviewId reviewId = mInfo.getReviewId();
+        if(mCache.contains(reviewId)) {
+            callback.onDereferenced(mCache.get(reviewId), CallbackMessage.ok());
+            return;
+        }
+
         mReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

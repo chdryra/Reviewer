@@ -25,7 +25,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReferenceWrapper;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,9 +33,9 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewNodeReference implements ReviewNodeMutable {
-    private ReviewReference mReference;
+    private ReferenceWrapper mReference;
 
-    public ReviewNodeReference(ReviewReference reference) {
+    public ReviewNodeReference(ReferenceWrapper reference) {
         mReference = reference;
     }
 
