@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
 import java.util.Map;
 
@@ -22,11 +21,8 @@ import java.util.Map;
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StructureReviews extends DbStructure<ReviewDb> {
+public interface StructureReview extends DbStructure<ReviewDb> {
     String relativePathToReview(String reviewId);
-
-    @Override
-    void setPathToStructure(Path<ReviewDb> path);
 
     @NonNull
     @Override

@@ -28,49 +28,78 @@ public interface ReviewReference {
 
     ReviewInfo getInfo();
 
-    void registerObserver(ReferenceObservers.SubjectObserver observer);
+    void bind(ReferenceBinders.SubjectBinder binder);
 
-    void registerObserver(ReferenceObservers.RatingObserver observer);
+    void bind(ReferenceBinders.RatingBinder binder);
 
-    void registerObserver(ReferenceObservers.AuthorObserver observer);
+    void bind(ReferenceBinders.AuthorBinder binder);
 
-    void registerObserver(ReferenceObservers.DateObserver observer);
+    void bind(ReferenceBinders.DateBinder binder);
 
-    void registerObserver(ReferenceObservers.CoverObserver observer);
+    void bind(ReferenceBinders.CoverBinder binder);
 
-    void registerObserver(ReferenceObservers.CriteriaObserver observer);
 
-    void registerObserver(ReferenceObservers.CommentsObserver observer);
+    void bind(ReferenceBinders.CriteriaBinder binder);
 
-    void registerObserver(ReferenceObservers.FactsObserver observer);
+    void bind(ReferenceBinders.CommentsBinder binder);
 
-    void registerObserver(ReferenceObservers.ImagesObserver observer);
+    void bind(ReferenceBinders.FactsBinder binder);
 
-    void registerObserver(ReferenceObservers.LocationsObserver observer);
+    void bind(ReferenceBinders.ImagesBinder binder);
 
-    void registerObserver(ReferenceObservers.TagsObserver observer);
+    void bind(ReferenceBinders.LocationsBinder binder);
 
-    void unregisterObserver(ReferenceObservers.SubjectObserver observer);
+    void bind(ReferenceBinders.TagsBinder binder);
 
-    void unregisterObserver(ReferenceObservers.RatingObserver observer);
 
-    void unregisterObserver(ReferenceObservers.AuthorObserver observer);
+    void bind(ReferenceBinders.NumCriteriaBinder binder);
 
-    void unregisterObserver(ReferenceObservers.DateObserver observer);
+    void bind(ReferenceBinders.NumCommentsBinder binder);
 
-    void unregisterObserver(ReferenceObservers.CoverObserver observer);
+    void bind(ReferenceBinders.NumFactsBinder binder);
 
-    void unregisterObserver(ReferenceObservers.CriteriaObserver observer);
+    void bind(ReferenceBinders.NumImagesBinder binder);
 
-    void unregisterObserver(ReferenceObservers.CommentsObserver observer);
+    void bind(ReferenceBinders.NumLocationsBinder binder);
 
-    void unregisterObserver(ReferenceObservers.FactsObserver observer);
+    void bind(ReferenceBinders.NumTagsBinder binder);
 
-    void unregisterObserver(ReferenceObservers.ImagesObserver observer);
 
-    void unregisterObserver(ReferenceObservers.LocationsObserver observer);
+    void unbind(ReferenceBinders.SubjectBinder binder);
 
-    void unregisterObserver(ReferenceObservers.TagsObserver observer);
+    void unbind(ReferenceBinders.RatingBinder binder);
+
+    void unbind(ReferenceBinders.AuthorBinder binder);
+
+    void unbind(ReferenceBinders.DateBinder binder);
+
+    void unbind(ReferenceBinders.CoverBinder binder);
+
+    
+    void unbind(ReferenceBinders.CriteriaBinder binder);
+
+    void unbind(ReferenceBinders.CommentsBinder binder);
+
+    void unbind(ReferenceBinders.FactsBinder binder);
+
+    void unbind(ReferenceBinders.ImagesBinder binder);
+
+    void unbind(ReferenceBinders.LocationsBinder binder);
+
+    void unbind(ReferenceBinders.TagsBinder binder);
+
+
+    void unbind(ReferenceBinders.NumCriteriaBinder binder);
+
+    void unbind(ReferenceBinders.NumCommentsBinder binder);
+
+    void unbind(ReferenceBinders.NumFactsBinder binder);
+
+    void unbind(ReferenceBinders.NumImagesBinder binder);
+
+    void unbind(ReferenceBinders.NumLocationsBinder binder);
+
+    void unbind(ReferenceBinders.NumTagsBinder binder);
 
     void dereference(DereferenceCallback callback);
 

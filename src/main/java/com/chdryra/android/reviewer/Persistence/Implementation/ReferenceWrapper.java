@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewDyna
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 
 /**
@@ -175,113 +175,173 @@ public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, Revie
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.SubjectObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.SubjectBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.RatingObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.RatingBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.AuthorObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.AuthorBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.DateObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.DateBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CoverObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.CoverBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CriteriaObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.CriteriaBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CommentsObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.CommentsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.FactsObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.FactsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.ImagesObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.ImagesBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.LocationsObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.LocationsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.TagsObserver observer) {
-        mReference.registerObserver(observer);
+    public void bind(ReferenceBinders.TagsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.SubjectObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void bind(ReferenceBinders.NumCriteriaBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.RatingObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void bind(ReferenceBinders.NumCommentsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.AuthorObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void bind(ReferenceBinders.NumFactsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.DateObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void bind(ReferenceBinders.NumImagesBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CoverObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void bind(ReferenceBinders.NumLocationsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CriteriaObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void bind(ReferenceBinders.NumTagsBinder binder) {
+        mReference.bind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CommentsObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void unbind(ReferenceBinders.SubjectBinder binder) {
+        mReference.unbind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.FactsObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void unbind(ReferenceBinders.RatingBinder binder) {
+        mReference.unbind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.ImagesObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void unbind(ReferenceBinders.AuthorBinder binder) {
+        mReference.unbind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.LocationsObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void unbind(ReferenceBinders.DateBinder binder) {
+        mReference.unbind(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.TagsObserver observer) {
-        mReference.unregisterObserver(observer);
+    public void unbind(ReferenceBinders.CoverBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.CriteriaBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.CommentsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.FactsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.ImagesBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.LocationsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.TagsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumFactsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumImagesBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
+        mReference.unbind(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumTagsBinder binder) {
+        mReference.unbind(binder);
     }
 
     @Override

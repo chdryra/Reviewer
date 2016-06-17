@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.FactoryV
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -49,7 +50,7 @@ public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
 
     public DataBuilderGridCell(DataBuilderAdapter<T> dataAdapter,
                                FactoryVhDataCollection viewHolderFactory) {
-        super(dataAdapter.getGvDataType(), null);
+        super(dataAdapter.getGvDataType(), new GvReviewId("create"));
         mDataAdapter = dataAdapter;
         mViewHolderFactory = viewHolderFactory;
         mDataAdapter.registerDataObserver(this);

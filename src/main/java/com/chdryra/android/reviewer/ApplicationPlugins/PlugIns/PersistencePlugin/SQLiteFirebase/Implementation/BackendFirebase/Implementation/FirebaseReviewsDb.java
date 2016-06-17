@@ -72,7 +72,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     @Override
     public void getReview(final String reviewId, final GetReviewCallback callback) {
         Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
-        doSingleEvent(entry, newGetReferenceListener(reviewId, callback));
+        doSingleEvent(entry, newGetReferenceListener(callback));
     }
 
     @Override
@@ -98,14 +98,11 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @NonNull
-    private ValueEventListener newGetReferenceListener(final String reviewId, final
-    GetReviewCallback callback) {
+    private ValueEventListener newGetReferenceListener(final GetReviewCallback callback) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ReviewListEntry entry = dataSnapshot.getValue(ReviewListEntry.class);
-                Firebase reviewDb = mStructure.getReviewDb(mDataBase, entry.getAuthor(), reviewId);
-                callback.onReview(newReference(entry, reviewDb), null);
+                callback.onReview(newReference(dataSnapshot.getValue(ReviewListEntry.class)), null);
             }
 
             @Override
@@ -117,8 +114,11 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
     }
 
     @NonNull
-    private ReviewReference newReference(ReviewListEntry entry, Firebase reviewDb) {
-        return mReferencer.newReference(entry, reviewDb);
+    private ReviewReference newReference(ReviewListEntry entry) {
+        String reviewId = entry.getReviewId();
+        Firebase reviewDb = mStructure.getReviewDb(mDataBase, entry.getAuthor(), reviewId);
+        Firebase aggregatesDb = mStructure.getAggregatesDb(mDataBase, entry.getAuthor(), reviewId);
+        return mReferencer.newReference(entry, reviewDb, aggregatesDb);
     }
 
     @NonNull
@@ -129,10 +129,7 @@ public class FirebaseReviewsDb implements BackendReviewsDb {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<ReviewReference> references = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    ReviewListEntry entry = child.getValue(ReviewListEntry.class);
-                    Firebase reviewDb = mStructure.getReviewDb(mDataBase, entry.getAuthor(),
-                            entry.getReviewId());
-                    references.add(newReference(entry, reviewDb));
+                    references.add(newReference(child.getValue(ReviewListEntry.class)));
                 }
 
                 callback.onReviewCollection(references, author, null);

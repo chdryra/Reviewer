@@ -35,7 +35,7 @@ public class FbReferencer {
         mCache = cache;
     }
 
-    public ReviewReference newReference(ReviewListEntry entry, Firebase reviewDb) {
-        return new FbReviewReference(entry, reviewDb, mDataConverter, mReviewConverter, mCache);
+    public ReviewReference newReference(ReviewListEntry entry, Firebase reviewDb, Firebase aggregatesDb) {
+        return new FbReviewReference(entry, reviewDb, aggregatesDb, mDataConverter, mReviewConverter, mCache);
     }
 }

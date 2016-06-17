@@ -10,25 +10,18 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation.LocalReviewerDb.Implementation;
 
 
-import android.support.annotation.NonNull;
+import android.os.AsyncTask;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowComment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowCriterion;
-
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowFact;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowImage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -37,10 +30,10 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ValueObserver;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ValueBinder;
 
 import java.util.ArrayList;
 
@@ -52,12 +45,12 @@ import java.util.ArrayList;
 public class ReviewerDbReference implements ReviewReference {
     private ReviewInfo mInfo;
     private ReviewerDbRepository mRepo;
-    private ArrayList<ValueObserver<?>> mObservers;
+    private ArrayList<ValueBinder<?>> mBinders;
 
     public ReviewerDbReference(ReviewInfo info, ReviewerDbRepository repo) {
         mInfo = info;
         mRepo = repo;
-        mObservers = new ArrayList<>();
+        mBinders = new ArrayList<>();
     }
 
     @Override
@@ -66,142 +59,261 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.SubjectObserver observer) {
-        registerIfNecessary(observer);
-        observer.onValue(mInfo.getSubject());
+    public void bind(ReferenceBinders.SubjectBinder binder) {
+        registerIfNecessary(binder);
+        binder.onValue(mInfo.getSubject());
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.RatingObserver observer) {
-        registerIfNecessary(observer);
-        observer.onValue(mInfo.getRating());
+    public void bind(ReferenceBinders.RatingBinder binder) {
+        registerIfNecessary(binder);
+        binder.onValue(mInfo.getRating());
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.AuthorObserver observer) {
-        registerIfNecessary(observer);
-        observer.onValue(mInfo.getAuthor());
+    public void bind(ReferenceBinders.AuthorBinder binder) {
+        registerIfNecessary(binder);
+        binder.onValue(mInfo.getAuthor());
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.DateObserver observer) {
-        registerIfNecessary(observer);
-        observer.onValue(mInfo.getPublishDate());
+    public void bind(ReferenceBinders.DateBinder binder) {
+        registerIfNecessary(binder);
+        binder.onValue(mInfo.getPublishDate());
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CoverObserver observer) {
-        registerIfNecessary(observer);
-        IdableList<RowImage> images = getData(getDb().getImagesTable(), RowImage.REVIEW_ID);
-        for(RowImage image : images) {
-            if(image.isCover()) {
-                observer.onValue(image);
-                break;
-            }
-        }
+    public void bind(final ReferenceBinders.CoverBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getImagesTable(), RowImage.REVIEW_ID,
+                new DataListener<RowImage>() {
+                    @Override
+                    public void onLoaded(IdableList<RowImage> data) {
+                        for (RowImage image : data) {
+                            if (image.isCover()) {
+                                binder.onValue(image);
+                                break;
+                            }
+                        }
+                    }
+                }).execute();
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CriteriaObserver
-                                                 observer) {
-        registerIfNecessary(observer);
-        observer.onValue(getData(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID));
+    public void bind(final ReferenceBinders.CriteriaBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID, 
+                new DataListener<RowCriterion>() {
+                    @Override
+                    public void onLoaded(IdableList<RowCriterion> data) {
+                        binder.onValue(data);
+                    }
+                }).execute();
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CommentsObserver
-                                                     observer) {
-        registerIfNecessary(observer);
-        observer.onValue(getData(getDb().getCommentsTable(), RowComment.REVIEW_ID));
+    public void bind(final ReferenceBinders.CommentsBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getCommentsTable(), RowComment.REVIEW_ID,
+                new DataListener<RowComment>() {
+                    @Override
+                    public void onLoaded(IdableList<RowComment> data) {
+                        binder.onValue(data);    
+                    }
+                }).execute();
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.FactsObserver observer) {
-        registerIfNecessary(observer);
-        observer.onValue(getData(getDb().getFactsTable(), RowFact.REVIEW_ID));
+    public void bind(final ReferenceBinders.FactsBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getFactsTable(), RowFact.REVIEW_ID,
+                new DataListener<RowFact>() {
+                    @Override
+                    public void onLoaded(IdableList<RowFact> data) {
+                        binder.onValue(data);
+                    }
+                }).execute();
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.ImagesObserver observer) {
-        registerIfNecessary(observer);
-        observer.onValue(getData(getDb().getImagesTable(), RowImage.REVIEW_ID));
+    public void bind(final ReferenceBinders.ImagesBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getImagesTable(), RowImage.REVIEW_ID,
+                new DataListener<RowImage>() {
+                    @Override
+                    public void onLoaded(IdableList<RowImage> data) {
+                        binder.onValue(data);
+                    }
+                }).execute();
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.LocationsObserver
-                                                  observer) {
-        registerIfNecessary(observer);
-        observer.onValue(getData(getDb().getLocationsTable(), RowLocation.REVIEW_ID));
+    public void bind(final ReferenceBinders.LocationsBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getLocationsTable(), RowLocation.REVIEW_ID,
+                new DataListener<RowLocation>() {
+                    @Override
+                    public void onLoaded(IdableList<RowLocation> data) {
+                        binder.onValue(data);
+                    }
+                }).execute();
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.TagsObserver observer) {
-        registerIfNecessary(observer);
-        ItemTagCollection tags = mRepo.getTagsManager().getTags(mInfo.getReviewId().toString());
-        IdableList<DataTag> dataTags = new IdableDataList<>(mInfo.getReviewId());
-        for(ItemTag tag : tags) {
-            dataTags.add(new DatumTag(mInfo.getReviewId(), tag.getTag()));
-        }
-
-        observer.onValue(dataTags);
+    public void bind(ReferenceBinders.TagsBinder binder) {
+        registerIfNecessary(binder);
+        observeTags(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.SubjectObserver observer) {
-        unregisterIfNecessary(observer);
+    public void bind(final ReferenceBinders.NumCriteriaBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID,
+                new DataListener<RowCriterion>() {
+                    @Override
+                    public void onLoaded(IdableList<RowCriterion> data) {
+                        binder.onValue(data.size());
+                    }
+                }).execute();
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.RatingObserver observer) {
-        unregisterIfNecessary(observer);
+    public void bind(final ReferenceBinders.NumCommentsBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getCommentsTable(), RowComment.REVIEW_ID,
+                new DataListener<RowComment>() {
+                    @Override
+                    public void onLoaded(IdableList<RowComment> data) {
+                        binder.onValue(data.size());
+                    }
+                }).execute();
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.AuthorObserver observer) {
-        unregisterIfNecessary(observer);
+    public void bind(final ReferenceBinders.NumFactsBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getFactsTable(), RowFact.REVIEW_ID,
+                new DataListener<RowFact>() {
+                    @Override
+                    public void onLoaded(IdableList<RowFact> data) {
+                        binder.onValue(data.size());
+                    }
+                }).execute();
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.DateObserver observer) {
-        unregisterIfNecessary(observer);
+    public void bind(final ReferenceBinders.NumImagesBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getFactsTable(), RowFact.REVIEW_ID,
+                new DataListener<RowFact>() {
+                    @Override
+                    public void onLoaded(IdableList<RowFact> data) {
+                        binder.onValue(data.size());
+                    }
+                }).execute();
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CoverObserver observer) {
-        unregisterIfNecessary(observer);
+    public void bind(final ReferenceBinders.NumLocationsBinder binder) {
+        registerIfNecessary(binder);
+        new DataLoader<>(getDb().getLocationsTable(), RowLocation.REVIEW_ID,
+                new DataListener<RowLocation>() {
+                    @Override
+                    public void onLoaded(IdableList<RowLocation> data) {
+                        binder.onValue(data.size());
+                    }
+                }).execute();
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CriteriaObserver
-                                                       observer) {
-        unregisterIfNecessary(observer);
+    public void bind(ReferenceBinders.NumTagsBinder binder) {
+        registerIfNecessary(binder);
+        observeNumTags(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CommentsObserver
-                                                   observer) {
-        unregisterIfNecessary(observer);
+    public void unbind(ReferenceBinders.SubjectBinder binder) {
+        unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.FactsObserver observer) {
-        unregisterIfNecessary(observer);
+    public void unbind(ReferenceBinders.RatingBinder binder) {
+        unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.ImagesObserver observer) {
-        unregisterIfNecessary(observer);
+    public void unbind(ReferenceBinders.AuthorBinder binder) {
+        unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.LocationsObserver
-                                                        observer) {
-        unregisterIfNecessary(observer);
+    public void unbind(ReferenceBinders.DateBinder binder) {
+        unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.TagsObserver observer) {
-        unregisterIfNecessary(observer);
+    public void unbind(ReferenceBinders.CoverBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.CriteriaBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.CommentsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.FactsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.ImagesBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.LocationsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.TagsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumFactsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumImagesBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
+        unregisterIfNecessary(binder);
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumTagsBinder binder) {
+        unregisterIfNecessary(binder);
     }
 
     @Override
@@ -219,30 +331,90 @@ public class ReviewerDbReference implements ReviewReference {
         return mInfo.isValid();
     }
 
+    private ItemTagCollection getTags() {
+        return mRepo.getTagsManager().getTags(mInfo.getReviewId().toString());
+    }
+
     private ReviewerDbReadable getDb() {
         return mRepo.getReadableDatabase();
     }
 
-    private <T> void registerIfNecessary(ValueObserver<T> observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
+    private void observeTags(final ReferenceBinders.TagsBinder binder) {
+        ItemTagCollection tags = getTags();
+        if (tags.size() == 0) {
+            mRepo.getReview(getInfo().getReviewId(), new ReviewsRepository.RepositoryCallback() {
+                @Override
+                public void onRepositoryCallback(RepositoryResult result) {
+                    observeTags(binder, getTags());
+                }
+            });
+            return;
+        }
+
+        observeTags(binder, tags);
     }
 
-    private <T> void unregisterIfNecessary(ValueObserver<T> observer) {
-        if (mObservers.contains(observer)) mObservers.remove(observer);
+    private void observeNumTags(final ReferenceBinders.NumTagsBinder binder) {
+        ItemTagCollection tags = getTags();
+        if (tags.size() == 0) {
+            mRepo.getReview(getInfo().getReviewId(), new ReviewsRepository.RepositoryCallback() {
+                @Override
+                public void onRepositoryCallback(RepositoryResult result) {
+                    binder.onValue(getTags().size());
+                }
+            });
+        }
     }
 
-    @NonNull
-    private <T extends DbTableRow & ReviewDataRow> IdableList<T> getData(DbTable<T> table,
-                                                                         ColumnInfo<String> idCol) {
-        RowEntry<T, String> clause = new RowEntryImpl<>(table.getRowClass(), idCol, mInfo
-                .getReviewId().toString());
+    private void observeTags(ReferenceBinders.TagsBinder binder, ItemTagCollection tags) {
+        IdableList<DataTag> dataTags = new IdableDataList<>(mInfo.getReviewId());
+        for (ItemTag tag : tags) {
+            dataTags.add(new DatumTag(mInfo.getReviewId(), tag.getTag()));
+        }
 
-        ArrayList<T> data = new ArrayList<>();
-        ReviewerDbReadable db = getDb();
-        TableTransactor transactor = db.beginReadTransaction();
-        data.addAll(db.getRowsWhere(table, clause, transactor));
-        db.endTransaction(transactor);
+        binder.onValue(dataTags);
+    }
 
-        return new IdableRowList<>(mInfo.getReviewId(), data);
+    private <T> void registerIfNecessary(ValueBinder<T> binder) {
+        if (!mBinders.contains(binder)) mBinders.add(binder);
+    }
+
+    private <T> void unregisterIfNecessary(ValueBinder<T> binder) {
+        if (mBinders.contains(binder)) mBinders.remove(binder);
+    }
+
+    private interface DataListener<T extends ReviewDataRow> {
+        void onLoaded(IdableList<T> data);
+    }
+    private class DataLoader<T extends ReviewDataRow> extends AsyncTask<Void, Void, IdableRowList<T>> {
+        private DbTable<T> mTable;
+        private ColumnInfo<String> mIdCol;
+        private final DataListener<T> mListener;
+
+        public DataLoader(DbTable<T> table, ColumnInfo<String> idCol, DataListener<T>
+                listener) {
+            mTable = table;
+            mIdCol = idCol;
+            mListener = listener;
+        }
+
+        @Override
+        protected IdableRowList<T> doInBackground(Void... params) {
+            RowEntry<T, String> clause = new RowEntryImpl<>(mTable.getRowClass(), mIdCol,
+                    mInfo.getReviewId().toString());
+
+            ArrayList<T> data = new ArrayList<>();
+            ReviewerDbReadable db = getDb();
+            TableTransactor transactor = db.beginReadTransaction();
+            data.addAll(db.getRowsWhere(mTable, clause, transactor));
+            db.endTransaction(transactor);
+
+            return new IdableRowList<>(mInfo.getReviewId(), data);
+        }
+
+        @Override
+        protected void onPostExecute(IdableRowList<T> data) {
+            mListener.onLoaded(data);
+        }
     }
 }

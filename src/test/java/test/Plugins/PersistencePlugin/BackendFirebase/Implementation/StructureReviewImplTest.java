@@ -11,9 +11,7 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .StructureReviewsImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureReviewImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
@@ -27,13 +25,13 @@ import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.StructureTester;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureReviewsImplTest extends StructureTestBasic<ReviewDb> {
+public class StructureReviewImplTest extends StructureTestBasic<ReviewDb> {
     private static final String REVIEWS
             = Path.path(FirebaseStructure.REVIEWS, FirebaseStructure.REVIEWS_DATA);
 
     @Before
     public void setUp() {
-        setStructure(new StructureReviewsImpl(REVIEWS));
+        setStructure(new StructureReviewImpl(REVIEWS));
     }
 
     @Override

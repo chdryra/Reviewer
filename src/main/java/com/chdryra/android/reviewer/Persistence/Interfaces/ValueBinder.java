@@ -13,6 +13,6 @@ package com.chdryra.android.reviewer.Persistence.Interfaces;
  * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ValueObserver<T> {
+public interface ValueBinder<T> {
     void onValue(T value);
 }

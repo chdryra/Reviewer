@@ -45,9 +45,8 @@ public class ViewerAggregateToData<T extends GvData> extends GridDataWrapperBasi
                 datum.getCanonical().getStringSummary());
     }
 
-    //Overridden
     @Override
-    public GvDataType<? extends GvData> getGvDataType() {
+    public GvDataType<T> getGvDataType() {
         return mData.getGvDataType();
     }
 

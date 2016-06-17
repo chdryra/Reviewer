@@ -23,4 +23,5 @@ public interface FirebaseStructure extends FbUsersStructure, FbReviewsStructure 
     String REVIEWS = "Reviews";
     String REVIEWS_DATA = "ReviewsData";
     String REVIEWS_LIST = "ReviewsList";
+    String AGGREGATES = "Aggregates";
 }

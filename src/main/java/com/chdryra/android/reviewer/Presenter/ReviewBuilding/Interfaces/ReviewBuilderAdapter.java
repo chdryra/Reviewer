@@ -11,11 +11,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -40,46 +37,5 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewVi
 
     <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
-    boolean hasTags();
-
     Review buildReview();
-
-    @Override
-    GvDataType<? extends GvData> getGvDataType();
-
-    @Override
-    void attachReviewView(ReviewView<GC> view);
-
-    @Override
-    ReviewView<GC> getReviewView();
-
-    @Override
-    String getSubject();
-
-    @Override
-    float getRating();
-
-    @Override
-    GvImageList getCovers();
-
-    @Override
-    GvDataList<GC> getGridData();
-
-    @Override
-    boolean isExpandable(GC datum);
-
-    @Override
-    ReviewViewAdapter<?> expandGridCell(GC datum);
-
-    @Override
-    ReviewViewAdapter<?> expandGridData();
-
-    @Override
-    void registerDataObserver(DataObserver observer);
-
-    @Override
-    void unregisterDataObserver(DataObserver observer);
-
-    @Override
-    void notifyDataObservers();
 }

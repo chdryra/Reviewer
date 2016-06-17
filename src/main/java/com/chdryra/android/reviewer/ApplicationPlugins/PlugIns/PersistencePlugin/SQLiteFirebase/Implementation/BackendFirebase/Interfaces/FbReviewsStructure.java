@@ -25,13 +25,19 @@ import com.firebase.client.Firebase;
 public interface FbReviewsStructure {
     DbUpdater<ReviewDb> getReviewUploadUpdater();
 
-    Firebase getReviewsDb(Firebase root, Author author);
-
     Firebase getListEntriesDb(Firebase root);
 
     Firebase getListEntriesDb(Firebase root, Author author);
 
     Firebase getListEntryDb(Firebase root, String reviewId);
+
+    Firebase getAggregatesDb(Firebase root, Author author);
+
+    Firebase getAggregatesDb(Firebase root);
+
+    Firebase getAggregatesDb(Firebase root, String reviewId);
+
+    Firebase getAggregatesDb(Firebase root, Author author, String reviewId);
 
     Firebase getReviewDb(Firebase root, Author author, String reviewId);
 }

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
 
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 
 /**
@@ -28,115 +28,172 @@ public class NullReviewReference implements ReviewReference {
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.SubjectObserver observer) {
+    public void bind(ReferenceBinders.SubjectBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.RatingObserver observer) {
+    public void bind(ReferenceBinders.RatingBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.AuthorObserver observer) {
+    public void bind(ReferenceBinders.AuthorBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.DateObserver observer) {
+    public void bind(ReferenceBinders.DateBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CriteriaObserver
-                                                     observer) {
+    public void bind(ReferenceBinders.CriteriaBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CommentsObserver observer) {
+    public void bind(ReferenceBinders.CommentsBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.FactsObserver observer) {
+    public void bind(ReferenceBinders.FactsBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.ImagesObserver observer) {
+    public void bind(ReferenceBinders.ImagesBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.CoverObserver observer) {
+    public void bind(ReferenceBinders.CoverBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.LocationsObserver
-                                                      observer) {
+    public void bind(ReferenceBinders.LocationsBinder binder) {
 
     }
 
     @Override
-    public void registerObserver(ReferenceObservers.TagsObserver observer) {
+    public void bind(ReferenceBinders.TagsBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.SubjectObserver observer) {
+    public void bind(ReferenceBinders.NumCriteriaBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.RatingObserver observer) {
+    public void bind(ReferenceBinders.NumCommentsBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.AuthorObserver observer) {
+    public void bind(ReferenceBinders.NumFactsBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.DateObserver observer) {
+    public void bind(ReferenceBinders.NumImagesBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CoverObserver observer) {
+    public void bind(ReferenceBinders.NumLocationsBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CriteriaObserver observer) {
+    public void bind(ReferenceBinders.NumTagsBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.CommentsObserver
-                                                       observer) {
+    public void unbind(ReferenceBinders.SubjectBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.FactsObserver observer) {
+    public void unbind(ReferenceBinders.RatingBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.ImagesObserver observer) {
+    public void unbind(ReferenceBinders.AuthorBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.LocationsObserver observer) {
+    public void unbind(ReferenceBinders.DateBinder binder) {
 
     }
 
     @Override
-    public void unregisterObserver(ReferenceObservers.TagsObserver observer) {
+    public void unbind(ReferenceBinders.CoverBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.CriteriaBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.CommentsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.FactsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.ImagesBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.LocationsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.TagsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumFactsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumImagesBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
+
+    }
+
+    @Override
+    public void unbind(ReferenceBinders.NumTagsBinder binder) {
 
     }
 

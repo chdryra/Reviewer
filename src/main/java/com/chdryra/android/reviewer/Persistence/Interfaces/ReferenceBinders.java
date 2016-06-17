@@ -25,37 +25,56 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
  * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReferenceObservers {
-    interface SubjectObserver extends ValueObserver<DataSubject> {
+public interface ReferenceBinders {
+    interface SubjectBinder extends ValueBinder<DataSubject> {
     }
 
-    interface RatingObserver extends ValueObserver<DataRating> {
+    interface RatingBinder extends ValueBinder<DataRating> {
     }
 
-    interface AuthorObserver extends ValueObserver<DataAuthorReview> {
+    interface AuthorBinder extends ValueBinder<DataAuthorReview> {
     }
 
-    interface DateObserver extends ValueObserver<DataDateReview> {
+    interface DateBinder extends ValueBinder<DataDateReview> {
     }
 
-    interface CoverObserver extends ValueObserver<DataImage> {
+    interface CoverBinder extends ValueBinder<DataImage> {
     }
 
-    interface CriteriaObserver extends ValueObserver<IdableList<? extends DataCriterion>> {
+    interface CriteriaBinder extends ValueBinder<IdableList<? extends DataCriterion>> {
     }
 
-    interface CommentsObserver extends ValueObserver<IdableList<? extends DataComment>> {
+    interface CommentsBinder extends ValueBinder<IdableList<? extends DataComment>> {
     }
 
-    interface FactsObserver extends ValueObserver<IdableList<? extends DataFact>> {
+    interface FactsBinder extends ValueBinder<IdableList<? extends DataFact>> {
     }
 
-    interface LocationsObserver extends ValueObserver<IdableList<? extends DataLocation>> {
+    interface LocationsBinder extends ValueBinder<IdableList<? extends DataLocation>> {
     }
 
-    interface ImagesObserver extends ValueObserver<IdableList<? extends DataImage>> {
+    interface ImagesBinder extends ValueBinder<IdableList<? extends DataImage>> {
     }
 
-    interface TagsObserver extends ValueObserver<IdableList<? extends DataTag>> {
+    interface TagsBinder extends ValueBinder<IdableList<? extends DataTag>> {
+    }
+
+    interface NumCriteriaBinder extends ValueBinder<Integer> {
+    }
+
+    interface NumCommentsBinder extends ValueBinder<Integer> {
+    }
+
+    interface NumFactsBinder extends ValueBinder<Integer> {
+
+    }
+
+    interface NumLocationsBinder extends ValueBinder<Integer> {
+    }
+
+    interface NumImagesBinder extends ValueBinder<Integer> {
+    }
+
+    interface NumTagsBinder extends ValueBinder<Integer> {
     }
 }

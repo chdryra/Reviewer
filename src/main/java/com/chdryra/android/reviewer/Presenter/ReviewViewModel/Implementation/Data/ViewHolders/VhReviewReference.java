@@ -31,7 +31,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceObservers;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
@@ -72,14 +72,14 @@ public class VhReviewReference extends ViewHolderBasic {
     private TextView mPublishDate;
 
     private ReviewReference mReference;
-    private SubjectObserver mSubjectObserver;
-    private RatingObserver mRatingObserver;
-    private AuthorObserver mAuthorObserver;
-    private DateObserver mDateObserver;
-    private CoverObserver mCoverObserver;
-    private TagsObserver mTagsObserver;
-    private CommentsObserver mCommentsObserver;
-    private LocationsObserver mLocationsObserver;
+    private SubjectBinder mSubjectObserver;
+    private RatingBinder mRatingObserver;
+    private AuthorBinder mAuthorObserver;
+    private DateBinder mDateObserver;
+    private CoverBinder mCoverObserver;
+    private TagsBinder mTagsObserver;
+    private CommentsBinder mCommentsObserver;
+    private LocationsBinder mLocationsObserver;
 
     private ReviewStamp mStamp;
     private String mLocation = "";
@@ -95,14 +95,14 @@ public class VhReviewReference extends ViewHolderBasic {
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
 
-        mSubjectObserver = new SubjectObserver();
-        mRatingObserver = new RatingObserver();
-        mAuthorObserver = new AuthorObserver();
-        mDateObserver = new DateObserver();
-        mCoverObserver = new CoverObserver();
-        mCommentsObserver = new CommentsObserver();
-        mTagsObserver = new TagsObserver();
-        mLocationsObserver = new LocationsObserver();
+        mSubjectObserver = new SubjectBinder();
+        mRatingObserver = new RatingBinder();
+        mAuthorObserver = new AuthorBinder();
+        mDateObserver = new DateBinder();
+        mCoverObserver = new CoverBinder();
+        mCommentsObserver = new CommentsBinder();
+        mTagsObserver = new TagsBinder();
+        mLocationsObserver = new LocationsBinder();
     }
 
     @Override
@@ -138,25 +138,25 @@ public class VhReviewReference extends ViewHolderBasic {
     }
 
     private void unregister() {
-        mReference.unregisterObserver(mSubjectObserver);
-        mReference.unregisterObserver(mRatingObserver);
-        mReference.unregisterObserver(mAuthorObserver);
-        mReference.unregisterObserver(mDateObserver);
-        mReference.unregisterObserver(mCoverObserver);
-        mReference.unregisterObserver(mCommentsObserver);
-        mReference.unregisterObserver(mLocationsObserver);
-        mReference.unregisterObserver(mTagsObserver);
+        mReference.unbind(mSubjectObserver);
+        mReference.unbind(mRatingObserver);
+        mReference.unbind(mAuthorObserver);
+        mReference.unbind(mDateObserver);
+        mReference.unbind(mCoverObserver);
+        mReference.unbind(mCommentsObserver);
+        mReference.unbind(mLocationsObserver);
+        mReference.unbind(mTagsObserver);
     }
 
     private void register() {
-        mReference.registerObserver(mSubjectObserver);
-        mReference.registerObserver(mRatingObserver);
-        mReference.registerObserver(mAuthorObserver);
-        mReference.registerObserver(mDateObserver);
-        mReference.registerObserver(mCoverObserver);
-        mReference.registerObserver(mCommentsObserver);
-        mReference.registerObserver(mLocationsObserver);
-        mReference.registerObserver(mTagsObserver);
+        mReference.bind(mSubjectObserver);
+        mReference.bind(mRatingObserver);
+        mReference.bind(mAuthorObserver);
+        mReference.bind(mDateObserver);
+        mReference.bind(mCoverObserver);
+        mReference.bind(mCommentsObserver);
+        mReference.bind(mLocationsObserver);
+        mReference.bind(mTagsObserver);
     }
 
     private void setLocationString(IdableList<? extends DataLocation> value) {
@@ -207,21 +207,21 @@ public class VhReviewReference extends ViewHolderBasic {
         return string != null && string.length() > 0;
     }
 
-    private class SubjectObserver implements ReferenceObservers.SubjectObserver {
+    private class SubjectBinder implements ReferenceBinders.SubjectBinder {
         @Override
         public void onValue(DataSubject value) {
             mSubject.setText(value.getSubject());
         }
     }
 
-    private class RatingObserver implements ReferenceObservers.RatingObserver {
+    private class RatingBinder implements ReferenceBinders.RatingBinder {
         @Override
         public void onValue(DataRating value) {
             mRating.setRating(value.getRating());
         }
     }
 
-    private class CoverObserver implements ReferenceObservers.CoverObserver {
+    private class CoverBinder implements ReferenceBinders.CoverBinder {
         @Override
         public void onValue(DataImage value) {
             GvImage gvCover = mConverterImages.convert(value);
@@ -230,21 +230,21 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
-    private class AuthorObserver implements ReferenceObservers.AuthorObserver {
+    private class AuthorBinder implements ReferenceBinders.AuthorBinder {
         @Override
         public void onValue(DataAuthorReview value) {
             newStamp(value, mStamp.getDate());
         }
     }
 
-    private class DateObserver implements ReferenceObservers.DateObserver {
+    private class DateBinder implements ReferenceBinders.DateBinder {
         @Override
         public void onValue(DataDateReview value) {
             newStamp(mStamp.getAuthor(), value);
         }
     }
 
-    private class TagsObserver implements ReferenceObservers.TagsObserver {
+    private class TagsBinder implements ReferenceBinders.TagsBinder {
         @Override
         public void onValue(IdableList<? extends DataTag> value) {
             ItemTagCollection tags = mTagsManager.getTags(mReference.getInfo().getReviewId()
@@ -253,7 +253,7 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
-    private class LocationsObserver implements ReferenceObservers.LocationsObserver {
+    private class LocationsBinder implements ReferenceBinders.LocationsBinder {
         @Override
         public void onValue(IdableList<? extends DataLocation> value) {
             setLocationString(value);
@@ -261,7 +261,7 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
-    private class CommentsObserver implements ReferenceObservers.CommentsObserver {
+    private class CommentsBinder implements ReferenceBinders.CommentsBinder {
         @Override
         public void onValue(IdableList<? extends DataComment> value) {
             GvCommentList comments = mConverterComments.convert(value);

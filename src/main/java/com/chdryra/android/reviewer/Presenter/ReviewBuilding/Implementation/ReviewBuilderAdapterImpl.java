@@ -63,7 +63,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
         mDataBuilderAdapterFactory = dataBuilderAdapterFactory;
         mDataBuilders = new DataBuildersMap();
         mGridUi = gridUi;
-        gridUi.setParentAdapter(this);
+        mGridUi.setParentAdapter(this);
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
         newIncrementor();
@@ -87,11 +87,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
     @Override
     public <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType) {
         return mDataBuilders.get(dataType);
-    }
-
-    @Override
-    public boolean hasTags() {
-        return mBuilder.hasTags();
     }
 
     @Override
