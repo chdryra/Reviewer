@@ -233,32 +233,32 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void bind(ReferenceBinders.NumCriteriaBinder binder) {
+    public void bindToCriteria(ReferenceBinders.SizeBinder binder) {
         bindSizeBinder(ReviewAggregates.CRITERIA, binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumCommentsBinder binder) {
+    public void bindToComments(ReferenceBinders.SizeBinder binder) {
         bindSizeBinder(ReviewAggregates.COMMENTS, binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumFactsBinder binder) {
+    public void bindToFacts(ReferenceBinders.SizeBinder binder) {
         bindSizeBinder(ReviewAggregates.FACTS, binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumImagesBinder binder) {
+    public void bindToImages(ReferenceBinders.SizeBinder binder) {
         bindSizeBinder(ReviewAggregates.IMAGES, binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumLocationsBinder binder) {
+    public void bindToLocations(ReferenceBinders.SizeBinder binder) {
         bindSizeBinder(ReviewAggregates.LOCATIONS, binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumTagsBinder binder) {
+    public void bindToTags(ReferenceBinders.SizeBinder binder) {
         bindSizeBinder(ReviewAggregates.TAGS, binder);
     }
 
@@ -318,32 +318,32 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
+    public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.CRITERIA, binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
+    public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.COMMENTS, binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumFactsBinder binder) {
+    public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.FACTS, binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumImagesBinder binder) {
+    public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.IMAGES, binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
+    public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.LOCATIONS, binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumTagsBinder binder) {
+    public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.TAGS, binder);
     }
     @Override

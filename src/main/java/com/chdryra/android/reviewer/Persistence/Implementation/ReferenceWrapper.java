@@ -230,33 +230,33 @@ public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, Revie
     }
 
     @Override
-    public void bind(ReferenceBinders.NumCriteriaBinder binder) {
-        mReference.bind(binder);
+    public void bindToCriteria(ReferenceBinders.SizeBinder binder) {
+        mReference.bindToCriteria(binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumCommentsBinder binder) {
-        mReference.bind(binder);
+    public void bindToComments(ReferenceBinders.SizeBinder binder) {
+        mReference.bindToComments(binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumFactsBinder binder) {
-        mReference.bind(binder);
+    public void bindToFacts(ReferenceBinders.SizeBinder binder) {
+        mReference.bindToComments(binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumImagesBinder binder) {
-        mReference.bind(binder);
+    public void bindToImages(ReferenceBinders.SizeBinder binder) {
+        mReference.bindToComments(binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumLocationsBinder binder) {
-        mReference.bind(binder);
+    public void bindToLocations(ReferenceBinders.SizeBinder binder) {
+        mReference.bindToComments(binder);
     }
 
     @Override
-    public void bind(ReferenceBinders.NumTagsBinder binder) {
-        mReference.bind(binder);
+    public void bindToTags(ReferenceBinders.SizeBinder binder) {
+        mReference.bindToComments(binder);
     }
 
     @Override
@@ -315,33 +315,33 @@ public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, Revie
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
-        mReference.unbind(binder);
+    public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
+        mReference.unbindFromCriteria(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
-        mReference.unbind(binder);
+    public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
+        mReference.unbindFromCriteria(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumFactsBinder binder) {
-        mReference.unbind(binder);
+    public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
+        mReference.unbindFromCriteria(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumImagesBinder binder) {
-        mReference.unbind(binder);
+    public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
+        mReference.unbindFromCriteria(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
-        mReference.unbind(binder);
+    public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
+        mReference.unbindFromCriteria(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumTagsBinder binder) {
-        mReference.unbind(binder);
+    public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
+        mReference.unbindFromCriteria(binder);
     }
 
     @Override

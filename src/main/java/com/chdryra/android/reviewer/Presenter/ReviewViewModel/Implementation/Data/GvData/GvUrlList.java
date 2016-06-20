@@ -25,7 +25,6 @@ public class GvUrlList extends GvDataListImpl<GvUrl> {
         }
     };
 
-    //Constructors
     public GvUrlList() {
         super(GvUrl.TYPE, null);
     }

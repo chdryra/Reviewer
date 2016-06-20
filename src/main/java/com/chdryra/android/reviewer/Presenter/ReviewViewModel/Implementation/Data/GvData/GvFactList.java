@@ -25,7 +25,6 @@ public class GvFactList extends GvDataListImpl<GvFact> {
         }
     };
 
-    //Constructors
     public GvFactList() {
         super(GvFact.TYPE, null);
     }

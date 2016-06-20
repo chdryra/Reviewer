@@ -38,7 +38,6 @@ public interface ReviewReference {
 
     void bind(ReferenceBinders.CoverBinder binder);
 
-
     void bind(ReferenceBinders.CriteriaBinder binder);
 
     void bind(ReferenceBinders.CommentsBinder binder);
@@ -52,17 +51,17 @@ public interface ReviewReference {
     void bind(ReferenceBinders.TagsBinder binder);
 
 
-    void bind(ReferenceBinders.NumCriteriaBinder binder);
+    void bindToCriteria(ReferenceBinders.SizeBinder binder);
 
-    void bind(ReferenceBinders.NumCommentsBinder binder);
+    void bindToComments(ReferenceBinders.SizeBinder binder);
 
-    void bind(ReferenceBinders.NumFactsBinder binder);
+    void bindToFacts(ReferenceBinders.SizeBinder binder);
 
-    void bind(ReferenceBinders.NumImagesBinder binder);
+    void bindToImages(ReferenceBinders.SizeBinder binder);
 
-    void bind(ReferenceBinders.NumLocationsBinder binder);
+    void bindToLocations(ReferenceBinders.SizeBinder binder);
 
-    void bind(ReferenceBinders.NumTagsBinder binder);
+    void bindToTags(ReferenceBinders.SizeBinder binder);
 
 
     void unbind(ReferenceBinders.SubjectBinder binder);
@@ -75,7 +74,6 @@ public interface ReviewReference {
 
     void unbind(ReferenceBinders.CoverBinder binder);
 
-    
     void unbind(ReferenceBinders.CriteriaBinder binder);
 
     void unbind(ReferenceBinders.CommentsBinder binder);
@@ -89,17 +87,17 @@ public interface ReviewReference {
     void unbind(ReferenceBinders.TagsBinder binder);
 
 
-    void unbind(ReferenceBinders.NumCriteriaBinder binder);
+    void unbindFromCriteria(ReferenceBinders.SizeBinder binder);
 
-    void unbind(ReferenceBinders.NumCommentsBinder binder);
+    void unbindFromComments(ReferenceBinders.SizeBinder binder);
 
-    void unbind(ReferenceBinders.NumFactsBinder binder);
+    void unbindFromFacts(ReferenceBinders.SizeBinder binder);
 
-    void unbind(ReferenceBinders.NumImagesBinder binder);
+    void unbindFromImages(ReferenceBinders.SizeBinder binder);
 
-    void unbind(ReferenceBinders.NumLocationsBinder binder);
+    void unbindFromLocations(ReferenceBinders.SizeBinder binder);
 
-    void unbind(ReferenceBinders.NumTagsBinder binder);
+    void unbindFromTags(ReferenceBinders.SizeBinder binder);
 
     void dereference(DereferenceCallback callback);
 

@@ -83,32 +83,32 @@ public class NullReviewReference implements ReviewReference {
     }
 
     @Override
-    public void bind(ReferenceBinders.NumCriteriaBinder binder) {
+    public void bindToCriteria(ReferenceBinders.NumCriteriaBinder binder) {
 
     }
 
     @Override
-    public void bind(ReferenceBinders.NumCommentsBinder binder) {
+    public void bindToComments(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void bind(ReferenceBinders.NumFactsBinder binder) {
+    public void bindToFacts(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void bind(ReferenceBinders.NumImagesBinder binder) {
+    public void bindToImages(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void bind(ReferenceBinders.NumLocationsBinder binder) {
+    public void bindToLocations(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void bind(ReferenceBinders.NumTagsBinder binder) {
+    public void bindToTags(ReferenceBinders.SizeBinder binder) {
 
     }
 
@@ -168,32 +168,32 @@ public class NullReviewReference implements ReviewReference {
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
+    public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
+    public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumFactsBinder binder) {
+    public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumImagesBinder binder) {
+    public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
+    public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
 
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumTagsBinder binder) {
+    public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
 
     }
 

@@ -166,7 +166,7 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void bind(final ReferenceBinders.NumCriteriaBinder binder) {
+    public void bindToCriteria(final ReferenceBinders.SizeBinder binder) {
         registerIfNecessary(binder);
         new DataLoader<>(getDb().getCriteriaTable(), RowCriterion.REVIEW_ID,
                 new DataListener<RowCriterion>() {
@@ -178,7 +178,7 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void bind(final ReferenceBinders.NumCommentsBinder binder) {
+    public void bindToComments(final ReferenceBinders.SizeBinder binder) {
         registerIfNecessary(binder);
         new DataLoader<>(getDb().getCommentsTable(), RowComment.REVIEW_ID,
                 new DataListener<RowComment>() {
@@ -190,7 +190,7 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void bind(final ReferenceBinders.NumFactsBinder binder) {
+    public void bindToFacts(final ReferenceBinders.SizeBinder binder) {
         registerIfNecessary(binder);
         new DataLoader<>(getDb().getFactsTable(), RowFact.REVIEW_ID,
                 new DataListener<RowFact>() {
@@ -202,7 +202,7 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void bind(final ReferenceBinders.NumImagesBinder binder) {
+    public void bindToImages(final ReferenceBinders.SizeBinder binder) {
         registerIfNecessary(binder);
         new DataLoader<>(getDb().getFactsTable(), RowFact.REVIEW_ID,
                 new DataListener<RowFact>() {
@@ -214,7 +214,7 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void bind(final ReferenceBinders.NumLocationsBinder binder) {
+    public void bindToLocations(final ReferenceBinders.SizeBinder binder) {
         registerIfNecessary(binder);
         new DataLoader<>(getDb().getLocationsTable(), RowLocation.REVIEW_ID,
                 new DataListener<RowLocation>() {
@@ -226,7 +226,7 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void bind(ReferenceBinders.NumTagsBinder binder) {
+    public void bindToTags(ReferenceBinders.SizeBinder binder) {
         registerIfNecessary(binder);
         observeNumTags(binder);
     }
@@ -287,32 +287,32 @@ public class ReviewerDbReference implements ReviewReference {
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCriteriaBinder binder) {
+    public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
         unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumCommentsBinder binder) {
+    public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
         unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumFactsBinder binder) {
+    public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
         unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumImagesBinder binder) {
+    public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
         unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumLocationsBinder binder) {
+    public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
         unregisterIfNecessary(binder);
     }
 
     @Override
-    public void unbind(ReferenceBinders.NumTagsBinder binder) {
+    public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
         unregisterIfNecessary(binder);
     }
 
@@ -354,7 +354,7 @@ public class ReviewerDbReference implements ReviewReference {
         observeTags(binder, tags);
     }
 
-    private void observeNumTags(final ReferenceBinders.NumTagsBinder binder) {
+    private void observeNumTags(final ReferenceBinders.SizeBinder binder) {
         ItemTagCollection tags = getTags();
         if (tags.size() == 0) {
             mRepo.getReview(getInfo().getReviewId(), new ReviewsRepository.RepositoryCallback() {

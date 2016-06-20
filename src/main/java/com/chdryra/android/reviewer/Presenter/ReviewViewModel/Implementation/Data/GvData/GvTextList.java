@@ -21,20 +21,17 @@ import java.util.ArrayList;
 public class GvTextList<T extends GvText> extends GvDataListImpl<T> {
     public static final Parcelable.Creator<GvTextList> CREATOR = new Parcelable
             .Creator<GvTextList>() {
-        //Overridden
+        @Override
         public GvTextList createFromParcel(Parcel in) {
             return new GvTextList(in);
         }
 
+        @Override
         public GvTextList[] newArray(int size) {
             return new GvTextList[size];
         }
     };
 
-    private static final GvDataType<GvTextList> TYPE
-            = GvTypeMaker.newType(GvTextList.class, GvText.TYPE);
-
-    //Constructors
     public GvTextList(Parcel in)  {
         super(in);
     }

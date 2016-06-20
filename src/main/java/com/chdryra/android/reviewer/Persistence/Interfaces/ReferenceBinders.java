@@ -59,22 +59,7 @@ public interface ReferenceBinders {
     interface TagsBinder extends ValueBinder<IdableList<? extends DataTag>> {
     }
 
-    interface NumCriteriaBinder extends ValueBinder<Integer> {
-    }
+    interface SizeBinder extends ValueBinder<Integer> {
 
-    interface NumCommentsBinder extends ValueBinder<Integer> {
-    }
-
-    interface NumFactsBinder extends ValueBinder<Integer> {
-
-    }
-
-    interface NumLocationsBinder extends ValueBinder<Integer> {
-    }
-
-    interface NumImagesBinder extends ValueBinder<Integer> {
-    }
-
-    interface NumTagsBinder extends ValueBinder<Integer> {
     }
 }
