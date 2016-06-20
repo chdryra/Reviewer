@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -17,6 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReferenceWrapper;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
@@ -34,6 +36,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterCommentsAggregate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewNode;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.AdapterReviewReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapper;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeSourceCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerChildList;
@@ -140,6 +143,14 @@ public class FactoryReviewViewAdapter {
                                                                            String subject) {
         GridDataWrapper<T> viewer = mViewerFactory.newDataToReviewsViewer(data);
         return newMetaReviewAdapter(data, subject, viewer);
+    }
+
+    @Nullable
+    public <T extends GvData> ReviewViewAdapter<?> newDataAdapter(ReferenceWrapper reference,
+                                                                  GvDataType<T> gvDataType,
+                                                                  ConverterGv converter) {
+        GridDataWrapper<T> viewer = mViewerFactory.newDataViewer(reference, gvDataType, converter);
+        return viewer != null ? new AdapterReviewReference<>(reference, converter.getConverterImages(), viewer) : null;
     }
 
     //Private

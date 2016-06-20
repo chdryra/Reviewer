@@ -103,7 +103,7 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
 
     @Override
     public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validate(getGvReviewId());
+        return mReference.isValid();
     }
 
     @Override

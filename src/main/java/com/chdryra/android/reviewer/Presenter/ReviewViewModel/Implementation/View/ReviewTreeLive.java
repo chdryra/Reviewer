@@ -45,12 +45,11 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
                 for (ReviewReference review : result.getReferences()) {
                     addChild(review);
                 }
-                notifyNodeObservers();
             } else if(result.isReference()) {
                 ReviewReference reference = result.getReference();
                 if(reference != null) addChild(reference);
-                notifyNodeObservers();
             }
+            notifyNodeObservers();
         }
     }
 
@@ -66,7 +65,7 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
     }
 
     private void addChild(ReviewReference review) {
-        addChild(new ReviewNodeReference(new ReferenceWrapper(review)));
+        super.addChild(new ReferenceWrapper(review));
     }
 
     public void detachFromRepo() {

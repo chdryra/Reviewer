@@ -26,20 +26,46 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewDynamic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, ReviewReference{
+public class ReferenceWrapper extends ReviewDynamic implements ReviewNodeMutable, ReviewReference {
+    private final ArrayList<NodeObserver> mObservers;
     private ReviewReference mReference;
+    private ReviewNodeMutable mParent;
 
     public ReferenceWrapper(ReviewReference reference) {
         mReference = reference;
+        mObservers = new ArrayList<>();
+    }
+
+    @Override
+    public boolean addChild(ReviewNodeMutable childNode) {
+        return false;
+    }
+
+    @Override
+    public void removeChild(ReviewId reviewId) {
+
+    }
+
+    @Override
+    public void registerNodeObserver(NodeObserver observer) {
+        if (!mObservers.contains(observer)) mObservers.add(observer);
+    }
+
+    @Override
+    public void unregisterNodeObserver(NodeObserver observer) {
+        mObservers.remove(observer);
     }
 
     @Override
@@ -103,16 +129,6 @@ public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, Revie
     }
 
     @Override
-    public void registerNodeObserver(NodeObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterNodeObserver(NodeObserver observer) {
-
-    }
-
-    @Override
     public Review getReview() {
         return this;
     }
@@ -121,6 +137,19 @@ public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, Revie
     @Override
     public ReviewNode getParent() {
         return null;
+    }
+
+    @Override
+    public void setParent(@Nullable ReviewNodeMutable parentNode) {
+        if (mParent != null && parentNode != null
+                && mParent.getReviewId().equals(parentNode.getReviewId())) {
+            return;
+        }
+
+        if (mParent != null) mParent.removeChild(getReviewId());
+        mParent = parentNode;
+        if (mParent != null) mParent.addChild(this);
+        notifyNodeChanged();
     }
 
     @Override
@@ -352,5 +381,11 @@ public class ReferenceWrapper extends ReviewDynamic implements ReviewNode, Revie
     @Override
     public boolean isValid() {
         return mReference.isValid();
+    }
+
+    private void notifyNodeChanged() {
+        for (NodeObserver observer : mObservers) {
+            observer.onNodeChanged();
+        }
     }
 }

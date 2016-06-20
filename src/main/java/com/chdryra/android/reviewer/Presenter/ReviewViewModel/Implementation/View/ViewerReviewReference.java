@@ -14,8 +14,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReferenceWrapper;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
@@ -139,8 +137,7 @@ public class ViewerReviewReference extends ViewerNodeBasic<GvDataSize> {
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvDataSize datum) {
         if (isExpandable(datum)) {
-            return mAdapterFactory.newDataToDataAdapter(getReviewNode(),
-                    (GvDataCollection<? extends GvData>) datum);
+            return mAdapterFactory.newDataAdapter(getReference(), datum.getGvDataType(), mConverter);
         } else {
             return null;
         }

@@ -17,51 +17,42 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Persistence.Implementation.ReferenceWrapper;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 
+
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+
+
 /**
  * {@link ReviewViewAdapter} for a {@link ReviewNode}.
  */
 
-public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<T> implements ReviewNode.NodeObserver{
-    private ReviewNode mNode;
-    private DataConverter<DataImage, GvImage, GvImageList> mCoversConverter;
+public class AdapterReviewReference<T extends GvData> extends AdapterReviewNode<T> {
+    private GvImageList mCovers;
 
-    public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImage, GvImageList> coversConverter,
-                             GridDataWrapper<T> viewer) {
-        this(node, coversConverter);
+    public AdapterReviewReference(ReferenceWrapper reference,
+                                  final DataConverter<DataImage, GvImage, GvImageList> coversConverter,
+                                  GridDataWrapper<T> viewer) {
+        super(reference, coversConverter);
         setWrapper(viewer);
-    }
-
-    public AdapterReviewNode(ReviewNode node,
-                             DataConverter<DataImage, GvImage, GvImageList> coversConverter) {
-        mNode = node;
-        mCoversConverter = coversConverter;
-        node.registerNodeObserver(this);
-    }
-
-
-    @Override
-    public void onNodeChanged() {
-        notifyDataObservers();
-    }
-
-    @Override
-    public String getSubject() {
-        return mNode.getSubject().getSubject();
-    }
-
-    @Override
-    public float getRating() {
-        return mNode.getRating().getRating();
+        mCovers = new GvImageList(new GvReviewId(reference.getReviewId()));
+        reference.bind(new ReferenceBinders.CoverBinder() {
+            @Override
+            public void onValue(DataImage value) {
+                mCovers.clear();
+                mCovers.add(coversConverter.convert(value));
+                notifyDataObservers();
+            }
+        });
     }
 
     @Override
     public GvImageList getCovers() {
-        return mCoversConverter.convert(mNode.getCovers());
+        return mCovers;
     }
 }

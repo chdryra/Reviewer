@@ -48,6 +48,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvLocationList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvReviewList;
@@ -121,6 +123,10 @@ public class ConverterGv {
 
     public GvConverterReviews getConverterReviews() {
         return (GvConverterReviews) getConverter(GvReview.TYPE);
+    }
+
+    public GvConverterReferences getConverterReferences() {
+        return (GvConverterReferences) getConverter(GvReference.TYPE);
     }
 
     public GvConverterComments getConverterComments() {

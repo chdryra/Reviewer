@@ -83,7 +83,7 @@ public class NullReviewReference implements ReviewReference {
     }
 
     @Override
-    public void bindToCriteria(ReferenceBinders.NumCriteriaBinder binder) {
+    public void bindToCriteria(ReferenceBinders.SizeBinder binder) {
 
     }
 
