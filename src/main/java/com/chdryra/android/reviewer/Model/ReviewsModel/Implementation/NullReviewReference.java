@@ -6,11 +6,11 @@
  *
  */
 
-package com.chdryra.android.reviewer.Persistence.Implementation;
+package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,10 +22,6 @@ public class NullReviewReference implements ReviewReference {
     public NullReviewReference() {
     }
 
-    @Override
-    public ReviewInfo getInfo() {
-        return new ReviewInfo();
-    }
 
     @Override
     public void bind(ReferenceBinders.SubjectBinder binder) {

@@ -23,10 +23,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 
@@ -154,7 +154,7 @@ public class FactoryReviewsTest {
         
         ReviewNode child = meta.getChildren().getItem(0);
         assertThat(child.getReviewId(), is(review.getReviewId()));
-        assertThat(child.getReview(), is(review));
+        assertThat(child.getReference(), is(review));
         assertThat(child.getChildren().size(), is(0));
         checkNodeAgainstReview(review, child);
     }
@@ -184,7 +184,7 @@ public class FactoryReviewsTest {
             Review review = reviews.get(i);
             ReviewNode child = meta.getChildren().getItem(i);
             assertThat(child.getReviewId(), is(review.getReviewId()));
-            assertThat(child.getReview(), is(review));
+            assertThat(child.getReference(), is(review));
             assertThat(child.getChildren().size(), is(0));
             checkNodeAgainstReview(review, child);
         }
@@ -201,7 +201,7 @@ public class FactoryReviewsTest {
         }
 
         String subject = RandomString.nextWord();
-        ReviewNodeMutable meta = mFactory.createMetaReviewMutable(reviews, subject);
+        ReviewNodeComponent meta = mFactory.createMetaReviewMutable(reviews, subject);
 
         checkAuthor(mAuthor, meta);
         checkSubject(subject, meta);
@@ -215,7 +215,7 @@ public class FactoryReviewsTest {
             Review review = reviews.get(i);
             ReviewNode child = meta.getChildren().getItem(i);
             assertThat(child.getReviewId(), is(review.getReviewId()));
-            assertThat(child.getReview(), is(review));
+            assertThat(child.getReference(), is(review));
             assertThat(child.getChildren().size(), is(0));
             checkNodeAgainstReview(review, child);
         }
@@ -225,7 +225,7 @@ public class FactoryReviewsTest {
     public void createReviewNodeComponentNotAverageOfChildrenHasExpectedAttributes() {
         Review review = RandomReview.nextReview();
 
-        ReviewNodeMutable node = mFactory.createReviewNodeComponent(review, false);
+        ReviewNodeComponent node = mFactory.createReviewNodeComponent(review, false);
 
         assertThat(node.getReviewId(), is(review.getReviewId()));
         assertThat(node.isRatingAverageOfChildren(), is(false));
@@ -236,7 +236,7 @@ public class FactoryReviewsTest {
         checkNodeAgainstReview(review, node);
 
         Review review2 = RandomReview.nextReview();
-        ReviewNodeMutable child = mFactory.createReviewNodeComponent(review2, false);
+        ReviewNodeComponent child = mFactory.createReviewNodeComponent(review2, false);
         node.addChild(child);
         assertThat(node.getChildren().size(), is(1));
         checkRating(review.getRating().getRating(), node);
@@ -246,7 +246,7 @@ public class FactoryReviewsTest {
     public void createReviewNodeComponentAverageOfChildrenHasRatingDependentOnChildren() {
         Review review = RandomReview.nextReview();
 
-        ReviewNodeMutable node = mFactory.createReviewNodeComponent(review, true);
+        ReviewNodeComponent node = mFactory.createReviewNodeComponent(review, true);
 
         assertThat(node.getReviewId(), is(review.getReviewId()));
         assertThat(node.isRatingAverageOfChildren(), is(true));
@@ -256,7 +256,7 @@ public class FactoryReviewsTest {
         checkRating(0f, node);
 
         Review review2 = RandomReview.nextReview();
-        ReviewNodeMutable child = mFactory.createReviewNodeComponent(review2, false);
+        ReviewNodeComponent child = mFactory.createReviewNodeComponent(review2, false);
         node.addChild(child);
         assertThat(node.getChildren().size(), is(1));
         checkRating(review2.getRating().getRating(), node);
@@ -390,7 +390,7 @@ public class FactoryReviewsTest {
         ReviewNode node = review.getTreeRepresentation();
         assertThat(node, not(nullValue()));
         assertThat(node.getReviewId(), is(review.getReviewId()));
-        assertThat(node.getReview(), is(review));
+        assertThat(node.getReference(), is(review));
         assertThat(node.getParent(), is(Matchers.nullValue()));
         assertThat(node.getChildren().size(), is(0));
     }

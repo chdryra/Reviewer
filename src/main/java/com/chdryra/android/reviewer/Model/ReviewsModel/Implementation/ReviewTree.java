@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
  * thus acting as a fixed, published component of a new review tree with its own {@link MdReviewId}.
  * </p>
  */
-public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.NodeObserver {
+public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNode.NodeObserver {
     private final ArrayList<NodeObserver> mObservers;
     private ReviewNode mNode;
 
@@ -74,8 +75,8 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
     }
 
     @Override
-    public Review getReview() {
-        return mNode.getReview();
+    public ReviewReference getReference() {
+        return mNode.getReference();
     }
 
     @Override
@@ -114,11 +115,6 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
     }
 
     @Override
-    public IdableList<? extends DataImage> getCovers() {
-        return mNode.getCovers();
-    }
-
-    @Override
     public void acceptVisitor(VisitorReviewNode visitor) {
         visitor.visit(mNode);
     }
@@ -149,41 +145,6 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
     }
 
     @Override
-    public ReviewNode getTreeRepresentation() {
-        return this;
-    }
-
-    @Override
-    public IdableList<? extends DataCriterion> getCriteria() {
-        return mNode.getCriteria();
-    }
-
-    @Override
-    public IdableList<? extends DataComment> getComments() {
-        return mNode.getComments();
-    }
-
-    @Override
-    public IdableList<? extends DataFact> getFacts() {
-        return mNode.getFacts();
-    }
-
-    @Override
-    public IdableList<? extends DataImage> getImages() {
-        return mNode.getImages();
-    }
-
-    @Override
-    public DataImage getCover() {
-        return mNode.getCover();
-    }
-
-    @Override
-    public IdableList<? extends DataLocation> getLocations() {
-        return mNode.getLocations();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ReviewTree)) return false;
@@ -203,6 +164,5 @@ public class ReviewTree extends ReviewDynamic implements ReviewNode, ReviewNode.
         for (NodeObserver observer : mObservers) {
             observer.onNodeChanged();
         }
-        notifyReviewObservers();
     }
 }

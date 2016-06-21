@@ -13,30 +13,16 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.BackendReviewConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.BackendDataConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Comment;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Criterion;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Fact;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ImageData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Location;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Rating;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewAggregates;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Criterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Fact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ImageData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
@@ -49,13 +35,16 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReferenceBinders;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ValueBinder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -79,10 +68,20 @@ public class FbReviewReference implements ReviewReference {
     private final ReviewsCache mCache;
     private final Map<ValueBinder<?>, ValueEventListener> mBindings;
 
+    private final ReviewNode mNode;
+
     private interface SnapshotConverter<T> {
-        T convert(String reviewId, DataSnapshot snapshot);
+        T convert(DataSnapshot snapshot);
     }
 
+    private interface DataMethod<T extends HasReviewId> {
+        void execute(IdableList<T> data, CallbackMessage message);
+    }
+
+    private interface SizeMethod {
+        void execute(int size, CallbackMessage message);
+    }
+    
     public FbReviewReference(ReviewListEntry entry,
                              Firebase dataReference,
                              Firebase aggregateReference,
@@ -96,140 +95,224 @@ public class FbReviewReference implements ReviewReference {
         mAggregate = aggregateReference;
         mCache = cache;
         mBindings = new HashMap<>();
+
+        mNode = new NodeLeaf(this);
     }
 
     @Override
-    public ReviewInfo getInfo() {
-        return mInfo;
+    public DataSubject getSubject() {
+        return mInfo.getSubject();
     }
 
     @Override
-    public void bind(final ReferenceBinders.SubjectBinder binder) {
-        bindDataBinder(ReviewDb.SUBJECT, binder, new SnapshotConverter<DataSubject>() {
+    public DataRating getRating() {
+        return mInfo.getRating();
+    }
+
+    @Override
+    public DataDateReview getPublishDate() {
+        return mInfo.getPublishDate();
+    }
+
+    @Override
+    public DataAuthorReview getAuthor() {
+        return mInfo.getAuthor();
+    }
+
+    @Override
+    public ReviewId getReviewId() {
+        return mInfo.getReviewId();
+    }
+
+    @Override
+    public ReviewNode asNode() {
+        return mNode;
+    }
+
+    @Override
+    public void getCovers(final CoversCallback callback) {
+        getData(ReviewDb.COVER,
+                getCoversConverter(),
+                new IdableDataList<DataImage>(getReviewId()),
+                new DataMethod<DataImage>() {
+                    @Override
+                    public void execute(IdableList<DataImage> data, CallbackMessage message) {
+                        callback.onCovers(data, message);
+                    }
+                });
+    }
+
+    @Override
+    public void getTags(final TagsCallback callback) {
+        getData(ReviewDb.TAGS,
+                getTagsConverter(),
+                new IdableDataList<DataTag>(getReviewId()),
+                new DataMethod<DataTag>() {
+                    @Override
+                    public void execute(IdableList<DataTag> data, CallbackMessage message) {
+                        callback.onTags(data, message);
+                    }
+                });
+    }
+
+    @Override
+    public void getCriteria(final CriteriaCallback callback) {
+        getData(ReviewDb.CRITERIA,
+                getCriteriaConverter(),
+                new IdableDataList<DataCriterion>(getReviewId()),
+                new DataMethod<DataCriterion>() {
+                    @Override
+                    public void execute(IdableList<DataCriterion> data, CallbackMessage message) {
+                        callback.onCriteria(data, message);
+                    }
+                });
+    }
+
+    @Override
+    public void getImages(final ImagesCallback callback) {
+        getData(ReviewDb.IMAGES,
+                getImagesConverter(),
+                new IdableDataList<DataImage>(getReviewId()),
+                new DataMethod<DataImage>() {
+                    @Override
+                    public void execute(IdableList<DataImage> data, CallbackMessage message) {
+                        callback.onImages(data, message);
+                    }
+                });
+    }
+
+    @Override
+    public void getComments(final CommentsCallback callback) {
+    getData(ReviewDb.COMMENTS,
+            getCommentsConverter(),
+            new IdableDataList<DataComment>(getReviewId()),
+            new DataMethod<DataComment>() {
+                @Override
+                public void execute(IdableList<DataComment> data, CallbackMessage message) {
+                    callback.onComments(data, message);
+                }
+            });
+    }
+
+    @Override
+    public void getLocations(final LocationsCallback callback) {
+        getData(ReviewDb.LOCATIONS,
+                getLocationsConverter(),
+                new IdableDataList<DataLocation>(getReviewId()),
+                new DataMethod<DataLocation>() {
+                    @Override
+                    public void execute(IdableList<DataLocation> data, CallbackMessage message) {
+                        callback.onLocations(data, message);
+                    }
+                });
+    }
+
+    @Override
+    public void getFacts(final FactsCallback callback) {
+        getData(ReviewDb.FACTS,
+                getFactsConverter(),
+                new IdableDataList<DataFact>(getReviewId()),
+                new DataMethod<DataFact>() {
+                    @Override
+                    public void execute(IdableList<DataFact> data, CallbackMessage message) {
+                        callback.onFacts(data, message);
+                    }
+                });
+    }
+
+    @Override
+    public void getNumTags(final TagsSizeCallback callback) {
+        getSize(ReviewAggregates.TAGS, new SizeMethod() {
             @Override
-            public DataSubject convert(String reviewId, DataSnapshot snapshot) {
-                return mDataConverter.convert(reviewId, (String) snapshot.getValue());
+            public void execute(int size, CallbackMessage message) {
+                callback.onNumTags(getReviewId(), size, message);     
             }
         });
     }
 
     @Override
-    public void bind(ReferenceBinders.RatingBinder binder) {
-        bindDataBinder(ReviewDb.RATING, binder, new SnapshotConverter<DataRating>() {
+    public void getNumCriteria(final CriteriaSizeCallback callback) {
+        getSize(ReviewAggregates.CRITERIA, new SizeMethod() {
             @Override
-            public DataRating convert(String id, DataSnapshot snapshot) {
-                return mDataConverter.convert(id, snapshot.getValue(Rating.class));
+            public void execute(int size, CallbackMessage message) {
+                callback.onNumCriteria(getReviewId(), size, message);
             }
         });
     }
 
     @Override
-    public void bind(ReferenceBinders.AuthorBinder binder) {
-        bindDataBinder(ReviewDb.AUTHOR, binder, new SnapshotConverter<DataAuthorReview>() {
+    public void getNumImages(final ImagesSizeCallback callback) {
+        getSize(ReviewAggregates.IMAGES, new SizeMethod() {
             @Override
-            public DataAuthorReview convert(String id, DataSnapshot snapshot) {
-                return mDataConverter.convert(id, snapshot.getValue(Author.class));
+            public void execute(int size, CallbackMessage message) {
+                callback.onNumImages(getReviewId(), size, message);
             }
         });
     }
 
     @Override
-    public void bind(ReferenceBinders.DateBinder binder) {
-        bindDataBinder(ReviewDb.PUBLISH_DATE, binder, new SnapshotConverter<DataDateReview>() {
+    public void getNumComments(final CommentsSizeCallback callback) {
+        getSize(ReviewAggregates.COMMENTS, new SizeMethod() {
             @Override
-            public DataDateReview convert(String id, DataSnapshot snapshot) {
-                return mDataConverter.convert(id, snapshot.getValue(Long.class));
+            public void execute(int size, CallbackMessage message) {
+                callback.onNumComments(getReviewId(), size, message);
             }
         });
     }
 
     @Override
-    public void bind(ReferenceBinders.CoverBinder binder) {
-        bindDataBinder(ReviewDb.COVER, binder, new SnapshotConverter<DataImage>() {
+    public void getNumLocations(final LocationsSizeCallback callback) {
+        getSize(ReviewAggregates.LOCATIONS, new SizeMethod() {
             @Override
-            public DataImage convert(String id, DataSnapshot snapshot) {
-                return mDataConverter.convert(id, snapshot.getValue(ImageData.class));
+            public void execute(int size, CallbackMessage message) {
+                callback.onNumLocations(getReviewId(), size, message);
             }
         });
+    }
+
+    @Override
+    public void getNumFacts(final FactsSizeCallback callback) {
+        getSize(ReviewAggregates.FACTS, new SizeMethod() {
+            @Override
+            public void execute(int size, CallbackMessage message) {
+                callback.onNumFacts(getReviewId(), size, message);
+            }
+        });
+    }
+
+    @Override
+    public void bind(ReferenceBinders.CoversBinder binder) {
+        bindDataBinder(ReviewDb.COVER, binder, getCoversConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.CriteriaBinder binder) {
-        bindDataBinder(ReviewDb.CRITERIA, binder, new SnapshotConverter<IdableList<? extends 
-                DataCriterion>>() {
-            @Override
-            public IdableList<? extends DataCriterion> convert(String reviewId, DataSnapshot
-                    snapshot) {
-                List<Criterion> value = (List<Criterion>) snapshot.getValue();
-                return mDataConverter.convertCriteria(reviewId, value);
-            }
-        });
+        bindDataBinder(ReviewDb.CRITERIA, binder, getCriteriaConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.ImagesBinder binder) {
-        bindDataBinder(ReviewDb.IMAGES, binder, new SnapshotConverter<IdableList<? extends 
-                DataImage>>() {
-            @Override
-            public IdableList<? extends DataImage> convert(String reviewId, DataSnapshot snapshot) {
-                List<ImageData> value = (List<ImageData>) snapshot.getValue();
-                return mDataConverter.convertImages(reviewId, value);
-            }
-        });
+        bindDataBinder(ReviewDb.IMAGES, binder, getImagesConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.CommentsBinder binder) {
-        bindDataBinder(ReviewDb.COMMENTS, binder, new SnapshotConverter<IdableList<? extends 
-                DataComment>>() {
-            @Override
-            public IdableList<? extends DataComment> convert(String reviewId, DataSnapshot
-                    snapshot) {
-                List<Comment> value = (List<Comment>) snapshot.getValue();
-                return mDataConverter.convertComments(reviewId, value);
-            }
-        });
+        bindDataBinder(ReviewDb.COMMENTS, binder, getCommentsConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.FactsBinder binder) {
-        bindDataBinder(ReviewDb.FACTS, binder, new SnapshotConverter<IdableList<? extends DataFact>>() {
-            @Override
-            public IdableList<? extends DataFact> convert(String reviewId, DataSnapshot snapshot) {
-                List<Fact> value = (List<Fact>) snapshot.getValue();
-                return mDataConverter.convertFacts(reviewId, value);
-            }
-        });
+        bindDataBinder(ReviewDb.FACTS, binder, getFactsConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.LocationsBinder binder) {
-        bindDataBinder(ReviewDb.LOCATIONS, binder, new SnapshotConverter<IdableList<? extends 
-                DataLocation>>() {
-            @Override
-            public IdableList<? extends DataLocation> convert(String reviewId, DataSnapshot
-                    snapshot) {
-                List<Location> value = (List<Location>) snapshot.getValue();
-                return mDataConverter.convertLocations(reviewId, value);
-            }
-        });
+        bindDataBinder(ReviewDb.LOCATIONS, binder, getLocationsConverter());
     }
-
 
     @Override
     public void bind(ReferenceBinders.TagsBinder binder) {
-        bindDataBinder(ReviewDb.TAGS, binder, new SnapshotConverter<IdableList<? extends DataTag>>() {
-            @Override
-            public IdableList<DataTag> convert(String reviewId, DataSnapshot snapshot) {
-                List<String> value = (List<String>) snapshot.getValue();
-                IdableList<DataTag> tags = new IdableDataList<>(mInfo.getReviewId());
-                for (String tagString : value) {
-                    tags.add(new DatumTag(mInfo.getReviewId(), tagString));
-                }
-
-                return tags;
-            }
-        });
+        bindDataBinder(ReviewDb.TAGS, binder, getTagsConverter());
     }
 
     @Override
@@ -263,27 +346,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void unbind(ReferenceBinders.SubjectBinder binder) {
-        unbindDataBinder(ReviewDb.SUBJECT, binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.RatingBinder binder) {
-        unbindDataBinder(ReviewDb.RATING, binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.AuthorBinder binder) {
-        unbindDataBinder(ReviewDb.AUTHOR, binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.DateBinder binder) {
-        unbindDataBinder(ReviewDb.PUBLISH_DATE, binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CoverBinder binder) {
+    public void unbind(ReferenceBinders.CoversBinder binder) {
         unbindDataBinder(ReviewDb.COVER, binder);
     }
 
@@ -346,6 +409,7 @@ public class FbReviewReference implements ReviewReference {
     public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
         unbindSizeBinder(ReviewAggregates.TAGS, binder);
     }
+
     @Override
     public void dereference(final DereferenceCallback callback) {
         ReviewId reviewId = mInfo.getReviewId();
@@ -376,19 +440,143 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
+    private SnapshotConverter<IdableList<DataTag>> getTagsConverter() {
+        return new SnapshotConverter<IdableList<DataTag>>() {
+            @Override
+            public IdableList<DataTag> convert(DataSnapshot snapshot) {
+                List<String> value = (List<String>) snapshot.getValue();
+                IdableList<DataTag> tags = new IdableDataList<>(mInfo.getReviewId());
+                for (String tagString : value) {
+                    tags.add(new DatumTag(mInfo.getReviewId(), tagString));
+                }
+
+                return tags;
+            }
+        };
+    }
+
+    @NonNull
+    private SnapshotConverter<IdableList<DataImage>> getCoversConverter() {
+        return new SnapshotConverter<IdableList<DataImage>>() {
+            @Override
+            public IdableList<DataImage> convert(DataSnapshot snapshot) {
+                DataImage cover = mDataConverter.convert(getReviewId().toString(),
+                        snapshot.getValue(ImageData.class));
+                IdableList<DataImage> covers = new IdableDataList<>(cover.getReviewId());
+                covers.add(cover);
+                return covers;
+            }
+        };
+    }
+
+    @NonNull
+    private SnapshotConverter<IdableList<DataCriterion>> getCriteriaConverter() {
+        return new SnapshotConverter<IdableList<DataCriterion>>() {
+            @Override
+            public IdableList<DataCriterion> convert(DataSnapshot snapshot) {
+                List<Criterion> value = (List<Criterion>) snapshot.getValue();
+                return mDataConverter.convertCriteria(getReviewId().toString(), value);
+            }
+        };
+    }
+
+    @NonNull
+    private SnapshotConverter<IdableList<DataImage>> getImagesConverter() {
+        return new SnapshotConverter<IdableList<DataImage>>() {
+            @Override
+            public IdableList<DataImage> convert(DataSnapshot snapshot) {
+                List<ImageData> value = (List<ImageData>) snapshot.getValue();
+                return mDataConverter.convertImages(getReviewId().toString(), value);
+            }
+        };
+    }
+
+    @NonNull
+    private SnapshotConverter<IdableList<DataComment>> getCommentsConverter() {
+        return new SnapshotConverter<IdableList<DataComment>>() {
+            @Override
+            public IdableList<DataComment> convert(DataSnapshot snapshot) {
+                List<Comment> value = (List<Comment>) snapshot.getValue();
+                return mDataConverter.convertComments(getReviewId().toString(), value);
+            }
+        };
+    }
+
+    @NonNull
+    private SnapshotConverter<IdableList<DataFact>> getFactsConverter() {
+        return new SnapshotConverter<IdableList<DataFact>>() {
+            @Override
+            public IdableList<DataFact> convert(DataSnapshot snapshot) {
+                List<Fact> value = (List<Fact>) snapshot.getValue();
+                return mDataConverter.convertFacts(getReviewId().toString(), value);
+            }
+        };
+    }
+
+    @NonNull
+    private SnapshotConverter<IdableList<DataLocation>> getLocationsConverter() {
+        return new SnapshotConverter<IdableList<DataLocation>>() {
+            @Override
+            public IdableList<DataLocation> convert(DataSnapshot snapshot) {
+                List<Location> value = (List<Location>) snapshot.getValue();
+                return mDataConverter.convertLocations(getReviewId().toString(), value);
+            }
+        };
+    }
+
+    @NonNull
     private SnapshotConverter<Integer> getSize() {
         return new SnapshotConverter<Integer>() {
             @Override
-            public Integer convert(String reviewId, DataSnapshot snapshot) {
+            public Integer convert(DataSnapshot snapshot) {
                 return snapshot.getValue(Integer.class);
             }
         };
     }
 
-    private void bindSizeBinder(String child, ValueBinder<Integer> binder) {
-        bindBinder(mAggregate, child, binder, getSize());    
+    private <T extends HasReviewId> void getData(String child,
+                                                 final SnapshotConverter<IdableList<T>> converter,
+                                                 final IdableDataList<T> emptyData,
+                                                 final DataMethod<T> method) {
+        mData.child(child).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                emptyData.addAll(converter.convert(dataSnapshot));
+                method.execute(emptyData, CallbackMessage.ok());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                method.execute(emptyData, getErrorMessage(firebaseError));
+            }
+        });
+    }
+
+    private <T extends HasReviewId> void getSize(String child,
+                                                 final SizeMethod method) {
+        mData.child(child).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer size = getSize().convert(dataSnapshot);
+                method.execute(size, CallbackMessage.ok());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                method.execute(0, getErrorMessage(firebaseError));
+            }
+        });
     }
     
+    private CallbackMessage getErrorMessage(FirebaseError firebaseError) {
+        BackendError backendError = FirebaseBackend.backendError(firebaseError);
+        return CallbackMessage.error(backendError.getMessage());
+    }
+
+    private void bindSizeBinder(String child, ValueBinder<Integer> binder) {
+        bindBinder(mAggregate, child, binder, getSize());
+    }
+
     private <T> void bindDataBinder(String child, ValueBinder<T> binder,
                                     SnapshotConverter<T> converter) {
         bindBinder(mData, child, binder, converter);
@@ -406,7 +594,7 @@ public class FbReviewReference implements ReviewReference {
     private <T> void unbindSizeBinder(String child, ValueBinder<T> binder) {
         unbindBinder(mAggregate, child, binder);
     }
-    
+
     private <T> void unbindDataBinder(String child, ValueBinder<T> binder) {
         unbindBinder(mData, child, binder);
     }
@@ -416,14 +604,14 @@ public class FbReviewReference implements ReviewReference {
             root.child(child).removeEventListener(mBindings.remove(binder));
         }
     }
-    
+
     @NonNull
     private <T> ValueEventListener newListener(final ValueBinder<T> observer,
                                                final SnapshotConverter<T> converter) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                observer.onValue(converter.convert(mInfo.getReviewId().toString(), dataSnapshot));
+                observer.onValue(converter.convert(dataSnapshot));
             }
 
             @Override

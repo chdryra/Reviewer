@@ -39,7 +39,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewInfo;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.net.MalformedURLException;
@@ -99,7 +99,7 @@ public class BackendDataConverter {
         return new DatumCriterion(convert(reviewId), item.getSubject(), (float) item.getRating());
     }
 
-    public IdableList<? extends DataComment> convertComments(String reviewId, List<Comment> list) {
+    public IdableList<DataComment> convertComments(String reviewId, List<Comment> list) {
         return getList(reviewId, list, new ItemConverter<Comment, DataComment>() {
             @Override
             public DataComment convertItem(String reviewId, Comment item) {
@@ -112,7 +112,7 @@ public class BackendDataConverter {
         return new DatumComment(convert(reviewId), item.getComment(),item.isHeadline());
     }
 
-    public IdableList<? extends DataFact> convertFacts(String reviewId, List<Fact> list) {
+    public IdableList<DataFact> convertFacts(String reviewId, List<Fact> list) {
         return getList(reviewId, list, new ItemConverter<Fact, DataFact>() {
             @Override
             public DataFact convertItem(String reviewId, Fact item) {
@@ -135,7 +135,7 @@ public class BackendDataConverter {
         }
     }
 
-    public IdableList<? extends DataLocation> convertLocations(String reviewId, List<Location> list) {
+    public IdableList<DataLocation> convertLocations(String reviewId, List<Location> list) {
         return getList(reviewId, list, new ItemConverter<Location, DataLocation>() {
             @Override
             public DataLocation convertItem(String reviewId, Location item) {

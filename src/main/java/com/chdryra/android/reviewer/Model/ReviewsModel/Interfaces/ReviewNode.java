@@ -10,7 +10,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
@@ -24,7 +23,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * or a meta review with other reviews as children.
  * </p>
  */
-public interface ReviewNode extends Review {
+public interface ReviewNode extends ReviewReference {
     interface NodeObserver {
         void onNodeChanged();
     }
@@ -33,7 +32,7 @@ public interface ReviewNode extends Review {
 
     void unregisterNodeObserver(NodeObserver observer);
 
-    Review getReview();
+    ReviewReference getReference();
 
     @Nullable
     ReviewNode getParent();
@@ -45,8 +44,6 @@ public interface ReviewNode extends Review {
     ReviewNode expand();
 
     IdableList<ReviewNode> getChildren();
-
-    IdableList<? extends DataImage> getCovers();
 
     @Nullable
     ReviewNode getChild(ReviewId reviewId);

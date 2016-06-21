@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.Persistence.Implementation;
+package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;

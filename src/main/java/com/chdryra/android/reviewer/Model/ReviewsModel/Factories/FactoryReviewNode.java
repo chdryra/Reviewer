@@ -8,12 +8,11 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutable;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,15 +20,15 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMuta
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
-    public ReviewNodeMutable createReviewNodeComponent(Review review, boolean isAverage) {
-        return new ReviewTreeMutable(review, isAverage);
+    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
+        return new NodeLeaf(review, isAverage);
     }
 
     public ReviewNode createReviewNode(Review review, boolean isAverage) {
         return createReviewNode(createReviewNodeComponent(review, isAverage));
     }
 
-    public ReviewNode createReviewNode(ReviewNodeMutable node) {
+    public ReviewNode createReviewNode(ReviewNodeComponent node) {
         return new ReviewTree(node);
     }
 }

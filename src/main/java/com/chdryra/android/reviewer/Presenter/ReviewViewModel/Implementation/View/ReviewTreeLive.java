@@ -10,11 +10,11 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeMutableAsync;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeComponentAsync;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReferenceWrapper;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceWrapper;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRepository.RepositoryCallback,
+public class ReviewTreeLive extends ReviewTreeComponentAsync implements ReviewsRepository.RepositoryCallback,
         ReviewsRepositoryObserver {
 
     private ReviewsRepository mRepo;
@@ -65,7 +65,7 @@ public class ReviewTreeLive extends ReviewTreeMutableAsync implements ReviewsRep
     }
 
     private void addChild(ReviewReference review) {
-        super.addChild(new ReferenceWrapper(review));
+        super.addChild(review);
     }
 
     public void detachFromRepo() {

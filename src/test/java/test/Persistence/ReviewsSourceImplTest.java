@@ -354,7 +354,7 @@ public class ReviewsSourceImplTest {
         ArrayList<Review> reviewsAssessed = new ArrayList<>();
         for (int i = 0; i < numChildren; ++i) {
             ReviewNode child = children.getItem(i);
-            Review review = child.getReview();
+            Review review = child.getReference();
 
             assertThat(mReviews.contains(review), is(true));
             assertThat(reviewsAssessed.contains(review), is(false));
@@ -383,7 +383,7 @@ public class ReviewsSourceImplTest {
 
     private void assertCorrectReview(@Nullable ReviewNode node, Review expectedReview) {
         assertNotNull(node);
-        assertThat(node.getReview(), is(expectedReview));
+        assertThat(node.getReference(), is(expectedReview));
         assertThat(node.getSubject(), is(expectedReview.getSubject()));
         assertThat(node.getRating(), is(expectedReview.getRating()));
     }

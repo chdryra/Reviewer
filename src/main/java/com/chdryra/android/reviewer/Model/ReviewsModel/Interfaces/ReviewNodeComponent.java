@@ -8,12 +8,20 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+
 /**
  * Created by: Rizwan Choudrey
- * On: 25/03/2016
+ * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewNodeMutableAsync extends ReviewNodeAsync<ReviewNodeMutable>, ReviewNodeMutable, ReviewNode.NodeObserver {
-    @Override
-    void updateNode(ReviewNodeMutable node);
+public interface ReviewNodeComponent extends ReviewNode {
+
+    boolean addChild(ReviewNodeComponent childNode);
+
+    void removeChild(ReviewId reviewId);
+
+    void setParent(@Nullable ReviewNodeComponent parent);
 }

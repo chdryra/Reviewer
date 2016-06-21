@@ -10,9 +10,9 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 25/03/2016
+ * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewNodeAsync<T extends ReviewNode> extends ReviewNode, ReviewNode.NodeObserver {
-    void updateNode(T node);
+public interface ValueBinder<T> {
+    void onValue(T value);
 }

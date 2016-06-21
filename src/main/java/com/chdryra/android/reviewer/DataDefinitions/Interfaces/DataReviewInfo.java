@@ -18,7 +18,7 @@ public interface DataReviewInfo extends HasReviewId {
 
     DataRating getRating();
 
-    DataDate getPublishDate();
+    DataDateReview getPublishDate();
 
-    DataAuthor getAuthor();
+    DataAuthorReview getAuthor();
 }

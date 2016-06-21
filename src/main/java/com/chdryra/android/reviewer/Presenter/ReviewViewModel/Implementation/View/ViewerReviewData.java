@@ -59,7 +59,7 @@ public class ViewerReviewData extends ViewerNodeBasic<GvData> {
 
     @Override
     protected GvList makeGridData() {
-        Review review = getReviewNode().getReview();
+        Review review = getReviewNode().getReference();
         ReviewId reviewId = review.getReviewId();
         GvReviewId id = new GvReviewId(reviewId);
 

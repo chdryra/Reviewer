@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeMutable;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 
 import java.util.ArrayList;
 
@@ -45,28 +45,28 @@ public class RandomReview {
         return NODE_FACTORY.createReviewNode(review, isAverage);
     }
 
-    public static ReviewNodeMutable nextReviewNodeComponent() {
+    public static ReviewNodeComponent nextReviewNodeComponent() {
         return nextReviewNodeComponent(false);
     }
 
-    public static ReviewNodeMutable nextReviewNodeComponent(boolean isAverage) {
+    public static ReviewNodeComponent nextReviewNodeComponent(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);
         return NODE_FACTORY.createReviewNodeComponent(review, isAverage);
     }
 
-    public static ArrayList<Review> constructTreeAndGetReviews(ReviewNodeMutable root) {
-        ReviewNodeMutable child1 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable child2 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable child3 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable grandchild11 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable grandchild12 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable grandchild21 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable grandchild31 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable greatgrandchild111 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable greatgrandchild112 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable greatgrandchild211 = RandomReview.nextReviewNodeComponent();
-        ReviewNodeMutable greatgrandchild212 = RandomReview.nextReviewNodeComponent();
+    public static ArrayList<Review> constructTreeAndGetReviews(ReviewNodeComponent root) {
+        ReviewNodeComponent child1 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child2 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent child3 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild11 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild12 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild21 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent grandchild31 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild111 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild112 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild211 = RandomReview.nextReviewNodeComponent();
+        ReviewNodeComponent greatgrandchild212 = RandomReview.nextReviewNodeComponent();
 
         root.addChild(child1);
         root.addChild(child2);
@@ -81,18 +81,18 @@ public class RandomReview {
         grandchild21.addChild(greatgrandchild212);
 
         ArrayList<Review> reviews = new ArrayList<>();
-        reviews.add(root.getReview());
-        reviews.add(child1.getReview());
-        reviews.add(child2.getReview());
-        reviews.add(child3.getReview());
-        reviews.add(grandchild11.getReview());
-        reviews.add(grandchild12.getReview());
-        reviews.add(grandchild21.getReview());
-        reviews.add(grandchild31.getReview());
-        reviews.add(greatgrandchild111.getReview());
-        reviews.add(greatgrandchild112.getReview());
-        reviews.add(greatgrandchild211.getReview());
-        reviews.add(greatgrandchild212.getReview());
+        reviews.add(root.getReference());
+        reviews.add(child1.getReference());
+        reviews.add(child2.getReference());
+        reviews.add(child3.getReference());
+        reviews.add(grandchild11.getReference());
+        reviews.add(grandchild12.getReference());
+        reviews.add(grandchild21.getReference());
+        reviews.add(grandchild31.getReference());
+        reviews.add(greatgrandchild111.getReference());
+        reviews.add(greatgrandchild112.getReference());
+        reviews.add(greatgrandchild211.getReference());
+        reviews.add(greatgrandchild212.getReference());
 
         return reviews;
     }
