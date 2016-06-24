@@ -8,7 +8,10 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 
 import java.util.ArrayList;
 
@@ -17,11 +20,37 @@ import java.util.ArrayList;
  * On: 18/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeBasic implements ReviewNode {
+public abstract class ReviewNodeBasic implements ReviewNodeComponent {
+    private ReviewNodeComponent mParent;
     private ArrayList<NodeObserver> mObservers;
 
     public ReviewNodeBasic() {
         mObservers = new ArrayList<>();
+    }
+
+    @Override
+    public void setParent(ReviewNodeComponent parentNode) {
+        if (mParent != null && parentNode != null
+                && mParent.getReviewId().equals(parentNode.getReviewId())) {
+            return;
+        }
+
+        if (mParent != null) mParent.removeChild(getReviewId());
+        mParent = parentNode;
+        if (mParent != null) mParent.addChild(this);
+        notifyNodeObservers();
+    }
+
+    @Nullable
+    @Override
+    public ReviewNode getParent() {
+        return mParent;
+    }
+
+
+    @Override
+    public ReviewNode getRoot() {
+        return mParent != null ? mParent.getRoot() : this;
     }
 
     @Override
@@ -38,5 +67,24 @@ public abstract class ReviewNodeBasic implements ReviewNode {
         for (NodeObserver observer : mObservers) {
             observer.onNodeChanged();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewNodeBasic)) return false;
+
+        ReviewNodeBasic that = (ReviewNodeBasic) o;
+
+        if (mParent != null ? !mParent.equals(that.mParent) : that.mParent != null) return false;
+        return mObservers.equals(that.mObservers);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mParent != null ? mParent.hashCode() : 0;
+        result = 31 * result + mObservers.hashCode();
+        return result;
     }
 }

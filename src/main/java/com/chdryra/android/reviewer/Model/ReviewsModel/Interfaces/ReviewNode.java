@@ -32,16 +32,10 @@ public interface ReviewNode extends ReviewReference {
 
     void unregisterNodeObserver(NodeObserver observer);
 
-    ReviewReference getReference();
-
     @Nullable
     ReviewNode getParent();
 
     ReviewNode getRoot();
-
-    boolean isExpandable();
-
-    ReviewNode expand();
 
     IdableList<ReviewNode> getChildren();
 

@@ -88,7 +88,9 @@ public interface ReviewReference extends DataReviewInfo{
         void onNumFacts(ReviewId id, int num, CallbackMessage message);
     }
 
-    
+    @Override
+    ReviewId getReviewId();
+
     @Override
     DataSubject getSubject();
 
@@ -96,15 +98,13 @@ public interface ReviewReference extends DataReviewInfo{
     DataRating getRating();
 
     @Override
-    DataDateReview getPublishDate();
-
-    @Override
     DataAuthorReview getAuthor();
 
     @Override
-    ReviewId getReviewId();
+    DataDateReview getPublishDate();
 
     ReviewNode asNode();
+
 
     void getCovers(CoversCallback callback);
     
@@ -120,6 +120,7 @@ public interface ReviewReference extends DataReviewInfo{
     
     void getFacts(FactsCallback callback);
 
+
     void getNumTags(TagsSizeCallback callback);
 
     void getNumCriteria(CriteriaSizeCallback callback);
@@ -131,6 +132,7 @@ public interface ReviewReference extends DataReviewInfo{
     void getNumLocations(LocationsSizeCallback callback);
 
     void getNumFacts(FactsSizeCallback callback);
+
 
     void bind(ReferenceBinders.CoversBinder binder);
 

@@ -16,14 +16,25 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeLeaf extends ReviewNodeBasic implements ReviewNode{
+public class NodeLeaf extends ReviewNodeBasic implements ReviewNodeComponent{
     private final ReviewReference mReview;
 
     public NodeLeaf(ReviewReference review) {
         mReview = review;
+    }
+
+    @Override
+    public boolean addChild(ReviewNodeComponent childNode) {
+        return false;
+    }
+
+    @Override
+    public void removeChild(ReviewId reviewId) {
+
     }
 
     @Override
@@ -232,32 +243,6 @@ public class NodeLeaf extends ReviewNodeBasic implements ReviewNode{
     }
 
     @Override
-    public ReviewReference getReference() {
-        return mReview;
-    }
-
-    @Override
-    public ReviewNode getParent() {
-        return null;
-    }
-
-    @Override
-    public ReviewNode getRoot() {
-        return this;
-    }
-
-    @Override
-    public boolean isExpandable() {
-        return expand().getReference() != getReference();
-    }
-
-    @Override
-    public ReviewNode expand() {
-        ReviewNode node = getReference().asNode();
-        return node != null ? node : this;
-    }
-
-    @Override
     public ReviewNode getChild(ReviewId reviewId) {
         return null;
     }
@@ -316,15 +301,18 @@ public class NodeLeaf extends ReviewNodeBasic implements ReviewNode{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof NodeLeaf)) return false;
+        if (!super.equals(o)) return false;
 
         NodeLeaf nodeLeaf = (NodeLeaf) o;
 
-        return mReview != null ? mReview.equals(nodeLeaf.mReview) : nodeLeaf.mReview == null;
+        return mReview.equals(nodeLeaf.mReview);
 
     }
 
     @Override
     public int hashCode() {
-        return mReview != null ? mReview.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + mReview.hashCode();
+        return result;
     }
 }
