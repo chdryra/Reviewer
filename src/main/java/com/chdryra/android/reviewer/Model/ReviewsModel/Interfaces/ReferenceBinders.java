@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 
@@ -43,7 +44,7 @@ public interface ReferenceBinders {
     interface TagsBinder extends ValueBinder<IdableList<DataTag>> {
     }
 
-    interface SizeBinder extends ValueBinder<Integer> {
+    interface SizeBinder extends ValueBinder<DataSize> {
 
     }
 }

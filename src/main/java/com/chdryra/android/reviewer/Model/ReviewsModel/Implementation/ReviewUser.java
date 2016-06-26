@@ -12,9 +12,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,16 +36,12 @@ public class ReviewUser extends ReviewStatic {
     private final MdDataList<MdFact> mFacts;
     private final MdDataList<MdLocation> mLocations;
 
-    private ReviewNode mNode;
-
-    //Constructors
     public ReviewUser(MdReviewId id, MdAuthor author, MdDate publishDate, MdSubject subject,
                       MdRating rating, MdDataList<MdComment> comments,
                       MdDataList<MdImage>  images,
                       MdDataList<MdFact> facts,
                       MdDataList<MdLocation> locations,
-                      MdDataList<MdCriterion> criteria,
-                      FactoryReviewNode nodeFactory) {
+                      MdDataList<MdCriterion> criteria) {
         mId = id;
 
         checkId(author);
@@ -70,8 +64,6 @@ public class ReviewUser extends ReviewStatic {
         mFacts = facts;
         mLocations = locations;
         mCriteria = criteria;
-
-        mNode = nodeFactory.createReviewNode(this, false);
     }
 
     private void checkId(HasReviewId datum) {
@@ -103,11 +95,6 @@ public class ReviewUser extends ReviewStatic {
     @Override
     public MdDate getPublishDate() {
         return mPublishDate;
-    }
-
-    @Override
-    public ReviewNode getTreeRepresentation() {
-        return mNode;
     }
 
     @Override
@@ -161,8 +148,7 @@ public class ReviewUser extends ReviewStatic {
         if (!mComments.equals(that.mComments)) return false;
         if (!mImages.equals(that.mImages)) return false;
         if (!mFacts.equals(that.mFacts)) return false;
-        if (!mLocations.equals(that.mLocations)) return false;
-        return mNode.equals(that.mNode);
+        return mLocations.equals(that.mLocations);
 
     }
 
@@ -178,7 +164,6 @@ public class ReviewUser extends ReviewStatic {
         result = 31 * result + mImages.hashCode();
         result = 31 * result + mFacts.hashCode();
         result = 31 * result + mLocations.hashCode();
-        result = 31 * result + mNode.hashCode();
         return result;
     }
 }

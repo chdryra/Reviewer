@@ -21,6 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -65,27 +66,27 @@ public interface ReviewReference extends DataReviewInfo{
     }
 
     interface TagsSizeCallback {
-        void onNumTags(ReviewId id, int num, CallbackMessage message);
+        void onNumTags(DataSize size, CallbackMessage message);
     }
 
     interface CriteriaSizeCallback {
-        void onNumCriteria(ReviewId id, int num, CallbackMessage message);
+        void onNumCriteria(DataSize size, CallbackMessage message);
     }
 
     interface ImagesSizeCallback {
-        void onNumImages(ReviewId id, int num, CallbackMessage message);
+        void onNumImages(DataSize size, CallbackMessage message);
     }
 
     interface CommentsSizeCallback {
-        void onNumComments(ReviewId id, int num, CallbackMessage message);
+        void onNumComments(DataSize size, CallbackMessage message);
     }
 
     interface LocationsSizeCallback {
-        void onNumLocations(ReviewId id, int num, CallbackMessage message);
+        void onNumLocations(DataSize size, CallbackMessage message);
     }
 
     interface FactsSizeCallback {
-        void onNumFacts(ReviewId id, int num, CallbackMessage message);
+        void onNumFacts(DataSize size, CallbackMessage message);
     }
 
     @Override
@@ -121,17 +122,17 @@ public interface ReviewReference extends DataReviewInfo{
     void getFacts(FactsCallback callback);
 
 
-    void getNumTags(TagsSizeCallback callback);
+    void getTagsSize(TagsSizeCallback callback);
 
-    void getNumCriteria(CriteriaSizeCallback callback);
+    void getCriteriaSize(CriteriaSizeCallback callback);
 
-    void getNumImages(ImagesSizeCallback callback);
+    void getImagesSize(ImagesSizeCallback callback);
 
-    void getNumComments(CommentsSizeCallback callback);
+    void getCommentsSize(CommentsSizeCallback callback);
 
-    void getNumLocations(LocationsSizeCallback callback);
+    void getLocationsSize(LocationsSizeCallback callback);
 
-    void getNumFacts(FactsSizeCallback callback);
+    void getFactsSize(FactsSizeCallback callback);
 
 
     void bind(ReferenceBinders.CoversBinder binder);

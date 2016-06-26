@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -19,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
@@ -34,6 +36,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewMetaSnapshot;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
@@ -41,9 +45,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Factory for creating Reviews and ReviewNodes.
@@ -89,18 +93,18 @@ public class FactoryReviews implements ReviewMaker {
                 images, facts, locations, ratingIsAverage);
     }
 
-    public ReviewNode createMetaReview(Review review) {
+    public ReviewNode createMetaReference(Review review) {
         IdableCollection<Review> single = new MdDataCollection<>();
         single.add(review);
 
-        return createMetaReview(single, review.getSubject().getSubject());
+        return createMetaReference(single, review.getSubject().getSubject());
     }
 
-    public ReviewNode createMetaReview(Iterable<Review> reviews, String subject) {
-        return mNodeFactory.createReviewNode(createMetaReviewMutable(reviews, subject));
+    public ReviewNode createMetaReference(Iterable<Review> reviews, String subject) {
+        return mNodeFactory.createReviewNode(createMetaReferenceMutable(reviews, subject));
     }
 
-    public ReviewNodeComponent createMetaReviewMutable(Iterable<Review> reviews, String subject) {
+    public ReviewNodeComponent createMetaReferenceMutable(Iterable<Review> reviews, String subject) {
         Review meta = createUserReview(subject, 0f);
         ReviewNodeComponent parent = mNodeFactory.createReviewNodeComponent(meta, true);
         for (Review review : reviews) {
@@ -108,6 +112,10 @@ public class FactoryReviews implements ReviewMaker {
         }
 
         return parent;
+    }
+
+    public ReviewMetaSnapshot createMetaReview(DataReviewInfo info, List<Review> reviews) {
+        return new ReviewMetaSnapshot(info, reviews);
     }
 
     public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
@@ -130,7 +138,7 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewNode getNullNode() {
-        return getNullReview().getTreeRepresentation();
+        return new ;
     }
 
 
@@ -203,6 +211,6 @@ public class FactoryReviews implements ReviewMaker {
         MdDataList<MdCriterion> mdCriteria = mConverter.toMdCriterionList(criteria, id);
 
         return new ReviewUser(id, mdAuthor, mdDate, mdSubject, mdRating, mdComments,
-                mdImages, mdFacts, mdLocations, mdCriteria, mNodeFactory);
+                mdImages, mdFacts, mdLocations, mdCriteria);
     }
 }

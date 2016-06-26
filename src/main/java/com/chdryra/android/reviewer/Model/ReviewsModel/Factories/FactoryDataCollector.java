@@ -53,4 +53,28 @@ public class FactoryDataCollector {
     public NodeDataCollector<DataImage> newCollector(IdableList<ReviewNode> nodes, ReviewReference.CoversCallback callback) {
         return new TreeDataCollector.Covers(nodes, callback);
     }
+
+    public NodeDataCollector.Size newCollector(IdableList<ReviewNode> nodes, ReviewReference.TagsSizeCallback callback) {
+        return new TreeDataCollector.TagsSize(nodes, callback);
+    }
+
+    public NodeDataCollector.Size newCollector(IdableList<ReviewNode> nodes, ReviewReference.CriteriaSizeCallback callback) {
+        return new TreeDataCollector.CriteriaSize(nodes, callback);
+    }
+
+    public NodeDataCollector.Size newCollector(IdableList<ReviewNode> nodes, ReviewReference.ImagesSizeCallback callback) {
+        return new TreeDataCollector.ImagesSize(nodes, callback);
+    }
+
+    public NodeDataCollector.Size newCollector(IdableList<ReviewNode> nodes, ReviewReference.CommentsSizeCallback callback) {
+        return new TreeDataCollector.CommentsSize(nodes, callback);
+    }
+
+    public NodeDataCollector.Size newCollector(IdableList<ReviewNode> nodes, ReviewReference.LocationsSizeCallback callback) {
+        return new TreeDataCollector.LocationsSize(nodes, callback);
+    }
+
+    public NodeDataCollector.Size newCollector(IdableList<ReviewNode> nodes, ReviewReference.FactsSizeCallback callback) {
+        return new TreeDataCollector.FactsSize(nodes, callback);
+    }
 }

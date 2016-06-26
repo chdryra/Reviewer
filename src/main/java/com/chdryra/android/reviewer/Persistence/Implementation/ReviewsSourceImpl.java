@@ -75,7 +75,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 if (!result.isError()) {
                     Collection<Review> reviews = result.getReviews();
                     ReviewNode meta = reviews.size() > 0 ?
-                            mReviewFactory.createMetaReview(reviews, subject)
+                            mReviewFactory.createMetaReference(reviews, subject)
                             : mReviewFactory.getNullNode();
                     result = new RepositoryResult(meta, result.getMessage());
                 }
@@ -176,7 +176,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 Review review = result.getReview();
                 boolean isError = result.isError();
                 ReviewNode node = isError || review == null ? mReviewFactory.getNullNode()
-                        : mReviewFactory.createMetaReview(review);
+                        : mReviewFactory.createMetaReference(review);
 
                 callback.onMetaReviewCallback(new RepositoryResult(node, result.getMessage()));
             }

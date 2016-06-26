@@ -9,11 +9,17 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -27,7 +33,7 @@ import java.util.ArrayList;
  * On: 21/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReferenceBinder {
+public class ReferenceBinder implements DataReviewInfo{
     private ReviewReference mReference;
 
     private ReferenceBinders.CoversBinder mCovers;
@@ -96,6 +102,31 @@ public class ReferenceBinder {
 
         mDataBinders = new ArrayList<>();
         mSizeBinders = new ArrayList<>();
+    }
+
+    @Override
+    public DataSubject getSubject() {
+        return mReference.getSubject();
+    }
+
+    @Override
+    public DataRating getRating() {
+        return mReference.getRating();
+    }
+
+    @Override
+    public DataDateReview getPublishDate() {
+        return mReference.getPublishDate();
+    }
+
+    @Override
+    public DataAuthorReview getAuthor() {
+        return mReference.getAuthor();
+    }
+
+    @Override
+    public ReviewId getReviewId() {
+        return mReference.getReviewId();
     }
 
     public void registerDataBinder(DataBinder binder) {
@@ -186,55 +217,55 @@ public class ReferenceBinder {
     }
 
     public void getNumTags(final ReviewReference.TagsSizeCallback callback) {
-        mReference.getNumTags(new ReviewReference.TagsSizeCallback() {
+        mReference.getTagsSize(new ReviewReference.TagsSizeCallback() {
             @Override
-            public void onNumTags(ReviewId id, int num, CallbackMessage message) {
-                callback.onNumTags(id, num, message);
+            public void onNumTags(DataSize size, CallbackMessage message) {
+                callback.onNumTags(size, message);
             }
         });
     }
 
     public void getNumCriteria(final ReviewReference.CriteriaSizeCallback callback) {
-        mReference.getNumCriteria(new ReviewReference.CriteriaSizeCallback() {
+        mReference.getCriteriaSize(new ReviewReference.CriteriaSizeCallback() {
             @Override
-            public void onNumCriteria(ReviewId id, int num, CallbackMessage message) {
-                callback.onNumCriteria(id, num, message);
+            public void onNumCriteria(DataSize size, CallbackMessage message) {
+                callback.onNumCriteria(size, message);
             }
         });
     }
 
     public void getNumImages(final ReviewReference.ImagesSizeCallback callback) {
-        mReference.getNumImages(new ReviewReference.ImagesSizeCallback() {
+        mReference.getImagesSize(new ReviewReference.ImagesSizeCallback() {
             @Override
-            public void onNumImages(ReviewId id, int num, CallbackMessage message) {
-                callback.onNumImages(id, num, message);
+            public void onNumImages(DataSize size, CallbackMessage message) {
+                callback.onNumImages(size, message);
             }
         });
     }
 
     public void getNumComments(final ReviewReference.CommentsSizeCallback callback) {
-        mReference.getNumComments(new ReviewReference.CommentsSizeCallback() {
+        mReference.getCommentsSize(new ReviewReference.CommentsSizeCallback() {
             @Override
-            public void onNumComments(ReviewId id, int num, CallbackMessage message) {
-                callback.onNumComments(id, num, message);
+            public void onNumComments(DataSize size, CallbackMessage message) {
+                callback.onNumComments(size, message);
             }
         });
     }
 
     public void getNumLocations(final ReviewReference.LocationsSizeCallback callback) {
-        mReference.getNumLocations(new ReviewReference.LocationsSizeCallback() {
+        mReference.getLocationsSize(new ReviewReference.LocationsSizeCallback() {
             @Override
-            public void onNumLocations(ReviewId id, int num, CallbackMessage message) {
-                callback.onNumLocations(id, num, message);
+            public void onNumLocations(DataSize size, CallbackMessage message) {
+                callback.onNumLocations(size, message);
             }
         });
     }
 
     public void getNumFacts(final ReviewReference.FactsSizeCallback callback) {
-        mReference.getNumFacts(new ReviewReference.FactsSizeCallback() {
+        mReference.getFactsSize(new ReviewReference.FactsSizeCallback() {
             @Override
-            public void onNumFacts(ReviewId id, int num, CallbackMessage message) {
-                callback.onNumFacts(id, num, message);
+            public void onNumFacts(DataSize size, CallbackMessage message) {
+                callback.onNumFacts(size, message);
             }
         });
     }
@@ -401,11 +432,11 @@ public class ReferenceBinder {
 
     private class TagsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final Integer value) {
+        public void onValue(final DataSize size) {
             notifySizeBinders(new BinderMethod<DataSizeBinder>() {
                 @Override
                 public void execute(DataSizeBinder binder) {
-                    binder.onNumTags(mReference.getReviewId(), value, CallbackMessage.ok());
+                    binder.onNumTags(size, CallbackMessage.ok());
                 }
             });
         }
@@ -413,11 +444,11 @@ public class ReferenceBinder {
 
     private class CriteriaSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final Integer value) {
+        public void onValue(final DataSize size) {
             notifySizeBinders(new BinderMethod<DataSizeBinder>() {
                 @Override
                 public void execute(DataSizeBinder binder) {
-                    binder.onNumCriteria(mReference.getReviewId(), value, CallbackMessage.ok());
+                    binder.onNumCriteria(size, CallbackMessage.ok());
                 }
             });
         }
@@ -425,11 +456,11 @@ public class ReferenceBinder {
 
     private class ImagesSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final Integer value) {
+        public void onValue(final DataSize size) {
             notifySizeBinders(new BinderMethod<DataSizeBinder>() {
                 @Override
                 public void execute(DataSizeBinder binder) {
-                    binder.onNumImages(mReference.getReviewId(), value, CallbackMessage.ok());
+                    binder.onNumImages(size, CallbackMessage.ok());
                 }
             });
         }
@@ -437,11 +468,11 @@ public class ReferenceBinder {
 
     private class CommentsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final Integer value) {
+        public void onValue(final DataSize size) {
             notifySizeBinders(new BinderMethod<DataSizeBinder>() {
                 @Override
                 public void execute(DataSizeBinder binder) {
-                    binder.onNumComments(mReference.getReviewId(), value, CallbackMessage.ok());
+                    binder.onNumComments(size, CallbackMessage.ok());
                 }
             });
         }
@@ -449,11 +480,11 @@ public class ReferenceBinder {
 
     private class LocationsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final Integer value) {
+        public void onValue(final DataSize size) {
             notifySizeBinders(new BinderMethod<DataSizeBinder>() {
                 @Override
                 public void execute(DataSizeBinder binder) {
-                    binder.onNumLocations(mReference.getReviewId(), value, CallbackMessage.ok());
+                    binder.onNumLocations(size, CallbackMessage.ok());
                 }
             });
         }
@@ -461,11 +492,11 @@ public class ReferenceBinder {
 
     private class FactsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final Integer value) {
+        public void onValue(final DataSize size) {
             notifySizeBinders(new BinderMethod<DataSizeBinder>() {
                 @Override
                 public void execute(DataSizeBinder binder) {
-                    binder.onNumFacts(mReference.getReviewId(), value, CallbackMessage.ok());
+                    binder.onNumFacts(size, CallbackMessage.ok());
                 }
             });
         }

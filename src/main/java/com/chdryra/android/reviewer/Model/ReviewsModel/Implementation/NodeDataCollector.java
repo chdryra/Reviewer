@@ -9,9 +9,12 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
@@ -23,55 +26,74 @@ public abstract class NodeDataCollector<T extends HasReviewId>  {
     private IdableList<ReviewNode> mNodes;
     private IdableList<T> mData;
     private AsyncMethodTracker mTracker;
+    private boolean mCollecting = false;
 
     public NodeDataCollector(IdableList<ReviewNode> nodes) {
         mNodes = nodes;
     }
 
-    public abstract void doAsyncMethod(ReviewNode node);
-    public abstract void onCompleted(IdableList<T> data);
+    public abstract CallbackMessage doAsyncMethod(ReviewNode node);
+    public abstract void onCompleted(IdableList<T> data, AsyncMethodTracker.AsyncErrors errors);
 
     public void collect() {
-        mData = new IdableDataList<>(mNodes.getReviewId());
-        mTracker = new AsyncMethodTracker(mNodes);
+        if(!mCollecting) {
+            mCollecting = true;
 
-        mTracker.collect();
+            mData = new IdableDataList<>(mNodes.getReviewId());
+
+            mTracker = new AsyncMethodTracker(mNodes, new AsyncMethodTracker.AsyncMethod() {
+                @Override
+                public CallbackMessage execute(ReviewNode node) {
+                    return doAsyncMethod(node);
+                }
+
+                @Override
+                public void onNodesCompleted(AsyncMethodTracker.AsyncErrors errors) {
+                    mCollecting = false;
+                    onCompleted(errors);
+                }
+            });
+
+            mTracker.collect();
+        }
     }
 
-    protected void onNodeReturned(IdableList<T> childData, CallbackMessage message) {
+    private void onCompleted(AsyncMethodTracker.AsyncErrors errors) {
+        onCompleted(mData, errors);
+    }
+
+    protected void onNodeReturned(ReviewId nodeId, T childData, CallbackMessage message) {
+        if(!message.isError()) mData.add(childData);
+        mTracker.onNodeReturned(nodeId, message);
+    }
+
+    protected void onNodeReturned(ReviewId nodeId, IdableList<T> childData, CallbackMessage message) {
         if(!message.isError()) mData.addAll(childData);
-        mTracker.onNodeReturned();
+        mTracker.onNodeReturned(nodeId, message);
     }
 
-    public void onCompleted() {
-        onCompleted(mData);
+    protected ReviewId getReviewId() {
+        return mNodes.getReviewId();
     }
 
-    private class AsyncMethodTracker {
-        private IdableList<ReviewNode> mNodes;
-        private int mNumNodes = 0;
-        private boolean mIsExecuting = false;
+    public abstract static class Size extends NodeDataCollector<DataSize>  {
+        protected abstract void onCompleted(DataSize size, AsyncMethodTracker.AsyncErrors errors);
 
-        public AsyncMethodTracker(IdableList<ReviewNode> nodes) {
-            mNodes = nodes;
+        public Size(IdableList<ReviewNode> nodes) {
+            super(nodes);
         }
 
-        public void collect() {
-            if(!mIsExecuting) {
-                mIsExecuting = true;
-                mNumNodes = mNodes.size();
-                for (ReviewNode node : mNodes) {
-                    doAsyncMethod(node);
+
+        @Override
+        public void onCompleted(IdableList<DataSize> data, AsyncMethodTracker.AsyncErrors errors) {
+            int size = 0;
+            if(!errors.hasErrors()) {
+                for (DataSize datum : data) {
+                    size += datum.getSize();
                 }
             }
-        }
 
-        protected void onNodeReturned() {
-            mNumNodes--;
-            if(mNumNodes == 0) {
-                onCompleted();
-                mIsExecuting = false;
-            }
+            onCompleted(new DatumSize(getReviewId(), size), errors);
         }
     }
 }

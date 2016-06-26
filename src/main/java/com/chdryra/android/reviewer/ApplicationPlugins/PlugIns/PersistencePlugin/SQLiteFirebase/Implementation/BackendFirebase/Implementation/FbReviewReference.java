@@ -23,6 +23,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
@@ -33,6 +35,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
@@ -79,7 +82,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     private interface SizeMethod {
-        void execute(int size, CallbackMessage message);
+        void execute(DataSize size, CallbackMessage message);
     }
     
     public FbReviewReference(ReviewListEntry entry,
@@ -221,61 +224,61 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getNumTags(final TagsSizeCallback callback) {
+    public void getTagsSize(final TagsSizeCallback callback) {
         getSize(ReviewAggregates.TAGS, new SizeMethod() {
             @Override
-            public void execute(int size, CallbackMessage message) {
-                callback.onNumTags(getReviewId(), size, message);     
+            public void execute(DataSize size, CallbackMessage message) {
+                callback.onNumTags(size, message);
             }
         });
     }
 
     @Override
-    public void getNumCriteria(final CriteriaSizeCallback callback) {
+    public void getCriteriaSize(final CriteriaSizeCallback callback) {
         getSize(ReviewAggregates.CRITERIA, new SizeMethod() {
             @Override
-            public void execute(int size, CallbackMessage message) {
-                callback.onNumCriteria(getReviewId(), size, message);
+            public void execute(DataSize size, CallbackMessage message) {
+                callback.onNumCriteria(size, message);
             }
         });
     }
 
     @Override
-    public void getNumImages(final ImagesSizeCallback callback) {
+    public void getImagesSize(final ImagesSizeCallback callback) {
         getSize(ReviewAggregates.IMAGES, new SizeMethod() {
             @Override
-            public void execute(int size, CallbackMessage message) {
-                callback.onNumImages(getReviewId(), size, message);
+            public void execute(DataSize size, CallbackMessage message) {
+                callback.onNumImages(size, message);
             }
         });
     }
 
     @Override
-    public void getNumComments(final CommentsSizeCallback callback) {
+    public void getCommentsSize(final CommentsSizeCallback callback) {
         getSize(ReviewAggregates.COMMENTS, new SizeMethod() {
             @Override
-            public void execute(int size, CallbackMessage message) {
-                callback.onNumComments(getReviewId(), size, message);
+            public void execute(DataSize size, CallbackMessage message) {
+                callback.onNumComments(size, message);
             }
         });
     }
 
     @Override
-    public void getNumLocations(final LocationsSizeCallback callback) {
+    public void getLocationsSize(final LocationsSizeCallback callback) {
         getSize(ReviewAggregates.LOCATIONS, new SizeMethod() {
             @Override
-            public void execute(int size, CallbackMessage message) {
-                callback.onNumLocations(getReviewId(), size, message);
+            public void execute(DataSize size, CallbackMessage message) {
+                callback.onNumLocations(size, message);
             }
         });
     }
 
     @Override
-    public void getNumFacts(final FactsSizeCallback callback) {
+    public void getFactsSize(final FactsSizeCallback callback) {
         getSize(ReviewAggregates.FACTS, new SizeMethod() {
             @Override
-            public void execute(int size, CallbackMessage message) {
-                callback.onNumFacts(getReviewId(), size, message);
+            public void execute(DataSize size, CallbackMessage message) {
+                callback.onNumFacts(size, message);
             }
         });
     }
@@ -525,11 +528,11 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
-    private SnapshotConverter<Integer> getSize() {
-        return new SnapshotConverter<Integer>() {
+    private SnapshotConverter<DataSize> getSize() {
+        return new SnapshotConverter<DataSize>() {
             @Override
-            public Integer convert(DataSnapshot snapshot) {
-                return snapshot.getValue(Integer.class);
+            public DataSize convert(DataSnapshot snapshot) {
+                return new DatumSize(getReviewId(), snapshot.getValue(Integer.class));
             }
         };
     }
@@ -552,18 +555,17 @@ public class FbReviewReference implements ReviewReference {
         });
     }
 
-    private <T extends HasReviewId> void getSize(String child,
-                                                 final SizeMethod method) {
+    private void getSize(String child, final SizeMethod method) {
         mData.child(child).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer size = getSize().convert(dataSnapshot);
+                DataSize size = getSize().convert(dataSnapshot);
                 method.execute(size, CallbackMessage.ok());
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                method.execute(0, getErrorMessage(firebaseError));
+                method.execute(new DatumSize(getReviewId(), 0), getErrorMessage(firebaseError));
             }
         });
     }
@@ -573,7 +575,7 @@ public class FbReviewReference implements ReviewReference {
         return CallbackMessage.error(backendError.getMessage());
     }
 
-    private void bindSizeBinder(String child, ValueBinder<Integer> binder) {
+    private void bindSizeBinder(String child, ValueBinder<DataSize> binder) {
         bindBinder(mAggregate, child, binder, getSize());
     }
 

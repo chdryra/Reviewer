@@ -31,7 +31,7 @@ public class ReviewTreeLive extends ReviewTreeComponentAsync implements ReviewsR
     private ReviewsRepository mRepo;
 
     public ReviewTreeLive(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
-        super(reviewsFactory.createMetaReviewMutable(new ArrayList<Review>(), title));
+        super(reviewsFactory.createMetaReferenceMutable(new ArrayList<Review>(), title));
         mRepo = repo;
         mRepo.registerObserver(this);
         mRepo.getReferences(this);

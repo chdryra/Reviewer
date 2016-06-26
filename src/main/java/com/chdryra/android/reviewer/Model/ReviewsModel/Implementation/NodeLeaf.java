@@ -73,33 +73,33 @@ public class NodeLeaf extends ReviewNodeBasic implements ReviewNodeComponent{
     }
 
     @Override
-    public void getNumTags(TagsSizeCallback callback) {
-        mReview.getNumTags(callback);
+    public void getTagsSize(TagsSizeCallback callback) {
+        mReview.getTagsSize(callback);
     }
 
     @Override
-    public void getNumCriteria(CriteriaSizeCallback callback) {
-        mReview.getNumCriteria(callback);
+    public void getCriteriaSize(CriteriaSizeCallback callback) {
+        mReview.getCriteriaSize(callback);
     }
 
     @Override
-    public void getNumImages(ImagesSizeCallback callback) {
-        mReview.getNumImages(callback);
+    public void getImagesSize(ImagesSizeCallback callback) {
+        mReview.getImagesSize(callback);
     }
 
     @Override
-    public void getNumComments(CommentsSizeCallback callback) {
-        mReview.getNumComments(callback);
+    public void getCommentsSize(CommentsSizeCallback callback) {
+        mReview.getCommentsSize(callback);
     }
 
     @Override
-    public void getNumLocations(LocationsSizeCallback callback) {
-        mReview.getNumLocations(callback);
+    public void getLocationsSize(LocationsSizeCallback callback) {
+        mReview.getLocationsSize(callback);
     }
 
     @Override
-    public void getNumFacts(FactsSizeCallback callback) {
-        mReview.getNumFacts(callback);
+    public void getFactsSize(FactsSizeCallback callback) {
+        mReview.getFactsSize(callback);
     }
 
     @Override
