@@ -65,7 +65,7 @@ public class FactoryReviewNode {
         return parent;
     }
 
-    public ReviewNode createMetaTree(ReviewReference review) {
+    public ReviewNodeComponent createMetaTree(ReviewReference review) {
         IdableCollection<ReviewReference> single = new MdDataCollection<>();
         single.add(review);
 

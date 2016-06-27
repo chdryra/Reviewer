@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 
 /**
@@ -20,6 +23,18 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic implement
 
     public ReviewNodeComponentBasic(BindersManager bindersManager) {
         super(bindersManager);
+    }
+
+    @Nullable
+    @Override
+    public ReviewNode getParent() {
+        return mParent;
+    }
+
+
+    @Override
+    public ReviewNode getRoot() {
+        return mParent != null ? mParent.getRoot() : this;
     }
 
     @Override

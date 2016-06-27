@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
@@ -18,6 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
@@ -50,19 +50,18 @@ public class ReviewsSourceImpl implements ReviewsSource {
 
     @Override
     public void asMetaReview(ReviewId id, final ReviewsSourceCallback callback) {
-        asMetaReviewNullable(id, getCallbackWrapper(callback));
+        asMetaReviewNullable(id, callback);
     }
 
     @Override
     public void asMetaReview(final VerboseDataReview datum, final String subjectIfMetaOfItems,
                              final ReviewsSourceCallback callback) {
-        ReviewsSourceCallback sourceCallback = getCallbackWrapper(callback);
         ReviewId id = getSingleSourceId(datum);
         if (id != null) {
-            asMetaReviewNullable(id, sourceCallback);
+            asMetaReviewNullable(id, callback);
         } else {
             getMetaReview((VerboseIdableCollection<? extends VerboseDataReview>) datum,
-                    subjectIfMetaOfItems, sourceCallback);
+                    subjectIfMetaOfItems, callback);
         }
     }
 
@@ -74,9 +73,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
             public void onRepositoryCallback(RepositoryResult result) {
                 if (!result.isError()) {
                     Collection<ReviewReference> reviews = result.getReferences();
-                    ReviewNode meta = reviews.size() > 0 ?
-                            mReviewFactory.createMetaTree(reviews, subject)
-                            : mReviewFactory.getNullNode();
+                    ReviewNode meta = mReviewFactory.createMetaTree(reviews, subject);
                     result = new RepositoryResult(meta, result.getMessage());
                 }
 
@@ -153,32 +150,21 @@ public class ReviewsSourceImpl implements ReviewsSource {
         return id;
     }
 
-    @NonNull
-    private ReviewsSourceCallback getCallbackWrapper(final ReviewsSourceCallback callback) {
-        return new ReviewsSourceCallback() {
-            @Override
-            public void onMetaReviewCallback(RepositoryResult result) {
-                if(result.isError()) {
-                    ReviewNode node = mReviewFactory.getNullNode();
-                    result = new RepositoryResult(node, result.getMessage());
-                }
-
-                callback.onMetaReviewCallback(result);
-            }
-        };
-    }
-
     private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
         mRepository.getReference(id, new RepositoryCallback() {
 
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 ReviewReference review = result.getReference();
-                boolean isError = result.isError();
-                ReviewNode node = isError || review == null ? mReviewFactory.getNullNode()
-                        : mReviewFactory.createMetaTree(review);
+                RepositoryResult repoResult;
+                if(result.isError() || review == null) {
+                    repoResult = result;
+                } else {
+                    ReviewNodeComponent node = mReviewFactory.createMetaTree(review);
+                    repoResult = new RepositoryResult(node, result.getMessage());
+                }
 
-                callback.onMetaReviewCallback(new RepositoryResult(node, result.getMessage()));
+                callback.onMetaReviewCallback(repoResult);
             }
         });
     }

@@ -102,7 +102,7 @@ public class FactoryReviews implements ReviewMaker {
                 images, facts, locations, ratingIsAverage);
     }
 
-    public ReviewNode createMetaTree(ReviewReference review) {
+    public ReviewNodeComponent createMetaTree(ReviewReference review) {
         return mNodeFactory.createMetaTree(review);
     }
 
@@ -110,7 +110,7 @@ public class FactoryReviews implements ReviewMaker {
         return mNodeFactory.createMetaTree(createUserReview(subject, 0f), reviews);
     }
 
-    public ReviewNode createLeafNode(ReviewReference reference) {
+    public ReviewNodeComponent createLeafNode(ReviewReference reference) {
         return mNodeFactory.createLeaf(reference);
     }
 
