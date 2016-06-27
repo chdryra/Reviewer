@@ -9,193 +9,142 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 12/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class NullReviewReference implements ReviewReference {
+public class NullReviewReference extends ReviewReferenceBasic {
+    private static final CallbackMessage OK = CallbackMessage.ok();
 
     public NullReviewReference() {
-    }
-
-
-    @Override
-    public void bind(ReferenceBinders.SubjectBinder binder) {
-
+        super(new BindersManager());
     }
 
     @Override
-    public void bind(ReferenceBinders.RatingBinder binder) {
-
+    public ReviewId getReviewId() {
+        return new DatumReviewId();
     }
 
     @Override
-    public void bind(ReferenceBinders.AuthorBinder binder) {
-
+    public DataSubject getSubject() {
+        return new DatumSubject();
     }
 
     @Override
-    public void bind(ReferenceBinders.DateBinder binder) {
-
+    public DataRating getRating() {
+        return new DatumRating();
     }
 
     @Override
-    public void bind(ReferenceBinders.CriteriaBinder binder) {
-
+    public DataAuthorReview getAuthor() {
+        return new DatumAuthorReview();
     }
 
     @Override
-    public void bind(ReferenceBinders.CommentsBinder binder) {
-
+    public DataDateReview getPublishDate() {
+        return new DatumDateReview();
     }
 
     @Override
-    public void bind(ReferenceBinders.FactsBinder binder) {
-
+    public ReviewNode asNode() {
+        return new NodeLeaf(this, getBindersManager());
     }
 
     @Override
-    public void bind(ReferenceBinders.ImagesBinder binder) {
-
+    public void getCovers(CoversCallback callback) {
+        callback.onCovers(new IdableDataList<DataImage>(getReviewId()), OK);
     }
 
     @Override
-    public void bind(ReferenceBinders.CoverBinder binder) {
-
+    public void getTags(TagsCallback callback) {
+        callback.onTags(new IdableDataList<DataTag>(getReviewId()), OK);
     }
 
     @Override
-    public void bind(ReferenceBinders.LocationsBinder binder) {
-
+    public void getCriteria(CriteriaCallback callback) {
+        callback.onCriteria(new IdableDataList<DataCriterion>(getReviewId()), OK);
     }
 
     @Override
-    public void bind(ReferenceBinders.TagsBinder binder) {
-
+    public void getImages(ImagesCallback callback) {
+        callback.onImages(new IdableDataList<DataImage>(getReviewId()), OK);
     }
 
     @Override
-    public void bindToCriteria(ReferenceBinders.SizeBinder binder) {
-
+    public void getComments(CommentsCallback callback) {
+        callback.onComments(new IdableDataList<DataComment>(getReviewId()), OK);
     }
 
     @Override
-    public void bindToComments(ReferenceBinders.SizeBinder binder) {
-
+    public void getLocations(LocationsCallback callback) {
+        callback.onLocations(new IdableDataList<DataLocation>(getReviewId()), OK);
     }
 
     @Override
-    public void bindToFacts(ReferenceBinders.SizeBinder binder) {
+    public void getFacts(FactsCallback callback) {
+        callback.onFacts(new IdableDataList<DataFact>(getReviewId()), OK);
+    }
 
+    private DataSize zero() {
+        return new DatumSize(getReviewId(), 0);
     }
 
     @Override
-    public void bindToImages(ReferenceBinders.SizeBinder binder) {
-
+    public void getTagsSize(TagsSizeCallback callback) {
+        callback.onNumTags(zero(), OK);
     }
 
     @Override
-    public void bindToLocations(ReferenceBinders.SizeBinder binder) {
-
+    public void getCriteriaSize(CriteriaSizeCallback callback) {
+        callback.onNumCriteria(zero(), OK);
     }
 
     @Override
-    public void bindToTags(ReferenceBinders.SizeBinder binder) {
-
+    public void getImagesSize(ImagesSizeCallback callback) {
+        callback.onNumImages(zero(), OK);
     }
 
     @Override
-    public void unbind(ReferenceBinders.SubjectBinder binder) {
-
+    public void getCommentsSize(CommentsSizeCallback callback) {
+        callback.onNumComments(zero(), OK);
     }
 
     @Override
-    public void unbind(ReferenceBinders.RatingBinder binder) {
-
+    public void getLocationsSize(LocationsSizeCallback callback) {
+        callback.onNumLocations(zero(), OK);
     }
 
     @Override
-    public void unbind(ReferenceBinders.AuthorBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.DateBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CoverBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CriteriaBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CommentsBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.FactsBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.ImagesBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.LocationsBinder binder) {
-
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.TagsBinder binder) {
-
-    }
-
-    @Override
-    public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
-
-    }
-
-    @Override
-    public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
-
-    }
-
-    @Override
-    public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
-
-    }
-
-    @Override
-    public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
-
-    }
-
-    @Override
-    public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
-
-    }
-
-    @Override
-    public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
-
+    public void getFactsSize(FactsSizeCallback callback) {
+        callback.onNumFacts(zero(), OK);
     }
 
     @Override
     public void dereference(DereferenceCallback callback) {
-
+        callback.onDereferenced(null, CallbackMessage.error("Null reference"));
     }
 
     @Override

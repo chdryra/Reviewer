@@ -20,16 +20,22 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeLeaf extends ReviewNodeBasic implements ReviewNodeComponent{
+public class NodeLeaf extends ReviewNodeBasic {
     private final ReviewReference mReview;
 
-    public NodeLeaf(ReviewReference review) {
+    public NodeLeaf(ReviewReference review, BindersManager bindersManager) {
+        super(bindersManager);
         mReview = review;
     }
 
     @Override
     public boolean addChild(ReviewNodeComponent childNode) {
         return false;
+    }
+
+    @Override
+    public void addChildren(Iterable<ReviewNodeComponent> children) {
+        
     }
 
     @Override

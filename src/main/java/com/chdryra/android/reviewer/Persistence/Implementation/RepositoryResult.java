@@ -92,7 +92,7 @@ public class RepositoryResult {
 
     public RepositoryResult(ReviewReference reference, CallbackMessage message) {
         mReference = reference;
-        mId = reference != null ? mReference.getInfo().getReviewId() : null;
+        mId = reference != null ? mReference.getReviewId() : null;
         mMessage = message;
     }
 

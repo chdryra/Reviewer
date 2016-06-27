@@ -148,9 +148,18 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
     }
 
     @Override
-    public GvImageList getCovers() {
-        return mType.equals(GvImage.TYPE) ? (GvImageList) getGridData()
-                : getParentBuilder().getCovers();
+    public void getCovers(CoversCallback callback) {
+        if(mType.equals(GvImage.TYPE)) {
+            callback.onAdapterCovers(((GvImageList)getGridData()).getCovers());
+        } else {
+            getParentBuilder().getCovers(callback);
+        }
+    }
+
+    @Override
+    public GvImage getCover() {
+        return mType.equals(GvImage.TYPE) ? ((GvImageList)getGridData()).getCovers().getItem(0)
+                : getParentBuilder().getCover();
     }
 
     private void makeToastHasItem(GvData datum) {

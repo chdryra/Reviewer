@@ -63,7 +63,7 @@ public class ReviewDb extends ReviewStatic {
                     FactoryReviewNode nodeFactory) {
         mRow = row;
         mDb = db;
-        mNode = nodeFactory.createReviewNode(this, false);
+        mNode = nodeFactory.createComponent(this, false);
     }
 
     @Override

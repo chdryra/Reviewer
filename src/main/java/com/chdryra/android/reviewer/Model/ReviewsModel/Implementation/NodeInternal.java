@@ -20,6 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -28,7 +29,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReferenceBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -43,65 +44,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Creates a new unique {@link MdReviewId} if required so can represent a new review structure even
- * though it wraps an existing review.
- * </p>
- * <p/>
- * <p>
- * Wraps a {@link Review} object in a node structure with potential children and a parent.
- * </p>
- */
 public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent,
         ReferenceBinder.DataBinder, ReferenceBinder.DataSizeBinder {
-    private final ReviewInfo mMeta;
+    private final DataReviewInfo mMeta;
     private final MdDataList<ReviewNodeComponent> mChildren;
-    private FactoryReferenceBinder mBinderFactory;
+    private FactoryBinders mBinderFactory;
     private FactoryDataCollector mCollectorFactory;
     private FactoryReviews mReviewsFactory;
-
+    
     private Map<ReviewId, ReferenceBinder> mChildBinders;
 
-    private Collection<ReferenceBinders.CoversBinder> mCoversBinders;
-    private Collection<ReferenceBinders.TagsBinder> mTagsBinders;
-    private Collection<ReferenceBinders.CriteriaBinder> mCriteriaBinders;
-    private Collection<ReferenceBinders.ImagesBinder> mImagesBinders;
-    private Collection<ReferenceBinders.CommentsBinder> mCommentsBinders;
-    private Collection<ReferenceBinders.LocationsBinder> mLocationsBinders;
-    private Collection<ReferenceBinders.FactsBinder> mFactsBinders;
-
-    private Collection<ReferenceBinders.SizeBinder> mTagsSize;
-    private Collection<ReferenceBinders.SizeBinder> mCriteriaSize;
-    private Collection<ReferenceBinders.SizeBinder> mImagesSize;
-    private Collection<ReferenceBinders.SizeBinder> mCommentsSize;
-    private Collection<ReferenceBinders.SizeBinder> mLocationsSize;
-    private Collection<ReferenceBinders.SizeBinder> mFactsSize;
-
-    public NodeInternal(ReviewInfo meta,
-                        FactoryReferenceBinder binderFactory,
+    public NodeInternal(DataReviewInfo meta,
+                        FactoryBinders binderFactory,
                         FactoryDataCollector collectorFactory,
                         FactoryReviews reviewFactory) {
+        super(binderFactory.newBindersManager());
         mMeta = meta;
         mBinderFactory = binderFactory;
         mCollectorFactory = collectorFactory;
+        mReviewsFactory = reviewFactory;
 
         mChildren = new MdDataList<>(getReviewId());
         mChildBinders = new HashMap<>();
-
-        mCoversBinders = new ArrayList<>();
-        mTagsBinders = new ArrayList<>();
-        mCriteriaBinders = new ArrayList<>();
-        mImagesBinders = new ArrayList<>();
-        mCommentsBinders = new ArrayList<>();
-        mLocationsBinders = new ArrayList<>();
-        mFactsBinders = new ArrayList<>();
-
-        mTagsSize = new ArrayList<>();
-        mCriteriaSize = new ArrayList<>();
-        mImagesSize = new ArrayList<>();
-        mCommentsSize = new ArrayList<>();
-        mLocationsSize = new ArrayList<>();
-        mFactsSize = new ArrayList<>();
     }
 
     @Override
@@ -116,6 +80,21 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
         notifyNodeObservers();
 
         return true;
+    }
+
+    @Override
+    public void addChildren(Iterable<ReviewNodeComponent> children) {
+        for(ReviewNodeComponent child : children) {
+            if (mChildren.containsId(child.getReviewId())) continue;
+            mChildren.add(child);
+            child.setParent(this);
+        }
+
+        for(ReviewNodeComponent child : children) {
+            bindToChild(child);
+        }
+
+        notifyNodeObservers();
     }
 
     @Override
@@ -195,7 +174,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getTags(new TagsCallback() {
                 @Override
                 public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
-                    notifyOnValue(mTagsBinders, tags, message);
+                    notifyOnValue(getBindersManager().getTagsBinders(), tags, message);
                 }
             });
         }
@@ -207,7 +186,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getComments(new CommentsCallback() {
                 @Override
                 public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
-                    notifyOnValue(mCommentsBinders, comments, message);
+                    notifyOnValue(getBindersManager().getCommentsBinders(), comments, message);
                 }
             });
         }
@@ -219,7 +198,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getCovers(new CoversCallback() {
                 @Override
                 public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
-                    notifyOnValue(mCoversBinders, covers, message);
+                    notifyOnValue(getBindersManager().getCoversBinders(), covers, message);
                 }
             });
         }
@@ -231,7 +210,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getCriteria(new CriteriaCallback() {
                 @Override
                 public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
-                    notifyOnValue(mCriteriaBinders, criteria, message);
+                    notifyOnValue(getBindersManager().getCriteriaBinders(), criteria, message);
                 }
             });
         }
@@ -243,7 +222,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getFacts(new FactsCallback() {
                 @Override
                 public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
-                    notifyOnValue(mFactsBinders, facts, message);
+                    notifyOnValue(getBindersManager().getFactsBinders(), facts, message);
                 }
             });
         }
@@ -255,7 +234,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getImages(new ImagesCallback() {
                 @Override
                 public void onImages(IdableList<DataImage> images, CallbackMessage message) {
-                    notifyOnValue(mImagesBinders, images, message);
+                    notifyOnValue(getBindersManager().getImagesBinders(), images, message);
                 }
             });
         }
@@ -267,7 +246,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getLocations(new LocationsCallback() {
                 @Override
                 public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
-                    notifyOnValue(mLocationsBinders, locations, message);
+                    notifyOnValue(getBindersManager().getLocationsBinders(), locations, message);
                 }
             });
         }
@@ -279,7 +258,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getLocationsSize(new LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
-                    notifyOnValue(mCommentsSize, size, message);
+                    notifyOnValue(getBindersManager().getCommentsSizeBinders(), size, message);
                 }
             });
         }
@@ -291,7 +270,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getCriteriaSize(new CriteriaSizeCallback() {
                 @Override
                 public void onNumCriteria(DataSize size, CallbackMessage message) {
-                    notifyOnValue(mCriteriaSize, size, message);
+                    notifyOnValue(getBindersManager().getCriteriaSizeBinders(), size, message);
                 }
             });
         }
@@ -303,7 +282,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getFactsSize(new FactsSizeCallback() {
                 @Override
                 public void onNumFacts(DataSize size, CallbackMessage message) {
-                    notifyOnValue(mFactsSize, size, message);
+                    notifyOnValue(getBindersManager().getFactsSizeBinders(), size, message);
                 }
             });
         }
@@ -315,7 +294,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getImagesSize(new ImagesSizeCallback() {
                 @Override
                 public void onNumImages(DataSize size, CallbackMessage message) {
-                    notifyOnValue(mImagesSize, size, message);
+                    notifyOnValue(getBindersManager().getImagesSizeBinders(), size, message);
                 }
             });
         }
@@ -327,7 +306,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getLocationsSize(new LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
-                    notifyOnValue(mLocationsSize, size, message);
+                    notifyOnValue(getBindersManager().getLocationsSizeBinders(), size, message);
                 }
             });
         }
@@ -339,7 +318,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
             getTagsSize(new TagsSizeCallback() {
                 @Override
                 public void onNumTags(DataSize size, CallbackMessage message) {
-                    notifyOnValue(mTagsSize, size, message);
+                    notifyOnValue(getBindersManager().getTagsSizeBinders(), size, message);
                 }
             });
         }
@@ -409,215 +388,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     public void getFactsSize(FactsSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
-
-    @Override
-    public void bind(final ReferenceBinders.CoversBinder binder) {
-        if(!mCoversBinders.contains(binder)) mCoversBinders.add(binder);
-        getCovers(new CoversCallback() {
-            @Override
-            public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
-                binder.onValue(covers);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final ReferenceBinders.TagsBinder binder) {
-        if(!mTagsBinders.contains(binder)) mTagsBinders.add(binder);
-        getTags(new TagsCallback() {
-            @Override
-            public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
-                binder.onValue(tags);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final ReferenceBinders.CriteriaBinder binder) {
-        if(!mCriteriaBinders.contains(binder)) mCriteriaBinders.add(binder);
-        getCriteria(new CriteriaCallback() {
-            @Override
-            public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
-                binder.onValue(criteria);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final ReferenceBinders.ImagesBinder binder) {
-        if(!mImagesBinders.contains(binder)) mImagesBinders.add(binder);
-        getImages(new ImagesCallback() {
-            @Override
-            public void onImages(IdableList<DataImage> images, CallbackMessage message) {
-                binder.onValue(images);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final ReferenceBinders.CommentsBinder binder) {
-        if(!mCommentsBinders.contains(binder)) mCommentsBinders.add(binder);
-        getComments(new CommentsCallback() {
-            @Override
-            public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
-                binder.onValue(comments);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final ReferenceBinders.LocationsBinder binder) {
-        if(!mLocationsBinders.contains(binder)) mLocationsBinders.add(binder);
-        getLocations(new LocationsCallback() {
-            @Override
-            public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
-                binder.onValue(locations);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final ReferenceBinders.FactsBinder binder) {
-        if(!mFactsBinders.contains(binder)) mFactsBinders.add(binder);
-        getFacts(new FactsCallback() {
-            @Override
-            public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
-                binder.onValue(facts);
-            }
-        });
-    }
-
-    @Override
-    public void bindToTags(final ReferenceBinders.SizeBinder binder) {
-        if(!mTagsSize.contains(binder)) mTagsSize.add(binder);
-        getTagsSize(new TagsSizeCallback() {
-            @Override
-            public void onNumTags(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToCriteria(final ReferenceBinders.SizeBinder binder) {
-        if(!mCriteriaSize.contains(binder)) mCriteriaSize.add(binder);
-        getCriteriaSize(new CriteriaSizeCallback() {
-            @Override
-            public void onNumCriteria(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToImages(final ReferenceBinders.SizeBinder binder) {
-        if(!mImagesSize.contains(binder)) mImagesSize.add(binder);
-        getImagesSize(new ImagesSizeCallback() {
-            @Override
-            public void onNumImages(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToComments(final ReferenceBinders.SizeBinder binder) {
-        if(!mCommentsSize.contains(binder)) mCommentsSize.add(binder);
-        getCommentsSize(new CommentsSizeCallback() {
-            @Override
-            public void onNumComments(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToLocations(final ReferenceBinders.SizeBinder binder) {
-        if(!mLocationsSize.contains(binder)) mLocationsSize.add(binder);
-        getLocationsSize(new LocationsSizeCallback() {
-            @Override
-            public void onNumLocations(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToFacts(final ReferenceBinders.SizeBinder binder) {
-        if(!mFactsSize.contains(binder)) mFactsSize.add(binder);
-        getFactsSize(new FactsSizeCallback() {
-            @Override
-            public void onNumFacts(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CoversBinder binder) {
-        if(mCoversBinders.contains(binder)) mCoversBinders.remove(binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.TagsBinder binder) {
-        if(mTagsBinders.contains(binder)) mTagsBinders.remove(binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CriteriaBinder binder) {
-        if(mCriteriaBinders.contains(binder)) mCriteriaBinders.remove(binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.ImagesBinder binder) {
-        if(mImagesBinders.contains(binder)) mImagesBinders.remove(binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.CommentsBinder binder) {
-        if(mCommentsBinders.contains(binder)) mCommentsBinders.remove(binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.LocationsBinder binder) {
-        if(mLocationsBinders.contains(binder)) mLocationsBinders.remove(binder);
-    }
-
-    @Override
-    public void unbind(ReferenceBinders.FactsBinder binder) {
-        if(mFactsBinders.contains(binder)) mFactsBinders.remove(binder);
-    }
-
-    @Override
-    public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
-        if(mTagsSize.contains(binder)) mTagsSize.remove(binder);
-    }
-
-    @Override
-    public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
-        if(mCriteriaSize.contains(binder)) mCriteriaSize.remove(binder);
-    }
-
-    @Override
-    public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
-        if(mImagesSize.contains(binder)) mImagesSize.remove(binder);
-    }
-
-    @Override
-    public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
-        if(mCommentsSize.contains(binder)) mCommentsSize.remove(binder);
-    }
-
-    @Override
-    public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
-        if(mLocationsSize.contains(binder)) mLocationsSize.remove(binder);
-    }
-
-    @Override
-    public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
-        if(mFactsSize.contains(binder)) mFactsSize.remove(binder);
-    }
-
+    
     @Override
     public void dereference(final DereferenceCallback callback) {
         NodeDereferencer dereferencer = new NodeDereferencer();
@@ -637,7 +408,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
 
     @Override
     public boolean isValid() {
-        return mMeta.isValid();
+        return mMeta != null;
     }
 
     @NonNull
@@ -702,20 +473,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
         if (!mBinderFactory.equals(that.mBinderFactory)) return false;
         if (!mCollectorFactory.equals(that.mCollectorFactory)) return false;
         if (!mReviewsFactory.equals(that.mReviewsFactory)) return false;
-        if (!mChildBinders.equals(that.mChildBinders)) return false;
-        if (!mCoversBinders.equals(that.mCoversBinders)) return false;
-        if (!mTagsBinders.equals(that.mTagsBinders)) return false;
-        if (!mCriteriaBinders.equals(that.mCriteriaBinders)) return false;
-        if (!mImagesBinders.equals(that.mImagesBinders)) return false;
-        if (!mCommentsBinders.equals(that.mCommentsBinders)) return false;
-        if (!mLocationsBinders.equals(that.mLocationsBinders)) return false;
-        if (!mFactsBinders.equals(that.mFactsBinders)) return false;
-        if (!mTagsSize.equals(that.mTagsSize)) return false;
-        if (!mCriteriaSize.equals(that.mCriteriaSize)) return false;
-        if (!mImagesSize.equals(that.mImagesSize)) return false;
-        if (!mCommentsSize.equals(that.mCommentsSize)) return false;
-        if (!mLocationsSize.equals(that.mLocationsSize)) return false;
-        return mFactsSize.equals(that.mFactsSize);
+        return mChildBinders.equals(that.mChildBinders);
 
     }
 
@@ -728,19 +486,6 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
         result = 31 * result + mCollectorFactory.hashCode();
         result = 31 * result + mReviewsFactory.hashCode();
         result = 31 * result + mChildBinders.hashCode();
-        result = 31 * result + mCoversBinders.hashCode();
-        result = 31 * result + mTagsBinders.hashCode();
-        result = 31 * result + mCriteriaBinders.hashCode();
-        result = 31 * result + mImagesBinders.hashCode();
-        result = 31 * result + mCommentsBinders.hashCode();
-        result = 31 * result + mLocationsBinders.hashCode();
-        result = 31 * result + mFactsBinders.hashCode();
-        result = 31 * result + mTagsSize.hashCode();
-        result = 31 * result + mCriteriaSize.hashCode();
-        result = 31 * result + mImagesSize.hashCode();
-        result = 31 * result + mCommentsSize.hashCode();
-        result = 31 * result + mLocationsSize.hashCode();
-        result = 31 * result + mFactsSize.hashCode();
         return result;
     }
 

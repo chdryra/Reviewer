@@ -11,19 +11,19 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseIdableCollection;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,9 +73,9 @@ public class ReviewsSourceImpl implements ReviewsSource {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 if (!result.isError()) {
-                    Collection<Review> reviews = result.getReviews();
+                    Collection<ReviewReference> reviews = result.getReferences();
                     ReviewNode meta = reviews.size() > 0 ?
-                            mReviewFactory.createMetaReference(reviews, subject)
+                            mReviewFactory.createMetaTree(reviews, subject)
                             : mReviewFactory.getNullNode();
                     result = new RepositoryResult(meta, result.getMessage());
                 }
@@ -169,14 +169,14 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     private void asMetaReviewNullable(ReviewId id, final ReviewsSourceCallback callback) {
-        mRepository.getReview(id, new RepositoryCallback() {
+        mRepository.getReference(id, new RepositoryCallback() {
 
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
-                Review review = result.getReview();
+                ReviewReference review = result.getReference();
                 boolean isError = result.isError();
                 ReviewNode node = isError || review == null ? mReviewFactory.getNullNode()
-                        : mReviewFactory.createMetaReference(review);
+                        : mReviewFactory.createMetaTree(review);
 
                 callback.onMetaReviewCallback(new RepositoryResult(node, result.getMessage()));
             }
@@ -187,14 +187,14 @@ public class ReviewsSourceImpl implements ReviewsSource {
                                   final RepositoryCallback callback) {
         UniqueCallback uniqueCallback = new UniqueCallback(data.size(), callback);
         for (int i = 0; i < data.size(); ++i) {
-            getReview(data.getItem(i).getReviewId(), uniqueCallback);
+            getReference(data.getItem(i).getReviewId(), uniqueCallback);
         }
     }
 
     private class UniqueCallback implements RepositoryCallback {
         private final ArrayList<CallbackMessage> mErrors;
         private final RepositoryCallback mFinalCallback;
-        private final Set<Review> mFetched;
+        private final Set<ReviewReference> mFetched;
         private final int mMaxReviews;
         private int mCurrentIndex;
 
@@ -210,7 +210,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
         public void onRepositoryCallback(RepositoryResult result) {
             mCurrentIndex++;
 
-            Review review = result.getReview();
+            ReviewReference review = result.getReference();
             if (review != null && !result.isError()) {
                 mFetched.add(review);
             } else {
@@ -221,7 +221,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 CallbackMessage message = mErrors.size() > 0 ?
                         CallbackMessage.error("Errors fetching some reviews")
                         : CallbackMessage.ok(mMaxReviews + " reviews fetched");
-                mFinalCallback.onRepositoryCallback(new RepositoryResult(mFetched, message));
+                mFinalCallback.onRepositoryCallback(new RepositoryResult(mFetched, null, message));
             }
         }
     }

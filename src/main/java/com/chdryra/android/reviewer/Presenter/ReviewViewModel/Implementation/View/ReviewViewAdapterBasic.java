@@ -119,8 +119,8 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public GvImageList getCovers() {
-        return new GvImageList();
+    public void getCovers(CoversCallback callback) {
+        callback.onAdapterCovers(new GvImageList());
     }
 
     @Override

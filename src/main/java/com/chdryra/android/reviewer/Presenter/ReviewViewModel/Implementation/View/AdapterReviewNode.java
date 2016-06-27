@@ -61,7 +61,7 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     }
 
     @Override
-    public GvImageList getCovers() {
+    public GvImageList getCovers(CoversCallback callback) {
         return mCoversConverter.convert(mNode.getCovers());
     }
 }

@@ -8,11 +8,18 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataCollection;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+
+import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
@@ -20,15 +27,44 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
-    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
-        return new NodeLeaf(review, isAverage);
+    private FactoryBinders mBinderFactory;
+    private FactoryDataCollector mDataCollectorFactory;
+
+    public FactoryReviewNode(FactoryBinders binderFactory, FactoryDataCollector
+            dataCollectorFactory) {
+        mBinderFactory = binderFactory;
+        mDataCollectorFactory = dataCollectorFactory;
     }
 
-    public ReviewNode createReviewNode(Review review, boolean isAverage) {
-        return createReviewNode(createReviewNodeComponent(review, isAverage));
+    public ReviewNodeComponent createLeaf(ReviewReference review) {
+        return new NodeLeaf(review, mBinderFactory.newBindersManager());
     }
 
-    public ReviewNode createReviewNode(ReviewNodeComponent node) {
+    public ReviewNodeComponent createComponent(DataReviewInfo meta, FactoryReviews reviewsFactory) {
+        return new NodeInternal(meta, mBinderFactory, mDataCollectorFactory, reviewsFactory);
+    }
+
+    public ReviewNode freezeNode(ReviewNodeComponent node) {
         return new ReviewTree(node);
+    }
+
+    public ReviewNodeComponent createMetaTree(DataReviewInfo meta,
+                                               Iterable<ReviewReference> reviews,
+                                               FactoryReviews reviewsFactory) {
+        ArrayList<ReviewNodeComponent> leaves = new ArrayList<>();
+        for (ReviewReference review : reviews) {
+            leaves.add(createLeaf(review));
+        }
+        ReviewNodeComponent parent = createComponent(meta, reviewsFactory);
+        parent.addChildren(leaves);
+
+        return parent;
+    }
+
+    public ReviewNode createMetaTree(ReviewReference review, FactoryReviews reviewsFactory) {
+        IdableCollection<ReviewReference> single = new MdDataCollection<>();
+        single.add(review);
+
+        return createMetaTree(review, single, reviewsFactory);
     }
 }

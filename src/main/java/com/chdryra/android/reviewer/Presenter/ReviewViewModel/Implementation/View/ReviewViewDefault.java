@@ -137,8 +137,12 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public void updateCover() {
         if (getParams().manageCover()) {
-            GvImageList covers = getAdapter().getCovers();
-            mContainer.setCover(covers.size() > 0 ? covers.getRandomCover() : null);
+            getAdapter().getCovers(new ReviewViewAdapter.CoversCallback() {
+                @Override
+                public void onAdapterCovers(GvImageList covers) {
+                    mContainer.setCover(covers.size() > 0 ? covers.getRandomCover() : null);
+                }
+            });
         }
     }
 

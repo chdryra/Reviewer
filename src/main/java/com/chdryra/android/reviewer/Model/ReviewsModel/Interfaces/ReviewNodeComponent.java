@@ -21,6 +21,8 @@ public interface ReviewNodeComponent extends ReviewNode {
 
     boolean addChild(ReviewNodeComponent childNode);
 
+    void addChildren(Iterable<ReviewNodeComponent> children);
+
     void removeChild(ReviewId reviewId);
 
     void setParent(@Nullable ReviewNodeComponent parent);

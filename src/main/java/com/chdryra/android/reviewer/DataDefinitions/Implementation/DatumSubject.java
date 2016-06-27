@@ -17,8 +17,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumSubject implements DataSubject {
-    private final ReviewId mReviewId;
-    private final String mSubject;
+    private ReviewId mReviewId;
+    private String mSubject;
+
+    public DatumSubject() {
+    }
 
     public DatumSubject(ReviewId reviewId, String subject) {
         mReviewId = reviewId;

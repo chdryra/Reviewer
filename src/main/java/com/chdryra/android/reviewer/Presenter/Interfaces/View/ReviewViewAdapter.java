@@ -23,6 +23,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * {@link GvData}
  */
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
+    interface CoversCallback {
+        void onAdapterCovers(GvImageList covers);
+    }
+
     void attachReviewView(ReviewView<T> view);
 
     void detachReviewView();
@@ -33,5 +37,5 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
 
     float getRating();
 
-    GvImageList getCovers();
+    void getCovers(CoversCallback callback);
 }

@@ -11,8 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +35,7 @@ public interface ReviewBuilder extends DataBuilder.DataBuilderObserver{
 
     <T extends GvData> DataBuilder<T> getDataBuilder(GvDataType<T> dataType);
 
-    GvImageList getCovers();
+    GvImage getCover();
 
     boolean hasTags();
 

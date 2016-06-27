@@ -21,13 +21,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDate;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdFact;
@@ -36,13 +34,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewMetaSnapshot;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 
@@ -58,11 +57,11 @@ import java.util.List;
  * </p>
  */
 public class FactoryReviews implements ReviewMaker {
+    private static Review sNullReview;
     private AuthorsStamp mAuthorsStamp;
     private FactoryReviewNode mNodeFactory;
     private ConverterMd mConverter;
     private DataValidator mValidator;
-    private static Review sNullReview;
 
     public FactoryReviews(FactoryReviewNode nodeFactory,
                           ConverterMd converter,
@@ -73,13 +72,22 @@ public class FactoryReviews implements ReviewMaker {
         mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
     }
 
-    public void setAuthorsStamp(AuthorsStamp authorsStamp) {
-        mAuthorsStamp = authorsStamp;
-    }
-
     @Nullable
     public DataAuthor getAuthor() {
         return mAuthorsStamp != null ? mAuthorsStamp.getAuthor() : null;
+    }
+
+    public Review getNullReview() {
+        if (sNullReview == null) sNullReview = createUserReview("NULL_REVIEW", 0f);
+        return sNullReview;
+    }
+
+    public ReviewNode getNullNode() {
+        return new NullNode();
+    }
+
+    public void setAuthorsStamp(AuthorsStamp authorsStamp) {
+        mAuthorsStamp = authorsStamp;
     }
 
     public Review createUserReview(String subject, float rating,
@@ -93,54 +101,31 @@ public class FactoryReviews implements ReviewMaker {
                 images, facts, locations, ratingIsAverage);
     }
 
-    public ReviewNode createMetaReference(Review review) {
-        IdableCollection<Review> single = new MdDataCollection<>();
-        single.add(review);
-
-        return createMetaReference(single, review.getSubject().getSubject());
+    public ReviewNode createMetaTree(ReviewReference review) {
+        return mNodeFactory.createMetaTree(review, this);
     }
 
-    public ReviewNode createMetaReference(Iterable<Review> reviews, String subject) {
-        return mNodeFactory.createReviewNode(createMetaReferenceMutable(reviews, subject));
+    public ReviewNodeComponent createMetaTree(Iterable<ReviewReference> reviews, String subject) {
+        return mNodeFactory.createMetaTree(createUserReview(subject, 0f), reviews, this);
     }
 
-    public ReviewNodeComponent createMetaReferenceMutable(Iterable<Review> reviews, String subject) {
-        Review meta = createUserReview(subject, 0f);
-        ReviewNodeComponent parent = mNodeFactory.createReviewNodeComponent(meta, true);
-        for (Review review : reviews) {
-            parent.addChild(createReviewNodeComponent(review, false));
-        }
-
-        return parent;
+    public ReviewNode createLeafNode(ReviewReference reference) {
+        return mNodeFactory.createLeaf(reference);
     }
 
-    public ReviewMetaSnapshot createMetaReview(DataReviewInfo info, List<Review> reviews) {
+    public Review createMetaReview(DataReviewInfo info, List<Review> reviews) {
         return new ReviewMetaSnapshot(info, reviews);
-    }
-
-    public ReviewNodeComponent createReviewNodeComponent(Review review, boolean isAverage) {
-        return mNodeFactory.createReviewNodeComponent(review, isAverage);
     }
 
     @Override
     public Review makeReview(ReviewDataHolder reviewData) {
-        if(!reviewData.isValid(mValidator)) return sNullReview;
+        if (!reviewData.isValid(mValidator)) return sNullReview;
 
         return newReviewUser(new MdReviewId(reviewData.getReviewId()), reviewData.getAuthor(),
                 reviewData.getPublishDate(), reviewData.getSubject(), reviewData.getRating(),
                 reviewData.getCriteria(), reviewData.getComments(), reviewData.getImages(),
                 reviewData.getFacts(), reviewData.getLocations());
     }
-
-    public Review getNullReview() {
-        if(sNullReview == null) sNullReview = createUserReview("NULL_REVIEW", 0f);
-        return sNullReview;
-    }
-
-    public ReviewNode getNullNode() {
-        return new ;
-    }
-
 
     /********************************************************/
     //private methods
@@ -160,8 +145,8 @@ public class FactoryReviews implements ReviewMaker {
                                  Iterable<? extends DataFact> facts,
                                  Iterable<? extends DataLocation> locations,
                                  boolean ratingIsAverage) {
-        if(mAuthorsStamp == null) throw new IllegalStateException("No author stamp!");
-        
+        if (mAuthorsStamp == null) throw new IllegalStateException("No author stamp!");
+
         ReviewStamp stamp = mAuthorsStamp.newStamp();
         DataAuthor author = stamp.getAuthor();
         DataDate date = stamp.getDate();
@@ -182,11 +167,11 @@ public class FactoryReviews implements ReviewMaker {
         float rating;
         double average = 0;
         int size = 0;
-        for(DataCriterion criterion : criteria) {
+        for (DataCriterion criterion : criteria) {
             average += criterion.getRating();
             size++;
         }
-        rating = (float)average / (float)size;
+        rating = (float) average / (float) size;
         return rating;
     }
 

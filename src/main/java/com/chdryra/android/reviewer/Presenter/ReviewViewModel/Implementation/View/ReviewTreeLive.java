@@ -8,30 +8,28 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTreeComponentAsync;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceWrapper;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
-
-import java.util.ArrayList;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeLive extends ReviewTreeComponentAsync implements ReviewsRepository.RepositoryCallback,
-        ReviewsRepositoryObserver {
+public class ReviewTreeLive implements ReviewsRepository.RepositoryCallback,
+        ReviewsRepositoryObserver, ReviewNode {
 
     private ReviewsRepository mRepo;
 
     public ReviewTreeLive(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
-        super(reviewsFactory.createMetaReferenceMutable(new ArrayList<Review>(), title));
         mRepo = repo;
         mRepo.registerObserver(this);
         mRepo.getReferences(this);

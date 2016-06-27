@@ -25,6 +25,7 @@ public interface ReviewsSource extends ReviewsRepository{
 
     void getMetaReview(VerboseIdableCollection data, String subject, ReviewsSourceCallback callback);
 
+    //As review node in result
     interface ReviewsSourceCallback {
         void onMetaReviewCallback(RepositoryResult result);
     }

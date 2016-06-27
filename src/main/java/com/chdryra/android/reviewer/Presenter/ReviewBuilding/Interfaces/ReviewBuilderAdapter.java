@@ -13,6 +13,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
  * Created by: Rizwan Choudrey
@@ -38,4 +39,6 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewVi
     <T extends GvData> DataBuilderAdapter<T> getDataBuilderAdapter(GvDataType<T> dataType);
 
     Review buildReview();
+
+    GvImage getCover();
 }

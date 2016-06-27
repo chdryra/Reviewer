@@ -67,7 +67,7 @@ public class BackendFirebase implements Backend {
         BackendValidator beValidator = new BackendValidator(validator);
         BackendReviewConverter beConverter = new BackendReviewConverter(beValidator, model.getReviewsFactory(), model.getTagsManager());
         BackendReviewsDb db = new FirebaseReviewsDb(mDatabase, mStructure,
-                beValidator, new FbReferencer(new BackendDataConverter(), beConverter, cache));
+                beValidator, new FbReferencer(new BackendDataConverter(), beConverter, cache, model.getReviewsFactory()));
 
         return new BackendReviewsRepo(db, beConverter, repoFactory);
     }

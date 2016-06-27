@@ -21,6 +21,9 @@ public class DatumRating implements DataRating {
     private int mRatingWeight;
     private ReviewId mReviewId;
 
+    public DatumRating() {
+    }
+
     public DatumRating(ReviewId reviewId, float rating, int ratingWeight) {
         mRating = rating;
         mRatingWeight = ratingWeight;

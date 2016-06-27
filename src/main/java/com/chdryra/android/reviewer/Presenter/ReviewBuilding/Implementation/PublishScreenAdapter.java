@@ -11,11 +11,10 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataListImpl;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatform;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSocialPlatformList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.GridDataWrapperBasic;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 
 /**
  * Created by: Rizwan Choudrey
@@ -50,8 +49,8 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
     }
 
     @Override
-    public GvImageList getCovers() {
-        return mReviewViewAdapter.getCovers();
+    public void getCovers(CoversCallback callback) {
+        mReviewViewAdapter.getCovers(callback);
     }
 
     private class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {

@@ -143,7 +143,7 @@ public class FactoryReviewsTest {
     public void createMetaReviewOfOneReviewIsNodeWithOneChildWrappingReview() {
         Review review = RandomReview.nextReview();
 
-        ReviewNode meta = mFactory.createMetaReference(review);
+        ReviewNode meta = mFactory.createMetaTree(review);
 
         assertThat(meta.getReviewId(), not(review.getReviewId()));
         assertThat(meta.getParent(), is(nullValue()));
@@ -170,7 +170,7 @@ public class FactoryReviewsTest {
         }
 
         String subject = RandomString.nextWord();
-        ReviewNode meta = mFactory.createMetaReference(reviews, subject);
+        ReviewNode meta = mFactory.createMetaTree(reviews, subject);
 
         checkAuthor(mAuthor, meta);
         checkSubject(subject, meta);

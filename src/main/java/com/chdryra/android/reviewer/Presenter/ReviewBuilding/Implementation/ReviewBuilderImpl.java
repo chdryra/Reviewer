@@ -27,7 +27,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvFact;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTagList;
@@ -131,14 +130,13 @@ public class ReviewBuilderImpl implements ReviewBuilder {
     }
 
     @Override
-    public GvImageList getCovers() {
+    public GvImage getCover() {
         GvDataList<GvImage> images = getData(GvImage.TYPE);
-        GvImageList covers = new GvImageList(images.getGvReviewId());
         for(GvImage image : images) {
-            if(image.isCover()) covers.add(image);
+            if(image.isCover()) return image;
         }
 
-        return covers;
+        return new GvImage();
     }
 
     @Override

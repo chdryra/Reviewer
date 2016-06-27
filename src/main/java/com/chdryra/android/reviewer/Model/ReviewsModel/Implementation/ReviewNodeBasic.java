@@ -20,11 +20,12 @@ import java.util.ArrayList;
  * On: 18/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeBasic implements ReviewNodeComponent {
+public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements ReviewNodeComponent {
     private ReviewNodeComponent mParent;
     private ArrayList<NodeObserver> mObservers;
 
-    public ReviewNodeBasic() {
+    public ReviewNodeBasic(BindersManager bindersManager) {
+        super(bindersManager);
         mObservers = new ArrayList<>();
     }
 

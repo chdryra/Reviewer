@@ -12,8 +12,8 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
@@ -83,12 +83,12 @@ public class GvReview extends GvDataBasic<GvReview> implements DataReviewInfo {
     }
 
     @Override
-    public DataDate getPublishDate() {
+    public DataDateReview getPublishDate() {
         return mReview.getPublishDate();
     }
 
     @Override
-    public DataAuthor getAuthor() {
+    public DataAuthorReview getAuthor() {
         return mReview.getAuthor();
     }
 

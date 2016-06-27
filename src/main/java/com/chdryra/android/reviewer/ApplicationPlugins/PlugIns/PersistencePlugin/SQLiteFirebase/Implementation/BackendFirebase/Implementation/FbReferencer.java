@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Factories.BackendReviewConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendDataConverter;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.Firebase;
@@ -26,16 +25,21 @@ import com.firebase.client.Firebase;
 public class FbReferencer {
     private BackendDataConverter mDataConverter;
     private BackendReviewConverter mReviewConverter;
+    private FactoryReviews mReviewsFactory;
     private ReviewsCache mCache;
 
-    public FbReferencer(BackendDataConverter dataConverter, BackendReviewConverter
-            reviewConverter, ReviewsCache cache) {
+    public FbReferencer(BackendDataConverter dataConverter,
+                        BackendReviewConverter reviewConverter,
+                        ReviewsCache cache,
+                        FactoryReviews reviewsFactory) {
         mDataConverter = dataConverter;
         mReviewConverter = reviewConverter;
         mCache = cache;
+        mReviewsFactory = reviewsFactory;
     }
 
     public ReviewReference newReference(ReviewListEntry entry, Firebase reviewDb, Firebase aggregatesDb) {
-        return new FbReviewReference(entry, reviewDb, aggregatesDb, mDataConverter, mReviewConverter, mCache);
+        return new FbReviewReference(entry, reviewDb, aggregatesDb, mDataConverter,
+                mReviewConverter, mCache, mReviewsFactory);
     }
 }

@@ -42,7 +42,7 @@ public class RandomReview {
     public static ReviewNode nextReviewNode(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);
-        return NODE_FACTORY.createReviewNode(review, isAverage);
+        return NODE_FACTORY.createComponent(review, isAverage);
     }
 
     public static ReviewNodeComponent nextReviewNodeComponent() {
@@ -52,7 +52,7 @@ public class RandomReview {
     public static ReviewNodeComponent nextReviewNodeComponent(boolean isAverage) {
         MdReviewId id = RandomReviewId.nextMdReviewId();
         Review review = new MockReview(id, new MdDataMocker(id), false);
-        return NODE_FACTORY.createReviewNodeComponent(review, isAverage);
+        return NODE_FACTORY.createLeaf(review, isAverage);
     }
 
     public static ArrayList<Review> constructTreeAndGetReviews(ReviewNodeComponent root) {

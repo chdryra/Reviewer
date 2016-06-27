@@ -31,7 +31,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeComponentNotAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent node = factory.createReviewNodeComponent(review, false);
+        ReviewNodeComponent node = factory.createLeaf(review, false);
         assertThat(node, notNullValue());
         assertThat(node.getReference(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(false));
@@ -41,7 +41,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeComponentAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent node = factory.createReviewNodeComponent(review, true);
+        ReviewNodeComponent node = factory.createLeaf(review, true);
         assertThat(node, notNullValue());
         assertThat(node.getReference(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(true));
@@ -51,7 +51,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeNotAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNode node = factory.createReviewNode(review, false);
+        ReviewNode node = factory.createComponent(review, false);
         assertThat(node, notNullValue());
         assertThat(node.getReference(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(false));
@@ -61,7 +61,7 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeAverageReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNode node = factory.createReviewNode(review, true);
+        ReviewNode node = factory.createComponent(review, true);
         assertThat(node, notNullValue());
         assertThat(node.getReference(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(true));
@@ -71,8 +71,8 @@ public class FactoryReviewNodeTest {
     public void createReviewNodeReturnsObjectWithExpectedAttributes() {
         FactoryReviewNode factory= new FactoryReviewNode();
         Review review = RandomReview.nextReview();
-        ReviewNodeComponent component = factory.createReviewNodeComponent(review, false);
-        ReviewNode node = factory.createReviewNode(component);
+        ReviewNodeComponent component = factory.createLeaf(review, false);
+        ReviewNode node = factory.freezeNode(component);
         assertThat(node, notNullValue());
         assertThat(node.getReference(), is(review));
         assertThat(node.isRatingAverageOfChildren(), is(false));

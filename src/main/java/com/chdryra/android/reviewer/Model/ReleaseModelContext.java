@@ -10,11 +10,13 @@ package com.chdryra.android.reviewer.Model;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Implementation.ModelContextBasic;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 
@@ -33,7 +35,9 @@ public class ReleaseModelContext extends ModelContextBasic {
         setTreeTraversersFactory(new FactoryNodeTraverser());
 
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
-        FactoryReviews reviews = new FactoryReviews(new FactoryReviewNode(), converter, validator);
+        FactoryReviewNode nodeFactory = new FactoryReviewNode(new FactoryBinders(),
+                new FactoryDataCollector());
+        FactoryReviews reviews = new FactoryReviews(nodeFactory, converter, validator);
         setReviewsFactory(reviews);
     }
 }

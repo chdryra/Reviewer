@@ -18,18 +18,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataReviewSummary extends DataReviewInfo {
-    @Override
-    DataSubject getSubject();
-
-    @Override
-    DataRating getRating();
-
-    @Override
-    DataDate getPublishDate();
-
-    @Override
-    DataAuthor getAuthor();
-
     String getHeadline();
 
     ArrayList<String> getTags();

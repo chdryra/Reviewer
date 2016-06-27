@@ -19,20 +19,16 @@ import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
@@ -44,6 +40,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,6 +48,8 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhReviewReference extends ViewHolderBasic {
+    private static final Random RAND = new Random();
+
     private static final int LAYOUT = R.layout.grid_cell_review_overview;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -72,10 +71,6 @@ public class VhReviewReference extends ViewHolderBasic {
     private TextView mPublishDate;
 
     private ReviewReference mReference;
-    private SubjectBinder mSubjectObserver;
-    private RatingBinder mRatingObserver;
-    private AuthorBinder mAuthorObserver;
-    private DateBinder mDateObserver;
     private CoverBinder mCoverObserver;
     private TagsBinder mTagsObserver;
     private CommentsBinder mCommentsObserver;
@@ -95,10 +90,6 @@ public class VhReviewReference extends ViewHolderBasic {
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
 
-        mSubjectObserver = new SubjectBinder();
-        mRatingObserver = new RatingBinder();
-        mAuthorObserver = new AuthorBinder();
-        mDateObserver = new DateBinder();
         mCoverObserver = new CoverBinder();
         mCommentsObserver = new CommentsBinder();
         mTagsObserver = new TagsBinder();
@@ -121,10 +112,12 @@ public class VhReviewReference extends ViewHolderBasic {
     }
 
     private void setReference(ReviewReference reference) {
-        if (mReference != null) unregister();
+        if (mReference != null) unbindFromReference();
         mReference = reference;
-        newStamp(mReference.getInfo().getAuthor(), mReference.getInfo().getPublishDate());
-        register();
+        mSubject.setText(mReference.getSubject().getSubject());
+        mRating.setRating(mReference.getRating().getRating());
+        newStamp(mReference.getAuthor(), mReference.getPublishDate());
+        bindToReference();
     }
 
     private void newStamp(DataAuthor author, DataDate publishDate) {
@@ -137,29 +130,21 @@ public class VhReviewReference extends ViewHolderBasic {
         mPublishDate.setText(text);
     }
 
-    private void unregister() {
-        mReference.unbind(mSubjectObserver);
-        mReference.unbind(mRatingObserver);
-        mReference.unbind(mAuthorObserver);
-        mReference.unbind(mDateObserver);
+    private void unbindFromReference() {
         mReference.unbind(mCoverObserver);
         mReference.unbind(mCommentsObserver);
         mReference.unbind(mLocationsObserver);
         mReference.unbind(mTagsObserver);
     }
 
-    private void register() {
-        mReference.bind(mSubjectObserver);
-        mReference.bind(mRatingObserver);
-        mReference.bind(mAuthorObserver);
-        mReference.bind(mDateObserver);
+    private void bindToReference() {
         mReference.bind(mCoverObserver);
         mReference.bind(mCommentsObserver);
         mReference.bind(mLocationsObserver);
         mReference.bind(mTagsObserver);
     }
 
-    private void setLocationString(IdableList<? extends DataLocation> value) {
+    private void setLocationString(IdableList<DataLocation> value) {
         GvLocationList locations = mConverterLocations.convert(value);
         ArrayList<String> locationNames = new ArrayList<>();
         for (GvLocation location : locations) {
@@ -207,47 +192,20 @@ public class VhReviewReference extends ViewHolderBasic {
         return string != null && string.length() > 0;
     }
 
-    private class SubjectBinder implements ReferenceBinders.SubjectBinder {
+    private class CoverBinder implements ReferenceBinders.CoversBinder {
         @Override
-        public void onValue(DataSubject value) {
-            mSubject.setText(value.getSubject());
-        }
-    }
-
-    private class RatingBinder implements ReferenceBinders.RatingBinder {
-        @Override
-        public void onValue(DataRating value) {
-            mRating.setRating(value.getRating());
-        }
-    }
-
-    private class CoverBinder implements ReferenceBinders.CoverBinder {
-        @Override
-        public void onValue(DataImage value) {
-            GvImage gvCover = mConverterImages.convert(value);
+        public void onValue(IdableList<DataImage> value) {
+            int index = RAND.nextInt(value.size());
+            GvImage gvCover = mConverterImages.convert(value.getItem(index));
             Bitmap cover = gvCover.getBitmap();
             mImage.setImageBitmap(cover);
         }
     }
 
-    private class AuthorBinder implements ReferenceBinders.AuthorBinder {
-        @Override
-        public void onValue(DataAuthorReview value) {
-            newStamp(value, mStamp.getDate());
-        }
-    }
-
-    private class DateBinder implements ReferenceBinders.DateBinder {
-        @Override
-        public void onValue(DataDateReview value) {
-            newStamp(mStamp.getAuthor(), value);
-        }
-    }
-
     private class TagsBinder implements ReferenceBinders.TagsBinder {
         @Override
-        public void onValue(IdableList<? extends DataTag> value) {
-            ItemTagCollection tags = mTagsManager.getTags(mReference.getInfo().getReviewId()
+        public void onValue(IdableList<DataTag> value) {
+            ItemTagCollection tags = mTagsManager.getTags(mReference.getReviewId()
                     .toString());
             mTags.setText(getTagString(tags.toStringArray()));
         }
@@ -255,7 +213,7 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class LocationsBinder implements ReferenceBinders.LocationsBinder {
         @Override
-        public void onValue(IdableList<? extends DataLocation> value) {
+        public void onValue(IdableList<DataLocation> value) {
             setLocationString(value);
             newFooter();
         }
@@ -263,7 +221,7 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class CommentsBinder implements ReferenceBinders.CommentsBinder {
         @Override
-        public void onValue(IdableList<? extends DataComment> value) {
+        public void onValue(IdableList<DataComment> value) {
             GvCommentList comments = mConverterComments.convert(value);
             GvCommentList headlines = comments.getHeadlines();
             String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;

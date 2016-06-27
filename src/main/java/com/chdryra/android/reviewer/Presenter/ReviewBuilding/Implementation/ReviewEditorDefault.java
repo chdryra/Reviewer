@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
@@ -27,7 +26,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
  */
 public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDefault<GC>
         implements ReviewEditor<GC> {
-    public static final GvImage NULL_COVER = new GvImage();
     private ReviewBuilderAdapter<?> mBuilder;
 
     public ReviewEditorDefault(ReviewBuilderAdapter<GC> builder,
@@ -59,15 +57,12 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
 
     @Override
     public GvImage getCover() {
-        GvImageList covers = mBuilder.getCovers();
-        return covers.size() > 0 ? covers.getItem(0) : NULL_COVER;
+        return mBuilder.getCover();
     }
 
     @Override
     public void setCover(GvImage image) {
-        for(GvImage cover : mBuilder.getCovers()) {
-            cover.setIsCover(false);
-        }
+        mBuilder.getCover().setIsCover(false);
         image.setIsCover(true);
         DataBuilderAdapter<GvImage> builder;
         builder = mBuilder.getDataBuilderAdapter(GvImage.TYPE);

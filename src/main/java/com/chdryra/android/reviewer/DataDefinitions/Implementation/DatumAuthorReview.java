@@ -22,6 +22,9 @@ public class DatumAuthorReview implements DataAuthorReview {
     private String mName;
     private AuthorId mAuthorId;
 
+    public DatumAuthorReview() {
+    }
+
     public DatumAuthorReview(ReviewId reviewId, String name, AuthorId authorId) {
         mReviewId = reviewId;
         mName = name;

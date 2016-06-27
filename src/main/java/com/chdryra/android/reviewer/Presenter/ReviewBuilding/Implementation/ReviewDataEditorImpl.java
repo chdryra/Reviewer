@@ -82,7 +82,7 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
 
     @Override
     public GvImage getCover() {
-        return mBuilder.getCovers().getItem(0);
+        return mBuilder.getCover();
     }
 
     @Override
