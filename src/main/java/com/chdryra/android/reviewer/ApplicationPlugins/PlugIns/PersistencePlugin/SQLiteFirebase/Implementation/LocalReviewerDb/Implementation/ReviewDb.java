@@ -38,9 +38,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewStatic;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 import java.util.ArrayList;
 
@@ -55,15 +53,11 @@ public class ReviewDb extends ReviewStatic {
 
     private RowReview mRow;
     private ReviewerDbReadable mDb;
-    private ReviewNode mNode;
     private DataAuthorReview mAuthor;
 
-    public ReviewDb(RowReview row,
-                    ReviewerDbReadable db,
-                    FactoryReviewNode nodeFactory) {
+    public ReviewDb(RowReview row, ReviewerDbReadable db) {
         mRow = row;
         mDb = db;
-        mNode = nodeFactory.createComponent(this, false);
     }
 
     @Override
@@ -90,11 +84,6 @@ public class ReviewDb extends ReviewStatic {
     @Override
     public DataDateReview getPublishDate() {
         return mRow;
-    }
-
-    @Override
-    public ReviewNode getTreeRepresentation() {
-        return mNode;
     }
 
     @Override

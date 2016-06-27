@@ -38,7 +38,7 @@ public class VisitorReviewDataGetterImplTest {
         VisitorReviewDataGetter<DataComment> visitor = new VisitorReviewDataGetterImpl<>(new CommentsGetter());
         visitor.visit(node);
         IdableCollection<DataComment> comments = visitor.getData();
-        IdableList<? extends DataComment> nodeComments = node.getComments();
+        IdableList<? extends DataComment> nodeComments = node.getData();
         assertThat(comments.size(), is(nodeComments.size()));
         for(int i = 0; i < comments.size(); ++i) {
             DataComment comment = nodeComments.getItem(i);
@@ -51,7 +51,7 @@ public class VisitorReviewDataGetterImplTest {
         @Override
         public IdableList<DataComment> getData(@NonNull ReviewNode node) {
             IdableList<DataComment> comments = new IdableDataList<>(node.getReviewId());
-            comments.addAll(node.getComments());
+            comments.addAll(node.getData());
             return comments;
         }
     }

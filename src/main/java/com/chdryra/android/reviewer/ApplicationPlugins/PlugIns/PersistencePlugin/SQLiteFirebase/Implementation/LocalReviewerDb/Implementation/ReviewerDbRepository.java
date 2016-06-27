@@ -21,8 +21,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .RelationalDb.Interfaces.DbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.RowEntry;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Factories.FactoryReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -59,12 +58,12 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
     private final TagsManager mTagsManager;
     private final DbTable<RowReview> mTable;
     private final ArrayList<ReviewsRepositoryObserver> mObservers;
-    private final FactoryReviewReference mReferenceFactory;
+    private final FactoryDbReference mReferenceFactory;
     private final FactoryReviewsRepository mRepoFactory;
     private boolean mTagsLoaded = false;
 
     public ReviewerDbRepository(ReviewerDb database, TagsManager tagsManager, FactoryReviewsRepository repoFactory,
-                                FactoryReviewReference referenceFactory) {
+                                FactoryDbReference referenceFactory) {
         mDatabase = database;
         mTagsManager = tagsManager;
         mRepoFactory = repoFactory;

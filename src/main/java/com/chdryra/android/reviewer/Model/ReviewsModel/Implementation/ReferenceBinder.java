@@ -152,18 +152,18 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getFacts(final ReviewReference.FactsCallback callback) {
-        mReference.getFacts(new ReviewReference.FactsCallback() {
+        mReference.getData(new ReviewReference.FactsCallback() {
             @Override
-            public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
+            public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
                 callback.onFacts(facts, message);
             }
         });
     }
 
     public void getLocations(final ReviewReference.LocationsCallback callback) {
-        mReference.getLocations(new ReviewReference.LocationsCallback() {
+        mReference.getData(new ReviewReference.LocationsCallback() {
             @Override
-            public void onLocations(IdableList<DataLocation> locations, CallbackMessage
+            public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage
                     message) {
                 callback.onLocations(locations, message);
             }
@@ -171,9 +171,9 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getComments(final ReviewReference.CommentsCallback callback) {
-        mReference.getComments(new ReviewReference.CommentsCallback() {
+        mReference.getData(new ReviewReference.CommentsCallback() {
             @Override
-            public void onComments(IdableList<DataComment> comments, CallbackMessage
+            public void onComments(IdableList<? extends DataComment> comments, CallbackMessage
                     message) {
                 callback.onComments(comments, message);
             }
@@ -181,43 +181,43 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getImages(final ReviewReference.ImagesCallback callback) {
-        mReference.getImages(new ReviewReference.ImagesCallback() {
+        mReference.getData(new ReviewReference.ImagesCallback() {
             @Override
-            public void onImages(IdableList<DataImage> images, CallbackMessage message) {
+            public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
                 callback.onImages(images, message);
             }
         });
     }
 
     public void getCriteria(final ReviewReference.CriteriaCallback callback) {
-        mReference.getCriteria(new ReviewReference.CriteriaCallback() {
+        mReference.getData(new ReviewReference.CriteriaCallback() {
             @Override
-            public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
+            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
                 callback.onCriteria(criteria, message);
             }
         });
     }
 
     public void getTags(final ReviewReference.TagsCallback callback) {
-        mReference.getTags(new ReviewReference.TagsCallback() {
+        mReference.getData(new ReviewReference.TagsCallback() {
             @Override
-            public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
+            public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
                 callback.onTags(tags, message);
             }
         });
     }
 
     public void getCovers(final ReviewReference.CoversCallback callback) {
-        mReference.getCovers(new ReviewReference.CoversCallback() {
+        mReference.getData(new ReviewReference.CoversCallback() {
             @Override
-            public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
+            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
                 callback.onCovers(covers, message);
             }
         });
     }
 
     public void getNumTags(final ReviewReference.TagsSizeCallback callback) {
-        mReference.getTagsSize(new ReviewReference.TagsSizeCallback() {
+        mReference.getSize(new ReviewReference.TagsSizeCallback() {
             @Override
             public void onNumTags(DataSize size, CallbackMessage message) {
                 callback.onNumTags(size, message);
@@ -226,7 +226,7 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getNumCriteria(final ReviewReference.CriteriaSizeCallback callback) {
-        mReference.getCriteriaSize(new ReviewReference.CriteriaSizeCallback() {
+        mReference.getSize(new ReviewReference.CriteriaSizeCallback() {
             @Override
             public void onNumCriteria(DataSize size, CallbackMessage message) {
                 callback.onNumCriteria(size, message);
@@ -235,7 +235,7 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getNumImages(final ReviewReference.ImagesSizeCallback callback) {
-        mReference.getImagesSize(new ReviewReference.ImagesSizeCallback() {
+        mReference.getSize(new ReviewReference.ImagesSizeCallback() {
             @Override
             public void onNumImages(DataSize size, CallbackMessage message) {
                 callback.onNumImages(size, message);
@@ -244,7 +244,7 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getNumComments(final ReviewReference.CommentsSizeCallback callback) {
-        mReference.getCommentsSize(new ReviewReference.CommentsSizeCallback() {
+        mReference.getSize(new ReviewReference.CommentsSizeCallback() {
             @Override
             public void onNumComments(DataSize size, CallbackMessage message) {
                 callback.onNumComments(size, message);
@@ -253,7 +253,7 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getNumLocations(final ReviewReference.LocationsSizeCallback callback) {
-        mReference.getLocationsSize(new ReviewReference.LocationsSizeCallback() {
+        mReference.getSize(new ReviewReference.LocationsSizeCallback() {
             @Override
             public void onNumLocations(DataSize size, CallbackMessage message) {
                 callback.onNumLocations(size, message);
@@ -262,7 +262,7 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public void getNumFacts(final ReviewReference.FactsSizeCallback callback) {
-        mReference.getFactsSize(new ReviewReference.FactsSizeCallback() {
+        mReference.getSize(new ReviewReference.FactsSizeCallback() {
             @Override
             public void onNumFacts(DataSize size, CallbackMessage message) {
                 callback.onNumFacts(size, message);
@@ -348,7 +348,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Covers implements ReferenceBinders.CoversBinder {
         @Override
-        public void onValue(final IdableList<DataImage> value) {
+        public void onValue(final IdableList<? extends DataImage> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {
@@ -360,7 +360,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Tags implements ReferenceBinders.TagsBinder {
         @Override
-        public void onValue(final IdableList<DataTag> value) {
+        public void onValue(final IdableList<? extends DataTag> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {
@@ -372,7 +372,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Criteria implements ReferenceBinders.CriteriaBinder {
         @Override
-        public void onValue(final IdableList<DataCriterion> value) {
+        public void onValue(final IdableList<? extends DataCriterion> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {
@@ -384,7 +384,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Images implements ReferenceBinders.ImagesBinder {
         @Override
-        public void onValue(final IdableList<DataImage> value) {
+        public void onValue(final IdableList<? extends DataImage> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {
@@ -396,7 +396,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Comments implements ReferenceBinders.CommentsBinder {
         @Override
-        public void onValue(final IdableList<DataComment> value) {
+        public void onValue(final IdableList<? extends DataComment> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {
@@ -408,7 +408,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Locations implements ReferenceBinders.LocationsBinder {
         @Override
-        public void onValue(final IdableList<DataLocation> value) {
+        public void onValue(final IdableList<? extends DataLocation> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {
@@ -420,7 +420,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     private class Facts implements ReferenceBinders.FactsBinder {
         @Override
-        public void onValue(final IdableList<DataFact> value) {
+        public void onValue(final IdableList<? extends DataFact> value) {
             notifyDataBinders(new BinderMethod<DataBinder>() {
                 @Override
                 public void execute(DataBinder binder) {

@@ -36,7 +36,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getCovers(new ReviewReference.CoversCallback() {
+            node.getData(new ReviewReference.CoversCallback() {
                 @Override
                 public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), covers, message);
@@ -62,7 +62,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getImages(new ReviewReference.ImagesCallback() {
+            node.getData(new ReviewReference.ImagesCallback() {
                 @Override
                 public void onImages(IdableList<DataImage> images, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), images, message);
@@ -88,7 +88,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getImagesSize(new ReviewReference.ImagesSizeCallback() {
+            node.getSize(new ReviewReference.ImagesSizeCallback() {
                 @Override
                 public void onNumImages(DataSize size, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), size, message);
@@ -114,7 +114,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getLocations(new ReviewReference.LocationsCallback() {
+            node.getData(new ReviewReference.LocationsCallback() {
                 @Override
                 public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), locations, message);
@@ -140,7 +140,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getLocationsSize(new ReviewReference.LocationsSizeCallback() {
+            node.getSize(new ReviewReference.LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), size, message);
@@ -166,7 +166,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getFacts(new ReviewReference.FactsCallback() {
+            node.getData(new ReviewReference.FactsCallback() {
                 @Override
                 public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), facts, message);
@@ -192,7 +192,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getFactsSize(new ReviewReference.FactsSizeCallback() {
+            node.getSize(new ReviewReference.FactsSizeCallback() {
                 @Override
                 public void onNumFacts(DataSize size, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), size, message);
@@ -218,7 +218,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getComments(new ReviewReference.CommentsCallback() {
+            node.getData(new ReviewReference.CommentsCallback() {
                 @Override
                 public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), comments, message);
@@ -244,7 +244,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getCommentsSize(new ReviewReference.CommentsSizeCallback() {
+            node.getSize(new ReviewReference.CommentsSizeCallback() {
                 @Override
                 public void onNumComments(DataSize size, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), size, message);
@@ -270,7 +270,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getCriteria(new ReviewReference.CriteriaCallback() {
+            node.getData(new ReviewReference.CriteriaCallback() {
                 @Override
                 public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), criteria, message);
@@ -296,7 +296,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getTags(new ReviewReference.TagsCallback() {
+            node.getData(new ReviewReference.TagsCallback() {
                 @Override
                 public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), tags, message);
@@ -322,7 +322,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getCriteriaSize(new ReviewReference.CriteriaSizeCallback() {
+            node.getSize(new ReviewReference.CriteriaSizeCallback() {
                 @Override
                 public void onNumCriteria(DataSize size, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), size, message);
@@ -348,7 +348,7 @@ public class TreeDataCollector {
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getTagsSize(new ReviewReference.TagsSizeCallback() {
+            node.getSize(new ReviewReference.TagsSizeCallback() {
                 @Override
                 public void onNumTags(DataSize size, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), size, message);

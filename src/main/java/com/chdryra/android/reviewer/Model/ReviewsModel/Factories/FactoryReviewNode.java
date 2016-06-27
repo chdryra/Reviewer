@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class FactoryReviewNode {
     private FactoryBinders mBinderFactory;
     private FactoryDataCollector mDataCollectorFactory;
+    private FactoryReviews mReviewsFactory;
 
     public FactoryReviewNode(FactoryBinders binderFactory, FactoryDataCollector
             dataCollectorFactory) {
@@ -36,35 +37,38 @@ public class FactoryReviewNode {
         mDataCollectorFactory = dataCollectorFactory;
     }
 
+    public void setReviewsFactory(FactoryReviews reviewsFactory) {
+        mReviewsFactory = reviewsFactory;
+    }
+
     public ReviewNodeComponent createLeaf(ReviewReference review) {
         return new NodeLeaf(review, mBinderFactory.newBindersManager());
     }
 
-    public ReviewNodeComponent createComponent(DataReviewInfo meta, FactoryReviews reviewsFactory) {
-        return new NodeInternal(meta, mBinderFactory, mDataCollectorFactory, reviewsFactory);
+    public ReviewNodeComponent createComponent(DataReviewInfo meta) {
+        return new NodeInternal(meta, mBinderFactory, mDataCollectorFactory, mReviewsFactory);
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {
-        return new ReviewTree(node);
+        return new ReviewTree(node, mBinderFactory.newBindersManager());
     }
 
     public ReviewNodeComponent createMetaTree(DataReviewInfo meta,
-                                               Iterable<ReviewReference> reviews,
-                                               FactoryReviews reviewsFactory) {
+                                               Iterable<ReviewReference> reviews) {
         ArrayList<ReviewNodeComponent> leaves = new ArrayList<>();
         for (ReviewReference review : reviews) {
             leaves.add(createLeaf(review));
         }
-        ReviewNodeComponent parent = createComponent(meta, reviewsFactory);
+        ReviewNodeComponent parent = createComponent(meta);
         parent.addChildren(leaves);
 
         return parent;
     }
 
-    public ReviewNode createMetaTree(ReviewReference review, FactoryReviews reviewsFactory) {
+    public ReviewNode createMetaTree(ReviewReference review) {
         IdableCollection<ReviewReference> single = new MdDataCollection<>();
         single.add(review);
 
-        return createMetaTree(review, single, reviewsFactory);
+        return createMetaTree(review, single);
     }
 }

@@ -10,17 +10,15 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.FactoryDbTableRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewDeleterImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewInserterImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewLoaderDynamic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewLoaderStatic;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewLoader;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.FactoryDbTableRow;
 
 /**
  * Created by: Rizwan Choudrey
@@ -39,8 +37,8 @@ public class FactoryReviewTransactor {
         return newTransactor(new ReviewLoaderStatic(reviewBuilder, validator));
     }
 
-    public ReviewTransactor newDynamicLoader(FactoryReviewNode nodeFactory, TagsManager tagsManager) {
-        return newTransactor(new ReviewLoaderDynamic(nodeFactory));
+    public ReviewTransactor newDynamicLoader() {
+        return newTransactor(new ReviewLoaderDynamic());
     }
 
     private ReviewTransactor newTransactor(ReviewLoader loader) {

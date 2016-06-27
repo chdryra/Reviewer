@@ -25,8 +25,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .RelationalDb.Factories.FactoryDbSpecification;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.DbSpecification;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Factories.FactoryReviewReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Factories.FactoryReviewTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -54,8 +53,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryLocalReviewerDb implements FactoryPersistence {
-    private static final FactoryReviewReference REFERENCE_FACTORY = new FactoryReviewReference();
-
     private FactoryContractor mContractorFactory;
     private String mExt;
     private FactoryReviewerDb mDbFactory;
@@ -78,7 +75,8 @@ public class FactoryLocalReviewerDb implements FactoryPersistence {
     @Override
     public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, model.getReviewsFactory(), validator);
-        return new ReviewerDbRepository(db, model.getTagsManager(), repoFactory, REFERENCE_FACTORY);
+        FactoryDbReference referenceFactory = new FactoryDbReference(model.getReviewsFactory(), model.getBindersFactory());
+        return new ReviewerDbRepository(db, model.getTagsManager(), repoFactory, referenceFactory);
     }
 
     public ReviewerDb newReviewerDb(String name, int version, ReviewMaker recreater, DataValidator validator) {

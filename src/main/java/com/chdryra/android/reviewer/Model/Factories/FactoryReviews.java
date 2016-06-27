@@ -70,6 +70,7 @@ public class FactoryReviews implements ReviewMaker {
         mConverter = converter;
         mValidator = validator;
         mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
+        mNodeFactory.setReviewsFactory(this);
     }
 
     @Nullable
@@ -102,11 +103,11 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewNode createMetaTree(ReviewReference review) {
-        return mNodeFactory.createMetaTree(review, this);
+        return mNodeFactory.createMetaTree(review);
     }
 
     public ReviewNodeComponent createMetaTree(Iterable<ReviewReference> reviews, String subject) {
-        return mNodeFactory.createMetaTree(createUserReview(subject, 0f), reviews, this);
+        return mNodeFactory.createMetaTree(createUserReview(subject, 0f), reviews);
     }
 
     public ReviewNode createLeafNode(ReviewReference reference) {

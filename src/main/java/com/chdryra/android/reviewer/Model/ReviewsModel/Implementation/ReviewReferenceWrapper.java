@@ -85,14 +85,14 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
     }
 
     @Override
-    public void getCovers(CoversCallback callback) {
+    public void getData(CoversCallback callback) {
         IdableList<DataImage> covers = new IdableDataList<>(getReviewId());
         covers.add(mReview.getCover());
         callback.onCovers(covers, OK);
     }
 
     @Override
-    public void getTags(TagsCallback callback) {
+    public void getData(TagsCallback callback) {
         ItemTagCollection tagCollection = mTagsManager.getTags(getReviewId().toString());
         IdableList<DataTag> tags = new IdableDataList<>(getReviewId());
         for (ItemTag tag : tagCollection) {
@@ -102,68 +102,68 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
     }
 
     @Override
-    public void getCriteria(CriteriaCallback callback) {
+    public void getData(CriteriaCallback callback) {
         IdableList<DataCriterion> criteria = new IdableDataList<>(getReviewId());
         criteria.addAll(mReview.getCriteria());
         callback.onCriteria(criteria, OK);
     }
 
     @Override
-    public void getImages(ImagesCallback callback) {
+    public void getData(ImagesCallback callback) {
         IdableList<DataImage> Images = new IdableDataList<>(getReviewId());
         Images.addAll(mReview.getImages());
         callback.onImages(Images, OK);
     }
 
     @Override
-    public void getComments(CommentsCallback callback) {
+    public void getData(CommentsCallback callback) {
         IdableList<DataComment> Comments = new IdableDataList<>(getReviewId());
         Comments.addAll(mReview.getComments());
         callback.onComments(Comments, OK);
     }
 
     @Override
-    public void getLocations(LocationsCallback callback) {
+    public void getData(LocationsCallback callback) {
         IdableList<DataLocation> Locations = new IdableDataList<>(getReviewId());
         Locations.addAll(mReview.getLocations());
         callback.onLocations(Locations, OK);
     }
 
     @Override
-    public void getFacts(FactsCallback callback) {
+    public void getData(FactsCallback callback) {
         IdableList<DataFact> Facts = new IdableDataList<>(getReviewId());
         Facts.addAll(mReview.getFacts());
         callback.onFacts(Facts, OK);
     }
 
     @Override
-    public void getTagsSize(TagsSizeCallback callback) {
+    public void getSize(TagsSizeCallback callback) {
         ItemTagCollection tagCollection = mTagsManager.getTags(getReviewId().toString());
         callback.onNumTags(newSize(tagCollection.size()), OK);
     }
 
     @Override
-    public void getCriteriaSize(CriteriaSizeCallback callback) {
+    public void getSize(CriteriaSizeCallback callback) {
         callback.onNumCriteria(newSize(mReview.getCriteria().size()), OK);
     }
 
     @Override
-    public void getImagesSize(ImagesSizeCallback callback) {
+    public void getSize(ImagesSizeCallback callback) {
         callback.onNumImages(newSize(mReview.getImages().size()), OK);
     }
 
     @Override
-    public void getCommentsSize(CommentsSizeCallback callback) {
+    public void getSize(CommentsSizeCallback callback) {
         callback.onNumComments(newSize(mReview.getComments().size()), OK);
     }
 
     @Override
-    public void getLocationsSize(LocationsSizeCallback callback) {
+    public void getSize(LocationsSizeCallback callback) {
         callback.onNumLocations(newSize(mReview.getLocations().size()), OK);
     }
 
     @Override
-    public void getFactsSize(FactsSizeCallback callback) {
+    public void getSize(FactsSizeCallback callback) {
         callback.onNumFacts(newSize(mReview.getFacts().size()), OK);
     }
 

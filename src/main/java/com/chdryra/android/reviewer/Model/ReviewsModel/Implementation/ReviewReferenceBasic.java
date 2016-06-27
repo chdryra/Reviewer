@@ -39,9 +39,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.CoversBinder binder) {
         mBinders.bind(binder);
-        getCovers(new CoversCallback() {
+        getData(new CoversCallback() {
             @Override
-            public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
+            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
                 binder.onValue(covers);
             }
         });
@@ -50,9 +50,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.TagsBinder binder) {
         mBinders.bind(binder);
-        getTags(new TagsCallback() {
+        getData(new TagsCallback() {
             @Override
-            public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
+            public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
                 binder.onValue(tags);
             }
         });
@@ -61,9 +61,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.CriteriaBinder binder) {
         mBinders.bind(binder);
-        getCriteria(new CriteriaCallback() {
+        getData(new CriteriaCallback() {
             @Override
-            public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
+            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
                 binder.onValue(criteria);
             }
         });
@@ -72,9 +72,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.ImagesBinder binder) {
         mBinders.bind(binder);
-        getImages(new ImagesCallback() {
+        getData(new ImagesCallback() {
             @Override
-            public void onImages(IdableList<DataImage> images, CallbackMessage message) {
+            public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
                 binder.onValue(images);
             }
         });
@@ -83,9 +83,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.CommentsBinder binder) {
         mBinders.bind(binder);
-        getComments(new CommentsCallback() {
+        getData(new CommentsCallback() {
             @Override
-            public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
+            public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
                 binder.onValue(comments);
             }
         });
@@ -94,9 +94,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.LocationsBinder binder) {
         mBinders.bind(binder);
-        getLocations(new LocationsCallback() {
+        getData(new LocationsCallback() {
             @Override
-            public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
+            public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
                 binder.onValue(locations);
             }
         });
@@ -105,9 +105,9 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bind(final ReferenceBinders.FactsBinder binder) {
         mBinders.bind(binder);
-        getFacts(new FactsCallback() {
+        getData(new FactsCallback() {
             @Override
-            public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
+            public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
                 binder.onValue(facts);
             }
         });
@@ -116,7 +116,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bindToTags(final ReferenceBinders.SizeBinder binder) {
         mBinders.bindToTags(binder);
-        getTagsSize(new TagsSizeCallback() {
+        getSize(new TagsSizeCallback() {
             @Override
             public void onNumTags(DataSize size, CallbackMessage message) {
                 binder.onValue(size);
@@ -127,7 +127,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bindToCriteria(final ReferenceBinders.SizeBinder binder) {
         mBinders.bindToCriteria(binder);
-        getCriteriaSize(new CriteriaSizeCallback() {
+        getSize(new CriteriaSizeCallback() {
             @Override
             public void onNumCriteria(DataSize size, CallbackMessage message) {
                 binder.onValue(size);
@@ -138,7 +138,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bindToImages(final ReferenceBinders.SizeBinder binder) {
         mBinders.bindToImages(binder);
-        getImagesSize(new ImagesSizeCallback() {
+        getSize(new ImagesSizeCallback() {
             @Override
             public void onNumImages(DataSize size, CallbackMessage message) {
                 binder.onValue(size);
@@ -149,7 +149,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bindToComments(final ReferenceBinders.SizeBinder binder) {
         mBinders.bindToComments(binder);
-        getCommentsSize(new CommentsSizeCallback() {
+        getSize(new CommentsSizeCallback() {
             @Override
             public void onNumComments(DataSize size, CallbackMessage message) {
                 binder.onValue(size);
@@ -160,7 +160,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bindToLocations(final ReferenceBinders.SizeBinder binder) {
         mBinders.bindToLocations(binder);
-        getLocationsSize(new LocationsSizeCallback() {
+        getSize(new LocationsSizeCallback() {
             @Override
             public void onNumLocations(DataSize size, CallbackMessage message) {
                 binder.onValue(size);
@@ -171,7 +171,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     @Override
     public void bindToFacts(final ReferenceBinders.SizeBinder binder) {
         mBinders.bindToFacts(binder);
-        getFactsSize(new FactsSizeCallback() {
+        getSize(new FactsSizeCallback() {
             @Override
             public void onNumFacts(DataSize size, CallbackMessage message) {
                 binder.onValue(size);

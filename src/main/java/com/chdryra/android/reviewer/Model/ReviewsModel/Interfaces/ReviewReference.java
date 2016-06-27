@@ -38,31 +38,31 @@ public interface ReviewReference extends DataReviewInfo{
     }
 
     interface CoversCallback {
-        void onCovers(IdableList<DataImage> covers, CallbackMessage message);    
+        void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message);    
     }
 
     interface TagsCallback {
-        void onTags(IdableList<DataTag> tags, CallbackMessage message);
+        void onTags(IdableList<? extends DataTag> tags, CallbackMessage message);
     }
 
     interface CriteriaCallback {
-        void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message);
+        void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message);
     }
 
     interface ImagesCallback {
-        void onImages(IdableList<DataImage> images, CallbackMessage message);
+        void onImages(IdableList<? extends DataImage> images, CallbackMessage message);
     }
 
     interface CommentsCallback {
-        void onComments(IdableList<DataComment> comments, CallbackMessage message);
+        void onComments(IdableList<? extends DataComment> comments, CallbackMessage message);
     }
 
     interface LocationsCallback {
-        void onLocations(IdableList<DataLocation> locations, CallbackMessage message);
+        void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message);
     }
 
     interface FactsCallback {
-        void onFacts(IdableList<DataFact> facts, CallbackMessage message);
+        void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message);
     }
 
     interface TagsSizeCallback {
@@ -106,33 +106,32 @@ public interface ReviewReference extends DataReviewInfo{
 
     ReviewNode asNode();
 
-
-    void getCovers(CoversCallback callback);
+    void getData(CoversCallback callback);
     
-    void getTags(TagsCallback callback);
+    void getData(TagsCallback callback);
     
-    void getCriteria(CriteriaCallback callback);
+    void getData(CriteriaCallback callback);
     
-    void getImages(ImagesCallback callback);
+    void getData(ImagesCallback callback);
     
-    void getComments(CommentsCallback callback);
+    void getData(CommentsCallback callback);
 
-    void getLocations(LocationsCallback callback);
+    void getData(LocationsCallback callback);
     
-    void getFacts(FactsCallback callback);
+    void getData(FactsCallback callback);
 
 
-    void getTagsSize(TagsSizeCallback callback);
+    void getSize(TagsSizeCallback callback);
 
-    void getCriteriaSize(CriteriaSizeCallback callback);
+    void getSize(CriteriaSizeCallback callback);
 
-    void getImagesSize(ImagesSizeCallback callback);
+    void getSize(ImagesSizeCallback callback);
 
-    void getCommentsSize(CommentsSizeCallback callback);
+    void getSize(CommentsSizeCallback callback);
 
-    void getLocationsSize(LocationsSizeCallback callback);
+    void getSize(LocationsSizeCallback callback);
 
-    void getFactsSize(FactsSizeCallback callback);
+    void getSize(FactsSizeCallback callback);
 
 
     void bind(ReferenceBinders.CoversBinder binder);

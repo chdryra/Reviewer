@@ -44,7 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent,
+public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNodeComponent,
         ReferenceBinder.DataBinder, ReferenceBinder.DataSizeBinder {
     private final DataReviewInfo mMeta;
     private final MdDataList<ReviewNodeComponent> mChildren;
@@ -169,11 +169,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
+    public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
         if (!message.isError()) {
-            getTags(new TagsCallback() {
+            getData(new TagsCallback() {
                 @Override
-                public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
+                public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getTagsBinders(), tags, message);
                 }
             });
@@ -181,11 +181,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
+    public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
         if (!message.isError()) {
-            getComments(new CommentsCallback() {
+            getData(new CommentsCallback() {
                 @Override
-                public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
+                public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getCommentsBinders(), comments, message);
                 }
             });
@@ -193,11 +193,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
+    public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
         if (!message.isError()) {
-            getCovers(new CoversCallback() {
+            getData(new CoversCallback() {
                 @Override
-                public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
+                public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getCoversBinders(), covers, message);
                 }
             });
@@ -205,11 +205,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
+    public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
         if (!message.isError()) {
-            getCriteria(new CriteriaCallback() {
+            getData(new CriteriaCallback() {
                 @Override
-                public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
+                public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getCriteriaBinders(), criteria, message);
                 }
             });
@@ -217,11 +217,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
+    public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
         if (!message.isError()) {
-            getFacts(new FactsCallback() {
+            getData(new FactsCallback() {
                 @Override
-                public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
+                public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getFactsBinders(), facts, message);
                 }
             });
@@ -229,11 +229,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onImages(IdableList<DataImage> images, CallbackMessage message) {
+    public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
         if (!message.isError()) {
-            getImages(new ImagesCallback() {
+            getData(new ImagesCallback() {
                 @Override
-                public void onImages(IdableList<DataImage> images, CallbackMessage message) {
+                public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getImagesBinders(), images, message);
                 }
             });
@@ -241,11 +241,11 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
+    public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
         if (!message.isError()) {
-            getLocations(new LocationsCallback() {
+            getData(new LocationsCallback() {
                 @Override
-                public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
+                public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getLocationsBinders(), locations, message);
                 }
             });
@@ -255,7 +255,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     @Override
     public void onNumComments(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getLocationsSize(new LocationsSizeCallback() {
+            getSize(new LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getCommentsSizeBinders(), size, message);
@@ -267,7 +267,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     @Override
     public void onNumCriteria(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getCriteriaSize(new CriteriaSizeCallback() {
+            getSize(new CriteriaSizeCallback() {
                 @Override
                 public void onNumCriteria(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getCriteriaSizeBinders(), size, message);
@@ -279,7 +279,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     @Override
     public void onNumFacts(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getFactsSize(new FactsSizeCallback() {
+            getSize(new FactsSizeCallback() {
                 @Override
                 public void onNumFacts(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getFactsSizeBinders(), size, message);
@@ -291,7 +291,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     @Override
     public void onNumImages(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getImagesSize(new ImagesSizeCallback() {
+            getSize(new ImagesSizeCallback() {
                 @Override
                 public void onNumImages(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getImagesSizeBinders(), size, message);
@@ -303,7 +303,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     @Override
     public void onNumLocations(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getLocationsSize(new LocationsSizeCallback() {
+            getSize(new LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getLocationsSizeBinders(), size, message);
@@ -315,7 +315,7 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     @Override
     public void onNumTags(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getTagsSize(new TagsSizeCallback() {
+            getSize(new TagsSizeCallback() {
                 @Override
                 public void onNumTags(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getTagsSizeBinders(), size, message);
@@ -325,67 +325,67 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     @Override
-    public void getCovers(final CoversCallback callback) {
+    public void getData(final CoversCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getTags(TagsCallback callback) {
+    public void getData(TagsCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getCriteria(CriteriaCallback callback) {
+    public void getData(CriteriaCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getImages(ImagesCallback callback) {
+    public void getData(ImagesCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getComments(CommentsCallback callback) {
+    public void getData(CommentsCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getLocations(LocationsCallback callback) {
+    public void getData(LocationsCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getFacts(FactsCallback callback) {
+    public void getData(FactsCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getTagsSize(TagsSizeCallback callback) {
+    public void getSize(TagsSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getCriteriaSize(CriteriaSizeCallback callback) {
+    public void getSize(CriteriaSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getImagesSize(ImagesSizeCallback callback) {
+    public void getSize(ImagesSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getCommentsSize(CommentsSizeCallback callback) {
+    public void getSize(CommentsSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getLocationsSize(LocationsSizeCallback callback) {
+    public void getSize(LocationsSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
 
     @Override
-    public void getFactsSize(FactsSizeCallback callback) {
+    public void getSize(FactsSizeCallback callback) {
         mCollectorFactory.newCollector(getChildren(), callback).collect();
     }
     
@@ -443,9 +443,9 @@ public class NodeInternal extends ReviewNodeBasic implements ReviewNodeComponent
     }
 
     private <T extends HasReviewId> void notifyOnValue(Collection<? extends
-            ValueBinder<IdableList<T>>> binders, IdableList<T> data, CallbackMessage message) {
+            ValueBinder<IdableList<? extends T>>> binders, IdableList<? extends T> data, CallbackMessage message) {
         if (!message.isError()) {
-            for (ValueBinder<IdableList<T>> binder : binders) {
+            for (ValueBinder<IdableList<? extends T>> binder : binders) {
                 binder.onValue(data);
             }
         }

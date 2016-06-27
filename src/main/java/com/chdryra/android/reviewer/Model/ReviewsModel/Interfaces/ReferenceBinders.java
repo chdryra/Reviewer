@@ -23,25 +23,25 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReferenceBinders {
-    interface CoversBinder extends ValueBinder<IdableList<DataImage>> {
+    interface CoversBinder extends ValueBinder<IdableList<? extends DataImage>> {
     }
 
-    interface CriteriaBinder extends ValueBinder<IdableList<DataCriterion>> {
+    interface CriteriaBinder extends ValueBinder<IdableList<? extends DataCriterion>> {
     }
 
-    interface CommentsBinder extends ValueBinder<IdableList<DataComment>> {
+    interface CommentsBinder extends ValueBinder<IdableList<? extends DataComment>> {
     }
 
-    interface FactsBinder extends ValueBinder<IdableList<DataFact>> {
+    interface FactsBinder extends ValueBinder<IdableList<? extends DataFact>> {
     }
 
-    interface LocationsBinder extends ValueBinder<IdableList<DataLocation>> {
+    interface LocationsBinder extends ValueBinder<IdableList<? extends DataLocation>> {
     }
 
-    interface ImagesBinder extends ValueBinder<IdableList<DataImage>> {
+    interface ImagesBinder extends ValueBinder<IdableList<? extends DataImage>> {
     }
 
-    interface TagsBinder extends ValueBinder<IdableList<DataTag>> {
+    interface TagsBinder extends ValueBinder<IdableList<? extends DataTag>> {
     }
 
     interface SizeBinder extends ValueBinder<DataSize> {

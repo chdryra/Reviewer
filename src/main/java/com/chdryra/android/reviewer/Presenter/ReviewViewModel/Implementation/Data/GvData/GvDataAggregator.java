@@ -92,7 +92,7 @@ public class GvDataAggregator {
     }
 
     public GvCanonicalCollection<GvCriterion> aggregateCriteria(ReviewNode root) {
-        return aggregateCriteria(mConverter.toGvCriterionList(root.getCriteria()), CriterionAggregation.SUBJECT);
+        return aggregateCriteria(mConverter.toGvCriterionList(root.getData()), CriterionAggregation.SUBJECT);
     }
 
     public GvCanonicalCollection<GvCriterion> aggregateCriteria(GvDataList<GvCriterion> data, CriterionAggregation aggregation) {
@@ -108,12 +108,12 @@ public class GvDataAggregator {
 
     public GvCanonicalCollection<GvImage> aggregateImages(ReviewNode root) {
         DataAggregator<DataImage> aggregator = mAggregators.newImagesAggregator(mParams.getSimilarBoolean());
-        AggregatedList<DataImage> aggregated = aggregator.aggregate(root.getImages());
+        AggregatedList<DataImage> aggregated = aggregator.aggregate(root.getData());
         return newCollection(mConverter.getConverterImages(), aggregated, GvImage.TYPE);
     }
 
     public GvCanonicalCollection<GvComment> aggregateComments(ReviewNode root) {
-        return aggregateComments(root.getComments());
+        return aggregateComments(root.getData());
     }
 
     public GvCanonicalCollection<GvComment> aggregateComments(IdableList<? extends DataComment> data) {
@@ -124,13 +124,13 @@ public class GvDataAggregator {
 
     public GvCanonicalCollection<GvLocation> aggregateLocations(ReviewNode root) {
         DataAggregator<DataLocation> aggregator = mAggregators.newLocationsAggregator(mParams.getSimilarLocation());
-        AggregatedList<DataLocation> aggregated = aggregator.aggregate(root.getLocations());
+        AggregatedList<DataLocation> aggregated = aggregator.aggregate(root.getData());
         return newCollection(mConverter.getConverterLocations(), aggregated, GvLocation.TYPE);
     }
 
     public GvCanonicalCollection<GvFact> aggregateFacts(ReviewNode root) {
         DataAggregator<DataFact> aggregator = mAggregators.newFactsAggregator(mParams.getSimilarPercentage());
-        AggregatedList<DataFact> aggregated = aggregator.aggregate(root.getFacts());
+        AggregatedList<DataFact> aggregated = aggregator.aggregate(root.getData());
         return newCollection(mConverter.getConverterFacts(), aggregated, GvFact.TYPE);
     }
     

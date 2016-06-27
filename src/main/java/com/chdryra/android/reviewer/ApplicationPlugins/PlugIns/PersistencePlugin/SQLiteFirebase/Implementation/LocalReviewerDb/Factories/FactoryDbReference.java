@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
@@ -24,10 +26,18 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * On: 15/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryReviewReference {
+public class FactoryDbReference {
+    private FactoryReviews mReviewsFactory;
+    private FactoryBinders mBindersFactory;
+
+    public FactoryDbReference(FactoryReviews reviewsFactory, FactoryBinders bindersFactory) {
+        mReviewsFactory = reviewsFactory;
+        mBindersFactory = bindersFactory;
+    }
+
     public ReviewReference newReference(RowReview review, DataAuthor author, ReviewerDbRepository repo) {
         ReviewId id = review.getReviewId();
         ReviewInfo info = new ReviewInfo(id, review, review, new DatumAuthorReview(id, author.getName(), author.getAuthorId()), review);
-        return new ReviewerDbReference(info, repo);
+        return new ReviewerDbReference(info, repo, mReviewsFactory, mBindersFactory.newBindersManager());
     }
 }

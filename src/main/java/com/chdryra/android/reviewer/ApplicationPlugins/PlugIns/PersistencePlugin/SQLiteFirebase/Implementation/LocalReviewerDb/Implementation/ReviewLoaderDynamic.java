@@ -9,12 +9,11 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation;
 
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewLoader;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 
 /**
  * Created by: Rizwan Choudrey
@@ -22,14 +21,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewLoaderDynamic implements ReviewLoader {
-    private FactoryReviewNode mNodeFactory;
-
-    public ReviewLoaderDynamic(FactoryReviewNode nodeFactory) {
-        mNodeFactory = nodeFactory;
-    }
-
     @Override
     public Review loadReview(RowReview reviewRow, ReviewerDbReadable database, TableTransactor db) {
-        return new ReviewDb(reviewRow, database, mNodeFactory);
+        return new ReviewDb(reviewRow, database);
     }
 }

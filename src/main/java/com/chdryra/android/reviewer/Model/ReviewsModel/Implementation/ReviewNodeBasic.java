@@ -20,26 +20,13 @@ import java.util.ArrayList;
  * On: 18/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements ReviewNodeComponent {
+public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements ReviewNode {
     private ReviewNodeComponent mParent;
     private ArrayList<NodeObserver> mObservers;
 
     public ReviewNodeBasic(BindersManager bindersManager) {
         super(bindersManager);
         mObservers = new ArrayList<>();
-    }
-
-    @Override
-    public void setParent(ReviewNodeComponent parentNode) {
-        if (mParent != null && parentNode != null
-                && mParent.getReviewId().equals(parentNode.getReviewId())) {
-            return;
-        }
-
-        if (mParent != null) mParent.removeChild(getReviewId());
-        mParent = parentNode;
-        if (mParent != null) mParent.addChild(this);
-        notifyNodeObservers();
     }
 
     @Nullable

@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeLeaf extends ReviewNodeBasic {
+public class NodeLeaf extends ReviewNodeComponentBasic {
     private final ReviewReference mReview;
 
     public NodeLeaf(ReviewReference review, BindersManager bindersManager) {
@@ -44,68 +44,68 @@ public class NodeLeaf extends ReviewNodeBasic {
     }
 
     @Override
-    public void getCovers(CoversCallback callback) {
-        mReview.getCovers(callback);
+    public void getData(CoversCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getTags(TagsCallback callback) {
-        mReview.getTags(callback);
+    public void getData(TagsCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getCriteria(CriteriaCallback callback) {
-        mReview.getCriteria(callback);
+    public void getData(CriteriaCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getImages(ImagesCallback callback) {
-        mReview.getImages(callback);
+    public void getData(ImagesCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getComments(CommentsCallback callback) {
-        mReview.getComments(callback);
+    public void getData(CommentsCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getLocations(LocationsCallback callback) {
-        mReview.getLocations(callback);
+    public void getData(LocationsCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getFacts(FactsCallback callback) {
-        mReview.getFacts(callback);
+    public void getData(FactsCallback callback) {
+        mReview.getData(callback);
     }
 
     @Override
-    public void getTagsSize(TagsSizeCallback callback) {
-        mReview.getTagsSize(callback);
+    public void getSize(TagsSizeCallback callback) {
+        mReview.getSize(callback);
     }
 
     @Override
-    public void getCriteriaSize(CriteriaSizeCallback callback) {
-        mReview.getCriteriaSize(callback);
+    public void getSize(CriteriaSizeCallback callback) {
+        mReview.getSize(callback);
     }
 
     @Override
-    public void getImagesSize(ImagesSizeCallback callback) {
-        mReview.getImagesSize(callback);
+    public void getSize(ImagesSizeCallback callback) {
+        mReview.getSize(callback);
     }
 
     @Override
-    public void getCommentsSize(CommentsSizeCallback callback) {
-        mReview.getCommentsSize(callback);
+    public void getSize(CommentsSizeCallback callback) {
+        mReview.getSize(callback);
     }
 
     @Override
-    public void getLocationsSize(LocationsSizeCallback callback) {
-        mReview.getLocationsSize(callback);
+    public void getSize(LocationsSizeCallback callback) {
+        mReview.getSize(callback);
     }
 
     @Override
-    public void getFactsSize(FactsSizeCallback callback) {
-        mReview.getFactsSize(callback);
+    public void getSize(FactsSizeCallback callback) {
+        mReview.getSize(callback);
     }
 
     @Override

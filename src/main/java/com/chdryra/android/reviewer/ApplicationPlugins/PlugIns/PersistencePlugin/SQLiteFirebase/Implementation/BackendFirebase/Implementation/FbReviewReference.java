@@ -143,7 +143,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getCovers(final CoversCallback callback) {
+    public void getData(final CoversCallback callback) {
         getData(ReviewDb.COVER,
                 getCoversConverter(),
                 new IdableDataList<DataImage>(getReviewId()),
@@ -156,7 +156,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getTags(final TagsCallback callback) {
+    public void getData(final TagsCallback callback) {
         getData(ReviewDb.TAGS,
                 getTagsConverter(),
                 new IdableDataList<DataTag>(getReviewId()),
@@ -169,7 +169,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getCriteria(final CriteriaCallback callback) {
+    public void getData(final CriteriaCallback callback) {
         getData(ReviewDb.CRITERIA,
                 getCriteriaConverter(),
                 new IdableDataList<DataCriterion>(getReviewId()),
@@ -182,7 +182,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getImages(final ImagesCallback callback) {
+    public void getData(final ImagesCallback callback) {
         getData(ReviewDb.IMAGES,
                 getImagesConverter(),
                 new IdableDataList<DataImage>(getReviewId()),
@@ -195,7 +195,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getComments(final CommentsCallback callback) {
+    public void getData(final CommentsCallback callback) {
     getData(ReviewDb.COMMENTS,
             getCommentsConverter(),
             new IdableDataList<DataComment>(getReviewId()),
@@ -208,7 +208,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getLocations(final LocationsCallback callback) {
+    public void getData(final LocationsCallback callback) {
         getData(ReviewDb.LOCATIONS,
                 getLocationsConverter(),
                 new IdableDataList<DataLocation>(getReviewId()),
@@ -221,7 +221,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getFacts(final FactsCallback callback) {
+    public void getData(final FactsCallback callback) {
         getData(ReviewDb.FACTS,
                 getFactsConverter(),
                 new IdableDataList<DataFact>(getReviewId()),
@@ -234,7 +234,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getTagsSize(final TagsSizeCallback callback) {
+    public void getSize(final TagsSizeCallback callback) {
         getSize(ReviewAggregates.TAGS, new SizeMethod() {
             @Override
             public void execute(DataSize size, CallbackMessage message) {
@@ -244,7 +244,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getCriteriaSize(final CriteriaSizeCallback callback) {
+    public void getSize(final CriteriaSizeCallback callback) {
         getSize(ReviewAggregates.CRITERIA, new SizeMethod() {
             @Override
             public void execute(DataSize size, CallbackMessage message) {
@@ -254,7 +254,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getImagesSize(final ImagesSizeCallback callback) {
+    public void getSize(final ImagesSizeCallback callback) {
         getSize(ReviewAggregates.IMAGES, new SizeMethod() {
             @Override
             public void execute(DataSize size, CallbackMessage message) {
@@ -264,7 +264,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getCommentsSize(final CommentsSizeCallback callback) {
+    public void getSize(final CommentsSizeCallback callback) {
         getSize(ReviewAggregates.COMMENTS, new SizeMethod() {
             @Override
             public void execute(DataSize size, CallbackMessage message) {
@@ -274,7 +274,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getLocationsSize(final LocationsSizeCallback callback) {
+    public void getSize(final LocationsSizeCallback callback) {
         getSize(ReviewAggregates.LOCATIONS, new SizeMethod() {
             @Override
             public void execute(DataSize size, CallbackMessage message) {
@@ -284,7 +284,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getFactsSize(final FactsSizeCallback callback) {
+    public void getSize(final FactsSizeCallback callback) {
         getSize(ReviewAggregates.FACTS, new SizeMethod() {
             @Override
             public void execute(DataSize size, CallbackMessage message) {
@@ -585,20 +585,26 @@ public class FbReviewReference implements ReviewReference {
         return CallbackMessage.error(backendError.getMessage());
     }
 
-    private void bindSizeBinder(String child, ValueBinder<DataSize> binder) {
-        bindBinder(mAggregate, child, binder, getSize());
-    }
-
-    private <T> void bindDataBinder(String child, ValueBinder<T> binder,
-                                    SnapshotConverter<T> converter) {
+    private <T extends HasReviewId> void bindDataBinder(String child,
+                                                        ValueBinder<IdableList<? extends T>> binder,
+                                                        SnapshotConverter<IdableList<T>> converter) {
         bindBinder(mData, child, binder, converter);
     }
 
-    private <T> void bindBinder(Firebase root, String child, ValueBinder<T> binder,
-                                SnapshotConverter<T> converter) {
+    private <T extends HasReviewId> void bindBinder(Firebase root, String child,
+                                                    ValueBinder<IdableList<? extends T>> binder,
+                                                    SnapshotConverter<IdableList<T>> converter) {
         if (!mBindings.containsKey(binder)) {
             ValueEventListener listener = newListener(binder, converter);
             root.child(child).addValueEventListener(listener);
+            mBindings.put(binder, listener);
+        }
+    }
+
+    private void bindSizeBinder(String child, ValueBinder<DataSize> binder) {
+        if (!mBindings.containsKey(binder)) {
+            ValueEventListener listener = newSizeListener(binder, getSize());
+            mAggregate.child(child).addValueEventListener(listener);
             mBindings.put(binder, listener);
         }
     }
@@ -618,12 +624,28 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
-    private <T> ValueEventListener newListener(final ValueBinder<T> observer,
-                                               final SnapshotConverter<T> converter) {
+    private <T extends HasReviewId> ValueEventListener newListener(final ValueBinder<IdableList<? extends T>> binder,
+                                                                   final SnapshotConverter<IdableList<T>> converter) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                observer.onValue(converter.convert(dataSnapshot));
+                binder.onValue(converter.convert(dataSnapshot));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+    }
+
+    @NonNull
+    private ValueEventListener newSizeListener(final ValueBinder<DataSize> binder,
+                                                                   final SnapshotConverter<DataSize> converter) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                binder.onValue(converter.convert(dataSnapshot));
             }
 
             @Override

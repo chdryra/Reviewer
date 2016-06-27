@@ -12,6 +12,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
@@ -24,6 +25,7 @@ public abstract class ModelContextBasic implements ModelContext {
     private TagsManager mTagsManager;
     private FactoryVisitorReviewNode mVisitorsFactory;
     private FactoryNodeTraverser mTreeTraversersFactory;
+    private FactoryBinders mBindersFactory;
 
     public void setTagsManager(TagsManager tagsManager) {
         mTagsManager = tagsManager;
@@ -39,6 +41,10 @@ public abstract class ModelContextBasic implements ModelContext {
 
     public void setReviewsFactory(FactoryReviews factoryReviews) {
         mFactoryReviews = factoryReviews;
+    }
+
+    public void setBindersFactory(FactoryBinders bindersFactory) {
+        mBindersFactory = bindersFactory;
     }
 
     @Override
@@ -59,5 +65,10 @@ public abstract class ModelContextBasic implements ModelContext {
     @Override
     public TagsManager getTagsManager() {
         return mTagsManager;
+    }
+
+    @Override
+    public FactoryBinders getBindersFactory() {
+        return mBindersFactory;
     }
 }

@@ -74,37 +74,37 @@ public class NullReviewReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public void getCovers(CoversCallback callback) {
+    public void getData(CoversCallback callback) {
         callback.onCovers(new IdableDataList<DataImage>(getReviewId()), OK);
     }
 
     @Override
-    public void getTags(TagsCallback callback) {
+    public void getData(TagsCallback callback) {
         callback.onTags(new IdableDataList<DataTag>(getReviewId()), OK);
     }
 
     @Override
-    public void getCriteria(CriteriaCallback callback) {
+    public void getData(CriteriaCallback callback) {
         callback.onCriteria(new IdableDataList<DataCriterion>(getReviewId()), OK);
     }
 
     @Override
-    public void getImages(ImagesCallback callback) {
+    public void getData(ImagesCallback callback) {
         callback.onImages(new IdableDataList<DataImage>(getReviewId()), OK);
     }
 
     @Override
-    public void getComments(CommentsCallback callback) {
+    public void getData(CommentsCallback callback) {
         callback.onComments(new IdableDataList<DataComment>(getReviewId()), OK);
     }
 
     @Override
-    public void getLocations(LocationsCallback callback) {
+    public void getData(LocationsCallback callback) {
         callback.onLocations(new IdableDataList<DataLocation>(getReviewId()), OK);
     }
 
     @Override
-    public void getFacts(FactsCallback callback) {
+    public void getData(FactsCallback callback) {
         callback.onFacts(new IdableDataList<DataFact>(getReviewId()), OK);
     }
 
@@ -113,32 +113,32 @@ public class NullReviewReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public void getTagsSize(TagsSizeCallback callback) {
+    public void getSize(TagsSizeCallback callback) {
         callback.onNumTags(zero(), OK);
     }
 
     @Override
-    public void getCriteriaSize(CriteriaSizeCallback callback) {
+    public void getSize(CriteriaSizeCallback callback) {
         callback.onNumCriteria(zero(), OK);
     }
 
     @Override
-    public void getImagesSize(ImagesSizeCallback callback) {
+    public void getSize(ImagesSizeCallback callback) {
         callback.onNumImages(zero(), OK);
     }
 
     @Override
-    public void getCommentsSize(CommentsSizeCallback callback) {
+    public void getSize(CommentsSizeCallback callback) {
         callback.onNumComments(zero(), OK);
     }
 
     @Override
-    public void getLocationsSize(LocationsSizeCallback callback) {
+    public void getSize(LocationsSizeCallback callback) {
         callback.onNumLocations(zero(), OK);
     }
 
     @Override
-    public void getFactsSize(FactsSizeCallback callback) {
+    public void getSize(FactsSizeCallback callback) {
         callback.onNumFacts(zero(), OK);
     }
 

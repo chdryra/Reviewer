@@ -12,13 +12,13 @@ import android.os.Parcel;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
@@ -55,7 +55,7 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
                        GvConverterImages converterImages,
                        GvConverterComments converterComments,
                        GvConverterLocations converterLocations) {
-        super(GvReference.TYPE, new GvReviewId(reference.getInfo().getReviewId()));
+        super(GvReference.TYPE, new GvReviewId(reference.getReviewId()));
         mReference = reference;
         mTagsManager = tagsManager;
         mConverterImages = converterImages;
@@ -73,22 +73,22 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
 
     @Override
     public DataSubject getSubject() {
-        return mReference.getInfo().getSubject();
+        return mReference.getSubject();
     }
 
     @Override
     public DataRating getRating() {
-        return mReference.getInfo().getRating();
+        return mReference.getRating();
     }
 
     @Override
-    public DataAuthor getAuthor() {
-        return mReference.getInfo().getAuthor();
+    public DataAuthorReview getAuthor() {
+        return mReference.getAuthor();
     }
 
     @Override
-    public DataDate getPublishDate() {
-        return mReference.getInfo().getPublishDate();
+    public DataDateReview getPublishDate() {
+        return mReference.getPublishDate();
     }
 
     @Override

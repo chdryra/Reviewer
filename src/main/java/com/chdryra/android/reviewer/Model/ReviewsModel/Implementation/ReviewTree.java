@@ -15,19 +15,12 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  */
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,8 +41,9 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     private final ArrayList<NodeObserver> mObservers;
     private ReviewNode mNode;
 
-    public ReviewTree(@NotNull ReviewNode node) {
-        mNode = node;
+    public ReviewTree(@NotNull ReviewNode node, BindersManager bindersManager) {
+        super(bindersManager)
+;        mNode = node;
         mObservers = new ArrayList<>();
         node.registerNodeObserver(this);
     }
@@ -75,11 +69,6 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     }
 
     @Override
-    public ReviewReference getReference() {
-        return mNode.getReference();
-    }
-
-    @Override
     public ReviewNode getParent() {
         return mNode.getParent();
     }
@@ -87,16 +76,6 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     @Override
     public ReviewNode getRoot() {
         return mNode.getRoot();
-    }
-
-    @Override
-    public boolean isExpandable() {
-        return mNode.isExpandable();
-    }
-
-    @Override
-    public ReviewNode expand() {
-        return mNode.expand();
     }
 
     @Override
@@ -142,6 +121,86 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     @Override
     public DataDateReview getPublishDate() {
         return mNode.getPublishDate();
+    }
+
+    @Override
+    public ReviewNode asNode() {
+        return this;
+    }
+
+    @Override
+    public void getData(CoversCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(TagsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(CriteriaCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(ImagesCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(CommentsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(LocationsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(FactsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getSize(TagsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(CriteriaSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(ImagesSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(CommentsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(LocationsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(FactsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void dereference(DereferenceCallback callback) {
+        mNode.dereference(callback);
+    }
+
+    @Override
+    public boolean isValid() {
+        return mNode.isValid();
     }
 
     @Override
