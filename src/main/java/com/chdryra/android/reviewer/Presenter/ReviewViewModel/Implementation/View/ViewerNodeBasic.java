@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T> implements ReviewNode.NodeBinder {
+public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T> implements ReviewNode.NodeObserver {
     private ReviewNode mNode;
     private GvDataList<T> mCache;
     private GvDataType<?> mType;
@@ -36,12 +36,12 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     @Override
     protected void onAttach() {
         super.onAttach();
-        mNode.bindToNode(this);
+        mNode.registerObserver(this);
     }
 
     @Override
     protected void onDetach() {
-        mNode.unbindFromNode(this);
+        mNode.unregisterObserver(this);
         super.onDetach();
     }
 

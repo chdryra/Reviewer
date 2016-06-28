@@ -33,7 +33,7 @@ import java.util.Collection;
 public class PresenterUsersFeed extends PresenterFeed implements
         ReviewPublisherListener,
         ReviewDeleterListener,
-        ReviewNode.NodeBinder {
+        ReviewNode.NodeObserver {
 
     private PresenterListener mListener;
     private ReviewDeleter mDeleter;

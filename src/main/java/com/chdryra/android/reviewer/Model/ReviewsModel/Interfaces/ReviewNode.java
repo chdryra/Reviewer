@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * </p>
  */
 public interface ReviewNode extends ReviewReference {
-    interface NodeBinder {
+    interface NodeObserver {
         void onChildAdded(ReviewNode child);
 
         void onChildRemoved(ReviewNode child);
@@ -34,9 +34,9 @@ public interface ReviewNode extends ReviewReference {
         void onNodeChanged();
     }
 
-    void bindToNode(NodeBinder binder);
+    void registerObserver(NodeObserver binder);
 
-    void unbindFromNode(NodeBinder binder);
+    void unregisterObserver(NodeObserver binder);
 
     @Nullable
     ReviewNode getParent();

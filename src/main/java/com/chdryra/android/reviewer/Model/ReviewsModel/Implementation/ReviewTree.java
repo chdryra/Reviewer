@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ReviewTree extends ReviewNodeBasic implements
         ReviewNode,
-        ReviewNode.NodeBinder,
+        ReviewNode.NodeObserver,
         ReferenceBinder.DataBinder,
         ReferenceBinder.DataSizeBinder {
     private final FactoryBinders mBindersFactory;
@@ -52,18 +52,18 @@ public class ReviewTree extends ReviewNodeBasic implements
         super(bindersFactory.newBindersManager());
         mNode = node;
         mBindersFactory = bindersFactory;
-        mNode.bindToNode(this);
+        mNode.registerObserver(this);
     }
 
     protected void setNode(ReviewNode node) {
         if(mNode != null) {
-            mNode.unbindFromNode(this);
+            mNode.unregisterObserver(this);
             mNodeBinder.unregisterDataBinder(this);
             mNodeBinder.unregisterSizeBinder(this);
         }
 
         mNode = node;
-        mNode.bindToNode(this);
+        mNode.registerObserver(this);
         mNodeBinder = mBindersFactory.newBinder(mNode);
         mNodeBinder.registerDataBinder(this);
         mNodeBinder.registerSizeBinder(this);

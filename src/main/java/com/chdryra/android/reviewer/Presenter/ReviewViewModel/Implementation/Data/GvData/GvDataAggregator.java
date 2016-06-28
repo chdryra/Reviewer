@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAg
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
         .DataAggregatorsApi;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
@@ -30,6 +31,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -37,10 +39,13 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorNumLeaves;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .ConverterGv;
+
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -48,6 +53,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataAggregator {
+    private static final String NUM_REVIEWS = "NumReviewsVisitor";
+
     private final DataAggregatorsApi mAggregators;
     private final DataAggregatorParams mParams;
     private final ConverterGv mConverter;
@@ -76,10 +83,20 @@ public class GvDataAggregator {
         void onAggregated(GvCanonicalCollection<T> aggregated);
     }
 
-    public void getNumReviews(ReviewNode root, NumReviewsCallback callback) {
+    public void getNumReviews(final ReviewNode root, final NumReviewsCallback callback) {
         TreeTraverser traverser = newTraverser(root);
-        VisitorNumLeaves visitor = mVisitorFactory.newNumLeavesVisitor();
-        traverser.addVisitor(visitor);
+        traverser.addVisitor(NUM_REVIEWS, mVisitorFactory.newNumLeavesVisitor());
+        traverser.traverse(new TreeTraverser.TraversalCallback() {
+            @Override
+            public void onTraversed(Map<String, VisitorReviewNode> visitors) {
+                VisitorNumLeaves visitor = (VisitorNumLeaves)visitors.get(NUM_REVIEWS);
+                callback.onNumReviews(size(root.getReviewId(), visitor.getNumberLeaves()));
+            }
+        });
+    }
+
+    private DataSize size(ReviewId reviewId, int size) {
+        return new DatumSize(reviewId, size);
     }
 
     private TreeTraverser newTraverser(ReviewNode root) {

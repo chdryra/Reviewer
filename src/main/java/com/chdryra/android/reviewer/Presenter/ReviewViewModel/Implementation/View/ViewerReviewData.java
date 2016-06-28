@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
@@ -43,7 +45,7 @@ import java.util.Map;
 public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements ReferenceBinder
         .DataSizeBinder {
     private static final GvDataType<GvDataSize> TYPE = GvDataSize.TYPE;
-    private static final int NUM = 6;
+    private static final int NUM_DATA = 6;
 
     private ConverterGv mConverter;
     private TagsManager mTagsManager;
@@ -51,34 +53,29 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
     private ReferenceBinder mBinder;
 
     private Map<GvDataType<?>, DataSize> mNumDataMap;
+    private int mNumDataTypes;
     private boolean mInitialising = true;
 
     public ViewerReviewData(ReferenceBinder binder,
                             ConverterGv converter,
                             TagsManager tagsManager,
                             FactoryReviewViewAdapter adapterFactory) {
+        this(binder, converter, tagsManager, adapterFactory, NUM_DATA);
+    }
+
+    protected ViewerReviewData(ReferenceBinder binder,
+                               ConverterGv converter,
+                               TagsManager tagsManager,
+                               FactoryReviewViewAdapter adapterFactory,
+                               int numDataTypes) {
         super(binder.getReference().asNode(), TYPE);
         mBinder = binder;
         mConverter = converter;
         mTagsManager = tagsManager;
         mAdapterFactory = adapterFactory;
+        mNumDataTypes = numDataTypes;
         mNumDataMap = new HashMap<>();
         mBinder.registerSizeBinder(this);
-    }
-
-    @Override
-    public boolean isExpandable(GvDataSize datum) {
-        GvDataList<GvDataSize> cache = getCache();
-        return datum.hasElements() && cache != null && cache.contains(datum);
-    }
-
-    @Override
-    public ReviewViewAdapter<?> expandGridCell(GvDataSize datum) {
-        if (isExpandable(datum)) {
-            return mAdapterFactory.newDataAdapter(getReviewNode(), datum.getGvDataType());
-        } else {
-            return null;
-        }
     }
 
     protected FactoryReviewViewAdapter getAdapterFactory() {
@@ -91,6 +88,32 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
 
     protected TagsManager getTagsManager() {
         return mTagsManager;
+    }
+
+    protected void update(DataSize size, CallbackMessage message, GvDataType<?> type) {
+        if (!message.isError()) mNumDataMap.put(type, size);
+        if (mNumDataMap.size() == mNumDataTypes) mInitialising = false;
+        if (!mInitialising) nullifyCache();
+    }
+
+    @Override
+    public boolean isExpandable(GvDataSize datum) {
+        GvDataList<GvDataSize> cache = getCache();
+        return datum.hasElements() && cache != null && cache.contains(datum);
+    }
+
+    @Override
+    public ReviewViewAdapter<?> expandGridCell(GvDataSize datum) {
+        if (isExpandable(datum)) {
+            return getExpansionAdapter(datum);
+        } else {
+            return null;
+        }
+    }
+
+    @Nullable
+    protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
+        return mAdapterFactory.newDataAdapter(getReviewNode(), datum.getGvDataType());
     }
 
     @Override
@@ -128,7 +151,7 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
         GvReviewId id = new GvReviewId(mBinder.getReviewId());
 
         GvDataSizeList data = new GvDataSizeList(id);
-        for(Map.Entry<GvDataType<?>, DataSize> entry : mNumDataMap.entrySet()) {
+        for (Map.Entry<GvDataType<?>, DataSize> entry : mNumDataMap.entrySet()) {
             data.add(new GvDataSize(id, entry.getKey(), entry.getValue().getSize()));
         }
 
@@ -144,11 +167,5 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
     @Override
     public ReviewViewAdapter<?> expandGridData() {
         return null;
-    }
-
-    private void update(DataSize size, CallbackMessage message, GvDataType<?> type) {
-        if (!message.isError()) mNumDataMap.put(type, size);
-        if (mNumDataMap.size() == NUM) mInitialising = false;
-        if (!mInitialising) nullifyCache();
     }
 }

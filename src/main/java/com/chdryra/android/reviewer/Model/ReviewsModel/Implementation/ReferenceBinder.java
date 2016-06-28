@@ -33,7 +33,7 @@ import java.util.ArrayList;
  * On: 21/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReferenceBinder implements DataReviewInfo{
+public class ReferenceBinder implements DataReviewInfo {
     private ReviewReference mReference;
 
     private ReferenceBinders.CoversBinder mCovers;
@@ -84,7 +84,7 @@ public class ReferenceBinder implements DataReviewInfo{
         mReference = reference;
 
         mCovers = new Covers();
-        
+
         mTags = new Tags();
         mCriteria = new Criteria();
         mImages = new Images();
@@ -107,35 +107,9 @@ public class ReferenceBinder implements DataReviewInfo{
         return mReference;
     }
 
-    @Override
-    public DataSubject getSubject() {
-        return mReference.getSubject();
-    }
-
-    @Override
-    public DataRating getRating() {
-        return mReference.getRating();
-    }
-
-    @Override
-    public DataDateReview getPublishDate() {
-        return mReference.getPublishDate();
-    }
-
-    @Override
-    public DataAuthorReview getAuthor() {
-        return mReference.getAuthor();
-    }
-
-    @Override
-    public ReviewId getReviewId() {
-        return mReference.getReviewId();
-    }
-
     public void registerDataBinder(DataBinder binder) {
         if (!mDataBinders.contains(binder)) mDataBinders.add(binder);
-        bindIfNeccesary();
-        fireForBinder(binder);
+        bindOrFire(binder);
     }
 
     public void unregisterDataBinder(DataBinder binder) {
@@ -145,8 +119,7 @@ public class ReferenceBinder implements DataReviewInfo{
 
     public void registerSizeBinder(DataSizeBinder binder) {
         if (!mSizeBinders.contains(binder)) mSizeBinders.add(binder);
-        bindIfNeccesary();
-        fireForBinder(binder);
+        bindOrFire(binder);
     }
 
     public void unregisterSizeBinder(DataSizeBinder binder) {
@@ -195,7 +168,8 @@ public class ReferenceBinder implements DataReviewInfo{
     public void getCriteria(final ReviewReference.CriteriaCallback callback) {
         mReference.getData(new ReviewReference.CriteriaCallback() {
             @Override
-            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
+            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage
+                    message) {
                 callback.onCriteria(criteria, message);
             }
         });
@@ -272,7 +246,48 @@ public class ReferenceBinder implements DataReviewInfo{
             }
         });
     }
-    
+
+    @Override
+    public DataSubject getSubject() {
+        return mReference.getSubject();
+    }
+
+    @Override
+    public DataRating getRating() {
+        return mReference.getRating();
+    }
+
+    @Override
+    public DataDateReview getPublishDate() {
+        return mReference.getPublishDate();
+    }
+
+    @Override
+    public DataAuthorReview getAuthor() {
+        return mReference.getAuthor();
+    }
+
+    @Override
+    public ReviewId getReviewId() {
+        return mReference.getReviewId();
+    }
+
+    private void bindOrFire(DataBinder binder) {
+        if (!mIsBound) {
+            bind();
+        } else {
+            fireForBinder(binder);
+        }
+    }
+
+    private void bindOrFire(DataSizeBinder binder) {
+        if (!mIsBound) {
+            bind();
+        } else {
+            fireForBinder(binder);
+        }
+    }
+
     private void fireForBinder(final DataBinder callback) {
         getCovers(callback);
         getTags(callback);
@@ -291,7 +306,7 @@ public class ReferenceBinder implements DataReviewInfo{
         getNumLocations(callback);
         getNumFacts(callback);
     }
-    
+
     private void bindIfNeccesary() {
         if (!mIsBound && (mDataBinders.size() > 0 || mSizeBinders.size() > 0)) bind();
     }
@@ -301,6 +316,7 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     private void bind() {
+        mIsBound = true;
         mReference.bind(mCovers);
         mReference.bind(mTags);
         mReference.bind(mCriteria);
@@ -314,11 +330,10 @@ public class ReferenceBinder implements DataReviewInfo{
         mReference.bindToComments(mCommentsSize);
         mReference.bindToLocations(mLocationsSize);
         mReference.bindToFacts(mFactsSize);
-
-        mIsBound = true;
     }
 
     private void unbind() {
+        mIsBound = false;
         mReference.unbind(mCovers);
         mReference.unbind(mTags);
         mReference.unbind(mCriteria);
@@ -332,8 +347,6 @@ public class ReferenceBinder implements DataReviewInfo{
         mReference.unbindFromComments(mCommentsSize);
         mReference.unbindFromLocations(mLocationsSize);
         mReference.unbindFromFacts(mFactsSize);
-
-        mIsBound = false;
     }
 
     private void notifyDataBinders(BinderMethod<DataBinder> method) {

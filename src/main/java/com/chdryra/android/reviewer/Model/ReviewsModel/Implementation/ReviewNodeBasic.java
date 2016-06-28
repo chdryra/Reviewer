@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements ReviewNode {
-    private ArrayList<NodeBinder> mObservers;
+    private ArrayList<NodeObserver> mObservers;
 
     public ReviewNodeBasic(BindersManager bindersManager) {
         super(bindersManager);
@@ -28,35 +28,35 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
     }
 
     @Override
-    public void bindToNode(NodeBinder binder) {
+    public void registerObserver(NodeObserver binder) {
         if(!mObservers.contains(binder)) mObservers.add(binder);
     }
 
     @Override
-    public void unbindFromNode(NodeBinder binder) {
+    public void unregisterObserver(NodeObserver binder) {
         if(mObservers.contains(binder)) mObservers.remove(binder);
     }
 
     protected void notifyOnChildAdded(ReviewNode child) {
-        for (NodeBinder observer : mObservers) {
+        for (NodeObserver observer : mObservers) {
             observer.onChildAdded(child);
         }
     }
 
     protected void notifyOnChildRemoved(ReviewNode child) {
-        for (NodeBinder observer : mObservers) {
+        for (NodeObserver observer : mObservers) {
             observer.onChildRemoved(child);
         }
     }
 
     protected void notifyOnParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode newParent) {
-        for (NodeBinder observer : mObservers) {
+        for (NodeObserver observer : mObservers) {
             observer.onParentChanged(oldParent, newParent);
         }
     }
 
     protected void notifyOnNodeChanged() {
-        for (NodeBinder observer : mObservers) {
+        for (NodeObserver observer : mObservers) {
             observer.onNodeChanged();
         }
     }

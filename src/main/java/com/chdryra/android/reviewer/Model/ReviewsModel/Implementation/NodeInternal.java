@@ -436,8 +436,8 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         remove.unregisterDataBinder(this);
     }
 
-    private ReferenceBinder newBinder(ReviewReference reference) {
-        ReferenceBinder binder = mBinderFactory.newBinder(reference);
+    private ReferenceBinder newBinder(ReviewNode node) {
+        ReferenceBinder binder = mBinderFactory.newBinder(node);
         binder.registerDataBinder(this);
         binder.registerSizeBinder(this);
 

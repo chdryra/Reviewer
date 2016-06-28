@@ -8,7 +8,11 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
@@ -17,28 +21,49 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCanonicalCollection;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .ConverterGv;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCanonicalCollection;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReviewId;
+
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeData extends ViewerReviewData {
+public class ViewerTreeData extends ViewerReviewData implements GvDataAggregator.NumReviewsCallback{
+    private static final int NUM_DATA = 10;
     private GvDataAggregator mAggregator;
+    private Map<GvDataType<?>, DataSize> mNumDataMap;
 
     public ViewerTreeData(ReferenceBinder binder,
                    ConverterGv converter,
                    TagsManager tagsManager,
                    FactoryReviewViewAdapter adapterFactory,
                    GvDataAggregator aggregator) {
-        super(binder, converter, tagsManager, adapterFactory);
+        super(binder, converter, tagsManager, adapterFactory, NUM_DATA);
         mAggregator = aggregator;
+        getNumberReviews();
+    }
+
+    @Override
+    public void onNumReviews(DataSize size) {
+        update(size, CallbackMessage.ok(), GvReference.TYPE);
+    }
+
+    private void getNumberReviews() {
+        mAggregator.getNumReviews(getReviewNode(), this);
     }
 
     @Override
@@ -68,20 +93,9 @@ public class ViewerTreeData extends ViewerReviewData {
         return ReviewStamp.noStamp();
     }
 
+    @Nullable
     @Override
-    public ReviewViewAdapter<?> expandGridCell(GvData datum) {
-        FactoryReviewViewAdapter adapterFactory = getAdapterFactory();
-        ReviewViewAdapter<?> adapter = null;
-        if (isExpandable(datum)) {
-            if (datum.getGvDataType().equals(GvReview.TYPE)) {
-                adapter = adapterFactory.newReviewsListAdapter(getReviewNode());
-            } else {
-                String subject = datum.getStringSummary();
-                GvCanonicalCollection<?> data = (GvCanonicalCollection<?>) datum;
-                adapter = adapterFactory.newAggregateToReviewsAdapter(data, subject);
-            }
-        }
-
-        return adapter;
+    protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
+        return super.getExpansionAdapter(datum);
     }
 }
