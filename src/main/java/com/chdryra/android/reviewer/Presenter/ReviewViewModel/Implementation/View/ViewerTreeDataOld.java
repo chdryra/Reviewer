@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -29,15 +28,15 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeData extends ViewerReviewData {
+public class ViewerTreeDataOld extends ViewerReviewData {
     private GvDataAggregator mAggregator;
 
-    public ViewerTreeData(ReferenceBinder binder,
-                   ConverterGv converter,
-                   TagsManager tagsManager,
-                   FactoryReviewViewAdapter adapterFactory,
-                   GvDataAggregator aggregator) {
-        super(binder, converter, tagsManager, adapterFactory);
+    public ViewerTreeDataOld(ReviewNode node,
+                             ConverterGv converter,
+                             TagsManager tagsManager,
+                             FactoryReviewViewAdapter adapterFactory,
+                             GvDataAggregator aggregator) {
+        super(node, converter, tagsManager, adapterFactory);
         mAggregator = aggregator;
     }
 

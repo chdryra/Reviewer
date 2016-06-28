@@ -270,7 +270,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public boolean isValid() {
+    public boolean isValidReference() {
         return mInfo != null;
     }
 

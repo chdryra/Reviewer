@@ -173,7 +173,7 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
     }
 
     @Override
-    public boolean isValid() {
+    public boolean isValidReference() {
         return mReview != null;
     }
 

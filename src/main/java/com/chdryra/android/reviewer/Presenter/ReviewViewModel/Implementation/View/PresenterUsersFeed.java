@@ -12,7 +12,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
@@ -33,7 +33,7 @@ import java.util.Collection;
 public class PresenterUsersFeed extends PresenterFeed implements
         ReviewPublisherListener,
         ReviewDeleterListener,
-        ReviewNodeComponent.NodeObserver {
+        ReviewNode.NodeBinder {
 
     private PresenterListener mListener;
     private ReviewDeleter mDeleter;

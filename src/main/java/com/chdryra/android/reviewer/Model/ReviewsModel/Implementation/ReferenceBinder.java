@@ -67,7 +67,6 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     public interface DataSizeBinder extends
-            ReviewReference.CoversCallback,
             ReviewReference.TagsSizeCallback,
             ReviewReference.CriteriaSizeCallback,
             ReviewReference.ImagesSizeCallback,
@@ -102,6 +101,10 @@ public class ReferenceBinder implements DataReviewInfo{
 
         mDataBinders = new ArrayList<>();
         mSizeBinders = new ArrayList<>();
+    }
+
+    public ReviewReference getReference() {
+        return mReference;
     }
 
     @Override
@@ -281,7 +284,6 @@ public class ReferenceBinder implements DataReviewInfo{
     }
 
     private void fireForBinder(final DataSizeBinder callback) {
-        getCovers(callback);
         getNumTags(callback);
         getNumCriteria(callback);
         getNumImages(callback);

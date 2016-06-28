@@ -36,6 +36,178 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         return mBinders;
     }
 
+    protected void notifyCoversBinders() {
+        getData(new CoversCallback() {
+            @Override
+            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.CoversBinder binder : mBinders.getCoversBinders()) {
+                        binder.onValue(covers);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyTagsBinders() {
+        getData(new TagsCallback() {
+            @Override
+            public void onTags(IdableList<? extends DataTag> Tags, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.TagsBinder binder : mBinders.getTagsBinders()) {
+                        binder.onValue(Tags);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyCriteriaBinders() {
+        getData(new CriteriaCallback() {
+            @Override
+            public void onCriteria(IdableList<? extends DataCriterion> Criteria, CallbackMessage
+                    message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.CriteriaBinder binder : mBinders.getCriteriaBinders()) {
+                        binder.onValue(Criteria);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyImagesBinders() {
+        getData(new ImagesCallback() {
+            @Override
+            public void onImages(IdableList<? extends DataImage> Images, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.ImagesBinder binder : mBinders.getImagesBinders()) {
+                        binder.onValue(Images);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyCommentsBinders() {
+        getData(new CommentsCallback() {
+            @Override
+            public void onComments(IdableList<? extends DataComment> Comments, CallbackMessage
+                    message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.CommentsBinder binder : mBinders.getCommentsBinders()) {
+                        binder.onValue(Comments);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyLocationsBinders() {
+        getData(new LocationsCallback() {
+            @Override
+            public void onLocations(IdableList<? extends DataLocation> Locations, CallbackMessage
+                    message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.LocationsBinder binder : mBinders.getLocationsBinders()) {
+                        binder.onValue(Locations);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyFactsBinders() {
+        getData(new FactsCallback() {
+            @Override
+            public void onFacts(IdableList<? extends DataFact> Facts, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.FactsBinder binder : mBinders.getFactsBinders()) {
+                        binder.onValue(Facts);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyTagsSizeBinders() {
+        getSize(new TagsSizeCallback() {
+            @Override
+            public void onNumTags(DataSize size, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getTagsSizeBinders()) {
+                        binder.onValue(size);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyCriteriaSizeBinders() {
+        getSize(new CriteriaSizeCallback() {
+            @Override
+            public void onNumCriteria(DataSize size, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getCriteriaSizeBinders()) {
+                        binder.onValue(size);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyImagesSizeBinders() {
+        getSize(new ImagesSizeCallback() {
+            @Override
+            public void onNumImages(DataSize size, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getImagesSizeBinders()) {
+                        binder.onValue(size);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyCommentsSizeBinders() {
+        getSize(new CommentsSizeCallback() {
+            @Override
+            public void onNumComments(DataSize size, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getCommentsSizeBinders()) {
+                        binder.onValue(size);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyLocationsSizeBinders() {
+        getSize(new LocationsSizeCallback() {
+            @Override
+            public void onNumLocations(DataSize size, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getLocationsSizeBinders()) {
+                        binder.onValue(size);
+                    }
+                }
+            }
+        });
+    }
+
+    protected void notifyFactsSizeBinders() {
+        getSize(new FactsSizeCallback() {
+            @Override
+            public void onNumFacts(DataSize size, CallbackMessage message) {
+                if (!message.isError()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getFactsSizeBinders()) {
+                        binder.onValue(size);
+                    }
+                }
+            }
+        });
+    }
+
     @Override
     public void bind(final ReferenceBinders.CoversBinder binder) {
         mBinders.bind(binder);
@@ -63,7 +235,8 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         mBinders.bind(binder);
         getData(new CriteriaCallback() {
             @Override
-            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
+            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage
+                    message) {
                 binder.onValue(criteria);
             }
         });
@@ -85,7 +258,8 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         mBinders.bind(binder);
         getData(new CommentsCallback() {
             @Override
-            public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
+            public void onComments(IdableList<? extends DataComment> comments, CallbackMessage
+                    message) {
                 binder.onValue(comments);
             }
         });
@@ -96,7 +270,8 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         mBinders.bind(binder);
         getData(new LocationsCallback() {
             @Override
-            public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
+            public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage
+                    message) {
                 binder.onValue(locations);
             }
         });

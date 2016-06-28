@@ -192,5 +192,5 @@ public interface ReviewReference extends DataReviewInfo{
     
     void dereference(DereferenceCallback callback);
 
-    boolean isValid();
+    boolean isValidReference();
 }

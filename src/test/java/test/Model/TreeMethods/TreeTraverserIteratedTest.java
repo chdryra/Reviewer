@@ -10,9 +10,9 @@ package test.Model.TreeMethods;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.NodesTraverserIterated;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TreeTraverserIterated;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodesTraverser;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.junit.Test;
@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.*;
  * On: 20/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class NodesTraverserIteratedTest {
+public class TreeTraverserIteratedTest {
     @Test
     public void traverseVisitsCorrectNumberNodes() {
         ArrayList<ReviewNode> nodes = getNodes();
@@ -38,7 +38,7 @@ public class NodesTraverserIteratedTest {
         Visitor2 visitor2 = new Visitor2();
         Visitor3 visitor3 = new Visitor3();
 
-        NodesTraverser traverser = new NodesTraverserIterated(nodes.iterator());
+        TreeTraverser traverser = new TreeTraverserIterated(nodes.iterator());
         traverser.addVisitor(visitor1);
         traverser.addVisitor(visitor2);
         traverser.addVisitor(visitor3);
@@ -62,7 +62,7 @@ public class NodesTraverserIteratedTest {
         Visitor2 visitor2 = new Visitor2();
         Visitor3 visitor3 = new Visitor3();
 
-        NodesTraverser traverser = new NodesTraverserIterated(nodes.iterator());
+        TreeTraverser traverser = new TreeTraverserIterated(nodes.iterator());
         traverser.addVisitor(visitor1);
         traverser.addVisitor(visitor2);
         traverser.addVisitor(visitor3);

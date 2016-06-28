@@ -77,7 +77,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
         bindToChild(child);
 
-        notifyNodeObservers();
+        notifyOnChildAdded(child);
 
         return true;
     }
@@ -94,12 +94,14 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             bindToChild(child);
         }
 
-        notifyNodeObservers();
+        for(ReviewNodeComponent child : children) {
+            notifyOnChildAdded(child);
+        }
     }
 
     @Override
     public void removeChild(ReviewId reviewId) {
-        if (!mChildren.containsId(reviewId)) return;
+        if (!hasChild(reviewId)) return;
 
         ReviewNodeComponent childNode = mChildren.getItem(reviewId);
         mChildren.remove(reviewId);
@@ -107,7 +109,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
         unbindFromChild(reviewId);
 
-        notifyNodeObservers();
+        if (childNode != null) notifyOnChildRemoved(childNode);
     }
 
     @Override
@@ -407,8 +409,8 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public boolean isValid() {
-        return mMeta != null;
+    public boolean isValidReference() {
+        return mMeta != null && mChildren.size() > 0;
     }
 
     @NonNull

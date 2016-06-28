@@ -90,6 +90,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
         FactoryReviewViewAdapter factory
                 = new FactoryReviewViewAdapter(getFactoryReviewView(),
                 modelContext.getReviewsFactory(),
+                modelContext.getBindersFactory(),
                 aggregater,
                 reviewsSource,
                 gvConverter);

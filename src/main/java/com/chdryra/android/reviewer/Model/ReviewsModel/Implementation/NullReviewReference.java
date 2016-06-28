@@ -148,7 +148,7 @@ public class NullReviewReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public boolean isValid() {
+    public boolean isValidReference() {
         return false;
     }
 }

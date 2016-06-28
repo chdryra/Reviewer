@@ -11,35 +11,31 @@ package com.chdryra.android.reviewer.Model.TreeMethods.Implementation;
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/05/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorReviewDataGetterImpl<T extends HasReviewId>
-        implements VisitorReviewDataGetter<T> {
-    private IdableList<T> mData;
-    private NodeDataGetter<? extends T> mGetter;
+public class VisitorLeavesCollector implements VisitorDataGetter<ReviewNode> {
+    private IdableList<ReviewNode> mData;
 
-    public VisitorReviewDataGetterImpl(NodeDataGetter<? extends T> getter) {
-        mGetter = getter;
+    public VisitorLeavesCollector(ReviewId rootId) {
+        mData = new IdableDataList<>(rootId);
     }
 
     @Override
-    public IdableCollection<T> getData() {
-        return mData == null ? new IdableDataList<T>(null) : mData;
+    public IdableCollection<ReviewNode> getData() {
+        return mData;
     }
 
     @Override
     public void visit(@NonNull ReviewNode node) {
-        if (mData == null) mData = new IdableDataList<>(node.getReviewId());
-        mData.addAll(mGetter.getData(node));
+        if(node.getChildren().size() == 0 && node.isValidReference()) mData.add(node);
     }
 }

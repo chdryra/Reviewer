@@ -448,7 +448,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public boolean isValid() {
+    public boolean isValidReference() {
         return mInfo.isValid();
     }
 

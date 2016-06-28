@@ -14,53 +14,76 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 /**
- * A non-editable and non-expandable {@link ReviewNode} wrapper for another node that guarantees no
- * more editing or expanding of the node. Has the same {@link MdReviewId} as the wrapped node.
- * <p/>
- * <p>
- * Although a ReviewTree is unchangeable it may still be wrapped by another
- * {@link ReviewTree},
- * thus acting as a fixed, published component of a new review tree with its own {@link MdReviewId}.
- * </p>
+ * A non-editable and non-expandable {@link ReviewNode} wrapper for another node.
  */
-public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNode.NodeObserver {
-    private final ArrayList<NodeObserver> mObservers;
+public class ReviewTree extends ReviewNodeBasic implements
+        ReviewNode,
+        ReviewNode.NodeBinder,
+        ReferenceBinder.DataBinder,
+        ReferenceBinder.DataSizeBinder {
+    private final FactoryBinders mBindersFactory;
+    private ReferenceBinder mNodeBinder;
     private ReviewNode mNode;
 
-    public ReviewTree(@NotNull ReviewNode node, BindersManager bindersManager) {
-        super(bindersManager)
-;        mNode = node;
-        mObservers = new ArrayList<>();
-        node.registerNodeObserver(this);
+    public ReviewTree(@NotNull ReviewNode node, FactoryBinders bindersFactory) {
+        super(bindersFactory.newBindersManager());
+        mNode = node;
+        mBindersFactory = bindersFactory;
+        mNode.bindToNode(this);
+    }
+
+    protected void setNode(ReviewNode node) {
+        if(mNode != null) {
+            mNode.unbindFromNode(this);
+            mNodeBinder.unregisterDataBinder(this);
+            mNodeBinder.unregisterSizeBinder(this);
+        }
+
+        mNode = node;
+        mNode.bindToNode(this);
+        mNodeBinder = mBindersFactory.newBinder(mNode);
+        mNodeBinder.registerDataBinder(this);
+        mNodeBinder.registerSizeBinder(this);
+
+        notifyOnNodeChanged();
     }
 
     @Override
-    public void onNodeChanged() {
-        notifyNodeChanged();
+    public void onChildAdded(ReviewNode child) {
+        notifyOnChildAdded(child);
     }
 
     @Override
-    public void registerNodeObserver(NodeObserver observer) {
-        if (!mObservers.contains(observer)) mObservers.add(observer);
+    public void onChildRemoved(ReviewNode child) {
+        notifyOnChildRemoved(child);
     }
 
     @Override
-    public void unregisterNodeObserver(NodeObserver observer) {
-        mObservers.remove(observer);
+    public void onParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode newParent) {
+        notifyOnParentChanged(oldParent, newParent);
     }
 
     @Override
@@ -194,13 +217,83 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     }
 
     @Override
+    public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
+        notifyCommentsBinders();
+    }
+
+    @Override
+    public void onNumComments(DataSize size, CallbackMessage message) {
+        notifyCommentsSizeBinders();
+    }
+
+    @Override
+    public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+        notifyCoversBinders();
+    }
+
+    @Override
+    public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
+        notifyCriteriaBinders();
+    }
+
+    @Override
+    public void onNumCriteria(DataSize size, CallbackMessage message) {
+        notifyCriteriaSizeBinders();
+    }
+
+    @Override
+    public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
+        notifyFactsBinders();
+    }
+
+    @Override
+    public void onNumFacts(DataSize size, CallbackMessage message) {
+        notifyFactsSizeBinders();
+    }
+
+    @Override
+    public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
+        notifyImagesBinders();
+    }
+
+    @Override
+    public void onNumImages(DataSize size, CallbackMessage message) {
+        notifyImagesSizeBinders();
+    }
+
+    @Override
+    public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
+        notifyLocationsBinders();
+    }
+
+    @Override
+    public void onNumLocations(DataSize size, CallbackMessage message) {
+        notifyLocationsSizeBinders();
+    }
+
+    @Override
+    public void onNodeChanged() {
+        notifyOnNodeChanged();
+    }
+
+    @Override
+    public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
+        notifyTagsBinders();
+    }
+
+    @Override
+    public void onNumTags(DataSize size, CallbackMessage message) {
+        notifyTagsSizeBinders();
+    }
+
+    @Override
     public void dereference(DereferenceCallback callback) {
         mNode.dereference(callback);
     }
 
     @Override
-    public boolean isValid() {
-        return mNode.isValid();
+    public boolean isValidReference() {
+        return mNode.isValidReference();
     }
 
     @Override
@@ -217,11 +310,5 @@ public class ReviewTree extends ReviewNodeBasic implements ReviewNode, ReviewNod
     @Override
     public int hashCode() {
         return mNode.hashCode();
-    }
-
-    private void notifyNodeChanged() {
-        for (NodeObserver observer : mObservers) {
-            observer.onNodeChanged();
-        }
     }
 }

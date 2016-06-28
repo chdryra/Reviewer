@@ -19,7 +19,7 @@ public class NullNode extends NodeLeaf {
     }
 
     @Override
-    public boolean isValid() {
+    public boolean isValidReference() {
         return false;
     }
 }

@@ -14,10 +14,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorReviewDataGetterImpl;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetterImpl;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
 
 import org.junit.Test;
 
@@ -31,11 +31,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * On: 20/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorReviewDataGetterImplTest {
+public class VisitorDataGetterImplTest {
     @Test
     public void testVisit() {
         ReviewNode node = RandomReview.nextReviewNode();
-        VisitorReviewDataGetter<DataComment> visitor = new VisitorReviewDataGetterImpl<>(new CommentsGetter());
+        VisitorDataGetter<DataComment> visitor = new VisitorDataGetterImpl<>(new CommentsGetter());
         visitor.visit(node);
         IdableCollection<DataComment> comments = visitor.getData();
         IdableList<? extends DataComment> nodeComments = node.getData();

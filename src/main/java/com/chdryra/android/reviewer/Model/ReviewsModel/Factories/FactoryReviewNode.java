@@ -50,7 +50,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {
-        return new ReviewTree(node, mBinderFactory.newBindersManager());
+        return new ReviewTree(node, mBinderFactory);
     }
 
     public ReviewNodeComponent createMetaTree(DataReviewInfo meta,

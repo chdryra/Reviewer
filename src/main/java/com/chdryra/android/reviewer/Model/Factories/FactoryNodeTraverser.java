@@ -10,10 +10,9 @@ package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
         .DepthFirstPreIterator;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation
-        .NodesTraverserIterated;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TreeTraverserIterated;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodesTraverser;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 
 import java.util.Iterator;
 
@@ -23,11 +22,11 @@ import java.util.Iterator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryNodeTraverser {
-    public NodesTraverser newTreeTraverser(ReviewNode root) {
+    public TreeTraverser newTreeTraverser(ReviewNode root) {
         return newTraverser(new DepthFirstPreIterator(root));
     }
 
-    private NodesTraverser newTraverser(Iterator<ReviewNode> iterator) {
-        return new NodesTraverserIterated(iterator);
+    private TreeTraverser newTraverser(Iterator<ReviewNode> iterator) {
+        return new TreeTraverserIterated(iterator);
     }
 }

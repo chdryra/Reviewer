@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.telecom.Call;
-
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
@@ -24,17 +22,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorNumLeaves;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -47,7 +42,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 02/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GvDataAggregator {
+public class GvDataAggregatorOld {
     private final DataAggregatorsApi mAggregators;
     private final DataAggregatorParams mParams;
     private final ConverterGv mConverter;
@@ -55,12 +50,12 @@ public class GvDataAggregator {
     private FactoryNodeTraverser mTraverserFactory;
 
     public enum CriterionAggregation {SUBJECT, SUBJECT_RATING}
-    
-    public GvDataAggregator(DataAggregatorsApi aggregators,
-                            DataAggregatorParams params,
-                            ConverterGv converter,
-                            FactoryVisitorReviewNode visitorFactory,
-                            FactoryNodeTraverser traverserFactory) {
+
+    public GvDataAggregatorOld(DataAggregatorsApi aggregators,
+                               DataAggregatorParams params,
+                               ConverterGv converter,
+                               FactoryVisitorReviewNode visitorFactory,
+                               FactoryNodeTraverser traverserFactory) {
         mAggregators = aggregators;
         mParams = params;
         mConverter = converter;
@@ -68,31 +63,7 @@ public class GvDataAggregator {
         mTraverserFactory = traverserFactory;
     }
 
-    public interface NumReviewsCallback {
-        void onNumReviews(DataSize size);
-    }
-
-    public interface AggregationCallback<T extends GvData> {
-        void onAggregated(GvCanonicalCollection<T> aggregated);
-    }
-
-    public void getNumReviews(ReviewNode root, NumReviewsCallback callback) {
-        TreeTraverser traverser = newTraverser(root);
-        VisitorNumLeaves visitor = mVisitorFactory.newNumLeavesVisitor();
-        traverser.addVisitor(visitor);
-    }
-
-    private TreeTraverser newTraverser(ReviewNode root) {
-        return mTraverserFactory.newTreeTraverser(root);
-    }
-
-    public void aggregateAuthors(ReviewNode root, AggregationCallback<GvAuthor> callback) {
-        VisitorDataGetter<ReviewNode> visitor = mVisitorFactory.newLeavesCollector(root.getReviewId());
-        TreeTraverser traverser = newTraverser(root);
-        traverser.addVisitor(visitor);
-        traverser.traverse();
-        IdableCollection<ReviewNode> nodes = visitor.getData();
-
+    public GvCanonicalCollection<GvAuthor> aggregateAuthors(ReviewNode root) {
         GvAuthorList data = mConverter.toGvAuthorList(root.getChildren(), root.getReviewId());
         DataAggregator<DataAuthorReview> aggregator = mAggregators.newAuthorsAggregator(mParams.getSimilarBoolean());
         AggregatedList<DataAuthorReview> aggregated = aggregator.aggregate(data);
@@ -179,7 +150,7 @@ public class GvDataAggregator {
 
     private GvTagList collectTags(ReviewNode root, TagsManager tagsManager) {
         VisitorDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(tagsManager);
-        TreeTraverser traverser = newTraverser(root);
+        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
         traverser.addVisitor(visitor);
         traverser.traverse();
         return mConverter.toGvTagList(visitor.getData(), root.getReviewId());

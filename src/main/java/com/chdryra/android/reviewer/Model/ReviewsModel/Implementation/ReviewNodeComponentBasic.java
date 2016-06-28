@@ -45,8 +45,10 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic implement
         }
 
         if (mParent != null) mParent.removeChild(getReviewId());
+        ReviewNode oldParent = mParent;
         mParent = parentNode;
         if (mParent != null) mParent.addChild(this);
-        notifyNodeObservers();
+
+        notifyOnParentChanged(oldParent, mParent);
     }
 }

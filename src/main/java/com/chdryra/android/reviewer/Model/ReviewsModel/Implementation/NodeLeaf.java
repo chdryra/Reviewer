@@ -244,8 +244,8 @@ public class NodeLeaf extends ReviewNodeComponentBasic {
     }
 
     @Override
-    public boolean isValid() {
-        return mReview.isValid();
+    public boolean isValidReference() {
+        return mReview.isValidReference();
     }
 
     @Override

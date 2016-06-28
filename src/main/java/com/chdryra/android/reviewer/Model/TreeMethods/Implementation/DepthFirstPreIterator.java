@@ -38,12 +38,11 @@ public class DepthFirstPreIterator implements Iterator<ReviewNode> {
     public ReviewNode next() {
         if(!hasNext()) throw new NoSuchElementException("No nodes left");
         ReviewNode next = mStack.pop();
-        pushChildrenToStack(next);
-        pushAnyAdditionalNodesToStack(next);
+        pushChildren(next);
         return next;
     }
 
-    private void pushChildrenToStack(ReviewNode node) {
+    private void pushChildren(ReviewNode node) {
         for(ReviewNode child : node.getChildren()) {
             push(child);
         }
@@ -51,10 +50,6 @@ public class DepthFirstPreIterator implements Iterator<ReviewNode> {
 
     protected void push(ReviewNode node) {
         mStack.push(node);
-    }
-
-    protected void pushAnyAdditionalNodesToStack(ReviewNode node) {
-
     }
 
     @Override

@@ -35,7 +35,7 @@ public class GvDataSize extends GvDualText {
     public GvDataSize() {
     }
 
-    public GvDataSize(GvReviewId id, int size, GvDataType<?> type) {
+    public GvDataSize(GvReviewId id, GvDataType<?> type, int size) {
         super(id, String.valueOf(size), size == 1 ? type.getDatumName() : type.getDataName());
     }
 
