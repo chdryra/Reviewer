@@ -8,15 +8,17 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.TagsGetter;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetterImpl;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorLeavesCollector;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorNumLeaves;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.LeafDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemCounter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,15 +26,41 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGett
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryVisitorReviewNode {
-    public VisitorDataGetter<DataTag> newTagsCollector(TagsManager tagsManager) {
-        return new VisitorDataGetterImpl<>(new TagsGetter(tagsManager));
+
+    private <T extends HasReviewId> VisitorItemGetter<T> newItemCollector(NodeDataGetter<T> getter) {
+        return new VisitorItemGetter<>(getter);
     }
 
-    public VisitorDataGetter<ReviewNode> newLeavesCollector(ReviewId rootId) {
-        return new VisitorLeavesCollector(rootId);
+    public VisitorItemGetter<DataSubject> newSubjectsCollector() {
+        return newItemCollector(new LeafDataGetter.SubjectGetter());
     }
 
-    public VisitorNumLeaves newNumLeavesVisitor() {
-        return new VisitorNumLeaves();
+    public VisitorItemGetter<DataAuthorReview> newAuthorsCollector() {
+        return newItemCollector(new LeafDataGetter.AuthorGetter());
     }
+
+    public VisitorItemGetter<DataDateReview> newDatesCollector() {
+        return newItemCollector(new LeafDataGetter.DateGetter());
+    }
+
+    public VisitorItemGetter<ReviewReference> newLeavesCollector() {
+        return newItemCollector(new LeafDataGetter.LeafGetter());
+    }
+
+    public VisitorItemCounter<String> newSubjectsCounter() {
+        return new VisitorItemCounter.SubjectsCounter();
+    }
+
+    public VisitorItemCounter<AuthorId> newAuthorsCounter() {
+        return new VisitorItemCounter.AuthorsCounter();
+    }
+
+    public VisitorItemCounter<String> newDatesCounter() {
+        return new VisitorItemCounter.DatesCounter();
+    }
+
+    public VisitorItemCounter<ReviewId> newReviewsCounter() {
+        return new VisitorItemCounter.ReviewsCounter();
+    }
+
 }

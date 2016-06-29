@@ -53,4 +53,6 @@ public interface ReviewNode extends MetaReference {
     void acceptVisitor(VisitorReviewNode visitor);
 
     boolean isRatingAverageOfChildren();
+
+    boolean isLeaf();
 }

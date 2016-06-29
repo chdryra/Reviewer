@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData;
 
-import android.telecom.Call;
-
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedData;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
@@ -90,7 +88,7 @@ public class GvDataAggregator {
             @Override
             public void onTraversed(Map<String, VisitorReviewNode> visitors) {
                 VisitorNumLeaves visitor = (VisitorNumLeaves)visitors.get(NUM_REVIEWS);
-                callback.onNumReviews(size(root.getReviewId(), visitor.getNumberLeaves()));
+                callback.onNumReviews(size(root.getReviewId(), visitor.getCount()));
             }
         });
     }
@@ -195,7 +193,7 @@ public class GvDataAggregator {
     }
 
     private GvTagList collectTags(ReviewNode root, TagsManager tagsManager) {
-        VisitorDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(tagsManager);
+        VisitorDataGetter<DataTag> visitor = mVisitorFactory.newItemCollector(tagsManager);
         TreeTraverser traverser = newTraverser(root);
         traverser.addVisitor(visitor);
         traverser.traverse();

@@ -26,7 +26,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic {
     private static final CallbackMessage OK = CallbackMessage.ok();
     private final ReviewReference mReview;
 
-    public NodeLeaf(ReviewReference review, BindersManagerReference bindersManager) {
+    public NodeLeaf(ReviewReference review, BindersManagerMeta bindersManager) {
         super(bindersManager);
         mReview = review;
     }

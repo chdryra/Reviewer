@@ -14,7 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataLis
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetterImpl;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorDataGetter;
@@ -31,11 +31,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * On: 20/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorDataGetterImplTest {
+public class VisitorItemGetterTest {
     @Test
     public void testVisit() {
         ReviewNode node = RandomReview.nextReviewNode();
-        VisitorDataGetter<DataComment> visitor = new VisitorDataGetterImpl<>(new CommentsGetter());
+        VisitorItemGetter<DataComment> visitor = new VisitorItemGetter<>(new CommentsGetter());
         visitor.visit(node);
         IdableCollection<DataComment> comments = visitor.getData();
         IdableList<? extends DataComment> nodeComments = node.getData();

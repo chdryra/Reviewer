@@ -9,9 +9,9 @@
 package com.chdryra.android.reviewer.Model.TreeMethods.Interfaces;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 
@@ -21,5 +21,6 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface NodeDataGetter<T extends HasReviewId> {
-    IdableList<T> getData(@NonNull ReviewNode node);
+    @Nullable
+    T getData(@NonNull ReviewNode node);
 }

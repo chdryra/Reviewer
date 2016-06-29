@@ -149,7 +149,7 @@ public class GvDataAggregatorOld {
     }
 
     private GvTagList collectTags(ReviewNode root, TagsManager tagsManager) {
-        VisitorDataGetter<DataTag> visitor = mVisitorFactory.newTagsCollector(tagsManager);
+        VisitorDataGetter<DataTag> visitor = mVisitorFactory.newItemCollector(tagsManager);
         TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
         traverser.addVisitor(visitor);
         traverser.traverse();
