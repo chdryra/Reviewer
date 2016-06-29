@@ -38,6 +38,6 @@ public class FactoryDbReference {
     public ReviewReference newReference(RowReview review, DataAuthor author, ReviewerDbRepository repo) {
         ReviewId id = review.getReviewId();
         ReviewInfo info = new ReviewInfo(id, review, review, new DatumAuthorReview(id, author.getName(), author.getAuthorId()), review);
-        return new ReviewerDbReference(info, repo, mReviewsFactory, mBindersFactory.newBindersManager());
+        return new ReviewerDbReference(info, repo, mReviewsFactory, mBindersFactory.newReferenceBindersManager());
     }
 }

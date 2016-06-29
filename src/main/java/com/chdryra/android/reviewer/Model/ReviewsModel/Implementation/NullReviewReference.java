@@ -40,7 +40,7 @@ public class NullReviewReference extends ReviewReferenceBasic {
     private static final CallbackMessage OK = CallbackMessage.ok();
 
     public NullReviewReference() {
-        super(new BindersManager());
+        super(new BindersManagerReference());
     }
 
     @Override

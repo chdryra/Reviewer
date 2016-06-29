@@ -48,7 +48,7 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
                                   TagsManager tagsManager,
                                   FactoryReviews reviewsFactory,
                                   FactoryBinders bindersFactory) {
-        super(bindersFactory.newBindersManager());
+        super(bindersFactory.newReferenceBindersManager());
         mReview = review;
         mTagsManager = tagsManager;
         mNode = reviewsFactory.createLeafNode(this);

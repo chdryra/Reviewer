@@ -26,13 +26,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewReferenceBasic implements ReviewReference {
-    private BindersManager mBinders;
+    private BindersManagerReference mBinders;
 
-    public ReviewReferenceBasic(BindersManager binders) {
+    public ReviewReferenceBasic(BindersManagerReference binders) {
         mBinders = binders;
     }
 
-    public BindersManager getBindersManager() {
+    public BindersManagerReference getBindersManager() {
         return mBinders;
     }
 
@@ -130,12 +130,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         });
     }
 
-    protected void notifyTagsSizeBinders() {
+    protected void notifyNumTagsBinders() {
         getSize(new TagsSizeCallback() {
             @Override
             public void onNumTags(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getTagsSizeBinders()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumTagsBinders()) {
                         binder.onValue(size);
                     }
                 }
@@ -143,12 +143,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         });
     }
 
-    protected void notifyCriteriaSizeBinders() {
+    protected void notifyNumCriteriaBinders() {
         getSize(new CriteriaSizeCallback() {
             @Override
             public void onNumCriteria(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getCriteriaSizeBinders()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumCriteriaBinders()) {
                         binder.onValue(size);
                     }
                 }
@@ -156,12 +156,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         });
     }
 
-    protected void notifyImagesSizeBinders() {
+    protected void notifyNumImagesBinders() {
         getSize(new ImagesSizeCallback() {
             @Override
             public void onNumImages(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getImagesSizeBinders()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumImagesBinders()) {
                         binder.onValue(size);
                     }
                 }
@@ -169,12 +169,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         });
     }
 
-    protected void notifyCommentsSizeBinders() {
+    protected void notifyNumCommentsBinders() {
         getSize(new CommentsSizeCallback() {
             @Override
             public void onNumComments(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getCommentsSizeBinders()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumCommentsBinders()) {
                         binder.onValue(size);
                     }
                 }
@@ -182,12 +182,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         });
     }
 
-    protected void notifyLocationsSizeBinders() {
+    protected void notifyNumLocationsBinders() {
         getSize(new LocationsSizeCallback() {
             @Override
             public void onNumLocations(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getLocationsSizeBinders()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumLocationsBinders()) {
                         binder.onValue(size);
                     }
                 }
@@ -195,12 +195,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         });
     }
 
-    protected void notifyFactsSizeBinders() {
+    protected void notifyNumFactsBinders() {
         getSize(new FactsSizeCallback() {
             @Override
             public void onNumFacts(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getFactsSizeBinders()) {
+                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumFactsBinders()) {
                         binder.onValue(size);
                     }
                 }

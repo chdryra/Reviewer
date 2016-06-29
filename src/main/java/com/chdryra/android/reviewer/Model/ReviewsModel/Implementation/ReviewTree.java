@@ -49,7 +49,7 @@ public class ReviewTree extends ReviewNodeBasic implements
     private ReviewNode mNode;
 
     public ReviewTree(@NotNull ReviewNode node, FactoryBinders bindersFactory) {
-        super(bindersFactory.newBindersManager());
+        super(bindersFactory.newMetaBindersManager());
         mNode = node;
         mBindersFactory = bindersFactory;
         mNode.registerObserver(this);
@@ -152,6 +152,26 @@ public class ReviewTree extends ReviewNodeBasic implements
     }
 
     @Override
+    public void getData(ReviewsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(SubjectsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(AuthorsCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
+    public void getData(DatesCallback callback) {
+        mNode.getData(callback);
+    }
+
+    @Override
     public void getData(CoversCallback callback) {
         mNode.getData(callback);
     }
@@ -184,6 +204,26 @@ public class ReviewTree extends ReviewNodeBasic implements
     @Override
     public void getData(FactsCallback callback) {
         mNode.getData(callback);
+    }
+
+    @Override
+    public void getSize(ReviewsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(SubjectsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(AuthorsSizeCallback callback) {
+        mNode.getSize(callback);
+    }
+
+    @Override
+    public void getSize(DatesSizeCallback callback) {
+        mNode.getSize(callback);
     }
 
     @Override
@@ -223,7 +263,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     @Override
     public void onNumComments(DataSize size, CallbackMessage message) {
-        notifyCommentsSizeBinders();
+        notifyNumCommentsBinders();
     }
 
     @Override
@@ -238,7 +278,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     @Override
     public void onNumCriteria(DataSize size, CallbackMessage message) {
-        notifyCriteriaSizeBinders();
+        notifyNumCriteriaBinders();
     }
 
     @Override
@@ -248,7 +288,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     @Override
     public void onNumFacts(DataSize size, CallbackMessage message) {
-        notifyFactsSizeBinders();
+        notifyNumFactsBinders();
     }
 
     @Override
@@ -258,7 +298,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     @Override
     public void onNumImages(DataSize size, CallbackMessage message) {
-        notifyImagesSizeBinders();
+        notifyNumImagesBinders();
     }
 
     @Override
@@ -268,7 +308,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     @Override
     public void onNumLocations(DataSize size, CallbackMessage message) {
-        notifyLocationsSizeBinders();
+        notifyNumLocationsBinders();
     }
 
     @Override
@@ -283,7 +323,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     @Override
     public void onNumTags(DataSize size, CallbackMessage message) {
-        notifyTagsSizeBinders();
+        notifyNumTagsBinders();
     }
 
     @Override

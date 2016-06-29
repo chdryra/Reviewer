@@ -8,7 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerMeta;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
@@ -22,7 +23,11 @@ public class FactoryBinders {
         return new ReferenceBinder(reference);
     }
 
-    public BindersManager newBindersManager() {
-        return new BindersManager();
+    public BindersManagerReference newReferenceBindersManager() {
+        return new BindersManagerReference();
+    }
+
+    public BindersManagerMeta newMetaBindersManager() {
+        return new BindersManagerMeta();
     }
 }

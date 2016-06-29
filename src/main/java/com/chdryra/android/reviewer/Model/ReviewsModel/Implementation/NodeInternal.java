@@ -58,7 +58,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
                         FactoryBinders binderFactory,
                         FactoryDataCollector collectorFactory,
                         FactoryReviews reviewFactory) {
-        super(binderFactory.newBindersManager());
+        super(binderFactory.newReferenceBindersManager());
         mMeta = meta;
         mBinderFactory = binderFactory;
         mCollectorFactory = collectorFactory;
@@ -260,7 +260,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             getSize(new LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getCommentsSizeBinders(), size, message);
+                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
                 }
             });
         }
@@ -272,7 +272,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             getSize(new CriteriaSizeCallback() {
                 @Override
                 public void onNumCriteria(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getCriteriaSizeBinders(), size, message);
+                    notifyOnValue(getBindersManager().getNumCriteriaBinders(), size, message);
                 }
             });
         }
@@ -284,7 +284,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             getSize(new FactsSizeCallback() {
                 @Override
                 public void onNumFacts(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getFactsSizeBinders(), size, message);
+                    notifyOnValue(getBindersManager().getNumFactsBinders(), size, message);
                 }
             });
         }
@@ -296,7 +296,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             getSize(new ImagesSizeCallback() {
                 @Override
                 public void onNumImages(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getImagesSizeBinders(), size, message);
+                    notifyOnValue(getBindersManager().getNumImagesBinders(), size, message);
                 }
             });
         }
@@ -308,7 +308,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             getSize(new LocationsSizeCallback() {
                 @Override
                 public void onNumLocations(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getLocationsSizeBinders(), size, message);
+                    notifyOnValue(getBindersManager().getNumLocationsBinders(), size, message);
                 }
             });
         }
@@ -320,7 +320,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             getSize(new TagsSizeCallback() {
                 @Override
                 public void onNumTags(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getTagsSizeBinders(), size, message);
+                    notifyOnValue(getBindersManager().getNumTagsBinders(), size, message);
                 }
             });
         }

@@ -42,7 +42,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createLeaf(ReviewReference review) {
-        return new NodeLeaf(review, mBinderFactory.newBindersManager());
+        return new NodeLeaf(review, mBinderFactory.newReferenceBindersManager());
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {

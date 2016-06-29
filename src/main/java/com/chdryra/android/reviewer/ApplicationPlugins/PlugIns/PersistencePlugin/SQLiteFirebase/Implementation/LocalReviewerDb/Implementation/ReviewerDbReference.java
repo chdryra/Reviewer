@@ -52,7 +52,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManager;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceBasic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
@@ -80,7 +80,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     public ReviewerDbReference(DataReviewInfo info,
                                ReviewerDbRepository repo,
                                FactoryReviews reviewsFactory,
-                               BindersManager bindersManager) {
+                               BindersManagerReference bindersManager) {
         super(bindersManager);
         mInfo = info;
         mRepo = repo;

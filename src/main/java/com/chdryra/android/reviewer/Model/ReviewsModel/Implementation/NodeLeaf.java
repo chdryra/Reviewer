@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
@@ -21,9 +23,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 public class NodeLeaf extends ReviewNodeComponentBasic {
+    private static final CallbackMessage OK = CallbackMessage.ok();
     private final ReviewReference mReview;
 
-    public NodeLeaf(ReviewReference review, BindersManager bindersManager) {
+    public NodeLeaf(ReviewReference review, BindersManagerReference bindersManager) {
         super(bindersManager);
         mReview = review;
     }
@@ -41,6 +44,34 @@ public class NodeLeaf extends ReviewNodeComponentBasic {
     @Override
     public void removeChild(ReviewId reviewId) {
 
+    }
+
+    @Override
+    public void getData(ReviewsCallback callback) {
+        IdableList<ReviewNode> leaves = new IdableDataList<>(getReviewId());
+        leaves.add(this);
+        callback.onReviews(leaves, OK);
+    }
+
+    @Override
+    public void getData(SubjectsCallback callback) {
+        IdableList<DataSubject> subjects = new IdableDataList<>(getReviewId());
+        subjects.add(getSubject());
+        callback.onSubjects(subjects, OK);
+    }
+
+    @Override
+    public void getData(AuthorsCallback callback) {
+        IdableList<DataAuthorReview> authors = new IdableDataList<>(getReviewId());
+        authors.add(getAuthor());
+        callback.onAuthors(authors, OK);
+    }
+
+    @Override
+    public void getData(DatesCallback callback) {
+        IdableList<DataDateReview> dates = new IdableDataList<>(getReviewId());
+        dates.add(getPublishDate());
+        callback.onDates(dates, OK);
     }
 
     @Override

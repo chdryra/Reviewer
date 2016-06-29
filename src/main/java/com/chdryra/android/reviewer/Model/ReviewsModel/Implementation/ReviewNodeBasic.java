@@ -19,10 +19,10 @@ import java.util.ArrayList;
  * On: 18/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements ReviewNode {
+public abstract class ReviewNodeBasic extends MetaReferenceBasic implements ReviewNode {
     private ArrayList<NodeObserver> mObservers;
 
-    public ReviewNodeBasic(BindersManager bindersManager) {
+    public ReviewNodeBasic(BindersManagerMeta bindersManager) {
         super(bindersManager);
         mObservers = new ArrayList<>();
     }

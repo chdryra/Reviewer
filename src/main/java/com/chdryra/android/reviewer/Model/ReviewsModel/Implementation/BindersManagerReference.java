@@ -18,7 +18,7 @@ import java.util.Collection;
  * On: 27/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BindersManager {
+public class BindersManagerReference {
     private Collection<ReferenceBinders.CoversBinder> mCoversBinders;
     private Collection<ReferenceBinders.TagsBinder> mTagsBinders;
     private Collection<ReferenceBinders.CriteriaBinder> mCriteriaBinders;
@@ -27,14 +27,14 @@ public class BindersManager {
     private Collection<ReferenceBinders.LocationsBinder> mLocationsBinders;
     private Collection<ReferenceBinders.FactsBinder> mFactsBinders;
 
-    private Collection<ReferenceBinders.SizeBinder> mTagsSizeBinders;
-    private Collection<ReferenceBinders.SizeBinder> mCriteriaSizeBinders;
-    private Collection<ReferenceBinders.SizeBinder> mImagesSizeBinders;
-    private Collection<ReferenceBinders.SizeBinder> mCommentsSizeBinders;
-    private Collection<ReferenceBinders.SizeBinder> mLocationsSizeBinders;
-    private Collection<ReferenceBinders.SizeBinder> mFactsSizeBinders;
+    private Collection<ReferenceBinders.SizeBinder> mNumTagsBinders;
+    private Collection<ReferenceBinders.SizeBinder> mNumCriteriaBinders;
+    private Collection<ReferenceBinders.SizeBinder> mNumImagesBinders;
+    private Collection<ReferenceBinders.SizeBinder> mNumCommentsBinders;
+    private Collection<ReferenceBinders.SizeBinder> mNumLocationsBinders;
+    private Collection<ReferenceBinders.SizeBinder> mNumFactsBinders;
 
-    public BindersManager() {
+    public BindersManagerReference() {
         mCoversBinders = new ArrayList<>();
         mTagsBinders = new ArrayList<>();
         mCriteriaBinders = new ArrayList<>();
@@ -43,12 +43,12 @@ public class BindersManager {
         mLocationsBinders = new ArrayList<>();
         mFactsBinders = new ArrayList<>();
 
-        mTagsSizeBinders = new ArrayList<>();
-        mCriteriaSizeBinders = new ArrayList<>();
-        mImagesSizeBinders = new ArrayList<>();
-        mCommentsSizeBinders = new ArrayList<>();
-        mLocationsSizeBinders = new ArrayList<>();
-        mFactsSizeBinders = new ArrayList<>();
+        mNumTagsBinders = new ArrayList<>();
+        mNumCriteriaBinders = new ArrayList<>();
+        mNumImagesBinders = new ArrayList<>();
+        mNumCommentsBinders = new ArrayList<>();
+        mNumLocationsBinders = new ArrayList<>();
+        mNumFactsBinders = new ArrayList<>();
     }
 
     public Collection<ReferenceBinders.CoversBinder> getCoversBinders() {
@@ -79,28 +79,29 @@ public class BindersManager {
         return mFactsBinders;
     }
 
-    public Collection<ReferenceBinders.SizeBinder> getTagsSizeBinders() {
-        return mTagsSizeBinders;
+
+    public Collection<ReferenceBinders.SizeBinder> getNumTagsBinders() {
+        return mNumTagsBinders;
     }
 
-    public Collection<ReferenceBinders.SizeBinder> getCriteriaSizeBinders() {
-        return mCriteriaSizeBinders;
+    public Collection<ReferenceBinders.SizeBinder> getNumCriteriaBinders() {
+        return mNumCriteriaBinders;
     }
 
-    public Collection<ReferenceBinders.SizeBinder> getImagesSizeBinders() {
-        return mImagesSizeBinders;
+    public Collection<ReferenceBinders.SizeBinder> getNumImagesBinders() {
+        return mNumImagesBinders;
     }
 
-    public Collection<ReferenceBinders.SizeBinder> getCommentsSizeBinders() {
-        return mCommentsSizeBinders;
+    public Collection<ReferenceBinders.SizeBinder> getNumCommentsBinders() {
+        return mNumCommentsBinders;
     }
 
-    public Collection<ReferenceBinders.SizeBinder> getLocationsSizeBinders() {
-        return mLocationsSizeBinders;
+    public Collection<ReferenceBinders.SizeBinder> getNumLocationsBinders() {
+        return mNumLocationsBinders;
     }
 
-    public Collection<ReferenceBinders.SizeBinder> getFactsSizeBinders() {
-        return mFactsSizeBinders;
+    public Collection<ReferenceBinders.SizeBinder> getNumFactsBinders() {
+        return mNumFactsBinders;
     }
 
     
@@ -133,27 +134,27 @@ public class BindersManager {
     }
 
     public void bindToTags(final ReferenceBinders.SizeBinder binder) {
-        if(!mTagsSizeBinders.contains(binder)) mTagsSizeBinders.add(binder);
+        if(!mNumTagsBinders.contains(binder)) mNumTagsBinders.add(binder);
     }
 
     public void bindToCriteria(final ReferenceBinders.SizeBinder binder) {
-        if(!mCriteriaSizeBinders.contains(binder)) mCriteriaSizeBinders.add(binder);
+        if(!mNumCriteriaBinders.contains(binder)) mNumCriteriaBinders.add(binder);
     }
 
     public void bindToImages(final ReferenceBinders.SizeBinder binder) {
-        if(!mImagesSizeBinders.contains(binder)) mImagesSizeBinders.add(binder);
+        if(!mNumImagesBinders.contains(binder)) mNumImagesBinders.add(binder);
     }
 
     public void bindToComments(final ReferenceBinders.SizeBinder binder) {
-        if(!mCommentsSizeBinders.contains(binder)) mCommentsSizeBinders.add(binder);
+        if(!mNumCommentsBinders.contains(binder)) mNumCommentsBinders.add(binder);
     }
 
     public void bindToLocations(final ReferenceBinders.SizeBinder binder) {
-        if(!mLocationsSizeBinders.contains(binder)) mLocationsSizeBinders.add(binder);
+        if(!mNumLocationsBinders.contains(binder)) mNumLocationsBinders.add(binder);
     }
 
     public void bindToFacts(final ReferenceBinders.SizeBinder binder) {
-        if(!mFactsSizeBinders.contains(binder)) mFactsSizeBinders.add(binder);
+        if(!mNumFactsBinders.contains(binder)) mNumFactsBinders.add(binder);
     }
 
     public void unbind(ReferenceBinders.CoversBinder binder) {
@@ -185,67 +186,26 @@ public class BindersManager {
     }
 
     public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
-        if(mTagsSizeBinders.contains(binder)) mTagsSizeBinders.remove(binder);
+        if(mNumTagsBinders.contains(binder)) mNumTagsBinders.remove(binder);
     }
 
     public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
-        if(mCriteriaSizeBinders.contains(binder)) mCriteriaSizeBinders.remove(binder);
+        if(mNumCriteriaBinders.contains(binder)) mNumCriteriaBinders.remove(binder);
     }
 
     public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
-        if(mImagesSizeBinders.contains(binder)) mImagesSizeBinders.remove(binder);
+        if(mNumImagesBinders.contains(binder)) mNumImagesBinders.remove(binder);
     }
 
     public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
-        if(mCommentsSizeBinders.contains(binder)) mCommentsSizeBinders.remove(binder);
+        if(mNumCommentsBinders.contains(binder)) mNumCommentsBinders.remove(binder);
     }
 
     public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
-        if(mLocationsSizeBinders.contains(binder)) mLocationsSizeBinders.remove(binder);
+        if(mNumLocationsBinders.contains(binder)) mNumLocationsBinders.remove(binder);
     }
 
     public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
-        if(mFactsSizeBinders.contains(binder)) mFactsSizeBinders.remove(binder);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof BindersManager)) return false;
-
-        BindersManager that = (BindersManager) o;
-
-        if (!mCoversBinders.equals(that.mCoversBinders)) return false;
-        if (!mTagsBinders.equals(that.mTagsBinders)) return false;
-        if (!mCriteriaBinders.equals(that.mCriteriaBinders)) return false;
-        if (!mImagesBinders.equals(that.mImagesBinders)) return false;
-        if (!mCommentsBinders.equals(that.mCommentsBinders)) return false;
-        if (!mLocationsBinders.equals(that.mLocationsBinders)) return false;
-        if (!mFactsBinders.equals(that.mFactsBinders)) return false;
-        if (!mTagsSizeBinders.equals(that.mTagsSizeBinders)) return false;
-        if (!mCriteriaSizeBinders.equals(that.mCriteriaSizeBinders)) return false;
-        if (!mImagesSizeBinders.equals(that.mImagesSizeBinders)) return false;
-        if (!mCommentsSizeBinders.equals(that.mCommentsSizeBinders)) return false;
-        if (!mLocationsSizeBinders.equals(that.mLocationsSizeBinders)) return false;
-        return mFactsSizeBinders.equals(that.mFactsSizeBinders);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = mCoversBinders.hashCode();
-        result = 31 * result + mTagsBinders.hashCode();
-        result = 31 * result + mCriteriaBinders.hashCode();
-        result = 31 * result + mImagesBinders.hashCode();
-        result = 31 * result + mCommentsBinders.hashCode();
-        result = 31 * result + mLocationsBinders.hashCode();
-        result = 31 * result + mFactsBinders.hashCode();
-        result = 31 * result + mTagsSizeBinders.hashCode();
-        result = 31 * result + mCriteriaSizeBinders.hashCode();
-        result = 31 * result + mImagesSizeBinders.hashCode();
-        result = 31 * result + mCommentsSizeBinders.hashCode();
-        result = 31 * result + mLocationsSizeBinders.hashCode();
-        result = 31 * result + mFactsSizeBinders.hashCode();
-        return result;
+        if(mNumFactsBinders.contains(binder)) mNumFactsBinders.remove(binder);
     }
 }

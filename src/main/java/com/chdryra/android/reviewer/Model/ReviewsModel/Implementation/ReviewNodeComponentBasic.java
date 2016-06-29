@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
 public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic implements ReviewNodeComponent{
     private ReviewNodeComponent mParent;
 
-    public ReviewNodeComponentBasic(BindersManager bindersManager) {
+    public ReviewNodeComponentBasic(BindersManagerMeta bindersManager) {
         super(bindersManager);
     }
 

@@ -15,7 +15,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  */
 public class NullNode extends NodeLeaf {
     public NullNode() {
-        super(new NullReviewReference(), new BindersManager());
+        super(new NullReviewReference(), new BindersManagerReference());
     }
 
     @Override
