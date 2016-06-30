@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -48,11 +46,6 @@ public class ViewerChildList extends ViewerNodeBasic<GvReference> {
     @Override
     public void onChildRemoved(ReviewNode child) {
         nullifyCache();
-    }
-
-    @Override
-    public void onParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode newParent) {
-
     }
 
     @Override

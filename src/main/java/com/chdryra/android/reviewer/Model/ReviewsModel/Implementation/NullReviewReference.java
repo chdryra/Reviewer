@@ -29,6 +29,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
@@ -70,7 +72,8 @@ public class NullReviewReference extends ReviewReferenceBasic {
 
     @Override
     public ReviewNode asNode() {
-        return new NodeLeaf(this, getBindersManager());
+        return new NodeLeaf(this, new BindersManagerMeta(),
+                new FactoryVisitorReviewNode(), new FactoryNodeTraverser());
     }
 
     @Override

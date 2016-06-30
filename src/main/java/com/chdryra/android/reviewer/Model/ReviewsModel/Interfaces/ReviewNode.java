@@ -29,8 +29,6 @@ public interface ReviewNode extends MetaReference {
 
         void onChildRemoved(ReviewNode child);
 
-        void onParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode newParent);
-
         void onNodeChanged();
     }
 

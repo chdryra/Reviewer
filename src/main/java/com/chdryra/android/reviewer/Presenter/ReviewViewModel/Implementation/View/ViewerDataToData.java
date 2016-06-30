@@ -51,9 +51,9 @@ public class ViewerDataToData<T extends GvData> extends GridDataWrapperBasic<T> 
 
     @Override
     public ReviewViewAdapter expandGridCell(T datum) {
-        if (isExpandable(datum)) {
-            return mAdapterFactory.newDataToDataAdapter(mNode, (GvDataCollection) datum);
-        }
+//        if (isExpandable(datum)) {
+//            return mAdapterFactory.newDataToDataAdapter(mNode, (GvDataCollection) datum);
+//        }
 
         return null;
     }

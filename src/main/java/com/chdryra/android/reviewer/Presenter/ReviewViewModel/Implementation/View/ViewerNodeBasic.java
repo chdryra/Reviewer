@@ -62,11 +62,6 @@ public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperB
     }
 
     @Override
-    public void onParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode newParent) {
-
-    }
-
-    @Override
     public void onNodeChanged() {
         nullifyCache();
     }

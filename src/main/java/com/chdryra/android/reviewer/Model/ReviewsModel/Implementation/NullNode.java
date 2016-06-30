@@ -8,6 +8,9 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 27/06/2016
@@ -15,7 +18,8 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  */
 public class NullNode extends NodeLeaf {
     public NullNode() {
-        super(new NullReviewReference(), new BindersManagerReference());
+        super(new NullReviewReference(), new BindersManagerMeta(),
+                new FactoryVisitorReviewNode(), new FactoryNodeTraverser());
     }
 
     @Override

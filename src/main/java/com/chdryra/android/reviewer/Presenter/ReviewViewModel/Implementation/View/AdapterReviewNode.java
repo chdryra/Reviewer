@@ -44,6 +44,15 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
         node.registerObserver(this);
     }
 
+    @Override
+    public void onChildAdded(ReviewNode child) {
+        notifyDataObservers();
+    }
+
+    @Override
+    public void onChildRemoved(ReviewNode child) {
+        notifyDataObservers();
+    }
 
     @Override
     public void onNodeChanged() {
@@ -62,7 +71,6 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
 
     @Override
     public void getCovers(CoversCallback callback) {
-        mNode.getData();
-        return mCoversConverter.convert();
+
     }
 }

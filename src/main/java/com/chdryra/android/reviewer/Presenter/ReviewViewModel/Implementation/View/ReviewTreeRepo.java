@@ -24,12 +24,12 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObse
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeLive implements ReviewsRepository.RepositoryCallback,
+public class ReviewTreeRepo implements ReviewsRepository.RepositoryCallback,
         ReviewsRepositoryObserver, ReviewNode {
 
     private ReviewsRepository mRepo;
 
-    public ReviewTreeLive(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
+    public ReviewTreeRepo(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
         mRepo = repo;
         mRepo.registerObserver(this);
         mRepo.getReferences(this);

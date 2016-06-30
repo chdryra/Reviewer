@@ -62,7 +62,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
-                               ReviewTreeLive feedNode,
+                               ReviewTreeRepo feedNode,
                                PresenterListener listener) {
         super(app, feedNode, true);
         getApp().getPublisher().registerListener(this);

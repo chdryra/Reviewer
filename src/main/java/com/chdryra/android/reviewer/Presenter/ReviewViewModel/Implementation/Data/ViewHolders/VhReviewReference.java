@@ -144,7 +144,7 @@ public class VhReviewReference extends ViewHolderBasic {
         mReference.bind(mTagsObserver);
     }
 
-    private void setLocationString(IdableList<DataLocation> value) {
+    private void setLocationString(IdableList<? extends DataLocation> value) {
         GvLocationList locations = mConverterLocations.convert(value);
         ArrayList<String> locationNames = new ArrayList<>();
         for (GvLocation location : locations) {
@@ -194,7 +194,7 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class CoverBinder implements ReferenceBinders.CoversBinder {
         @Override
-        public void onValue(IdableList<DataImage> value) {
+        public void onValue(IdableList<? extends DataImage> value) {
             int index = RAND.nextInt(value.size());
             GvImage gvCover = mConverterImages.convert(value.getItem(index));
             Bitmap cover = gvCover.getBitmap();
@@ -204,7 +204,7 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class TagsBinder implements ReferenceBinders.TagsBinder {
         @Override
-        public void onValue(IdableList<DataTag> value) {
+        public void onValue(IdableList<? extends DataTag> value) {
             ItemTagCollection tags = mTagsManager.getTags(mReference.getReviewId()
                     .toString());
             mTags.setText(getTagString(tags.toStringArray()));
@@ -213,7 +213,7 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class LocationsBinder implements ReferenceBinders.LocationsBinder {
         @Override
-        public void onValue(IdableList<DataLocation> value) {
+        public void onValue(IdableList<? extends DataLocation> value) {
             setLocationString(value);
             newFooter();
         }
@@ -221,7 +221,7 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class CommentsBinder implements ReferenceBinders.CommentsBinder {
         @Override
-        public void onValue(IdableList<DataComment> value) {
+        public void onValue(IdableList<? extends DataComment> value) {
             GvCommentList comments = mConverterComments.convert(value);
             GvCommentList headlines = comments.getHeadlines();
             String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;

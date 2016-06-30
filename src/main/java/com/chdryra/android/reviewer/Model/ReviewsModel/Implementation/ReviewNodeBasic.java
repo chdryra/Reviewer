@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 import java.util.ArrayList;
@@ -51,13 +49,6 @@ public abstract class ReviewNodeBasic extends MetaReferenceBasic implements Revi
     protected void notifyOnChildRemoved(ReviewNode child) {
         for (NodeObserver observer : mObservers) {
             observer.onChildRemoved(child);
-        }
-    }
-
-    protected void notifyOnParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode
-            newParent) {
-        for (NodeObserver observer : mObservers) {
-            observer.onParentChanged(oldParent, newParent);
         }
     }
 

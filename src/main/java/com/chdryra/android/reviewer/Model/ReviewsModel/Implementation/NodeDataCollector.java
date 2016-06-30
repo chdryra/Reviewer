@@ -67,7 +67,7 @@ public abstract class NodeDataCollector<T extends HasReviewId>  {
         mTracker.onNodeReturned(nodeId, message);
     }
 
-    protected void onNodeReturned(ReviewId nodeId, IdableList<T> childData, CallbackMessage message) {
+    protected void onNodeReturned(ReviewId nodeId, IdableList<? extends T> childData, CallbackMessage message) {
         if(!message.isError()) mData.addAll(childData);
         mTracker.onNodeReturned(nodeId, message);
     }

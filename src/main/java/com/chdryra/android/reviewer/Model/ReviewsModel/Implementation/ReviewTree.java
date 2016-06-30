@@ -14,8 +14,6 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
  * Email: rizwan.choudrey@gmail.com
  */
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -80,11 +78,6 @@ public class ReviewTree extends ReviewNodeBasic implements
     @Override
     public void onChildRemoved(ReviewNode child) {
         notifyOnChildRemoved(child);
-    }
-
-    @Override
-    public void onParentChanged(@Nullable ReviewNode oldParent, @Nullable ReviewNode newParent) {
-        notifyOnParentChanged(oldParent, newParent);
     }
 
     @Override

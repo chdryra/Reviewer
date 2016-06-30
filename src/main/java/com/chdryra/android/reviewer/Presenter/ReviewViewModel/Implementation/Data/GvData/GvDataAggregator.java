@@ -12,36 +12,21 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.Aggreg
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.AggregatedList;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api
-        .DataAggregatorsApi;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .ConverterGv;
-
-import java.util.Map;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 
 /**
  * Created by: Rizwan Choudrey
@@ -49,8 +34,6 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataAggregator {
-    private static final String NUM_REVIEWS = "NumReviewsVisitor";
-
     private final DataAggregatorsApi mAggregators;
     private final DataAggregatorParams mParams;
     private final ConverterGv mConverter;
@@ -58,7 +41,7 @@ public class GvDataAggregator {
     private FactoryNodeTraverser mTraverserFactory;
 
     public enum CriterionAggregation {SUBJECT, SUBJECT_RATING}
-    
+
     public GvDataAggregator(DataAggregatorsApi aggregators,
                             DataAggregatorParams params,
                             ConverterGv converter,
@@ -71,41 +54,7 @@ public class GvDataAggregator {
         mTraverserFactory = traverserFactory;
     }
 
-    public interface NumReviewsCallback {
-        void onNumReviews(DataSize size);
-    }
-
-    public interface AggregationCallback<T extends GvData> {
-        void onAggregated(GvCanonicalCollection<T> aggregated);
-    }
-
-    public void getNumReviews(final ReviewNode root, final NumReviewsCallback callback) {
-        TreeTraverser traverser = newTraverser(root);
-        traverser.addVisitor(NUM_REVIEWS, mVisitorFactory.newNumLeavesVisitor());
-        traverser.traverse(new TreeTraverser.TraversalCallback() {
-            @Override
-            public void onTraversed(Map<String, VisitorReviewNode> visitors) {
-                VisitorNumLeaves visitor = (VisitorNumLeaves)visitors.get(NUM_REVIEWS);
-                callback.onNumReviews(size(root.getReviewId(), visitor.getCount()));
-            }
-        });
-    }
-
-    private DataSize size(ReviewId reviewId, int size) {
-        return new DatumSize(reviewId, size);
-    }
-
-    private TreeTraverser newTraverser(ReviewNode root) {
-        return mTraverserFactory.newTreeTraverser(root);
-    }
-
-    public void aggregateAuthors(ReviewNode root, AggregationCallback<GvAuthor> callback) {
-        VisitorDataGetter<ReviewNode> visitor = mVisitorFactory.newLeavesCollector(root.getReviewId());
-        TreeTraverser traverser = newTraverser(root);
-        traverser.addVisitor(visitor);
-        traverser.traverse();
-        IdableCollection<ReviewNode> nodes = visitor.getData();
-
+    public GvCanonicalCollection<GvAuthor> aggregateAuthors(ReviewNode root) {
         GvAuthorList data = mConverter.toGvAuthorList(root.getChildren(), root.getReviewId());
         DataAggregator<DataAuthorReview> aggregator = mAggregators.newAuthorsAggregator(mParams.getSimilarBoolean());
         AggregatedList<DataAuthorReview> aggregated = aggregator.aggregate(data);
@@ -119,12 +68,12 @@ public class GvDataAggregator {
         return newCollection(mConverter.getConverterSubjects(), aggregated, GvSubject.TYPE);
     }
 
-    public GvCanonicalCollection<GvTag> aggregateTags(ReviewNode root, TagsManager tagsManager) {
-        GvTagList data = collectTags(root, tagsManager);
-        DataAggregator<DataTag> aggregator = mAggregators.newTagsAggregator(mParams.getSimilarPercentage());
-        AggregatedList<DataTag> aggregated = aggregator.aggregate(data);
-        return newCollection(mConverter.getConverterTags(), aggregated, GvTag.TYPE);
-    }
+//    public GvCanonicalCollection<GvTag> aggregateTags(ReviewNode root, TagsManager tagsManager) {
+//        GvTagList data = collectTags(root, tagsManager);
+//        DataAggregator<DataTag> aggregator = mAggregators.newTagsAggregator(mParams.getSimilarPercentage());
+//        AggregatedList<DataTag> aggregated = aggregator.aggregate(data);
+//        return newCollection(mConverter.getConverterTags(), aggregated, GvTag.TYPE);
+//    }
 
     public GvCanonicalCollection<GvDate> aggregateDates(ReviewNode root) {
         GvDateList data = mConverter.toGvDateList(root.getChildren(), root.getReviewId());
@@ -132,10 +81,10 @@ public class GvDataAggregator {
         AggregatedList<DataDateReview> aggregated = aggregator.aggregate(data);
         return newCollection(mConverter.getConverterDates(), aggregated, GvDate.TYPE);
     }
-
-    public GvCanonicalCollection<GvCriterion> aggregateCriteria(ReviewNode root) {
-        return aggregateCriteria(mConverter.toGvCriterionList(root.getData()), CriterionAggregation.SUBJECT);
-    }
+//
+//    public GvCanonicalCollection<GvCriterion> aggregateCriteria(ReviewNode root) {
+//        return aggregateCriteria(mConverter.toGvCriterionList(root.getData()), CriterionAggregation.SUBJECT);
+//    }
 
     public GvCanonicalCollection<GvCriterion> aggregateCriteria(GvDataList<GvCriterion> data, CriterionAggregation aggregation) {
         DataAggregator<DataCriterion> aggregator;
@@ -147,34 +96,34 @@ public class GvDataAggregator {
         AggregatedList<DataCriterion> aggregated = aggregator.aggregate(data);
         return newCollection(mConverter.getConverterCriteria(), aggregated, GvCriterion.TYPE);
     }
-
-    public GvCanonicalCollection<GvImage> aggregateImages(ReviewNode root) {
-        DataAggregator<DataImage> aggregator = mAggregators.newImagesAggregator(mParams.getSimilarBoolean());
-        AggregatedList<DataImage> aggregated = aggregator.aggregate(root.getData());
-        return newCollection(mConverter.getConverterImages(), aggregated, GvImage.TYPE);
-    }
-
-    public GvCanonicalCollection<GvComment> aggregateComments(ReviewNode root) {
-        return aggregateComments(root.getData());
-    }
+//
+//    public GvCanonicalCollection<GvImage> aggregateImages(ReviewNode root) {
+//        DataAggregator<DataImage> aggregator = mAggregators.newImagesAggregator(mParams.getSimilarBoolean());
+//        AggregatedList<DataImage> aggregated = aggregator.aggregate(root.getData());
+//        return newCollection(mConverter.getConverterImages(), aggregated, GvImage.TYPE);
+//    }
+//
+//    public GvCanonicalCollection<GvComment> aggregateComments(ReviewNode root) {
+//        return aggregateComments(root.getData());
+//    }
 
     public GvCanonicalCollection<GvComment> aggregateComments(IdableList<? extends DataComment> data) {
         DataAggregator<DataComment> aggregator = mAggregators.newCommentsAggregator(mParams.getSimilarPercentage());
         AggregatedList<DataComment> aggregated = aggregator.aggregate(data);
         return newCollection(mConverter.getConverterComments(), aggregated, GvComment.TYPE);
     }
-
-    public GvCanonicalCollection<GvLocation> aggregateLocations(ReviewNode root) {
-        DataAggregator<DataLocation> aggregator = mAggregators.newLocationsAggregator(mParams.getSimilarLocation());
-        AggregatedList<DataLocation> aggregated = aggregator.aggregate(root.getData());
-        return newCollection(mConverter.getConverterLocations(), aggregated, GvLocation.TYPE);
-    }
-
-    public GvCanonicalCollection<GvFact> aggregateFacts(ReviewNode root) {
-        DataAggregator<DataFact> aggregator = mAggregators.newFactsAggregator(mParams.getSimilarPercentage());
-        AggregatedList<DataFact> aggregated = aggregator.aggregate(root.getData());
-        return newCollection(mConverter.getConverterFacts(), aggregated, GvFact.TYPE);
-    }
+//
+//    public GvCanonicalCollection<GvLocation> aggregateLocations(ReviewNode root) {
+//        DataAggregator<DataLocation> aggregator = mAggregators.newLocationsAggregator(mParams.getSimilarLocation());
+//        AggregatedList<DataLocation> aggregated = aggregator.aggregate(root.getData());
+//        return newCollection(mConverter.getConverterLocations(), aggregated, GvLocation.TYPE);
+//    }
+//
+//    public GvCanonicalCollection<GvFact> aggregateFacts(ReviewNode root) {
+//        DataAggregator<DataFact> aggregator = mAggregators.newFactsAggregator(mParams.getSimilarPercentage());
+//        AggregatedList<DataFact> aggregated = aggregator.aggregate(root.getData());
+//        return newCollection(mConverter.getConverterFacts(), aggregated, GvFact.TYPE);
+//    }
     
     public <T1 extends HasReviewId, T2 extends GvData> GvCanonicalCollection<T2>
     newCollection(DataConverter<? super T1, T2, ? extends GvDataList<T2>> converter,
@@ -189,14 +138,14 @@ public class GvDataAggregator {
 
         return canonicals;
     }
-
-    private GvTagList collectTags(ReviewNode root, TagsManager tagsManager) {
-        VisitorDataGetter<DataTag> visitor = mVisitorFactory.newItemCollector(tagsManager);
-        TreeTraverser traverser = newTraverser(root);
-        traverser.addVisitor(visitor);
-        traverser.traverse();
-        return mConverter.toGvTagList(visitor.getData(), root.getReviewId());
-    }
+//
+//    private GvTagList collectTags(ReviewNode root, TagsManager tagsManager) {
+//        VisitorDataGetter<DataTag> visitor = mVisitorFactory.newItemCollector(tagsManager);
+//        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
+//        traverser.addVisitor(visitor);
+//        traverser.traverse();
+//        return mConverter.toGvTagList(visitor.getData(), root.getReviewId());
+//    }
 }
 
 

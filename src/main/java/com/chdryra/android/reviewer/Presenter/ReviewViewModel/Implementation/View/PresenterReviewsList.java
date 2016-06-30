@@ -16,11 +16,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
-
-
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.NewReviewListener;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -53,7 +50,7 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
         return mNode;
     }
 
-    public ReviewView<GvReview> getView() {
+    public ReviewView<GvReference> getView() {
         return mReviewView;
     }
 
@@ -69,6 +66,16 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
     @Override
     public void onAlertPositive(int requestCode, Bundle args) {
         mGridItem.onAlertPositive(requestCode, args);
+    }
+
+    @Override
+    public void onChildAdded(ReviewNode child) {
+        notifyReviewView();
+    }
+
+    @Override
+    public void onChildRemoved(ReviewNode child) {
+        notifyReviewView();
     }
 
     @Override

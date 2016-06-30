@@ -115,11 +115,11 @@ public class FactoryReviewViewAdapter {
                 mReviewSource.getTagsManager(), mAggregator);
         return newNodeAdapter(node, viewer);
     }
-
-    public <T extends GvData> ReviewViewAdapter<?> newDataToDataAdapter(ReviewNode parent,
-                                                                        GvDataType<T> data) {
-        return newNodeAdapter(parent, mViewerFactory.newDataToDataViewer(parent, data));
-    }
+//
+//    public <T extends GvData> ReviewViewAdapter<?> newDataToDataAdapter(ReviewNode parent,
+//                                                                        GvDataType<T> data) {
+//        return newNodeAdapter(parent, mViewerFactory.newDataToDataViewer(parent, data));
+//    }
 
     public <T extends GvData> ReviewViewAdapter<?> newAggregateToReviewsAdapter
             (GvCanonicalCollection<T> data, String subject) {

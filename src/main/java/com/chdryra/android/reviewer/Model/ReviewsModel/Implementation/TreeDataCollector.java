@@ -38,7 +38,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.CoversCallback() {
                 @Override
-                public void onCovers(IdableList<DataImage> covers, CallbackMessage message) {
+                public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), covers, message);
                 }
             });
@@ -64,7 +64,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.ImagesCallback() {
                 @Override
-                public void onImages(IdableList<DataImage> images, CallbackMessage message) {
+                public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), images, message);
                 }
             });
@@ -116,7 +116,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.LocationsCallback() {
                 @Override
-                public void onLocations(IdableList<DataLocation> locations, CallbackMessage message) {
+                public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), locations, message);
                 }
             });
@@ -168,7 +168,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.FactsCallback() {
                 @Override
-                public void onFacts(IdableList<DataFact> facts, CallbackMessage message) {
+                public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), facts, message);
                 }
             });
@@ -220,7 +220,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.CommentsCallback() {
                 @Override
-                public void onComments(IdableList<DataComment> comments, CallbackMessage message) {
+                public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), comments, message);
                 }
             });
@@ -272,7 +272,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.CriteriaCallback() {
                 @Override
-                public void onCriteria(IdableList<DataCriterion> criteria, CallbackMessage message) {
+                public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), criteria, message);
                 }
             });
@@ -298,7 +298,7 @@ public class TreeDataCollector {
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
             node.getData(new ReviewReference.TagsCallback() {
                 @Override
-                public void onTags(IdableList<DataTag> tags, CallbackMessage message) {
+                public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
                     onNodeReturned(node.getReviewId(), tags, message);
                 }
             });

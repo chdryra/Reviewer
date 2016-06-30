@@ -52,7 +52,5 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeTraversable imp
         ReviewNode oldParent = mParent;
         mParent = parentNode;
         if (mParent != null) mParent.addChild(this);
-
-        notifyOnParentChanged(oldParent, mParent);
     }
 }

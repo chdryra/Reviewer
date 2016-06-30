@@ -24,6 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -208,27 +209,27 @@ public class ConverterGv {
     }
 
     //Subjects
-    public <T extends Review> GvSubjectList toGvSubjectList(Iterable<T> reviews, ReviewId reviewId) {
+    public <T extends ReviewReference> GvSubjectList toGvSubjectList(Iterable<T> reviews, ReviewId reviewId) {
         ArrayList<DataSubject> subjects = new ArrayList<>();
-        for(Review review : reviews) {
+        for(ReviewReference review : reviews) {
             subjects.add(review.getSubject());
         }
         return getConverterSubjects().convert(subjects, reviewId);
     }
 
     //Authors
-    public <T extends Review> GvAuthorList toGvAuthorList(Iterable<T> reviews, ReviewId reviewId) {
+    public <T extends ReviewReference> GvAuthorList toGvAuthorList(Iterable<T> reviews, ReviewId reviewId) {
         ArrayList<DataAuthorReview> authors = new ArrayList<>();
-        for(Review review : reviews) {
+        for(ReviewReference review : reviews) {
             authors.add(review.getAuthor());
         }
         return getConverterAuthors().convert(authors, reviewId);
     }
 
     //Dates
-    public <T extends Review> GvDateList toGvDateList(Iterable<T> reviews, ReviewId reviewId) {
+    public <T extends ReviewReference> GvDateList toGvDateList(Iterable<T> reviews, ReviewId reviewId) {
         ArrayList<DataDateReview> dates = new ArrayList<>();
-        for(Review review : reviews) {
+        for(ReviewReference review : reviews) {
             dates.add(review.getPublishDate());
         }
         return getConverterDates().convert(dates, reviewId);
