@@ -32,6 +32,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import org.jetbrains.annotations.NotNull;
@@ -42,8 +43,8 @@ import org.jetbrains.annotations.NotNull;
 public class ReviewTree extends ReviewNodeBasic implements
         ReviewNode,
         ReviewNode.NodeObserver,
-        ReferenceBinder.DataBinder,
-        ReferenceBinder.DataSizeBinder {
+        MetaBinder.MetaDataBinder,
+        MetaBinder.MetaDataSizeBinder {
     private final FactoryBinders mBindersFactory;
     private ReferenceBinder mNodeBinder;
     private ReviewNode mNode;
@@ -64,7 +65,7 @@ public class ReviewTree extends ReviewNodeBasic implements
 
         mNode = node;
         mNode.registerObserver(this);
-        mNodeBinder = mBindersFactory.newBinder(mNode);
+        mNodeBinder = mBindersFactory.bindTo(mNode);
         mNodeBinder.registerDataBinder(this);
         mNodeBinder.registerSizeBinder(this);
 
@@ -254,6 +255,46 @@ public class ReviewTree extends ReviewNodeBasic implements
     @Override
     public void getSize(FactsSizeCallback callback) {
         mNode.getSize(callback);
+    }
+
+    @Override
+    public void onAuthors(IdableList<? extends DataAuthorReview> Authors, CallbackMessage message) {
+        notifyAuthorsBinders();
+    }
+
+    @Override
+    public void onNumAuthors(DataSize size, CallbackMessage message) {
+        notifyNumAuthorsBinders();
+    }
+
+    @Override
+    public void onDates(IdableList<? extends DataDateReview> Dates, CallbackMessage message) {
+        notifyDatesBinders();
+    }
+
+    @Override
+    public void onNumDates(DataSize size, CallbackMessage message) {
+        notifyNumDatesBinders();
+    }
+
+    @Override
+    public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {
+        notifyReviewsBinders();
+    }
+
+    @Override
+    public void onNumReviews(DataSize size, CallbackMessage message) {
+        notifyNumReviewsBinders();
+    }
+
+    @Override
+    public void onSubjects(IdableList<? extends DataSubject> subjects, CallbackMessage message) {
+        notifySubjectsBinders();
+    }
+
+    @Override
+    public void onNumSubjects(DataSize size, CallbackMessage message) {
+        notifyNumSubjectsBinders();
     }
 
     @Override

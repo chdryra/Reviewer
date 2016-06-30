@@ -75,7 +75,7 @@ public class FactoryGridDataViewer {
                     aggregateFactory);
         } else {
             ReviewNode toView = children.size() == 0 ? node : children.getItem(0);
-            ReferenceBinder binder = mBindersFactory.newBinder(toView);
+            ReferenceBinder binder = mBindersFactory.bindTo(toView);
             viewer = new ViewerReviewData(binder, converter, tagsManager, mAdapterFactory);
         }
 

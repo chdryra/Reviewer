@@ -27,9 +27,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -45,20 +47,22 @@ import java.util.List;
 import java.util.Map;
 
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNodeComponent,
-        ReferenceBinder.DataBinder, ReferenceBinder.DataSizeBinder {
+        MetaBinder.MetaDataBinder, MetaBinder.MetaDataSizeBinder {
     private final DataReviewInfo mMeta;
     private final MdDataList<ReviewNodeComponent> mChildren;
     private FactoryBinders mBinderFactory;
     private FactoryDataCollector mCollectorFactory;
     private FactoryReviews mReviewsFactory;
     
-    private Map<ReviewId, ReferenceBinder> mChildBinders;
+    private Map<ReviewId, MetaBinder> mChildBinders;
 
     public NodeInternal(DataReviewInfo meta,
                         FactoryBinders binderFactory,
                         FactoryDataCollector collectorFactory,
+                        FactoryVisitorReviewNode visitorFactory,
+                        FactoryNodeTraverser traverserFactory,
                         FactoryReviews reviewFactory) {
-        super(binderFactory.newReferenceBindersManager());
+        super(binderFactory.newMetaBindersManager(), visitorFactory, traverserFactory);
         mMeta = meta;
         mBinderFactory = binderFactory;
         mCollectorFactory = collectorFactory;
@@ -168,6 +172,103 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     @Override
     public ReviewNode asNode() {
         return this;
+    }
+
+    //TODO optimisation that doesn't involve regetting of all data on a single child's update.
+    @Override
+    public void onAuthors(IdableList<? extends DataAuthorReview> Authors, CallbackMessage message) {
+        if (!message.isError()) {
+            getData(new AuthorsCallback() {
+                @Override
+                public void onAuthors(IdableList<? extends DataAuthorReview> authors, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getAuthorsBinders(), authors, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNumAuthors(DataSize size, CallbackMessage message) {
+        if (!message.isError()) {
+            getSize(new AuthorsSizeCallback() {
+                @Override
+                public void onNumAuthors(DataSize size, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onDates(IdableList<? extends DataDateReview> Dates, CallbackMessage message) {
+        if (!message.isError()) {
+            getData(new DatesCallback() {
+                @Override
+                public void onDates(IdableList<? extends DataDateReview> dates, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getDatesBinders(), dates, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNumDates(DataSize size, CallbackMessage message) {
+        if (!message.isError()) {
+            getSize(new DatesSizeCallback() {
+                @Override
+                public void onNumDates(DataSize size, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {
+        if (!message.isError()) {
+            getData(new ReviewsCallback() {
+                @Override
+                public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {
+                    notifyOnReviews(reviews, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNumReviews(DataSize size, CallbackMessage message) {
+        if (!message.isError()) {
+            getSize(new ReviewsSizeCallback() {
+                @Override
+                public void onNumReviews(DataSize size, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onSubjects(IdableList<? extends DataSubject> subjects, CallbackMessage message) {
+        if (!message.isError()) {
+            getData(new SubjectsCallback() {
+                @Override
+                public void onSubjects(IdableList<? extends DataSubject> subjects, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getSubjectsBinders(), subjects, message);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onNumSubjects(DataSize size, CallbackMessage message) {
+        if (!message.isError()) {
+            getSize(new SubjectsSizeCallback() {
+                @Override
+                public void onNumSubjects(DataSize size, CallbackMessage message) {
+                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
+                }
+            });
+        }
     }
 
     @Override
@@ -431,19 +532,27 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     private void unbindFromChild(ReviewId childId) {
-        ReferenceBinder remove = mChildBinders.remove(childId);
+        MetaBinder remove = mChildBinders.remove(childId);
         remove.unregisterDataBinder(this);
         remove.unregisterDataBinder(this);
     }
 
-    private ReferenceBinder newBinder(ReviewNode node) {
-        ReferenceBinder binder = mBinderFactory.newBinder(node);
+    private MetaBinder newBinder(ReviewNode node) {
+        MetaBinder binder = mBinderFactory.bindTo(node);
         binder.registerDataBinder(this);
         binder.registerSizeBinder(this);
 
         return binder;
     }
 
+    private void notifyOnReviews(IdableList<ReviewReference> data, CallbackMessage message) {
+        if (!message.isError()) {
+            for (ValueBinder<IdableList<ReviewReference>> binder : getBindersManager().getReviewsBinders()) {
+                binder.onValue(data);
+            }
+        }
+    }
+    
     private <T extends HasReviewId> void notifyOnValue(Collection<? extends
             ValueBinder<IdableList<? extends T>>> binders, IdableList<? extends T> data, CallbackMessage message) {
         if (!message.isError()) {

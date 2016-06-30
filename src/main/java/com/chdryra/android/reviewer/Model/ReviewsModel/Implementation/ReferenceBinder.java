@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -51,8 +52,8 @@ public class ReferenceBinder implements DataReviewInfo {
     private ReferenceBinders.SizeBinder mLocationsSize;
     private ReferenceBinders.SizeBinder mFactsSize;
 
-    private ArrayList<DataBinder> mDataBinders;
-    private ArrayList<DataSizeBinder> mSizeBinders;
+    private List<DataBinder> mDataBinders;
+    private List<DataSizeBinder> mSizeBinders;
 
     private boolean mIsBound = false;
 
@@ -76,7 +77,7 @@ public class ReferenceBinder implements DataReviewInfo {
 
     }
 
-    private interface BinderMethod<T> {
+    protected interface BinderMethod<T> {
         void execute(T binder);
     }
 
@@ -247,6 +248,65 @@ public class ReferenceBinder implements DataReviewInfo {
         });
     }
 
+    protected void fireForBinder(final DataBinder callback) {
+        getCovers(callback);
+        getTags(callback);
+        getCriteria(callback);
+        getImages(callback);
+        getComments(callback);
+        getLocations(callback);
+        getFacts(callback);
+    }
+
+    protected void fireForBinder(final DataSizeBinder callback) {
+        getNumTags(callback);
+        getNumCriteria(callback);
+        getNumImages(callback);
+        getNumComments(callback);
+        getNumLocations(callback);
+        getNumFacts(callback);
+    }
+
+    protected void bind() {
+        mIsBound = true;
+        mReference.bind(mCovers);
+        mReference.bind(mTags);
+        mReference.bind(mCriteria);
+        mReference.bind(mImages);
+        mReference.bind(mComments);
+        mReference.bind(mLocations);
+        mReference.bind(mFacts);
+        mReference.bindToTags(mTagsSize);
+        mReference.bindToCriteria(mCriteriaSize);
+        mReference.bindToImages(mImagesSize);
+        mReference.bindToComments(mCommentsSize);
+        mReference.bindToLocations(mLocationsSize);
+        mReference.bindToFacts(mFactsSize);
+    }
+
+    protected void unbind() {
+        mIsBound = false;
+        mReference.unbind(mCovers);
+        mReference.unbind(mTags);
+        mReference.unbind(mCriteria);
+        mReference.unbind(mImages);
+        mReference.unbind(mComments);
+        mReference.unbind(mLocations);
+        mReference.unbind(mFacts);
+        mReference.unbindFromTags(mTagsSize);
+        mReference.unbindFromCriteria(mCriteriaSize);
+        mReference.unbindFromImages(mImagesSize);
+        mReference.unbindFromComments(mCommentsSize);
+        mReference.unbindFromLocations(mLocationsSize);
+        mReference.unbindFromFacts(mFactsSize);
+    }
+
+    protected <T> void notifyBinders(Iterable<T> binders, BinderMethod<T> method) {
+        for (T binder : binders) {
+            method.execute(binder);
+        }
+    }
+
     @Override
     public DataSubject getSubject() {
         return mReference.getSubject();
@@ -272,7 +332,7 @@ public class ReferenceBinder implements DataReviewInfo {
         return mReference.getReviewId();
     }
 
-    private void bindOrFire(DataBinder binder) {
+    private <T extends DataBinder> void bindOrFire(T binder) {
         if (!mIsBound) {
             bind();
         } else {
@@ -288,77 +348,16 @@ public class ReferenceBinder implements DataReviewInfo {
         }
     }
 
-    private void fireForBinder(final DataBinder callback) {
-        getCovers(callback);
-        getTags(callback);
-        getCriteria(callback);
-        getImages(callback);
-        getComments(callback);
-        getLocations(callback);
-        getFacts(callback);
-    }
-
-    private void fireForBinder(final DataSizeBinder callback) {
-        getNumTags(callback);
-        getNumCriteria(callback);
-        getNumImages(callback);
-        getNumComments(callback);
-        getNumLocations(callback);
-        getNumFacts(callback);
-    }
-
-    private void bindIfNeccesary() {
-        if (!mIsBound && (mDataBinders.size() > 0 || mSizeBinders.size() > 0)) bind();
-    }
-
     private void unbindIfNecessary() {
         if (mIsBound && mDataBinders.size() == 0 && mSizeBinders.size() == 0) unbind();
     }
 
-    private void bind() {
-        mIsBound = true;
-        mReference.bind(mCovers);
-        mReference.bind(mTags);
-        mReference.bind(mCriteria);
-        mReference.bind(mImages);
-        mReference.bind(mComments);
-        mReference.bind(mLocations);
-        mReference.bind(mFacts);
-        mReference.bindToTags(mTagsSize);
-        mReference.bindToCriteria(mCriteriaSize);
-        mReference.bindToImages(mImagesSize);
-        mReference.bindToComments(mCommentsSize);
-        mReference.bindToLocations(mLocationsSize);
-        mReference.bindToFacts(mFactsSize);
-    }
-
-    private void unbind() {
-        mIsBound = false;
-        mReference.unbind(mCovers);
-        mReference.unbind(mTags);
-        mReference.unbind(mCriteria);
-        mReference.unbind(mImages);
-        mReference.unbind(mComments);
-        mReference.unbind(mLocations);
-        mReference.unbind(mFacts);
-        mReference.unbindFromTags(mTagsSize);
-        mReference.unbindFromCriteria(mCriteriaSize);
-        mReference.unbindFromImages(mImagesSize);
-        mReference.unbindFromComments(mCommentsSize);
-        mReference.unbindFromLocations(mLocationsSize);
-        mReference.unbindFromFacts(mFactsSize);
-    }
-
     private void notifyDataBinders(BinderMethod<DataBinder> method) {
-        for (DataBinder binder : mDataBinders) {
-            method.execute(binder);
-        }
+        notifyBinders(mDataBinders, method);
     }
 
     private void notifySizeBinders(BinderMethod<DataSizeBinder> method) {
-        for (DataSizeBinder binder : mSizeBinders) {
-            method.execute(binder);
-        }
+        notifyBinders(mSizeBinders, method);
     }
 
     private class Covers implements ReferenceBinders.CoversBinder {

@@ -8,26 +8,27 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
-public class NodeLeaf extends ReviewNodeComponentBasic {
-    private static final CallbackMessage OK = CallbackMessage.ok();
+public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComponent {
     private final ReviewReference mReview;
 
-    public NodeLeaf(ReviewReference review, BindersManagerMeta bindersManager) {
-        super(bindersManager);
+    public NodeLeaf(ReviewReference review, BindersManagerMeta bindersManager,
+                    FactoryVisitorReviewNode visitorFactory,
+                    FactoryNodeTraverser traverserFactory) {
+        super(bindersManager, visitorFactory, traverserFactory);
         mReview = review;
     }
 
@@ -44,34 +45,6 @@ public class NodeLeaf extends ReviewNodeComponentBasic {
     @Override
     public void removeChild(ReviewId reviewId) {
 
-    }
-
-    @Override
-    public void getData(ReviewsCallback callback) {
-        IdableList<ReviewNode> leaves = new IdableDataList<>(getReviewId());
-        leaves.add(this);
-        callback.onReviews(leaves, OK);
-    }
-
-    @Override
-    public void getData(SubjectsCallback callback) {
-        IdableList<DataSubject> subjects = new IdableDataList<>(getReviewId());
-        subjects.add(getSubject());
-        callback.onSubjects(subjects, OK);
-    }
-
-    @Override
-    public void getData(AuthorsCallback callback) {
-        IdableList<DataAuthorReview> authors = new IdableDataList<>(getReviewId());
-        authors.add(getAuthor());
-        callback.onAuthors(authors, OK);
-    }
-
-    @Override
-    public void getData(DatesCallback callback) {
-        IdableList<DataDateReview> dates = new IdableDataList<>(getReviewId());
-        dates.add(getPublishDate());
-        callback.onDates(dates, OK);
     }
 
     @Override
@@ -332,6 +305,11 @@ public class NodeLeaf extends ReviewNodeComponentBasic {
     @Override
     public ReviewNode asNode() {
         return this;
+    }
+
+    @Override
+    public boolean isLeaf() {
+        return isValidReference();
     }
 
     @Override

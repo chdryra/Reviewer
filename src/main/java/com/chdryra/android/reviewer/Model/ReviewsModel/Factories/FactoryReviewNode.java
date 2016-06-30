@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataCollection;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeLeaf;
@@ -30,11 +32,17 @@ public class FactoryReviewNode {
     private FactoryBinders mBinderFactory;
     private FactoryDataCollector mDataCollectorFactory;
     private FactoryReviews mReviewsFactory;
+    private FactoryVisitorReviewNode mVisitorFactory;
+    private FactoryNodeTraverser mTraverserFactory;
 
-    public FactoryReviewNode(FactoryBinders binderFactory, FactoryDataCollector
-            dataCollectorFactory) {
+    public FactoryReviewNode(FactoryBinders binderFactory,
+                             FactoryDataCollector dataCollectorFactory,
+                             FactoryVisitorReviewNode visitorFactory,
+                             FactoryNodeTraverser traverserFactory) {
         mBinderFactory = binderFactory;
         mDataCollectorFactory = dataCollectorFactory;
+        mVisitorFactory = visitorFactory;
+        mTraverserFactory = traverserFactory;
     }
 
     public void setReviewsFactory(FactoryReviews reviewsFactory) {
@@ -42,11 +50,19 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createLeaf(ReviewReference review) {
-        return new NodeLeaf(review, mBinderFactory.newReferenceBindersManager());
+        return new NodeLeaf(review,
+                mBinderFactory.newMetaBindersManager(),
+                mVisitorFactory,
+                mTraverserFactory);
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {
-        return new NodeInternal(meta, mBinderFactory, mDataCollectorFactory, mReviewsFactory);
+        return new NodeInternal(meta,
+                mBinderFactory,
+                mDataCollectorFactory,
+                mVisitorFactory,
+                mTraverserFactory,
+                mReviewsFactory);
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {

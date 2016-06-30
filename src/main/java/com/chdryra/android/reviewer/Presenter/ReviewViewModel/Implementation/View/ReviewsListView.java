@@ -14,10 +14,8 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.GridItemReviewsList;
-
-
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 /**
@@ -25,9 +23,9 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  * On: 24/01/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewsListView extends ReviewViewDefault<GvReview>{
+public class ReviewsListView extends ReviewViewDefault<GvReference>{
     private ReviewNode mNode;
-    public ReviewsListView(ReviewNode node, ReviewViewPerspective<GvReview> perspective) {
+    public ReviewsListView(ReviewNode node, ReviewViewPerspective<GvReference> perspective) {
         super(perspective);
         mNode = node;
     }
@@ -41,12 +39,12 @@ public class ReviewsListView extends ReviewViewDefault<GvReview>{
         launcher.launch(this);
     }
 
-    public static class Actions extends ReviewViewActions<GvReview> {
-        public Actions(SubjectAction<GvReview> subjectAction,
-                       RatingBarAction<GvReview> ratingBarAction,
-                       BannerButtonAction<GvReview> bannerButtonAction,
+    public static class Actions extends ReviewViewActions<GvReference> {
+        public Actions(SubjectAction<GvReference> subjectAction,
+                       RatingBarAction<GvReference> ratingBarAction,
+                       BannerButtonAction<GvReference> bannerButtonAction,
                        GridItemReviewsList gridItemAction,
-                       MenuAction<GvReview> menuAction) {
+                       MenuAction<GvReference> menuAction) {
             super(subjectAction, ratingBarAction, bannerButtonAction, gridItemAction, menuAction);
         }
 

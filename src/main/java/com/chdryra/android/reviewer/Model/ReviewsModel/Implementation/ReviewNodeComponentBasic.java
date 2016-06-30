@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 
@@ -18,11 +20,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComp
  * On: 18/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic implements ReviewNodeComponent{
+public abstract class ReviewNodeComponentBasic extends ReviewNodeTraversable implements ReviewNodeComponent{
     private ReviewNodeComponent mParent;
 
-    public ReviewNodeComponentBasic(BindersManagerMeta bindersManager) {
-        super(bindersManager);
+    public ReviewNodeComponentBasic(BindersManagerMeta bindersManager,
+                                    FactoryVisitorReviewNode visitorFactory,
+                                    FactoryNodeTraverser traverserFactory) {
+        super(bindersManager, visitorFactory, traverserFactory);
     }
 
     @Nullable

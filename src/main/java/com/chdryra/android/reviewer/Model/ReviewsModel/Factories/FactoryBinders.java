@@ -10,7 +10,9 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerMeta;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MetaBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
@@ -19,8 +21,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBinders {
-    public ReferenceBinder newBinder(ReviewReference reference) {
+    public ReferenceBinder bindTo(ReviewReference reference) {
         return new ReferenceBinder(reference);
+    }
+
+    public MetaBinder bindTo(MetaReference reference) {
+        return new MetaBinder(reference);
     }
 
     public BindersManagerReference newReferenceBindersManager() {

@@ -40,7 +40,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReview;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
@@ -66,9 +66,8 @@ public class FactoryReviewView {
         return mParamsFactory;
     }
 
-    public ReviewViewAdapter<GvReview> newReviewsListAdapter(ReviewNode node,
-                                                             FactoryReviewViewAdapter
-                                                                     adapterFactory) {
+    public ReviewViewAdapter<GvReference> newReviewsListAdapter(ReviewNode node,
+                                                             FactoryReviewViewAdapter adapterFactory) {
         return newReviewsListScreen(node, adapterFactory, false).getAdapter();
     }
 
@@ -136,15 +135,15 @@ public class FactoryReviewView {
         }
     }
 
-    private ReviewViewActions<GvReview> newReviewsListActions(boolean withMenu) {
+    private ReviewViewActions<GvReference> newReviewsListActions(boolean withMenu) {
         BuildScreenLauncher buildUiLauncher = new BuildScreenLauncher();
         GridItemReviewsList gi = new GridItemReviewsList(this,
                 mConfig.getShareEdit().getLaunchable(), buildUiLauncher);
-        SubjectAction<GvReview> sa = new SubjectActionNone<>();
-        RatingBarAction<GvReview> rb = new RatingBarExpandGrid<>(this);
-        BannerButtonAction<GvReview> bba = new BannerButtonActionNone<>();
-        MenuAction<GvReview> ma = withMenu ?
-                new MenuNewReview<GvReview>(buildUiLauncher) : new MenuActionNone<GvReview>();
+        SubjectAction<GvReference> sa = new SubjectActionNone<>();
+        RatingBarAction<GvReference> rb = new RatingBarExpandGrid<>(this);
+        BannerButtonAction<GvReference> bba = new BannerButtonActionNone<>();
+        MenuAction<GvReference> ma = withMenu ?
+                new MenuNewReview<GvReference>(buildUiLauncher) : new MenuActionNone<GvReference>();
 
         return new ReviewsListView.Actions(sa, rb, bba, gi, ma);
     }

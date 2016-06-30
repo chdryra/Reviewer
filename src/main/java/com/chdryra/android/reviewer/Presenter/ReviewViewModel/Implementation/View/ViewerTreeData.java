@@ -45,7 +45,6 @@ import java.util.Map;
 public class ViewerTreeData extends ViewerReviewData implements GvDataAggregator.NumReviewsCallback{
     private static final int NUM_DATA = 10;
     private GvDataAggregator mAggregator;
-    private Map<GvDataType<?>, DataSize> mNumDataMap;
 
     public ViewerTreeData(ReferenceBinder binder,
                    ConverterGv converter,
