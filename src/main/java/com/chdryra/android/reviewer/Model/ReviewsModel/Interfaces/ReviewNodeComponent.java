@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewNodeComponent extends ReviewNode {
-
-    boolean addChild(ReviewNodeComponent childNode);
+    void addChild(ReviewNodeComponent childNode);
 
     void addChildren(Iterable<ReviewNodeComponent> children);
 

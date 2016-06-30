@@ -71,8 +71,8 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public boolean addChild(ReviewNodeComponent child) {
-        if (mChildren.containsId(child.getReviewId())) return false;
+    public void addChild(ReviewNodeComponent child) {
+        if (mChildren.containsId(child.getReviewId())) return;
 
         mChildren.add(child);
         child.setParent(this);
@@ -80,8 +80,6 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         bindToChild(child);
 
         notifyOnChildAdded(child);
-
-        return true;
     }
 
     @Override

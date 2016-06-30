@@ -29,14 +29,14 @@ public class ReviewTreeRepo extends NodeInternal implements ReviewsRepository.Re
 
     private ReviewsRepository mRepo;
 
-    public ReviewTreeRepo(DataReviewInfo meta, ReviewsRepository repo,
+    public ReviewTreeRepo(DataReviewInfo meta,
+                          ReviewsRepository repo,
                           FactoryReviewNode nodeFactory) {
         super(meta, nodeFactory);
         mRepo = repo;
         mRepo.registerObserver(this);
         mRepo.getReferences(this);
     }
-
 
     @Override
     public void onRepositoryCallback(RepositoryResult result) {
@@ -63,10 +63,13 @@ public class ReviewTreeRepo extends NodeInternal implements ReviewsRepository.Re
     }
 
     private void addChild(ReviewReference review) {
-        super.addChild(getNodeFactory().createLeafNode(review));
+        addChild(getNodeFactory().createLeafNode(review));
     }
 
     public void detachFromRepo() {
         mRepo.unregisterObserver(this);
+        for(ReviewNode child : getChildren()) {
+            removeChild(child.getReviewId());
+        }
     }
 }

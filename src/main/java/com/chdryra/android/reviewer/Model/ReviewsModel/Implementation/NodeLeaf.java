@@ -33,8 +33,8 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public boolean addChild(ReviewNodeComponent childNode) {
-        return false;
+    public void addChild(ReviewNodeComponent childNode) {
+
     }
 
     @Override
