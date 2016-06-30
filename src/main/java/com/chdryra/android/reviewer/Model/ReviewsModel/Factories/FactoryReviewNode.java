@@ -29,27 +29,45 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryReviewNode {
+    private FactoryReviews mReviewsFactory;
     private FactoryBinders mBinderFactory;
     private FactoryDataCollector mDataCollectorFactory;
-    private FactoryReviews mReviewsFactory;
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryNodeTraverser mTraverserFactory;
 
-    public FactoryReviewNode(FactoryBinders binderFactory,
-                             FactoryDataCollector dataCollectorFactory,
+    public FactoryReviewNode(FactoryReviews reviewFactory,
+                             FactoryBinders binderFactory,
                              FactoryVisitorReviewNode visitorFactory,
                              FactoryNodeTraverser traverserFactory) {
+        mReviewsFactory = reviewFactory;
         mBinderFactory = binderFactory;
-        mDataCollectorFactory = dataCollectorFactory;
         mVisitorFactory = visitorFactory;
         mTraverserFactory = traverserFactory;
+        mDataCollectorFactory = new FactoryDataCollector();
     }
 
-    public void setReviewsFactory(FactoryReviews reviewsFactory) {
-        mReviewsFactory = reviewsFactory;
+
+    public FactoryBinders getBinderFactory() {
+        return mBinderFactory;
     }
 
-    public ReviewNodeComponent createLeaf(ReviewReference review) {
+    public FactoryVisitorReviewNode getVisitorFactory() {
+        return mVisitorFactory;
+    }
+
+    public FactoryNodeTraverser getTraverserFactory() {
+        return mTraverserFactory;
+    }
+
+    public FactoryDataCollector getDataCollectorFactory() {
+        return mDataCollectorFactory;
+    }
+
+    public FactoryReviews getReviewsFactory() {
+        return mReviewsFactory;
+    }
+
+    public ReviewNodeComponent createLeafNode(ReviewReference review) {
         return new NodeLeaf(review,
                 mBinderFactory.newMetaBindersManager(),
                 mVisitorFactory,
@@ -57,12 +75,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {
-        return new NodeInternal(meta,
-                mBinderFactory,
-                mDataCollectorFactory,
-                mVisitorFactory,
-                mTraverserFactory,
-                mReviewsFactory);
+        return new NodeInternal(meta, this);
     }
 
     public ReviewNode freezeNode(ReviewNodeComponent node) {
@@ -73,7 +86,7 @@ public class FactoryReviewNode {
                                                Iterable<ReviewReference> reviews) {
         ArrayList<ReviewNodeComponent> leaves = new ArrayList<>();
         for (ReviewReference review : reviews) {
-            leaves.add(createLeaf(review));
+            leaves.add(createLeafNode(review));
         }
         ReviewNodeComponent parent = createComponent(meta);
         parent.addChildren(leaves);

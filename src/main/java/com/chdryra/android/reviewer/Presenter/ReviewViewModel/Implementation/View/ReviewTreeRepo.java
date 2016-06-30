@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -24,12 +24,14 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObse
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeRepo implements ReviewsRepository.RepositoryCallback,
+public class ReviewTreeRepo extends NodeInternal implements ReviewsRepository.RepositoryCallback,
         ReviewsRepositoryObserver, ReviewNode {
 
     private ReviewsRepository mRepo;
 
-    public ReviewTreeRepo(ReviewsRepository repo, FactoryReviews reviewsFactory, String title) {
+    public ReviewTreeRepo(DataReviewInfo meta, ReviewsRepository repo,
+                          FactoryReviewNode nodeFactory) {
+        super(meta, nodeFactory);
         mRepo = repo;
         mRepo.registerObserver(this);
         mRepo.getReferences(this);
@@ -47,7 +49,6 @@ public class ReviewTreeRepo implements ReviewsRepository.RepositoryCallback,
                 ReviewReference reference = result.getReference();
                 if(reference != null) addChild(reference);
             }
-            notifyNodeObservers();
         }
     }
 
@@ -59,11 +60,10 @@ public class ReviewTreeRepo implements ReviewsRepository.RepositoryCallback,
     @Override
     public void onReviewRemoved(ReviewId reviewId) {
         removeChild(reviewId);
-        notifyNodeObservers();
     }
 
     private void addChild(ReviewReference review) {
-        super.addChild(review);
+        super.addChild(getNodeFactory().createLeafNode(review));
     }
 
     public void detachFromRepo() {

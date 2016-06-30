@@ -48,8 +48,7 @@ public class PresenterFeed extends PresenterReviewsList {
         @NonNull
         protected ReviewTreeRepo getFeedNode(DataAuthor author) {
             ReviewsRepository feed = mApp.getReviews(author);
-            String title = author.getName() + "'s feed";
-            return new ReviewTreeRepo(feed, mApp.getReviewsFactory(), title);
+            return mApp.getReviewsFactory().createMetaReview(feed, author.getName() + "'s feed");
         }
     }
 }

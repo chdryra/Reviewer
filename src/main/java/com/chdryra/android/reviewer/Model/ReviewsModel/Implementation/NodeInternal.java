@@ -27,11 +27,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -50,26 +47,27 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         MetaBinder.MetaDataBinder, MetaBinder.MetaDataSizeBinder {
     private final DataReviewInfo mMeta;
     private final MdDataList<ReviewNodeComponent> mChildren;
-    private FactoryBinders mBinderFactory;
-    private FactoryDataCollector mCollectorFactory;
-    private FactoryReviews mReviewsFactory;
+    private FactoryReviewNode mNodeFactory;
     
     private Map<ReviewId, MetaBinder> mChildBinders;
 
-    public NodeInternal(DataReviewInfo meta,
-                        FactoryBinders binderFactory,
-                        FactoryDataCollector collectorFactory,
-                        FactoryVisitorReviewNode visitorFactory,
-                        FactoryNodeTraverser traverserFactory,
-                        FactoryReviews reviewFactory) {
-        super(binderFactory.newMetaBindersManager(), visitorFactory, traverserFactory);
+    public NodeInternal(DataReviewInfo meta, FactoryReviewNode nodeFactory) {
+        super(nodeFactory.getBinderFactory().newMetaBindersManager(),
+                nodeFactory.getVisitorFactory(), 
+                nodeFactory.getTraverserFactory());
         mMeta = meta;
-        mBinderFactory = binderFactory;
-        mCollectorFactory = collectorFactory;
-        mReviewsFactory = reviewFactory;
+        mNodeFactory = nodeFactory;
 
         mChildren = new MdDataList<>(getReviewId());
         mChildBinders = new HashMap<>();
+    }
+
+    private FactoryDataCollector getCollectorFactory() {
+        return mNodeFactory.getDataCollectorFactory();
+    }
+
+    protected FactoryReviewNode getNodeFactory() {
+        return mNodeFactory;
     }
 
     @Override
@@ -429,67 +427,67 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
     @Override
     public void getData(final CoversCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getData(TagsCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getData(CriteriaCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getData(ImagesCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getData(CommentsCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getData(LocationsCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getData(FactsCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getSize(TagsSizeCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getSize(CriteriaSizeCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getSize(ImagesSizeCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getSize(CommentsSizeCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getSize(LocationsSizeCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
     @Override
     public void getSize(FactsSizeCallback callback) {
-        mCollectorFactory.newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
     
     @Override
@@ -500,8 +498,9 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             public void onDereferenced(List<Review> reviews,
                                        AsyncMethodTracker.AsyncErrors errors) {
                 if(!errors.hasErrors()) {
-                    callback.onDereferenced(mReviewsFactory.createMetaReview(mMeta, reviews),
-                            CallbackMessage.ok());
+                    Review review
+                            = mNodeFactory.getReviewsFactory().createMetaReview(mMeta, reviews);
+                    callback.onDereferenced(review, CallbackMessage.ok());
                 } else {
                     callback.onDereferenced(null, errors.getMessage());
                 }
@@ -538,7 +537,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     private MetaBinder newBinder(ReviewNode node) {
-        MetaBinder binder = mBinderFactory.bindTo(node);
+        MetaBinder binder = mNodeFactory.getBinderFactory().bindTo(node);
         binder.registerDataBinder(this);
         binder.registerSizeBinder(this);
 
@@ -581,9 +580,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
         if (!mMeta.equals(that.mMeta)) return false;
         if (!mChildren.equals(that.mChildren)) return false;
-        if (!mBinderFactory.equals(that.mBinderFactory)) return false;
-        if (!mCollectorFactory.equals(that.mCollectorFactory)) return false;
-        if (!mReviewsFactory.equals(that.mReviewsFactory)) return false;
+        if (!getCollectorFactory().equals(that.getCollectorFactory())) return false;
         return mChildBinders.equals(that.mChildBinders);
 
     }
@@ -593,9 +590,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         int result = super.hashCode();
         result = 31 * result + mMeta.hashCode();
         result = 31 * result + mChildren.hashCode();
-        result = 31 * result + mBinderFactory.hashCode();
-        result = 31 * result + mCollectorFactory.hashCode();
-        result = 31 * result + mReviewsFactory.hashCode();
+        result = 31 * result + getCollectorFactory().hashCode();
         result = 31 * result + mChildBinders.hashCode();
         return result;
     }

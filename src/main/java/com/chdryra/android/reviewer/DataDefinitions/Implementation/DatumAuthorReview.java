@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
@@ -29,6 +30,12 @@ public class DatumAuthorReview implements DataAuthorReview {
         mReviewId = reviewId;
         mName = name;
         mAuthorId = authorId;
+    }
+
+    public DatumAuthorReview(ReviewId reviewId, DataAuthor author) {
+        mReviewId = reviewId;
+        mName = author.getName();
+        mAuthorId = author.getAuthorId();
     }
 
     @Override

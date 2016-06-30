@@ -11,6 +11,10 @@ package com.chdryra.android.reviewer.Model.Factories;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
@@ -22,6 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
@@ -35,6 +40,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewMetaSnapshot;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -43,7 +49,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,14 +71,19 @@ public class FactoryReviews implements ReviewMaker {
     private ConverterMd mConverter;
     private DataValidator mValidator;
 
-    public FactoryReviews(FactoryReviewNode nodeFactory,
-                          ConverterMd converter,
-                          DataValidator validator) {
-        mNodeFactory = nodeFactory;
+    public FactoryReviews(ConverterMd converter,
+                          DataValidator validator,
+                          FactoryBinders binderFactory,
+                          FactoryVisitorReviewNode visitorFactory,
+                          FactoryNodeTraverser traverserFactory) {
+        mNodeFactory = new FactoryReviewNode(this, binderFactory, visitorFactory, traverserFactory);
         mConverter = converter;
         mValidator = validator;
         mAuthorsStamp = new AuthorsStamp(NullAuthor.AUTHOR);
-        mNodeFactory.setReviewsFactory(this);
+    }
+
+    public FactoryReviewNode getNodeFactory() {
+        return mNodeFactory;
     }
 
     @Nullable
@@ -111,11 +124,19 @@ public class FactoryReviews implements ReviewMaker {
     }
 
     public ReviewNodeComponent createLeafNode(ReviewReference reference) {
-        return mNodeFactory.createLeaf(reference);
+        return mNodeFactory.createLeafNode(reference);
     }
 
     public Review createMetaReview(DataReviewInfo info, List<Review> reviews) {
         return new ReviewMetaSnapshot(info, reviews);
+    }
+
+    public ReviewTreeRepo createMetaReview(ReviewsRepository repo, String title) {
+        ReviewStamp stamp = newStamp();
+        DataReviewInfo info = new ReviewInfo(stamp, new DatumSubject(stamp, title),
+                new DatumRating(stamp, 0f, 1), new DatumAuthorReview(stamp, stamp.getAuthor()),
+                new DatumDateReview(stamp, stamp.getDate().getTime()));
+        return new ReviewTreeRepo(info, repo, getNodeFactory());
     }
 
     @Override
@@ -148,7 +169,7 @@ public class FactoryReviews implements ReviewMaker {
                                  boolean ratingIsAverage) {
         if (mAuthorsStamp == null) throw new IllegalStateException("No author stamp!");
 
-        ReviewStamp stamp = mAuthorsStamp.newStamp();
+        ReviewStamp stamp = newStamp();
         DataAuthor author = stamp.getAuthor();
         DataDate date = stamp.getDate();
 
@@ -162,6 +183,10 @@ public class FactoryReviews implements ReviewMaker {
                 images,
                 facts,
                 locations);
+    }
+
+    private ReviewStamp newStamp() {
+        return mAuthorsStamp.newStamp();
     }
 
     private float getAverageRating(Iterable<? extends DataCriterion> criteria) {

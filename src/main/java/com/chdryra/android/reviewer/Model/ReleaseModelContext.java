@@ -15,9 +15,7 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.Factories.FactoryTagsManager;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdConverter;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 
 /**
@@ -36,9 +34,8 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
         setBindersFactory(new FactoryBinders());
-        FactoryReviewNode nodeFactory = new FactoryReviewNode(getBindersFactory(),
-                new FactoryDataCollector(), getVisitorsFactory(), getNodeTraversersFactory());
-        FactoryReviews reviews = new FactoryReviews(nodeFactory, converter, validator);
+        FactoryReviews reviews = new FactoryReviews(converter, validator, getBindersFactory(),
+                getVisitorsFactory(), getNodeTraversersFactory());
         setReviewsFactory(reviews);
     }
 }
