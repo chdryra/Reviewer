@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MetaBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -71,7 +72,8 @@ public class FactoryGridDataViewer {
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
-            viewer = new ViewerTreeData(node, converter, tagsManager, mAdapterFactory,
+            MetaBinder binder = mBindersFactory.bindTo(node);
+            viewer = new ViewerTreeData(binder, converter, tagsManager, mAdapterFactory,
                     aggregateFactory);
         } else {
             ReviewNode toView = children.size() == 0 ? node : children.getItem(0);

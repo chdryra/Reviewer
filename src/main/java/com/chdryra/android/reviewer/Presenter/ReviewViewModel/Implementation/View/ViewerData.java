@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
@@ -51,13 +50,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
     private ReviewReference mReference;
-    private GvDataType<T> mType;
     private GvDataList<T> mCache;
-    private ValueBinder<? super T> mBinder;
 
-    protected ViewerData(ReviewReference reference, GvDataType<T> type, GvDataList<T> initial) {
+    protected ViewerData(ReviewReference reference, GvDataList<T> initial) {
         mReference = reference;
-        mType = type;
         mCache = initial;
     }
 
@@ -70,26 +66,18 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         return mReference;
     }
 
-    protected ValueBinder<? super T> getBinder() {
-        return mBinder;
-    }
-
-    protected void setBinder(ValueBinder<? super T> binder) {
-        mBinder = binder;
-    }
-
     protected void setData(GvDataList<T> data) {
         mCache = data;
         notifyDataObservers();
     }
 
     @Override
-    public ReviewViewAdapter expandGridData() {
+    public ReviewViewAdapter<?> expandGridData() {
         return null;
     }
 
     @Override
-    public ReviewViewAdapter expandGridCell(T datum) {
+    public ReviewViewAdapter<?> expandGridCell(T datum) {
         return null;
     }
 
@@ -105,14 +93,14 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
 
     @Override
     public GvDataType<T> getGvDataType() {
-        return mType;
+        return mCache.getGvDataType();
     }
 
     public static class Tags extends ViewerData<GvTag> {
         private ReferenceBinders.TagsBinder mBinder;
 
         public Tags(ReviewReference reference, final GvConverterDataTags converter) {
-            super(reference, GvTag.TYPE, new GvTagList(getId(reference)));
+            super(reference, new GvTagList(getId(reference)));
             mBinder = new ReferenceBinders.TagsBinder() {
                 @Override
                 public void onValue(IdableList<? extends DataTag> value) {
@@ -133,7 +121,7 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         private ReferenceBinders.CriteriaBinder mBinder;
 
         public Criteria(ReviewReference reference, final GvConverterCriteria converter) {
-            super(reference, GvCriterion.TYPE, new GvCriterionList(getId(reference)));
+            super(reference, new GvCriterionList(getId(reference)));
             mBinder = new ReferenceBinders.CriteriaBinder() {
                 @Override
                 public void onValue(IdableList<? extends DataCriterion> value) {
@@ -154,7 +142,7 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         private ReferenceBinders.ImagesBinder mBinder;
 
         public Images(ReviewReference reference, final GvConverterImages converter) {
-            super(reference, GvImage.TYPE, new GvImageList(getId(reference)));
+            super(reference, new GvImageList(getId(reference)));
             mBinder = new ReferenceBinders.ImagesBinder() {
                 @Override
                 public void onValue(IdableList<? extends DataImage> value) {
@@ -175,7 +163,7 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         private ReferenceBinders.CommentsBinder mBinder;
 
         public Comments(ReviewReference reference, final GvConverterComments converter) {
-            super(reference, GvComment.TYPE, new GvCommentList(getId(reference)));
+            super(reference, new GvCommentList(getId(reference)));
             mBinder = new ReferenceBinders.CommentsBinder() {
                 @Override
                 public void onValue(IdableList<? extends DataComment> value) {
@@ -196,7 +184,7 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         private ReferenceBinders.LocationsBinder mBinder;
 
         public Locations(ReviewReference reference, final GvConverterLocations converter) {
-            super(reference, GvLocation.TYPE, new GvLocationList(getId(reference)));
+            super(reference, new GvLocationList(getId(reference)));
             mBinder = new ReferenceBinders.LocationsBinder() {
                 @Override
                 public void onValue(IdableList<? extends DataLocation> value) {
@@ -217,7 +205,7 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         private ReferenceBinders.FactsBinder mBinder;
 
         public Facts(ReviewReference reference, final GvConverterFacts converter) {
-            super(reference, GvFact.TYPE, new GvFactList(getId(reference)));
+            super(reference, new GvFactList(getId(reference)));
             mBinder = new ReferenceBinders.FactsBinder() {
                 @Override
                 public void onValue(IdableList<? extends DataFact> value) {

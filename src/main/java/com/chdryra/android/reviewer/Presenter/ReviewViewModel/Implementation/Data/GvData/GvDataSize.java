@@ -16,8 +16,7 @@ import android.os.Parcel;
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvDataSize extends GvDualText {
-    public static final GvDataType<GvDataSize> TYPE =
-            new GvDataType<>(GvDataSize.class, "review", "review");
+    public static final GvDataType<GvDataSize> TYPE = new GvDataType<>(GvDataSize.class, "size");
     public static final Creator<GvDataSize> CREATOR = new Creator<GvDataSize>() {
         @Override
         public GvDataSize createFromParcel(Parcel in) {
