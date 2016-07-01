@@ -45,13 +45,13 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     @Override
     public void attachReviewView(ReviewView<T> view) {
         mView = view;
-        registerDataObserver(view);
+        registerObserver(view);
         if (mWrapper != null && !mIsAttached) attachToViewer(mWrapper);
     }
 
     @Override
     public void detachReviewView() {
-        unregisterDataObserver(mView);
+        unregisterObserver(mView);
         mView = null;
         if (mWrapper != null && mIsAttached) detachFromViewer();
     }
@@ -92,12 +92,12 @@ public abstract class ReviewViewAdapterBasic<T extends GvData> implements Review
     }
 
     @Override
-    public void registerDataObserver(DataObserver observer) {
+    public void registerObserver(DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
-    public void unregisterDataObserver(DataObserver observer) {
+    public void unregisterObserver(DataObserver observer) {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 

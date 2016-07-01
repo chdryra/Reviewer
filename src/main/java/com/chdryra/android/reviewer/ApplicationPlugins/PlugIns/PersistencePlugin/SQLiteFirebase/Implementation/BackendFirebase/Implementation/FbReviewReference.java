@@ -62,6 +62,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -487,7 +488,7 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<IdableList<DataCriterion>>() {
             @Override
             public IdableList<DataCriterion> convert(DataSnapshot snapshot) {
-                List<Criterion> value = (List<Criterion>) snapshot.getValue();
+                List<Criterion> value = toList(snapshot, Criterion.class);
                 return mDataConverter.convertCriteria(getReviewId().toString(), value);
             }
         };
@@ -498,10 +499,19 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<IdableList<DataImage>>() {
             @Override
             public IdableList<DataImage> convert(DataSnapshot snapshot) {
-                List<ImageData> value = (List<ImageData>) snapshot.getValue();
+                List<ImageData> value = toList(snapshot, ImageData.class);
                 return mDataConverter.convertImages(getReviewId().toString(), value);
             }
         };
+    }
+
+    @NonNull
+    private <T> List<T> toList(DataSnapshot snapshot, Class<T> valueType) {
+        List<T> value = new ArrayList<>();
+        for(DataSnapshot child : snapshot.getChildren()) {
+            value.add(child.getValue(valueType));
+        }
+        return value;
     }
 
     @NonNull
@@ -509,7 +519,7 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<IdableList<DataComment>>() {
             @Override
             public IdableList<DataComment> convert(DataSnapshot snapshot) {
-                List<Comment> value = (List<Comment>) snapshot.getValue();
+                List<Comment> value = toList(snapshot, Comment.class);
                 return mDataConverter.convertComments(getReviewId().toString(), value);
             }
         };
@@ -520,7 +530,7 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<IdableList<DataFact>>() {
             @Override
             public IdableList<DataFact> convert(DataSnapshot snapshot) {
-                List<Fact> value = (List<Fact>) snapshot.getValue();
+                List<Fact> value = toList(snapshot, Fact.class);
                 return mDataConverter.convertFacts(getReviewId().toString(), value);
             }
         };
@@ -531,7 +541,7 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<IdableList<DataLocation>>() {
             @Override
             public IdableList<DataLocation> convert(DataSnapshot snapshot) {
-                List<Location> value = (List<Location>) snapshot.getValue();
+                List<Location> value = toList(snapshot, Location.class);
                 return mDataConverter.convertLocations(getReviewId().toString(), value);
             }
         };
@@ -566,7 +576,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     private void getSize(String child, final SizeMethod method) {
-        mData.child(child).addListenerForSingleValueEvent(new ValueEventListener() {
+        mAggregate.child(child).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSize size = getSize().convert(dataSnapshot);

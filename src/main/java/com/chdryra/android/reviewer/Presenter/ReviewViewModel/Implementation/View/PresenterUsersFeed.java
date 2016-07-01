@@ -32,7 +32,7 @@ import java.util.Collection;
  */
 public class PresenterUsersFeed extends PresenterFeed implements
         ReviewPublisherListener,
-        ReviewDeleterListener,
+        ReviewDeleter.ReviewDeleterCallback,
         ReviewNode.NodeObserver {
 
     private PresenterListener mListener;
@@ -71,8 +71,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
 
     public void deleteReview(final ReviewId id) {
         mDeleter = getApp().newReviewDeleter(id);
-        mDeleter.registerListener(this);
-        mDeleter.deleteReview();
+        mDeleter.deleteReview(this);
     }
 
     public String getPublishedMessage(Collection<PublishResults> platformsOk,
@@ -121,7 +120,6 @@ public class PresenterUsersFeed extends PresenterFeed implements
     public void detach() {
         super.detach();
         getApp().getPublisher().unregisterListener(this);
-        if (mDeleter != null) mDeleter.unregisterListener(this);
     }
 
     @Override
@@ -157,20 +155,16 @@ public class PresenterUsersFeed extends PresenterFeed implements
     public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
         getApp().getTagsManager().clearTags(reviewId.toString());
         mListener.onReviewDeleted(reviewId, result);
-        mDeleter.unregisterListener(this);
     }
 
     public static class Builder extends PresenterFeed.Builder {
-        private PresenterUsersFeed.PresenterListener mListener;
-
-        public Builder(ApplicationInstance app, PresenterListener listener) {
+        public Builder(ApplicationInstance app) {
             super(app);
-            mListener = listener;
         }
 
-        public PresenterUsersFeed build() {
+        public PresenterUsersFeed build(PresenterListener listener) {
             DataAuthor author = getApp().getUserSession().getCurrentUserAsAuthor();
-            return new PresenterUsersFeed(getApp(), getFeedNode(author), mListener);
+            return new PresenterUsersFeed(getApp(), getFeedNode(author), listener);
         }
     }
 }

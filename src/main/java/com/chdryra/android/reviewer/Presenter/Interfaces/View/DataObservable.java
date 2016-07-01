@@ -18,9 +18,9 @@ public interface DataObservable {
         void onDataChanged();
     }
 
-    void registerDataObserver(DataObserver observer);
+    void registerObserver(DataObserver observer);
 
-    void unregisterDataObserver(DataObserver observer);
+    void unregisterObserver(DataObserver observer);
 
     void notifyDataObservers();
 }

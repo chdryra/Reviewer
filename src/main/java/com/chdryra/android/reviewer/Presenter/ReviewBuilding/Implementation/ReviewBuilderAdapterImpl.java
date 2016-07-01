@@ -150,7 +150,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
         boolean added = mDataValidator.validateString(newTag.getTag()) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
         tagBuilder.delete(toRemove);
-        tagBuilder.publishData();
+        tagBuilder.commitData();
 
         return added ? newTag : null;
     }

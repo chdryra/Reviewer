@@ -144,7 +144,7 @@ public abstract class DialogGvDataAdd<T extends GvData> extends
     @Override
     protected void onDoneButtonClick() {
         if (isQuickSet()) {
-            mBuilder.publishData();
+            mBuilder.commitData();
         } else {
             mAddListener.onDone(getTargetRequestCode());
         }

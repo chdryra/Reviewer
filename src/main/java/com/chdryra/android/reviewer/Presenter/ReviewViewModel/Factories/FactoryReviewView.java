@@ -38,8 +38,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.SubjectActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -152,7 +152,7 @@ public class FactoryReviewView {
                                                                          ApplicationInstance app,
                                                                          ReviewViewAdapter<T>
                                                                                  adapter) {
-        if (dataType.equals(GvList.TYPE)) return newDefaultScreenActions(dataType, app, adapter);
+        if (dataType.equals(GvDataSize.TYPE)) return newDefaultScreenActions(dataType, app, adapter);
 
         SubjectAction<T> subject = new SubjectActionNone<>();
         RatingBarAction<T> ratingBar = new RatingBarExpandGrid<>(this);

@@ -14,9 +14,9 @@ package com.chdryra.android.reviewer.NetworkServices.ReviewDeleting;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewDeleter {
-    void registerListener(ReviewDeleterListener listener);
+    interface ReviewDeleterCallback extends ReviewDeleterListener {
 
-    void unregisterListener(ReviewDeleterListener listener);
+    }
 
-    void deleteReview();
+    void deleteReview(ReviewDeleterCallback callback);
 }

@@ -33,7 +33,7 @@ public interface DataBuilderAdapter<T extends GvData> extends ReviewViewAdapter<
 
     void replace(T oldDatum, T newDatum);
 
-    void publishData();
+    void commitData();
 
     void resetData();
 

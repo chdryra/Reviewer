@@ -61,7 +61,7 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
         if(fromUser) {
             setRatingIsAverage(false);
         } else {
-            getParent().setRating(mRating);
+            getContainer().setRating(mRating);
         }
     }
 
@@ -90,7 +90,7 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
         mBuilder.setSubject(getContainerSubject());
         mBuilder.setRatingIsAverage(mRatingIsAverage);
         mBuilder.setRating(getContainerRating());
-        mBuilder.publishData();
+        mBuilder.commitData();
     }
 
     @Override

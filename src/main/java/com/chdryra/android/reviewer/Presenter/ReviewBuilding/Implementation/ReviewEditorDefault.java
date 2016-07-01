@@ -51,7 +51,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
         if (fromUser) {
             mBuilder.setRating(rating);
         } else {
-            getParent().setRating(rating);
+            getContainer().setRating(rating);
         }
     }
 
@@ -67,7 +67,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
         DataBuilderAdapter<GvImage> builder;
         builder = mBuilder.getDataBuilderAdapter(GvImage.TYPE);
         builder.add(image);
-        builder.publishData();
+        builder.commitData();
     }
 
     @Override

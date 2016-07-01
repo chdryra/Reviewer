@@ -33,24 +33,24 @@ public abstract class GridDataWrapperBasic<T extends GvData> implements GridData
     @Override
     public void attachAdapter(ReviewViewAdapterBasic<T> adapter) {
         mAdapter = adapter;
-        registerDataObserver(mAdapter);
+        registerObserver(mAdapter);
         onAttach();
     }
 
     @Override
     public void detachAdapter() {
-        unregisterDataObserver(mAdapter);
+        unregisterObserver(mAdapter);
         onDetach();
         mAdapter = null;
     }
 
     @Override
-    public void registerDataObserver(DataObserver observer) {
+    public void registerObserver(DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
-    public void unregisterDataObserver(DataObserver observer) {
+    public void unregisterObserver(DataObserver observer) {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 

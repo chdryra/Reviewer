@@ -53,12 +53,12 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
     @Override
     public void onAttachReviewView() {
         super.onAttachReviewView();
-        getReviewView().registerDataObserver(this);
+        getReviewView().registerObserver(this);
     }
 
     @Override
     public void onDetachReviewView() {
-        getReviewView().unregisterDataObserver(this);
+        getReviewView().unregisterObserver(this);
         super.onDetachReviewView();
     }
 

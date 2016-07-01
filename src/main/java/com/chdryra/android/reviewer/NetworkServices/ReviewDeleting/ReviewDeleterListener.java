@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.NetworkServices.ReviewDeleting;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 04/03/2016
+ * On: 01/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewDeleterListener {

@@ -12,6 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesP
 
 import android.content.Context;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
 
@@ -22,14 +24,23 @@ import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter
  */
 public class BackendReviewDeleterAndroid
         extends BackendReviewAndroid<ReviewDeleterReceiver, ReviewDeleterListener>
-        implements ReviewDeleter {
+        implements ReviewDeleter, ReviewDeleterListener {
+    private ReviewDeleterCallback mCallback;
 
     public BackendReviewDeleterAndroid(Context context, ReviewDeleterReceiver receiver) {
         super(context, receiver, BackendRepoService.Service.DELETE);
     }
 
     @Override
-    public void deleteReview() {
+    public void deleteReview(ReviewDeleterCallback callback) {
+        mCallback = callback;
+        registerListener(this);
         startService();
+    }
+
+    @Override
+    public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
+        unregisterListener(this);
+        mCallback.onReviewDeleted(reviewId, result);
     }
 }

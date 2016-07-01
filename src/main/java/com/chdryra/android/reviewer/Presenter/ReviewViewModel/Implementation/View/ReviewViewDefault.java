@@ -44,10 +44,6 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         attachToAdapter();
     }
 
-    protected ReviewViewContainer getParent() {
-        return mContainer;
-    }
-
     @Override
     public ReviewViewAdapter<T> getAdapter() {
         return mPerspective.getAdapter();
@@ -121,14 +117,14 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     public void attachContainer(ReviewViewContainer container) {
         if (mContainer != null) throw new RuntimeException("There is a Fragment already attached");
         mContainer = container;
-        registerDataObserver(mContainer);
+        registerObserver(mContainer);
         mPerspective.attachToActions(this);
         if (!mIsAttached) attachToAdapter();
     }
 
     @Override
     public void detachContainer(ReviewViewContainer container) {
-        unregisterDataObserver(mContainer);
+        unregisterObserver(mContainer);
         mPerspective.detach();
         mContainer = null;
         mGridViewData = null;
@@ -147,12 +143,12 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     }
 
     @Override
-    public void registerDataObserver(DataObservable.DataObserver observer) {
+    public void registerObserver(DataObservable.DataObserver observer) {
         if (!mObservers.contains(observer)) mObservers.add(observer);
     }
 
     @Override
-    public void unregisterDataObserver(DataObservable.DataObserver observer) {
+    public void unregisterObserver(DataObservable.DataObserver observer) {
         if (mObservers.contains(observer)) mObservers.remove(observer);
     }
 

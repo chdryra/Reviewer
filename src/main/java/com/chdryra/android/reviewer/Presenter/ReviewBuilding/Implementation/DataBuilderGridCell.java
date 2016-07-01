@@ -53,7 +53,7 @@ public class DataBuilderGridCell<T extends GvData> extends GvDataListImpl<T>
         super(dataAdapter.getGvDataType(), new GvReviewId("create"));
         mDataAdapter = dataAdapter;
         mViewHolderFactory = viewHolderFactory;
-        mDataAdapter.registerDataObserver(this);
+        mDataAdapter.registerObserver(this);
         onDataChanged();
     }
 
