@@ -19,7 +19,8 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Dialogs.Layouts.Implementation.AddLocation;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .Dialogs.Layouts.Implementation.AddLocation;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -28,8 +29,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryRe
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .BannerButtonActionNone;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
+        .ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
@@ -71,15 +74,6 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         }
 
         updateScreen();
-    }
-
-    public void executeIntent(GvDataList<? extends GvData> gridCell, boolean quickDialog) {
-        GvDataType<? extends GvData> type = gridCell.getGvDataType();
-        if (quickDialog && !gridCell.hasData()) {
-            launchQuickSetAdder(type);
-        } else {
-            mApp.launchEditScreen(type);
-        }
     }
 
     @Override
@@ -124,6 +118,15 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         return getAdderConfig(GvImage.TYPE).getRequestCode();
     }
 
+    private void executeIntent(GvDataList<? extends GvData> gridCell, boolean quickDialog) {
+        GvDataType<? extends GvData> type = gridCell.getGvDataType();
+        if (quickDialog && !gridCell.hasData()) {
+            launchQuickSetAdder(type);
+        } else {
+            mApp.launchEditScreen(type);
+        }
+    }
+
     private void setGridItemObservation() {
         ReviewViewActions<GC> actions = mEditor.getActions();
         actions.registerObserver(this);
@@ -159,7 +162,8 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         Bundle args = new Bundle();
         args.putBoolean(AdderConfig.QUICK_SET, true);
         packLatLng(args);
-        mApp.getUiLauncher().launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag()), args);
+        mApp.getUiLauncher().launch(adderConfig, RequestCodeGenerator.getCode(adderConfig.getTag
+                ()), args);
     }
 
     private void packLatLng(Bundle args) {
@@ -177,7 +181,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
         args.putBoolean(AddLocation.FROM_IMAGE, fromImage);
     }
 
-    public static class Builder  {
+    public static class Builder {
         private FactoryReviewEditor mEditorFactory;
         private ApplicationInstance mApp;
         private Review mReview;
@@ -199,15 +203,18 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
             return buildPresenter(adapter);
         }
 
-        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter(ReviewBuilderAdapter<GC> adapter) {
+        private <GC extends GvDataList<?>> PresenterReviewBuild<GC> buildPresenter
+                (ReviewBuilderAdapter<GC> adapter) {
             ReviewEditor<GC> editor = newEditor(adapter,
                     mApp.getConfigUi().getShareReview(), mEditorFactory);
 
             return new PresenterReviewBuild<>(mApp, editor);
         }
 
-        private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC> builder,
-                                                                      LaunchableConfig shareScreenUi,
+        private <GC extends GvDataList<?>> ReviewEditor<GC> newEditor(ReviewBuilderAdapter<GC>
+                                                                              builder,
+                                                                      LaunchableConfig
+                                                                              shareScreenUi,
                                                                       FactoryReviewEditor factory) {
             ReviewViewParams params = new ReviewViewParams();
             params.setGridAlpha(ReviewViewParams.GridViewAlpha.TRANSPARENT);
