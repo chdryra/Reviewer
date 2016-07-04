@@ -163,7 +163,7 @@ public class VhReviewReference extends ViewHolderBasic {
         mLocation = location;
     }
 
-    private String getTagString(ArrayList<String> tags) {
+    private String getTagString(IdableList<? extends DataTag> tags) {
         int i = tags.size();
         String tagsString = getTagString(tags, i--);
         while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
@@ -173,13 +173,13 @@ public class VhReviewReference extends ViewHolderBasic {
         return tagsString;
     }
 
-    private String getTagString(ArrayList<String> tags, int maxTags) {
+    private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
         String tagsString = "";
         int size = Math.min(tags.size(), Math.max(maxTags, tags.size()));
         int diff = tags.size() - size;
         int i = 0;
         while (i < size) {
-            tagsString += "#" + tags.get(i) + " ";
+            tagsString += "#" + tags.getItem(i).getTag() + " ";
             ++i;
         }
 
@@ -205,9 +205,17 @@ public class VhReviewReference extends ViewHolderBasic {
     private class TagsBinder implements ReferenceBinders.TagsBinder {
         @Override
         public void onValue(IdableList<? extends DataTag> value) {
-            ItemTagCollection tags = mTagsManager.getTags(mReference.getReviewId()
-                    .toString());
-            mTags.setText(getTagString(tags.toStringArray()));
+            mTags.setText(getTagString(value));
+            tagIfNeccessary(value);
+        }
+
+        private void tagIfNeccessary(IdableList<? extends DataTag> value) {
+            ItemTagCollection tags = mTagsManager.getTags(value.getReviewId().toString());
+            if(tags.size() == 0) {
+                for (DataTag tag : value) {
+                    mTagsManager.tagItem(tag.getReviewId().toString(), tag.getTag());
+                }
+            }
         }
     }
 

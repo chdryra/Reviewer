@@ -31,7 +31,6 @@ public class VhDataCollection implements ViewHolder {
     private ViewHolder mDataView;
     private ViewHolder mCurrentView;
 
-    //Constructors
     public VhDataCollection() {
         mDataView = new VhDualText();
         mCurrentView = mDataView;

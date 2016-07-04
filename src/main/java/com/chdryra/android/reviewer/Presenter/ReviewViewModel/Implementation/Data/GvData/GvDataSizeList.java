@@ -38,4 +38,9 @@ public class GvDataSizeList extends GvDataListImpl<GvDataSize> {
     public GvDataSizeList(Parcel in) {
         super(in);
     }
+
+    @Override
+    public void sort() {
+        
+    }
 }

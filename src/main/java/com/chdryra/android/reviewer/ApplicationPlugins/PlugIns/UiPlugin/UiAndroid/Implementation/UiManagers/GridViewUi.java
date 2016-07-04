@@ -62,14 +62,13 @@ public class GridViewUi {
 
     private void inititialise(Activity activity) {
         ReviewViewParams.GridViewParams params = mReviewView.getParams().getGridViewParams();
-        int widthDivider = params.getCellWidth().getDivider();
-        int heightDivider = params.getCellHeight().getDivider();
+
         DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int maxCellSize = Math.min(displaymetrics.widthPixels, displaymetrics.heightPixels);
-
+        int widthDivider = params.getCellWidth().getDivider();
         int cell_width = maxCellSize / widthDivider;
-        int cell_height = maxCellSize / heightDivider;
+        int cell_height = maxCellSize / params.getCellHeight().getDivider();
 
         ViewHolderAdapter adapter = mFactory.newAdapter(activity,
                 mReviewView.getGridViewData(), cell_width, cell_height);

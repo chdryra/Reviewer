@@ -14,9 +14,12 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
  * Email: rizwan.choudrey@gmail.com
  */
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -70,7 +73,12 @@ public class AdapterReviewNode<T extends GvData> extends ReviewViewAdapterBasic<
     }
 
     @Override
-    public void getCovers(CoversCallback callback) {
-
+    public void getCovers(final CoversCallback callback) {
+        mNode.getData(new ReviewReference.CoversCallback() {
+            @Override
+            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+                if(!message.isError()) callback.onAdapterCovers(mCoversConverter.convert(covers));
+            }
+        });
     }
 }

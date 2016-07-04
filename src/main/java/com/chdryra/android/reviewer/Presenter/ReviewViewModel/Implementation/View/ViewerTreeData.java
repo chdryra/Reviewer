@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MetaBinder;
@@ -17,9 +18,12 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryR
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvSubject;
+
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,7 +32,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  */
 public class ViewerTreeData extends ViewerReviewData implements
         MetaBinder.MetaDataSizeBinder{
-    private static final int NUM_DATA = 10;
+    private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.MetaOrder.ORDER;
+    private static final int NUM_DATA = ORDER.size();
     private GvDataAggregator mAggregator;
     private MetaBinder mBinder;
 
@@ -45,26 +50,31 @@ public class ViewerTreeData extends ViewerReviewData implements
 
     @Override
     public void onNumAuthors(DataSize size, CallbackMessage message) {
-        update(size, CallbackMessage.ok(), GvAuthor.TYPE);
+        update(size, GvAuthor.TYPE, CallbackMessage.ok());
     }
 
     @Override
     public void onNumDates(DataSize size, CallbackMessage message) {
-        update(size, CallbackMessage.ok(), GvDate.TYPE);
+        update(size, GvDate.TYPE, CallbackMessage.ok());
     }
 
     @Override
     public void onNumReviews(DataSize size, CallbackMessage message) {
-        update(size, CallbackMessage.ok(), GvReference.TYPE);
+        update(size, GvReference.TYPE, CallbackMessage.ok());
     }
 
     @Override
     public void onNumSubjects(DataSize size, CallbackMessage message) {
-        update(size, CallbackMessage.ok(), GvSubject.TYPE);
+        update(size, GvSubject.TYPE, CallbackMessage.ok());
     }
 
     @Override
     public ReviewStamp getStamp() {
         return ReviewStamp.noStamp();
+    }
+
+    @Override
+    protected List<GvDataType<?>> getCellOrder() {
+        return ORDER;
     }
 }

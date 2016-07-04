@@ -13,6 +13,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.VHDDualString;
+import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
@@ -62,7 +63,6 @@ public class GvDualText extends VHDDualString implements GvData {
         mId = in.readParcelable(GvReviewId.class.getClassLoader());
     }
 
-    //Overridden
     @Override
     public GvReviewId getGvReviewId() {
         return mId;
@@ -91,6 +91,11 @@ public class GvDualText extends VHDDualString implements GvData {
     @Override
     public boolean isVerboseCollection() {
         return false;
+    }
+
+    @Override
+    public ViewHolder getViewHolder() {
+        return super.getViewHolder();
     }
 
     @Override
