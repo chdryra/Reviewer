@@ -13,13 +13,12 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddImage;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditImage;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditImage;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
 import com.chdryra.android.reviewer.View.Configs.ConfigUi;
 
 /**
@@ -48,7 +47,7 @@ public class FactoryEditActionsImages extends FactoryEditActionsDefault<GvImage>
 
     @Override
     protected GridItemAction<GvImage> newGridItemEdit() {
-        return new GridItemDataEditImage(getEditorConfig(), getPacker());
+        return new GridItemEditImage(getEditorConfig(), getPacker());
     }
 
 }

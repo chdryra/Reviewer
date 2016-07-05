@@ -87,7 +87,10 @@ public class ReviewDataEditorImpl<T extends GvData> extends ReviewViewDefault<T>
 
     @Override
     public void commitEdits() {
-        mBuilder.setSubject(getContainerSubject());
+        String containerSubject = getContainerSubject();
+        if(!mBuilder.getSubject().equals(containerSubject)) {
+            mBuilder.setSubject(containerSubject);
+        }
         mBuilder.setRatingIsAverage(mRatingIsAverage);
         mBuilder.setRating(getContainerRating());
         mBuilder.commitData();

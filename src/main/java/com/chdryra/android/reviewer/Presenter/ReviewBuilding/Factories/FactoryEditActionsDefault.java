@@ -17,11 +17,11 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAdd;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEdit;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEdit;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEdit;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingBarDataEdit;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectDataEdit;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.RatingEdit;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEdit;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -87,11 +87,11 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected SubjectAction<T> newSubjectEdit() {
-        return new SubjectDataEdit<>();
+        return new SubjectEdit<>();
     }
 
     protected RatingBarAction<T> newRatingBarEdit() {
-        return new RatingBarDataEdit<>();
+        return new RatingEdit<>();
     }
 
     protected BannerButtonAction<T> newBannerButtonAdd() {
@@ -100,11 +100,11 @@ public class FactoryEditActionsDefault<T extends GvData> {
     }
 
     protected GridItemAction<T> newGridItemEdit() {
-        return new GridItemDataEdit<>(getEditorConfig(), mPacker);
+        return new GridItemEdit<>(getEditorConfig(), mPacker);
     }
 
     protected MenuAction<T> newMenuEdit() {
-        return new MenuDataEdit<>(mDataType);
+        return new MenuEdit<>(mDataType);
     }
 
     protected String getBannerButtonTitle() {

@@ -10,13 +10,9 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import android.content.Context;
 
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
-import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditTag;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectDataEditTags;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.SubjectEditTags;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.TagAdjuster;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -41,16 +37,6 @@ public class FactoryEditActionsTags extends FactoryEditActionsDefault<GvTag> {
 
     @Override
     protected SubjectAction<GvTag> newSubjectEdit() {
-        return new SubjectDataEditTags(mTagAdjuster);
-    }
-
-    @Override
-    protected GridItemAction<GvTag> newGridItemEdit() {
-        return new GridItemDataEditTag(getEditorConfig(), getPacker(), mTagAdjuster);
-    }
-
-    @Override
-    protected MenuAction<GvTag> newMenuEdit() {
-        return new MenuDataEditTags(mTagAdjuster);
+        return new SubjectEditTags(mTagAdjuster);
     }
 }

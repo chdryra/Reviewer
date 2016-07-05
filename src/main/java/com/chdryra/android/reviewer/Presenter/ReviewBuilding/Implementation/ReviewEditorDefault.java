@@ -14,6 +14,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.ReviewViewActions;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewDefault;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
@@ -82,5 +83,16 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
     @Override
     public boolean isEditable() {
         return true;
+    }
+
+    @Override
+    public ReadyToBuildResult isReviewBuildable() {
+        if(mBuilder.getSubject() == null || mBuilder.getSubject().length() == 0) {
+            return ReadyToBuildResult.NoSubject;
+        } else if(mBuilder.getDataBuilderAdapter(GvTag.TYPE).getGridData().size() == 0) {
+                return ReadyToBuildResult.NoTags;
+        } else {
+            return ReadyToBuildResult.YES;
+        }
     }
 }

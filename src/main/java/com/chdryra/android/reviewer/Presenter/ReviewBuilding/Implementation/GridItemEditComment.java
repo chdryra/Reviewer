@@ -21,12 +21,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemDataEditComment extends GridItemDataEdit<GvComment> {
+public class GridItemEditComment extends GridItemEdit<GvComment> {
     private static final int COMMENT_AS_HEADLINE
             = RequestCodeGenerator.getCode("CommentAsHeadline");
 
-    public GridItemDataEditComment(LaunchableConfig editorConfig,
-                                   ParcelablePacker<GvComment> dataPacker) {
+    public GridItemEditComment(LaunchableConfig editorConfig,
+                               ParcelablePacker<GvComment> dataPacker) {
         super(editorConfig, dataPacker);
     }
 

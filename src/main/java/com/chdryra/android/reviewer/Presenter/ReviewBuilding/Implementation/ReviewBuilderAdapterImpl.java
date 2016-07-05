@@ -8,8 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.mygenerallibrary.FileUtils.FileIncrementor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -26,8 +24,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBu
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataTypes;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvTag;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewAdapterBasic;
 
@@ -68,6 +65,7 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
         mGridUi.setParentAdapter(this);
         mIncrementorFactory = incrementorFactory;
         mImageChooserFactory = imageChooserFactory;
+        mSubjectTag = new GvTag("");
         newIncrementor();
     }
 
@@ -88,7 +86,6 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
         DataBuilderAdapter<GvImage> builder = getDataBuilderAdapter(GvImage.TYPE);
         builder.add(cover);
         builder.commitData();
-        //getReviewView().updateCover();
     }
 
     @Override
@@ -150,19 +147,19 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
         return mBuilder.getCover();
     }
 
-    @Nullable
     private GvTag adjustTagsIfNecessary(GvTag toRemove, String toAdd) {
         GvTag newTag = new GvTag(toAdd);
-        if (newTag.equals(toRemove)) return toRemove;
-
         DataBuilderAdapter<GvTag> tagBuilder = getDataBuilderAdapter(GvTag.TYPE);
         GvDataList<GvTag> tags = tagBuilder.getGridData();
+
+        if (newTag.equals(toRemove) && tags.contains(newTag)) return newTag;
+
         boolean added = mDataValidator.validateString(newTag.getTag()) && !tags.contains(newTag)
                 && tagBuilder.add(newTag);
-        tagBuilder.delete(toRemove);
+        if(!newTag.equals(toRemove)) tagBuilder.delete(toRemove);
         tagBuilder.commitData();
 
-        return added ? newTag : null;
+        return added ? newTag : new GvTag("");
     }
 
     private void newIncrementor() {

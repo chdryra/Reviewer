@@ -15,10 +15,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectDataEditTags extends SubjectDataEdit<GvTag> {
+public class SubjectEditTags extends SubjectEdit<GvTag> {
     private TagAdjuster mTagAdjuster;
 
-    public SubjectDataEditTags(TagAdjuster tagAdjuster) {
+    public SubjectEditTags(TagAdjuster tagAdjuster) {
         mTagAdjuster = tagAdjuster;
     }
 

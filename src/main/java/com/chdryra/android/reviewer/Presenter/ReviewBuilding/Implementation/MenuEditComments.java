@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.R;
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuDataEditComments extends MenuDataEdit<GvComment>
+public class MenuEditComments extends MenuEdit<GvComment>
         implements DataObservable.DataObserver {
     private static final GvDataType<GvComment> TYPE = GvComment.TYPE;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
@@ -31,7 +31,7 @@ public class MenuDataEditComments extends MenuDataEdit<GvComment>
     private final MaiSplitComments<GvComment> mSplitter;
 
     //Constructors
-    public MenuDataEditComments() {
+    public MenuEditComments() {
         super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         mSplitter = new MaiSplitComments<>(this);
     }

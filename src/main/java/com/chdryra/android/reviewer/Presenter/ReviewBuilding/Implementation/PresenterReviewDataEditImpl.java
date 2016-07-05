@@ -26,9 +26,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 public class PresenterReviewDataEditImpl<T extends GvData> implements PresenterReviewDataEdit<T> {
     private Context mContext;
     private ReviewDataEditor<T> mEditor;
-    private MenuDataEdit<T> mMenu;
+    private MenuEdit<T> mMenu;
     private BannerButtonAdd<T> mBannerButton;
-    private GridItemDataEdit<T> mGridItem;
+    private GridItemEdit<T> mGridItem;
 
     public PresenterReviewDataEditImpl(Context context,
                                        ReviewDataEditor<T> editor) {
@@ -36,9 +36,9 @@ public class PresenterReviewDataEditImpl<T extends GvData> implements PresenterR
         mEditor = editor;
 
         ReviewViewActions<T> actions = mEditor.getActions();
-        mMenu = (MenuDataEdit<T>) actions.getMenuAction();
+        mMenu = (MenuEdit<T>) actions.getMenuAction();
         mBannerButton = (BannerButtonAdd<T>) actions.getBannerButtonAction();
-        mGridItem = (GridItemDataEdit<T>) actions.getGridItemAction();
+        mGridItem = (GridItemEdit<T>) actions.getGridItemAction();
     }
 
     protected Context getContext() {

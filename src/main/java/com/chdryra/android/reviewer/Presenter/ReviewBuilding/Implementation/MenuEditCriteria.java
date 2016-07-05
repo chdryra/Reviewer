@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.R;
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */ //Classes
-public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
+public class MenuEditCriteria extends MenuEdit<GvCriterion>
         implements DataObservable.DataObserver {
     private static final GvDataType<GvCriterion> TYPE = GvCriterion.TYPE;
     private static final int MENU_DELETE_ID = R.id.menu_item_delete;
@@ -33,7 +33,7 @@ public class MenuDataEditCriteria extends MenuDataEdit<GvCriterion>
 
     private final MenuItemCriteriaRatingAverage mActionItem;
 
-    public MenuDataEditCriteria() {
+    public MenuEditCriteria() {
         super(TYPE.getDataName(), TYPE.getDataName(), false, true, MENU);
         mActionItem = new MenuItemCriteriaRatingAverage();
     }

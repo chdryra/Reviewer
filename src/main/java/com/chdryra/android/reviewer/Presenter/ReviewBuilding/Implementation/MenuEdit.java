@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.R;
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MenuDataEdit<T extends GvData> extends MenuActionNone<T> implements AlertListener {
+public class MenuEdit<T extends GvData> extends MenuActionNone<T> implements AlertListener {
     private static final int MENU = R.menu.menu_delete_done;
     public static final int MENU_DELETE_ID = R.id.menu_item_delete;
     public static final int MENU_DONE_ID = R.id.menu_item_done;
@@ -45,20 +45,20 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T> implements
 
     private ReviewDataEditor<T> mEditor;
 
-    public MenuDataEdit(GvDataType<T> dataType) {
+    public MenuEdit(GvDataType<T> dataType) {
         this(dataType.getDataName(), dataType.getDataName());
     }
 
-    public MenuDataEdit(String title, String deleteWhat) {
+    public MenuEdit(String title, String deleteWhat) {
         this(title, deleteWhat, false);
     }
 
-    public MenuDataEdit(String title, String deleteWhat, boolean dismissOnDelete) {
+    public MenuEdit(String title, String deleteWhat, boolean dismissOnDelete) {
         this(title, deleteWhat, dismissOnDelete, true, MENU);
     }
 
-    public MenuDataEdit(String title, String deleteWhat,
-                        boolean dismissOnDelete, boolean dismissOnDone, int menuId) {
+    public MenuEdit(String title, String deleteWhat,
+                    boolean dismissOnDelete, boolean dismissOnDone, int menuId) {
         super(menuId, title, true);
 
         mDeleteWhat = deleteWhat;
@@ -108,8 +108,8 @@ public class MenuDataEdit<T extends GvData> extends MenuActionNone<T> implements
         return mDoneAction;
     }
 
-    protected DataBuilderAdapter getBuilder() {
-        return (DataBuilderAdapter) getAdapter();
+    protected DataBuilderAdapter<?> getBuilder() {
+        return (DataBuilderAdapter<?>) getAdapter();
     }
 
     protected ReviewDataEditor<T> getEditor() {

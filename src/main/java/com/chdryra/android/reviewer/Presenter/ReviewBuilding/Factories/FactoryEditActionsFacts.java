@@ -13,7 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddFacts;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditFact;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditFact;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -47,7 +47,7 @@ public class FactoryEditActionsFacts extends FactoryEditActionsDefault<GvFact> {
     @Override
     protected GridItemAction<GvFact> newGridItemEdit() {
         LaunchableConfig urlConfig = getConfig().getEditor(GvUrl.TYPE.getDatumName());
-        return new GridItemDataEditFact(getEditorConfig(), urlConfig, getPacker());
+        return new GridItemEditFact(getEditorConfig(), urlConfig, getPacker());
     }
 
 }

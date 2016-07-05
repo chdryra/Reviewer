@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -44,8 +45,9 @@ public class BuildScreenShareButton<T extends GvData> extends ReviewEditorAction
         ReviewViewContainer container = getReviewView().getContainer();
         ApplicationInstance app = container.getApp();
 
-        if (container.getSubject().length() == 0) {
-            app.getCurrentScreen().showToast(Strings.Toasts.ENTER_SUBJECT);
+        ReviewEditor.ReadyToBuildResult result = getEditor().isReviewBuildable();
+        if (!result.equals(ReviewEditor.ReadyToBuildResult.YES)) {
+            app.getCurrentScreen().showToast(result.getMessage());
             return;
         }
 

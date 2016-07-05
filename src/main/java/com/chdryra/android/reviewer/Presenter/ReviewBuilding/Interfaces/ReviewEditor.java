@@ -8,6 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces;
 
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
@@ -18,6 +19,22 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
+    public enum ReadyToBuildResult {
+        YES("yes"),
+        NoSubject(Strings.Toasts.ENTER_SUBJECT),
+        NoTags(Strings.Toasts.ENTER_TAG);
+
+        private String mMessage;
+
+        ReadyToBuildResult(String message) {
+            mMessage = message;
+        }
+
+        public String getMessage() {
+            return mMessage;
+        }
+    }
+
     void setSubject();
 
     void setRatingIsAverage(boolean isAverage);
@@ -31,4 +48,6 @@ public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
     void notifyBuilder();
 
     ImageChooser getImageChooser();
+
+    ReadyToBuildResult isReviewBuildable();
 }

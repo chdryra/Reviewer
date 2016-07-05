@@ -20,12 +20,12 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemDataEditLocation extends GridItemDataEdit<GvLocation> {
+public class GridItemEditLocation extends GridItemEdit<GvLocation> {
     private LaunchableConfig mMapEditorConfig;
 
-    public GridItemDataEditLocation(LaunchableConfig editorConfig,
-                                    LaunchableConfig mapEditorConfig,
-                                    ParcelablePacker<GvLocation> dataPacker) {
+    public GridItemEditLocation(LaunchableConfig editorConfig,
+                                LaunchableConfig mapEditorConfig,
+                                ParcelablePacker<GvLocation> dataPacker) {
         super(editorConfig, dataPacker);
         mMapEditorConfig = mapEditorConfig;
     }

@@ -25,14 +25,14 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemDataEdit<T extends GvData> extends LaunchAndAlertableAction<T> implements
+public class GridItemEdit<T extends GvData> extends LaunchAndAlertableAction<T> implements
         GridItemAction<T>, DataEditListener<T>, ActivityResultListener {
     private static final String TAG = "GridItemEdit:";
 
     private final ParcelablePacker<T> mDataPacker;
 
-    public GridItemDataEdit(LaunchableConfig editorConfig,
-                            ParcelablePacker<T> dataPacker) {
+    public GridItemEdit(LaunchableConfig editorConfig,
+                        ParcelablePacker<T> dataPacker) {
         super(TAG, editorConfig);
         mDataPacker = dataPacker;
     }

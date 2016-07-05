@@ -21,15 +21,15 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 19/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemDataEditFact extends GridItemDataEdit<GvFact> {
+public class GridItemEditFact extends GridItemEdit<GvFact> {
     private static final int LAUNCH_BROWSER
             = RequestCodeGenerator.getCode("LaunchUrlBrowser");
 
     private LaunchableConfig mUrlConfig;
 
-    public GridItemDataEditFact(LaunchableConfig factConfig,
-                                LaunchableConfig urlConfig,
-                                ParcelablePacker<GvFact> dataPacker) {
+    public GridItemEditFact(LaunchableConfig factConfig,
+                            LaunchableConfig urlConfig,
+                            ParcelablePacker<GvFact> dataPacker) {
         super(factConfig, dataPacker);
         mUrlConfig = urlConfig;
     }

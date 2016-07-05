@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
  * On: 10/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class SubjectDataEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements SubjectAction<T> {
+public class SubjectEdit<T extends GvData> extends ReviewDataEditorActionBasic<T> implements SubjectAction<T> {
 
     @Override
     public String getSubject() {

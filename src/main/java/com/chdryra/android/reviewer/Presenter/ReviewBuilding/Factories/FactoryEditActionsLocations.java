@@ -13,7 +13,7 @@ import android.content.Context;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.BannerButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.GridItemAction;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.BannerButtonAddLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemDataEditLocation;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.GridItemEditLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
@@ -44,7 +44,7 @@ public class FactoryEditActionsLocations extends FactoryEditActionsDefault<GvLoc
 
     @Override
     protected GridItemAction<GvLocation> newGridItemEdit() {
-        return new GridItemDataEditLocation(getEditorConfig(), getConfig().getMapEditor(),
+        return new GridItemEditLocation(getEditorConfig(), getConfig().getMapEditor(),
                 getPacker());
     }
 

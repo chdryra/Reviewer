@@ -22,11 +22,11 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 20/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class GridItemDataEditImage extends GridItemDataEdit<GvImage> {
+public class GridItemEditImage extends GridItemEdit<GvImage> {
     private static final int IMAGE_AS_COVER = RequestCodeGenerator.getCode("ImageAsCover");
 
-    public GridItemDataEditImage(LaunchableConfig editorConfig,
-                                 ParcelablePacker<GvImage> dataPacker) {
+    public GridItemEditImage(LaunchableConfig editorConfig,
+                             ParcelablePacker<GvImage> dataPacker) {
         super(editorConfig, dataPacker);
     }
 

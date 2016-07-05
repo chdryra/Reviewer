@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 import android.content.Context;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.MenuAction;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuDataEditCriteria;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.MenuEditCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCriterion;
@@ -35,6 +35,6 @@ public class FactoryEditActionsCriteria extends FactoryEditActionsDefault<GvCrit
 
     @Override
     protected MenuAction<GvCriterion> newMenuEdit() {
-        return new MenuDataEditCriteria();
+        return new MenuEditCriteria();
     }
 }

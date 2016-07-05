@@ -217,7 +217,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
             ReviewViewActions<GC> actions = new ReviewViewActions<>(new
                     SubjectEditBuildScreen<GC>(),
-                    new RatingBarBuildScreen<GC>(),
+                    new RatingEditBuildScreen<GC>(),
                     new BannerButtonActionNone<GC>(Strings.Buttons.BUILD_SCREEN_BANNER),
                     new GridItemClickObserved<GC>(),
                     new MenuBuildScreen<GC>(Strings.Screens.BUILD),

@@ -32,7 +32,7 @@ public class Strings {
         public static final String UNSPLIT_COMMENT = "Showing headlines";
         public static final String BAD_URL = "Link does not make sense";
         public static final String MAP_SEARCH_FAILED = "Couldn\'t find location";
-        public static final String ENTER_TAG = "Please enter at least one tag to help categorise it";
+        public static final String ENTER_TAG = "Please enter at least one tag";
         public static final String ENTER_LOCATION = "Please enter a location name";
         public static final String PUBLISHING = "Publishing...";
         public static final String PROBLEM_PUBLISHING = "Problem publishing";
