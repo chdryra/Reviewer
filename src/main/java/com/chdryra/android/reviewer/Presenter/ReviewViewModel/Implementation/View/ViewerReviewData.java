@@ -102,7 +102,7 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
     @Override
     public boolean isExpandable(GvDataSize datum) {
         GvDataList<GvDataSize> cache = getCache();
-        return cache != null && cache.contains(datum);
+        return cache != null && cache.contains(datum) && datum.getSize() > 0;
     }
 
     @Override

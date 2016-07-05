@@ -49,23 +49,16 @@ public class ReviewTree extends ReviewNodeBasic implements
 
     public ReviewTree(@NotNull ReviewNode node, FactoryBinders bindersFactory) {
         super(bindersFactory.newMetaBindersManager());
-        mNode = node;
         mBindersFactory = bindersFactory;
-        mNode.registerObserver(this);
+        setNode(node);
     }
 
     protected void setNode(ReviewNode node) {
-        if(mNode != null) {
-            mNode.unregisterObserver(this);
-            mNodeBinder.unregisterDataBinder(this);
-            mNodeBinder.unregisterSizeBinder(this);
-        }
+        if (mNode != null) unregisterWithNode();
 
         mNode = node;
-        mNode.registerObserver(this);
         mNodeBinder = mBindersFactory.bindTo(mNode);
-        mNodeBinder.registerDataBinder(this);
-        mNodeBinder.registerSizeBinder(this);
+        registerWithNode();
 
         notifyOnNodeChanged();
     }
@@ -384,5 +377,18 @@ public class ReviewTree extends ReviewNodeBasic implements
     @Override
     public int hashCode() {
         return mNode.hashCode();
+    }
+
+    private void registerWithNode() {
+        mNodeBinder.registerDataBinder(this);
+        mNodeBinder.registerSizeBinder(this);
+        mNode.registerObserver(this);
+    }
+
+    private void unregisterWithNode() {
+        mNode.unregisterObserver(this);
+        mNodeBinder.unregisterDataBinder(this);
+        mNodeBinder.unregisterSizeBinder(this);
+        mNode.unregisterObserver(this);
     }
 }

@@ -8,16 +8,20 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MetaBinder;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
@@ -76,5 +80,17 @@ public class ViewerTreeData extends ViewerReviewData implements
     @Override
     protected List<GvDataType<?>> getCellOrder() {
         return ORDER;
+    }
+
+    @Nullable
+    @Override
+    protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
+        boolean isReferences = datum.getType().equals(GvReference.TYPE);
+        FactoryReviewViewAdapter factory = getAdapterFactory();
+        if(isReferences) {
+            return factory.newFlattenedReviewsListAdapter(getReviewNode());
+        } else{
+            return factory.newMetaDataAdapter(getReviewNode(), datum.getType());
+        }
     }
 }
