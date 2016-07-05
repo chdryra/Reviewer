@@ -82,6 +82,16 @@ public class ReviewBuilderAdapterImpl<GC extends GvDataList<?>> extends ReviewVi
     }
 
     @Override
+    public void setCover(GvImage cover) {
+        getCover().setIsCover(false);
+        cover.setIsCover(true);
+        DataBuilderAdapter<GvImage> builder = getDataBuilderAdapter(GvImage.TYPE);
+        builder.add(cover);
+        builder.commitData();
+        //getReviewView().updateCover();
+    }
+
+    @Override
     public ImageChooser getImageChooser() {
         return mImageChooserFactory.newImageChooser(mIncrementor);
     }

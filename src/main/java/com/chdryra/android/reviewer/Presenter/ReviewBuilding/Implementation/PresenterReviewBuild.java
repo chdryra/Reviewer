@@ -98,7 +98,7 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
     @Override
     public void onChosenImage(GvImage image) {
-        setCover(image);
+        mEditor.setCover(image);
     }
 
     @Override
@@ -136,10 +136,6 @@ public class PresenterReviewBuild<GC extends GvDataList<?>> implements
 
     private <T extends GvData> LaunchableConfig getAdderConfig(GvDataType<T> dataType) {
         return mApp.getConfigUi().getAdder(dataType.getDatumName());
-    }
-
-    private void setCover(GvImage image) {
-        mEditor.setCover(image);
     }
 
     private void updateScreen() {

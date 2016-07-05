@@ -9,7 +9,6 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
-import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.DataBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewEditor;
@@ -62,12 +61,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
 
     @Override
     public void setCover(GvImage image) {
-        mBuilder.getCover().setIsCover(false);
-        image.setIsCover(true);
-        DataBuilderAdapter<GvImage> builder;
-        builder = mBuilder.getDataBuilderAdapter(GvImage.TYPE);
-        builder.add(image);
-        builder.commitData();
+        mBuilder.setCover(image);
     }
 
     @Override

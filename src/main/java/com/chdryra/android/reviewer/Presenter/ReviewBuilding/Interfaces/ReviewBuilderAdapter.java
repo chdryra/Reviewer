@@ -32,6 +32,8 @@ public interface ReviewBuilderAdapter<GC extends GvDataList<?>> extends ReviewVi
 
     void setRating(float rating);
 
+    void setCover(GvImage cover);
+
     void setRatingIsAverage(boolean ratingIsAverage);
 
     ImageChooser getImageChooser();

@@ -127,22 +127,32 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mRatingBar = new RatingBarUi(mReviewView, (RatingBar) v.findViewById(RATING));
         int colour = mSubject.getTextColour();
         mBannerButton = new BannerButtonUi(mReviewView, (Button) v.findViewById(BANNER), colour);
-        mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), new FactoryGridCellAdapter(), getActivity());
-        mMenu= new MenuUi(mReviewView);
+        mGridView = new GridViewUi(mReviewView, (GridView) v.findViewById(GRID), new
+                FactoryGridCellAdapter(), getActivity());
+        mMenu = new MenuUi(mReviewView);
         mCover = new CoverUi(mReviewView, mainView, mGridView, getActivity());
         mContextual = new ContextualUi(mReviewView,
                 (LinearLayout) v.findViewById(CONTEXTUAL_VIEW), CONTEXTUAL_BUTTON, colour);
-
-        attachToReviewViewIfNecessary();
 
         return v;
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        attachToReviewViewIfNecessary();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        attachToReviewViewIfNecessary();
         updateUi();
+    }
+
+    @Override
+    public void onStop() {
+        detachFromReviewViewIfNecessary();
+        super.onStop();
     }
 
     @Override
@@ -193,12 +203,6 @@ public class FragmentReviewView extends Fragment implements ReviewViewContainer 
         mGridView.update();
         mContextual.update();
         mCover.update();
-    }
-
-    @Override
-    public void onStop() {
-        detachFromReviewViewIfNecessary();
-        super.onStop();
     }
 }
 

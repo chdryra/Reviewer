@@ -128,6 +128,7 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
         mPerspective.detach();
         mContainer = null;
         mGridViewData = null;
+        mIsAttached = false;
     }
 
     @Override

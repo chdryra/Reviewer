@@ -144,6 +144,7 @@ public class AddLocation extends AddEditLayoutBasic<GvLocation>
 
     @Override
     public View createLayoutUi(Context context, GvLocation data) {
+        mContext = context;
         View v = super.createLayoutUi(context, data);
         mNameEditText = (ClearableEditText) getView(NAME);
         mNameEditText.addTextChangedListener(new TextWatcher() {
