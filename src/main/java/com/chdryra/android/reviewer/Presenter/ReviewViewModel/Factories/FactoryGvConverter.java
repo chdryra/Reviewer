@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories;
 
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterAuthors;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
@@ -21,9 +21,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterItemTags;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
-
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterReferences;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterSubjects;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterUrls;
@@ -34,10 +32,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryGvConverter {
-    private ReviewsRepository mRepo;
+    private TagsManager mTagsManager;
 
-    public FactoryGvConverter(ReviewsRepository repo) {
-        mRepo = repo;
+    public FactoryGvConverter(TagsManager tagsManager) {
+        mTagsManager = tagsManager;
     }
 
     public ConverterGv newGvConverter() {
@@ -51,9 +49,9 @@ public class FactoryGvConverter {
         GvConverterSubjects converterSubjects = new GvConverterSubjects();
         GvConverterAuthors converterAuthors = new GvConverterAuthors();
         GvConverterDateReviews converterDates = new GvConverterDateReviews();
-        GvConverterReviews converterReview = new GvConverterReviews(mRepo.getTagsManager(), converterImages,
+        GvConverterReviews converterReview = new GvConverterReviews(mTagsManager, converterImages,
                 converterComments, converterLocations);
-        GvConverterReferences converterReferences = new GvConverterReferences(mRepo.getTagsManager(), converterImages, converterComments, converterLocations);
+        GvConverterReferences converterReferences = new GvConverterReferences(mTagsManager, converterImages, converterComments, converterLocations);
         GvConverterDataTags converterTags = new GvConverterDataTags();
         GvConverterItemTags converterItemTags = new GvConverterItemTags();
 

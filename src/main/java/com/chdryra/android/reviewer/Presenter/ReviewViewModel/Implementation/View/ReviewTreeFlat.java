@@ -11,7 +11,6 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewTree;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -24,8 +23,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  */
 public class ReviewTreeFlat extends ReviewTree {
     public ReviewTreeFlat(ReviewNodeComponent initial, final ReviewNode toFlatten,
-                          FactoryBinders bindersFactory, final FactoryReviews factory) {
-        super(initial, bindersFactory);
+                          final FactoryReviews factory) {
+        super(initial, factory.getNodeFactory().getBinderFactory());
         toFlatten.getData(new ReviewsCallback() {
             @Override
             public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {

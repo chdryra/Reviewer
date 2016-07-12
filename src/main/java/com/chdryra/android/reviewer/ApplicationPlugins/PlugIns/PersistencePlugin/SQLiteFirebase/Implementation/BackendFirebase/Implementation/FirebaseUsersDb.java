@@ -24,8 +24,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.UserProfileTranslator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.UsersDb;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
@@ -43,7 +42,7 @@ import java.util.Map;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseUsersDb implements BackendUsersDb {
+public class FirebaseUsersDb implements UsersDb {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
     private static final String NAME = FirebaseBackend.NAME;

@@ -60,12 +60,12 @@ public class StructureReviewData<T> extends DbStructureBasic<ReviewDb> implement
         return updates.toMap();
     }
 
-    public static class Review extends StructureReviewData<ReviewDb> {
-        public Review(String path) {
+    public static class Reviews extends StructureReviewData<ReviewDb> {
+        public Reviews(String path) {
             super(path, new ReviewGetter());
         }
 
-        public Review(Path<ReviewDb> path) {
+        public Reviews(Path<ReviewDb> path) {
             super(path, new ReviewGetter());
         }
 
@@ -94,12 +94,12 @@ public class StructureReviewData<T> extends DbStructureBasic<ReviewDb> implement
         }
     }
 
-    public static class Aggregate extends StructureReviewData<ReviewAggregates> {
-        public Aggregate(String path) {
+    public static class Aggregates extends StructureReviewData<ReviewAggregates> {
+        public Aggregates(String path) {
             super(path, new AggregateGetter());
         }
 
-        public Aggregate(Path<ReviewDb> path) {
+        public Aggregates(Path<ReviewDb> path) {
             super(path, new AggregateGetter());
         }
 

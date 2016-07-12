@@ -45,7 +45,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.R;
@@ -76,7 +77,7 @@ public class TestReviews {
     private FactoryReviews mFactory;
 
     //Static methods
-    public static ReviewsRepository getReviews(Instrumentation instr, TagsManager tagsManager) {
+    public static ReferencesRepository getReviews(Instrumentation instr, TagsManager tagsManager) {
         TestReviews testReviews = get(instr);
         IdableCollection<Review> reviews = testReviews.mReviews;
         if (reviews.size() == 0) {
@@ -393,7 +394,7 @@ public class TestReviews {
         }
     }
 
-    private static class StaticReviewsRepository implements ReviewsRepository {
+    private static class StaticReviewsRepository implements ReferencesRepository {
         private IdableCollection<Review> mReviews;
         private TagsManager mManger;
 

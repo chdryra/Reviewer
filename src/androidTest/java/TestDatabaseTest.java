@@ -15,8 +15,10 @@ import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +39,8 @@ import static org.hamcrest.MatcherAssert.*;
 @RunWith(AndroidJUnit4.class)
 public class TestDatabaseTest extends InstrumentationTestCase {
     private final String DB_NAME = "TestReviewer.db";
-    private ReviewsRepository mTestRepo;
-    private ReviewsRepositoryMutable mRepo;
+    private ReferencesRepository mTestRepo;
+    private MutableRepository mRepo;
     private Context mContext;
 
     @Before
@@ -47,10 +49,10 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
         ApplicationInstance instance = AndroidAppInstance.getInstance(mContext);
-        mRepo = (ReviewsRepositoryMutable) instance.getReviews(instance.getUserSession().getCurrentUserAsAuthor());
+        mRepo = (MutableRepository) instance.getReviews(instance.getUserSession().getCurrentUserAsAuthor());
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
-        mTestRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
+        mTestRepo.getRepository(new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 Collection<Review> reviews = result.getReviews();
@@ -61,11 +63,11 @@ public class TestDatabaseTest extends InstrumentationTestCase {
 
     @Test
     public void testDatabase() {
-        mTestRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
+        mTestRepo.getRepository(new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 final Collection<Review> testReviews = result.getReviews();
-                mRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
+                mRepo.getRepository(new RepositoryCallback() {
                     @Override
                     public void onRepositoryCallback(RepositoryResult result) {
                         Collection<Review> reviews = result.getReviews();
@@ -92,7 +94,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
     private void populateRepository(Collection<Review> reviews) {
         deleteDatabaseIfNecessary();
         for (Review review : reviews) {
-            mRepo.addReview(review, new ReviewsRepositoryMutable.RepositoryMutableCallback() {
+            mRepo.addReview(review, new MutableRepoCallback() {
                 @Override
                 public void onAddedToRepoCallback(RepositoryResult result) {
                     assertThat(mContext.getDatabasePath(DB_NAME).exists(), is(true));

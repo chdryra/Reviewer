@@ -40,8 +40,9 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation.ParcelablePacker;
@@ -175,7 +176,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public ReviewsRepository getReviews(DataAuthor author) {
+    public ReferencesRepository getReviews(DataAuthor author) {
         return mAppContext.getReviews(author);
     }
 
@@ -217,7 +218,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback) {
+    public void getReview(ReviewId id, RepositoryCallback callback) {
         mAppContext.getReview(id, callback);
     }
 
@@ -226,9 +227,9 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
         return mAppContext.newReviewDeleter(id);
     }
 
-    public ReviewsRepositoryMutable getBackendRepository(BackendRepoService service) {
+    public MutableRepository getBackendRepository(BackendRepoService service) {
         // to ensure only used by BackendRepoService
-        return mAppContext.getBackendRepository();
+        return mAppContext.getBackendRepository().getMutableRepository(mUserSession);
     }
 
     @Override

@@ -13,8 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.content.Context;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api
-        .FactoryPersistence;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Api.FactoryLocalPersistence;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Api.ContractorDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
@@ -25,7 +24,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .RelationalDb.Factories.FactoryDbSpecification;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .RelationalDb.Interfaces.DbSpecification;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.LocalReviewerDb.Factories.FactoryDbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.LocalReviewerDb.Factories.FactoryReviewTransactor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
@@ -45,14 +45,14 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 21/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryLocalReviewerDb implements FactoryPersistence {
+public class FactoryLocalReviewerDb implements FactoryLocalPersistence {
     private FactoryContractor mContractorFactory;
     private String mExt;
     private FactoryReviewerDb mDbFactory;
@@ -73,7 +73,7 @@ public class FactoryLocalReviewerDb implements FactoryPersistence {
     }
 
     @Override
-    public ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
+    public LocalRepository newPersistence(ModelContext model, DataValidator validator, FactoryReviewsRepository repoFactory) {
         ReviewerDb db = newReviewerDb(mPersistenceName, mPersistenceVer, model.getReviewsFactory(), validator);
         FactoryDbReference referenceFactory = new FactoryDbReference(model.getReviewsFactory(), model.getBindersFactory());
         return new ReviewerDbRepository(db, model.getTagsManager(), repoFactory, referenceFactory);

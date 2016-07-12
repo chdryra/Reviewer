@@ -11,7 +11,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
@@ -20,17 +21,17 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class PersistenceContextBasic implements PersistenceContext {
-    private ReviewsRepositoryMutable mLocalRepo;
-    private ReviewsRepositoryMutable mBackendRepo;
+    private LocalRepository mLocalRepo;
+    private ReviewsRepository mBackendRepo;
     private UsersManager mUsersManager;
     private ReviewsSource mReviewsSource;
     private FactoryReviewsRepository mRepoFactory;
 
-    public void setLocalRepository(ReviewsRepositoryMutable localRepo) {
+    public void setLocalRepository(LocalRepository localRepo) {
         mLocalRepo = localRepo;
     }
 
-    public void setBackendRepository(ReviewsRepositoryMutable backendRepo) {
+    public void setBackendRepository(ReviewsRepository backendRepo) {
         mBackendRepo = backendRepo;
     }
 
@@ -52,12 +53,12 @@ public abstract class PersistenceContextBasic implements PersistenceContext {
     }
 
     @Override
-    public ReviewsRepositoryMutable getLocalRepository() {
+    public LocalRepository getLocalRepository() {
         return mLocalRepo;
     }
 
     @Override
-    public ReviewsRepositoryMutable getBackendRepository() {
+    public ReviewsRepository getBackendRepository() {
         return mBackendRepo;
     }
 

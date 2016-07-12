@@ -11,6 +11,8 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
@@ -20,9 +22,10 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 import java.util.ArrayList;
@@ -38,14 +41,25 @@ import java.util.Set;
 public class ReviewsSourceImpl implements ReviewsSource {
     private ReviewsRepository mRepository;
     private FactoryReviews mReviewFactory;
-    private FactoryReviewsRepository mRepoFactory;
 
-    public ReviewsSourceImpl(ReviewsRepository repository,
-                             FactoryReviews reviewFactory,
-                             FactoryReviewsRepository repoFactory) {
+    public ReviewsSourceImpl(ReviewsRepository repository, FactoryReviews reviewFactory) {
         mRepository = repository;
         mReviewFactory = reviewFactory;
-        mRepoFactory = repoFactory;
+    }
+
+    @Override
+    public TagsManager getTagsManager() {
+        return mRepository.getTagsManager();
+    }
+
+    @Override
+    public void bind(ReviewSubscriber subscriber) {
+        mRepository.bind(subscriber);
+    }
+
+    @Override
+    public void unbind(ReviewSubscriber subscriber) {
+        mRepository.unbind(subscriber);
     }
 
     @Override
@@ -83,23 +97,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void getReview(final ReviewId reviewId, final RepositoryCallback callback) {
-        mRepository.getReview(reviewId, callback);
-    }
-
-    @Override
-    public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        mRepository.getReviews(author, callback);
-    }
-
-    @Override
-    public void getReviews(RepositoryCallback callback) {
-        mRepository.getReviews(callback);
-    }
-
-    @Override
-    public ReviewsRepository getReviews(DataAuthor author) {
-        return mRepoFactory.newAuthoredRepo(author, this);
+    public MutableRepository getMutableRepository(UserSession session) {
+        return mRepository.getMutableRepository(session);
     }
 
     @Override
@@ -108,28 +107,8 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void getReferences(DataAuthor author, RepositoryCallback callback) {
-        mRepository.getReferences(author, callback);
-    }
-
-    @Override
-    public void getReferences(RepositoryCallback callback) {
-        mRepository.getReferences(callback);
-    }
-
-    @Override
-    public TagsManager getTagsManager() {
-        return mRepository.getTagsManager();
-    }
-
-    @Override
-    public void registerObserver(ReviewsRepositoryObserver observer) {
-        mRepository.registerObserver(observer);
-    }
-
-    @Override
-    public void unregisterObserver(ReviewsRepositoryObserver observer) {
-        mRepository.unregisterObserver(observer);
+    public AuthorsRepository getRepository(DataAuthor author) {
+        return mRepository.getRepository(author);
     }
 
     @Nullable

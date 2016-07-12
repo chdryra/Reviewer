@@ -8,17 +8,13 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces;
 
-import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend
-        .Implementation.BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend
-        .Implementation.ReviewDb;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
 
-import java.util.Collection;
+
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,35 +22,11 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface BackendReviewsDb {
-    interface AddReviewCallback {
-        void onReviewAdded(ReviewDb review, @Nullable BackendError error);
-    }
+    void getReference(String reviewId, Author author, GetReferenceCallback callback);
 
-    interface DeleteReviewCallback {
-        void onReviewDeleted(String reviewId, @Nullable BackendError error);
-    }
+    void getReference(String reviewId, GetReferenceCallback callback);
 
-    interface GetReviewCallback {
-        void onReview(ReviewReference reference, @Nullable BackendError error);
-    }
+    MutableRepository getAuthorsDb(UserSession session);
 
-    interface GetCollectionCallback {
-        void onReviewCollection(Collection<ReviewReference> references,
-                                @Nullable Author author,
-                                @Nullable BackendError error);
-    }
-
-    void addReview(ReviewDb review, AddReviewCallback callback);
-
-    void deleteReview(String reviewId, DeleteReviewCallback callback);
-
-    void getReview(String reviewId, GetReviewCallback callback);
-
-    void getReviews(Author author, GetCollectionCallback callback);
-
-    void getReviews(GetCollectionCallback callback);
-
-    void registerObserver(DbObserver<ReviewDb> observer);
-
-    void unregisterObserver(DbObserver<ReviewDb> observer);
+    AuthorsRepository getAuthorReviews(Author author);
 }

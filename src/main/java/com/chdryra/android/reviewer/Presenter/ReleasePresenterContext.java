@@ -23,6 +23,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsPlugin;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api.DataComparatorsPlugin;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilder;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryDataBuilderAdapter;
@@ -63,7 +64,7 @@ public class ReleasePresenterContext extends PresenterContextBasic {
 
         setFactoryGvData(new FactoryGvData());
 
-        ConverterGv gvConverter = newConverterGv(persistenceContext.getReviewsSource());
+        ConverterGv gvConverter = newConverterGv(modelContext.getTagsManager());
         setAdaptersFactory(modelContext, persistenceContext.getReviewsSource(),
                 gvConverter, aggregatorsPlugin.getAggregatorsApi());
 
@@ -73,8 +74,8 @@ public class ReleasePresenterContext extends PresenterContextBasic {
                 getGvDataFactory(), validator);
     }
 
-    private ConverterGv newConverterGv(ReviewsSource source) {
-        FactoryGvConverter converterFactory = new FactoryGvConverter(source);
+    private ConverterGv newConverterGv(TagsManager tagsManager) {
+        FactoryGvConverter converterFactory = new FactoryGvConverter(tagsManager);
         return converterFactory.newGvConverter();
     }
 

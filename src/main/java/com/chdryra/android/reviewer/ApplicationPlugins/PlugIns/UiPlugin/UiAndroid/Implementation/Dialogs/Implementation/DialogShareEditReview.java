@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .DeleteRequestListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
@@ -159,9 +159,9 @@ public class DialogShareEditReview extends DialogOneButtonFragment implements
     }
 
     @NonNull
-    private ReviewsRepository.RepositoryCallback fetchReviewCallback(final TagsManager
+    private RepositoryCallback fetchReviewCallback(final TagsManager
                                                                              tagsManager) {
-        return new ReviewsRepository.RepositoryCallback() {
+        return new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 Review review = result.getReview();

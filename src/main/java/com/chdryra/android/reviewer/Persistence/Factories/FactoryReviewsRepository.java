@@ -8,13 +8,16 @@
 
 package com.chdryra.android.reviewer.Persistence.Factories;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthored;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbMutable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Persistence.Implementation.NullReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryAuthored;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -33,22 +36,25 @@ public class FactoryReviewsRepository {
 
     public ReviewsSource newReviewsSource(ReviewsRepository repository,
                                           FactoryReviews reviewsFactory) {
-        return new ReviewsSourceImpl(repository, reviewsFactory, this);
+        return new ReviewsSourceImpl(repository, reviewsFactory);
     }
 
-    public ReviewsRepository newCachedRepo(ReviewsRepository archive, ReviewsCache cache) {
-        return new ReviewsRepositoryCached<>(cache, archive, this);
-    }
-
-    public ReviewsRepository newAuthoredRepo(DataAuthor author, ReviewsRepository mainRepo) {
-        return new ReviewsRepositoryAuthored(author, mainRepo, this);
-    }
-
-    public ReviewsRepository newEmptyRepository(TagsManager manager) {
-        return new NullReviewsRepository(manager);
+    public ReviewsRepository newCachedRepo(ReviewsRepository archive,
+                                              ReviewsCache cache,
+                                              FactoryReviews reviewsFactory,
+                                              TagsManager tagsManager) {
+        return new ReviewsRepositoryCached<>(cache, archive, reviewsFactory, tagsManager);
     }
 
     public ReviewsCache newCache() {
         return mCacheFactory.newCache();
+    }
+
+    public AuthorsRepository newAuthorsRepo(DataAuthor author, ReviewerDbRepository repo) {
+        return new ReviewerDbAuthored(author, repo);
+    }
+
+    public MutableRepository newMutableRepo(DataAuthor author, ReviewerDbRepository repo) {
+        return new ReviewerDbMutable(author, repo);
     }
 }

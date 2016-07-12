@@ -8,16 +8,15 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 30/09/2015
+ * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepositoryObserver {
-    void onReviewAdded(ReviewReference review);
+public interface MutableRepoCallback {
+    void onAddedToRepoCallback(RepositoryResult result);
 
-    void onReviewRemoved(ReviewId reviewId);
+    void onRemovedFromRepoCallback(RepositoryResult result);
 }

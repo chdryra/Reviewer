@@ -13,6 +13,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesMap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureReview;
@@ -46,6 +48,11 @@ public class FbStructUsersLed implements FirebaseStructure {
         initialiseReviewsDb();
     }
 
+    @Override
+    public FbAuthorsReviews getAuthorsDb(Author author) {
+        return new FbAuthorsDb(author, this);
+    }
+
     private void initialiseReviewsDb() {
         Path<ReviewDb> pathToReviews = new Path<ReviewDb>() {
             @Override
@@ -65,11 +72,12 @@ public class FbStructUsersLed implements FirebaseStructure {
                 return pathToAggregates(review.getAuthor());
             }
         };
-        mReviews = new StructureReviewData.Review(pathToReviews);
+        mReviews = new StructureReviewData.Reviews(pathToReviews);
         mList = new StructureReviewData.List(pathToList);
-        mAggregates = new StructureReviewData.Aggregate(pathToAggregates);
+        mAggregates = new StructureReviewData.Aggregates(pathToAggregates);
+
         mAllReviewsList = new StructureReviewData.List(pathToReviewsList());
-        mAllReviewsAggregates = new StructureReviewData.Aggregate(pathToAggregates());
+        mAllReviewsAggregates = new StructureReviewData.Aggregates(pathToAggregates());
 
         StructureBuilder<ReviewDb> builderReview = new StructureBuilder<>();
         mReviewUploadUpdater = builderReview.add(mReviews).add(mList).add(mAggregates).
@@ -120,13 +128,8 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getListEntriesDb(Firebase root) {
-        return root.child(pathToReviewsList());
-    }
-
-    @Override
-    public Firebase getListEntryDb(Firebase root, String reviewId) {
-        return root.child(pathToListEntry(reviewId));
+    public Firebase getListEntryDb(Firebase root, Author author, String reviewId) {
+        return root.child(pathToReview(author, reviewId));
     }
 
     @Override
@@ -135,15 +138,25 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getAggregatesDb(Firebase root) {
-        return root.child(pathToAggregates());
+    public Firebase getListEntriesDb(Firebase root) {
+        return root.child(pathToReviewsList());
     }
 
     @Override
-    public Firebase getAggregatesDb(Firebase root, String reviewId) {
-        return root.child(pathToAggregates(reviewId));
+    public Firebase getListEntryDb(Firebase root, String reviewId) {
+        return root.child(pathToListEntry(reviewId));
     }
-
+//
+//    @Override
+//    public Firebase getAggregatesDb(Firebase root) {
+//        return root.child(pathToAggregates());
+//    }
+//
+//    @Override
+//    public Firebase getAggregatesDb(Firebase root, String reviewId) {
+//        return root.child(pathToAggregates(reviewId));
+//    }
+//
     @Override
     public Firebase getAggregatesDb(Firebase root, Author author, String reviewId) {
         return root.child(pathToAggregates(author, reviewId));

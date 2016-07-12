@@ -13,7 +13,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -23,6 +23,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMuta
 public interface Backend {
     UsersManager newUsersManager();
 
-    ReviewsRepositoryMutable newPersistence(ModelContext model, DataValidator validator,
-                                            FactoryReviewsRepository repoFactory, ReviewsCache cache);
+    ReviewsRepository newPersistence(ModelContext model, DataValidator validator,
+                                     FactoryReviewsRepository repoFactory, ReviewsCache cache);
 }

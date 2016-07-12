@@ -10,7 +10,8 @@ package com.chdryra.android.reviewer.ApplicationContexts.Interfaces;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 
 /**
@@ -19,9 +20,9 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface PersistenceContext {
-    ReviewsRepositoryMutable getLocalRepository();
+    LocalRepository getLocalRepository();
 
-    ReviewsRepositoryMutable getBackendRepository();
+    ReviewsRepository getBackendRepository();
 
     UsersManager getUsersManager();
 

@@ -8,15 +8,18 @@
 
 package com.chdryra.android.reviewer.NetworkServices.Factories;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactoryBackendUploader;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api.FactorySocialPublisher;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .FactoryBackendUploader;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.Api
+        .FactorySocialPublisher;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.BackendConsumer;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewPublisherImpl;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation
+        .ReviewPublisherImpl;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewQueue;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.ReviewStore;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Implementation.SocialConsumer;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -27,13 +30,13 @@ public class FactoryReviewPublisher {
     FactoryBackendUploader mUploaderFactory;
     FactorySocialPublisher mPublisherFactory;
 
-    public FactoryReviewPublisher(FactoryBackendUploader uploaderFactory, FactorySocialPublisher
-            publisherFactory) {
+    public FactoryReviewPublisher(FactoryBackendUploader uploaderFactory,
+                                  FactorySocialPublisher publisherFactory) {
         mUploaderFactory = uploaderFactory;
         mPublisherFactory = publisherFactory;
     }
 
-    public ReviewPublisher newPublisher(ReviewsRepositoryMutable repo) {
+    public ReviewPublisher newPublisher(LocalRepository repo) {
         ReviewQueue queue = new ReviewQueue(new ReviewStore(repo));
         BackendConsumer backend = new BackendConsumer(mUploaderFactory);
         SocialConsumer social = new SocialConsumer(mPublisherFactory);

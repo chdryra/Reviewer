@@ -8,58 +8,49 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeRepo extends NodeInternal implements ReviewsRepository.RepositoryCallback,
-        ReviewsRepositoryObserver, ReviewNode {
+public class ReviewTreeRepo extends NodeInternal implements ReviewSubscriber, ReviewNode {
 
-    private ReviewsRepository mRepo;
+    private ReferencesRepository mRepo;
 
     public ReviewTreeRepo(DataReviewInfo meta,
-                          ReviewsRepository repo,
+                          ReferencesRepository repo,
                           FactoryReviewNode nodeFactory) {
         super(meta, nodeFactory);
         mRepo = repo;
-        mRepo.registerObserver(this);
-        mRepo.getReferences(this);
+        mRepo.bind(this);
     }
 
     @Override
-    public void onRepositoryCallback(RepositoryResult result) {
-        if (!result.isError()) {
-            if(result.isReferenceCollection()) {
-                for (ReviewReference review : result.getReferences()) {
-                    addChild(review);
-                }
-            } else if(result.isReference()) {
-                ReviewReference reference = result.getReference();
-                if(reference != null) addChild(reference);
-            }
-        }
+    public String getSubscriberId() {
+        return getReviewId().toString();
     }
 
     @Override
-    public void onReviewAdded(Review review) {
-        mRepo.getReference(review.getReviewId(), this);
+    public void onAdded(ReviewReference item) {
+        addChild(item);
     }
 
     @Override
-    public void onReviewRemoved(ReviewId reviewId) {
-        removeChild(reviewId);
+    public void onChanged(ReviewReference item) {
+
+    }
+
+    @Override
+    public void onRemoved(ReviewReference item) {
+        removeChild(item.getReviewId());
     }
 
     private void addChild(ReviewReference review) {
@@ -67,7 +58,7 @@ public class ReviewTreeRepo extends NodeInternal implements ReviewsRepository.Re
     }
 
     public void detachFromRepo() {
-        mRepo.unregisterObserver(this);
+        mRepo.unbind(this);
         for(ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
         }

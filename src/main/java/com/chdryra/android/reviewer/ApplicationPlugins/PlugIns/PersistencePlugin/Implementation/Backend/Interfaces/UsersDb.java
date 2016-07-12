@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * On: 24/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface BackendUsersDb {
+public interface UsersDb {
     interface UserConflictCallback {
         void onUserName(String name, @Nullable AuthenticationError error);
     }

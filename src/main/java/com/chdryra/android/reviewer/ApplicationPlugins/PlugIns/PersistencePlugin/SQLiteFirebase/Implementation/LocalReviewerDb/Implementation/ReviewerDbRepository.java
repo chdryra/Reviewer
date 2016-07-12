@@ -10,70 +10,80 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation.LocalReviewerDb.Implementation;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Api.TableTransactor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Interfaces.DbTable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Interfaces.DbTableRow;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .RelationalDb.Interfaces.RowEntry;
+import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Api.TableTransactor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.DbTableRow;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Factories.FactoryDbReference;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowAuthor;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.LocalReviewerDb.Interfaces.RowTag;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
+import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/09/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbRepository implements ReviewsRepositoryMutable {
+public class ReviewerDbRepository implements LocalRepository {
     private final ReviewerDb mDatabase;
     private final TagsManager mTagsManager;
     private final DbTable<RowReview> mTable;
-    private final ArrayList<ReviewsRepositoryObserver> mObservers;
+    private final List<ReviewSubscriber> mSubscribers;
     private final FactoryDbReference mReferenceFactory;
     private final FactoryReviewsRepository mRepoFactory;
     private boolean mTagsLoaded = false;
 
-    public ReviewerDbRepository(ReviewerDb database, TagsManager tagsManager, FactoryReviewsRepository repoFactory,
+    public ReviewerDbRepository(ReviewerDb database,
+                                TagsManager tagsManager,
+                                FactoryReviewsRepository repoFactory,
                                 FactoryDbReference referenceFactory) {
         mDatabase = database;
         mTagsManager = tagsManager;
         mRepoFactory = repoFactory;
         mReferenceFactory = referenceFactory;
         mTable = mDatabase.getReviewsTable();
-        mObservers = new ArrayList<>();
+        mSubscribers = new ArrayList<>();
     }
 
     public ReviewerDbReadable getReadableDatabase() {
         return mDatabase;
+    }
+
+    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        //TODO push author clause to SQL
+        Collection<Review> allReviews = getAllReviews();
+        ArrayList<Review> reviews = new ArrayList<>();
+        for (Review review : allReviews) {
+            if (review.getAuthor().getAuthorId().equals(author.getAuthorId())) reviews.add(review);
+        }
+        CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
+        callback.onRepositoryCallback(new RepositoryResult(author, reviews, result));
     }
 
     @Override
@@ -82,7 +92,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
     }
 
     @Override
-    public void addReview(Review review, RepositoryMutableCallback callback) {
+    public void addReview(Review review, MutableRepoCallback callback) {
         TableTransactor db = mDatabase.beginWriteTransaction();
         boolean success = mDatabase.addReviewToDb(review, mTagsManager, db);
         mDatabase.endTransaction(db);
@@ -101,22 +111,13 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
 
     @Override
     public void getReview(ReviewId reviewId, RepositoryCallback callback) {
-        RowEntry<RowReview, String> clause
-                = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
-
-        TableTransactor transactor = mDatabase.beginReadTransaction();
-        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
-        loadTagsIfNecessary(transactor);
-        mDatabase.endTransaction(transactor);
-
-        Iterator<Review> iterator = reviews.iterator();
-
+        Iterator<Review> iterator = getReviewIterator(reviewId);
         Review review = null;
-        CallbackMessage message = CallbackMessage.ok(reviewId.toString() + " found");
         if (iterator.hasNext()) review = iterator.next();
+
+        CallbackMessage message = CallbackMessage.ok(reviewId.toString() + " found");
         if (iterator.hasNext()) {
             message = CallbackMessage.error("There is more than 1 review with id: " + reviewId);
-            review = null;
         } else if (review == null) {
             message = CallbackMessage.error("Review not found: " + reviewId);
         }
@@ -125,27 +126,13 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
     }
 
     @Override
-    public void getReviews(DataAuthor author, RepositoryCallback callback) {
-        //TODO push author clause to SQL
-        Collection<Review> allReviews = getAllReviews();
-        ArrayList<Review> reviews = new ArrayList<>();
-        for (Review review : allReviews) {
-            if (review.getAuthor().getAuthorId().equals(author.getAuthorId())) reviews.add(review);
-        }
-        CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
-        callback.onRepositoryCallback(new RepositoryResult(author, reviews, result));
+    public AuthorsRepository getRepository(DataAuthor author) {
+        return mRepoFactory.newAuthorsRepo(author, this);
     }
 
     @Override
-    public void getReviews(RepositoryCallback callback) {
-        Collection<Review> reviews = getAllReviews();
-        CallbackMessage result = CallbackMessage.ok(reviews.size() + " reviews found");
-        callback.onRepositoryCallback(new RepositoryResult(reviews, result));
-    }
-
-    @Override
-    public ReviewsRepository getReviews(DataAuthor author) {
-        return mRepoFactory.newAuthoredRepo(author, this);
+    public MutableRepository getMutableRepository(UserSession session) {
+        return mRepoFactory.newMutableRepo(session.getCurrentUserAsAuthor(), this);
     }
 
     @Override
@@ -165,7 +152,7 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
             RowAuthor author = mDatabase.getUniqueRowWhere(mDatabase.getAuthorsTable(),
                     asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, review.getAuthorId()),
                     transactor);
-            result = new RepositoryResult(mReferenceFactory.newReference(review, author, this));
+            result = new RepositoryResult(newReference(review, author));
         } else {
             result = new RepositoryResult(new NullReviewReference(),
                     CallbackMessage.error("Review not found"));
@@ -176,25 +163,21 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
     }
 
     @Override
-    public void getReferences(RepositoryCallback callback) {
-        getReferencesPrivate(callback, null);
-    }
-
-    @Override
-    public void getReferences(DataAuthor author, RepositoryCallback callback) {
-        getReferencesPrivate(callback, author);
-    }
-
-    @Override
-    public void removeReview(ReviewId reviewId, RepositoryMutableCallback callback) {
+    public void removeReview(ReviewId reviewId, MutableRepoCallback callback) {
         TableTransactor transactor = mDatabase.beginWriteTransaction();
-        boolean success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
+        Iterator<Review> iterator = getReviewIterator(reviewId);
+        Review review = null;
+        boolean success = false;
+        if (iterator.hasNext()) {
+            review = iterator.next();
+            success = mDatabase.deleteReviewFromDb(reviewId, mTagsManager, transactor);
+        }
         mDatabase.endTransaction(transactor);
 
         CallbackMessage result;
         if (success) {
             result = CallbackMessage.ok(reviewId + " removed");
-            notifyOnDeleteReview(reviewId);
+            notifyOnDeleteReview(review);
         } else {
             result = CallbackMessage.error("Problems deleting review: " + reviewId);
         }
@@ -203,13 +186,14 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
     }
 
     @Override
-    public void registerObserver(ReviewsRepositoryObserver observer) {
-        mObservers.add(observer);
+    public void bind(ReviewSubscriber subscriber) {
+        if (!mSubscribers.contains(subscriber)) mSubscribers.add(subscriber);
+        getReferences(subscriber, null);
     }
 
     @Override
-    public void unregisterObserver(ReviewsRepositoryObserver observer) {
-        mObservers.remove(observer);
+    public void unbind(ReviewSubscriber subscriber) {
+        if (mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
     }
 
     private Collection<Review> getAllReviews() {
@@ -220,7 +204,20 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
         return reviews;
     }
 
-    private void getReferencesPrivate(RepositoryCallback callback, @Nullable DataAuthor author) {
+    @NonNull
+    private Iterator<Review> getReviewIterator(ReviewId reviewId) {
+        RowEntry<RowReview, String> clause
+                = asClause(RowReview.class, RowReview.REVIEW_ID, reviewId.toString());
+
+        TableTransactor transactor = mDatabase.beginReadTransaction();
+        Collection<Review> reviews = mDatabase.loadReviewsWhere(mTable, clause, transactor);
+        loadTagsIfNecessary(transactor);
+        mDatabase.endTransaction(transactor);
+
+        return reviews.iterator();
+    }
+
+    public void getReferences(ReviewSubscriber subscriber, @Nullable DataAuthor author) {
         RowEntry<RowReview, String> authorClause = author == null ? null :
                 asClause(RowReview.class, RowReview.AUTHOR_ID, author.getAuthorId().toString());
 
@@ -235,9 +232,8 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
 
         Iterator<RowReview> iterator = reviews.iterator();
 
-        ArrayList<ReviewReference> references = new ArrayList<>();
-        while (iterator.hasNext()) {
-            RowReview review = iterator.next();
+        for (RowReview review : reviews) {
+            review = iterator.next();
             DataAuthor reviewAuthor = author;
             if (reviewAuthor == null) {
                 RowEntry<RowAuthor, String> clause = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID,
@@ -247,12 +243,14 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
                         transactor);
             }
 
-            references.add(mReferenceFactory.newReference(review, reviewAuthor, this));
+            subscriber.onAdded(newReference(review, reviewAuthor));
         }
 
-        callback.onRepositoryCallback(new RepositoryResult(references, null, CallbackMessage.ok()));
-
         mDatabase.endTransaction(transactor);
+    }
+
+    private ReviewReference newReference(RowReview review, DataAuthor reviewAuthor) {
+        return mReferenceFactory.newReference(review, reviewAuthor, this);
     }
 
     private void loadTagsIfNecessary(TableTransactor transactor) {
@@ -271,14 +269,18 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
     }
 
     private void notifyOnAddReview(Review review) {
-        for (ReviewsRepositoryObserver observer : mObservers) {
-            observer.onReviewAdded(review);
+        for (ReviewSubscriber subscriber : mSubscribers) {
+            subscriber.onAdded(newReference(review));
         }
     }
 
-    private void notifyOnDeleteReview(ReviewId reviewId) {
-        for (ReviewsRepositoryObserver observer : mObservers) {
-            observer.onReviewRemoved(reviewId);
+    private ReviewReference newReference(Review review) {
+        return mReferenceFactory.newReference(review, this);
+    }
+
+    private void notifyOnDeleteReview(Review review) {
+        for (ReviewSubscriber subscriber : mSubscribers) {
+            subscriber.onRemoved(newReference(review));
         }
     }
 
@@ -287,4 +289,5 @@ public class ReviewerDbRepository implements ReviewsRepositoryMutable {
                                                                       @Nullable T value) {
         return new RowEntryImpl<>(rowClass, column, value);
     }
+
 }

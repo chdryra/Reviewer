@@ -6,18 +6,17 @@
  *
  */
 
-package com.chdryra.android.reviewer.Persistence.Interfaces;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+
+
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 30/09/2015
+ * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsRepositoryObserver {
-    void onReviewAdded(ReviewReference review);
-
-    void onReviewRemoved(ReviewId reviewId);
+public interface ReviewSubscriber extends ChangeObserver<ReviewReference> {
+    String getSubscriberId();
 }

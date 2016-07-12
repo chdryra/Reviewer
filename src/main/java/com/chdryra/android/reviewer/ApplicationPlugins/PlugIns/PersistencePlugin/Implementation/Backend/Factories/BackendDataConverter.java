@@ -6,14 +6,30 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories;
 
 
 
 import android.webkit.URLUtil;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Comment;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Criterion;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Fact;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ImageData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.LatitudeLongitude;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Location;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ReviewListEntry;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
@@ -27,6 +43,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -62,6 +79,11 @@ public class BackendDataConverter {
 
     public DataRating convert(String reviewId, Rating rating) {
         return new DatumRating(convert(reviewId), (float) rating.getRating(), (int) rating.getRatingWeight());
+    }
+
+
+    public DataAuthor convert(Author author) {
+        return new DatumAuthor(author.getName(), new DatumAuthorId(author.getAuthorId()));
     }
 
     public DataAuthorReview convert(String reviewId, Author author) {

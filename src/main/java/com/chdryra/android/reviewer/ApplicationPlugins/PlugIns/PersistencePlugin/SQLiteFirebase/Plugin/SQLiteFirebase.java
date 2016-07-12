@@ -30,8 +30,9 @@ import com.chdryra.android.reviewer.Authentication.Factories.FactoryAuthorProfil
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.Persistence.Factories.FactoryReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.LocalRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -56,17 +57,17 @@ public class SQLiteFirebase implements PersistencePlugin {
     }
 
     @Override
-    public ReviewsRepositoryMutable newLocalPersistence(ModelContext model,
-                                                        DataValidator validator,
-                                                        FactoryReviewsRepository repoFactory) {
+    public LocalRepository newLocalPersistence(ModelContext model,
+                                               DataValidator validator,
+                                               FactoryReviewsRepository repoFactory) {
         return mLocalFactory.newPersistence(model, validator, repoFactory);
     }
 
     @Override
-    public ReviewsRepositoryMutable newBackendPersistence(ModelContext model,
-                                                          DataValidator validator,
-                                                          FactoryReviewsRepository repoFactory,
-                                                          ReviewsCache cache) {
+    public ReviewsRepository newBackendPersistence(ModelContext model,
+                                                   DataValidator validator,
+                                                   FactoryReviewsRepository repoFactory,
+                                                   ReviewsCache cache) {
         return mBackend.newPersistence(model, validator, repoFactory, cache);
     }
 

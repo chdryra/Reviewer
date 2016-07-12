@@ -6,17 +6,15 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces;
+package com.chdryra.android.reviewer.Persistence.Interfaces;
+
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 08/04/2016
+ * On: 09/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DbObserver<T> {
-    void onAdded(T item);
-
-    void onChanged(T item);
-
-    void onRemoved(T item);
+public interface RepositoryCallback {
+    void onRepositoryCallback(RepositoryResult result);
 }

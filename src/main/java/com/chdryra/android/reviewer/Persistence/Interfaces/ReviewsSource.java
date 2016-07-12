@@ -18,7 +18,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
  * On: 14/12/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewsSource extends ReviewsRepository{
+public interface ReviewsSource extends ReviewsRepository {
     void asMetaReview(ReviewId id, ReviewsSourceCallback callback);
 
     void asMetaReview(VerboseDataReview datum, String subject, ReviewsSourceCallback callback);

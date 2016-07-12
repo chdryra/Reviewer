@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ModelContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.NetworkContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PersistenceContext;
@@ -22,11 +23,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.FactoryReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
@@ -154,8 +158,21 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback) {
-        mPersistenceContext.getReviewsSource().getReview(id, callback);
+    public void getReview(ReviewId id, final RepositoryCallback callback) {
+        mPersistenceContext.getReviewsSource().getReference(id, new RepositoryCallback() {
+            @Override
+            public void onRepositoryCallback(RepositoryResult result) {
+                ReviewReference reference = result.getReference();
+                if(result.isReference() && reference != null) {
+                    reference.dereference(new ReviewReference.DereferenceCallback() {
+                        @Override
+                        public void onDereferenced(@Nullable Review review, CallbackMessage message) {
+                            callback.onRepositoryCallback(new RepositoryResult(review, message));
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -169,12 +186,12 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReviewsRepository getReviews(DataAuthor author) {
-        return mPersistenceContext.getReviewsSource().getReviews(author);
+    public ReferencesRepository getReviews(DataAuthor author) {
+        return mPersistenceContext.getReviewsSource().getRepository(author);
     }
 
     @Override
-    public ReviewsRepositoryMutable getBackendRepository() {
+    public ReviewsRepository getBackendRepository() {
         return mPersistenceContext.getBackendRepository();
     }
 

@@ -16,7 +16,7 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .NewReviewListener;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
  * On: 05/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BuildScreenLauncher implements ReviewsRepository.RepositoryCallback {
+public class BuildScreenLauncher implements RepositoryCallback {
     private static final int LAUNCH_BUILD_SCREEN = RequestCodeGenerator.getCode("BuildScreenNewReview");
     private ApplicationInstance mApp;
     private ReviewId mTemplate;

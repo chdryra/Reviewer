@@ -10,10 +10,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendDataConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.Firebase;
 
@@ -36,6 +39,10 @@ public class FbReferencer {
         mReviewConverter = reviewConverter;
         mCache = cache;
         mReviewsFactory = reviewsFactory;
+    }
+
+    public TagsManager getTagsManager() {
+        return mReviewConverter.getTagsManager();
     }
 
     public ReviewReference newReference(ReviewListEntry entry, Firebase reviewDb, Firebase aggregatesDb) {

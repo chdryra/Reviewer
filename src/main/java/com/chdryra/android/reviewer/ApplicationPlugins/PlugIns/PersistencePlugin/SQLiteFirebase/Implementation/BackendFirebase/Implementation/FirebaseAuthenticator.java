@@ -16,8 +16,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.UserProfileTranslator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Interfaces.BackendUsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.UsersDb;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
@@ -215,7 +214,7 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
         }
 
         EmailPassword ep = new EmailPassword(emailAddress, new Password(password));
-        mDb.createUser(ep, new BackendUsersDb.CreateUserCallback() {
+        mDb.createUser(ep, new UsersDb.CreateUserCallback() {
             @Override
             public void onUserCreated(User user) {
                 notifyOnAuthenticated(user, callback);

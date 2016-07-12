@@ -42,6 +42,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewMetaSnapshot;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
@@ -49,7 +50,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeRepo;
 
@@ -131,12 +133,16 @@ public class FactoryReviews implements ReviewMaker {
         return new ReviewMetaSnapshot(info, reviews);
     }
 
-    public ReviewTreeRepo createMetaReview(ReviewsRepository repo, String title) {
+    public ReviewTreeRepo createMetaReview(ReferencesRepository repo, String title) {
         ReviewStamp stamp = newStamp();
         DataReviewInfo info = new ReviewInfo(stamp, new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1), new DatumAuthorReview(stamp, stamp.getAuthor()),
                 new DatumDateReview(stamp, stamp.getDate().getTime()));
         return new ReviewTreeRepo(info, repo, getNodeFactory());
+    }
+
+    public ReviewReference asReference(Review review, TagsManager manager) {
+        return new ReviewReferenceWrapper(review, manager, this, getNodeFactory().getBinderFactory());
     }
 
     @Override

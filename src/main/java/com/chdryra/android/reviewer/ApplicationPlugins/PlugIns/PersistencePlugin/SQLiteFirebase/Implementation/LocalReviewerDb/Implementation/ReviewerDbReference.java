@@ -58,7 +58,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 
 import java.util.ArrayList;
 
@@ -136,7 +136,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     public void getData(final TagsCallback callback) {
         ItemTagCollection tags = getTags();
         if (tags.size() == 0) {
-            mRepo.getReview(getReviewId(), new ReviewsRepository.RepositoryCallback() {
+            mRepo.getReview(getReviewId(), new RepositoryCallback() {
                 @Override
                 public void onRepositoryCallback(RepositoryResult result) {
                     observeTags(callback, getTags());
@@ -261,7 +261,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
 
     @Override
     public void dereference(final DereferenceCallback callback) {
-        mRepo.getReview(mInfo.getReviewId(), new ReviewsRepository.RepositoryCallback() {
+        mRepo.getReview(mInfo.getReviewId(), new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 callback.onDereferenced(result.getReview(), result.getMessage());
@@ -289,7 +289,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     private void observeNumTags(final TagsSizeCallback callback) {
         ItemTagCollection tags = getTags();
         if (tags.size() == 0) {
-            mRepo.getReview(getReviewId(), new ReviewsRepository.RepositoryCallback() {
+            mRepo.getReview(getReviewId(), new RepositoryCallback() {
                 @Override
                 public void onRepositoryCallback(RepositoryResult result) {
                     callback.onNumTags(new DatumSize(getReviewId(), getTags().size()), OK);

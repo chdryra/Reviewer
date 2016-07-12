@@ -215,11 +215,10 @@ public class FactoryReviewViewAdapter {
                         <DataComment>(), new ArrayList<DataImage>(), new ArrayList<DataFact>(),
                 new ArrayList<DataLocation>(), true);
 
-        return mReviewsFactory.createLeafNode(new ReviewReferenceWrapper
-                (fetching, mReviewSource.getTagsManager(), mReviewsFactory, mBindersFactory));
+        return mReviewsFactory.createLeafNode(mReviewsFactory.asReference(fetching, mReviewSource.getTagsManager()));
     }
 
     private ReviewTreeFlat newFlattenedNode(ReviewNode toFlatten) {
-        return new ReviewTreeFlat(getFetchingPlaceholder(), toFlatten, mBindersFactory, mReviewsFactory);
+        return new ReviewTreeFlat(getFetchingPlaceholder(), toFlatten, mReviewsFactory);
     }
 }

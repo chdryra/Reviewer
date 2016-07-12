@@ -31,7 +31,8 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryObserver;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
@@ -72,7 +73,7 @@ public class ReviewsSourceImplTest {
     @Mock
     private TagsManager mMockManager;
     private IdableCollection<Review> mReviews;
-    private ReviewsRepository mRepo;
+    private ReferencesRepository mRepo;
     private ReviewsSource mSource;
 
     @Before
@@ -273,7 +274,7 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void getReviewReturnsErrorIfReviewNotFound() {
-        mSource.getReview(RandomReviewId.nextReviewId(), new ReviewsRepository.RepositoryCallback() {
+        mSource.getReview(RandomReviewId.nextReviewId(), new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 assertThat(result.isError(), is(true));
@@ -284,7 +285,7 @@ public class ReviewsSourceImplTest {
     @Test
     public void getReviewReturnsCorrectReviewWhenFound() {
         final Review review = getRandomReview();
-        mSource.getReview(review.getReviewId(), new ReviewsRepository.RepositoryCallback() {
+        mSource.getReview(review.getReviewId(), new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {
                 assertThat(result.getReview(), is(review));
@@ -294,10 +295,10 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void getReviewsReturnsReviewsInRepository() {
-        mSource.getReviews(new ReviewsRepository.RepositoryCallback() {
+        mSource.getRepository(new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(final RepositoryResult fromSource) {
-                mRepo.getReviews(new ReviewsRepository.RepositoryCallback() {
+                mRepo.getRepository(new RepositoryCallback() {
                     @Override
                     public void onRepositoryCallback(RepositoryResult fromRepo) {
                         assertThat(fromSource.getReview(), is(fromRepo.getReview()));
@@ -314,7 +315,7 @@ public class ReviewsSourceImplTest {
 
     @Test
     public void registerUnregisterObserverDelegatesToRepository() {
-        ReviewsRepository repo = mock(ReviewsRepository.class);
+        ReferencesRepository repo = mock(ReferencesRepository.class);
         ReviewsSource source = new ReviewsSourceImpl(repo, getReviewFactory());
         ReviewsRepositoryObserver observer = mock(ReviewsRepositoryObserver.class);
         source.registerObserver(observer);

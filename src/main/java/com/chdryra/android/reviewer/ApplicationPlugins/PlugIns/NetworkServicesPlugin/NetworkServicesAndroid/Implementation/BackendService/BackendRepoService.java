@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
+import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepoCallback;
 import com.chdryra.android.reviewer.R;
 
 /**
@@ -109,7 +109,7 @@ public class BackendRepoService extends IntentService {
         }
     }
 
-    private class Callbacks implements ReviewPublisher.QueueCallback, ReviewsRepositoryMutable.RepositoryMutableCallback {
+    private class Callbacks implements ReviewPublisher.QueueCallback, MutableRepoCallback {
 
         @Override
         public void onAddedToRepoCallback(RepositoryResult result) {

@@ -19,8 +19,9 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
 import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisher;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepositoryMutable;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
@@ -60,15 +61,15 @@ public interface PresenterContext {
 
     Review executeReviewBuilder();
 
-    ReviewsRepository getReviews(DataAuthor author);
+    ReferencesRepository getReviews(DataAuthor author);
 
-    void getReview(ReviewId id, ReviewsRepository.RepositoryCallback callback);
+    void getReview(ReviewId id, RepositoryCallback callback);
 
     TagsManager getTagsManager();
 
     ReviewPublisher getReviewPublisher();
 
-    ReviewsRepositoryMutable getBackendRepository();
+    ReviewsRepository getBackendRepository();
 
     UsersManager getUsersManager();
 
