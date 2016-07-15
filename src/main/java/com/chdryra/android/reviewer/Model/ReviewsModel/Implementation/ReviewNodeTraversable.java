@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemCounter;
@@ -36,12 +37,10 @@ public abstract class ReviewNodeTraversable extends ReviewNodeBasic {
     private FactoryVisitorReviewNode mVisitorFactory;
     private FactoryNodeTraverser mTraverserFactory;
 
-    public ReviewNodeTraversable(BindersManagerMeta bindersManager,
-                                 FactoryVisitorReviewNode visitorFactory,
-                                 FactoryNodeTraverser traverserFactory) {
-        super(bindersManager);
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
+    public ReviewNodeTraversable(FactoryReviewNode nodeFactory) {
+        super(nodeFactory.getBinderFactory());
+        mVisitorFactory = nodeFactory.getVisitorFactory();
+        mTraverserFactory = nodeFactory.getTraverserFactory();
     }
 
     @Override

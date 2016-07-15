@@ -14,7 +14,8 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MetaBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
@@ -34,22 +35,19 @@ import java.util.List;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeData extends ViewerReviewData implements
-        MetaBinder.MetaDataSizeBinder{
+public class ViewerTreeData extends ViewerReviewData {
     private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.MetaOrder.ORDER;
     private static final int NUM_DATA = ORDER.size();
     private GvDataAggregator mAggregator;
-    private MetaBinder mBinder;
 
-    public ViewerTreeData(MetaBinder binder,
-                   ConverterGv converter,
-                   TagsManager tagsManager,
-                   FactoryReviewViewAdapter adapterFactory,
-                   GvDataAggregator aggregator) {
-        super(binder, converter, tagsManager, adapterFactory, NUM_DATA);
-        mBinder = binder;
+    public ViewerTreeData(ReviewNode node,
+                          FactoryBinders bindersFactory,
+                          ConverterGv converter,
+                          TagsManager tagsManager,
+                          FactoryReviewViewAdapter adapterFactory,
+                          GvDataAggregator aggregator) {
+        super(node, bindersFactory, converter, tagsManager, adapterFactory, NUM_DATA);
         mAggregator = aggregator;
-        mBinder.registerSizeBinder(this);
     }
 
     @Override
@@ -80,6 +78,15 @@ public class ViewerTreeData extends ViewerReviewData implements
     @Override
     protected List<GvDataType<?>> getCellOrder() {
         return ORDER;
+    }
+
+    @Override
+    protected void bind() {
+        super.bind();
+        getBinder().bindToNumReviews();
+        getBinder().bindToNumAuthors();
+        getBinder().bindToNumSubjects();
+        getBinder().bindToNumDates();
     }
 
     @Nullable

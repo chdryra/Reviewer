@@ -18,7 +18,7 @@ import java.util.Collection;
  * On: 27/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class BindersManagerReference {
+public class BindersManager {
     private Collection<ReferenceBinders.CoversBinder> mCoversBinders;
     private Collection<ReferenceBinders.TagsBinder> mTagsBinders;
     private Collection<ReferenceBinders.CriteriaBinder> mCriteriaBinders;
@@ -34,7 +34,7 @@ public class BindersManagerReference {
     private Collection<ReferenceBinders.SizeBinder> mNumLocationsBinders;
     private Collection<ReferenceBinders.SizeBinder> mNumFactsBinders;
 
-    public BindersManagerReference() {
+    public BindersManager() {
         mCoversBinders = new ArrayList<>();
         mTagsBinders = new ArrayList<>();
         mCriteriaBinders = new ArrayList<>();

@@ -41,26 +41,35 @@ import org.jetbrains.annotations.NotNull;
 public class ReviewTree extends ReviewNodeBasic implements
         ReviewNode,
         ReviewNode.NodeObserver,
-        MetaBinder.MetaDataBinder,
-        MetaBinder.MetaDataSizeBinder {
+        ReferenceBinder.DataBinder,
+        ReferenceBinder.DataSizeBinder{
     private final FactoryBinders mBindersFactory;
     private ReferenceBinder mNodeBinder;
     private ReviewNode mNode;
 
     public ReviewTree(@NotNull ReviewNode node, FactoryBinders bindersFactory) {
-        super(bindersFactory.newMetaBindersManager());
+        super(bindersFactory);
         mBindersFactory = bindersFactory;
         setNode(node);
     }
 
     protected void setNode(ReviewNode node) {
-        if (mNode != null) unregisterWithNode();
+        if (mNode != null) unbindAndUnregister();
 
         mNode = node;
-        mNodeBinder = mBindersFactory.bindTo(mNode);
-        registerWithNode();
-
+        bindAndRegister();
         notifyOnNodeChanged();
+    }
+
+    private void bindAndRegister() {
+        mNodeBinder = mBindersFactory.bindTo(mNode, this, this);
+        getBindersManager().manageBinder(mNodeBinder);
+        mNode.registerObserver(this);
+    }
+
+    private void unbindAndUnregister() {
+        getBindersManager().unmanageBinder(mNodeBinder);
+        mNode.unregisterObserver(this);
     }
 
     @Override
@@ -377,18 +386,5 @@ public class ReviewTree extends ReviewNodeBasic implements
     @Override
     public int hashCode() {
         return mNode.hashCode();
-    }
-
-    private void registerWithNode() {
-        mNodeBinder.registerDataBinder(this);
-        mNodeBinder.registerSizeBinder(this);
-        mNode.registerObserver(this);
-    }
-
-    private void unregisterWithNode() {
-        mNode.unregisterObserver(this);
-        mNodeBinder.unregisterDataBinder(this);
-        mNodeBinder.unregisterSizeBinder(this);
-        mNode.unregisterObserver(this);
     }
 }

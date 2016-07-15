@@ -39,14 +39,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdLocation
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdRating;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdSubject;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewMetaSnapshot;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewUser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewMaker;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
@@ -91,15 +89,6 @@ public class FactoryReviews implements ReviewMaker {
     @Nullable
     public DataAuthor getAuthor() {
         return mAuthorsStamp != null ? mAuthorsStamp.getAuthor() : null;
-    }
-
-    public Review getNullReview() {
-        if (sNullReview == null) sNullReview = createUserReview("NULL_REVIEW", 0f);
-        return sNullReview;
-    }
-
-    public ReviewNode getNullNode() {
-        return new NullNode();
     }
 
     public void setAuthorsStamp(AuthorsStamp authorsStamp) {

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -59,12 +59,12 @@ public class ReviewsRepositoryCached<T extends ReviewsRepository>
     }
 
     @Override
-    public void bind(ReviewSubscriber subscriber) {
+    public void bind(ReviewsSubscriber subscriber) {
         mArchive.bind(subscriber);
     }
 
     @Override
-    public void unbind(ReviewSubscriber binder) {
+    public void unbind(ReviewsSubscriber binder) {
         mArchive.unbind(binder);
     }
 

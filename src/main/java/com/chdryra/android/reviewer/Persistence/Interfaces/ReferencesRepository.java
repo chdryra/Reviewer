@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
@@ -17,9 +16,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReferencesRepository {
-    void bind(ReviewSubscriber subscriber);
+    void bind(ReviewsSubscriber subscriber);
 
-    void unbind(ReviewSubscriber binder);
+    void unbind(ReviewsSubscriber binder);
 
     void getReference(ReviewId reviewId, RepositoryCallback callback);
 }

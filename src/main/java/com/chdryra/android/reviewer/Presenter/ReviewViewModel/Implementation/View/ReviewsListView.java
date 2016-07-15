@@ -25,6 +25,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
  */
 public class ReviewsListView extends ReviewViewDefault<GvReference>{
     private ReviewNode mNode;
+
     public ReviewsListView(ReviewNode node, ReviewViewPerspective<GvReference> perspective) {
         super(perspective);
         mNode = node;

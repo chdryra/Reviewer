@@ -21,7 +21,8 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 
-public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T> implements ReviewNode.NodeObserver {
+public abstract class ViewerNodeBasic<T extends GvData> extends GridDataWrapperBasic<T>
+        implements ReviewNode.NodeObserver {
     private ReviewNode mNode;
     private GvDataList<T> mCache;
     private GvDataType<?> mType;

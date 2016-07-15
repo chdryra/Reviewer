@@ -44,17 +44,15 @@ import java.util.List;
 import java.util.Map;
 
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNodeComponent,
-        MetaBinder.MetaDataBinder, MetaBinder.MetaDataSizeBinder {
+        ReferenceBinder.DataBinder, ReferenceBinder.DataSizeBinder {
     private final DataReviewInfo mMeta;
     private final MdDataList<ReviewNodeComponent> mChildren;
     private FactoryReviewNode mNodeFactory;
     
-    private Map<ReviewId, MetaBinder> mChildBinders;
+    private Map<ReviewId, ReferenceBinder> mChildBinders;
 
     public NodeInternal(DataReviewInfo meta, FactoryReviewNode nodeFactory) {
-        super(nodeFactory.getBinderFactory().newMetaBindersManager(),
-                nodeFactory.getVisitorFactory(), 
-                nodeFactory.getTraverserFactory());
+        super(nodeFactory);
         mMeta = meta;
         mNodeFactory = nodeFactory;
 
@@ -524,22 +522,15 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         return new MdRating(new MdReviewId(getReviewId()), rating, weight);
     }
 
-    private void bindToChild(ReviewNodeComponent child) {
-        mChildBinders.put(child.getReviewId(), newBinder(child));
-    }
-
     private void unbindFromChild(ReviewId childId) {
-        MetaBinder remove = mChildBinders.remove(childId);
-        remove.unregisterDataBinder(this);
-        remove.unregisterDataBinder(this);
+        ReferenceBinder remove = mChildBinders.remove(childId);
+        getBindersManager().unmanageBinder(remove);
     }
 
-    private MetaBinder newBinder(ReviewNode node) {
-        MetaBinder binder = mNodeFactory.getBinderFactory().bindTo(node);
-        binder.registerDataBinder(this);
-        binder.registerSizeBinder(this);
-
-        return binder;
+    private void bindToChild(ReviewNode child) {
+        ReferenceBinder binder = mNodeFactory.getBinderFactory().bindTo(child, this, this);
+        getBindersManager().manageBinder(binder);
+        mChildBinders.put(child.getReviewId(), binder);
     }
 
     private void notifyOnReviews(IdableList<ReviewReference> data, CallbackMessage message) {

@@ -14,7 +14,6 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
@@ -45,37 +44,15 @@ public class RepositoryResult {
         mMessage = message;
     }
 
-    public RepositoryResult(DataAuthor author, Collection<Review> reviews) {
-        mAuthor = author;
-        mReviews = new ArrayList<>();
-        mReviews.addAll(reviews);
-        mMessage = CallbackMessage.ok();
-    }
-
-    public RepositoryResult(@Nullable DataAuthor author, Collection<Review> reviews, CallbackMessage message) {
+    public RepositoryResult(DataAuthor author, Collection<Review> reviews, CallbackMessage message) {
         mAuthor = author;
         mReviews.addAll(reviews);
         mMessage = message;
     }
 
-    public RepositoryResult(Collection<ReviewReference> references, @Nullable DataAuthor author) {
-        mAuthor = author;
-        mReferences.addAll(references);
-        mMessage = CallbackMessage.ok();
-    }
-
-    public RepositoryResult(Collection<ReviewReference> references, @Nullable DataAuthor author, CallbackMessage message) {
-        mAuthor = author;
+    public RepositoryResult(Collection<ReviewReference> references, CallbackMessage message) {
         mReferences.addAll(references);
         mMessage = message;
-    }
-
-    public RepositoryResult(Collection<Review> reviews) {
-        this(reviews, CallbackMessage.ok());
-    }
-
-    public RepositoryResult(Collection<Review> reviews, CallbackMessage message) {
-        this(null, reviews, message);
     }
 
     public RepositoryResult(Review review) {
@@ -91,7 +68,7 @@ public class RepositoryResult {
         this(reference, CallbackMessage.ok());
     }
 
-    public RepositoryResult(ReviewReference reference, CallbackMessage message) {
+    public RepositoryResult(@Nullable ReviewReference reference, CallbackMessage message) {
         mReference = reference;
         mId = reference != null ? mReference.getReviewId() : null;
         mMessage = message;
@@ -101,10 +78,6 @@ public class RepositoryResult {
         mNode = node;
         mId = node != null ? node.getReviewId() : null;
         mMessage = message;
-    }
-
-    public RepositoryResult(ReviewNode node) {
-        this(node, CallbackMessage.ok());
     }
 
     @Nullable
@@ -142,14 +115,6 @@ public class RepositoryResult {
 
     public boolean isError() {
         return mMessage.isError();
-    }
-
-    public boolean isReviewCollection() {
-        return !isError() && mReviews.size() > 0;
-    }
-
-    public boolean isReferenceCollection() {
-        return !isError() && mReferences.size() > 0;
     }
 
     public boolean isReview() {

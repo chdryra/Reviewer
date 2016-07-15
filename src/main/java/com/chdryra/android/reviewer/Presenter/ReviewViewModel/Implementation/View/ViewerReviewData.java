@@ -14,6 +14,7 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -57,28 +58,31 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
 
     private Map<GvDataType<?>, DataSize> mNumDataMap;
     private int mNumDataTypes;
+
+    private boolean mBound = false;
     private boolean mInitialising = true;
 
-    public ViewerReviewData(ReferenceBinder binder,
+    public ViewerReviewData(ReviewNode node,
+                            FactoryBinders bindersFactory,
                             ConverterGv converter,
                             TagsManager tagsManager,
                             FactoryReviewViewAdapter adapterFactory) {
-        this(binder, converter, tagsManager, adapterFactory, NUM_DATA);
+        this(node, bindersFactory, converter, tagsManager, adapterFactory, NUM_DATA);
     }
 
-    protected ViewerReviewData(ReferenceBinder binder,
+    protected ViewerReviewData(ReviewNode node,
+                               FactoryBinders bindersFactory,
                                ConverterGv converter,
                                TagsManager tagsManager,
                                FactoryReviewViewAdapter adapterFactory,
                                int numDataTypes) {
-        super(binder.getReference().asNode(), TYPE);
-        mBinder = binder;
+        super(node, TYPE);
+        mBinder = bindersFactory.bindTo(node, this, null);
         mConverter = converter;
         mTagsManager = tagsManager;
         mAdapterFactory = adapterFactory;
         mNumDataTypes = numDataTypes;
         mNumDataMap = new HashMap<>();
-        mBinder.registerSizeBinder(this);
     }
 
     protected FactoryReviewViewAdapter getAdapterFactory() {
@@ -146,7 +150,29 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
     }
 
     @Override
+    public void onNumAuthors(DataSize size, CallbackMessage message) {
+
+    }
+
+    @Override
+    public void onNumDates(DataSize size, CallbackMessage message) {
+
+    }
+
+    @Override
+    public void onNumReviews(DataSize size, CallbackMessage message) {
+
+    }
+
+    @Override
+    public void onNumSubjects(DataSize size, CallbackMessage message) {
+
+    }
+
+    @Override
     protected GvDataSizeList makeGridData() {
+        if(!mBound) return bindAndGetPlaceholder();
+
         GvReviewId id = new GvReviewId(mBinder.getReviewId());
 
         GvDataSizeList data = new GvDataSizeList(id);
@@ -162,6 +188,32 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
         }
 
         return data;
+    }
+
+    private GvDataSizeList bindAndGetPlaceholder() {
+        bind();
+        mBound = true;
+
+        GvReviewId id = new GvReviewId(mBinder.getReviewId());
+        GvDataSizeList data = new GvDataSizeList(id);
+        for(GvDataType<?> type : getCellOrder()) {
+            data.add(new GvDataSize(id, type));
+        }
+
+        return data;
+    }
+
+    protected ReferenceBinder getBinder() {
+        return mBinder;
+    }
+
+    protected void bind() {
+        mBinder.bindToNumTags();
+        mBinder.bindToNumCriteria();
+        mBinder.bindToNumImages();
+        mBinder.bindToNumComments();
+        mBinder.bindToNumLocations();
+        mBinder.bindToNumFacts();
     }
 
     protected List<GvDataType<?>> getCellOrder() {

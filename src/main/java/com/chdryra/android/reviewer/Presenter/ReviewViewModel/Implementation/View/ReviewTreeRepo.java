@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NodeInternal;
@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeRepo extends NodeInternal implements ReviewSubscriber, ReviewNode {
+public class ReviewTreeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
 
     private ReferencesRepository mRepo;
 
@@ -39,18 +39,18 @@ public class ReviewTreeRepo extends NodeInternal implements ReviewSubscriber, Re
     }
 
     @Override
-    public void onAdded(ReviewReference item) {
-        addChild(item);
+    public void onReviewAdded(ReviewReference reference) {
+        addChild(reference);
     }
 
     @Override
-    public void onChanged(ReviewReference item) {
+    public void onReviewEdited(ReviewReference reference) {
 
     }
 
     @Override
-    public void onRemoved(ReviewReference item) {
-        removeChild(item.getReviewId());
+    public void onReviewRemoved(ReviewReference reference) {
+        removeChild(reference.getReviewId());
     }
 
     private void addChild(ReviewReference review) {

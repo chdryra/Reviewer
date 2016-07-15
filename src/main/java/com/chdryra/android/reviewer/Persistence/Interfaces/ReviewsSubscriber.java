@@ -6,7 +6,7 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces;
+package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 
 
@@ -17,6 +17,12 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewSubscriber extends ChangeObserver<ReviewReference> {
+public interface ReviewsSubscriber {
     String getSubscriberId();
+
+    void onReviewAdded(ReviewReference reference);
+
+    void onReviewEdited(ReviewReference reference);
+
+    void onReviewRemoved(ReviewReference reference);
 }

@@ -186,7 +186,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
     }
 
     @Override
-    public ReferencesRepository getReviews(DataAuthor author) {
+    public ReferencesRepository getReviewReferences(DataAuthor author) {
         return mPersistenceContext.getReviewsSource().getRepository(author);
     }
 

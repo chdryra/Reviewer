@@ -8,6 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
@@ -23,11 +25,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -35,27 +41,11 @@ import java.util.List;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReferenceBinder implements DataReviewInfo {
-    private ReviewReference mReference;
-
-    private ReferenceBinders.CoversBinder mCovers;
-    private ReferenceBinders.TagsBinder mTags;
-    private ReferenceBinders.CriteriaBinder mCriteria;
-    private ReferenceBinders.ImagesBinder mImages;
-    private ReferenceBinders.CommentsBinder mComments;
-    private ReferenceBinders.LocationsBinder mLocations;
-    private ReferenceBinders.FactsBinder mFacts;
-
-    private ReferenceBinders.SizeBinder mTagsSize;
-    private ReferenceBinders.SizeBinder mCriteriaSize;
-    private ReferenceBinders.SizeBinder mImagesSize;
-    private ReferenceBinders.SizeBinder mCommentsSize;
-    private ReferenceBinders.SizeBinder mLocationsSize;
-    private ReferenceBinders.SizeBinder mFactsSize;
-
-    private List<DataBinder> mDataBinders;
-    private List<DataSizeBinder> mSizeBinders;
-
-    private boolean mIsBound = false;
+    private static final CallbackMessage OK = CallbackMessage.ok();
+    private MetaReference mReference;
+    private DataBinder mDataBinder;
+    private DataSizeBinder mSizeBinder;
+    private Map<Class<?>, ValueBinder<?>> mBinders;
 
     public interface DataBinder extends
             ReviewReference.CoversCallback,
@@ -64,7 +54,11 @@ public class ReferenceBinder implements DataReviewInfo {
             ReviewReference.ImagesCallback,
             ReviewReference.CommentsCallback,
             ReviewReference.LocationsCallback,
-            ReviewReference.FactsCallback {
+            ReviewReference.FactsCallback,
+            MetaReference.ReviewsCallback,
+            MetaReference.AuthorsCallback,
+            MetaReference.SubjectsCallback,
+            MetaReference.DatesCallback {
     }
 
     public interface DataSizeBinder extends
@@ -73,238 +67,196 @@ public class ReferenceBinder implements DataReviewInfo {
             ReviewReference.ImagesSizeCallback,
             ReviewReference.CommentsSizeCallback,
             ReviewReference.LocationsSizeCallback,
-            ReviewReference.FactsSizeCallback {
-
+            ReviewReference.FactsSizeCallback,
+            MetaReference.ReviewsSizeCallback,
+            MetaReference.AuthorsSizeCallback,
+            MetaReference.SubjectsSizeCallback,
+            MetaReference.DatesSizeCallback {
     }
 
-    protected interface BinderMethod<T> {
-        void execute(T binder);
-    }
-
-    public ReferenceBinder(ReviewReference reference) {
+    public ReferenceBinder(MetaReference reference, DataSizeBinder sizeBinder, @Nullable
+    DataBinder dataBinder) {
         mReference = reference;
-
-        mCovers = new Covers();
-
-        mTags = new Tags();
-        mCriteria = new Criteria();
-        mImages = new Images();
-        mComments = new Comments();
-        mLocations = new Locations();
-        mFacts = new Facts();
-
-        mTagsSize = new TagsSize();
-        mCriteriaSize = new CriteriaSize();
-        mImagesSize = new ImagesSize();
-        mCommentsSize = new CommentsSize();
-        mLocationsSize = new LocationsSize();
-        mFactsSize = new FactsSize();
-
-        mDataBinders = new ArrayList<>();
-        mSizeBinders = new ArrayList<>();
+        mSizeBinder = sizeBinder;
+        mDataBinder = dataBinder;
+        mBinders = new HashMap<>();
     }
 
-    public ReviewReference getReference() {
-        return mReference;
+    public ReviewNode getReviewNode() {
+        return mReference.asNode();
     }
 
-    public void registerDataBinder(DataBinder binder) {
-        if (!mDataBinders.contains(binder)) mDataBinders.add(binder);
-        bindOrFire(binder);
+    public void bindToCovers() {
+        if (toBind(Covers.class)) mReference.bind(newBinder(Covers.class));
     }
 
-    public void unregisterDataBinder(DataBinder binder) {
-        if (mDataBinders.contains(binder)) mDataBinders.remove(binder);
-        unbindIfNecessary();
+    public void unbindFromCovers() {
+        if (isBound(Covers.class)) mReference.unbind(getBinder(Covers.class));
     }
 
-    public void registerSizeBinder(DataSizeBinder binder) {
-        if (!mSizeBinders.contains(binder)) mSizeBinders.add(binder);
-        bindOrFire(binder);
+    public void bindToTags() {
+        if (toBind(Tags.class)) mReference.bind(newBinder(Tags.class));
     }
 
-    public void unregisterSizeBinder(DataSizeBinder binder) {
-        if (mSizeBinders.contains(binder)) mSizeBinders.remove(binder);
-        unbindIfNecessary();
+    public void unbindFromTags() {
+        if (isBound(Tags.class)) mReference.unbind(getBinder(Tags.class));
     }
 
-    public void getFacts(final ReviewReference.FactsCallback callback) {
-        mReference.getData(new ReviewReference.FactsCallback() {
-            @Override
-            public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
-                callback.onFacts(facts, message);
-            }
-        });
+    public void bindToCriteria() {
+        if (toBind(Criteria.class)) mReference.bind(newBinder(Criteria.class));
     }
 
-    public void getLocations(final ReviewReference.LocationsCallback callback) {
-        mReference.getData(new ReviewReference.LocationsCallback() {
-            @Override
-            public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage
-                    message) {
-                callback.onLocations(locations, message);
-            }
-        });
+    public void unbindFromCriteria() {
+        if (isBound(Criteria.class)) mReference.unbind(getBinder(Criteria.class));
     }
 
-    public void getComments(final ReviewReference.CommentsCallback callback) {
-        mReference.getData(new ReviewReference.CommentsCallback() {
-            @Override
-            public void onComments(IdableList<? extends DataComment> comments, CallbackMessage
-                    message) {
-                callback.onComments(comments, message);
-            }
-        });
+    public void bindToComments() {
+        if (toBind(Comments.class)) mReference.bind(newBinder(Comments.class));
     }
 
-    public void getImages(final ReviewReference.ImagesCallback callback) {
-        mReference.getData(new ReviewReference.ImagesCallback() {
-            @Override
-            public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
-                callback.onImages(images, message);
-            }
-        });
+    public void unbindFromComments() {
+        if (isBound(Comments.class)) mReference.unbind(getBinder(Comments.class));
     }
 
-    public void getCriteria(final ReviewReference.CriteriaCallback callback) {
-        mReference.getData(new ReviewReference.CriteriaCallback() {
-            @Override
-            public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage
-                    message) {
-                callback.onCriteria(criteria, message);
-            }
-        });
+    public void bindToImages() {
+        if (toBind(Images.class)) mReference.bind(newBinder(Images.class));
     }
 
-    public void getTags(final ReviewReference.TagsCallback callback) {
-        mReference.getData(new ReviewReference.TagsCallback() {
-            @Override
-            public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
-                callback.onTags(tags, message);
-            }
-        });
+    public void unbindFromImages() {
+        if (isBound(Images.class)) mReference.unbind(getBinder(Images.class));
     }
 
-    public void getCovers(final ReviewReference.CoversCallback callback) {
-        mReference.getData(new ReviewReference.CoversCallback() {
-            @Override
-            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
-                callback.onCovers(covers, message);
-            }
-        });
+    public void bindToLocations() {
+        if (toBind(Locations.class)) mReference.bind(newBinder(Locations.class));
     }
 
-    public void getNumTags(final ReviewReference.TagsSizeCallback callback) {
-        mReference.getSize(new ReviewReference.TagsSizeCallback() {
-            @Override
-            public void onNumTags(DataSize size, CallbackMessage message) {
-                callback.onNumTags(size, message);
-            }
-        });
+    public void unbindFromLocations() {
+        if (isBound(Locations.class)) mReference.unbind(getBinder(Locations.class));
     }
 
-    public void getNumCriteria(final ReviewReference.CriteriaSizeCallback callback) {
-        mReference.getSize(new ReviewReference.CriteriaSizeCallback() {
-            @Override
-            public void onNumCriteria(DataSize size, CallbackMessage message) {
-                callback.onNumCriteria(size, message);
-            }
-        });
+    public void bindToFacts() {
+        if (toBind(Facts.class)) mReference.bind(newBinder(Facts.class));
     }
 
-    public void getNumImages(final ReviewReference.ImagesSizeCallback callback) {
-        mReference.getSize(new ReviewReference.ImagesSizeCallback() {
-            @Override
-            public void onNumImages(DataSize size, CallbackMessage message) {
-                callback.onNumImages(size, message);
-            }
-        });
+    public void unbindFromFacts() {
+        if (isBound(Facts.class)) mReference.unbind(getBinder(Facts.class));
     }
 
-    public void getNumComments(final ReviewReference.CommentsSizeCallback callback) {
-        mReference.getSize(new ReviewReference.CommentsSizeCallback() {
-            @Override
-            public void onNumComments(DataSize size, CallbackMessage message) {
-                callback.onNumComments(size, message);
-            }
-        });
+    public void bindToReviews() {
+        if (toBind(Reviews.class)) mReference.bind(newBinder(Reviews.class));
     }
 
-    public void getNumLocations(final ReviewReference.LocationsSizeCallback callback) {
-        mReference.getSize(new ReviewReference.LocationsSizeCallback() {
-            @Override
-            public void onNumLocations(DataSize size, CallbackMessage message) {
-                callback.onNumLocations(size, message);
-            }
-        });
+    public void unbindFromReviews() {
+        if (isBound(Reviews.class)) mReference.unbind(getBinder(Reviews.class));
     }
 
-    public void getNumFacts(final ReviewReference.FactsSizeCallback callback) {
-        mReference.getSize(new ReviewReference.FactsSizeCallback() {
-            @Override
-            public void onNumFacts(DataSize size, CallbackMessage message) {
-                callback.onNumFacts(size, message);
-            }
-        });
+    public void bindToAuthors() {
+        if (toBind(Authors.class)) mReference.bind(newBinder(Authors.class));
     }
 
-    protected void fireForBinder(final DataBinder callback) {
-        getCovers(callback);
-        getTags(callback);
-        getCriteria(callback);
-        getImages(callback);
-        getComments(callback);
-        getLocations(callback);
-        getFacts(callback);
+    public void unbindFromAuthors() {
+        if (isBound(Authors.class)) mReference.unbind(getBinder(Authors.class));
     }
 
-    protected void fireForBinder(final DataSizeBinder callback) {
-        getNumTags(callback);
-        getNumCriteria(callback);
-        getNumImages(callback);
-        getNumComments(callback);
-        getNumLocations(callback);
-        getNumFacts(callback);
+    public void bindToSubjects() {
+        if (toBind(Subjects.class)) mReference.bind(newBinder(Subjects.class));
     }
 
-    protected void bind() {
-        mIsBound = true;
-        mReference.bind(mCovers);
-        mReference.bind(mTags);
-        mReference.bind(mCriteria);
-        mReference.bind(mImages);
-        mReference.bind(mComments);
-        mReference.bind(mLocations);
-        mReference.bind(mFacts);
-        mReference.bindToTags(mTagsSize);
-        mReference.bindToCriteria(mCriteriaSize);
-        mReference.bindToImages(mImagesSize);
-        mReference.bindToComments(mCommentsSize);
-        mReference.bindToLocations(mLocationsSize);
-        mReference.bindToFacts(mFactsSize);
+    public void unbindFromSubjects() {
+        if (isBound(Subjects.class)) mReference.unbind(getBinder(Subjects.class));
     }
 
-    protected void unbind() {
-        mIsBound = false;
-        mReference.unbind(mCovers);
-        mReference.unbind(mTags);
-        mReference.unbind(mCriteria);
-        mReference.unbind(mImages);
-        mReference.unbind(mComments);
-        mReference.unbind(mLocations);
-        mReference.unbind(mFacts);
-        mReference.unbindFromTags(mTagsSize);
-        mReference.unbindFromCriteria(mCriteriaSize);
-        mReference.unbindFromImages(mImagesSize);
-        mReference.unbindFromComments(mCommentsSize);
-        mReference.unbindFromLocations(mLocationsSize);
-        mReference.unbindFromFacts(mFactsSize);
+    public void bindToDates() {
+        if (toBind(Dates.class)) mReference.bind(newBinder(Dates.class));
     }
 
-    protected <T> void notifyBinders(Iterable<T> binders, BinderMethod<T> method) {
-        for (T binder : binders) {
-            method.execute(binder);
-        }
+    public void unbindFromDates() {
+        if (isBound(Dates.class)) mReference.unbind(getBinder(Dates.class));
+    }
+
+    public void bindToNumTags() {
+        if (!isBound(TagsSize.class)) mReference.bindToTags(newBinder(TagsSize.class));
+    }
+
+    public void unbindFromNumTags() {
+        if (isBound(TagsSize.class)) mReference.unbindFromTags(getBinder(TagsSize.class));
+    }
+
+    public void bindToNumCriteria() {
+        if (!isBound(CriteriaSize.class)) mReference.bindToCriteria(newBinder(CriteriaSize.class));
+    }
+
+    public void unbindFromNumCriteria() {
+        if (isBound(CriteriaSize.class))
+            mReference.unbindFromCriteria(getBinder(CriteriaSize.class));
+    }
+
+    public void bindToNumComments() {
+        if (!isBound(CommentsSize.class)) mReference.bindToComments(newBinder(CommentsSize.class));
+    }
+
+    public void unbindFromNumComments() {
+        if (isBound(CommentsSize.class))
+            mReference.unbindFromComments(getBinder(CommentsSize.class));
+    }
+
+    public void bindToNumImages() {
+        if (!isBound(ImagesSize.class)) mReference.bindToImages(newBinder(ImagesSize.class));
+    }
+
+    public void unbindFromNumImages() {
+        if (isBound(ImagesSize.class)) mReference.unbindFromImages(getBinder(ImagesSize.class));
+    }
+
+    public void bindToNumLocations() {
+        if (!isBound(LocationsSize.class))
+            mReference.bindToLocations(newBinder(LocationsSize.class));
+    }
+
+    public void unbindFromNumLocations() {
+        if (isBound(LocationsSize.class))
+            mReference.unbindFromLocations(getBinder(LocationsSize.class));
+    }
+
+    public void bindToNumFacts() {
+        if (!isBound(FactsSize.class)) mReference.bindToFacts(newBinder(FactsSize.class));
+    }
+
+    public void unbindFromNumFacts() {
+        if (isBound(FactsSize.class)) mReference.unbindFromFacts(getBinder(FactsSize.class));
+    }
+
+    public void bindToNumReviews() {
+        if (!isBound(ReviewsSize.class)) mReference.bindToReviews(newBinder(ReviewsSize.class));
+    }
+
+    public void unbindFromNumReviews() {
+        if (isBound(ReviewsSize.class)) mReference.unbindFromReviews(getBinder(ReviewsSize.class));
+    }
+
+    public void bindToNumAuthors() {
+        if (!isBound(AuthorsSize.class)) mReference.bindToAuthors(newBinder(AuthorsSize.class));
+    }
+
+    public void unbindFromNumAuthors() {
+        if (isBound(AuthorsSize.class)) mReference.unbindFromAuthors(getBinder(AuthorsSize.class));
+    }
+
+    public void bindToNumSubjects() {
+        if (!isBound(SubjectsSize.class)) mReference.bindToSubjects(newBinder(SubjectsSize.class));
+    }
+
+    public void unbindFromNumSubjects() {
+        if (isBound(SubjectsSize.class))
+            mReference.unbindFromSubjects(getBinder(SubjectsSize.class));
+    }
+
+    public void bindToNumDates() {
+        if (!isBound(DatesSize.class)) mReference.bindToDates(newBinder(DatesSize.class));
+    }
+
+    public void unbindFromNumDates() {
+        if (isBound(DatesSize.class)) mReference.unbindFromDates(getBinder(DatesSize.class));
     }
 
     @Override
@@ -332,187 +284,174 @@ public class ReferenceBinder implements DataReviewInfo {
         return mReference.getReviewId();
     }
 
-    private <T extends DataBinder> void bindOrFire(T binder) {
-        if (!mIsBound) {
-            bind();
-        } else {
-            fireForBinder(binder);
+    private <T extends ValueBinder> boolean toBind(Class<T> binderClass) {
+        return mDataBinder != null && !isBound(binderClass);
+    }
+
+    private <T extends ValueBinder> T getBinder(Class<T> binderClass) {
+        return (T) mBinders.get(binderClass);
+    }
+
+    private <T extends ValueBinder> boolean isBound(Class<T> binderClass) {
+        return mBinders.get(binderClass) != null;
+    }
+
+    private <T extends ValueBinder> T newBinder(Class<T> binderClass) {
+        try {
+            T binder = binderClass.newInstance();
+            mBinders.put(binderClass, binder);
+            return binder;
+        } catch (InstantiationException e) {
+            throw new IllegalArgumentException("Binder does not have empty constructor");
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException("Constructor not accessible");
         }
     }
 
-    private void bindOrFire(DataSizeBinder binder) {
-        if (!mIsBound) {
-            bind();
-        } else {
-            fireForBinder(binder);
-        }
-    }
-
-    private void unbindIfNecessary() {
-        if (mIsBound && mDataBinders.size() == 0 && mSizeBinders.size() == 0) unbind();
-    }
-
-    private void notifyDataBinders(BinderMethod<DataBinder> method) {
-        notifyBinders(mDataBinders, method);
-    }
-
-    private void notifySizeBinders(BinderMethod<DataSizeBinder> method) {
-        notifyBinders(mSizeBinders, method);
-    }
-
-    private class Covers implements ReferenceBinders.CoversBinder {
+    private class Covers implements MetaBinders.CoversBinder {
         @Override
         public void onValue(final IdableList<? extends DataImage> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onCovers(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onCovers(value, OK);
         }
     }
 
-    private class Tags implements ReferenceBinders.TagsBinder {
+    private class Tags implements MetaBinders.TagsBinder {
         @Override
         public void onValue(final IdableList<? extends DataTag> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onTags(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onTags(value, OK);
         }
     }
 
-    private class Criteria implements ReferenceBinders.CriteriaBinder {
+    private class Criteria implements MetaBinders.CriteriaBinder {
         @Override
         public void onValue(final IdableList<? extends DataCriterion> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onCriteria(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onCriteria(value, OK);
         }
     }
 
-    private class Images implements ReferenceBinders.ImagesBinder {
+    private class Images implements MetaBinders.ImagesBinder {
         @Override
         public void onValue(final IdableList<? extends DataImage> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onImages(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onImages(value, OK);
         }
     }
 
-    private class Comments implements ReferenceBinders.CommentsBinder {
+    private class Comments implements MetaBinders.CommentsBinder {
         @Override
         public void onValue(final IdableList<? extends DataComment> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onComments(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onComments(value, OK);
         }
     }
 
-    private class Locations implements ReferenceBinders.LocationsBinder {
+    private class Locations implements MetaBinders.LocationsBinder {
         @Override
         public void onValue(final IdableList<? extends DataLocation> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onLocations(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onLocations(value, OK);
         }
     }
 
-    private class Facts implements ReferenceBinders.FactsBinder {
+    private class Facts implements MetaBinders.FactsBinder {
         @Override
         public void onValue(final IdableList<? extends DataFact> value) {
-            notifyDataBinders(new BinderMethod<DataBinder>() {
-                @Override
-                public void execute(DataBinder binder) {
-                    binder.onFacts(value, CallbackMessage.ok());
-                }
-            });
+            if (mDataBinder != null) mDataBinder.onFacts(value, OK);
         }
     }
 
-    private class TagsSize implements ReferenceBinders.SizeBinder {
+    private class TagsSize implements MetaBinders.SizeBinder {
         @Override
         public void onValue(final DataSize size) {
-            notifySizeBinders(new BinderMethod<DataSizeBinder>() {
-                @Override
-                public void execute(DataSizeBinder binder) {
-                    binder.onNumTags(size, CallbackMessage.ok());
-                }
-            });
+            mSizeBinder.onNumTags(size, OK);
         }
     }
 
-    private class CriteriaSize implements ReferenceBinders.SizeBinder {
+    private class CriteriaSize implements MetaBinders.SizeBinder {
         @Override
         public void onValue(final DataSize size) {
-            notifySizeBinders(new BinderMethod<DataSizeBinder>() {
-                @Override
-                public void execute(DataSizeBinder binder) {
-                    binder.onNumCriteria(size, CallbackMessage.ok());
-                }
-            });
+            mSizeBinder.onNumCriteria(size, OK);
         }
     }
 
-    private class ImagesSize implements ReferenceBinders.SizeBinder {
+    private class ImagesSize implements MetaBinders.SizeBinder {
         @Override
         public void onValue(final DataSize size) {
-            notifySizeBinders(new BinderMethod<DataSizeBinder>() {
-                @Override
-                public void execute(DataSizeBinder binder) {
-                    binder.onNumImages(size, CallbackMessage.ok());
-                }
-            });
+            mSizeBinder.onNumImages(size, OK);
         }
     }
 
-    private class CommentsSize implements ReferenceBinders.SizeBinder {
+    private class CommentsSize implements MetaBinders.SizeBinder {
         @Override
         public void onValue(final DataSize size) {
-            notifySizeBinders(new BinderMethod<DataSizeBinder>() {
-                @Override
-                public void execute(DataSizeBinder binder) {
-                    binder.onNumComments(size, CallbackMessage.ok());
-                }
-            });
+            mSizeBinder.onNumComments(size, OK);
         }
     }
 
-    private class LocationsSize implements ReferenceBinders.SizeBinder {
+    private class LocationsSize implements MetaBinders.SizeBinder {
         @Override
         public void onValue(final DataSize size) {
-            notifySizeBinders(new BinderMethod<DataSizeBinder>() {
-                @Override
-                public void execute(DataSizeBinder binder) {
-                    binder.onNumLocations(size, CallbackMessage.ok());
-                }
-            });
+            mSizeBinder.onNumLocations(size, OK);
         }
     }
 
-    private class FactsSize implements ReferenceBinders.SizeBinder {
+    private class FactsSize implements MetaBinders.SizeBinder {
         @Override
         public void onValue(final DataSize size) {
-            notifySizeBinders(new BinderMethod<DataSizeBinder>() {
-                @Override
-                public void execute(DataSizeBinder binder) {
-                    binder.onNumFacts(size, CallbackMessage.ok());
-                }
-            });
+            mSizeBinder.onNumFacts(size, OK);
+        }
+    }
+
+    private class Reviews implements MetaBinders.ReviewsBinder {
+        @Override
+        public void onValue(final IdableList<ReviewReference> value) {
+            if (mDataBinder != null) mDataBinder.onReviews(value, OK);
+        }
+    }
+
+    private class Authors implements MetaBinders.AuthorsBinder {
+        @Override
+        public void onValue(final IdableList<? extends DataAuthorReview> value) {
+            if (mDataBinder != null) mDataBinder.onAuthors(value, OK);
+        }
+    }
+
+    private class Subjects implements MetaBinders.SubjectsBinder {
+        @Override
+        public void onValue(final IdableList<? extends DataSubject> value) {
+            if (mDataBinder != null) mDataBinder.onSubjects(value, OK);
+        }
+    }
+
+    private class Dates implements MetaBinders.DatesBinder {
+        @Override
+        public void onValue(final IdableList<? extends DataDateReview> value) {
+            if (mDataBinder != null) mDataBinder.onDates(value, OK);
+        }
+    }
+
+    private class ReviewsSize implements ReferenceBinders.SizeBinder {
+        @Override
+        public void onValue(final DataSize size) {
+            mSizeBinder.onNumReviews(size, OK);
+        }
+    }
+
+    private class AuthorsSize implements ReferenceBinders.SizeBinder {
+        @Override
+        public void onValue(final DataSize size) {
+            mSizeBinder.onNumAuthors(size, OK);
+        }
+    }
+
+    private class SubjectsSize implements ReferenceBinders.SizeBinder {
+        @Override
+        public void onValue(final DataSize size) {
+            mSizeBinder.onNumSubjects(size, OK);
+        }
+    }
+
+    private class DatesSize implements ReferenceBinders.SizeBinder {
+        @Override
+        public void onValue(final DataSize size) {
+            mSizeBinder.onNumDates(size, OK);
         }
     }
 }

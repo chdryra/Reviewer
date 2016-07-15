@@ -8,12 +8,12 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Factories;
 
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerMeta;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MetaBinder;
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManagerNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManager;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 /**
  * Created by: Rizwan Choudrey
@@ -21,19 +21,15 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryBinders {
-    public ReferenceBinder bindTo(ReviewReference reference) {
-        return new ReferenceBinder(reference);
+    public ReferenceBinder bindTo(MetaReference reference, ReferenceBinder.DataSizeBinder sizebinder, @Nullable ReferenceBinder.DataBinder dataBinder) {
+        return new ReferenceBinder(reference, sizebinder, dataBinder);
     }
 
-    public MetaBinder bindTo(MetaReference reference) {
-        return new MetaBinder(reference);
+    public BindersManager newReferenceBindersManager() {
+        return new BindersManager();
     }
 
-    public BindersManagerReference newReferenceBindersManager() {
-        return new BindersManagerReference();
-    }
-
-    public BindersManagerMeta newMetaBindersManager() {
-        return new BindersManagerMeta();
+    public BindersManagerNode newMetaBindersManager() {
+        return new BindersManagerNode();
     }
 }

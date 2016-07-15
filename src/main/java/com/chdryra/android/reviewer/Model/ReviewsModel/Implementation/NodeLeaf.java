@@ -14,8 +14,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
-import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -25,10 +24,8 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComponent {
     private final ReviewReference mReview;
 
-    public NodeLeaf(ReviewReference review, BindersManagerMeta bindersManager,
-                    FactoryVisitorReviewNode visitorFactory,
-                    FactoryNodeTraverser traverserFactory) {
-        super(bindersManager, visitorFactory, traverserFactory);
+    public NodeLeaf(ReviewReference review, FactoryReviewNode nodeFactory) {
+        super(nodeFactory);
         mReview = review;
     }
 

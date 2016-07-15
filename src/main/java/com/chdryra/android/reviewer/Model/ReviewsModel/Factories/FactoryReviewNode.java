@@ -68,10 +68,7 @@ public class FactoryReviewNode {
     }
 
     public ReviewNodeComponent createLeafNode(ReviewReference review) {
-        return new NodeLeaf(review,
-                mBinderFactory.newMetaBindersManager(),
-                mVisitorFactory,
-                mTraverserFactory);
+        return new NodeLeaf(review, this);
     }
 
     public ReviewNodeComponent createComponent(DataReviewInfo meta) {

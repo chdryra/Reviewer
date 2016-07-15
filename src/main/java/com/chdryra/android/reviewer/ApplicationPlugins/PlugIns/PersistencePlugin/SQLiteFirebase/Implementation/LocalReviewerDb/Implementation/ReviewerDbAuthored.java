@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -27,10 +27,10 @@ import java.util.List;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbAuthored implements AuthorsRepository, ReviewSubscriber {
+public class ReviewerDbAuthored implements AuthorsRepository, ReviewsSubscriber {
     private DataAuthor mAuthor;
     private ReviewerDbRepository mRepo;
-    protected List<ReviewSubscriber> mSubscribers;
+    protected List<ReviewsSubscriber> mSubscribers;
 
     public ReviewerDbAuthored(DataAuthor author, ReviewerDbRepository repo) {
         mAuthor = author;
@@ -48,7 +48,7 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewSubscriber {
     }
 
     @Override
-    public void bind(ReviewSubscriber subscriber) {
+    public void bind(ReviewsSubscriber subscriber) {
         if(!mSubscribers.contains(subscriber)) mSubscribers.add(subscriber);
         if(mSubscribers.size() == 1) {
             mRepo.bind(this);
@@ -58,7 +58,7 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewSubscriber {
     }
 
     @Override
-    public void unbind(ReviewSubscriber subscriber) {
+    public void unbind(ReviewsSubscriber subscriber) {
         if(mSubscribers.contains(subscriber)) mSubscribers.remove(subscriber);
         if(mSubscribers.size() == 0) mRepo.unbind(this);
     }
@@ -69,10 +69,10 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewSubscriber {
     }
 
     @Override
-    public void onAdded(ReviewReference reference) {
+    public void onReviewAdded(ReviewReference reference) {
         if (isCorrectAuthor(reference)) {
-            for (ReviewSubscriber subscriber : mSubscribers) {
-                subscriber.onAdded(reference);
+            for (ReviewsSubscriber subscriber : mSubscribers) {
+                subscriber.onReviewAdded(reference);
             }
         }
     }
@@ -82,15 +82,15 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewSubscriber {
     }
 
     @Override
-    public void onChanged(ReviewReference item) {
+    public void onReviewEdited(ReviewReference reference) {
 
     }
 
     @Override
-    public void onRemoved(ReviewReference reference) {
+    public void onReviewRemoved(ReviewReference reference) {
         if (isCorrectAuthor(reference)) {
-            for (ReviewSubscriber subscriber : mSubscribers) {
-                subscriber.onRemoved(reference);
+            for (ReviewsSubscriber subscriber : mSubscribers) {
+                subscriber.onReviewRemoved(reference);
             }
         }
     }

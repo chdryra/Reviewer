@@ -26,13 +26,13 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReferenc
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class ReviewReferenceBasic implements ReviewReference {
-    private BindersManagerReference mBinders;
+    private BindersManager mBinders;
 
-    public ReviewReferenceBasic(BindersManagerReference binders) {
+    public ReviewReferenceBasic(BindersManager binders) {
         mBinders = binders;
     }
 
-    public BindersManagerReference getBindersManager() {
+    public BindersManager getBindersManager() {
         return mBinders;
     }
 

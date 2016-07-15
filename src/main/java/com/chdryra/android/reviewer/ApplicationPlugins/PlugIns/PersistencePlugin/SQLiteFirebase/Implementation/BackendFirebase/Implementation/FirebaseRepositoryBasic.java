@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -61,14 +61,14 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
     }
 
     @Override
-    public void bind(ReviewSubscriber subscriber) {
+    public void bind(ReviewsSubscriber subscriber) {
         ChildEventListener listener = newChildEventListener(subscriber);
         mSubscribers.put(subscriber.getSubscriberId(), listener);
         mStructure.getListEntriesDb(mDataBase).addChildEventListener(listener);
     }
 
     @Override
-    public void unbind(ReviewSubscriber subscriber) {
+    public void unbind(ReviewsSubscriber subscriber) {
         ChildEventListener listener = mSubscribers.remove(subscriber.getSubscriberId());
         if (listener != null) mStructure.getListEntriesDb(mDataBase).removeEventListener(listener);
     }
@@ -80,11 +80,11 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
     }
 
     @NonNull
-    private ChildEventListener newChildEventListener(final ReviewSubscriber subscriber) {
+    private ChildEventListener newChildEventListener(final ReviewsSubscriber subscriber) {
         return new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                subscriber.onAdded(newReference(dataSnapshot));
+                subscriber.onReviewAdded(newReference(dataSnapshot));
             }
 
             @Override
@@ -94,7 +94,7 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                subscriber.onRemoved(newReference(dataSnapshot));
+                subscriber.onReviewRemoved(newReference(dataSnapshot));
             }
 
             @Override

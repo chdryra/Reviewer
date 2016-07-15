@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.ReviewSubscriber;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.VerboseDataReview;
@@ -53,12 +53,12 @@ public class ReviewsSourceImpl implements ReviewsSource {
     }
 
     @Override
-    public void bind(ReviewSubscriber subscriber) {
+    public void bind(ReviewsSubscriber subscriber) {
         mRepository.bind(subscriber);
     }
 
     @Override
-    public void unbind(ReviewSubscriber subscriber) {
+    public void unbind(ReviewsSubscriber subscriber) {
         mRepository.unbind(subscriber);
     }
 
@@ -186,7 +186,7 @@ public class ReviewsSourceImpl implements ReviewsSource {
                 CallbackMessage message = mErrors.size() > 0 ?
                         CallbackMessage.error("Errors fetching some reviews")
                         : CallbackMessage.ok(mMaxReviews + " reviews fetched");
-                mFinalCallback.onRepositoryCallback(new RepositoryResult(mFetched, null, message));
+                mFinalCallback.onRepositoryCallback(new RepositoryResult(mFetched, message));
             }
         }
     }
