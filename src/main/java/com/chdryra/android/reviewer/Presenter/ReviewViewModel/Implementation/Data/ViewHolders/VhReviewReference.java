@@ -114,9 +114,11 @@ public class VhReviewReference extends ViewHolderBasic {
     private void setReference(ReviewReference reference) {
         if (mReference != null) unbindFromReference();
         mReference = reference;
+        mImage.setImageBitmap(null);
         mSubject.setText(mReference.getSubject().getSubject());
         mRating.setRating(mReference.getRating().getRating());
         newStamp(mReference.getAuthor(), mReference.getPublishDate());
+
         bindToReference();
     }
 

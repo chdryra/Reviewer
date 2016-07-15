@@ -87,7 +87,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToCovers() {
-        if (toBind(Covers.class)) mReference.bind(newBinder(Covers.class));
+        if (toBind(Covers.class)) mReference.bind(addBinder(new Covers()));
     }
 
     public void unbindFromCovers() {
@@ -95,7 +95,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToTags() {
-        if (toBind(Tags.class)) mReference.bind(newBinder(Tags.class));
+        if (toBind(Tags.class)) mReference.bind(addBinder(new Tags()));
     }
 
     public void unbindFromTags() {
@@ -103,7 +103,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToCriteria() {
-        if (toBind(Criteria.class)) mReference.bind(newBinder(Criteria.class));
+        if (toBind(Criteria.class)) mReference.bind(addBinder(new Criteria()));
     }
 
     public void unbindFromCriteria() {
@@ -111,7 +111,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToComments() {
-        if (toBind(Comments.class)) mReference.bind(newBinder(Comments.class));
+        if (toBind(Comments.class)) mReference.bind(addBinder(new Comments()));
     }
 
     public void unbindFromComments() {
@@ -119,7 +119,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToImages() {
-        if (toBind(Images.class)) mReference.bind(newBinder(Images.class));
+        if (toBind(Images.class)) mReference.bind(addBinder(new Images()));
     }
 
     public void unbindFromImages() {
@@ -127,7 +127,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToLocations() {
-        if (toBind(Locations.class)) mReference.bind(newBinder(Locations.class));
+        if (toBind(Locations.class)) mReference.bind(addBinder(new Locations()));
     }
 
     public void unbindFromLocations() {
@@ -135,7 +135,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToFacts() {
-        if (toBind(Facts.class)) mReference.bind(newBinder(Facts.class));
+        if (toBind(Facts.class)) mReference.bind(addBinder(new Facts()));
     }
 
     public void unbindFromFacts() {
@@ -143,7 +143,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToReviews() {
-        if (toBind(Reviews.class)) mReference.bind(newBinder(Reviews.class));
+        if (toBind(Reviews.class)) mReference.bind(addBinder(new Reviews()));
     }
 
     public void unbindFromReviews() {
@@ -151,7 +151,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToAuthors() {
-        if (toBind(Authors.class)) mReference.bind(newBinder(Authors.class));
+        if (toBind(Authors.class)) mReference.bind(addBinder(new Authors()));
     }
 
     public void unbindFromAuthors() {
@@ -159,7 +159,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToSubjects() {
-        if (toBind(Subjects.class)) mReference.bind(newBinder(Subjects.class));
+        if (toBind(Subjects.class)) mReference.bind(addBinder(new Subjects()));
     }
 
     public void unbindFromSubjects() {
@@ -167,7 +167,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToDates() {
-        if (toBind(Dates.class)) mReference.bind(newBinder(Dates.class));
+        if (toBind(Dates.class)) mReference.bind(addBinder(new Dates()));
     }
 
     public void unbindFromDates() {
@@ -175,7 +175,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumTags() {
-        if (!isBound(TagsSize.class)) mReference.bindToTags(newBinder(TagsSize.class));
+        if (!isBound(TagsSize.class)) mReference.bindToTags(addBinder(new TagsSize()));
     }
 
     public void unbindFromNumTags() {
@@ -183,7 +183,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumCriteria() {
-        if (!isBound(CriteriaSize.class)) mReference.bindToCriteria(newBinder(CriteriaSize.class));
+        if (!isBound(CriteriaSize.class)) mReference.bindToCriteria(addBinder(new CriteriaSize()));
     }
 
     public void unbindFromNumCriteria() {
@@ -192,7 +192,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumComments() {
-        if (!isBound(CommentsSize.class)) mReference.bindToComments(newBinder(CommentsSize.class));
+        if (!isBound(CommentsSize.class)) mReference.bindToComments(addBinder(new CommentsSize()));
     }
 
     public void unbindFromNumComments() {
@@ -201,7 +201,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumImages() {
-        if (!isBound(ImagesSize.class)) mReference.bindToImages(newBinder(ImagesSize.class));
+        if (!isBound(ImagesSize.class)) mReference.bindToImages(addBinder(new ImagesSize()));
     }
 
     public void unbindFromNumImages() {
@@ -210,7 +210,7 @@ public class ReferenceBinder implements DataReviewInfo {
 
     public void bindToNumLocations() {
         if (!isBound(LocationsSize.class))
-            mReference.bindToLocations(newBinder(LocationsSize.class));
+            mReference.bindToLocations(addBinder(new LocationsSize()));
     }
 
     public void unbindFromNumLocations() {
@@ -219,7 +219,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumFacts() {
-        if (!isBound(FactsSize.class)) mReference.bindToFacts(newBinder(FactsSize.class));
+        if (!isBound(FactsSize.class)) mReference.bindToFacts(addBinder(new FactsSize()));
     }
 
     public void unbindFromNumFacts() {
@@ -227,7 +227,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumReviews() {
-        if (!isBound(ReviewsSize.class)) mReference.bindToReviews(newBinder(ReviewsSize.class));
+        if (!isBound(ReviewsSize.class)) mReference.bindToReviews(addBinder(new ReviewsSize()));
     }
 
     public void unbindFromNumReviews() {
@@ -235,7 +235,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumAuthors() {
-        if (!isBound(AuthorsSize.class)) mReference.bindToAuthors(newBinder(AuthorsSize.class));
+        if (!isBound(AuthorsSize.class)) mReference.bindToAuthors(addBinder(new AuthorsSize()));
     }
 
     public void unbindFromNumAuthors() {
@@ -243,7 +243,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumSubjects() {
-        if (!isBound(SubjectsSize.class)) mReference.bindToSubjects(newBinder(SubjectsSize.class));
+        if (!isBound(SubjectsSize.class)) mReference.bindToSubjects(addBinder(new SubjectsSize()));
     }
 
     public void unbindFromNumSubjects() {
@@ -252,7 +252,7 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToNumDates() {
-        if (!isBound(DatesSize.class)) mReference.bindToDates(newBinder(DatesSize.class));
+        if (!isBound(DatesSize.class)) mReference.bindToDates(addBinder(new DatesSize()));
     }
 
     public void unbindFromNumDates() {
@@ -296,16 +296,9 @@ public class ReferenceBinder implements DataReviewInfo {
         return mBinders.get(binderClass) != null;
     }
 
-    private <T extends ValueBinder> T newBinder(Class<T> binderClass) {
-        try {
-            T binder = binderClass.newInstance();
-            mBinders.put(binderClass, binder);
-            return binder;
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException("Binder does not have empty constructor");
-        } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("Constructor not accessible");
-        }
+    private <T extends ValueBinder> T addBinder(T binder) {
+        mBinders.put(binder.getClass(), binder);
+        return binder;
     }
 
     private class Covers implements MetaBinders.CoversBinder {
