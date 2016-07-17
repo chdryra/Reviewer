@@ -49,8 +49,8 @@ public class PublishScreenAdapter extends ReviewViewAdapterBasic<GvSocialPlatfor
     }
 
     @Override
-    public void getCovers(CoversCallback callback) {
-        mReviewViewAdapter.getCovers(callback);
+    public void getCover(CoverCallback callback) {
+        mReviewViewAdapter.getCover(callback);
     }
 
     private class ShareScreenViewer extends GridDataWrapperBasic<GvSocialPlatform> {

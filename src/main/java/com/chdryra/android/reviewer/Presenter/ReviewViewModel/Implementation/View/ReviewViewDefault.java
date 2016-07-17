@@ -18,8 +18,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewContainer;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions
         .ReviewViewActions;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LauncherUi;
 
 import java.util.ArrayList;
@@ -134,10 +133,10 @@ public class ReviewViewDefault<T extends GvData> implements ReviewView<T> {
     @Override
     public void updateCover() {
         if (getParams().manageCover()) {
-            getAdapter().getCovers(new ReviewViewAdapter.CoversCallback() {
+            getAdapter().getCover(new ReviewViewAdapter.CoverCallback() {
                 @Override
-                public void onAdapterCovers(GvImageList covers) {
-                    mContainer.setCover(covers.size() > 0 ? covers.getRandomCover() : null);
+                public void onAdapterCover(GvImage cover) {
+                    mContainer.setCover(cover);
                 }
             });
         }

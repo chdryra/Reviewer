@@ -290,12 +290,12 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+    public void onCover(DataImage cover, CallbackMessage message) {
         if (!message.isError()) {
-            getData(new CoversCallback() {
+            getData(new CoverCallback() {
                 @Override
-                public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getCoversBinders(), covers, message);
+                public void onCover(DataImage cover, CallbackMessage message) {
+                    notifyOnValue(cover, message);
                 }
             });
         }
@@ -422,7 +422,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public void getData(final CoversCallback callback) {
+    public void getData(final CoverCallback callback) {
         getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
@@ -540,7 +540,15 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             }
         }
     }
-    
+
+    private <T extends HasReviewId> void notifyOnValue(DataImage cover, CallbackMessage message) {
+        if (!message.isError()) {
+            for (ValueBinder<DataImage> binder : getBindersManager().getCoverBinders()) {
+                binder.onValue(cover);
+            }
+        }
+    }
+
     private <T extends HasReviewId> void notifyOnValue(Collection<? extends
             ValueBinder<IdableList<? extends T>>> binders, IdableList<? extends T> data, CallbackMessage message) {
         if (!message.isError()) {

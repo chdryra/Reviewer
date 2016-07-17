@@ -37,12 +37,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     }
 
     protected void notifyCoversBinders() {
-        getData(new CoversCallback() {
+        getData(new CoverCallback() {
             @Override
-            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+            public void onCover(DataImage cover, CallbackMessage message) {
                 if (!message.isError()) {
-                    for (ReferenceBinders.CoversBinder binder : mBinders.getCoversBinders()) {
-                        binder.onValue(covers);
+                    for (ReferenceBinders.CoverBinder binder : mBinders.getCoverBinders()) {
+                        binder.onValue(cover);
                     }
                 }
             }
@@ -209,12 +209,12 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     }
 
     @Override
-    public void bind(final ReferenceBinders.CoversBinder binder) {
+    public void bind(final ReferenceBinders.CoverBinder binder) {
         mBinders.bind(binder);
-        getData(new CoversCallback() {
+        getData(new CoverCallback() {
             @Override
-            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
-                binder.onValue(covers);
+            public void onCover(DataImage cover, CallbackMessage message) {
+                binder.onValue(cover);
             }
         });
     }
@@ -355,7 +355,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     }
 
     @Override
-    public void unbind(ReferenceBinders.CoversBinder binder) {
+    public void unbind(ReferenceBinders.CoverBinder binder) {
         mBinders.unbind(binder);
     }
 

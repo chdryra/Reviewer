@@ -32,6 +32,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.ReviewAggregates;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
@@ -52,6 +53,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
@@ -72,6 +74,7 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbReviewReference implements ReviewReference {
+    private static final CallbackMessage OK = CallbackMessage.ok();
     private final ReviewInfo mInfo;
     private final Firebase mData;
     private final Firebase mAggregate;
@@ -143,16 +146,8 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void getData(final CoversCallback callback) {
-        getData(ReviewDb.COVER,
-                getCoversConverter(),
-                new IdableDataList<DataImage>(getReviewId()),
-                new DataMethod<DataImage>() {
-                    @Override
-                    public void execute(IdableList<DataImage> data, CallbackMessage message) {
-                        callback.onCovers(data, message);
-                    }
-                });
+    public void getData(final CoverCallback callback) {
+        getCover(callback);
     }
 
     @Override
@@ -294,38 +289,38 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void bind(ReferenceBinders.CoversBinder binder) {
-        bindDataBinder(ReviewDb.COVER, binder, getCoversConverter());
+    public void bind(ReferenceBinders.CoverBinder binder) {
+        bindDataBinder(ReviewDb.COVER, binder, getCoverConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.CriteriaBinder binder) {
-        bindDataBinder(ReviewDb.CRITERIA, binder, getCriteriaConverter());
+        bindListBinder(ReviewDb.CRITERIA, binder, getCriteriaConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.ImagesBinder binder) {
-        bindDataBinder(ReviewDb.IMAGES, binder, getImagesConverter());
+        bindListBinder(ReviewDb.IMAGES, binder, getImagesConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.CommentsBinder binder) {
-        bindDataBinder(ReviewDb.COMMENTS, binder, getCommentsConverter());
+        bindListBinder(ReviewDb.COMMENTS, binder, getCommentsConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.FactsBinder binder) {
-        bindDataBinder(ReviewDb.FACTS, binder, getFactsConverter());
+        bindListBinder(ReviewDb.FACTS, binder, getFactsConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.LocationsBinder binder) {
-        bindDataBinder(ReviewDb.LOCATIONS, binder, getLocationsConverter());
+        bindListBinder(ReviewDb.LOCATIONS, binder, getLocationsConverter());
     }
 
     @Override
     public void bind(ReferenceBinders.TagsBinder binder) {
-        bindDataBinder(ReviewDb.TAGS, binder, getTagsConverter());
+        bindListBinder(ReviewDb.TAGS, binder, getTagsConverter());
     }
 
     @Override
@@ -359,7 +354,7 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @Override
-    public void unbind(ReferenceBinders.CoversBinder binder) {
+    public void unbind(ReferenceBinders.CoverBinder binder) {
         unbindDataBinder(ReviewDb.COVER, binder);
     }
 
@@ -435,7 +430,9 @@ public class FbReviewReference implements ReviewReference {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ReviewDb value = dataSnapshot.getValue(ReviewDb.class);
-                callback.onDereferenced(mReviewConverter.convert(value), CallbackMessage.ok());
+                Review review = mReviewConverter.convert(value);
+                mCache.add(review);
+                callback.onDereferenced(review, CallbackMessage.ok());
             }
 
             @Override
@@ -469,15 +466,12 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
-    private SnapshotConverter<IdableList<DataImage>> getCoversConverter() {
-        return new SnapshotConverter<IdableList<DataImage>>() {
+    private SnapshotConverter<DataImage> getCoverConverter() {
+        return new SnapshotConverter<DataImage>() {
             @Override
-            public IdableList<DataImage> convert(DataSnapshot snapshot) {
-                DataImage cover = mDataConverter.convert(getReviewId().toString(),
-                        snapshot.getValue(ImageData.class));
-                IdableList<DataImage> covers = new IdableDataList<>(cover.getReviewId());
-                covers.add(cover);
-                return covers;
+            public DataImage convert(DataSnapshot snapshot) {
+                ImageData value = snapshot.getValue(ImageData.class);
+                return mDataConverter.convert(getReviewId().toString(), value);
             }
         };
     }
@@ -556,6 +550,20 @@ public class FbReviewReference implements ReviewReference {
         };
     }
 
+    private void getCover(final CoverCallback callback) {
+        mData.child(ReviewDb.COVER).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callback.onCover(getCoverConverter().convert(dataSnapshot), OK);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                callback.onCover(new DatumImage(getReviewId()), CallbackMessage.error("Cover not found"));
+            }
+        });
+    }
+
     private <T extends HasReviewId> void getData(String child,
                                                  final SnapshotConverter<IdableList<T>> converter,
                                                  final IdableDataList<T> emptyData,
@@ -564,7 +572,7 @@ public class FbReviewReference implements ReviewReference {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 emptyData.addAll(converter.convert(dataSnapshot));
-                method.execute(emptyData, CallbackMessage.ok());
+                method.execute(emptyData, OK);
             }
 
             @Override
@@ -594,28 +602,31 @@ public class FbReviewReference implements ReviewReference {
         return CallbackMessage.error(backendError.getMessage());
     }
 
-    private <T extends HasReviewId> void bindDataBinder(String child,
+    private <T extends HasReviewId> void bindListBinder(String child,
                                                         ValueBinder<IdableList<? extends T>> binder,
                                                         SnapshotConverter<IdableList<T>> converter) {
-        bindBinder(mData, child, binder, converter);
+        if (!mBindings.containsKey(binder)) {
+            bind(mData, child, binder, newListListener(binder, converter));
+        }
     }
 
-    private <T extends HasReviewId> void bindBinder(Firebase root, String child,
-                                                    ValueBinder<IdableList<? extends T>> binder,
-                                                    SnapshotConverter<IdableList<T>> converter) {
+    private <T extends HasReviewId> void bindDataBinder(String child,
+                                                        ValueBinder<T> binder,
+                                                        SnapshotConverter<T> converter) {
         if (!mBindings.containsKey(binder)) {
-            ValueEventListener listener = newListener(binder, converter);
-            root.child(child).addValueEventListener(listener);
-            mBindings.put(binder, listener);
+            bind(mData, child, binder, newDataListener(binder, converter));
         }
     }
 
     private void bindSizeBinder(String child, ValueBinder<DataSize> binder) {
         if (!mBindings.containsKey(binder)) {
-            ValueEventListener listener = newSizeListener(binder, getSize());
-            mAggregate.child(child).addValueEventListener(listener);
-            mBindings.put(binder, listener);
+            bind(mAggregate, child, binder, newSizeListener(binder, getSize()));
         }
+    }
+
+    private void bind(Firebase root, String child, ValueBinder<?> binder, ValueEventListener listener) {
+        root.child(child).addValueEventListener(listener);
+        mBindings.put(binder, listener);
     }
 
     private <T> void unbindSizeBinder(String child, ValueBinder<T> binder) {
@@ -633,8 +644,24 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
-    private <T extends HasReviewId> ValueEventListener newListener(final ValueBinder<IdableList<? extends T>> binder,
-                                                                   final SnapshotConverter<IdableList<T>> converter) {
+    private <T extends HasReviewId> ValueEventListener newListListener(final ValueBinder<IdableList<? extends T>> binder,
+                                                                       final SnapshotConverter<IdableList<T>> converter) {
+        return new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                binder.onValue(converter.convert(dataSnapshot));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        };
+    }
+
+    @NonNull
+    private <T extends HasReviewId> ValueEventListener newDataListener(final ValueBinder<T> binder,
+                                                                       final SnapshotConverter<T> converter) {
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

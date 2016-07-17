@@ -48,7 +48,7 @@ public class ReferenceBinder implements DataReviewInfo {
     private Map<Class<?>, ValueBinder<?>> mBinders;
 
     public interface DataBinder extends
-            ReviewReference.CoversCallback,
+            ReviewReference.CoverCallback,
             ReviewReference.TagsCallback,
             ReviewReference.CriteriaCallback,
             ReviewReference.ImagesCallback,
@@ -87,11 +87,11 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToCovers() {
-        if (toBind(Covers.class)) mReference.bind(addBinder(new Covers()));
+        if (toBind(Cover.class)) mReference.bind(addBinder(new Cover()));
     }
 
     public void unbindFromCovers() {
-        if (isBound(Covers.class)) mReference.unbind(getBinder(Covers.class));
+        if (isBound(Cover.class)) mReference.unbind(getBinder(Cover.class));
     }
 
     public void bindToTags() {
@@ -301,10 +301,10 @@ public class ReferenceBinder implements DataReviewInfo {
         return binder;
     }
 
-    private class Covers implements MetaBinders.CoversBinder {
+    private class Cover implements ReferenceBinders.CoverBinder {
         @Override
-        public void onValue(final IdableList<? extends DataImage> value) {
-            if (mDataBinder != null) mDataBinder.onCovers(value, OK);
+        public void onValue(DataImage value) {
+            if (mDataBinder != null) mDataBinder.onCover(value, OK);
         }
     }
 

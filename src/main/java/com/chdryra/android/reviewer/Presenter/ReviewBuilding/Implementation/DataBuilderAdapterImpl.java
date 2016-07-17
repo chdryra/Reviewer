@@ -148,11 +148,11 @@ public class DataBuilderAdapterImpl <T extends GvData> extends ReviewViewAdapter
     }
 
     @Override
-    public void getCovers(CoversCallback callback) {
+    public void getCover(CoverCallback callback) {
         if(mType.equals(GvImage.TYPE)) {
-            callback.onAdapterCovers(((GvImageList)getGridData()).getCovers());
+            callback.onAdapterCover(((GvImageList)getGridData()).getRandomCover());
         } else {
-            getParentBuilder().getCovers(callback);
+            getParentBuilder().getCover(callback);
         }
     }
 

@@ -31,6 +31,7 @@ public class GvImageList extends GvDataListImpl<GvImage> {
             return new GvImageList[size];
         }
     };
+    private static final Random RANDOM = new Random();
 
     //Constructors
     public GvImageList() {
@@ -54,8 +55,7 @@ public class GvImageList extends GvDataListImpl<GvImage> {
         GvImageList covers = getCovers();
         if (covers.size() == 0) return new GvImage();
 
-        Random r = new Random();
-        return covers.getItem(r.nextInt(covers.size()));
+        return covers.getItem(RANDOM.nextInt(covers.size()));
     }
 
     public GvImageList getCovers() {

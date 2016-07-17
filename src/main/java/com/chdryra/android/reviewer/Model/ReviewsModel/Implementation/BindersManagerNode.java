@@ -239,8 +239,8 @@ public class BindersManagerNode extends BindersManager {
     }
 
     @Override
-    public void bind(ReferenceBinders.CoversBinder binder) {
-        addAndBind(getCoversBinders(), binder, new BinderMethod() {
+    public void bind(ReferenceBinders.CoverBinder binder) {
+        addAndBind(getCoverBinders(), binder, new BinderMethod() {
             @Override
             public void execute(ReferenceBinder managedBinder) {
                 managedBinder.bindToCovers();
@@ -369,8 +369,8 @@ public class BindersManagerNode extends BindersManager {
     }
 
     @Override
-    public void unbind(ReferenceBinders.CoversBinder binder) {
-        removeAndUnbind(getCoversBinders(), binder, new BinderMethod() {
+    public void unbind(ReferenceBinders.CoverBinder binder) {
+        removeAndUnbind(getCoverBinders(), binder, new BinderMethod() {
             @Override
             public void execute(ReferenceBinder managedBinder) {
                 managedBinder.unbindFromCovers();

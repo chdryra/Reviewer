@@ -85,10 +85,8 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
     }
 
     @Override
-    public void getData(CoversCallback callback) {
-        IdableList<DataImage> covers = new IdableDataList<>(getReviewId());
-        covers.add(mReview.getCover());
-        callback.onCovers(covers, OK);
+    public void getData(CoverCallback callback) {
+        callback.onCover(mReview.getCover(), OK);
     }
 
     @Override

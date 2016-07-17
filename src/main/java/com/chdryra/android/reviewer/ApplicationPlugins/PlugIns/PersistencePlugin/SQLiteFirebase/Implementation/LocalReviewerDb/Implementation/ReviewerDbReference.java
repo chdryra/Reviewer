@@ -61,6 +61,7 @@ import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by: Rizwan Choudrey
@@ -69,6 +70,8 @@ import java.util.ArrayList;
  */
 public class ReviewerDbReference extends ReviewReferenceBasic {
     private static final CallbackMessage OK = CallbackMessage.ok();
+    private static final Random RANDOM = new Random();
+
     private DataReviewInfo mInfo;
     private ReviewerDbRepository mRepo;
     private ReviewNode mNode;
@@ -118,7 +121,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public void getData(final CoversCallback callback) {
+    public void getData(final CoverCallback callback) {
         new DataLoader<>(getDb().getImagesTable(), RowImage.REVIEW_ID,
                 new LoadListener<RowImage>() {
                     @Override
@@ -127,7 +130,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
                         for (RowImage image : data) {
                             if (image.isCover()) covers.add(image);
                         }
-                        callback.onCovers(covers, OK);
+                        callback.onCover(covers.getItem(RANDOM.nextInt(covers.size())), OK);
                     }
                 }).execute();
     }

@@ -20,26 +20,30 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
+import java.util.Random;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 24/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class TreeDataCollector {
-    public static class Covers extends NodeDataCollector<DataImage> {
-        private ReviewReference.CoversCallback mCallback;
+    private static final Random RANDOM = new Random();
 
-        public Covers(IdableList<ReviewNode> nodes, ReviewReference.CoversCallback callback) {
+    public static class Covers extends NodeDataCollector<DataImage> {
+        private ReviewReference.CoverCallback mCallback;
+
+        public Covers(IdableList<ReviewNode> nodes, ReviewReference.CoverCallback callback) {
             super(nodes);
             mCallback = callback;
         }
 
         @Override
         public CallbackMessage doAsyncMethod(final ReviewNode node) {
-            node.getData(new ReviewReference.CoversCallback() {
+            node.getData(new ReviewReference.CoverCallback() {
                 @Override
-                public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
-                    onNodeReturned(node.getReviewId(), covers, message);
+                public void onCover(DataImage cover, CallbackMessage message) {
+                    onNodeReturned(node.getReviewId(), cover, message);
                 }
             });
             
@@ -48,7 +52,7 @@ public class TreeDataCollector {
 
         @Override
         public void onCompleted(IdableList<DataImage> data, AsyncMethodTracker.AsyncErrors errors) {
-            mCallback.onCovers(data, errors.getMessage());
+            mCallback.onCover(data.getItem(RANDOM.nextInt(data.size())), errors.getMessage());
         }
     }
 

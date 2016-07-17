@@ -37,8 +37,8 @@ public interface ReviewReference extends DataReviewInfo{
         void onDereferenced(@Nullable Review review, CallbackMessage message);
     }
 
-    interface CoversCallback {
-        void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message);    
+    interface CoverCallback {
+        void onCover(DataImage cover, CallbackMessage message);
     }
 
     interface TagsCallback {
@@ -106,7 +106,7 @@ public interface ReviewReference extends DataReviewInfo{
 
     ReviewNode asNode();
 
-    void getData(CoversCallback callback);
+    void getData(CoverCallback callback);
     
     void getData(TagsCallback callback);
     
@@ -134,7 +134,7 @@ public interface ReviewReference extends DataReviewInfo{
     void getSize(FactsSizeCallback callback);
 
 
-    void bind(ReferenceBinders.CoversBinder binder);
+    void bind(ReferenceBinders.CoverBinder binder);
 
     void bind(ReferenceBinders.TagsBinder binder);
 
@@ -162,7 +162,7 @@ public interface ReviewReference extends DataReviewInfo{
     void bindToFacts(ReferenceBinders.SizeBinder binder);
     
     
-    void unbind(ReferenceBinders.CoversBinder binder);
+    void unbind(ReferenceBinders.CoverBinder binder);
     
     void unbind(ReferenceBinders.TagsBinder binder);
 

@@ -19,7 +19,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class BindersManager {
-    private Collection<ReferenceBinders.CoversBinder> mCoversBinders;
+    private Collection<ReferenceBinders.CoverBinder> mCoverBinders;
     private Collection<ReferenceBinders.TagsBinder> mTagsBinders;
     private Collection<ReferenceBinders.CriteriaBinder> mCriteriaBinders;
     private Collection<ReferenceBinders.ImagesBinder> mImagesBinders;
@@ -35,7 +35,7 @@ public class BindersManager {
     private Collection<ReferenceBinders.SizeBinder> mNumFactsBinders;
 
     public BindersManager() {
-        mCoversBinders = new ArrayList<>();
+        mCoverBinders = new ArrayList<>();
         mTagsBinders = new ArrayList<>();
         mCriteriaBinders = new ArrayList<>();
         mImagesBinders = new ArrayList<>();
@@ -51,8 +51,8 @@ public class BindersManager {
         mNumFactsBinders = new ArrayList<>();
     }
 
-    public Collection<ReferenceBinders.CoversBinder> getCoversBinders() {
-        return mCoversBinders;
+    public Collection<ReferenceBinders.CoverBinder> getCoverBinders() {
+        return mCoverBinders;
     }
 
     public Collection<ReferenceBinders.TagsBinder> getTagsBinders() {
@@ -105,8 +105,8 @@ public class BindersManager {
     }
 
     
-    public void bind(final ReferenceBinders.CoversBinder binder) {
-        if(!mCoversBinders.contains(binder)) mCoversBinders.add(binder);
+    public void bind(final ReferenceBinders.CoverBinder binder) {
+        if(!mCoverBinders.contains(binder)) mCoverBinders.add(binder);
     }
     
     public void bind(final ReferenceBinders.TagsBinder binder) {
@@ -157,8 +157,8 @@ public class BindersManager {
         if(!mNumFactsBinders.contains(binder)) mNumFactsBinders.add(binder);
     }
 
-    public void unbind(ReferenceBinders.CoversBinder binder) {
-        if(mCoversBinders.contains(binder)) mCoversBinders.remove(binder);
+    public void unbind(ReferenceBinders.CoverBinder binder) {
+        if(mCoverBinders.contains(binder)) mCoverBinders.remove(binder);
     }
 
     public void unbind(ReferenceBinders.TagsBinder binder) {

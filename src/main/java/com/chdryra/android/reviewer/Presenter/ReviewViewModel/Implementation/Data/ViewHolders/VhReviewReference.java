@@ -8,7 +8,6 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders;
 
-import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -27,13 +26,11 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
@@ -112,14 +109,24 @@ public class VhReviewReference extends ViewHolderBasic {
     }
 
     private void setReference(ReviewReference reference) {
-        if (mReference != null) unbindFromReference();
+        if (isBoundTo(reference)) return;
+
+        unbindFromReference();
+
         mReference = reference;
-        mImage.setImageBitmap(null);
         mSubject.setText(mReference.getSubject().getSubject());
         mRating.setRating(mReference.getRating().getRating());
         newStamp(mReference.getAuthor(), mReference.getPublishDate());
 
+        mImage.setImageBitmap(null);
+        mHeadline.setText(null);
+        mTags.setText(null);
+
         bindToReference();
+    }
+
+    private boolean isBoundTo(ReviewReference reference) {
+        return mReference != null && mReference.getReviewId().equals(reference.getReviewId());
     }
 
     private void newStamp(DataAuthor author, DataDate publishDate) {
@@ -133,6 +140,7 @@ public class VhReviewReference extends ViewHolderBasic {
     }
 
     private void unbindFromReference() {
+        if (mReference == null) return;
         mReference.unbind(mCoverObserver);
         mReference.unbind(mCommentsObserver);
         mReference.unbind(mLocationsObserver);
@@ -140,11 +148,27 @@ public class VhReviewReference extends ViewHolderBasic {
     }
 
     private void bindToReference() {
+        if (mReference == null) return;
+        //dereference();
         mReference.bind(mCoverObserver);
         mReference.bind(mCommentsObserver);
         mReference.bind(mLocationsObserver);
         mReference.bind(mTagsObserver);
     }
+
+//    private void dereference() {
+//        mReference.dereference(new ReviewReference.DereferenceCallback() {
+//            @Override
+//            public void onDereferenced(@Nullable Review review, CallbackMessage message) {
+//                if (!message.isError() && review != null) {
+//                    mImage.setImageBitmap(review.getCover().getBitmap());
+//                    setLocationString(review.getLocations());
+//                    newFooter();
+//                    setHeadline(review.getComments());
+//                }
+//            }
+//        });
+//    }
 
     private void setLocationString(IdableList<? extends DataLocation> value) {
         GvLocationList locations = mConverterLocations.convert(value);
@@ -194,13 +218,26 @@ public class VhReviewReference extends ViewHolderBasic {
         return string != null && string.length() > 0;
     }
 
-    private class CoverBinder implements ReferenceBinders.CoversBinder {
+    private void setCover(DataImage cover) {
+        mImage.setImageBitmap(cover.getBitmap());
+    }
+
+    private void setHeadline(IdableList<? extends DataComment> value) {
+        GvCommentList comments = mConverterComments.convert(value);
+        GvCommentList headlines = comments.getHeadlines();
+        String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
+        if (validateString(headline)) {
+            //TODO sort this out with resource strings with placeholders
+            mHeadline.setText("\"" + headline + "\"");
+        } else {
+            mHeadline.setText("");
+        }
+    }
+
+    private class CoverBinder implements ReferenceBinders.CoverBinder {
         @Override
-        public void onValue(IdableList<? extends DataImage> value) {
-            int index = RAND.nextInt(value.size());
-            GvImage gvCover = mConverterImages.convert(value.getItem(index));
-            Bitmap cover = gvCover.getBitmap();
-            mImage.setImageBitmap(cover);
+        public void onValue(DataImage value) {
+            setCover(value);
         }
     }
 
@@ -208,16 +245,6 @@ public class VhReviewReference extends ViewHolderBasic {
         @Override
         public void onValue(IdableList<? extends DataTag> value) {
             mTags.setText(getTagString(value));
-            tagIfNeccessary(value);
-        }
-
-        private void tagIfNeccessary(IdableList<? extends DataTag> value) {
-            ItemTagCollection tags = mTagsManager.getTags(value.getReviewId().toString());
-            if(tags.size() == 0) {
-                for (DataTag tag : value) {
-                    mTagsManager.tagItem(tag.getReviewId().toString(), tag.getTag());
-                }
-            }
         }
     }
 
@@ -232,15 +259,7 @@ public class VhReviewReference extends ViewHolderBasic {
     private class CommentsBinder implements ReferenceBinders.CommentsBinder {
         @Override
         public void onValue(IdableList<? extends DataComment> value) {
-            GvCommentList comments = mConverterComments.convert(value);
-            GvCommentList headlines = comments.getHeadlines();
-            String headline = headlines.size() > 0 ? headlines.getItem(0).getHeadline() : null;
-            if (validateString(headline)) {
-                //TODO sort this out with resource strings with placeholders
-                mHeadline.setText("\"" + headline + "\"");
-            } else {
-                mHeadline.setText("");
-            }
+            setHeadline(value);
         }
     }
 }

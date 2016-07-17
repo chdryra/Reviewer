@@ -45,7 +45,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public void getData(CoversCallback callback) {
+    public void getData(CoverCallback callback) {
         mReview.getData(callback);
     }
 
@@ -110,7 +110,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public void bind(ReferenceBinders.CoversBinder binder) {
+    public void bind(ReferenceBinders.CoverBinder binder) {
         mReview.bind(binder);
     }
 
@@ -175,7 +175,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public void unbind(ReferenceBinders.CoversBinder binder) {
+    public void unbind(ReferenceBinders.CoverBinder binder) {
         mReview.unbind(binder);
     }
 

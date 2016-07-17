@@ -16,15 +16,15 @@ package com.chdryra.android.reviewer.Presenter.Interfaces.View;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
 
 /**
  * Adapter for {@link Review} model data to be presented in a {@link ReviewView} View layer using
  * {@link GvData}
  */
 public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
-    interface CoversCallback {
-        void onAdapterCovers(GvImageList covers);
+    interface CoverCallback {
+        void onAdapterCover(GvImage cover);
     }
 
     void attachReviewView(ReviewView<T> view);
@@ -37,5 +37,5 @@ public interface ReviewViewAdapter<T extends GvData> extends GridDataViewer<T> {
 
     float getRating();
 
-    void getCovers(CoversCallback callback);
+    void getCover(CoverCallback callback);
 }

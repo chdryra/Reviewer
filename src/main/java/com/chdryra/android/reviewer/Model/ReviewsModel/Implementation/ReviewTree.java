@@ -168,7 +168,7 @@ public class ReviewTree extends ReviewNodeBasic implements
     }
 
     @Override
-    public void getData(CoversCallback callback) {
+    public void getData(CoverCallback callback) {
         mNode.getData(callback);
     }
 
@@ -303,7 +303,7 @@ public class ReviewTree extends ReviewNodeBasic implements
     }
 
     @Override
-    public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+    public void onCover(DataImage cover, CallbackMessage message) {
         notifyCoversBinders();
     }
 
