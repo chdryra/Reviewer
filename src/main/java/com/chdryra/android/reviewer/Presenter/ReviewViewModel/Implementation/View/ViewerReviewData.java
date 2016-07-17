@@ -97,10 +97,23 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
         return mTagsManager;
     }
 
+    protected ReferenceBinder getBinder() {
+        return mBinder;
+    }
+
+    protected List<GvDataType<?>> getCellOrder() {
+        return ORDER;
+    }
+
     protected void update(DataSize size, GvDataType<?> type, CallbackMessage message) {
         if (!message.isError()) mNumDataMap.put(type, size);
         if (mNumDataMap.size() == mNumDataTypes) mInitialising = false;
         if (!mInitialising) nullifyCache();
+    }
+
+    @Nullable
+    protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
+        return mAdapterFactory.newDataAdapter(getReviewNode(), datum.getType());
     }
 
     @Override
@@ -112,11 +125,6 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
     @Override
     public ReviewViewAdapter<?> expandGridCell(GvDataSize datum) {
         return isExpandable(datum) ? getExpansionAdapter(datum) : null;
-    }
-
-    @Nullable
-    protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
-        return mAdapterFactory.newDataAdapter(getReviewNode(), datum.getType());
     }
 
     @Override
@@ -171,15 +179,13 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
 
     @Override
     protected GvDataSizeList makeGridData() {
-        if(!mBound) return bindAndGetPlaceholder();
-
         GvReviewId id = new GvReviewId(mBinder.getReviewId());
 
         GvDataSizeList data = new GvDataSizeList(id);
-        for(GvDataType<?> type : getCellOrder()) {
+        for (GvDataType<?> type : getCellOrder()) {
             DataSize dataSize = mNumDataMap.get(type);
             GvDataSize datum;
-            if(dataSize != null) {
+            if (dataSize != null) {
                 datum = new GvDataSize(id, type, dataSize.getSize());
             } else {
                 datum = new GvDataSize(id, type);
@@ -190,24 +196,9 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
         return data;
     }
 
-    private GvDataSizeList bindAndGetPlaceholder() {
-        bind();
-        mBound = true;
-
-        GvReviewId id = new GvReviewId(mBinder.getReviewId());
-        GvDataSizeList data = new GvDataSizeList(id);
-        for(GvDataType<?> type : getCellOrder()) {
-            data.add(new GvDataSize(id, type));
-        }
-
-        return data;
-    }
-
-    protected ReferenceBinder getBinder() {
-        return mBinder;
-    }
-
-    protected void bind() {
+    @Override
+    protected void onAttach() {
+        super.onAttach();
         mBinder.bindToNumTags();
         mBinder.bindToNumCriteria();
         mBinder.bindToNumImages();
@@ -216,8 +207,15 @@ public class ViewerReviewData extends ViewerNodeBasic<GvDataSize> implements Ref
         mBinder.bindToNumFacts();
     }
 
-    protected List<GvDataType<?>> getCellOrder() {
-        return ORDER;
+    @Override
+    protected void onDetach() {
+        mBinder.unbindFromNumTags();
+        mBinder.unbindFromNumCriteria();
+        mBinder.unbindFromNumImages();
+        mBinder.unbindFromNumComments();
+        mBinder.unbindFromNumLocations();
+        mBinder.unbindFromNumFacts();
+        super.onDetach();
     }
 
     @Override

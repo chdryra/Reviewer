@@ -50,7 +50,14 @@ public class ViewerChildList extends ViewerNodeBasic<GvReference> {
 
     @Override
     protected GvDataList<GvReference> makeGridData() {
-        return mConverter.convert(getReviewNode().getChildren());
+        return  mConverter.convert(getReviewNode().getChildren());
+    }
+
+    @Override
+    protected void onDetach() {
+        GvReferenceList cache = (GvReferenceList) getCache();
+        if(cache != null) cache.unbind();
+        super.onDetach();
     }
 
     @Override

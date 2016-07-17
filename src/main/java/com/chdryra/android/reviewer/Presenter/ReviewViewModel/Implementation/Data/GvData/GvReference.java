@@ -18,9 +18,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhReviewReference;
 
@@ -41,24 +39,19 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
 
     //Not really parcelable but should not need to parcel this class anyway...
     private ReviewReference mReference;
-    private TagsManager mTagsManager;
-    private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
+    private VhReviewReference mViewHolder;
 
     public GvReference() {
         super(GvReference.TYPE);
     }
 
     public GvReference(ReviewReference reference,
-                       TagsManager tagsManager,
-                       GvConverterImages converterImages,
                        GvConverterComments converterComments,
                        GvConverterLocations converterLocations) {
         super(GvReference.TYPE, new GvReviewId(reference.getReviewId()));
         mReference = reference;
-        mTagsManager = tagsManager;
-        mConverterImages = converterImages;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
     }
@@ -69,6 +62,14 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
 
     public ReviewReference getReference() {
         return mReference;
+    }
+
+    public void unbind() {
+        if(mViewHolder != null && mViewHolder.isBoundTo(mReference)) mViewHolder.unbindFromReference();
+    }
+
+    public void setViewHolder(VhReviewReference viewHolder) {
+        mViewHolder = viewHolder;
     }
 
     @Override
@@ -93,7 +94,7 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
 
     @Override
     public ViewHolder getViewHolder() {
-        return new VhReviewReference(mTagsManager, mConverterImages, mConverterComments, mConverterLocations);
+        return new VhReviewReference(mConverterComments, mConverterLocations);
     }
 
     @Override

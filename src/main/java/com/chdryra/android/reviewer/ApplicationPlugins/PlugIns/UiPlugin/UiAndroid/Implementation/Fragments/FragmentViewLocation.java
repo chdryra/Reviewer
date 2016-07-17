@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -89,7 +90,7 @@ public class FragmentViewLocation extends Fragment implements
 
         View v = extractViews(inflater, container, savedInstanceState);
 
-        initUi();
+        initButtonUI();
 
         return v;
     }
@@ -155,7 +156,13 @@ public class FragmentViewLocation extends Fragment implements
 
         mMapView = (MapView) v.findViewById(MAP_VIEW);
         mMapView.onCreate(savedInstanceState);
-        mGoogleMap = mMapView.getMap();
+        mMapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                mGoogleMap = googleMap;
+                initGoogleMapUi();
+            }
+        });
         mGotoReviewButton = (Button) v.findViewById(REVIEW_BUTTON);
         mGotoMapsButton = (Button) v.findViewById(GMAPS_BUTTON);
         mDoneButton = (Button) v.findViewById(DONE_BUTTON);
@@ -163,13 +170,7 @@ public class FragmentViewLocation extends Fragment implements
         return v;
     }
 
-    private void initUi() {
-        initGoogleMapUi();
-        initButtonUI();
-    }
-
     private void initGoogleMapUi() {
-        //TODO handle permissions
         try {
             mGoogleMap.setMyLocationEnabled(true);
             mGoogleMap.setOnMyLocationButtonClickListener(newLocateMeListener());
@@ -248,10 +249,6 @@ public class FragmentViewLocation extends Fragment implements
     private void zoomToLatLng() {
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mCurrent.getLatLng(),
                 DEFAULT_ZOOM));
-        updateMapMarker();
-    }
-
-    private void updateMapMarker() {
         MarkerOptions markerOptions = new MarkerOptions().position(mCurrent.getLatLng());
         markerOptions.title(mCurrent.getShortenedName());
         markerOptions.draggable(false);

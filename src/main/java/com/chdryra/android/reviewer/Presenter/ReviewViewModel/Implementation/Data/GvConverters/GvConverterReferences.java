@@ -43,9 +43,7 @@ public class GvConverterReferences
 
     @Override
     public GvReference convert(ReviewReference review, ReviewId parentId) {
-        return new GvReference(review,
-                mTagsManager, mConverterImages,
-                mConverterComments, mConverterLocations);
+        return new GvReference(review, mConverterComments, mConverterLocations);
     }
 
     @Override

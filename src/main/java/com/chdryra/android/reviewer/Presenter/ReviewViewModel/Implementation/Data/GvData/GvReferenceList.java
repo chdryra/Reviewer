@@ -48,6 +48,12 @@ public class GvReferenceList extends GvDataListImpl<GvReference> {
         super(data);
     }
 
+    public void unbind() {
+        for(GvReference reference : this) {
+            reference.unbind();
+        }
+    }
+
     private boolean contains(ReviewId id) {
         for (GvReference review : this) {
             if (review.getReviewId().equals(id)) return true;

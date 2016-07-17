@@ -26,18 +26,20 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterComments;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterImages;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.GvConverterLocations;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvCommentList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterComments;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
+        .GvConverterLocations;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvCommentList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocation;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvLocationList;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvReference;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvLocationList;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
+        .GvReference;
 import com.chdryra.android.reviewer.R;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by: Rizwan Choudrey
@@ -45,8 +47,6 @@ import java.util.Random;
  * Email: rizwan.choudrey@gmail.com
  */
 public class VhReviewReference extends ViewHolderBasic {
-    private static final Random RAND = new Random();
-
     private static final int LAYOUT = R.layout.grid_cell_review_overview;
     private static final int SUBJECT = R.id.review_subject;
     private static final int RATING = R.id.review_rating;
@@ -55,8 +55,6 @@ public class VhReviewReference extends ViewHolderBasic {
     private static final int TAGS = R.id.review_tags;
     private static final int PUBLISH = R.id.review_publish_data;
 
-    private TagsManager mTagsManager;
-    private GvConverterImages mConverterImages;
     private GvConverterComments mConverterComments;
     private GvConverterLocations mConverterLocations;
 
@@ -76,14 +74,10 @@ public class VhReviewReference extends ViewHolderBasic {
     private ReviewStamp mStamp;
     private String mLocation = "";
 
-    public VhReviewReference(TagsManager tagsManager,
-                             GvConverterImages converterImages,
-                             GvConverterComments converterComments,
+    public VhReviewReference(GvConverterComments converterComments,
                              GvConverterLocations converterLocations) {
         super(LAYOUT, new int[]{LAYOUT, SUBJECT, RATING, IMAGE, HEADLINE, TAGS, PUBLISH});
 
-        mTagsManager = tagsManager;
-        mConverterImages = converterImages;
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
 
@@ -93,10 +87,22 @@ public class VhReviewReference extends ViewHolderBasic {
         mLocationsObserver = new LocationsBinder();
     }
 
+    public boolean isBoundTo(ReviewReference reference) {
+        return mReference != null && mReference.getReviewId().equals(reference.getReviewId());
+    }
+
+    public void unbindFromReference() {
+        if (mReference == null) return;
+        mReference.unbind(mCoverObserver);
+        mReference.unbind(mCommentsObserver);
+        mReference.unbind(mLocationsObserver);
+        mReference.unbind(mTagsObserver);
+    }
+
     @Override
     public void updateView(ViewHolderData data) {
         setViewsIfNecessary();
-        setReference(((GvReference) data).getReference());
+        setReference(((GvReference) data));
     }
 
     private void setViewsIfNecessary() {
@@ -108,7 +114,8 @@ public class VhReviewReference extends ViewHolderBasic {
         if (mPublishDate == null) mPublishDate = (TextView) getView(PUBLISH);
     }
 
-    private void setReference(ReviewReference reference) {
+    private void setReference(GvReference gvReference) {
+        ReviewReference reference = gvReference.getReference();
         if (isBoundTo(reference)) return;
 
         unbindFromReference();
@@ -116,17 +123,17 @@ public class VhReviewReference extends ViewHolderBasic {
         mReference = reference;
         mSubject.setText(mReference.getSubject().getSubject());
         mRating.setRating(mReference.getRating().getRating());
-        newStamp(mReference.getAuthor(), mReference.getPublishDate());
 
         mImage.setImageBitmap(null);
         mHeadline.setText(null);
         mTags.setText(null);
+        mLocation = null;
+
+        newStamp(mReference.getAuthor(), mReference.getPublishDate());
 
         bindToReference();
-    }
 
-    private boolean isBoundTo(ReviewReference reference) {
-        return mReference != null && mReference.getReviewId().equals(reference.getReviewId());
+        gvReference.setViewHolder(this);
     }
 
     private void newStamp(DataAuthor author, DataDate publishDate) {
@@ -137,14 +144,6 @@ public class VhReviewReference extends ViewHolderBasic {
     private void newFooter() {
         String text = mStamp.toReadable() + (validateString(mLocation) ? " @" + mLocation : "");
         mPublishDate.setText(text);
-    }
-
-    private void unbindFromReference() {
-        if (mReference == null) return;
-        mReference.unbind(mCoverObserver);
-        mReference.unbind(mCommentsObserver);
-        mReference.unbind(mLocationsObserver);
-        mReference.unbind(mTagsObserver);
     }
 
     private void bindToReference() {

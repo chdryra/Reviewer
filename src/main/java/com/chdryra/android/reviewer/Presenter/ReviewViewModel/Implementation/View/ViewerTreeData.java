@@ -81,12 +81,21 @@ public class ViewerTreeData extends ViewerReviewData {
     }
 
     @Override
-    protected void bind() {
-        super.bind();
+    protected void onAttach() {
+        super.onAttach();
         getBinder().bindToNumReviews();
         getBinder().bindToNumAuthors();
         getBinder().bindToNumSubjects();
         getBinder().bindToNumDates();
+    }
+
+    @Override
+    protected void onDetach() {
+        getBinder().unbindFromNumReviews();
+        getBinder().unbindFromNumAuthors();
+        getBinder().unbindFromNumSubjects();
+        getBinder().unbindFromNumDates();
+        super.onDetach();
     }
 
     @Nullable
