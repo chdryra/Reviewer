@@ -15,7 +15,6 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageChooser;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImage;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvImageList;
 import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConfig;
 
 /**
@@ -54,14 +53,11 @@ public class BannerButtonAddImage extends BannerButtonAdd<GvImage>
 
     @Override
     public void onChosenImage(GvImage image) {
-        if (getGridData().size() == 0) image.setIsCover(true);
-        if (addData(image) && getGridData().size() == 1) setCover();
-    }
-
-    private void setCover() {
-        GvImageList images = (GvImageList) getGridData();
-        GvImage cover = images.getItem(0);
-        cover.setIsCover(true);
-        getReviewView().notifyDataObservers();
+        if (getGridData().size() == 0) {
+            image.setIsCover(true);
+            if (addData(image)) getReviewView().updateCover();
+        } else {
+            addData(image);
+        }
     }
 }

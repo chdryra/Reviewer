@@ -70,17 +70,17 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
 
     @Override
     public void onChildAdded(ReviewNode child) {
-        notifyReviewView();
+        notifyListChanged();
     }
 
     @Override
     public void onChildRemoved(ReviewNode child) {
-        notifyReviewView();
+        notifyListChanged();
     }
 
     @Override
     public void onNodeChanged() {
-        notifyReviewView();
+        if (mReviewView != null) mReviewView.updateAll();
     }
 
     @Override
@@ -88,7 +88,7 @@ public class PresenterReviewsList implements AlertListener, NewReviewListener,
         mGridItem.onNewReviewUsingTemplate(template);
     }
 
-    private void notifyReviewView() {
+    private void notifyListChanged() {
         if (mReviewView != null) mReviewView.onDataChanged();
     }
 
