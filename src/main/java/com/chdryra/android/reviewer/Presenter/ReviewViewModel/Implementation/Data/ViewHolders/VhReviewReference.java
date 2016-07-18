@@ -17,9 +17,7 @@ import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderBasic;
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolderData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -66,13 +64,10 @@ public class VhReviewReference extends ViewHolderBasic {
     private TextView mPublishDate;
 
     private ReviewReference mReference;
-    private CoverBinder mCoverObserver;
-    private TagsBinder mTagsObserver;
-    private CommentsBinder mCommentsObserver;
-    private LocationsBinder mLocationsObserver;
-
-    private ReviewStamp mStamp;
-    private String mLocation = "";
+    private CoverBinder mCoverBinder;
+    private TagsBinder mTagsBinder;
+    private CommentsBinder mCommentsBinder;
+    private LocationsBinder mLocationsBinder;
 
     public VhReviewReference(GvConverterComments converterComments,
                              GvConverterLocations converterLocations) {
@@ -81,10 +76,10 @@ public class VhReviewReference extends ViewHolderBasic {
         mConverterComments = converterComments;
         mConverterLocations = converterLocations;
 
-        mCoverObserver = new CoverBinder();
-        mCommentsObserver = new CommentsBinder();
-        mTagsObserver = new TagsBinder();
-        mLocationsObserver = new LocationsBinder();
+        mCoverBinder = new CoverBinder();
+        mCommentsBinder = new CommentsBinder();
+        mTagsBinder = new TagsBinder();
+        mLocationsBinder = new LocationsBinder();
     }
 
     public boolean isBoundTo(ReviewReference reference) {
@@ -93,10 +88,10 @@ public class VhReviewReference extends ViewHolderBasic {
 
     public void unbindFromReference() {
         if (mReference == null) return;
-        mReference.unbind(mCoverObserver);
-        mReference.unbind(mCommentsObserver);
-        mReference.unbind(mLocationsObserver);
-        mReference.unbind(mTagsObserver);
+        mReference.unbind(mCoverBinder);
+        mReference.unbind(mCommentsBinder);
+        mReference.unbind(mLocationsBinder);
+        mReference.unbind(mTagsBinder);
     }
 
     @Override
@@ -121,38 +116,35 @@ public class VhReviewReference extends ViewHolderBasic {
         unbindFromReference();
 
         mReference = reference;
-        mSubject.setText(mReference.getSubject().getSubject());
-        mRating.setRating(mReference.getRating().getRating());
 
-        mImage.setImageBitmap(null);
-        mHeadline.setText(null);
-        mTags.setText(null);
-        mLocation = null;
-
-        newStamp(mReference.getAuthor(), mReference.getPublishDate());
-
+        initialiseData();
         bindToReference();
-
         gvReference.setViewHolder(this);
     }
 
-    private void newStamp(DataAuthor author, DataDate publishDate) {
-        mStamp = ReviewStamp.newStamp(author, publishDate);
-        newFooter();
+    private void initialiseData() {
+        mSubject.setText(mReference.getSubject().getSubject());
+        mRating.setRating(mReference.getRating().getRating());
+        mImage.setImageBitmap(null);
+        mHeadline.setText(null);
+        mTags.setText(null);
+        newFooter(null);
     }
 
-    private void newFooter() {
-        String text = mStamp.toReadable() + (validateString(mLocation) ? " @" + mLocation : "");
+    private void newFooter(@Nullable String location) {
+        ReviewStamp stamp = ReviewStamp.newStamp(mReference.getAuthor(), mReference
+                .getPublishDate());
+        String text = stamp.toReadable() + (validateString(location) ? " @" + location : "");
         mPublishDate.setText(text);
     }
 
     private void bindToReference() {
         if (mReference == null) return;
         //dereference();
-        mReference.bind(mCoverObserver);
-        mReference.bind(mCommentsObserver);
-        mReference.bind(mLocationsObserver);
-        mReference.bind(mTagsObserver);
+        mReference.bind(mCoverBinder);
+        mReference.bind(mCommentsBinder);
+        mReference.bind(mLocationsBinder);
+        mReference.bind(mTagsBinder);
     }
 
 //    private void dereference() {
@@ -169,7 +161,7 @@ public class VhReviewReference extends ViewHolderBasic {
 //        });
 //    }
 
-    private void setLocationString(IdableList<? extends DataLocation> value) {
+    private String getLocationString(IdableList<? extends DataLocation> value) {
         GvLocationList locations = mConverterLocations.convert(value);
         ArrayList<String> locationNames = new ArrayList<>();
         for (GvLocation location : locations) {
@@ -185,17 +177,7 @@ public class VhReviewReference extends ViewHolderBasic {
             }
         }
 
-        mLocation = location;
-    }
-
-    private String getTagString(IdableList<? extends DataTag> tags) {
-        int i = tags.size();
-        String tagsString = getTagString(tags, i--);
-        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
-            tagsString = getTagString(tags, i--);
-        }
-
-        return tagsString;
+        return location.trim();
     }
 
     private String getTagString(IdableList<? extends DataTag> tags, int maxTags) {
@@ -233,6 +215,21 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 
+    private void setTags(IdableList<? extends DataTag> tags) {
+        int i = tags.size();
+        String tagsString = getTagString(tags, i--);
+        while (i > -1 && TextUtils.isTooLargeForTextView(mTags, tagsString)) {
+            tagsString = getTagString(tags, i--);
+        }
+
+        mTags.setText(tagsString);
+    }
+
+    private void setLocation(IdableList<? extends DataLocation> value) {
+        newFooter(getLocationString(value));
+    }
+
+
     private class CoverBinder implements ReferenceBinders.CoverBinder {
         @Override
         public void onValue(DataImage value) {
@@ -243,15 +240,14 @@ public class VhReviewReference extends ViewHolderBasic {
     private class TagsBinder implements ReferenceBinders.TagsBinder {
         @Override
         public void onValue(IdableList<? extends DataTag> value) {
-            mTags.setText(getTagString(value));
+            setTags(value);
         }
     }
 
     private class LocationsBinder implements ReferenceBinders.LocationsBinder {
         @Override
         public void onValue(IdableList<? extends DataLocation> value) {
-            setLocationString(value);
-            newFooter();
+            setLocation(value);
         }
     }
 
@@ -262,4 +258,3 @@ public class VhReviewReference extends ViewHolderBasic {
         }
     }
 }
-

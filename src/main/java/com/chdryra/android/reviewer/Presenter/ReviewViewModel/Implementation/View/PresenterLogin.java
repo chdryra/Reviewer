@@ -52,10 +52,10 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     private FactoryCredentialsAuthenticator mAuthenticatorFactory;
 
     private ApplicationInstance mApp;
-    private UserSession mUserSession;
     private Activity mActivity;
-    private CredentialsHandler mHandler;
     private LoginListener mListener;
+    private CredentialsHandler mHandler;
+
     private boolean mAuthenticating = false;
 
     public interface LoginListener {
@@ -76,8 +76,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mActivity = activity;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
-        mUserSession = mApp.getUserSession();
-        mUserSession.setLoginObserver(this);
+        mApp.getUserSession().setLoginObserver(this);
     }
 
     @NonNull
@@ -86,12 +85,11 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public boolean userLoggedIn() {
-        return mUserSession.hasUser();
+        return mApp.getUserSession().hasUser();
     }
 
     public void setLoginListener(LoginListener listener) {
         mListener = listener;
-        //mUserContext.loginCurrentUser();
     }
 
     public void logIn(EmailPassword emailPassword) {
@@ -138,8 +136,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void onLoginComplete() {
         launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
-        mUserSession.unsetLoginObserver();
+        mApp.getUserSession().unsetLoginObserver();
         mActivity.finish();
+
+        mActivity = null;
+        mListener = null;
+        mHandler = null;
     }
 
     public EmailValidation validateEmail(String email) {

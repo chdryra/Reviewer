@@ -106,7 +106,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     public static void setActivity(Activity activity) {
-        getInstance(activity).setCurrentActivity(activity);
+        getInstance(activity.getApplicationContext()).setCurrentActivity(activity);
     }
 
     //API

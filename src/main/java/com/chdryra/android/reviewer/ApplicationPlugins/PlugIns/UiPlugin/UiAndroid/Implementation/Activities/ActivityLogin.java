@@ -82,7 +82,7 @@ public class ActivityLogin extends ActivitySingleFragment implements LaunchableU
 
     @Override
     protected void onStop() {
-        super.onStop();
         mFragment.closeDialogs(); //stop "Leaked window" error.
+        super.onStop();
     }
 }

@@ -65,7 +65,9 @@ public class GvReference extends GvDataBasic<GvReference> implements DataReviewI
     }
 
     public void unbind() {
-        if(mViewHolder != null && mViewHolder.isBoundTo(mReference)) mViewHolder.unbindFromReference();
+        if(mViewHolder != null && mViewHolder.isBoundTo(mReference)) {
+            mViewHolder.unbindFromReference();
+        }
     }
 
     public void setViewHolder(VhReviewReference viewHolder) {

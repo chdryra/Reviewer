@@ -352,9 +352,9 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     @Override
     public void onNumComments(DataSize size, CallbackMessage message) {
         if (!message.isError()) {
-            getSize(new LocationsSizeCallback() {
+            getSize(new CommentsSizeCallback() {
                 @Override
-                public void onNumLocations(DataSize size, CallbackMessage message) {
+                public void onNumComments(DataSize size, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
                 }
             });
