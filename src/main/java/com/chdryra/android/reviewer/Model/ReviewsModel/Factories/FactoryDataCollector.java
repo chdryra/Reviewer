@@ -50,7 +50,7 @@ public class FactoryDataCollector {
         return new TreeDataCollector.Facts(nodes, callback);
     }
 
-    public NodeDataCollector<DataImage> newCollector(IdableList<ReviewNode> nodes, ReviewReference.CoverCallback callback) {
+    public NodeDataCollector<DataImage> newCollector(IdableList<ReviewNode> nodes, TreeDataCollector.CoversCallback callback) {
         return new TreeDataCollector.Covers(nodes, callback);
     }
 

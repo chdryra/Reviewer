@@ -147,7 +147,17 @@ public class FbReviewReference implements ReviewReference {
 
     @Override
     public void getData(final CoverCallback callback) {
-        getCover(callback);
+        mData.child(ReviewDb.COVER).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                callback.onCover(getCoverConverter().convert(dataSnapshot), OK);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                callback.onCover(new DatumImage(getReviewId()), CallbackMessage.error("Cover not found"));
+            }
+        });
     }
 
     @Override
@@ -548,20 +558,6 @@ public class FbReviewReference implements ReviewReference {
                 return new DatumSize(getReviewId(), snapshot.getValue(Integer.class));
             }
         };
-    }
-
-    private void getCover(final CoverCallback callback) {
-        mData.child(ReviewDb.COVER).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                callback.onCover(getCoverConverter().convert(dataSnapshot), OK);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                callback.onCover(new DatumImage(getReviewId()), CallbackMessage.error("Cover not found"));
-            }
-        });
     }
 
     private <T extends HasReviewId> void getData(String child,

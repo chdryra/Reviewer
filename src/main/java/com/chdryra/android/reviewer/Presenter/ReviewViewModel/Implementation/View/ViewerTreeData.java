@@ -101,9 +101,8 @@ public class ViewerTreeData extends ViewerReviewData {
     @Nullable
     @Override
     protected ReviewViewAdapter<?> getExpansionAdapter(GvDataSize datum) {
-        boolean isReferences = datum.getType().equals(GvReference.TYPE);
         FactoryReviewViewAdapter factory = getAdapterFactory();
-        if(isReferences) {
+        if(datum.getType().equals(GvReference.TYPE)) {
             return factory.newFlattenedReviewsListAdapter(getReviewNode());
         } else{
             return factory.newMetaDataAdapter(getReviewNode(), datum.getType());

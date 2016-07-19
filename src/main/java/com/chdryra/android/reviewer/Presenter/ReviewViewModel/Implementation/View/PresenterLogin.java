@@ -138,10 +138,6 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
         mApp.getUserSession().unsetLoginObserver();
         mActivity.finish();
-
-        mActivity = null;
-        mListener = null;
-        mHandler = null;
     }
 
     public EmailValidation validateEmail(String email) {

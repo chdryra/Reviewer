@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNodeComponent,
         ReferenceBinder.DataBinder, ReferenceBinder.DataSizeBinder {
@@ -423,7 +424,12 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
     @Override
     public void getData(final CoverCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
+        getCollectorFactory().newCollector(getChildren(), new TreeDataCollector.CoversCallback() {
+            @Override
+            public void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message) {
+                callback.onCover(covers.getItem(new Random().nextInt(covers.size())), message);
+            }
+        }).collect();
     }
 
     @Override

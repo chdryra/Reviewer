@@ -20,20 +20,20 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
-import java.util.Random;
-
 /**
  * Created by: Rizwan Choudrey
  * On: 24/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public class TreeDataCollector {
-    private static final Random RANDOM = new Random();
+    public interface CoversCallback {
+        void onCovers(IdableList<? extends DataImage> covers, CallbackMessage message);
+    }
 
     public static class Covers extends NodeDataCollector<DataImage> {
-        private ReviewReference.CoverCallback mCallback;
+        private CoversCallback mCallback;
 
-        public Covers(IdableList<ReviewNode> nodes, ReviewReference.CoverCallback callback) {
+        public Covers(IdableList<ReviewNode> nodes, CoversCallback callback) {
             super(nodes);
             mCallback = callback;
         }
@@ -52,7 +52,7 @@ public class TreeDataCollector {
 
         @Override
         public void onCompleted(IdableList<DataImage> data, AsyncMethodTracker.AsyncErrors errors) {
-            mCallback.onCover(data.getItem(RANDOM.nextInt(data.size())), errors.getMessage());
+            mCallback.onCovers(data, errors.getMessage());
         }
     }
 

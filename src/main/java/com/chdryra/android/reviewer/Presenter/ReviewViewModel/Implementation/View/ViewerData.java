@@ -48,9 +48,13 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
+public abstract class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
     private ReviewReference mReference;
     private GvDataList<T> mCache;
+
+    protected abstract void bind(ReviewReference reference);
+
+    protected abstract void unbind(ReviewReference reference);
 
     protected ViewerData(ReviewReference reference, GvDataList<T> initial) {
         mReference = reference;
@@ -62,13 +66,21 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         return new GvReviewId(reference.getReviewId());
     }
 
-    protected ReviewReference getReference() {
-        return mReference;
-    }
-
     protected void setData(GvDataList<T> data) {
         mCache = data;
         notifyDataObservers();
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+        bind(mReference);
+    }
+
+    @Override
+    protected void onDetach() {
+        unbind(mReference);
+        super.onDetach();
     }
 
     @Override
@@ -96,129 +108,147 @@ public class ViewerData<T extends GvData> extends GridDataWrapperBasic<T> {
         return mCache.getGvDataType();
     }
 
-    public static class Tags extends ViewerData<GvTag> {
-        private ReferenceBinders.TagsBinder mBinder;
+    public static class Tags extends ViewerData<GvTag> implements ReferenceBinders.TagsBinder{
+        private GvConverterDataTags mConverter;
 
-        public Tags(ReviewReference reference, final GvConverterDataTags converter) {
+        public Tags(ReviewReference reference, GvConverterDataTags converter) {
             super(reference, new GvTagList(getId(reference)));
-            mBinder = new ReferenceBinders.TagsBinder() {
-                @Override
-                public void onValue(IdableList<? extends DataTag> value) {
-                    setData(converter.convert(value));
-                }
-            };
-            getReference().bind(mBinder);
+            mConverter = converter;
         }
 
         @Override
-        protected void onDetach() {
-            getReference().unbind(mBinder);
-            super.onDetach();
+        public void onValue(IdableList<? extends DataTag> value) {
+            setData(mConverter.convert(value));
+        }
+
+        @Override
+        protected void bind(ReviewReference reference) {
+            reference.bind(this);
+        }
+
+        @Override
+        protected void unbind(ReviewReference reference) {
+            reference.unbind(this);
         }
     }
 
-    public static class Criteria extends ViewerData<GvCriterion> {
-        private ReferenceBinders.CriteriaBinder mBinder;
+    public static class Criteria extends ViewerData<GvCriterion> implements ReferenceBinders.CriteriaBinder{
+        private GvConverterCriteria mConverter;
 
-        public Criteria(ReviewReference reference, final GvConverterCriteria converter) {
+        public Criteria(ReviewReference reference, GvConverterCriteria converter) {
             super(reference, new GvCriterionList(getId(reference)));
-            mBinder = new ReferenceBinders.CriteriaBinder() {
-                @Override
-                public void onValue(IdableList<? extends DataCriterion> value) {
-                    setData(converter.convert(value));
-                }
-            };
-            getReference().bind(mBinder);
+            mConverter = converter;
         }
 
         @Override
-        protected void onDetach() {
-            getReference().unbind(mBinder);
-            super.onDetach();
+        public void onValue(IdableList<? extends DataCriterion> value) {
+            setData(mConverter.convert(value));
+        }
+
+        @Override
+        protected void bind(ReviewReference reference) {
+            reference.bind(this);
+        }
+
+        @Override
+        protected void unbind(ReviewReference reference) {
+            reference.unbind(this);
         }
     }
 
-    public static class Images extends ViewerData<GvImage> {
-        private ReferenceBinders.ImagesBinder mBinder;
+    public static class Images extends ViewerData<GvImage> implements ReferenceBinders.ImagesBinder{
+        private GvConverterImages mConverter;
 
-        public Images(ReviewReference reference, final GvConverterImages converter) {
+        public Images(ReviewReference reference, GvConverterImages converter) {
             super(reference, new GvImageList(getId(reference)));
-            mBinder = new ReferenceBinders.ImagesBinder() {
-                @Override
-                public void onValue(IdableList<? extends DataImage> value) {
-                    setData(converter.convert(value));
-                }
-            };
-            getReference().bind(mBinder);
+            mConverter = converter;
         }
 
         @Override
-        protected void onDetach() {
-            getReference().unbind(mBinder);
-            super.onDetach();
+        public void onValue(IdableList<? extends DataImage> value) {
+            setData(mConverter.convert(value));
+        }
+
+        @Override
+        protected void bind(ReviewReference reference) {
+            reference.bind(this);
+        }
+
+        @Override
+        protected void unbind(ReviewReference reference) {
+            reference.unbind(this);
         }
     }
 
-    public static class Comments extends ViewerData<GvComment> {
-        private ReferenceBinders.CommentsBinder mBinder;
+    public static class Comments extends ViewerData<GvComment> implements ReferenceBinders.CommentsBinder{
+        private GvConverterComments mConverter;
 
-        public Comments(ReviewReference reference, final GvConverterComments converter) {
+        public Comments(ReviewReference reference, GvConverterComments converter) {
             super(reference, new GvCommentList(getId(reference)));
-            mBinder = new ReferenceBinders.CommentsBinder() {
-                @Override
-                public void onValue(IdableList<? extends DataComment> value) {
-                    setData(converter.convert(value));
-                }
-            };
-            getReference().bind(mBinder);
+            mConverter = converter;
         }
 
         @Override
-        protected void onDetach() {
-            getReference().unbind(mBinder);
-            super.onDetach();
+        public void onValue(IdableList<? extends DataComment> value) {
+            setData(mConverter.convert(value));
+        }
+
+        @Override
+        protected void bind(ReviewReference reference) {
+            reference.bind(this);
+        }
+
+        @Override
+        protected void unbind(ReviewReference reference) {
+            reference.unbind(this);
         }
     }
 
-    public static class Locations extends ViewerData<GvLocation> {
-        private ReferenceBinders.LocationsBinder mBinder;
+    public static class Locations extends ViewerData<GvLocation> implements ReferenceBinders.LocationsBinder{
+        private GvConverterLocations mConverter;
 
-        public Locations(ReviewReference reference, final GvConverterLocations converter) {
+        public Locations(ReviewReference reference, GvConverterLocations converter) {
             super(reference, new GvLocationList(getId(reference)));
-            mBinder = new ReferenceBinders.LocationsBinder() {
-                @Override
-                public void onValue(IdableList<? extends DataLocation> value) {
-                    setData(converter.convert(value));
-                }
-            };
-            getReference().bind(mBinder);
+            mConverter = converter;
         }
 
         @Override
-        protected void onDetach() {
-            getReference().unbind(mBinder);
-            super.onDetach();
+        public void onValue(IdableList<? extends DataLocation> value) {
+            setData(mConverter.convert(value));
+        }
+
+        @Override
+        protected void bind(ReviewReference reference) {
+            reference.bind(this);
+        }
+
+        @Override
+        protected void unbind(ReviewReference reference) {
+            reference.unbind(this);
         }
     }
 
-    public static class Facts extends ViewerData<GvFact> {
-        private ReferenceBinders.FactsBinder mBinder;
+    public static class Facts extends ViewerData<GvFact> implements ReferenceBinders.FactsBinder{
+        private GvConverterFacts mConverter;
 
-        public Facts(ReviewReference reference, final GvConverterFacts converter) {
+        public Facts(ReviewReference reference, GvConverterFacts converter) {
             super(reference, new GvFactList(getId(reference)));
-            mBinder = new ReferenceBinders.FactsBinder() {
-                @Override
-                public void onValue(IdableList<? extends DataFact> value) {
-                    setData(converter.convert(value));
-                }
-            };
-            getReference().bind(mBinder);
+            mConverter = converter;
         }
 
         @Override
-        protected void onDetach() {
-            getReference().unbind(mBinder);
-            super.onDetach();
+        public void onValue(IdableList<? extends DataFact> value) {
+            setData(mConverter.convert(value));
+        }
+
+        @Override
+        protected void bind(ReviewReference reference) {
+            reference.bind(this);
+        }
+
+        @Override
+        protected void unbind(ReviewReference reference) {
+            reference.unbind(this);
         }
     }
 }
