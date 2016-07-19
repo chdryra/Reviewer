@@ -18,7 +18,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceWrapper;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -108,16 +107,16 @@ public class FactoryReviewViewAdapter {
     }
 
     public ReviewViewAdapter<?> newNodeDataAdapter(ReviewNode node) {
-        GridDataWrapper<?> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
-                mReviewSource.getTagsManager(), mAggregator);
+        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter,
+                mReviewSource.getTagsManager());
         return newNodeAdapter(node, viewer);
     }
 
     public <T extends GvData> ReviewViewAdapter<?> newNodeDataAdapter(GvDataCollection<T> data) {
         ReviewTreeSourceCallback node = newAsyncNode();
         mReviewSource.getMetaReview(data, data.getStringSummary(), node);
-        GridDataWrapper<?> viewer = mViewerFactory.newNodeDataViewer(node, mConverter,
-                mReviewSource.getTagsManager(), mAggregator);
+        GridDataWrapper<?> viewer = mViewerFactory.newDataSummaryViewer(node, mConverter,
+                mReviewSource.getTagsManager());
         return newNodeAdapter(node, viewer);
     }
 //
@@ -158,7 +157,7 @@ public class FactoryReviewViewAdapter {
     @Nullable
     public <T extends GvData> ReviewViewAdapter<?> newDataAdapter(ReviewNode node,
                                                                   GvDataType<T> gvDataType) {
-        return newNodeAdapter(node, mViewerFactory.newDataViewer(node, gvDataType, mConverter));
+        return newNodeAdapter(node, mViewerFactory.newReviewDataViewer(node, gvDataType, mConverter));
     }
 
     @Nullable

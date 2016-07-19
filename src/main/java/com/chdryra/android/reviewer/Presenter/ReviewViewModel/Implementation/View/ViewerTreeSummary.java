@@ -21,7 +21,6 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters.ConverterGv;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataAggregator;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataSize;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDate;
@@ -35,19 +34,16 @@ import java.util.List;
  * On: 05/10/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerTreeData extends ViewerReviewData {
+public class ViewerTreeSummary extends ViewerReviewSummary {
     private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.MetaOrder.ORDER;
     private static final int NUM_DATA = ORDER.size();
-    private GvDataAggregator mAggregator;
 
-    public ViewerTreeData(ReviewNode node,
-                          FactoryBinders bindersFactory,
-                          ConverterGv converter,
-                          TagsManager tagsManager,
-                          FactoryReviewViewAdapter adapterFactory,
-                          GvDataAggregator aggregator) {
-        super(node, bindersFactory, converter, tagsManager, adapterFactory, NUM_DATA);
-        mAggregator = aggregator;
+    public ViewerTreeSummary(ReviewNode node,
+                             ConverterGv converter,
+                             TagsManager tagsManager,
+                             FactoryBinders bindersFactory,
+                             FactoryReviewViewAdapter adapterFactory) {
+        super(node, converter, tagsManager, bindersFactory, adapterFactory, NUM_DATA);
     }
 
     @Override

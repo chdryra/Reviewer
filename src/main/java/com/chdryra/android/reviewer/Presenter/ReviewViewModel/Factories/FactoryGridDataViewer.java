@@ -37,11 +37,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateCriteria;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerAggregateToReviews;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerDataToReviews;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerMetaData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewData;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeData;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerReviewSummary;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ViewerTreeSummary;
 
 /**
  * Created by: Rizwan Choudrey
@@ -57,19 +57,18 @@ public class FactoryGridDataViewer {
         mBindersFactory = bindersFactory;
     }
 
-    public GridDataWrapper<?> newNodeDataViewer(ReviewNode node,
-                                                     ConverterGv converter,
-                                                     TagsManager tagsManager,
-                                                     GvDataAggregator aggregateFactory) {
+    public GridDataWrapper<?> newDataSummaryViewer(ReviewNode node,
+                                                   ConverterGv converter,
+                                                   TagsManager tagsManager) {
         GridDataWrapper<?> viewer;
         IdableList<ReviewNode> children = node.getChildren();
         if (children.size() > 1) {
             //aggregate children into meta review
-            viewer = new ViewerTreeData(node, mBindersFactory, converter, tagsManager,
-                    mAdapterFactory, aggregateFactory);
+            viewer = new ViewerTreeSummary(node, converter, tagsManager,
+                    mBindersFactory, mAdapterFactory);
         } else {
             ReviewNode toView = children.size() == 0 ? node : children.getItem(0);
-            viewer = new ViewerReviewData(toView, mBindersFactory, converter, tagsManager,
+            viewer = new ViewerReviewSummary(toView, converter, tagsManager, mBindersFactory,
                     mAdapterFactory);
         }
 
@@ -77,22 +76,22 @@ public class FactoryGridDataViewer {
     }
 
     @Nullable
-    public <T extends GvData> GridDataWrapper<T> newDataViewer(ReviewReference review,
-                                                               GvDataType<T> type,
-                                                               ConverterGv converter) {
+    public <T extends GvData> GridDataWrapper<T> newReviewDataViewer(ReviewReference review,
+                                                                     GvDataType<T> type,
+                                                                     ConverterGv converter) {
         GridDataViewer viewer = null;
         if(type.equals(GvTag.TYPE)) {
-            viewer = new ViewerData.Tags(review, converter.getConverterTags());
+            viewer = new ViewerReviewData.Tags(review, converter.getConverterTags());
         } else if(type.equals(GvCriterion.TYPE)) {
-            viewer = new ViewerData.Criteria(review, converter.getConverterCriteria());
+            viewer = new ViewerReviewData.Criteria(review, converter.getConverterCriteria());
         } else if(type.equals(GvImage.TYPE)) {
-            viewer = new ViewerData.Images(review, converter.getConverterImages());
+            viewer = new ViewerReviewData.Images(review, converter.getConverterImages());
         } else if(type.equals(GvComment.TYPE)) {
-            viewer = new ViewerData.Comments(review, converter.getConverterComments());
+            viewer = new ViewerReviewData.Comments(review, converter.getConverterComments());
         } else if(type.equals(GvLocation.TYPE)) {
-            viewer = new ViewerData.Locations(review, converter.getConverterLocations());
+            viewer = new ViewerReviewData.Locations(review, converter.getConverterLocations());
         } else if(type.equals(GvFact.TYPE)) {
-            viewer = new ViewerData.Facts(review, converter.getConverterFacts());
+            viewer = new ViewerReviewData.Facts(review, converter.getConverterFacts());
         }
 
         return (GridDataWrapper<T>) viewer;

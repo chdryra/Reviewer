@@ -22,7 +22,6 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewTreeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
-
     private ReferencesRepository mRepo;
 
     public ReviewTreeRepo(DataReviewInfo meta,
@@ -62,5 +61,24 @@ public class ReviewTreeRepo extends NodeInternal implements ReviewsSubscriber, R
         for(ReviewNode child : getChildren()) {
             removeChild(child.getReviewId());
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewTreeRepo)) return false;
+        if (!super.equals(o)) return false;
+
+        ReviewTreeRepo that = (ReviewTreeRepo) o;
+
+        return mRepo.equals(that.mRepo);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + mRepo.hashCode();
+        return result;
     }
 }

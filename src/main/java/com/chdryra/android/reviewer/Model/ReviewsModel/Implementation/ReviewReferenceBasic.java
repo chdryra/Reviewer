@@ -418,4 +418,20 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
     public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
         mBinders.unbindFromFacts(binder);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewReferenceBasic)) return false;
+
+        ReviewReferenceBasic that = (ReviewReferenceBasic) o;
+
+        return mBinders.equals(that.mBinders);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return mBinders.hashCode();
+    }
 }

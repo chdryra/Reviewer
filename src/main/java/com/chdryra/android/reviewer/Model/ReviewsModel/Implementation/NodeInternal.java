@@ -583,7 +583,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
         if (!mMeta.equals(that.mMeta)) return false;
         if (!mChildren.equals(that.mChildren)) return false;
-        if (!getCollectorFactory().equals(that.getCollectorFactory())) return false;
+        if (!mNodeFactory.equals(that.mNodeFactory)) return false;
         return mChildBinders.equals(that.mChildBinders);
 
     }
@@ -593,7 +593,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         int result = super.hashCode();
         result = 31 * result + mMeta.hashCode();
         result = 31 * result + mChildren.hashCode();
-        result = 31 * result + getCollectorFactory().hashCode();
+        result = 31 * result + mNodeFactory.hashCode();
         result = 31 * result + mChildBinders.hashCode();
         return result;
     }

@@ -64,7 +64,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * On: 20/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ViewerMetaData<T extends GvData> extends ViewerData<T> {
+public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<T> {
     private FactoryReviewViewAdapter mAdapterFactory;
 
     protected abstract void bind(MetaReference reference);

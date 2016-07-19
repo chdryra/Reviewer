@@ -308,4 +308,23 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
     public void unbindFromDates(ReferenceBinders.SizeBinder binder) {
         mBinders.unbindFromDates(binder);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReviewNodeBasic)) return false;
+
+        ReviewNodeBasic that = (ReviewNodeBasic) o;
+
+        if (!mBinders.equals(that.mBinders)) return false;
+        return mObservers.equals(that.mObservers);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mBinders.hashCode();
+        result = 31 * result + mObservers.hashCode();
+        return result;
+    }
 }
