@@ -15,13 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface GoogleLogin extends CredentialsProvider<GoogleLoginCallback> {
+public interface GoogleLogin extends SessionProvider<GoogleLoginCallback> {
     GoogleSignInOptions DEFAULT_SIGN_IN = GoogleSignInOptions.DEFAULT_SIGN_IN;
     String NAME = "GoogleSignIn";
-
-    @Override
-    void requestCredentials(GoogleLoginCallback resultListener);
-
-    @Override
-    String getName();
 }

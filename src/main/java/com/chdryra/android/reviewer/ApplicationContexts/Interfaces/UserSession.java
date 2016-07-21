@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
@@ -37,7 +38,9 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
 
     DataAuthor getCurrentUserAsAuthor();
 
-    void logout();
+    void loginComplete(@Nullable SessionProvider<?> provider);
+
+    void logout(SessionProvider.LogoutCallback callback);
 
     boolean getCurrentProfile(UserAccounts.GetProfileCallback callback);
 

@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Fragment;
 import android.content.Intent;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLoginCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
@@ -53,7 +54,7 @@ public class FacebookLoginAndroid
     }
 
     @Override
-    public void requestCredentials(FacebookLoginCallback resultListener) {
+    public void requestSignIn(FacebookLoginCallback resultListener) {
         setListener(resultListener);
         LoginManager manager = LoginManager.getInstance();
         manager.logInWithPublishPermissions(mFragment, PERMISSIONS);
@@ -82,5 +83,11 @@ public class FacebookLoginAndroid
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public void logout(LogoutCallback callback) {
+        LoginManager.getInstance().logOut();
+        callback.onLoggedOut(CallbackMessage.ok());
     }
 }

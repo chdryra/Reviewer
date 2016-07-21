@@ -13,6 +13,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClient;
 import com.chdryra.android.mygenerallibrary.LocationUtils.LocationClientConnector;
 import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
@@ -20,7 +21,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.CurrentScreen;
 import com.chdryra.android.reviewer.ApplicationContexts.Factories.FactoryApplicationContext;
-import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserSessionImpl;
+import com.chdryra.android.reviewer.ApplicationContexts.Implementation.UserSessionDefault;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
@@ -31,6 +32,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesP
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -95,7 +97,7 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
         mAppContext = appContext.getContext();
         mLocationServices = appContext.getLocationServices();
-        mUserSession = new UserSessionImpl(appContext);
+        mUserSession = new UserSessionDefault(mAppContext);
         mReviewPacker = new ReviewPacker();
     }
 
@@ -234,10 +236,19 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
 
     @Override
     public void logout() {
-        mUserSession.logout();
-        LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
-        getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
-        mScreen.close();
+        mScreen.showToast("Logging out...");
+        mUserSession.logout(new SessionProvider.LogoutCallback() {
+            @Override
+            public void onLoggedOut(CallbackMessage message) {
+                if(!message.isError()) {
+                    LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
+                    getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
+                    mScreen.close();
+                } else {
+                    mScreen.showToast("Problem logging out: " + message.getMessage());
+                }
+            }
+        });
     }
 
     @Override

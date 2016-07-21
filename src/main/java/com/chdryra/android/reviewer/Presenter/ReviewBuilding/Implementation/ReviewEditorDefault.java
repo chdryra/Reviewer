@@ -63,6 +63,7 @@ public class ReviewEditorDefault<GC extends GvDataList<?>> extends ReviewViewDef
     @Override
     public void setCover(GvImage image) {
         mBuilder.setCover(image);
+        updateCover();
     }
 
     @Override

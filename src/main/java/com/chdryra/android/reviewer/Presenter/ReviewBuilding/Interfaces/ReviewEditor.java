@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewEditor<T extends GvData> extends ReviewView<T> {
-    public enum ReadyToBuildResult {
+    enum ReadyToBuildResult {
         YES("yes"),
         NoSubject(Strings.Toasts.ENTER_SUBJECT),
         NoTags(Strings.Toasts.ENTER_TAG);

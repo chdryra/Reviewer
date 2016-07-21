@@ -11,9 +11,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 import android.app.Activity;
 import android.content.Intent;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLoginCallback;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
+import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -41,7 +43,7 @@ public class TwitterLoginAndroid extends Callback<TwitterSession> implements
     }
 
     @Override
-    public void requestCredentials(TwitterLoginCallback resultListener) {
+    public void requestSignIn(TwitterLoginCallback resultListener) {
         setListener(resultListener);
         mTwitterAuthClient.authorize(mActivity, this);
     }
@@ -54,6 +56,12 @@ public class TwitterLoginAndroid extends Callback<TwitterSession> implements
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public void logout(LogoutCallback callback) {
+        Twitter.logOut();
+        callback.onLoggedOut(CallbackMessage.ok());
     }
 
     @Override

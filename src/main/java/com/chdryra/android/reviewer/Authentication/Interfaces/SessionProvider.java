@@ -8,13 +8,21 @@
 
 package com.chdryra.android.reviewer.Authentication.Interfaces;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface CredentialsProvider<T extends BinaryResultCallback> {
-    void requestCredentials(T resultListener);
+public interface SessionProvider<T extends BinaryResultCallback> {
+    interface LogoutCallback {
+        void onLoggedOut(CallbackMessage message);
+    }
 
     String getName();
+
+    void requestSignIn(T resultListener);
+
+    void logout(LogoutCallback callback);
 }

@@ -13,12 +13,6 @@ package com.chdryra.android.reviewer.Authentication.Interfaces;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface TwitterLogin extends CredentialsProvider<TwitterLoginCallback> {
+public interface TwitterLogin extends SessionProvider<TwitterLoginCallback> {
     String NAME = "TwitterLogin";
-
-    @Override
-    void requestCredentials(TwitterLoginCallback resultListener);
-
-    @Override
-    String getName();
 }

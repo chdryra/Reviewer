@@ -13,7 +13,7 @@ import android.content.Intent;
 import com.chdryra.android.reviewer.Authentication.Interfaces.BinaryResultCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
-import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsProvider;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 
 /**
@@ -23,10 +23,10 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.Activity
  */
 public abstract class CredentialsHandlerBasic<C, T extends BinaryResultCallback>
         implements CredentialsHandler {
-    private CredentialsProvider<T> mProvider;
+    private SessionProvider<T> mProvider;
     private CredentialsCallback<C> mCallback;
 
-    public CredentialsHandlerBasic(CredentialsProvider<T> provider, CredentialsCallback<C> callback) {
+    public CredentialsHandlerBasic(SessionProvider<T> provider, CredentialsCallback<C> callback) {
         mProvider = provider;
         mCallback = callback;
     }
@@ -47,7 +47,7 @@ public abstract class CredentialsHandlerBasic<C, T extends BinaryResultCallback>
 
     @Override
     public void requestCredentials() {
-        mProvider.requestCredentials(getProviderCallback());
+        mProvider.requestSignIn(getProviderCallback());
     }
 
     @Override

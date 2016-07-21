@@ -8,9 +8,15 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders;
 
+
+
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLogin;
 import com.chdryra.android.reviewer.Authentication.Interfaces.GoogleLoginCallback;
@@ -21,20 +27,24 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
+public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin, GoogleApiClient.ConnectionCallbacks {
     private static final int GOOGLE_SIGN_IN = RequestCodeGenerator.getCode("GoogleSignIn");
     private static final int GOOGLE_CLIENT_ID = R.string.google_client_id;
 
     private GoogleApiClient mGoogleApiClient;
     private GoogleLoginCallback mListener;
     private Activity mActivity;
+
+    private LogoutCallback mLogoutCallback;
 
     public GoogleLoginAndroid(Activity activity) {
         mActivity = activity;
@@ -49,6 +59,7 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
         mGoogleApiClient = new GoogleApiClient
                 .Builder(mActivity)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, options)
+                .addConnectionCallbacks(this)
                 .build();
     }
 
@@ -57,7 +68,32 @@ public class GoogleLoginAndroid implements ActivityResultListener, GoogleLogin {
     }
 
     @Override
-    public void requestCredentials(GoogleLoginCallback resultListener) {
+    public void onConnected(@Nullable Bundle bundle) {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                if(status.isSuccess()) {
+                    mLogoutCallback.onLoggedOut(CallbackMessage.ok());
+                } else {
+                    mLogoutCallback.onLoggedOut(CallbackMessage.error(status.getStatusMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mLogoutCallback.onLoggedOut(CallbackMessage.error("Connection suspended"));
+    }
+
+    @Override
+    public void logout(LogoutCallback callback) {
+        mLogoutCallback = callback;
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void requestSignIn(GoogleLoginCallback resultListener) {
         setListener(resultListener);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         mActivity.startActivityForResult(signInIntent, GOOGLE_SIGN_IN);

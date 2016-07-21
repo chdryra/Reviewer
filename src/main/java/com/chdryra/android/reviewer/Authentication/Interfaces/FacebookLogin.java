@@ -15,13 +15,7 @@ import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FacebookLogin extends CredentialsProvider<FacebookLoginCallback> {
+public interface FacebookLogin extends SessionProvider<FacebookLoginCallback> {
     String PERMISSION = PlatformFacebook.REQUIRED_PERMISSION;
     String NAME = "FacebookLogin";
-
-    @Override
-    void requestCredentials(FacebookLoginCallback resultListener);
-
-    @Override
-    String getName();
 }

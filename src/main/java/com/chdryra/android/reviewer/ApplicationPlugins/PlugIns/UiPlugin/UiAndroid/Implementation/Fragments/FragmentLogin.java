@@ -28,8 +28,7 @@ import com.chdryra.android.mygenerallibrary.Dialogs.DialogShower;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
-        .CredentialProviders.FactoryCredentialProviders;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FactorySessionProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
@@ -162,7 +161,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
 
     private void bindButtonsToProviders(Button facebookButton, Button googleButton,
                                         Button twitterButton, Button emailButton) {
-        final FactoryCredentialProviders providers = new FactoryCredentialProviders();
+        final FactorySessionProviders providers = new FactorySessionProviders();
 
         emailButton.setOnClickListener(new View.OnClickListener() {
             @Override

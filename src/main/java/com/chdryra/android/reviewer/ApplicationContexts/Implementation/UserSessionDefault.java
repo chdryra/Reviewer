@@ -11,12 +11,12 @@ package com.chdryra.android.reviewer.ApplicationContexts.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
-import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ApplicationContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.PresenterContext;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
@@ -27,27 +27,27 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsSt
  * On: 16/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserSessionImpl implements UserSession {
+public class UserSessionDefault implements UserSession{
     private static final AuthenticationError NO_USER_ERROR = new AuthenticationError
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
+    private PresenterContext mAppContext;
     private AuthenticatedUser mUser;
     private AuthorProfile mProfile;
-    private PresenterContext mContext;
     private LoginObserver mObserver;
+    private SessionProvider<?> mProvider;
 
+    public UserSessionDefault(PresenterContext appContext) {
+        mAppContext = appContext;
 
-    public UserSessionImpl(ApplicationContext context) {
-        mContext = context.getContext();
-
-        UserAuthenticator authenticator = mContext.getUsersManager().getAuthenticator();
+        UserAuthenticator authenticator = mAppContext.getUsersManager().getAuthenticator();
         onUserStateChanged(null,  authenticator.getAuthenticatedUser());
         authenticator.registerObserver(this);
     }
 
     @Override
     public boolean hasUser() {
-        return mContext.getUsersManager().getAuthenticator().getAuthenticatedUser() != null;
+        return mAppContext.getUsersManager().getAuthenticator().getAuthenticatedUser() != null;
     }
 
     @Override
@@ -72,14 +72,22 @@ public class UserSessionImpl implements UserSession {
     }
 
     @Override
-    public void logout() {
-        mContext.getUsersManager().logoutCurrentUser();
-        mContext.getSocialPlatformList().logout();
+    public void loginComplete(@Nullable SessionProvider<?> provider) {
+        mProvider = provider;
+    }
+
+    @Override
+    public void logout(SessionProvider.LogoutCallback callback) {
+        mAppContext.getUsersManager().logoutCurrentUser();
+        mAppContext.getSocialPlatformList().logout();
+        if(mProvider != null) {
+            mProvider.logout(callback);
+        }
     }
 
     @Override
     public boolean getCurrentProfile(final UserAccounts.GetProfileCallback callback) {
-        return mContext.getUsersManager().getCurrentUsersProfile(callback);
+        return mAppContext.getUsersManager().getCurrentUsersProfile(callback);
     }
 
     @Override
@@ -108,7 +116,7 @@ public class UserSessionImpl implements UserSession {
     }
 
     private void setAuthor(AuthenticatedUser user, AuthorProfile profile) {
-        mContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
+        mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
         mUser = user;
         mProfile = profile;
     }

@@ -85,9 +85,8 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
 
     public void onSignUpComplete(@Nullable EmailPassword emailPassword, Activity activity) {
         if(emailPassword != null) {
-            Intent i = new Intent();
-            i.putExtra(EMAIL_PASSWORD, emailPassword);
-            activity.setResult(Activity.RESULT_OK, i);
+            activity.setResult(Activity.RESULT_OK,
+                    new Intent().putExtra(EMAIL_PASSWORD, emailPassword));
         }
 
         activity.finish();

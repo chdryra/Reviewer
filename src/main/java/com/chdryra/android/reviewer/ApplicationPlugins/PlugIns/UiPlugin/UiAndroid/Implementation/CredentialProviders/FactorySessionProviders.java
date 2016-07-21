@@ -19,7 +19,7 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.TwitterLogin;
  * On: 26/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FactoryCredentialProviders {
+public class FactorySessionProviders {
     public FacebookLogin newFacebookLogin(Fragment fragment) {
         return new FacebookLoginAndroid(fragment);
     }
