@@ -11,9 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndro
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Dialogs.AlertListener;
 import com.chdryra.android.reviewer.Application.AndroidApp.AndroidAppInstance;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -21,8 +19,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Act
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterReviewsList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterUsersFeed;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
-
-import java.util.Collection;
 
 /**
  * UI Activity holding published reviews feed.
@@ -63,40 +59,7 @@ public class ActivityUsersFeed extends ActivityReviewsList implements
     }
 
     @Override
-    public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onUploadFailed(ReviewId id, CallbackMessage result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onUploadCompleted(ReviewId id, CallbackMessage result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
-    public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
-            result) {
-        makeToast(result.getMessage());
-    }
-
-    @Override
     public void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded) {
 
-    }
-
-    @Override
-    public void onPublishingCompleted(ReviewId reviewId,
-                                      Collection<PublishResults> platformsOk,
-                                      Collection<PublishResults> platformsNotOk,
-                                      CallbackMessage message) {
-        makeToast(mPresenter.getPublishedMessage(platformsOk, platformsNotOk, message));
-    }
-
-    private void makeToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

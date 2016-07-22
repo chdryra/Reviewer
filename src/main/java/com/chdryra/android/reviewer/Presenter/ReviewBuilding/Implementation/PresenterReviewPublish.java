@@ -9,8 +9,10 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Implementation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
@@ -21,6 +23,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.RatingBarAction
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.SubjectAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewView;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
+import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ActivityResultListener;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.BannerButtonActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.MenuActionNone;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Actions.RatingBarActionNone;
@@ -32,19 +35,23 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vie
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewParams;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewViewPerspective;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
+import com.chdryra.android.reviewer.Social.Interfaces.AuthorisationListener;
+import com.chdryra.android.reviewer.Social.Interfaces.LoginUi;
 import com.chdryra.android.reviewer.Social.Interfaces.PlatformAuthoriser;
 import com.chdryra.android.reviewer.Social.Interfaces.SocialPlatform;
 import com.chdryra.android.reviewer.View.LauncherModel.Factories.UiLauncher;
+import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableUi;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 01/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterReviewPublish {
+public class PresenterReviewPublish implements ActivityResultListener{
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private ApplicationInstance mApp;
     private ReviewView<GvSocialPlatform> mView;
+    private LoginUi mAuthUi;
 
     private PresenterReviewPublish(ApplicationInstance app,
                                    ReviewView<GvSocialPlatform> view) {
@@ -56,11 +63,29 @@ public class PresenterReviewPublish {
         return mView;
     }
 
-    public void  onQueuedToPublish(Activity activity) {
+    public void seekAuthorisation(SocialPlatform<?> platform,
+                                  LaunchableUi authLaunchable,
+                                  AuthorisationListener listener) {
+        UiLauncher launcher = mApp.getUiLauncher();
+        mAuthUi = platform.getLoginUi(authLaunchable, listener);
+        mAuthUi.launchUi(launcher);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mAuthUi != null) mAuthUi.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void onQueuedToPublish(Activity activity) {
+        mApp.getCurrentScreen().showToast(Strings.Toasts.PUBLISHING);
         mApp.getConfigUi().getUsersFeed();
         UiLauncher uiLauncher = mApp.getUiLauncher();
         uiLauncher.launchAndClearBackStack(mApp.getConfigUi().getUsersFeed(), FEED);
         activity.finish();
+    }
+
+    public void onFailedToQueue(CallbackMessage message) {
+        mApp.getCurrentScreen().showToast(Strings.Toasts.PROBLEM_PUBLISHING + ": " + message.getMessage());
     }
 
     public static class Builder {

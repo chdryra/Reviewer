@@ -15,9 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
-import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleterListener;
-import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces
-        .ReviewPublisherListener;
+import com.chdryra.android.reviewer.NetworkServices.ReviewPublishing.Interfaces.ReviewPublisherListener;
 import com.chdryra.android.reviewer.Social.Implementation.PlatformFacebook;
 import com.chdryra.android.reviewer.Social.Implementation.PublishResults;
 
@@ -39,27 +37,8 @@ public class PresenterUsersFeed extends PresenterFeed implements
     private PresenterListener mListener;
     private ReviewDeleter mDeleter;
 
-    public interface PresenterListener extends ReviewPublisherListener, ReviewDeleterListener {
-        @Override
-        void onReviewDeleted(ReviewId reviewId, CallbackMessage result);
-
-        @Override
-        void onUploadFailed(ReviewId id, CallbackMessage result);
-
-        @Override
-        void onUploadCompleted(ReviewId id, CallbackMessage result);
-
-        @Override
-        void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
-                result);
-
-        @Override
+    public interface PresenterListener {
         void onPublishingStatus(ReviewId reviewId, double percentage, PublishResults justUploaded);
-
-        @Override
-        void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> platformsOk,
-                                   Collection<PublishResults> platformsNotOk, CallbackMessage
-                                           result);
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
@@ -73,7 +52,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
     public void deleteReview(final ReviewId id) {
         mDeleter = getApp().newReviewDeleter(id);
         mDeleter.deleteReview(this);
-        getApp().getCurrentScreen().showToast(Strings.Toasts.DELETING);
+        makeToast(Strings.Toasts.DELETING);
     }
 
     public String getPublishedMessage(Collection<PublishResults> platformsOk,
@@ -126,18 +105,18 @@ public class PresenterUsersFeed extends PresenterFeed implements
 
     @Override
     public void onUploadFailed(ReviewId id, CallbackMessage result) {
-        mListener.onUploadFailed(id, result);
+        makeToast(result.getMessage());
     }
 
     @Override
     public void onUploadCompleted(ReviewId id, CallbackMessage result) {
-        mListener.onUploadCompleted(id, result);
+        makeToast(result.getMessage());
     }
 
     @Override
     public void onPublishingFailed(ReviewId reviewId, Collection<String> platforms, CallbackMessage
             result) {
-        mListener.onPublishingFailed(reviewId, platforms, result);
+        makeToast(result.getMessage());
     }
 
     @Override
@@ -150,13 +129,17 @@ public class PresenterUsersFeed extends PresenterFeed implements
     public void onPublishingCompleted(ReviewId reviewId, Collection<PublishResults> platformsOk,
                                       Collection<PublishResults> platformsNotOk, CallbackMessage
                                               result) {
-        mListener.onPublishingCompleted(reviewId, platformsOk, platformsNotOk, result);
+        makeToast(getPublishedMessage(platformsOk, platformsNotOk, result));
     }
 
     @Override
     public void onReviewDeleted(ReviewId reviewId, CallbackMessage result) {
         getApp().getTagsManager().clearTags(reviewId.toString());
-        mListener.onReviewDeleted(reviewId, result);
+        makeToast(result.getMessage());
+    }
+
+    private void makeToast(String message) {
+        getApp().getCurrentScreen().showToast(message);
     }
 
     public static class Builder extends PresenterFeed.Builder {
