@@ -58,7 +58,7 @@ public class ActivityPublishReview extends ActivityReviewView
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mAuthUi.onActivityResult(requestCode, resultCode, data);
+        if(mAuthUi != null) mAuthUi.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

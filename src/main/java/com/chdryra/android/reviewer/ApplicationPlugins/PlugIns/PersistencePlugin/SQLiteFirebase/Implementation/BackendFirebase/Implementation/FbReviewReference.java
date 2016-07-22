@@ -464,12 +464,13 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<IdableList<DataTag>>() {
             @Override
             public IdableList<DataTag> convert(DataSnapshot snapshot) {
-                List<String> value = (List<String>) snapshot.getValue();
                 IdableList<DataTag> tags = new IdableDataList<>(mInfo.getReviewId());
-                for (String tagString : value) {
-                    tags.add(new DatumTag(mInfo.getReviewId(), tagString));
+                List<String> value = (List<String>) snapshot.getValue();
+                if(value != null) {
+                    for (String tagString : value) {
+                        tags.add(new DatumTag(mInfo.getReviewId(), tagString));
+                    }
                 }
-
                 return tags;
             }
         };
@@ -555,7 +556,9 @@ public class FbReviewReference implements ReviewReference {
         return new SnapshotConverter<DataSize>() {
             @Override
             public DataSize convert(DataSnapshot snapshot) {
-                return new DatumSize(getReviewId(), snapshot.getValue(Integer.class));
+                Integer value = snapshot.getValue(Integer.class);
+                return value == null ? new DatumSize(getReviewId(), 0) :
+                        new DatumSize(getReviewId(), value);
             }
         };
     }

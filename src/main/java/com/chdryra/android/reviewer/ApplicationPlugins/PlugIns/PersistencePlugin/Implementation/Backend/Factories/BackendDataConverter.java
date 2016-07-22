@@ -104,8 +104,9 @@ public class BackendDataConverter {
     }
     
     public DataImage convert(String reviewId, ImageData item) {
-        return new DatumImage(convert(reviewId), ImageData.asBitmap(item.getBitmap()),
-                new DatumDateReview(convert(reviewId), item.getDate()), item.getCaption(), item.isCover());
+        ReviewId id = convert(reviewId);
+        return item == null ? new DatumImage(id) : new DatumImage(id, ImageData.asBitmap(item.getBitmap()),
+                new DatumDateReview(id, item.getDate()), item.getCaption(), item.isCover());
     }
 
     public IdableList<DataCriterion> convertCriteria(String reviewId, List<Criterion> list) {

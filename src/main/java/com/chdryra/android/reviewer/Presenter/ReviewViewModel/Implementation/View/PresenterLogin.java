@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.OtherUtils.RequestCodeGenerator;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
@@ -138,7 +139,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     public void onLoginComplete() {
         UserSession userSession = mApp.getUserSession();
-        userSession.loginComplete(mProvider);
+        userSession.loginComplete();
         launchLaunchable(mApp.getConfigUi().getUsersFeed(), FEED, new Bundle());
         mActivity.finish();
     }
@@ -153,9 +154,14 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SIGN_UP && data != null) {
-            EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
-            if (emailPassword != null) authenticateWithCredentials(emailPassword);
+        if (requestCode == SIGN_UP) {
+            mApp.getCurrentScreen().showToast(Strings.Toasts.COMPLETING_SIGNUP);
+            if(data != null) {
+                EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
+                if (emailPassword != null) authenticateWithCredentials(emailPassword);
+            } else {
+                mApp.getUserSession().getUserProfile();
+            }
         } else {
             if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
         }

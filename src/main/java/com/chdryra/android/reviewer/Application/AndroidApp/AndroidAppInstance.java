@@ -31,6 +31,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.ApplicationPluginsTest;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.NetworkServicesPlugin.NetworkServicesAndroid.Implementation.BackendService.BackendRepoService;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.Activities.ActivityEditData;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation
+        .CredentialProviders.GoogleLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
@@ -241,14 +244,18 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
             @Override
             public void onLoggedOut(CallbackMessage message) {
                 if(!message.isError()) {
-                    LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
-                    getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
-                    mScreen.close();
+                    returnToLogin();
                 } else {
                     mScreen.showToast("Problem logging out: " + message.getMessage());
                 }
             }
-        });
+        }, new GoogleLoginAndroid(mActivity));
+    }
+
+    private void returnToLogin() {
+        LaunchableConfig loginConfig = mAppContext.getConfigUi().getLogin();
+        getUiLauncher().launch(loginConfig, LAUNCH_LOGIN);
+        mScreen.close();
     }
 
     @Override

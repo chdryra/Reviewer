@@ -36,8 +36,9 @@ public class Strings {
         public static final String ENTER_LOCATION = "Please enter a location name";
         public static final String PUBLISHING = "Publishing...";
         public static final String PROBLEM_PUBLISHING = "Problem publishing";
-        public static final String CANNOT_DELETE_SUBJECT_TAG = "Cannot delete subject tag";
         public static final String REVIEW_NOT_FOUND = "Review not found";
+        public static final String COMPLETING_SIGNUP = "Completing sign up...";
+        public static final String DELETING = "Deleting please wait...";
     }
     
     public static class Screens {

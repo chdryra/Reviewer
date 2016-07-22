@@ -26,4 +26,6 @@ public interface UiLauncher {
     void launch(LaunchableConfig config, int requestCode, Bundle args);
 
     void launch(LaunchableConfig config, int requestCode);
+
+    void launchAndClearBackStack(LaunchableConfig config, int requestCode);
 }

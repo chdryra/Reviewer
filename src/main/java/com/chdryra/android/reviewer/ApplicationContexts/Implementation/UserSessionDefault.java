@@ -35,7 +35,6 @@ public class UserSessionDefault implements UserSession{
     private AuthenticatedUser mUser;
     private AuthorProfile mProfile;
     private LoginObserver mObserver;
-    private SessionProvider<?> mProvider;
 
     public UserSessionDefault(PresenterContext appContext) {
         mAppContext = appContext;
@@ -51,15 +50,10 @@ public class UserSessionDefault implements UserSession{
     }
 
     @Override
-    public void unsetLoginObserver() {
-        mObserver = null;
-    }
-
-    @Override
     public boolean setLoginObserver(LoginObserver observer) {
         mObserver = observer;
         if(mUser != null) {
-            getCurrentProfile();
+            getUserProfile();
             return true;
         }
 
@@ -72,22 +66,18 @@ public class UserSessionDefault implements UserSession{
     }
 
     @Override
-    public void loginComplete(@Nullable SessionProvider<?> provider) {
-        mProvider = provider;
+    public void loginComplete() {
+        mObserver = null;
     }
 
     @Override
-    public void logout(SessionProvider.LogoutCallback callback) {
+    public void logout(SessionProvider.LogoutCallback callback, SessionProvider<?> googleHack) {
+        //From Firebase
         mAppContext.getUsersManager().logoutCurrentUser();
+        //From twitter/fb (also if used for login)
         mAppContext.getSocialPlatformList().logout();
-        if(mProvider != null) {
-            mProvider.logout(callback);
-        }
-    }
-
-    @Override
-    public boolean getCurrentProfile(final UserAccounts.GetProfileCallback callback) {
-        return mAppContext.getUsersManager().getCurrentUsersProfile(callback);
+        //Google needs its own method
+        googleHack.logout(callback); //ensures
     }
 
     @Override
@@ -101,11 +91,12 @@ public class UserSessionDefault implements UserSession{
             return;
         }
 
-        getCurrentProfile();
+        getUserProfile();
     }
 
-    private void getCurrentProfile() {
-        getCurrentProfile(new UserAccounts.GetProfileCallback() {
+    @Override
+    public void getUserProfile() {
+        mAppContext.getUsersManager().getCurrentUsersProfile(new UserAccounts.GetProfileCallback() {
             @Override
             public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable
             AuthenticationError error) {

@@ -14,7 +14,6 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 
@@ -32,17 +31,15 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
 
     boolean hasUser();
 
-    void unsetLoginObserver();
-
     boolean setLoginObserver(LoginObserver observer);
 
     DataAuthor getCurrentUserAsAuthor();
 
-    void loginComplete(@Nullable SessionProvider<?> provider);
+    void getUserProfile();
 
-    void logout(SessionProvider.LogoutCallback callback);
+    void loginComplete();
 
-    boolean getCurrentProfile(UserAccounts.GetProfileCallback callback);
+    void logout(SessionProvider.LogoutCallback callback, SessionProvider<?> googleHack);
 
     @Override
     void onUserStateChanged(@Nullable AuthenticatedUser oldUser,

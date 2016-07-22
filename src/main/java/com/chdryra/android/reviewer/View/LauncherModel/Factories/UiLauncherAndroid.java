@@ -45,7 +45,7 @@ public class UiLauncherAndroid implements UiLauncher {
 
     @Override
     public void launch(LaunchableUi ui, int requestCode, Bundle args) {
-        ui.launch(new AndroidLauncher(mCommissioner, requestCode, ui.getLaunchTag(), args));
+        ui.launch(new AndroidLauncher(mCommissioner, requestCode, ui.getLaunchTag(), args, false));
     }
 
     @Override
@@ -63,17 +63,25 @@ public class UiLauncherAndroid implements UiLauncher {
         launch(config.getLaunchable(), requestCode, new Bundle());
     }
 
+    @Override
+    public void launchAndClearBackStack(LaunchableConfig config, int requestCode) {
+        LaunchableUi ui = config.getLaunchable();
+        ui.launch(new AndroidLauncher(mCommissioner, requestCode, ui.getLaunchTag(), new Bundle(), true));
+    }
+
     private class AndroidLauncher implements LauncherUi {
         private final Activity mCommissioner;
         private final int mRequestCode;
         private final String mTag;
         private final Bundle mArgs;
+        private boolean mClearBsckStack;
 
-        public AndroidLauncher(Activity commissioner, int requestCode, String tag, Bundle args) {
+        public AndroidLauncher(Activity commissioner, int requestCode, String tag, Bundle args, boolean clearBackStack) {
             mCommissioner = commissioner;
             mRequestCode = requestCode;
             mTag = tag;
             mArgs = args;
+            mClearBsckStack = clearBackStack;
         }
 
         @Override
@@ -104,6 +112,7 @@ public class UiLauncherAndroid implements UiLauncher {
         @Override
         public void launch(Intent i, String argsKey) {
             i.putExtra(argsKey, mArgs);
+            if(mClearBsckStack) i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             mCommissioner.startActivityForResult(i, mRequestCode);
         }
 

@@ -10,6 +10,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.Application.Strings;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -72,6 +73,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
     public void deleteReview(final ReviewId id) {
         mDeleter = getApp().newReviewDeleter(id);
         mDeleter.deleteReview(this);
+        getApp().getCurrentScreen().showToast(Strings.Toasts.DELETING);
     }
 
     public String getPublishedMessage(Collection<PublishResults> platformsOk,
