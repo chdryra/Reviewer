@@ -31,27 +31,27 @@ public class AuthenticatedUser implements Parcelable{
     };
     
     private String mProvider;
-    private String mUserId;
+    private String mProviderId;
 
     public AuthenticatedUser() {
     }
 
-    public AuthenticatedUser(String provider, String userId) {
+    public AuthenticatedUser(String provider, String providerId) {
         mProvider = provider;
-        mUserId = userId;
+        mProviderId = providerId;
     }
 
     public AuthenticatedUser(Parcel in) {
         mProvider = in.readString();
-        mUserId = in.readString();
+        mProviderId = in.readString();
     }
 
     public String getProvider() {
         return mProvider;
     }
 
-    public String getUserId() {
-        return mUserId;
+    public String getProviderId() {
+        return mProviderId;
     }
 
     @Override
@@ -62,6 +62,6 @@ public class AuthenticatedUser implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mProvider);
-        dest.writeString(mUserId);
+        dest.writeString(mProviderId);
     }
 }

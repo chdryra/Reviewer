@@ -9,6 +9,8 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation.NullUserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 
@@ -18,7 +20,6 @@ import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class UsersManager {
-    private static final String PROVIDER = ApplicationInstance.APP_NAME;
     private final UserAuthenticator mAuthenticator;
     private final UserAccounts mAccounts;
 
@@ -35,15 +36,13 @@ public class UsersManager {
         return mAccounts;
     }
 
-    public boolean getCurrentUsersProfile(UserAccounts.GetProfileCallback callback) {
+    public void getCurrentUsersAccount(UserAccounts.GetAccountCallback callback) {
         AuthenticatedUser user = mAuthenticator.getAuthenticatedUser();
-        if(user == null) {
-            callback.onProfile( new AuthenticatedUser(), new AuthorProfile(),
-                    new AuthenticationError(PROVIDER, AuthenticationError.Reason.NO_AUTHENTICATED_USER));
-            return false;
+        if(user != null ) {
+            mAccounts.getAccount(user, callback);
         } else {
-            mAccounts.getProfile(user, callback);
-            return true;
+            callback.onAccount(new NullUserAccount(),
+                    new AuthenticationError(ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER));
         }
     }
 

@@ -20,14 +20,14 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterFeed extends PresenterReviewsList {
-    protected PresenterFeed(ApplicationInstance app, ReviewTreeRepo feedNode, boolean withMenu) {
+    protected PresenterFeed(ApplicationInstance app, ReviewNodeRepo feedNode, boolean withMenu) {
         super(app, app.newReviewsListView(feedNode, withMenu));
     }
 
     @Override
     public void detach() {
         super.detach();
-        ((ReviewTreeRepo)getNode()).detachFromRepo();
+        ((ReviewNodeRepo)getNode()).detachFromRepo();
     }
 
     public static class Builder {
@@ -46,9 +46,11 @@ public class PresenterFeed extends PresenterReviewsList {
         }
 
         @NonNull
-        protected ReviewTreeRepo getFeedNode(DataAuthor author) {
-            ReferencesRepository feed = mApp.getReviews(author);
-            return mApp.getReviewsFactory().createMetaReview(feed, author.getName() + "'s feed");
+        protected ReviewNodeRepo getFeedNode(DataAuthor author) {
+            ReferencesRepository ownReviews = mApp.getReviews(author);
+            ReviewNodeRepo metaReview = mApp.getReviewsFactory().createMetaReview(ownReviews, author
+                    .getName() + "'s reviews");
+            return metaReview;
         }
     }
 }

@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsA
 import com.chdryra.android.reviewer.Authentication.Factories.FactoryCredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
 import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
 import com.chdryra.android.reviewer.Authentication.Interfaces.CredentialsHandler;
 import com.chdryra.android.reviewer.Authentication.Interfaces.FacebookLogin;
@@ -45,8 +45,7 @@ import com.chdryra.android.reviewer.View.LauncherModel.Interfaces.LaunchableConf
  * On: 21/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, UserSession
-        .LoginObserver {
+public class PresenterLogin implements ActivityResultListener, AuthenticatorCallback, UserSession.SessionObserver {
     private static final int FEED = RequestCodeGenerator.getCode("FeedScreen");
     private static final int SIGN_UP = RequestCodeGenerator.getCode("SignUpScreen");
 
@@ -64,7 +63,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     public interface LoginListener {
         void onSignUpRequested(@Nullable AuthenticatedUser user, String message);
 
-        void onAuthenticated(AuthorProfile profile);
+        void onAuthenticated();
 
         void onAuthenticationFailed(AuthenticationError error);
 
@@ -79,7 +78,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
         mActivity = activity;
         mHandlerFactory = handlerFactory;
         mAuthenticatorFactory = authenticatorFactory;
-        mApp.getUserSession().setLoginObserver(this);
+        mApp.getUserSession().setSessionObserver(this);
     }
 
     @NonNull
@@ -160,7 +159,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
                 EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
                 if (emailPassword != null) authenticateWithCredentials(emailPassword);
             } else {
-                mApp.getUserSession().getUserProfile();
+                onSession(mApp.getUserSession().getUserAccount(), null);
             }
         } else {
             if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
@@ -173,13 +172,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     @Override
-    public void onLoggedIn(AuthenticatedUser user,
-                           AuthorProfile profile,
-                           @Nullable AuthenticationError error) {
+    public void onSession(UserAccount account,
+                          @Nullable AuthenticationError error) {
         if (error == null) {
-            if (mListener != null) mListener.onAuthenticated(profile);
+            if (mListener != null) mListener.onAuthenticated();
         } else {
-            resolveError(user, error);
+            resolveError(account.getAccountHolder(), error);
         }
         authenticationFinished();
     }

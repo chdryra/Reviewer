@@ -31,7 +31,6 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.FactorySessionProviders;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailValidation;
 import com.chdryra.android.reviewer.Authentication.Implementation.PasswordValidation;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.PresenterLogin;
@@ -120,7 +119,7 @@ public class FragmentLogin extends Fragment implements PresenterLogin.LoginListe
     }
 
     @Override
-    public void onAuthenticated(AuthorProfile profile) {
+    public void onAuthenticated() {
         closeLoggingInDialog();
         mPresenter.onLoginComplete();
     }

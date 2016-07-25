@@ -42,7 +42,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
     }
 
     private PresenterUsersFeed(ApplicationInstance app,
-                               ReviewTreeRepo feedNode,
+                               ReviewNodeRepo feedNode,
                                PresenterListener listener) {
         super(app, feedNode, true);
         getApp().getPublisher().registerListener(this);
@@ -148,7 +148,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
         }
 
         public PresenterUsersFeed build(PresenterListener listener) {
-            DataAuthor author = getApp().getUserSession().getCurrentUserAsAuthor();
+            DataAuthor author = getApp().getUserSession().getSessionAuthor();
             return new PresenterUsersFeed(getApp(), getFeedNode(author), listener);
         }
     }

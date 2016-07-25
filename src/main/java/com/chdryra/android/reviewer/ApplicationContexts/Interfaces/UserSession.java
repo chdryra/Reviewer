@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
@@ -23,19 +23,19 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface UserSession extends UserAuthenticator.UserStateObserver {
-    interface LoginObserver {
-        void onLoggedIn(@Nullable AuthenticatedUser user,
-                        @Nullable AuthorProfile profile,
-                        @Nullable AuthenticationError error);
+    interface SessionObserver {
+        void onSession(@Nullable UserAccount account,
+                       @Nullable AuthenticationError error);
     }
 
-    boolean hasUser();
+    @Nullable
+    AuthenticatedUser getSessionUser();
 
-    boolean setLoginObserver(LoginObserver observer);
+    boolean setSessionObserver(SessionObserver observer);
 
-    DataAuthor getCurrentUserAsAuthor();
+    DataAuthor getSessionAuthor();
 
-    void getUserProfile();
+    UserAccount getUserAccount();
 
     void loginComplete();
 

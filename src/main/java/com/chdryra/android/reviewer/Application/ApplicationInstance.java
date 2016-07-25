@@ -81,16 +81,16 @@ public interface ApplicationInstance {
 
     ReviewPublisher getPublisher();
 
+    void getReview(ReviewId id, RepositoryCallback callback);
+
     ReferencesRepository getReviews(DataAuthor author);
 
-    void getReview(ReviewId id, RepositoryCallback callback);
+    ReviewDeleter newReviewDeleter(ReviewId id);
 
     void packReview(Review review, Bundle args);
 
     @Nullable
     Review unpackReview(Bundle args);
-
-    ReviewDeleter newReviewDeleter(ReviewId id);
 
     void launchReview(ReviewId reviewId);
 

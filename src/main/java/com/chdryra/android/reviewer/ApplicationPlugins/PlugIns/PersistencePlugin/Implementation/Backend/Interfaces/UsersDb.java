@@ -33,7 +33,7 @@ public interface UsersDb {
         void onUserCreationError(AuthenticationError error);
     }
 
-    interface AddProfileCallback {
+    interface CreateAccountCallback {
         void onProfileAdded(User user);
 
         void onProfileAddedError(AuthenticationError error);
@@ -57,7 +57,7 @@ public interface UsersDb {
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
-    void addProfile(User user, AddProfileCallback callback);
+    void addProfile(User user, CreateAccountCallback callback);
 
     void getProfile(User user, GetProfileCallback callback);
 

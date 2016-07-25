@@ -22,8 +22,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.UserProfileTranslator;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.UsersDb;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
@@ -52,11 +51,11 @@ public class FirebaseUsersDb implements UsersDb {
 
     private Firebase mDataRoot;
     private FbUsersStructure mStructure;
-    private UserProfileTranslator mUserFactory;
+    private UserProfileConverter mUserFactory;
 
     public FirebaseUsersDb(Firebase dataRoot,
                            FbUsersStructure structure,
-                           UserProfileTranslator userFactory) {
+                           UserProfileConverter userFactory) {
         mDataRoot = dataRoot;
         mStructure = structure;
         mUserFactory = userFactory;
@@ -75,7 +74,7 @@ public class FirebaseUsersDb implements UsersDb {
     }
 
     @Override
-    public void addProfile(final User user, final AddProfileCallback callback) {
+    public void addProfile(final User user, final CreateAccountCallback callback) {
         Profile profile = user.getProfile();
         if (profile == null) {
             callback.onProfileAddedError(new AuthenticationError(NAME,
@@ -115,7 +114,7 @@ public class FirebaseUsersDb implements UsersDb {
         mDataRoot.updateChildren(map, updateProfileCallback(user, callback));
     }
 
-    private void addNewProfile(User user, AddProfileCallback callback) {
+    private void addNewProfile(User user, CreateAccountCallback callback) {
         DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
         Map<String, Object> map = usersUpdater.getUpdatesMap(user, INSERT_OR_UPDATE);
         mDataRoot.updateChildren(map, addProfileCallback(user, callback));
@@ -158,7 +157,7 @@ public class FirebaseUsersDb implements UsersDb {
 
     @NonNull
     private Firebase.CompletionListener addProfileCallback(final User user, final
-    AddProfileCallback callback) {
+    CreateAccountCallback callback) {
         return new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {

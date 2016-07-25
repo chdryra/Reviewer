@@ -16,6 +16,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
@@ -32,9 +33,9 @@ public class UserSessionDefault implements UserSession{
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
     private PresenterContext mAppContext;
-    private AuthenticatedUser mUser;
-    private AuthorProfile mProfile;
-    private LoginObserver mObserver;
+    private DataAuthor mAuthor;
+    private UserAccount mAccount;
+    private SessionObserver mObserver;
 
     public UserSessionDefault(PresenterContext appContext) {
         mAppContext = appContext;
@@ -45,15 +46,16 @@ public class UserSessionDefault implements UserSession{
     }
 
     @Override
-    public boolean hasUser() {
-        return mAppContext.getUsersManager().getAuthenticator().getAuthenticatedUser() != null;
+    @Nullable
+    public AuthenticatedUser getSessionUser() {
+        return mAppContext.getUsersManager().getAuthenticator().getAuthenticatedUser();
     }
 
     @Override
-    public boolean setLoginObserver(LoginObserver observer) {
+    public boolean setSessionObserver(SessionObserver observer) {
         mObserver = observer;
-        if(mUser != null) {
-            getUserProfile();
+        if(mAccount != null) {
+            setUserAccount();
             return true;
         }
 
@@ -61,8 +63,8 @@ public class UserSessionDefault implements UserSession{
     }
 
     @Override
-    public DataAuthor getCurrentUserAsAuthor() {
-        return mProfile.getAuthor();
+    public DataAuthor getSessionAuthor() {
+        return mAuthor;
     }
 
     @Override
@@ -83,38 +85,44 @@ public class UserSessionDefault implements UserSession{
     @Override
     public void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable
     AuthenticatedUser newUser) {
-        mUser = newUser;
-        mProfile = null;
+        mAccount = null;
+        mAuthor = null;
 
         if (oldUser == null && newUser == null) {
-            notifyLogin(null, null, NO_USER_ERROR);
+            notifyOnSession(null, NO_USER_ERROR);
             return;
         }
 
-        getUserProfile();
+        setUserAccount();
     }
 
-    @Override
-    public void getUserProfile() {
-        mAppContext.getUsersManager().getCurrentUsersProfile(new UserAccounts.GetProfileCallback() {
+    private void setUserAccount() {
+        mAppContext.getUsersManager().getCurrentUsersAccount(new UserAccounts.GetAccountCallback() {
             @Override
-            public void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable
-            AuthenticationError error) {
-                if (error == null) setAuthor(user, profile);
-                notifyLogin(user, profile, error);
+            public void onAccount(UserAccount account, @Nullable AuthenticationError error) {
+                if(error == null) {
+                    mAccount.getAuthorProfile(new UserAccount.GetAuthorProfileCallback() {
+                        @Override
+                        public void onAuthorProfile(AuthorProfile profile, @Nullable AuthenticationError error) {
+                            if (error != null) {
+                                mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile
+                                        .getAuthor()));
+                            }
+                        }
+                    });
+                }
+
             }
         });
     }
 
-    private void setAuthor(AuthenticatedUser user, AuthorProfile profile) {
-        mAppContext.getReviewsFactory().setAuthorsStamp(new AuthorsStamp(profile.getAuthor()));
-        mUser = user;
-        mProfile = profile;
+    @Override
+    public UserAccount getUserAccount() {
+        return mAccount;
     }
 
-    private void notifyLogin(@Nullable AuthenticatedUser user,
-                             @Nullable AuthorProfile profile,
-                             @Nullable AuthenticationError error) {
-        if (mObserver != null) mObserver.onLoggedIn(user, profile, error);
+    private void notifyOnSession(@Nullable UserAccount account,
+                                 @Nullable AuthenticationError error) {
+        if (mObserver != null) mObserver.onSession(account, error);
     }
 }

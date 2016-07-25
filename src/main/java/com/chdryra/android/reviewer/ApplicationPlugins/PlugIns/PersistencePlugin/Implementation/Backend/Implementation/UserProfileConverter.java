@@ -19,15 +19,11 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
  * On: 09/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class UserProfileTranslator {
+public class UserProfileConverter {
     private FactoryAuthorProfile mProfileFactory;
 
-    public UserProfileTranslator(FactoryAuthorProfile profileFactory) {
+    public UserProfileConverter(FactoryAuthorProfile profileFactory) {
         mProfileFactory = profileFactory;
-    }
-
-    public FactoryAuthorProfile getProfileFactory() {
-        return mProfileFactory;
     }
 
     public User newUser(String providerName, String providerUserId) {
@@ -35,11 +31,15 @@ public class UserProfileTranslator {
     }
 
     public User toUser(AuthenticatedUser user) {
-        return newUser(user.getProvider(), user.getUserId());
+        return newUser(user.getProvider(), user.getProviderId());
     }
 
     public User toUser(AuthenticatedUser user, AuthorProfile profile) {
-        return new User(user.getProvider(), user.getUserId(), new Profile(profile));
+        return new User(user.getProvider(), user.getProviderId(), new Profile(profile));
+    }
+
+    public User toUser(AuthenticatedUser user, String authorId) {
+        return new User(user.getProvider(), user.getProviderId(), authorId);
     }
 
     public AuthenticatedUser toAuthenticatedUser(User user) {
@@ -63,7 +63,7 @@ public class UserProfileTranslator {
         return mProfileFactory.newProfile(name);
     }
 
-    public AuthorProfile newNullAuthorProfile() {
+    public AuthorProfile newNullProfile() {
         return mProfileFactory.newNullAuthorProfile();
     }
 }

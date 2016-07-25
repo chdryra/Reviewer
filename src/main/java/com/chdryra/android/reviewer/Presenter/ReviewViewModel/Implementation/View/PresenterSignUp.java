@@ -17,8 +17,8 @@ import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorNameValidation;
-import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.EmailPasswordValidation;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
@@ -27,7 +27,7 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * On: 10/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class PresenterSignUp implements UserAccounts.AddProfileCallback {
+public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterSignUp.class, "EmailPassword");
 
     private static final String APP = ApplicationInstance.APP_NAME;
@@ -61,7 +61,7 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
             return;
         }
 
-        addProfile(user, author);
+        createAccount(user, author);
     }
 
     public void signUpNewAuthor(String email, String password, String name) {
@@ -97,15 +97,14 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
     }
 
     @Override
-    public void onProfileAdded(AuthenticatedUser user, AuthorProfile profile, @Nullable
+    public void onAccountCreated(UserAccount account, @Nullable
     AuthenticationError error) {
         mListener.onSignUpComplete(mEmailPassword, error);
     }
 
-    private void addProfile(AuthenticatedUser user, String author) {
+    private void createAccount(AuthenticatedUser user, String author) {
         UserAccounts accounts = mApp.getUsersManager().getAccounts();
-        AuthorProfile authorProfile = accounts.newProfie(author);
-        accounts.addProfile(user, authorProfile, this);
+        accounts.createAccount(user, accounts.newProfile(author), this);
     }
 
     private void createUserWithProfile(EmailPassword emailPassword, final String author) {
@@ -116,7 +115,7 @@ public class PresenterSignUp implements UserAccounts.AddProfileCallback {
                 if (error != null) {
                     notifySignUpError(error);
                 } else {
-                    addProfile(user, author);
+                    createAccount(user, author);
                 }
             }
         });

@@ -45,7 +45,7 @@ public class FirebaseReviewsRepository extends FirebaseRepositoryBasic implement
 
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
-        Author author = new Author(session.getCurrentUserAsAuthor());
+        Author author = new Author(session.getSessionAuthor());
         return mAuthorsDbFactory.newAuthorsDb(mDataBase, mStructure.getAuthorsDb(author));
     }
 

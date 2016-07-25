@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
+import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 
 
@@ -23,23 +24,23 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface UserAccounts {
+    interface GetAccountCallback {
+        void onAccount(UserAccount account, @Nullable AuthenticationError error);
+    }
+
     interface CreateUserCallback {
         void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error);
     }
 
-    interface AddProfileCallback {
-        void onProfileAdded(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error);
+    interface CreateAccountCallback {
+        void onAccountCreated(UserAccount account, @Nullable AuthenticationError error);
     }
 
-    interface GetProfileCallback {
-        void onProfile(AuthenticatedUser user, AuthorProfile profile, @Nullable AuthenticationError error);
-    }
+    AuthorProfile newProfile(String name);
 
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
-    void addProfile(AuthenticatedUser authUser, AuthorProfile profile, AddProfileCallback callback);
+    void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback callback);
 
-    void getProfile(AuthenticatedUser authUser, GetProfileCallback callback);
-
-    AuthorProfile newProfie(String name);
+    void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
 }

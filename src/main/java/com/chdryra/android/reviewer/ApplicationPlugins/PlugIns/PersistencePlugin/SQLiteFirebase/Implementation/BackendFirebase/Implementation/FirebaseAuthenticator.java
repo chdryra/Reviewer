@@ -12,15 +12,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.UserProfileTranslator;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.UsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Authentication.Interfaces.AuthenticatorCallback;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailAddressException;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
@@ -49,16 +46,17 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
     private static final String EMAIL = "email";
 
     private Firebase mRoot;
-    private UserProfileTranslator mUsersFactory;
-    private FirebaseUsersDb mDb;
+    private UserProfileConverter mUsersFactory;
+    private UserAccounts mAccounts;
     private AuthenticatedUser mLoggedIn;
     private ArrayList<UserStateObserver> mObservers;
 
-    public FirebaseAuthenticator(Firebase root, FirebaseUsersDb db, UserProfileTranslator
-            usersFactory) {
+    public FirebaseAuthenticator(Firebase root,
+                                 UserAccounts accounts,
+                                 UserProfileConverter usersFactory) {
         mRoot = root;
         mUsersFactory = usersFactory;
-        mDb = db;
+        mAccounts = accounts;
         mObservers = new ArrayList<>();
         newUser(mRoot.getAuth());
         mRoot.addAuthStateListener(this);
@@ -90,12 +88,6 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
         if (mLoggedIn == null) newUser(mRoot.getAuth());
 
         return mLoggedIn;
-    }
-
-    private void setAuthenticatedUser(@Nullable AuthenticatedUser user) {
-        AuthenticatedUser old = mLoggedIn;
-        mLoggedIn = user;
-        notifyObservers(old);
     }
 
     @Override
@@ -164,7 +156,9 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
         AuthenticatedUser user = auth != null ?
                 mUsersFactory.newAuthenticatedUser(auth.getProvider(), auth.getUid()) : null;
 
-        setAuthenticatedUser(user);
+        AuthenticatedUser old = mLoggedIn;
+        mLoggedIn = user;
+        notifyObservers(old);
     }
 
     @NonNull
@@ -195,10 +189,8 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
         callback.onAuthenticated(user);
     }
 
-    private void notifyOnAuthenticated(User user, AuthenticatorCallback callback) {
-        AuthenticatedUser authUser
-                = mUsersFactory.toAuthenticatedUser(user);
-        callback.onAuthenticated(authUser);
+    private void notifyOnAuthenticated(AuthenticatedUser user, AuthenticatorCallback callback) {
+        callback.onAuthenticated(user);
     }
 
     private void createAuthenticatedGoogleUser(String email, String password, final
@@ -214,15 +206,14 @@ public class FirebaseAuthenticator implements UserAuthenticator, Firebase.AuthSt
         }
 
         EmailPassword ep = new EmailPassword(emailAddress, new Password(password));
-        mDb.createUser(ep, new UsersDb.CreateUserCallback() {
+        mAccounts.createUser(ep, new UserAccounts.CreateUserCallback() {
             @Override
-            public void onUserCreated(User user) {
-                notifyOnAuthenticated(user, callback);
-            }
-
-            @Override
-            public void onUserCreationError(AuthenticationError error) {
-                notifyNotAuthenticated(error, callback);
+            public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
+                if(error == null) {
+                    notifyOnAuthenticated(user, callback);
+                } else {
+                    notifyNotAuthenticated(error, callback);
+                }
             }
         });
     }

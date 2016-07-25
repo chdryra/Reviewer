@@ -21,10 +21,10 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
  * On: 08/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewTreeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
+public class ReviewNodeRepo extends NodeInternal implements ReviewsSubscriber, ReviewNode {
     private ReferencesRepository mRepo;
 
-    public ReviewTreeRepo(DataReviewInfo meta,
+    public ReviewNodeRepo(DataReviewInfo meta,
                           ReferencesRepository repo,
                           FactoryReviewNode nodeFactory) {
         super(meta, nodeFactory);
@@ -66,10 +66,10 @@ public class ReviewTreeRepo extends NodeInternal implements ReviewsSubscriber, R
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewTreeRepo)) return false;
+        if (!(o instanceof ReviewNodeRepo)) return false;
         if (!super.equals(o)) return false;
 
-        ReviewTreeRepo that = (ReviewTreeRepo) o;
+        ReviewNodeRepo that = (ReviewNodeRepo) o;
 
         return mRepo.equals(that.mRepo);
 

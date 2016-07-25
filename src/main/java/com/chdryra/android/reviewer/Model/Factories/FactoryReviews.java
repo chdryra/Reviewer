@@ -51,7 +51,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.MdConverters.ConverterMd;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewTreeRepo;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewNodeRepo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,12 +122,12 @@ public class FactoryReviews implements ReviewMaker {
         return new ReviewMetaSnapshot(info, reviews);
     }
 
-    public ReviewTreeRepo createMetaReview(ReferencesRepository repo, String title) {
+    public ReviewNodeRepo createMetaReview(ReferencesRepository repo, String title) {
         ReviewStamp stamp = newStamp();
         DataReviewInfo info = new ReviewInfo(stamp, new DatumSubject(stamp, title),
                 new DatumRating(stamp, 0f, 1), new DatumAuthorReview(stamp, stamp.getAuthor()),
                 new DatumDateReview(stamp, stamp.getDate().getTime()));
-        return new ReviewTreeRepo(info, repo, getNodeFactory());
+        return new ReviewNodeRepo(info, repo, getNodeFactory());
     }
 
     public ReviewReference asReference(Review review, TagsManager manager) {
