@@ -9,7 +9,8 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
 /**
@@ -17,18 +18,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class MdDate implements DataDate {
-    private long mTime;
-    private MdReviewId mReviewId;
+public class MdAuthorId implements DataAuthorId {
+    private ReviewId mReviewId;
+    private AuthorId mAuthorId;
 
-    public MdDate(MdReviewId reviewId, long time) {
-        mTime = time;
+    public MdAuthorId(ReviewId reviewId, AuthorId authorId) {
         mReviewId = reviewId;
+        mAuthorId = authorId;
     }
 
     @Override
-    public long getTime() {
-        return mTime;
+    public boolean hasData(DataValidator dataValidator) {
+        return dataValidator.validate(mReviewId) && dataValidator.validate(mAuthorId);
     }
 
     @Override
@@ -37,27 +38,21 @@ public class MdDate implements DataDate {
     }
 
     @Override
-    public boolean hasData(DataValidator dataValidator) {
-        return dataValidator.validate(this);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MdDate)) return false;
+        if (!(o instanceof MdAuthorId)) return false;
 
-        MdDate mdDate = (MdDate) o;
+        MdAuthorId that = (MdAuthorId) o;
 
-        if (mTime != mdDate.mTime) return false;
-        return !(mReviewId != null ? !mReviewId.equals(mdDate.mReviewId) : mdDate.mReviewId !=
-                null);
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        return mAuthorId.equals(that.mAuthorId);
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (mTime ^ (mTime >>> 32));
-        result = 31 * result + (mReviewId != null ? mReviewId.hashCode() : 0);
+        int result = mReviewId.hashCode();
+        result = 31 * result + mAuthorId.hashCode();
         return result;
     }
 }

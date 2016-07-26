@@ -16,7 +16,7 @@ import com.chdryra.android.mygenerallibrary.OtherUtils.ActivityResultCode;
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.LocationServicesPlugin.Api.LocationServicesApi;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -83,7 +83,7 @@ public interface ApplicationInstance {
 
     void getReview(ReviewId id, RepositoryCallback callback);
 
-    ReferencesRepository getReviews(DataAuthor author);
+    ReferencesRepository getReviews(AuthorId authorId);
 
     ReviewDeleter newReviewDeleter(ReviewId id);
 
@@ -96,7 +96,7 @@ public interface ApplicationInstance {
 
     void launchImageChooser(ImageChooser chooser, int requestCode);
 
-    void launchFeed(DataAuthor author);
+    void launchFeed(AuthorId authorId);
 
     void launchEditScreen(GvDataType<?> type);
 

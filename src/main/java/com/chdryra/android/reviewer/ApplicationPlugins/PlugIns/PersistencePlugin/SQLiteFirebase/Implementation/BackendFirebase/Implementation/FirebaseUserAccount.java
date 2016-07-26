@@ -12,15 +12,15 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbUsersStructure;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
-
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -43,16 +43,19 @@ public class FirebaseUserAccount implements UserAccount {
     private static final DbUpdater.UpdateType INSERT_OR_UPDATE
             = DbUpdater.UpdateType.INSERT_OR_UPDATE;
 
-    private User mAccountHolder;
+    private AuthenticatedUser mAccountHolder;
     private Firebase mDataRoot;
     private FbUsersStructure mStructure;
     private UserProfileConverter mConverter;
 
-    public FirebaseUserAccount(User accountHolder,
+    public FirebaseUserAccount(AuthenticatedUser accountHolder,
                                Firebase dataRoot,
                                FbUsersStructure structure,
                                UserProfileConverter converter) {
         mAccountHolder = accountHolder;
+        if(mAccountHolder.getAuthorId() == null) {
+            throw new IllegalArgumentException("User should be an author!");
+        }
         mDataRoot = dataRoot;
         mStructure = structure;
         mConverter = converter;
@@ -60,7 +63,12 @@ public class FirebaseUserAccount implements UserAccount {
 
     @Override
     public AuthenticatedUser getAccountHolder() {
-        return mConverter.toAuthenticatedUser(mAccountHolder);
+        return mAccountHolder;
+    }
+
+    @Override
+    public AuthorId getAccountHolderAsAuthorId() {
+        return new DefaultAuthorId(mAccountHolder.getAuthorId());
     }
 
     @Override
@@ -95,7 +103,7 @@ public class FirebaseUserAccount implements UserAccount {
     public void updateAuthorProfile(final AuthorProfile newProfile, final
     UpdateAuthorProfileCallback callback) {
         Map<String, Object> map
-                = mStructure.getProfileUpdater().getUpdatesMap(mAccountHolder, INSERT_OR_UPDATE);
+                = mStructure.getProfileUpdater().getUpdatesMap(mConverter.toUser(mAccountHolder), INSERT_OR_UPDATE);
         mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {

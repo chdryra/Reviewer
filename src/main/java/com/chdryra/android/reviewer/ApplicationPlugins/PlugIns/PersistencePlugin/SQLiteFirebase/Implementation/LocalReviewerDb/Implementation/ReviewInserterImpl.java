@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
@@ -46,7 +46,7 @@ public class ReviewInserterImpl implements ReviewInserter {
         addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);
         addToTable(review.getImages(), db.getImagesTable(), transactor, true);
         addToTagsTable(tagsManager.getTags(review.getReviewId().toString()), db.getTagsTable(), transactor);
-        addToAuthorsTableIfNecessary(review.getAuthor(), db.getAuthorsTable(), transactor);
+        addToAuthorsTableIfNecessary(review.getAuthorId(), db.getAuthorsTable(), transactor);
     }
 
     private <DbRow extends DbTableRow, T> void addToTable(T data,
@@ -66,7 +66,7 @@ public class ReviewInserterImpl implements ReviewInserter {
         }
     }
 
-    private void addToAuthorsTableIfNecessary(DataAuthor author, DbTable<RowAuthor> table,
+    private void addToAuthorsTableIfNecessary(NamedAuthor author, DbTable<RowAuthor> table,
                                               TableTransactor transactor) {
         String userId = author.getAuthorId().toString();
         if (!transactor.isIdInTable(userId, table.getColumn(RowAuthor.AUTHOR_ID.getName()), table)) {

@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -22,7 +22,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  */
 public class DatumImage implements DataImage {
     private final Bitmap mBitmap;
-    private final DataDate mDate;
+    private final DateTime mDate;
     private final String mCaption;
     private final ReviewId mReviewId;
     private boolean mIsCover = false;
@@ -35,7 +35,7 @@ public class DatumImage implements DataImage {
         mIsCover = false;
     }
 
-    public DatumImage(ReviewId reviewId, Bitmap bitmap, @Nullable DataDate date,
+    public DatumImage(ReviewId reviewId, Bitmap bitmap, @Nullable DateTime date,
                       @Nullable String caption, boolean isCover) {
         mReviewId = reviewId;
         mBitmap = bitmap;
@@ -50,7 +50,7 @@ public class DatumImage implements DataImage {
     }
 
     @Override
-    public DataDate getDate() {
+    public DateTime getDate() {
         return mDate;
     }
 

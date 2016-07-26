@@ -10,10 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
-
-
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
 /**
@@ -24,7 +25,7 @@ import com.firebase.client.Firebase;
 public interface FbReviewsStructure {
     Firebase getListEntriesDb(Firebase root);
 
-    Firebase getListEntryDb(Firebase root, String reviewId);
+    Firebase getListEntryDb(Firebase root, ReviewId reviewId);
 
     DbUpdater<ReviewDb> getReviewUploadUpdater();
 }

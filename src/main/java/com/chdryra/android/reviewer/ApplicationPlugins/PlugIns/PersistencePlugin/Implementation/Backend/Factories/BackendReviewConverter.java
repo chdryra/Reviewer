@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories;
 
+
 import android.graphics.Bitmap;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Comment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Criterion;
@@ -20,24 +20,23 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Location;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.NullReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -100,12 +99,9 @@ public class BackendReviewConverter {
 
     private ReviewDataHolder toReviewDataHolder(ReviewDb review) {
         ReviewId reviewId = new DatumReviewId(review.getReviewId());
+        AuthorId authorId = new DefaultAuthorId(review.getAuthorId());
 
-        Author fbAuthor = review.getAuthor();
-        DatumAuthorId userId = new DatumAuthorId(fbAuthor.getAuthorId());
-        DataAuthor author = new DatumAuthorReview(reviewId, fbAuthor.getName(), userId);
-
-        DataDate date = new DatumDateReview(reviewId, review.getPublishDate());
+        DateTime date = new DatumDate(reviewId, review.getPublishDate());
         String subject = review.getSubject();
         Rating fbRating = review.getRating();
         float rating = (float)fbRating.getRating();
@@ -130,7 +126,7 @@ public class BackendReviewConverter {
         ArrayList<DataImage> images = new ArrayList<>();
         for(ImageData image : review.getImages()) {
             Bitmap bitmap = ImageData.asBitmap(image.getBitmap());
-            images.add(new DatumImage(reviewId, bitmap, new DatumDateReview(reviewId,
+            images.add(new DatumImage(reviewId, bitmap, new DatumDate(reviewId,
                     image.getDate()), image.getCaption(), image.isCover()));
         }
 
@@ -141,7 +137,7 @@ public class BackendReviewConverter {
                     new LatLng(latLng.getLatitude(), latLng.getLongitude()), location.getName()));
         }
 
-        return new ReviewDataHolderImpl(reviewId, author, date, subject,rating, ratingWeight,
+        return new ReviewDataHolderImpl(reviewId, authorId, date, subject,rating, ratingWeight,
                 comments, images, facts, locations, criteria);
     }
 }

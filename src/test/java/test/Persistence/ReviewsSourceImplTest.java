@@ -14,9 +14,9 @@ import android.support.annotation.Nullable;
 import com.chdryra.android.mygenerallibrary.Collections.SortableListImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -67,7 +67,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ReviewsSourceImplTest {
     private static final int NUM = 5;
-    private static final DataAuthor AUTHOR = new DatumAuthor("Author", AuthorIdGenerator.newId());
+    private static final NamedAuthor AUTHOR = new DefaultNamedAuthor("Author", AuthorIdGenerator.newId());
     private static final Random RAND = new Random();
 
     @Mock

@@ -8,10 +8,10 @@
 
 package test.TestUtils;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
 import com.chdryra.android.testutils.RandomDate;
 
 import java.util.Date;
@@ -22,13 +22,13 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomDataDate {
-    public static DataDateReview nextDateReview() {
+    public static DataDate nextDateReview() {
         Date date = RandomDate.nextDate();
-        return new DatumDateReview(RandomReviewId.nextReviewId(), date.getTime());
+        return new DatumDate(RandomReviewId.nextReviewId(), date.getTime());
     }
 
-    public static DataDate nextDate() {
+    public static DateTime nextDate() {
         Date date = RandomDate.nextDate();
-        return new DatumDate(date.getTime());
+        return new DatumDateTime(date.getTime());
     }
 }

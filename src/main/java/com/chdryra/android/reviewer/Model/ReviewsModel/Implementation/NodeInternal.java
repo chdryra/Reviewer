@@ -12,10 +12,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -155,12 +155,12 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public DataAuthorReview getAuthor() {
-        return mMeta.getAuthor();
+    public DataAuthorId getAuthorId() {
+        return mMeta.getAuthorId();
     }
 
     @Override
-    public DataDateReview getPublishDate() {
+    public DataDate getPublishDate() {
         return mMeta.getPublishDate();
     }
 
@@ -171,11 +171,11 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
 
     //TODO optimisation that doesn't involve regetting of all data on a single child's update.
     @Override
-    public void onAuthors(IdableList<? extends DataAuthorReview> Authors, CallbackMessage message) {
+    public void onAuthors(IdableList<? extends DataAuthorId> Authors, CallbackMessage message) {
         if (!message.isError()) {
             getData(new AuthorsCallback() {
                 @Override
-                public void onAuthors(IdableList<? extends DataAuthorReview> authors, CallbackMessage message) {
+                public void onAuthors(IdableList<? extends DataAuthorId> authors, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getAuthorsBinders(), authors, message);
                 }
             });
@@ -195,11 +195,11 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public void onDates(IdableList<? extends DataDateReview> Dates, CallbackMessage message) {
+    public void onDates(IdableList<? extends DataDate> Dates, CallbackMessage message) {
         if (!message.isError()) {
             getData(new DatesCallback() {
                 @Override
-                public void onDates(IdableList<? extends DataDateReview> dates, CallbackMessage message) {
+                public void onDates(IdableList<? extends DataDate> dates, CallbackMessage message) {
                     notifyOnValue(getBindersManager().getDatesBinders(), dates, message);
                 }
             });

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -290,12 +290,12 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @Override
-    public DataAuthorReview getAuthor() {
-        return mReview.getAuthor();
+    public DataAuthorId getAuthorId() {
+        return mReview.getAuthorId();
     }
 
     @Override
-    public DataDateReview getPublishDate() {
+    public DataDate getPublishDate() {
         return mReview.getPublishDate();
     }
 

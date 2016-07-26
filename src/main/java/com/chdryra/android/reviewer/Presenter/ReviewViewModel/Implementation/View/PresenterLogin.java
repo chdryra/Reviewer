@@ -87,7 +87,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
     }
 
     public boolean userLoggedIn() {
-        return mApp.getUserSession().hasUser();
+        return mApp.getUserSession().getSessionUser() != null;
     }
 
     public void setLoginListener(LoginListener listener) {

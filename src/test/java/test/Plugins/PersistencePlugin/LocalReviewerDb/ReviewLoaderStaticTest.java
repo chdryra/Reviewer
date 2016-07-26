@@ -143,8 +143,8 @@ public class ReviewLoaderStaticTest {
     }
 
     private void checkReviewEquivalence(ReviewDataHolder data) {
-        assertThat(data.getAuthor().getAuthorId(), is(mReview.getAuthor().getAuthorId()));
-        assertThat(data.getAuthor().getName(), is(mReview.getAuthor().getName()));
+        assertThat(data.getAuthor().getAuthorId(), is(mReview.getAuthorId().getAuthorId()));
+        assertThat(data.getAuthor().getName(), is(mReview.getAuthorId().getName()));
         assertThat(data.getSubject(), is(mReview.getSubject().getSubject()));
         assertThat(data.getRating(), is(mReview.getRating().getRating()));
         assertThat(data.getRatingWeight(), is(mReview.getRating().getRatingWeight()));
@@ -281,7 +281,7 @@ public class ReviewLoaderStaticTest {
 
             if (table.getName().equals(TableAuthors.NAME)) doCapture(table, clause);
 
-            return mRowFactory.newRow(table.getRowClass(), mReview.getAuthor());
+            return mRowFactory.newRow(table.getRowClass(), mReview.getAuthorId());
         }
 
         @Override

@@ -18,10 +18,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.testutils.RandomString;
 
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
     public void constructionWithDataAuthorAndGetters() {
         AuthorId id = AuthorIdGenerator.newId();
         String name = RandomString.nextWord();
-        DataAuthor author = new DatumAuthor(name, id);
+        NamedAuthor author = new DefaultNamedAuthor(name, id);
 
         RowAuthorImpl row = new RowAuthorImpl(author);
         assertThat(row.getAuthorId().toString(), is(id.toString()));
@@ -70,21 +70,21 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
 
     @Test
     public void constructionWithDataAuthorWithInvalidUserIdMakesRowAuthorInvalid() {
-        DataAuthor author = new DatumAuthor(RandomString.nextWord(), new DatumAuthorId(""));
+        NamedAuthor author = new DefaultNamedAuthor(RandomString.nextWord(), new DefaultAuthorId(""));
         RowAuthorImpl row = new RowAuthorImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }
 
     @Test
     public void constructionWithDataAuthorWithInvalidNameMakesRowAuthorInvalid() {
-        DataAuthor author = new DatumAuthor("", AuthorIdGenerator.newId());
+        NamedAuthor author = new DefaultNamedAuthor("", AuthorIdGenerator.newId());
         RowAuthorImpl row = new RowAuthorImpl(author);
         assertThat(row.hasData(new DataValidator()), is(false));
     }
 
     @Test
     public void constructionWithValidDataAuthorMakesRowAuthorValid() {
-        DataAuthor author = new DatumAuthor(RandomString.nextWord(), AuthorIdGenerator.newId());
+        NamedAuthor author = new DefaultNamedAuthor(RandomString.nextWord(), AuthorIdGenerator.newId());
         RowAuthorImpl row = new RowAuthorImpl(author);
         assertThat(row.hasData(new DataValidator()), is(true));
     }
@@ -106,7 +106,7 @@ public class RowAuthorImplTest extends RowTableBasicTest<RowAuthor, RowAuthorImp
     protected RowAuthorImpl newRow() {
         AuthorId id = AuthorIdGenerator.newId();
         String name = RandomString.nextWord();
-        DataAuthor author = new DatumAuthor(name, id);
+        NamedAuthor author = new DefaultNamedAuthor(name, id);
 
         return new RowAuthorImpl(author);
     }

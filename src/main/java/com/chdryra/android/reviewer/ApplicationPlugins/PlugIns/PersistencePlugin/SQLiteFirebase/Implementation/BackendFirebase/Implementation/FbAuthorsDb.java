@@ -9,11 +9,17 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbReviews;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
 /**
@@ -22,42 +28,37 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbAuthorsDb implements FbAuthorsReviews {
-    private Author mAuthor;
+    private AuthorId mAuthorId;
     private FbReviews mParent;
 
-    public FbAuthorsDb(Author author, FbReviews parent) {
-        mAuthor = author;
+    public FbAuthorsDb(AuthorId authorId, FbReviews parent) {
+        mAuthorId = authorId;
         mParent = parent;
     }
 
     @Override
-    public Author getAuthor() {
-        return mAuthor;
-    }
-
-    @Override
     public Firebase getListEntriesDb(Firebase root) {
-        return mParent.getListEntriesDb(root, mAuthor);
+        return mParent.getListEntriesDb(root, mAuthorId);
     }
 
     @Override
-    public Firebase getListEntryDb(Firebase root, String reviewId) {
-        return mParent.getListEntryDb(root, mAuthor, reviewId);
+    public Firebase getListEntryDb(Firebase root, ReviewId reviewId) {
+        return mParent.getListEntryDb(root, mAuthorId, reviewId);
     }
 
     @Override
-    public Firebase getReviewDb(Firebase root, String reviewId) {
-        return mParent.getReviewDb(root, mAuthor, reviewId);
+    public Firebase getReviewDb(Firebase root, ReviewId reviewId) {
+        return mParent.getReviewDb(root, mAuthorId, reviewId);
     }
 
     @Override
     public Firebase getAggregatesDb(Firebase root) {
-        return mParent.getAggregatesDb(root, mAuthor);
+        return mParent.getAggregatesDb(root, mAuthorId);
     }
 
     @Override
-    public Firebase getAggregatesDb(Firebase root, String reviewId) {
-        return mParent.getAggregatesDb(root, mAuthor, reviewId);
+    public Firebase getAggregatesDb(Firebase root, ReviewId reviewId) {
+        return mParent.getAggregatesDb(root, mAuthorId, reviewId);
     }
 
     @Override

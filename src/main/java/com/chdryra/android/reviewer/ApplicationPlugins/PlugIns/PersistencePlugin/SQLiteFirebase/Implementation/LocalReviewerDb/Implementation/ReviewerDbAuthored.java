@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,13 @@ import java.util.List;
  * On: 12/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewerDbAuthored implements AuthorsRepository, ReviewsSubscriber {
-    private DataAuthor mAuthor;
+public class ReviewerDbAuthored implements ReferencesRepository, ReviewsSubscriber {
+    private AuthorId mAuthorId;
     private ReviewerDbRepository mRepo;
     protected List<ReviewsSubscriber> mSubscribers;
 
-    public ReviewerDbAuthored(DataAuthor author, ReviewerDbRepository repo) {
-        mAuthor = author;
+    public ReviewerDbAuthored(AuthorId authorId, ReviewerDbRepository repo) {
+        mAuthorId = authorId;
         mRepo = repo;
         mSubscribers = new ArrayList<>();
     }
@@ -42,9 +42,8 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewsSubscriber 
         return mRepo;
     }
 
-    @Override
-    public DataAuthor getAuthor() {
-        return mAuthor;
+    protected AuthorId getAuthorId() {
+        return mAuthorId;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewsSubscriber 
         if(mSubscribers.size() == 1) {
             mRepo.bind(this);
         } else {
-            mRepo.getReferences(subscriber, mAuthor);
+            mRepo.getReferences(subscriber, mAuthorId);
         }
     }
 
@@ -78,7 +77,7 @@ public class ReviewerDbAuthored implements AuthorsRepository, ReviewsSubscriber 
     }
 
     private boolean isCorrectAuthor(ReviewReference reference) {
-        return reference.getAuthor().getAuthorId().equals(mAuthor.getAuthorId());
+        return reference.getAuthorId().toString().equals(mAuthorId.toString());
     }
 
     @Override

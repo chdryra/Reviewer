@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
@@ -25,18 +25,18 @@ public class ReviewInfo implements DataReviewInfo{
     private ReviewId mReviewId;
     private DataSubject mSubject;
     private DataRating mRating;
-    private DataAuthorReview mAuthor;
-    private DataDateReview mPublishDate;
+    private DataAuthorId mAuthorId;
+    private DataDate mPublishDate;
 
     public ReviewInfo() {
     }
 
-    public ReviewInfo(ReviewId reviewId, DataSubject subject, DataRating rating, DataAuthorReview
-            author, DataDateReview publishDate) {
+    public ReviewInfo(ReviewId reviewId, DataSubject subject, DataRating rating, DataAuthorId
+            authorId, DataDate publishDate) {
         mReviewId = reviewId;
         mSubject = subject;
         mRating = rating;
-        mAuthor = author;
+        mAuthorId = authorId;
         mPublishDate = publishDate;
     }
 
@@ -56,16 +56,16 @@ public class ReviewInfo implements DataReviewInfo{
     }
 
     @Override
-    public DataAuthorReview getAuthor() {
-        return mAuthor;
+    public DataAuthorId getAuthorId() {
+        return mAuthorId;
     }
 
     @Override
-    public DataDateReview getPublishDate() {
+    public DataDate getPublishDate() {
         return mPublishDate;
     }
 
     public boolean isValid() {
-        return mReviewId != null && mSubject != null && mRating != null && mAuthor != null && mPublishDate != null;
+        return mReviewId != null && mSubject != null && mRating != null && mAuthorId != null && mPublishDate != null;
     }
 }

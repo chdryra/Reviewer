@@ -14,10 +14,10 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.Di
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceLocation;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferencePercentage;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -80,7 +80,7 @@ public class DataAggregatorsApiDefault implements DataAggregatorsApi {
     }
 
     @Override
-    public DataAggregator<DataAuthorReview> newAuthorsAggregator(DifferenceBoolean threshold) {
+    public DataAggregator<DataAuthor> newAuthorsAggregator(DifferenceBoolean threshold) {
         return new DataAggregatorImpl<>(new ComparitorAuthor(), threshold,
                 new CanonicalAuthor(new ComparitorAuthor()));
     }
@@ -105,7 +105,7 @@ public class DataAggregatorsApiDefault implements DataAggregatorsApi {
     }
 
     @Override
-    public DataAggregator<DataDateReview> newDatesAggregator(DifferenceDate threshold) {
+    public DataAggregator<DataDate> newDatesAggregator(DifferenceDate threshold) {
         return new DataAggregatorImpl<>(new ComparitorDate(), threshold, new CanonicalDate());
     }
 

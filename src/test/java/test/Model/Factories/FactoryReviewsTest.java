@@ -9,10 +9,10 @@
 package test.Model.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -61,7 +61,7 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
  */
 public class FactoryReviewsTest {
     private static final int NUM = 3;
-    private DataAuthor mAuthor;
+    private NamedAuthor mAuthor;
     private FactoryReviews mFactory;
     private MdDataMocker mDataMocker;
 
@@ -232,7 +232,7 @@ public class FactoryReviewsTest {
         assertThat(node.getParent(), is(nullValue()));
         assertThat(node.getChildren().size(), is(0));
 
-        checkAuthor(review.getAuthor(), node);
+        checkAuthor(review.getAuthorId(), node);
         checkNodeAgainstReview(review, node);
 
         Review review2 = RandomReview.nextReview();
@@ -266,7 +266,7 @@ public class FactoryReviewsTest {
     public void recreateReview() {
         Review review = RandomReview.nextReview();
 
-        ReviewDataHolder holder = new ReviewDataHolderImpl(review.getReviewId(), review.getAuthor(),
+        ReviewDataHolder holder = new ReviewDataHolderImpl(review.getReviewId(), review.getAuthorId(),
                 review.getPublishDate(), review.getSubject().getSubject(),
                 review.getRating().getRating(), review.getRating().getRatingWeight(),
                 review.getComments(), review.getImages(),
@@ -277,7 +277,7 @@ public class FactoryReviewsTest {
 
         assertThat(recreation.getReviewId(), is(review.getReviewId()));
         assertThat(recreation.isRatingAverageOfCriteria(), is(review.isRatingAverageOfCriteria()));
-        checkAuthor(review.getAuthor(), recreation);
+        checkAuthor(review.getAuthorId(), recreation);
         checkPublishDate(review.getPublishDate(), recreation);
         checkSubject(review.getSubject(), recreation);
         checkRating(review.getRating(), recreation);
@@ -395,7 +395,7 @@ public class FactoryReviewsTest {
         assertThat(node.getChildren().size(), is(0));
     }
 
-    private void checkPublishDate(DataDateReview date, Review review) {
+    private void checkPublishDate(DataDate date, Review review) {
         assertThat(review.getPublishDate(), is(date));
     }
 
@@ -404,10 +404,10 @@ public class FactoryReviewsTest {
         assertThat(review.getPublishDate().getTime(), lessThanOrEqualTo(new Date().getTime()));
     }
 
-    private void checkAuthor(DataAuthor author, Review review) {
-        assertThat(review.getAuthor().getReviewId(), is(review.getReviewId()));
-        assertThat(review.getAuthor().getName(), is(author.getName()));
-        assertThat(review.getAuthor().getAuthorId(), is(author.getAuthorId()));
+    private void checkAuthor(NamedAuthor author, Review review) {
+        assertThat(review.getAuthorId().getReviewId(), is(review.getReviewId()));
+        assertThat(review.getAuthorId().getName(), is(author.getName()));
+        assertThat(review.getAuthorId().getAuthorId(), is(author.getAuthorId()));
     }
 
     private void checkRating(float rating, Review review) {

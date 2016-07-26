@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +18,7 @@ import java.util.Date;
  * On: 10/06/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class PublishDate implements DataDate {
+public class PublishDate implements DateTime {
     private long mTime;
 
     public PublishDate(PublishDate date) {

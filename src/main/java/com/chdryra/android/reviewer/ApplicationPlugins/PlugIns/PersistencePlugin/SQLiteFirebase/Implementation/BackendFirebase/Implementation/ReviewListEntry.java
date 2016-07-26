@@ -10,12 +10,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Author;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Rating;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 
 /**
  * Created by: Rizwan Choudrey
@@ -26,7 +22,7 @@ public class ReviewListEntry {
     private String reviewId;
     private String subject;
     private Rating rating;
-    private Author author;
+    private String authorId;
     private long publishDate;
 
     public ReviewListEntry() {
@@ -37,7 +33,7 @@ public class ReviewListEntry {
         this.reviewId = review.getReviewId();
         this.subject = review.getSubject();
         this.rating = review.getRating();
-        this.author = review.getAuthor();
+        this.authorId = review.getAuthorId();
         this.publishDate = review.getPublishDate();
     }
 
@@ -53,8 +49,8 @@ public class ReviewListEntry {
         return rating;
     }
 
-    public Author getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public long getPublishDate() {

@@ -43,10 +43,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowTag;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -138,8 +138,8 @@ public class ReviewDbTest {
         RowReview row = newRow();
         ReviewDb reviewDb = new ReviewDb(row, mDb, mFactory);
 
-        DataAuthor author = new DatumAuthorReview(row.getReviewId(),
-                RandomString.nextWord(), new DatumAuthorId(row.getAuthorId()));
+        NamedAuthor author = new DatumAuthor(row.getReviewId(),
+                RandomString.nextWord(), new DefaultAuthorId(row.getAuthorId()));
         RowAuthor rowAuthor = new RowAuthorImpl(author);
 
         DbTable<RowAuthor> authorsTable = mDb.getAuthorsTable();
@@ -147,7 +147,7 @@ public class ReviewDbTest {
                 = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, row.getAuthorId());
         when(mDb.getUniqueRowWhere(authorsTable, authorClause, mTransactor)).thenReturn(rowAuthor);
 
-        DataAuthorReview authorOut = reviewDb.getAuthor();
+        DataAuthor authorOut = reviewDb.getAuthorId();
 
         verify(mDb).getUniqueRowWhere(authorsTable, authorClause, mTransactor);
         assertThat(authorOut, is(author));

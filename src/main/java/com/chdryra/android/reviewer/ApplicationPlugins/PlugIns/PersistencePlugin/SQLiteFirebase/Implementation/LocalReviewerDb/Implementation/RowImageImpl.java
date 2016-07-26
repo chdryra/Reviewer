@@ -14,9 +14,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
@@ -99,8 +99,8 @@ public class RowImageImpl extends RowTableBasic<RowImage> implements RowImage {
     }
 
     @Override
-    public DataDate getDate() {
-        return new DatumDateReview(getReviewId(), mDate);
+    public DateTime getDate() {
+        return new DatumDate(getReviewId(), mDate);
     }
 
     @Override

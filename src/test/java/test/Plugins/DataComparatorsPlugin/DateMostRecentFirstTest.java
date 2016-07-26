@@ -9,8 +9,8 @@
 package test.Plugins.DataComparatorsPlugin;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ import test.TestUtils.RandomReviewId;
  * On: 11/01/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class DateMostRecentFirstTest extends ComparatorTest<DataDate>{
+public class DateMostRecentFirstTest extends ComparatorTest<DateTime>{
     private static final Random RAND = new Random();
 
     public DateMostRecentFirstTest() {
@@ -36,11 +36,11 @@ public class DateMostRecentFirstTest extends ComparatorTest<DataDate>{
         long first = new Date().getTime();
         long second = first + 100l;
         long third = second + 100l;
-        DataDate date1 = new DatumDateReview(RandomReviewId.nextReviewId(), third);
-        DataDate date2 = new DatumDateReview(RandomReviewId.nextReviewId(), second);
-        DataDate date3 = new DatumDateReview(RandomReviewId.nextReviewId(), first);
+        DateTime date1 = new DatumDate(RandomReviewId.nextReviewId(), third);
+        DateTime date2 = new DatumDate(RandomReviewId.nextReviewId(), second);
+        DateTime date3 = new DatumDate(RandomReviewId.nextReviewId(), first);
 
-        ComparatorTester<DataDate> tester = newComparatorTester();
+        ComparatorTester<DateTime> tester = newComparatorTester();
         tester.testFirstSecond(date1, date2);
         tester.testFirstSecond(date2, date3);
         tester.testFirstSecond(date1, date3);
@@ -49,10 +49,10 @@ public class DateMostRecentFirstTest extends ComparatorTest<DataDate>{
     @Test
     public void comparatorEquality() {
         long time = new Date().getTime();
-        DataDate date1 = new DatumDateReview(RandomReviewId.nextReviewId(), time);
-        DataDate date2 = new DatumDateReview(RandomReviewId.nextReviewId(), time);
+        DateTime date1 = new DatumDate(RandomReviewId.nextReviewId(), time);
+        DateTime date2 = new DatumDate(RandomReviewId.nextReviewId(), time);
 
-        ComparatorTester<DataDate> tester = newComparatorTester();
+        ComparatorTester<DateTime> tester = newComparatorTester();
         tester.testEquals(date1, date1);
         tester.testEquals(date1, date2);
     }

@@ -11,13 +11,13 @@ package com.chdryra.android.reviewer.Persistence.Factories;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbAuthored;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbMutable;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Implementation.ReviewerDbRepository;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsRepositoryCached;
 import com.chdryra.android.reviewer.Persistence.Implementation.ReviewsSourceImpl;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSource;
@@ -50,11 +50,11 @@ public class FactoryReviewsRepository {
         return mCacheFactory.newCache();
     }
 
-    public AuthorsRepository newAuthorsRepo(DataAuthor author, ReviewerDbRepository repo) {
-        return new ReviewerDbAuthored(author, repo);
+    public ReferencesRepository newAuthorsRepo(AuthorId authorId, ReviewerDbRepository repo) {
+        return new ReviewerDbAuthored(authorId, repo);
     }
 
-    public MutableRepository newMutableRepo(DataAuthor author, ReviewerDbRepository repo) {
-        return new ReviewerDbMutable(author, repo);
+    public MutableRepository newMutableRepo(AuthorId authorId, ReviewerDbRepository repo) {
+        return new ReviewerDbMutable(authorId, repo);
     }
 }

@@ -367,7 +367,7 @@ public class NodeInternalTest {
     public void getAuthorIsReviewAuthor() {
         Review review = RandomReview.nextReview();
         ReviewNode node = newComponent(RandomReviewId.nextMdReviewId(), review, false);
-        assertThat(node.getAuthor(), is(review.getAuthor()));
+        assertThat(node.getAuthorId(), is(review.getAuthorId()));
     }
 
     @Test

@@ -10,7 +10,7 @@ package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.CanonicalDate;
@@ -40,22 +40,22 @@ public class CanonicalDateTest {
 
     @Test
     public void noDataReturnsDateWithZeroTime() {
-        IdableList<DataDateReview> dates = new IdableDataList<>(RandomReviewId.nextReviewId());
-        DataDateReview canonical = mCanonical.getCanonical(dates);
+        IdableList<DataDate> dates = new IdableDataList<>(RandomReviewId.nextReviewId());
+        DataDate canonical = mCanonical.getCanonical(dates);
         assertThat(canonical, is(FactoryNullData.nulDate(dates.getReviewId())));
     }
 
     @Test
     public void getCanonicalReturnsMostRecentDate() {
-        IdableList<DataDateReview> dates = new IdableDataList<>(RandomReviewId.nextReviewId());
+        IdableList<DataDate> dates = new IdableDataList<>(RandomReviewId.nextReviewId());
         long expectedTime = 0l;
         for (int i = 0; i < NUM; ++i) {
-            DataDateReview date = RandomDataDate.nextDateReview();
+            DataDate date = RandomDataDate.nextDateReview();
             if (date.getTime() > expectedTime) expectedTime = date.getTime();
             dates.add(date);
         }
 
-        DataDateReview canonical = mCanonical.getCanonical(dates);
+        DataDate canonical = mCanonical.getCanonical(dates);
         assertThat(canonical.getReviewId(), is(dates.getReviewId()));
         assertThat(canonical.getTime(), is(expectedTime));
     }

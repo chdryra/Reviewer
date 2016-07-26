@@ -18,19 +18,18 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewDataRow;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.ReviewerDbReadable;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowComment;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowCriterion;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowFact;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowImage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowLocation;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowReview;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -53,7 +52,6 @@ public class ReviewDb extends ReviewStatic {
 
     private RowReview mRow;
     private ReviewerDbReadable mDb;
-    private DataAuthorReview mAuthor;
 
     public ReviewDb(RowReview row, ReviewerDbReadable db) {
         mRow = row;
@@ -76,13 +74,12 @@ public class ReviewDb extends ReviewStatic {
     }
 
     @Override
-    public DataAuthorReview getAuthor() {
-        if (mAuthor == null) loadAuthor();
-        return mAuthor;
+    public DataAuthorId getAuthorId() {
+        return new DatumAuthorId(mRow.getReviewId(), mRow.getAuthorId());
     }
 
     @Override
-    public DataDateReview getPublishDate() {
+    public DataDate getPublishDate() {
         return mRow;
     }
 
@@ -124,15 +121,6 @@ public class ReviewDb extends ReviewStatic {
                                                                          ColumnInfo<String>
                                                                                  reviewIdCol) {
         return new IdableRowList<>(getReviewId(), loadReviewIdRows(table, reviewIdCol));
-    }
-
-    private void loadAuthor() {
-        TableTransactor transactor = mDb.beginReadTransaction();
-        RowEntry<RowAuthor, String> clause
-                = asClause(RowAuthor.class, RowAuthor.AUTHOR_ID, mRow.getAuthorId());
-        RowAuthor row = mDb.getUniqueRowWhere(mDb.getAuthorsTable(), clause, transactor);
-        mDb.endTransaction(transactor);
-        mAuthor = new DatumAuthorReview(getReviewId(), row.getName(), row.getAuthorId());
     }
 
     private <DbRow extends DbTableRow> ArrayList<DbRow> loadReviewIdRows(DbTable<DbRow> table,

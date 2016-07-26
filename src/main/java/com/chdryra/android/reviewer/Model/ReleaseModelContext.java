@@ -34,7 +34,7 @@ public class ReleaseModelContext extends ModelContextBasic {
 
         ConverterMd converter = new FactoryMdConverter().newMdConverter();
         setBindersFactory(new FactoryBinders());
-        FactoryReviews reviews = new FactoryReviews(converter, validator, getBindersFactory(),
+        FactoryReviews reviews = new FactoryReviews(converter, getBindersFactory(),
                 getVisitorsFactory(), getNodeTraversersFactory());
         setReviewsFactory(reviews);
     }

@@ -10,8 +10,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.Author;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
 /**
@@ -20,11 +19,9 @@ import com.firebase.client.Firebase;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface FbAuthorsReviews extends FbReviewsStructure{
-    Author getAuthor();
-
-    Firebase getReviewDb(Firebase root, String reviewId);
+    Firebase getReviewDb(Firebase root, ReviewId reviewId);
 
     Firebase getAggregatesDb(Firebase root);
 
-    Firebase getAggregatesDb(Firebase root, String reviewId);
+    Firebase getAggregatesDb(Firebase root, ReviewId reviewId);
 }

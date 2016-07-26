@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -69,10 +69,10 @@ public interface Review extends DataReviewInfo {
     DataRating getRating();
 
     @Override
-    DataAuthorReview getAuthor();
+    DataAuthorId getAuthorId();
 
     @Override
-    DataDateReview getPublishDate();
+    DataDate getPublishDate();
 
     DataImage getCover();
 

@@ -42,7 +42,7 @@ public class StructureTagsImpl extends DbStructureBasic<ReviewDb> implements Str
     @Override
     public Map<String, Object> getUpdatesMap(ReviewDb review, UpdateType updateType) {
         String reviewId = review.getReviewId();
-        String authorId = review.getAuthor().getAuthorId();
+        String authorId = review.getAuthorId();
 
         Updates updates = new Updates(updateType);
         for (String tag : review.getTags()) {

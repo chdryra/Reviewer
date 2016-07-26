@@ -12,8 +12,8 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,8 +38,8 @@ public class ReviewStampTest {
     
     @Test
     public void validToStringFormatting() {
-        DataAuthor author = newAuthor();
-        DataDate date = newDate();
+        NamedAuthor author = newAuthor();
+        DateTime date = newDate();
 
         ReviewStamp id = ReviewStamp.newStamp(author, date);
         String idString = id.toString();
@@ -49,19 +49,19 @@ public class ReviewStampTest {
         assertThat(Long.parseLong(split[1]), is(date.getTime()));
     }
 
-    private DataDate newDate() {
+    private DateTime newDate() {
         return RandomDataDate.nextDate();
     }
 
     @NonNull
-    private DataAuthor newAuthor() {
+    private NamedAuthor newAuthor() {
         return RandomAuthor.nextAuthor();
     }
 
     @Test
     public void testEquals() {
-        DataAuthor author = newAuthor();
-        DataDate date = newDate();
+        NamedAuthor author = newAuthor();
+        DateTime date = newDate();
 
         ReviewStamp id1 = ReviewStamp.newStamp(author, date);
         ReviewStamp id2 = ReviewStamp.newStamp(author, date);
@@ -71,10 +71,10 @@ public class ReviewStampTest {
 
     @Test
     public void testNotEquals() {
-        DataAuthor author1 = newAuthor();
-        DataDate date1 = newDate();
-        DataAuthor author2 = newAuthor();
-        DataDate date2 = newDate();
+        NamedAuthor author1 = newAuthor();
+        DateTime date1 = newDate();
+        NamedAuthor author2 = newAuthor();
+        DateTime date2 = newDate();
 
         ReviewStamp id11 = ReviewStamp.newStamp(author1, date1);
         ReviewStamp id12 = ReviewStamp.newStamp(author1, date2);

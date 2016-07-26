@@ -9,7 +9,7 @@
 package test.TestUtils;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -56,10 +56,10 @@ public class StaticReviewsRepository implements ReferencesRepository {
     }
 
     @Override
-    public void getReviews(DataAuthor author, RepositoryCallback callback) {
+    public void getReviews(NamedAuthor author, RepositoryCallback callback) {
         ArrayList<Review> result = new ArrayList<>();
         for(Review review : mReviews) {
-            if(review.getAuthor().getAuthorId().equals(author.getAuthorId())) result.add(review);
+            if(review.getAuthorId().getAuthorId().equals(author.getAuthorId())) result.add(review);
         }
         callback.onRepositoryCallback(new RepositoryResult(author, result));
     }

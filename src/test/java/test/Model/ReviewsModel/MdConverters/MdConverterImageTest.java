@@ -11,8 +11,8 @@ package test.Model.ReviewsModel.MdConverters;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdImage;
@@ -60,14 +60,14 @@ public class MdConverterImageTest extends MdConverterBasicTest<DataImage, MdImag
 
         @Mock
         private Bitmap mBitmap;
-        private DataDate mDate;
+        private DateTime mDate;
         private String mCaption;
         private boolean mIsCover;
         private ReviewId mReviewId;
 
         public Image() {
             mReviewId = RandomReviewId.nextReviewId();
-            mDate = new DatumDateReview(mReviewId, RandomDate.nextDate().getTime());
+            mDate = new DatumDate(mReviewId, RandomDate.nextDate().getTime());
             mCaption = RandomString.nextSentence();
             mIsCover = RAND.nextBoolean();
         }
@@ -78,7 +78,7 @@ public class MdConverterImageTest extends MdConverterBasicTest<DataImage, MdImag
         }
 
         @Override
-        public DataDate getDate() {
+        public DateTime getDate() {
             return mDate;
         }
 

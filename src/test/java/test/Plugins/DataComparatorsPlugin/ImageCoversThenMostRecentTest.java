@@ -10,9 +10,9 @@ package test.Plugins.DataComparatorsPlugin;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ImageCoversThenMostRecent;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.testutils.RandomString;
 
@@ -42,9 +42,9 @@ public class ImageCoversThenMostRecentTest extends ComparatorTest<DataImage> {
         Date d2 = new GregorianCalendar(2015, 7, 25, 19, 30).getTime();
         Date d3 = new GregorianCalendar(2015, 8, 25, 19, 30).getTime();
 
-        DataDate dateOld = new DatumDateReview(RandomReviewId.nextReviewId(), d1.getTime());
-        DataDate dateMid = new DatumDateReview(RandomReviewId.nextReviewId(), d2.getTime());
-        DataDate dateNew = new DatumDateReview(RandomReviewId.nextReviewId(), d3.getTime());
+        DateTime dateOld = new DatumDate(RandomReviewId.nextReviewId(), d1.getTime());
+        DateTime dateMid = new DatumDate(RandomReviewId.nextReviewId(), d2.getTime());
+        DateTime dateNew = new DatumDate(RandomReviewId.nextReviewId(), d3.getTime());
 
         DataImage imageNewIsCover = new DatumImage(RandomReviewId.nextReviewId(), null, dateNew, RandomString.nextSentence(), true);
         DataImage imageMidIsCover = new DatumImage(RandomReviewId.nextReviewId(), null, dateMid, RandomString.nextSentence(), true);
@@ -63,7 +63,7 @@ public class ImageCoversThenMostRecentTest extends ComparatorTest<DataImage> {
 
     @Test
     public void coversFirst_SameDate() {
-        DataDate date = new DatumDateReview(RandomReviewId.nextReviewId(), new Date().getTime());
+        DateTime date = new DatumDate(RandomReviewId.nextReviewId(), new Date().getTime());
 
         DataImage imageIsCover = new DatumImage(RandomReviewId.nextReviewId(), null, date, RandomString.nextSentence(), true);
         DataImage imageIsNotCover = new DatumImage(RandomReviewId.nextReviewId(), null, date, RandomString.nextSentence(), false);
@@ -78,8 +78,8 @@ public class ImageCoversThenMostRecentTest extends ComparatorTest<DataImage> {
         Date d1 = new GregorianCalendar(2015, 2, 25, 19, 30).getTime();
         Date d2 = new GregorianCalendar(2015, 7, 25, 19, 30).getTime();
 
-        DataDate dateOld = new DatumDateReview(RandomReviewId.nextReviewId(), d1.getTime());
-        DataDate dateNew = new DatumDateReview(RandomReviewId.nextReviewId(), d2.getTime());
+        DateTime dateOld = new DatumDate(RandomReviewId.nextReviewId(), d1.getTime());
+        DateTime dateNew = new DatumDate(RandomReviewId.nextReviewId(), d2.getTime());
 
         boolean isCover = RAND.nextBoolean();
         DataImage imageOld = new DatumImage(RandomReviewId.nextReviewId(), null, dateOld, RandomString.nextSentence(), isCover);
@@ -91,7 +91,7 @@ public class ImageCoversThenMostRecentTest extends ComparatorTest<DataImage> {
 
     @Test
     public void comparatorEqualitySameIsCoverSameDate() {
-        DataDate date = new DatumDateReview(RandomReviewId.nextReviewId(), new Date().getTime());
+        DateTime date = new DatumDate(RandomReviewId.nextReviewId(), new Date().getTime());
         boolean isCover = RAND.nextBoolean();
 
         DataImage image1 = new DatumImage(RandomReviewId.nextReviewId(), null, date, RandomString.nextSentence(), isCover);

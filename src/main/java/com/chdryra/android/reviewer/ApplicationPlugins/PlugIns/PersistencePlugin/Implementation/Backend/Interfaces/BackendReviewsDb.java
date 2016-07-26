@@ -13,8 +13,8 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Author;
 
 
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 
 /**
  * Created by: Rizwan Choudrey
@@ -28,5 +28,5 @@ public interface BackendReviewsDb {
 
     MutableRepository getAuthorsDb(UserSession session);
 
-    AuthorsRepository getAuthorReviews(Author author);
+    ReferencesRepository getAuthorReviews(Author author);
 }

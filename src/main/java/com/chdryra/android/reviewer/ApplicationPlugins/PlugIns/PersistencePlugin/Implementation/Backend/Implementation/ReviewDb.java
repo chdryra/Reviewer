@@ -37,10 +37,10 @@ public class ReviewDb {
     public static final String TAGS = "tags";
 
     private String reviewId;
+    private String authorId;
+    private long publishDate;
     private String subject;
     private Rating rating;
-    private Author author;
-    private long publishDate;
     private ImageData cover;
     private List<Criterion> criteria;
     private List<Comment> comments;
@@ -60,7 +60,7 @@ public class ReviewDb {
         reviewId = review.getReviewId().toString();
         subject = review.getSubject().getSubject();
         rating = new Rating(review.getRating());
-        author = new Author(review.getAuthor());
+        authorId = review.getAuthorId().toString();
         publishDate = review.getPublishDate().getTime();
 
         criteria = new ArrayList<>();
@@ -109,8 +109,8 @@ public class ReviewDb {
         return rating;
     }
 
-    public Author getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public long getPublishDate() {

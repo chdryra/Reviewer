@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 
@@ -26,11 +26,11 @@ public interface MetaBinders extends ReferenceBinders{
 
     }
 
-    interface AuthorsBinder extends ValueBinder<IdableList<? extends DataAuthorReview>> {
+    interface AuthorsBinder extends ValueBinder<IdableList<? extends DataAuthorId>> {
 
     }
 
-    interface DatesBinder extends ValueBinder<IdableList<? extends DataDateReview>> {
+    interface DatesBinder extends ValueBinder<IdableList<? extends DataDate>> {
 
     }
 }

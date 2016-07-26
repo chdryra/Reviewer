@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 import java.util.Comparator;
 
@@ -17,9 +17,9 @@ import java.util.Comparator;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class AuthorAlphabetical implements Comparator<DataAuthor> {
+public class AuthorAlphabetical implements Comparator<NamedAuthor> {
     @Override
-    public int compare(DataAuthor lhs, DataAuthor rhs) {
+    public int compare(NamedAuthor lhs, NamedAuthor rhs) {
         return lhs.getName().compareToIgnoreCase(rhs.getName());
     }
 }

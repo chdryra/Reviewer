@@ -49,7 +49,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         mContext = getInstrumentation().getTargetContext();
         ApplicationInstance instance = AndroidAppInstance.getInstance(mContext);
-        mRepo = (MutableRepository) instance.getReviews(instance.getUserSession().getSessionAuthor());
+        mRepo = (MutableRepository) instance.getReviews(instance.getUserSession().getSessionAuthorId());
         deleteDatabaseIfNecessary();
         mTestRepo = TestReviews.getReviews(getInstrumentation(),mRepo.getTagsManager());
         mTestRepo.getRepository(new RepositoryCallback() {
@@ -78,7 +78,7 @@ public class TestDatabaseTest extends InstrumentationTestCase {
                             assertThat(review.getReviewId(), is(testReview.getReviewId()));
                             assertThat(review.getSubject(), is(testReview.getSubject()));
                             assertThat(review.getRating(), is(testReview.getRating()));
-                            assertThat(review.getAuthor(), is(testReview.getAuthor()));
+                            assertThat(review.getAuthorId(), is(testReview.getAuthorId()));
                             assertThat(review.getPublishDate(), is(testReview.getPublishDate()));
                             assertThat(review.getComments().size(), is(testReview.getComments().size()));
                             assertThat(review.getFacts().size(), is(testReview.getFacts().size()));

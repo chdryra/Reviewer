@@ -12,14 +12,19 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 
 /**
  * Created by: Rizwan Choudrey
- * On: 09/11/2015
+ * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataAuthor extends Validatable{
+public interface DataAuthor extends HasReviewId, NamedAuthor {
+    @Override
     String getName();
 
+    @Override
     AuthorId getAuthorId();
 
     @Override
     boolean hasData(DataValidator dataValidator);
+
+    @Override
+    ReviewId getReviewId();
 }

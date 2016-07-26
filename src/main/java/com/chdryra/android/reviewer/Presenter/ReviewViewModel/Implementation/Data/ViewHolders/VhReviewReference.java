@@ -132,7 +132,7 @@ public class VhReviewReference extends ViewHolderBasic {
     }
 
     private void newFooter(@Nullable String location) {
-        ReviewStamp stamp = ReviewStamp.newStamp(mReference.getAuthor(), mReference
+        ReviewStamp stamp = ReviewStamp.newStamp(mReference.getAuthorId(), mReference
                 .getPublishDate());
         String text = stamp.toReadable() + (validateString(location) ? " @" + location : "");
         mPublishDate.setText(text);

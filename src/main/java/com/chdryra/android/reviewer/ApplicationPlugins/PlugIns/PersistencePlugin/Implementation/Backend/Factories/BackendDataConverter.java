@@ -26,15 +26,14 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .Backend.Implementation.LatitudeLongitude;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Location;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Rating;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.Rating;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Implementation.ReviewListEntry;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
@@ -42,12 +41,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -55,6 +55,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataRating;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewInfo;
 import com.google.android.gms.maps.model.LatLng;
@@ -82,16 +83,16 @@ public class BackendDataConverter {
     }
 
 
-    public DataAuthor convert(Author author) {
-        return new DatumAuthor(author.getName(), new DatumAuthorId(author.getAuthorId()));
+    public NamedAuthor convert(Author author) {
+        return new DefaultNamedAuthor(author.getName(), new DefaultAuthorId(author.getAuthorId()));
     }
 
-    public DataAuthorReview convert(String reviewId, Author author) {
-        return new DatumAuthorReview(convert(reviewId), author.getName(), new DatumAuthorId(author.getAuthorId()));
+    private DataAuthorId convertAuthorId(String reviewId, String authorId) {
+        return new DatumAuthorId(convert(reviewId), authorId);
     }
 
-    public DataDateReview convert(String reviewId, long time) {
-        return new DatumDateReview(convert(reviewId), time);
+    public DataDate convert(String reviewId, long time) {
+        return new DatumDate(convert(reviewId), time);
     }
 
     public IdableList<DataImage> convertImages(String reviewId, List<ImageData> list) {
@@ -106,7 +107,7 @@ public class BackendDataConverter {
     public DataImage convert(String reviewId, ImageData item) {
         ReviewId id = convert(reviewId);
         return item == null ? new DatumImage(id) : new DatumImage(id, ImageData.asBitmap(item.getBitmap()),
-                new DatumDateReview(id, item.getDate()), item.getCaption(), item.isCover());
+                new DatumDate(id, item.getDate()), item.getCaption(), item.isCover());
     }
 
     public IdableList<DataCriterion> convertCriteria(String reviewId, List<Criterion> list) {
@@ -191,7 +192,7 @@ public class BackendDataConverter {
     public ReviewInfo convert(ReviewListEntry entry) {
         String id = entry.getReviewId();
         return new ReviewInfo(convert(id), convert(id, entry.getSubject()),
-                convert(id, entry.getRating()), convert(id, entry.getAuthor()),
+                convert(id, entry.getRating()), convertAuthorId(id, entry.getAuthorId()),
                 convert(id, entry.getPublishDate()));
     }
 }

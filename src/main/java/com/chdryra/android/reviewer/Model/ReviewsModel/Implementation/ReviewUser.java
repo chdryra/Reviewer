@@ -26,7 +26,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
  */
 public class ReviewUser extends ReviewStatic {
     private final MdReviewId mId;
-    private final MdAuthor mAuthor;
+    private final MdAuthorId mAuthor;
     private final MdDate mPublishDate;
     private final MdSubject mSubject;
     private final MdRating mRating;
@@ -36,7 +36,7 @@ public class ReviewUser extends ReviewStatic {
     private final MdDataList<MdFact> mFacts;
     private final MdDataList<MdLocation> mLocations;
 
-    public ReviewUser(MdReviewId id, MdAuthor author, MdDate publishDate, MdSubject subject,
+    public ReviewUser(MdReviewId id, MdAuthorId author, MdDate publishDate, MdSubject subject,
                       MdRating rating, MdDataList<MdComment> comments,
                       MdDataList<MdImage>  images,
                       MdDataList<MdFact> facts,
@@ -88,7 +88,7 @@ public class ReviewUser extends ReviewStatic {
     }
 
     @Override
-    public MdAuthor getAuthor() {
+    public MdAuthorId getAuthorId() {
         return mAuthor;
     }
 

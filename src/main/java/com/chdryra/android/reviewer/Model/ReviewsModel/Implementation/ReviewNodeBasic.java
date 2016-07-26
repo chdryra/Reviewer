@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -92,7 +92,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
     protected void notifyAuthorsBinders() {
         getData(new AuthorsCallback() {
             @Override
-            public void onAuthors(IdableList<? extends DataAuthorReview> rev, CallbackMessage message) {
+            public void onAuthors(IdableList<? extends DataAuthorId> rev, CallbackMessage message) {
                 if (!message.isError()) {
                     for (MetaBinders.AuthorsBinder binder : mBinders.getAuthorsBinders()) {
                         binder.onValue(rev);
@@ -118,7 +118,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
     protected void notifyDatesBinders() {
         getData(new DatesCallback() {
             @Override
-            public void onDates(IdableList<? extends DataDateReview> rev, CallbackMessage message) {
+            public void onDates(IdableList<? extends DataDate> rev, CallbackMessage message) {
                 if (!message.isError()) {
                     for (MetaBinders.DatesBinder binder : mBinders.getDatesBinders()) {
                         binder.onValue(rev);
@@ -196,7 +196,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         mBinders.bind(binder);
         getData(new AuthorsCallback() {
             @Override
-            public void onAuthors(IdableList<? extends DataAuthorReview> leaves, CallbackMessage message) {
+            public void onAuthors(IdableList<? extends DataAuthorId> leaves, CallbackMessage message) {
                 binder.onValue(leaves);
             }
         });
@@ -218,7 +218,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         mBinders.bind(binder);
         getData(new DatesCallback() {
             @Override
-            public void onDates(IdableList<? extends DataDateReview> leaves, CallbackMessage message) {
+            public void onDates(IdableList<? extends DataDate> leaves, CallbackMessage message) {
                 binder.onValue(leaves);
             }
         });

@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 
 import java.util.Date;
@@ -20,17 +20,17 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AuthorsStamp {
-    private final DataAuthor mAuthor;
+    private final NamedAuthor mAuthor;
 
-    public DataAuthor getAuthor() {
+    public NamedAuthor getAuthor() {
         return mAuthor;
     }
 
-    public AuthorsStamp(DataAuthor author) {
+    public AuthorsStamp(NamedAuthor author) {
         mAuthor = author;
     }
 
     public ReviewStamp newStamp() {
-        return ReviewStamp.newStamp(mAuthor, new PublishDate(new Date().getTime()));
+        return ReviewStamp.newStamp(mAuthor.getAuthorId(), new PublishDate(new Date().getTime()));
     }
 }

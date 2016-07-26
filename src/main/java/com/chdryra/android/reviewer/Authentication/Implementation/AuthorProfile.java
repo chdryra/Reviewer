@@ -10,8 +10,8 @@
 package com.chdryra.android.reviewer.Authentication.Implementation;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 
 /**
  * Created by: Rizwan Choudrey
@@ -19,22 +19,22 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
  * Email: rizwan.choudrey@gmail.com
  */
 public class AuthorProfile {
-    private DataAuthor mAuthor;
-    private DataDate mDateJoined;
+    private NamedAuthor mAuthor;
+    private DateTime mDateJoined;
 
     public AuthorProfile() {
     }
 
-    public AuthorProfile(DataAuthor author, DataDate dateJoined) {
+    public AuthorProfile(NamedAuthor author, DateTime dateJoined) {
         mAuthor = author;
         mDateJoined = dateJoined;
     }
 
-    public DataAuthor getAuthor() {
+    public NamedAuthor getAuthor() {
         return mAuthor;
     }
 
-    public DataDate getDateJoined() {
+    public DateTime getDateJoined() {
         return mDateJoined;
     }
 }

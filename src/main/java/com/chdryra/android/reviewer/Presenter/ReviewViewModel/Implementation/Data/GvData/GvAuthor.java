@@ -13,20 +13,20 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders.VhAuthor;
 
 /**
- * {@link } version of: {@link DatumAuthor}
+ * {@link } version of: {@link DefaultNamedAuthor}
  * {@link ViewHolder}: {@link VhAuthor}
  * <p/>
  * <p>
  * Ignores case when comparing authors.
  * </p>
  */
-public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthorReview {
+public class GvAuthor extends GvDataBasic<GvAuthor> implements DataAuthor {
     public static final GvDataType<GvAuthor> TYPE =
             new GvDataType<>(GvAuthor.class, "author");
     public static final Creator<GvAuthor> CREATOR = new Creator<GvAuthor>() {

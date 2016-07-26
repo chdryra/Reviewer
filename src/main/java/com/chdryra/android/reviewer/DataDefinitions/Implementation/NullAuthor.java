@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
  * Email: rizwan.choudrey@gmail.com
  */
 public class NullAuthor {
-    public static final DataAuthor AUTHOR = new DatumAuthor("APP", new DatumAuthorId("APP"));
+    public static final NamedAuthor AUTHOR = new DefaultNamedAuthor("APP", new DefaultAuthorId("APP"));
 }

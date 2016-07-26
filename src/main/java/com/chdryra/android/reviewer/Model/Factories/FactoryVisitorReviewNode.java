@@ -9,8 +9,8 @@
 package com.chdryra.android.reviewer.Model.Factories;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -35,11 +35,11 @@ public class FactoryVisitorReviewNode {
         return newItemCollector(new LeafDataGetter.SubjectGetter());
     }
 
-    public VisitorItemGetter<DataAuthorReview> newAuthorsCollector() {
+    public VisitorItemGetter<DataAuthorId> newAuthorsCollector() {
         return newItemCollector(new LeafDataGetter.AuthorGetter());
     }
 
-    public VisitorItemGetter<DataDateReview> newDatesCollector() {
+    public VisitorItemGetter<DataDate> newDatesCollector() {
         return newItemCollector(new LeafDataGetter.DateGetter());
     }
 

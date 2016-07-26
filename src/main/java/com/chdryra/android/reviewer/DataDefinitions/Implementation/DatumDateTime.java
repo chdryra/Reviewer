@@ -8,34 +8,26 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DatumDate implements DataDate {
-    private ReviewId mReviewId;
+public class DatumDateTime implements DateTime {
     private long mTime;
 
-    public DatumDate() {
+    public DatumDateTime() {
     }
 
-    public DatumDate(ReviewId reviewId, long time) {
-        mReviewId = reviewId;
+    public DatumDateTime(long time) {
         mTime = time;
     }
 
     @Override
     public long getTime() {
         return mTime;
-    }
-
-    @Override
-    public ReviewId getReviewId() {
-        return mReviewId;
     }
 
     @Override
@@ -46,19 +38,16 @@ public class DatumDate implements DataDate {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DatumDate)) return false;
+        if (!(o instanceof DatumDateTime)) return false;
 
-        DatumDate that = (DatumDate) o;
+        DatumDateTime datumDate = (DatumDateTime) o;
 
-        if (mTime != that.mTime) return false;
-        return mReviewId.equals(that.mReviewId);
+        return mTime == datumDate.mTime;
 
     }
 
     @Override
     public int hashCode() {
-        int result = mReviewId.hashCode();
-        result = 31 * result + (int) (mTime ^ (mTime >>> 32));
-        return result;
+        return (int) (mTime ^ (mTime >>> 32));
     }
 }

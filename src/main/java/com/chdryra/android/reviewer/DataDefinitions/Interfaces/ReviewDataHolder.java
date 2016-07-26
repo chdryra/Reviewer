@@ -18,9 +18,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 public interface ReviewDataHolder {
     ReviewId getReviewId();
 
-    DataAuthor getAuthor();
+    AuthorId getAuthorId();
 
-    DataDate getPublishDate();
+    DateTime getPublishDate();
 
     String getSubject();
 

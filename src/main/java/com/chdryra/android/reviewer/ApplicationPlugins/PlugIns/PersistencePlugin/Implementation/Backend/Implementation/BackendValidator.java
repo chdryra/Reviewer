@@ -9,12 +9,12 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
 
+
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumRating;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -36,7 +36,7 @@ public class BackendValidator {
 
         return isIdValid(review)
                 && mValidator.validate(subject)
-                && mValidator.validate(rating) && isValid(review.getAuthor()) && review.getTags().size() > 0;
+                && mValidator.validate(rating) && isValid(review.getAuthorId()) && review.getTags().size() > 0;
     }
 
     public boolean isIdValid(ReviewDb review) {
@@ -45,7 +45,7 @@ public class BackendValidator {
         return mValidator.validate(reviewId);
     }
 
-    private boolean isValid(Author author) {
-        return author != null && mValidator.validate(new DatumAuthor(author.getName(), new DatumAuthorId(author.getAuthorId())));
+    private boolean isValid(String authorId) {
+        return authorId != null && mValidator.validate(new DefaultAuthorId(authorId));
     }
 }

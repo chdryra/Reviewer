@@ -89,8 +89,13 @@ public class FirebaseUserAccounts implements UserAccounts {
 
     @Override
     public void getAccount(final AuthenticatedUser authUser, final GetAccountCallback callback) {
-        Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProviderId());
-        doSingleEvent(db, getAuthorIdThenAccount(authUser, callback));
+        Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProvidersId());
+        String authorId = authUser.getAuthorId();
+        if (authorId != null) {
+            callback.onAccount(getUserAccount(authUser), null);
+        } else {
+            doSingleEvent(db, getAuthorIdThenAccount(authUser, callback));
+        }
     }
 
     @NonNull
@@ -103,7 +108,8 @@ public class FirebaseUserAccounts implements UserAccounts {
                 if (authorId == null) {
                     callback.onAccount(mAccountFactory.newNullAccount(), UNKNOWN_USER_ERROR);
                 } else {
-                    callback.onAccount(getUserAccount(mConverter.toUser(authUser, authorId)), null);
+                    authUser.setAuthorId(authorId);
+                    callback.onAccount(getUserAccount(authUser), null);
                 }
             }
 
@@ -115,7 +121,7 @@ public class FirebaseUserAccounts implements UserAccounts {
     }
 
     @NonNull
-    private UserAccount getUserAccount(@Nullable User user) {
+    private UserAccount getUserAccount(@Nullable AuthenticatedUser user) {
         return user == null ? mAccountFactory.newNullAccount() :
                 mAccountFactory.newAccount(user, mDataRoot, mStructure, mConverter);
     }
@@ -140,7 +146,7 @@ public class FirebaseUserAccounts implements UserAccounts {
         };
     }
 
-    private void addNewProfile(AuthenticatedUser authUser, AuthorProfile profile,
+    private void addNewProfile(final AuthenticatedUser authUser, final AuthorProfile profile,
                                final CreateAccountCallback callback) {
         final User user = mConverter.toUser(authUser, profile);
         DbUpdater<User> usersUpdater = mStructure.getUsersUpdater();
@@ -148,7 +154,8 @@ public class FirebaseUserAccounts implements UserAccounts {
         mDataRoot.updateChildren(map, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                callback.onAccountCreated(getUserAccount(user), newError(firebaseError));
+                authUser.setAuthorId(profile.getAuthor().getAuthorId().toString());
+                callback.onAccountCreated(getUserAccount(authUser), newError(firebaseError));
             }
         });
     }

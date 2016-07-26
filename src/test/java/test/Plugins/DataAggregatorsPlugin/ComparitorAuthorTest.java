@@ -9,8 +9,8 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorAuthor;
 
@@ -41,35 +41,35 @@ public class ComparitorAuthorTest {
 
     @Test
     public void sameAuthorReturnsDifferenceBooleanOfFalse() {
-        DataAuthor lhs = RandomAuthor.nextAuthor();
-        DataAuthor rhs = new DatumAuthor(lhs.getName(), lhs.getAuthorId());
+        NamedAuthor lhs = RandomAuthor.nextAuthor();
+        NamedAuthor rhs = new DefaultNamedAuthor(lhs.getName(), lhs.getAuthorId());
         checkComparisonHasDifference(lhs, rhs, false);
     }
 
     @Test
     public void differentAuthorsReturnsDifferenceBooleanOfTrue() {
-        DataAuthor lhs = RandomAuthor.nextAuthor();
-        DataAuthor rhs = RandomAuthor.nextAuthor();
+        NamedAuthor lhs = RandomAuthor.nextAuthor();
+        NamedAuthor rhs = RandomAuthor.nextAuthor();
         checkComparisonHasDifference(lhs, rhs, true);
     }
 
     @Test
     public void sameNamesDifferentUserIdsThrowsRuntimeException() {
         expectedException.expect(RuntimeException.class);
-        DataAuthor lhs = RandomAuthor.nextAuthor();
-        DataAuthor rhs = RandomAuthor.nextAuthor();
-        mComparitor.compare(lhs, new DatumAuthor(lhs.getName(), rhs.getAuthorId()));
+        NamedAuthor lhs = RandomAuthor.nextAuthor();
+        NamedAuthor rhs = RandomAuthor.nextAuthor();
+        mComparitor.compare(lhs, new DefaultNamedAuthor(lhs.getName(), rhs.getAuthorId()));
     }
 
     @Test
     public void differentNamesSameUserIdsThrowsRuntimeException() {
         expectedException.expect(RuntimeException.class);
-        DataAuthor lhs = RandomAuthor.nextAuthor();
-        DataAuthor rhs = RandomAuthor.nextAuthor();
-        mComparitor.compare(lhs, new DatumAuthor(rhs.getName(), lhs.getAuthorId()));
+        NamedAuthor lhs = RandomAuthor.nextAuthor();
+        NamedAuthor rhs = RandomAuthor.nextAuthor();
+        mComparitor.compare(lhs, new DefaultNamedAuthor(rhs.getName(), lhs.getAuthorId()));
     }
 
-    private void checkComparisonHasDifference(DataAuthor lhs, DataAuthor rhs, boolean
+    private void checkComparisonHasDifference(NamedAuthor lhs, NamedAuthor rhs, boolean
             expected) {
         DifferenceBoolean calculated1 = mComparitor.compare(lhs, rhs);
         DifferenceBoolean calculated2 = mComparitor.compare(rhs, lhs);

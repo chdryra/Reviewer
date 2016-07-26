@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -18,9 +18,9 @@ import java.util.Date;
  * On: 27/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class DateMostRecentFirst implements Comparator<DataDate> {
+public class DateMostRecentFirst implements Comparator<DateTime> {
     @Override
-    public int compare(DataDate lhs, DataDate rhs) {
+    public int compare(DateTime lhs, DateTime rhs) {
         Date lhsDate = new Date(lhs.getTime());
         Date rhsDate = new Date(rhs.getTime());
         return rhsDate.compareTo(lhsDate);

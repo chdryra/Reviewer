@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -27,8 +27,8 @@ import com.chdryra.android.reviewer.Persistence.Interfaces.RepositoryCallback;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepository {
-    public ReviewerDbMutable(DataAuthor author, ReviewerDbRepository repo) {
-        super(author, repo);
+    public ReviewerDbMutable(AuthorId authorId, ReviewerDbRepository repo) {
+        super(authorId, repo);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ReviewerDbMutable extends ReviewerDbAuthored implements MutableRepo
     }
 
     private boolean isCorrectAuthor(Review review) {
-        return review.getAuthor().getAuthorId().equals(getAuthor().getAuthorId());
+        return review.getAuthorId().toString().equals(getAuthorId().toString());
     }
 
     @NonNull

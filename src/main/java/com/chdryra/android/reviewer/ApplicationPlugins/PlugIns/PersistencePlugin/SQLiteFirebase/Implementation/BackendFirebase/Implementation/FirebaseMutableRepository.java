@@ -19,6 +19,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Persistence.Implementation.RepositoryResult;
@@ -63,7 +65,7 @@ public class FirebaseMutableRepository extends FirebaseAuthorsRepository impleme
     }
 
     private void getReviewEntry(ReviewId id, final ValueEventListener onReviewFound) {
-        Firebase listEntryDb = getStructure().getListEntryDb(getDataBase(), id.toString());
+        Firebase listEntryDb = getStructure().getListEntryDb(getDataBase(), id);
         doSingleEvent(listEntryDb, newOnEntryFoundListener(onReviewFound));
     }
 
@@ -72,8 +74,8 @@ public class FirebaseMutableRepository extends FirebaseAuthorsRepository impleme
         return new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                doSingleEvent(getStructure().getReviewDb(getDataBase(), dataSnapshot.getKey()),
-                        onReviewFound);
+                ReviewId id = new DatumReviewId(dataSnapshot.getKey());
+                doSingleEvent(getStructure().getReviewDb(getDataBase(), id), onReviewFound);
             }
 
             @Override

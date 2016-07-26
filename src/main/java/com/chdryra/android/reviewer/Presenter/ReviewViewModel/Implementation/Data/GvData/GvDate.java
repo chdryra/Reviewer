@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.Viewholder.ViewHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.ViewHolders
         .VhDate;
 
@@ -29,7 +29,7 @@ import java.util.Date;
  * Ignores case when comparing dates.
  * </p>
  */
-public class GvDate extends GvDataBasic<GvDate> implements DataDateReview {
+public class GvDate extends GvDataBasic<GvDate> implements DataDate {
     public static final GvDataType<GvDate> TYPE = new GvDataType<>(GvDate.class, "date");
     public static final Creator<GvDate> CREATOR = new Creator<GvDate>() {
         @Override

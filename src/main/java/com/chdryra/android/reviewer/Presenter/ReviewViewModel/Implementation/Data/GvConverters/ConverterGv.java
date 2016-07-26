@@ -9,11 +9,11 @@
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -219,16 +219,16 @@ public class ConverterGv {
 
     //Authors
     public <T extends ReviewReference> GvAuthorList toGvAuthorList(Iterable<T> reviews, ReviewId reviewId) {
-        ArrayList<DataAuthorReview> authors = new ArrayList<>();
+        ArrayList<DataAuthor> authors = new ArrayList<>();
         for(ReviewReference review : reviews) {
-            authors.add(review.getAuthor());
+            authors.add(review.getAuthorId());
         }
         return getConverterAuthors().convert(authors, reviewId);
     }
 
     //Dates
     public <T extends ReviewReference> GvDateList toGvDateList(Iterable<T> reviews, ReviewId reviewId) {
-        ArrayList<DataDateReview> dates = new ArrayList<>();
+        ArrayList<DataDate> dates = new ArrayList<>();
         for(ReviewReference review : reviews) {
             dates.add(review.getPublishDate());
         }

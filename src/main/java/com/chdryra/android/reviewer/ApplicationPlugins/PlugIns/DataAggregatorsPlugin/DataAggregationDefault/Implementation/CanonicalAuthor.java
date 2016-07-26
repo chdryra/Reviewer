@@ -12,8 +12,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
@@ -26,26 +26,26 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthorReview> {
-    private DifferenceComparitor<? super DataAuthorReview, DifferenceBoolean> mComparitor;
+public class CanonicalAuthor implements CanonicalDatumMaker<DataAuthor> {
+    private DifferenceComparitor<? super DataAuthor, DifferenceBoolean> mComparitor;
 
-    public CanonicalAuthor(DifferenceComparitor<? super DataAuthorReview, DifferenceBoolean> comparitor) {
+    public CanonicalAuthor(DifferenceComparitor<? super DataAuthor, DifferenceBoolean> comparitor) {
         mComparitor = comparitor;
     }
 
     @Override
-    public DataAuthorReview getCanonical(IdableList<? extends DataAuthorReview> data) {
+    public DataAuthor getCanonical(IdableList<? extends DataAuthor> data) {
         ReviewId id = data.getReviewId();
-        DataAuthorReview nullAuthor = FactoryNullData.nullAuthor(id);
+        DataAuthor nullAuthor = FactoryNullData.nullAuthor(id);
         if (data.size() == 0) return nullAuthor;
 
-        DataAuthorReview reference = data.getItem(0);
+        DataAuthor reference = data.getItem(0);
         DifferenceBoolean none = new DifferenceBoolean(false);
-        for (DataAuthorReview author : data) {
+        for (DataAuthor author : data) {
             DifferenceBoolean difference = mComparitor.compare(reference, author);
             if (!difference.lessThanOrEqualTo(none)) return nullAuthor;
         }
 
-        return new DatumAuthorReview(id, reference.getName(), reference.getAuthorId());
+        return new DatumAuthor(id, reference.getName(), reference.getAuthorId());
     }
 }

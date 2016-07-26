@@ -6,15 +6,13 @@
  *
  */
 
-package com.chdryra.android.reviewer.Persistence.Interfaces;
-
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 30/09/2015
+ * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface AuthorsRepository extends ReferencesRepository {
-    DataAuthor getAuthor();
+public interface DateTime extends Validatable{
+    long getTime();
 }

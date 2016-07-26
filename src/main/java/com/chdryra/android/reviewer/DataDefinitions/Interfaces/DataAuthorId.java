@@ -8,14 +8,16 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataDateReview extends HasReviewId, DataDate {
+public interface DataAuthorId extends HasReviewId, AuthorId, Validatable {
     @Override
-    long getTime();
+    boolean hasData(DataValidator dataValidator);
 
     @Override
     ReviewId getReviewId();

@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.LocalReviewerDb.Interfaces.RowAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.RelationalDb.Interfaces.RowEntry;
@@ -27,7 +27,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
     private String mUserId;
     private String mName;
 
-    public RowAuthorImpl(DataAuthor author) {
+    public RowAuthorImpl(NamedAuthor author) {
         mUserId = author.getAuthorId().toString();
         mName = author.getName();
     }
@@ -48,7 +48,7 @@ public class RowAuthorImpl extends RowTableBasic<RowAuthor> implements RowAuthor
 
     @Override
     public AuthorId getAuthorId() {
-        return new DatumAuthorId(mUserId);
+        return new DefaultAuthorId(mUserId);
     }
 
     @Override

@@ -13,7 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.DifferenceComparitor;
 
@@ -22,9 +22,9 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPl
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorAuthor implements DifferenceComparitor<DataAuthor, DifferenceBoolean> {
+public class ComparitorAuthor implements DifferenceComparitor<NamedAuthor, DifferenceBoolean> {
     @Override
-    public DifferenceBoolean compare(@NonNull DataAuthor lhs, @NonNull DataAuthor rhs) {
+    public DifferenceBoolean compare(@NonNull NamedAuthor lhs, @NonNull NamedAuthor rhs) {
         boolean sameId = lhs.getAuthorId().equals(rhs.getAuthorId());
         boolean sameName = lhs.getName().equals(rhs.getName());
 

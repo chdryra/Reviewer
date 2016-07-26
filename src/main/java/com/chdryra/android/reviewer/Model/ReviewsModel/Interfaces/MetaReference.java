@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -31,11 +31,11 @@ public interface MetaReference extends ReviewReference {
     }
 
     interface AuthorsCallback {
-        void onAuthors(IdableList<? extends DataAuthorReview> Authors, CallbackMessage message);
+        void onAuthors(IdableList<? extends DataAuthorId> Authors, CallbackMessage message);
     }
 
     interface DatesCallback {
-        void onDates(IdableList<? extends DataDateReview> Dates, CallbackMessage message);
+        void onDates(IdableList<? extends DataDate> Dates, CallbackMessage message);
     }
 
     interface ReviewsSizeCallback {

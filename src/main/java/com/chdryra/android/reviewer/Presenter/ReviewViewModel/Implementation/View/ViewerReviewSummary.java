@@ -220,7 +220,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvDataSize> implements 
     @Override
     public ReviewStamp getStamp() {
         ReviewNode node = getReviewNode();
-        return ReviewStamp.newStamp(node.getAuthor(), node.getPublishDate());
+        return ReviewStamp.newStamp(node.getAuthorId(), node.getPublishDate());
     }
 
     @Override

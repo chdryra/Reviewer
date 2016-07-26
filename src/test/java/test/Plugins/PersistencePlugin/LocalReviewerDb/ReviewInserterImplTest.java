@@ -191,7 +191,7 @@ public class ReviewInserterImplTest {
         Review review = newReview();
         mTransactor.mIsAuthorIdInTable = false;
         ArrayList<RowAuthor> authors = new ArrayList<>();
-        authors.add(asRow(RowAuthor.class, review.getAuthor()));
+        authors.add(asRow(RowAuthor.class, review.getAuthorId()));
         checkInsertCalled(review, mDb.getAuthorsTable(), TableAuthors.NAME, authors);
     }
 

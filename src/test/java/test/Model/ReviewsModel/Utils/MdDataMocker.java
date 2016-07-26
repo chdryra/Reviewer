@@ -8,9 +8,9 @@
 
 package test.Model.ReviewsModel.Utils;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthor;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdAuthorId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdComment;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdCriterion;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.MdDataList;
@@ -114,9 +114,9 @@ public class MdDataMocker {
         return list;
     }
 
-    public MdAuthor newAuthor() {
-        DataAuthor author = RandomAuthor.nextAuthor();
-        return new MdAuthor(mMdReviewId, author.getName(), author.getAuthorId());
+    public MdAuthorId newAuthor() {
+        NamedAuthor author = RandomAuthor.nextAuthor();
+        return new MdAuthorId(mMdReviewId, author.getName(), author.getAuthorId());
     }
 
     public MdDate newDate() {

@@ -75,7 +75,7 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
 
     @Override
     public void getReference(ReviewId reviewId, RepositoryCallback callback) {
-        Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId.toString());
+        Firebase entry = mStructure.getListEntryDb(mDataBase, reviewId);
         doSingleEvent(entry, newGetReferenceListener(callback));
     }
 

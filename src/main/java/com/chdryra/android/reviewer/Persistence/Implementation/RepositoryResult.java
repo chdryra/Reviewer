@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Persistence.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
@@ -26,7 +26,7 @@ import java.util.Collection;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RepositoryResult {
-    private DataAuthor mAuthor;
+    private AuthorId mAuthorId;
     private Review mReview;
     private ReviewNodeComponent mNode;
     private ReviewId mId;
@@ -44,8 +44,8 @@ public class RepositoryResult {
         mMessage = message;
     }
 
-    public RepositoryResult(DataAuthor author, Collection<Review> reviews, CallbackMessage message) {
-        mAuthor = author;
+    public RepositoryResult(AuthorId authorId, Collection<Review> reviews, CallbackMessage message) {
+        mAuthorId = authorId;
         mReviews.addAll(reviews);
         mMessage = message;
     }
@@ -81,8 +81,8 @@ public class RepositoryResult {
     }
 
     @Nullable
-    public DataAuthor getAuthor() {
-        return mAuthor;
+    public AuthorId getAuthorId() {
+        return mAuthorId;
     }
 
     @Nullable

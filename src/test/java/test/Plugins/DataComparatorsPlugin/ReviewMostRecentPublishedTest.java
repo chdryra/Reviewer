@@ -13,8 +13,8 @@ import android.graphics.Bitmap;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.DateMostRecentFirst;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation.ReviewMostRecentPublished;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.PublishDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewSummary;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.testutils.RandomString;
@@ -74,8 +74,8 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
     }
     
     private class Review implements DataReviewSummary {
-        private DataDate mDate;
-        private DataAuthor mAuthor;
+        private DateTime mDate;
+        private NamedAuthor mAuthor;
         private String mHeadline;
         private ArrayList<String> mTags;
         private String mLocation;
@@ -84,7 +84,7 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
         private ReviewId mId;
         private ReviewId mParent;
 
-        public Review(DataDate date) {
+        public Review(DateTime date) {
             mDate = date;
             mAuthor = RandomAuthor.nextAuthor();
             mHeadline = RandomString.nextSentence();
@@ -105,12 +105,12 @@ public class ReviewMostRecentPublishedTest extends ComparatorTest<DataReviewSumm
         }
 
         @Override
-        public DataDate getPublishDate() {
+        public DateTime getPublishDate() {
             return mDate;
         }
 
         @Override
-        public DataAuthor getAuthor() {
+        public NamedAuthor getAuthorId() {
             return mAuthor;
         }
 

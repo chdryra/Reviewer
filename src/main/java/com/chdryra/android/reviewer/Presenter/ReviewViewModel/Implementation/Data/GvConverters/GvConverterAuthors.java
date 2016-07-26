@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorList;
@@ -21,14 +21,14 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
  * Email: rizwan.choudrey@gmail.com
  */
 public class GvConverterAuthors extends
-        GvConverterBasic<DataAuthorReview, GvAuthor, GvAuthorList> {
+        GvConverterBasic<DataAuthor, GvAuthor, GvAuthorList> {
 
     public GvConverterAuthors() {
         super(GvAuthorList.class);
     }
 
     @Override
-    public GvAuthor convert(DataAuthorReview datum, ReviewId reviewId) {
+    public GvAuthor convert(DataAuthor datum, ReviewId reviewId) {
         GvReviewId gvReviewId = getGvReviewId(datum, reviewId);
         return new GvAuthor(gvReviewId, datum.getName(),
                 new GvAuthorId(gvReviewId, datum.getAuthorId().toString()));

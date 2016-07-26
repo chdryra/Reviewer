@@ -10,6 +10,8 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 25/07/2016
@@ -29,6 +31,8 @@ public interface UserAccount {
     }
 
     AuthenticatedUser getAccountHolder();
+
+    AuthorId getAccountHolderAsAuthorId();
 
     void getAuthorProfile(GetAuthorProfileCallback callback);
 

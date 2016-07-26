@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Interfaces.DifferenceComparitor;
 
@@ -23,9 +23,9 @@ import java.util.Date;
  * On: 03/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ComparitorDate implements DifferenceComparitor<DataDate, DifferenceDate> {
+public class ComparitorDate implements DifferenceComparitor<DateTime, DifferenceDate> {
     @Override
-    public DifferenceDate compare(DataDate lhs, DataDate rhs) {
+    public DifferenceDate compare(DateTime lhs, DateTime rhs) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
         cal1.setTime(new Date(lhs.getTime()));

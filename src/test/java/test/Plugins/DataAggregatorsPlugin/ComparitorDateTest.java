@@ -9,8 +9,8 @@
 package test.Plugins.DataAggregatorsPlugin;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceDate;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
         .Implementation.ComparitorDate;
 
@@ -46,8 +46,8 @@ public class ComparitorDateTest {
     public void sameDayDifferentTimeReturnsDifferenceDateOfDayOrLess() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2015, 10, 25, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(true));
@@ -60,8 +60,8 @@ public class ComparitorDateTest {
     public void differentDayLessThan24HoursLaterReturnsDifferenceDateGreaterThanDay() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2015, 10, 26, 18, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -74,8 +74,8 @@ public class ComparitorDateTest {
     public void differentDayLessThanMonthReturnsDifferenceDateGreaterThanDayLessThanMonth() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2015, 10, 29, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -88,8 +88,8 @@ public class ComparitorDateTest {
     public void nextMonthLessThanMonthLaterReturnsDifferenceDateGreaterThanMonthLessThanYear() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2015, 11, 2, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -102,8 +102,8 @@ public class ComparitorDateTest {
     public void nextMonthGreaterThanMonthLaterReturnsDifferenceDateGreaterThanMonthLessThanYear() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2015, 11, 27, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -116,8 +116,8 @@ public class ComparitorDateTest {
     public void differentMonthReturnsDifferenceDateGreaterThanMonthLessThanYear() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 5, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2015, 10, 27, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -130,8 +130,8 @@ public class ComparitorDateTest {
     public void nextYearLessThanYearLaterReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2016, 1, 1, 19, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -144,8 +144,8 @@ public class ComparitorDateTest {
     public void nextYearMoreThanYearLaterReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 10, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2016, 11, 26, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));
@@ -158,8 +158,8 @@ public class ComparitorDateTest {
     public void differentYearReturnsDifferenceDateGreaterThanYearLessThanMoreThanYear() {
         GregorianCalendar lhsCal = new GregorianCalendar(2015, 1, 25, 19, 15);
         GregorianCalendar rhsCal = new GregorianCalendar(2116, 1, 25, 20, 15);
-        DataDate lhs = new DatumDateReview(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
-        DataDate rhs = new DatumDateReview(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
+        DateTime lhs = new DatumDate(RandomReviewId.nextReviewId(), lhsCal.getTimeInMillis());
+        DateTime rhs = new DatumDate(RandomReviewId.nextReviewId(), rhsCal.getTimeInMillis());
 
         DifferenceDate calculated = mComparitor.compare(lhs, rhs);
         assertThat(calculated.lessThanOrEqualTo(DAY), is(false));

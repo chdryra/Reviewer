@@ -9,7 +9,7 @@
 package com.chdryra.android.reviewer.Persistence.Interfaces;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 
 /**
@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 public interface ReviewsRepository extends ReferencesRepository {
     TagsManager getTagsManager();
 
-    AuthorsRepository getRepository(DataAuthor author);
+    ReferencesRepository getRepository(AuthorId authorId);
 
     MutableRepository getMutableRepository(UserSession session);
 }

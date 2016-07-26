@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator
 public interface DataImage extends HasReviewId, Validatable{
     Bitmap getBitmap();
 
-    DataDate getDate();
+    DateTime getDate();
 
     String getCaption();
 

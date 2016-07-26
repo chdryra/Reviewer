@@ -8,9 +8,9 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,7 +24,7 @@ public class Author {
     public Author() {
     }
 
-    public Author(DataAuthor author) {
+    public Author(NamedAuthor author) {
         name = author.getName();
         authorId = author.getAuthorId().toString();
     }
@@ -37,8 +37,8 @@ public class Author {
         return authorId;
     }
 
-    public DataAuthor toDataAuthor() {
-        return new DatumAuthor(name, AuthorIdGenerator.toId(authorId));
+    public NamedAuthor toDataAuthor() {
+        return new DefaultNamedAuthor(name, new DefaultAuthorId(authorId));
     }
 
     public static int size() {

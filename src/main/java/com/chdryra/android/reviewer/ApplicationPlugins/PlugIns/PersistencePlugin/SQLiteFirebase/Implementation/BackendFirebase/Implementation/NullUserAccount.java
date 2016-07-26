@@ -9,9 +9,11 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
+import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,8 +26,13 @@ public class NullUserAccount implements UserAccount {
     }
 
     @Override
-    public User getAccountHolder() {
-        return new User();
+    public AuthenticatedUser getAccountHolder() {
+        return new AuthenticatedUser();
+    }
+
+    @Override
+    public AuthorId getAccountHolderAsAuthorId() {
+        return new DatumAuthorId();
     }
 
     @Override

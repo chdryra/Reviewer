@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Vi
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.Application.Strings;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.NetworkServices.ReviewDeleting.ReviewDeleter;
@@ -148,7 +148,7 @@ public class PresenterUsersFeed extends PresenterFeed implements
         }
 
         public PresenterUsersFeed build(PresenterListener listener) {
-            DataAuthor author = getApp().getUserSession().getSessionAuthor();
+            NamedAuthor author = getApp().getUserSession().getSessionAuthor();
             return new PresenterUsersFeed(getApp(), getFeedNode(author), listener);
         }
     }

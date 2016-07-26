@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 import android.graphics.Bitmap;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -57,7 +57,7 @@ public class MdImage implements DataImage {
     }
 
     @Override
-    public DataDate getDate() {
+    public DateTime getDate() {
         return mDate;
     }
 

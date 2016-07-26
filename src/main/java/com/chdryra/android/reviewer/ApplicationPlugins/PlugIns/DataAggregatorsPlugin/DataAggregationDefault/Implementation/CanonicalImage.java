@@ -14,9 +14,9 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Implementation.DifferenceBoolean;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -40,8 +40,8 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         String caption = getCaption(data);
         DataImage lastEquivalentBitmap = getLastImage(data, nullImage);
         if(lastEquivalentBitmap == nullImage) return nullImage;
-        DataDate date = lastEquivalentBitmap.getDate();
-        DataDate finalDate = new DatumDateReview(id, date.getTime());
+        DateTime date = lastEquivalentBitmap.getDate();
+        DateTime finalDate = new DatumDate(id, date.getTime());
 
         return new DatumImage(id, lastEquivalentBitmap.getBitmap(), finalDate, caption, true);
     }
@@ -66,7 +66,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
         DifferenceBoolean none = new DifferenceBoolean(false);
 
         DataImage lastImage = null;
-        DataDate lastDate = null;
+        DateTime lastDate = null;
         int i = 0;
         while(lastDate == null && i < data.size()) {
             lastImage = data.getItem(i++);
@@ -77,7 +77,7 @@ public class CanonicalImage implements CanonicalDatumMaker<DataImage> {
 
         for (int j = i; j < data.size(); ++j) {
             DataImage image = data.getItem(j);
-            DataDate imageDate = image.getDate();
+            DateTime imageDate = image.getDate();
 
             if (!comparitor.compare(reference, image).lessThanOrEqualTo(none)) {
                 lastImage = nullImage;

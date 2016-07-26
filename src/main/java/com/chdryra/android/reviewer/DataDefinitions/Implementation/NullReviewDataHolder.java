@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -32,13 +32,13 @@ public class NullReviewDataHolder implements ReviewDataHolder {
     }
 
     @Override
-    public DataAuthor getAuthor() {
-        return new DatumAuthor();
+    public AuthorId getAuthorId() {
+        return new DefaultAuthorId();
     }
 
     @Override
-    public DataDate getPublishDate() {
-        return new DatumDateReview();
+    public DateTime getPublishDate() {
+        return new DatumDate();
     }
 
     @Override

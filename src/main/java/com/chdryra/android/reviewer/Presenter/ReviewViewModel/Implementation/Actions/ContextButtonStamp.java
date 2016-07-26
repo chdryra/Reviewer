@@ -15,6 +15,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Actions.ContextualButtonAction;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 17/11/2015
@@ -38,11 +41,12 @@ public class ContextButtonStamp<T extends GvData> extends ReviewViewActionBasic<
 
     @Override
     public void onClick(View v) {
-        mApp.launchFeed(mStamp.getAuthor());
+        mApp.launchFeed(mStamp.getAuthorId());
     }
 
     @Override
     public String getButtonTitle() {
-        return mStamp.toReadable();
+        return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
+                (new Date(mStamp.getDate().getTime()));
     }
 }

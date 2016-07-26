@@ -11,10 +11,10 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -270,13 +270,13 @@ public class ReferenceBinder implements DataReviewInfo {
     }
 
     @Override
-    public DataDateReview getPublishDate() {
+    public DataDate getPublishDate() {
         return mReference.getPublishDate();
     }
 
     @Override
-    public DataAuthorReview getAuthor() {
-        return mReference.getAuthor();
+    public DataAuthorId getAuthorId() {
+        return mReference.getAuthorId();
     }
 
     @Override
@@ -401,7 +401,7 @@ public class ReferenceBinder implements DataReviewInfo {
 
     private class Authors implements MetaBinders.AuthorsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataAuthorReview> value) {
+        public void onValue(final IdableList<? extends DataAuthorId> value) {
             if (mDataBinder != null) mDataBinder.onAuthors(value, OK);
         }
     }
@@ -415,7 +415,7 @@ public class ReferenceBinder implements DataReviewInfo {
 
     private class Dates implements MetaBinders.DatesBinder {
         @Override
-        public void onValue(final IdableList<? extends DataDateReview> value) {
+        public void onValue(final IdableList<? extends DataDate> value) {
             if (mDataBinder != null) mDataBinder.onDates(value, OK);
         }
     }

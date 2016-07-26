@@ -8,20 +8,20 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumTag;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -36,10 +36,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryNullData {
-    private static final AuthorId NULL_USER_ID = new DatumAuthorId(AuthorId.NULL_ID_STRING);
+    private static final AuthorId NULL_USER_ID = new DefaultAuthorId(AuthorId.NULL_ID_STRING);
 
-    public static DataAuthorReview nullAuthor(ReviewId id) {
-        return new DatumAuthorReview(id, "", NULL_USER_ID);
+    public static DataAuthor nullAuthor(ReviewId id) {
+        return new DatumAuthor(id, "", NULL_USER_ID);
     }
 
     public static DataComment nullComment(ReviewId id) {
@@ -50,8 +50,8 @@ public class FactoryNullData {
         return new DatumCriterion(id, "", 0f);
     }
 
-    public static DataDateReview nulDate(ReviewId id) {
-        return new DatumDateReview(id, 0l);
+    public static DataDate nulDate(ReviewId id) {
+        return new DatumDate(id, 0l);
     }
 
     public static DataFact nullFact(ReviewId id) {

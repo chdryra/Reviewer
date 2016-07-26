@@ -57,7 +57,7 @@ public abstract class VisitorItemCounter<T> implements VisitorReviewNode {
     public static class AuthorsCounter extends VisitorItemCounter<AuthorId> {
         @Override
         protected AuthorId getDataIfLeaf(@NonNull ReviewNode node) {
-            return node.getAuthor().getAuthorId();
+            return node.getAuthorId();
         }
     }
 

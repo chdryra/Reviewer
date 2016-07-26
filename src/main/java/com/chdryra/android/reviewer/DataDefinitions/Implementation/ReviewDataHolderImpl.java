@@ -8,13 +8,13 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataHolder;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 
@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  */
 public class ReviewDataHolderImpl implements ReviewDataHolder {
     private final ReviewId mId;
-    private final DataAuthor mAuthor;
-    private final DataDate mPublishDate;
+    private final AuthorId mAuthorId;
+    private final DateTime mPublishDate;
     private final String mSubject;
     private final float mRating;
     private final int mRatingWeight;
@@ -36,7 +36,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
     private final Iterable<? extends DataLocation> mLocations;
     private final Iterable<? extends DataCriterion> mCriteria;
 
-    public ReviewDataHolderImpl(ReviewId id, DataAuthor author, DataDate publishDate,
+    public ReviewDataHolderImpl(ReviewId id, AuthorId authorId, DateTime publishDate,
                                 String subject, float rating, int ratingWeight,
                                 Iterable<? extends DataComment> comments,
                                 Iterable<? extends DataImage> images,
@@ -44,7 +44,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
                                 Iterable<? extends DataLocation> locations,
                                 Iterable<? extends DataCriterion> criteria) {
         mId = id;
-        mAuthor = author;
+        mAuthorId = authorId;
         mPublishDate = publishDate;
         mSubject = subject;
         mRating = rating;
@@ -62,12 +62,12 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
     }
 
     @Override
-    public DataAuthor getAuthor() {
-        return mAuthor;
+    public AuthorId getAuthorId() {
+        return mAuthorId;
     }
 
     @Override
-    public DataDate getPublishDate() {
+    public DateTime getPublishDate() {
         return mPublishDate;
     }
 
@@ -113,7 +113,7 @@ public class ReviewDataHolderImpl implements ReviewDataHolder {
 
     @Override
     public boolean isValid(DataValidator validator) {
-        return validator.validate(mId) && validator.validate(mAuthor)
+        return validator.validate(mId) && validator.validate(mAuthorId)
                 && validator.validateString(mSubject) && mRatingWeight > 0;
     }
 }

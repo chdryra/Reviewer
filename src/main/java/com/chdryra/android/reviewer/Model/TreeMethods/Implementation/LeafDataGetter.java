@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.Model.TreeMethods.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
@@ -38,10 +38,10 @@ public abstract class LeafDataGetter<T extends HasReviewId> implements NodeDataG
         }
     }
 
-    public static class AuthorGetter extends LeafDataGetter<DataAuthorReview> {
+    public static class AuthorGetter extends LeafDataGetter<DataAuthorId> {
         @Override
-        public DataAuthorReview getDataIfLeaf(@NonNull ReviewNode node) {
-            return node.getAuthor();
+        public DataAuthorId getDataIfLeaf(@NonNull ReviewNode node) {
+            return node.getAuthorId();
         }
     }
 
@@ -52,9 +52,9 @@ public abstract class LeafDataGetter<T extends HasReviewId> implements NodeDataG
         }
     }
 
-    public static class DateGetter extends LeafDataGetter<DataDateReview> {
+    public static class DateGetter extends LeafDataGetter<DataDate> {
         @Override
-        public DataDateReview getDataIfLeaf(@NonNull ReviewNode node) {
+        public DataDate getDataIfLeaf(@NonNull ReviewNode node) {
             return node.getPublishDate();
         }
     }

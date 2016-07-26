@@ -10,9 +10,11 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
         .Implementation.BackendFirebase.Implementation;
 
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
+import android.support.annotation.NonNull;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
 import com.firebase.client.Firebase;
 
 /**
@@ -20,7 +22,7 @@ import com.firebase.client.Firebase;
  * On: 23/03/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic implements AuthorsRepository {
+public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic {
     private FbAuthorsReviews mStructure;
 
     public FirebaseAuthorsRepository(Firebase dataBase,
@@ -35,17 +37,17 @@ public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic implement
     }
 
     @Override
-    public DataAuthor getAuthor() {
-        return mStructure.getAuthor().toDataAuthor();
-    }
-
-    @Override
     protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(mDataBase, entry.getReviewId());
+        return mStructure.getAggregatesDb(mDataBase, toReviewId(entry));
     }
 
     @Override
     protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(mDataBase, entry.getReviewId());
+        return mStructure.getReviewDb(mDataBase, toReviewId(entry));
+    }
+
+    @NonNull
+    private DatumReviewId toReviewId(ReviewListEntry entry) {
+        return new DatumReviewId(entry.getReviewId());
     }
 }

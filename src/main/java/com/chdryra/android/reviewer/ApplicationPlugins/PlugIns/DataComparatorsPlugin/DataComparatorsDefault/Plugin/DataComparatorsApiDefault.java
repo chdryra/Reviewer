@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Plugin;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -50,7 +50,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPl
 public class DataComparatorsApiDefault implements DataComparatorsApi {
 
     @Override
-    public ComparatorCollection<DataAuthor> getAuthorComparators() {
+    public ComparatorCollection<NamedAuthor> getAuthorComparators() {
         return new ComparatorCollectionImpl<>(new AuthorAlphabetical());
     }
 
@@ -65,7 +65,7 @@ public class DataComparatorsApiDefault implements DataComparatorsApi {
     }
 
     @Override
-    public ComparatorCollection<DataDate> getDateComparators() {
+    public ComparatorCollection<DateTime> getDateComparators() {
         return new ComparatorCollectionImpl<>(new DateMostRecentFirst());
     }
 

@@ -11,8 +11,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsP
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Factories.FactoryNullData;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.DataAggregationDefault
@@ -25,18 +25,18 @@ import java.util.Date;
  * On: 08/07/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class CanonicalDate implements CanonicalDatumMaker<DataDateReview> {
+public class CanonicalDate implements CanonicalDatumMaker<DataDate> {
     @Override
-    public DataDateReview getCanonical(IdableList<? extends DataDateReview> data) {
+    public DataDate getCanonical(IdableList<? extends DataDate> data) {
         ReviewId id = data.getReviewId();
         if (data.size() == 0) return FactoryNullData.nulDate(id);
 
-        return new DatumDateReview(id, getMostRecent(data));
+        return new DatumDate(id, getMostRecent(data));
     }
 
-    private long getMostRecent(IdableList<? extends DataDateReview> data) {
+    private long getMostRecent(IdableList<? extends DataDate> data) {
         Date canon = new Date(data.getItem(0).getTime());
-        for (DataDateReview date : data) {
+        for (DataDate date : data) {
             Date candidate = new Date(date.getTime());
             if (candidate.after(canon)) canon = candidate;
         }

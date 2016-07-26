@@ -8,7 +8,7 @@
 
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.DataComparatorsDefault.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 
 import java.util.Comparator;
@@ -19,9 +19,9 @@ import java.util.Comparator;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ImageCoversThenMostRecent implements Comparator<DataImage> {
-    private Comparator<DataDate> mDateComparator;
+    private Comparator<DateTime> mDateComparator;
 
-    public ImageCoversThenMostRecent(Comparator<DataDate> dateComparator) {
+    public ImageCoversThenMostRecent(Comparator<DateTime> dateComparator) {
         mDateComparator = dateComparator;
     }
 

@@ -8,8 +8,8 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Factories;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 import java.util.UUID;
@@ -21,7 +21,7 @@ import java.util.UUID;
  * Use static method <code>generateId()</code> to return a unique UserId.
  * </p>
  *
- * @see DatumAuthor
+ * @see DefaultNamedAuthor
  */
 
 public class AuthorIdGenerator {
@@ -30,10 +30,10 @@ public class AuthorIdGenerator {
     }
 
     public static AuthorId newId() {
-        return new DatumAuthorId(UUID.randomUUID().toString());
+        return new DefaultAuthorId(UUID.randomUUID().toString());
     }
 
     public static AuthorId toId(String id) {
-        return new DatumAuthorId(id);
+        return new DefaultAuthorId(id);
     }
 }

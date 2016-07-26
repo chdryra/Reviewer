@@ -9,10 +9,10 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataComparatorsPlugin.Api;
 
 import com.chdryra.android.reviewer.Algorithms.DataSorting.ComparatorCollection;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -29,13 +29,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataUrl;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface DataComparatorsApi {
-    ComparatorCollection<DataAuthor> getAuthorComparators();
+    ComparatorCollection<NamedAuthor> getAuthorComparators();
 
     ComparatorCollection<DataComment> getCommentComparators();
 
     ComparatorCollection<DataCriterion> getCriterionComparators();
 
-    ComparatorCollection<DataDate> getDateComparators();
+    ComparatorCollection<DateTime> getDateComparators();
 
     ComparatorCollection<DataFact> getFactComparators();
 

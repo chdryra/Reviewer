@@ -34,7 +34,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.UiPlugin.UiAndroid.Implementation.CredentialProviders.GoogleLoginAndroid;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -53,8 +54,6 @@ import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ImageCho
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Interfaces.ReviewBuilderAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryGvData;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewParams;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvDataType;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.View.ReviewsListView;
 import com.chdryra.android.reviewer.Social.Implementation.SocialPlatformList;
@@ -179,8 +178,8 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public ReferencesRepository getReviews(DataAuthor author) {
-        return mAppContext.getReviewReferences(author);
+    public ReferencesRepository getReviews(AuthorId authorId) {
+        return mAppContext.getReviewReferences(authorId);
     }
 
     @Override
@@ -272,12 +271,12 @@ public class AndroidAppInstance extends ApplicationSingleton implements Applicat
     }
 
     @Override
-    public void launchFeed(DataAuthor author) {
-        GvAuthor gvAuthor = new GvAuthor(author.getName(), new GvAuthorId(author.getAuthorId().toString()));
+    public void launchFeed(AuthorId authorId) {
+        DefaultAuthorId id = new DefaultAuthorId(authorId.toString());
         LaunchableConfig feedConfig = getConfigUi().getFeed();
-        ParcelablePacker<GvAuthor> packer = new ParcelablePacker<>();
+        ParcelablePacker<DefaultAuthorId> packer = new ParcelablePacker<>();
         Bundle args = new Bundle();
-        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, gvAuthor, args);
+        packer.packItem(ParcelablePacker.CurrentNewDatum.CURRENT, id, args);
         getUiLauncher().launch(feedConfig, feedConfig.getRequestCode(), args);
     }
 

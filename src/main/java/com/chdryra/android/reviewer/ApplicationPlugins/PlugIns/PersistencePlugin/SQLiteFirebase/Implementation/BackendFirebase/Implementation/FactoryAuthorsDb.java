@@ -13,8 +13,8 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
-import com.chdryra.android.reviewer.Persistence.Interfaces.AuthorsRepository;
 import com.chdryra.android.reviewer.Persistence.Interfaces.MutableRepository;
+import com.chdryra.android.reviewer.Persistence.Interfaces.ReferencesRepository;
 import com.firebase.client.Firebase;
 
 /**
@@ -33,7 +33,7 @@ public class FactoryAuthorsDb {
         mReferencer = referencer;
     }
 
-    public AuthorsRepository newAuthorReviews(Firebase root, FbAuthorsReviews structure) {
+    public ReferencesRepository newAuthorReviews(Firebase root, FbAuthorsReviews structure) {
         return new FirebaseAuthorsRepository(root, structure, mReferencer);
     }
 

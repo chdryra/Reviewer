@@ -15,7 +15,8 @@ import com.chdryra.android.reviewer.Authentication.Implementation.Authentication
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 /**
  * Created by: Rizwan Choudrey
@@ -33,15 +34,13 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
 
     boolean setSessionObserver(SessionObserver observer);
 
-    DataAuthor getSessionAuthor();
+    AuthorId getSessionAuthorId();
+
+    NamedAuthor getSessionAuthor();
 
     UserAccount getUserAccount();
 
     void loginComplete();
 
     void logout(SessionProvider.LogoutCallback callback, SessionProvider<?> googleHack);
-
-    @Override
-    void onUserStateChanged(@Nullable AuthenticatedUser oldUser,
-                            @Nullable AuthenticatedUser newUser);
 }

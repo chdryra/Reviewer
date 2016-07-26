@@ -13,6 +13,10 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 10/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public interface DataDate extends Validatable{
+public interface DataDate extends HasReviewId, DateTime {
+    @Override
     long getTime();
+
+    @Override
+    ReviewId getReviewId();
 }

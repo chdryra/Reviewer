@@ -9,9 +9,8 @@
 package test.TestUtils;
 
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
 import com.chdryra.android.testutils.RandomString;
 
@@ -21,12 +20,12 @@ import com.chdryra.android.testutils.RandomString;
  * Email: rizwan.choudrey@gmail.com
  */
 public class RandomAuthor {
-    public static DataAuthor nextAuthor() {
+    public static NamedAuthor nextAuthor() {
         return new DatumAuthor(RandomString.nextWord(), AuthorIdGenerator.newId());
     }
 
-    public static DataAuthorReview nextAuthorReview() {
-        return new DatumAuthorReview(RandomReviewId.nextReviewId(), RandomString.nextWord(),
+    public static DataAuthor nextAuthorReview() {
+        return new DatumAuthor(RandomReviewId.nextReviewId(), RandomString.nextWord(),
                 AuthorIdGenerator.newId());
     }
 }

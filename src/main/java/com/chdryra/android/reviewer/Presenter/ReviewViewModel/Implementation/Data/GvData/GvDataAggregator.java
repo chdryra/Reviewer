@@ -13,11 +13,11 @@ import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.Aggreg
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregator;
 import com.chdryra.android.reviewer.Algorithms.DataAggregation.Interfaces.DataAggregatorParams;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.DataAggregatorsPlugin.Api.DataAggregatorsApi;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataConverter;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
@@ -56,8 +56,8 @@ public class GvDataAggregator {
 
     public GvCanonicalCollection<GvAuthor> aggregateAuthors(ReviewNode root) {
         GvAuthorList data = mConverter.toGvAuthorList(root.getChildren(), root.getReviewId());
-        DataAggregator<DataAuthorReview> aggregator = mAggregators.newAuthorsAggregator(mParams.getSimilarBoolean());
-        AggregatedList<DataAuthorReview> aggregated = aggregator.aggregate(data);
+        DataAggregator<DataAuthor> aggregator = mAggregators.newAuthorsAggregator(mParams.getSimilarBoolean());
+        AggregatedList<DataAuthor> aggregated = aggregator.aggregate(data);
         return newCollection(mConverter.getConverterAuthors(), aggregated, GvAuthor.TYPE);
     }
 
@@ -77,8 +77,8 @@ public class GvDataAggregator {
 
     public GvCanonicalCollection<GvDate> aggregateDates(ReviewNode root) {
         GvDateList data = mConverter.toGvDateList(root.getChildren(), root.getReviewId());
-        DataAggregator<DataDateReview> aggregator = mAggregators.newDatesAggregator(mParams.getSimilarDate());
-        AggregatedList<DataDateReview> aggregated = aggregator.aggregate(data);
+        DataAggregator<DataDate> aggregator = mAggregators.newDatesAggregator(mParams.getSimilarDate());
+        AggregatedList<DataDate> aggregated = aggregator.aggregate(data);
         return newCollection(mConverter.getConverterDates(), aggregated, GvDate.TYPE);
     }
 //

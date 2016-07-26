@@ -10,8 +10,8 @@ package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
 import android.support.annotation.NonNull;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.Validatable;
@@ -27,22 +27,22 @@ import java.util.Date;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
-    private DataAuthor mAuthor;
-    private DataDate mDate;
     private ReviewId mId;
+    private AuthorId mAuthorId;
+    private DateTime mDate;
 
     private ReviewStamp() {
 
     }
 
-    private ReviewStamp(DataAuthor author, DataDate date) {
-        mAuthor = author;
+    private ReviewStamp(AuthorId authorId, DateTime date) {
+        mAuthorId = authorId;
         mDate = date;
-        mId = new StampId(author.getAuthorId().toString(), date.getTime());
+        mId = new StampId(mAuthorId.toString(), mDate.getTime());
     }
 
-    public static ReviewStamp newStamp(DataAuthor author, DataDate date){
-        return new ReviewStamp(author, date);
+    public static ReviewStamp newStamp(AuthorId authorId, DateTime date){
+        return new ReviewStamp(authorId, date);
     }
 
     public static ReviewStamp noStamp(){
@@ -58,11 +58,11 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
         }
     }
 
-    public DataAuthor getAuthor() {
-        return mAuthor;
+    public AuthorId getAuthorId() {
+        return mAuthorId;
     }
 
-    public DataDate getDate() {
+    public DateTime getDate() {
         return mDate;
     }
 
@@ -71,10 +71,10 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
     }
 
     public String toReadable(){
-        String author = mAuthor.getName();
+        //String author = mAuthorId.getName();
         String date = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format
                 (new Date(mDate.getTime()));
-        return date + " by " + author;
+        return date;// + " by " + author;
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
 
     @Override
     public boolean hasData(DataValidator validator) {
-        return validator.validate(mAuthor) && validator.validate(mDate) && validator.validate(mId);
+        return validator.validate(mAuthorId) && validator.validate(mDate) && validator.validate(mId);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
 
         ReviewStamp stamp = (ReviewStamp) o;
 
-        if (!mAuthor.equals(stamp.mAuthor)) return false;
+        if (!mAuthorId.equals(stamp.mAuthorId)) return false;
         if (!mDate.equals(stamp.mDate)) return false;
         return mId.equals(stamp.mId);
 
@@ -107,7 +107,7 @@ public class ReviewStamp implements Validatable, ReviewId, HasReviewId {
 
     @Override
     public int hashCode() {
-        int result = mAuthor.hashCode();
+        int result = mAuthorId.hashCode();
         result = 31 * result + mDate.hashCode();
         result = 31 * result + mId.hashCode();
         return result;

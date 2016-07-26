@@ -10,10 +10,10 @@ package com.chdryra.android.reviewer.Authentication.Factories;
 
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 
 import java.util.Date;
 
@@ -24,13 +24,13 @@ import java.util.Date;
  */
 public class FactoryAuthorProfile {
     public AuthorProfile newProfile(String name, String authorId, long dateJoined) {
-        DataAuthor author = new DatumAuthor(name, new DatumAuthorId(authorId));
-        return new AuthorProfile(author, new DatumDate(dateJoined));
+        NamedAuthor author = new DefaultNamedAuthor(name, new DefaultAuthorId(authorId));
+        return new AuthorProfile(author, new DatumDateTime(dateJoined));
     }
 
     public AuthorProfile newProfile(String name) {
-        DataAuthor author = new DatumAuthor(name, AuthorIdGenerator.newId());
-        return new AuthorProfile(author, new DatumDate(new Date().getTime()));
+        NamedAuthor author = new DefaultNamedAuthor(name, AuthorIdGenerator.newId());
+        return new AuthorProfile(author, new DatumDateTime(new Date().getTime()));
     }
 
     public AuthorProfile newNullAuthorProfile() {

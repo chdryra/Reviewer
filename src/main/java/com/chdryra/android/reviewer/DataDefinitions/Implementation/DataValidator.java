@@ -8,10 +8,10 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DataValidator {
-    public boolean validate(DataAuthor author) {
+    public boolean validate(NamedAuthor author) {
         return NotNull(author) && validateString(author.getName())
                 && validate(author.getAuthorId());
     }
@@ -76,7 +76,7 @@ public class DataValidator {
                 && latLng.longitude >= -180. && latLng.longitude <= 180. && validate(location.getReviewId());
     }
 
-    public boolean validate(DataDate date) {
+    public boolean validate(DateTime date) {
         return date.getTime() > 0;
     }
 

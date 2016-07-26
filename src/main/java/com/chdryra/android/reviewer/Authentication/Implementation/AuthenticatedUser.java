@@ -11,6 +11,7 @@ package com.chdryra.android.reviewer.Authentication.Implementation;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 /**
  * Created by: Rizwan Choudrey
@@ -31,27 +32,43 @@ public class AuthenticatedUser implements Parcelable{
     };
     
     private String mProvider;
-    private String mProviderId;
+    private String mProvidersId;
+    private String mAuthorId;
 
     public AuthenticatedUser() {
     }
 
-    public AuthenticatedUser(String provider, String providerId) {
+    public AuthenticatedUser(String provider, String providersId) {
+        this(provider, providersId, null);
+    }
+
+    public AuthenticatedUser(String provider, String providersId, @Nullable String authorId) {
         mProvider = provider;
-        mProviderId = providerId;
+        mProvidersId = providersId;
+        mAuthorId = authorId;
     }
 
     public AuthenticatedUser(Parcel in) {
         mProvider = in.readString();
-        mProviderId = in.readString();
+        mProvidersId = in.readString();
+        mAuthorId = in.readString();
+    }
+
+    public void setAuthorId(String authorId) {
+        mAuthorId = authorId;
     }
 
     public String getProvider() {
         return mProvider;
     }
 
-    public String getProviderId() {
-        return mProviderId;
+    public String getProvidersId() {
+        return mProvidersId;
+    }
+
+    @Nullable
+    public String getAuthorId() {
+        return mAuthorId;
     }
 
     @Override
@@ -62,6 +79,7 @@ public class AuthenticatedUser implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mProvider);
-        dest.writeString(mProviderId);
+        dest.writeString(mProvidersId);
+        dest.writeString(mAuthorId);
     }
 }

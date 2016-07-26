@@ -16,12 +16,12 @@ import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.mygenerallibrary.Imaging.ImageHelper;
 import com.chdryra.android.mygenerallibrary.TextUtils.TextUtils;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumComment;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumCriterion;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateTime;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDate;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumDateReview;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumImage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumLocation;
@@ -29,7 +29,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumUrl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataCollection;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewDataHolderImpl;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
@@ -69,7 +69,7 @@ import static org.junit.Assert.fail;
  * Email: rizwan.choudrey@gmail.com
  */
 public class TestReviews {
-    private static DatumAuthor AUTHOR = new DatumAuthor("Riz", new DatumAuthorId("123"));
+    private static DefaultNamedAuthor AUTHOR = new DefaultNamedAuthor("Riz", new DefaultAuthorId("123"));
     private static TestReviews sReviews;
     private Instrumentation mInstr;
     private IdableCollection<Review> mReviews;
@@ -244,7 +244,7 @@ public class TestReviews {
     }
 
     private Review getReview(TestReview review, TagsManager tagsManager) {
-        ReviewStamp stamp = ReviewStamp.newStamp(AUTHOR, new DatumDate(review.mPublishDate.getTime()));
+        ReviewStamp stamp = ReviewStamp.newStamp(AUTHOR, new DatumDateTime(review.mPublishDate.getTime()));
         ReviewId id = new MdReviewId(stamp);
         
         ArrayList<DataComment> comments = new ArrayList<>();
@@ -258,7 +258,7 @@ public class TestReviews {
         i = 0;
         for(Image image : review.mImages) {
             DatumImage item = new DatumImage(id, image.mBitmap, 
-                    new DatumDateReview(id, image.mDate.getTime()), image.mCaption, i++ == 0 );
+                    new DatumDate(id, image.mDate.getTime()), image.mCaption, i++ == 0 );
             images.add(item);
         }
 
@@ -286,7 +286,7 @@ public class TestReviews {
         }
 
 
-        DatumDateReview publishDate = new DatumDateReview(id, review.mPublishDate.getTime());
+        DatumDate publishDate = new DatumDate(id, review.mPublishDate.getTime());
 
         ArrayList<DataCriterion> criteria = new ArrayList<>();
         float avgRating = 0f;
@@ -423,7 +423,7 @@ public class TestReviews {
         }
 
         @Override
-        public void getReviews(DataAuthor author, RepositoryCallback callback) {
+        public void getReviews(NamedAuthor author, RepositoryCallback callback) {
 
         }
 

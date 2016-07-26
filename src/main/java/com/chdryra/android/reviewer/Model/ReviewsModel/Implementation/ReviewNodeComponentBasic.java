@@ -12,8 +12,8 @@ import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorReview;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDateReview;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
@@ -96,7 +96,7 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic
 
     @Override
     public void getData(final AuthorsCallback callback) {
-        final VisitorItemGetter<DataAuthorReview> visitor = mVisitorFactory.newAuthorsCollector();
+        final VisitorItemGetter<DataAuthorId> visitor = mVisitorFactory.newAuthorsCollector();
         doTraversal("Authors", visitor, new TreeTraverser.TraversalCallback() {
             @Override
             public void onTraversed(Map<String, VisitorReviewNode> visitors) {
@@ -107,7 +107,7 @@ public abstract class ReviewNodeComponentBasic extends ReviewNodeBasic
 
     @Override
     public void getData(final DatesCallback callback) {
-        final VisitorItemGetter<DataDateReview> visitor = mVisitorFactory.newDatesCollector();
+        final VisitorItemGetter<DataDate> visitor = mVisitorFactory.newDatesCollector();
         doTraversal("Dates", visitor, new TreeTraverser.TraversalCallback() {
             @Override
             public void onTraversed(Map<String, VisitorReviewNode> visitors) {

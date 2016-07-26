@@ -57,7 +57,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DataValidator;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.TagsModel.Implementation.ItemTagImpl;
@@ -257,7 +257,7 @@ public class ReviewerDbImplTest {
 
     @Test
     public void loadReviewsWhereCallsTransactorWithAppropriateAuthorClauseIfAuthorTableClauses() {
-        DataAuthor author = RandomAuthor.nextAuthor();
+        NamedAuthor author = RandomAuthor.nextAuthor();
         String name = author.getName();
         String userId = author.getAuthorId().toString();
 

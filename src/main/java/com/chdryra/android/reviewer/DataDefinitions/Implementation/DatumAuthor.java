@@ -8,23 +8,34 @@
 
 package com.chdryra.android.reviewer.DataDefinitions.Implementation;
 
-import com.chdryra.android.reviewer.DataDefinitions.Factories.AuthorIdGenerator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
- * Holds Author data. Currently only wraps a name and unique {@link AuthorIdGenerator}.
+ * Created by: Rizwan Choudrey
+ * On: 27/11/2015
+ * Email: rizwan.choudrey@gmail.com
  */
-public class DatumAuthor implements DataAuthor{
-    private AuthorId mId;
+public class DatumAuthor implements DataAuthor {
+    private ReviewId mReviewId;
     private String mName;
+    private AuthorId mAuthorId;
 
     public DatumAuthor() {
     }
 
-    public DatumAuthor(String name, AuthorId id) {
+    public DatumAuthor(ReviewId reviewId, String name, AuthorId authorId) {
+        mReviewId = reviewId;
         mName = name;
-        mId = id;
+        mAuthorId = authorId;
+    }
+
+    public DatumAuthor(ReviewId reviewId, NamedAuthor author) {
+        mReviewId = reviewId;
+        mName = author.getName();
+        mAuthorId = author.getAuthorId();
     }
 
     @Override
@@ -34,7 +45,7 @@ public class DatumAuthor implements DataAuthor{
 
     @Override
     public AuthorId getAuthorId() {
-        return mId;
+        return mAuthorId;
     }
 
     @Override
@@ -43,21 +54,28 @@ public class DatumAuthor implements DataAuthor{
     }
 
     @Override
+    public ReviewId getReviewId() {
+        return mReviewId;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DatumAuthor)) return false;
 
-        DatumAuthor author = (DatumAuthor) o;
+        DatumAuthor that = (DatumAuthor) o;
 
-        return !(mId != null ? !mId.equals(author.mId) : author.mId != null)
-                && !(mName != null ? !mName.equals(author.mName) : author.mName != null);
+        if (!mReviewId.equals(that.mReviewId)) return false;
+        if (!mName.equals(that.mName)) return false;
+        return mAuthorId.equals(that.mAuthorId);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mId != null ? mId.hashCode() : 0;
-        result = 31 * result + (mName != null ? mName.hashCode() : 0);
+        int result = mReviewId.hashCode();
+        result = 31 * result + mName.hashCode();
+        result = 31 * result + mAuthorId.hashCode();
         return result;
     }
 }

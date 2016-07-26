@@ -31,15 +31,15 @@ public class UserProfileConverter {
     }
 
     public User toUser(AuthenticatedUser user) {
-        return newUser(user.getProvider(), user.getProviderId());
+        return newUser(user.getProvider(), user.getProvidersId());
     }
 
     public User toUser(AuthenticatedUser user, AuthorProfile profile) {
-        return new User(user.getProvider(), user.getProviderId(), new Profile(profile));
+        return new User(user.getProvider(), user.getProvidersId(), new Profile(profile));
     }
 
     public User toUser(AuthenticatedUser user, String authorId) {
-        return new User(user.getProvider(), user.getProviderId(), authorId);
+        return new User(user.getProvider(), user.getProvidersId(), authorId);
     }
 
     public AuthenticatedUser toAuthenticatedUser(User user) {

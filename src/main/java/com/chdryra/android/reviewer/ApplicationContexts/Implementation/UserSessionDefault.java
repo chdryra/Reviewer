@@ -20,7 +20,7 @@ import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
 import com.chdryra.android.reviewer.Authentication.Interfaces.SessionProvider;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAuthenticator;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthor;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewBuilding.Factories.AuthorsStamp;
 
 /**
@@ -33,7 +33,6 @@ public class UserSessionDefault implements UserSession{
             (ApplicationInstance.APP_NAME, AuthenticationError.Reason.NO_AUTHENTICATED_USER);
 
     private PresenterContext mAppContext;
-    private DataAuthor mAuthor;
     private UserAccount mAccount;
     private SessionObserver mObserver;
 
@@ -63,8 +62,8 @@ public class UserSessionDefault implements UserSession{
     }
 
     @Override
-    public DataAuthor getSessionAuthor() {
-        return mAuthor;
+    public AuthorId getSessionAuthorId() {
+        return mAccount.getAccountHolderAsAuthorId();
     }
 
     @Override
@@ -86,7 +85,6 @@ public class UserSessionDefault implements UserSession{
     public void onUserStateChanged(@Nullable AuthenticatedUser oldUser, @Nullable
     AuthenticatedUser newUser) {
         mAccount = null;
-        mAuthor = null;
 
         if (oldUser == null && newUser == null) {
             notifyOnSession(null, NO_USER_ERROR);
