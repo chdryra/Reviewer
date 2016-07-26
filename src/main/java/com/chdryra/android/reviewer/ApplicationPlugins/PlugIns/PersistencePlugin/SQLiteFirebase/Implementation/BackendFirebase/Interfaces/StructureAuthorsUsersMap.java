@@ -9,27 +9,30 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
+
+import android.support.annotation.NonNull;
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Structuring.DbUpdater;
-import com.firebase.client.Firebase;
+        .Implementation.BackendFirebase.Structuring.DbStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.Path;
+
+import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 10/06/2016
+ * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface FbUsersStructure {
-    DbUpdater<User> getProfileUpdater();
+public interface StructureAuthorsUsersMap extends DbStructure<User> {
+    String relativePathToAuthor(String authorId);
 
-    DbUpdater<User> getUsersUpdater();
+    @Override
+    void setPathToStructure(Path<User> path);
 
-    Firebase getUserAuthorMappingDb(Firebase root, String userId);
-
-    Firebase getAuthorNameMappingDb(Firebase root);
-
-    Firebase getNameAuthorMappingDb(Firebase root, String name);
-
-    Firebase getProfileDb(Firebase root, String authorId);
+    @NonNull
+    @Override
+    Map<String, Object> getUpdatesMap(User user, UpdateType updateType);
 }

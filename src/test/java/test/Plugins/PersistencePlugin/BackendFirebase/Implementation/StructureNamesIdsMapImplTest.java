@@ -15,9 +15,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.BackendFirebase.Implementation
-        .StructureNamesMapImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureNamesAuthorsMapImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
         .SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
@@ -33,12 +31,12 @@ import static junit.framework.Assert.assertNotNull;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureNamesMapImplTest extends StructureTestBasic<User>{
+public class StructureNamesIdsMapImplTest extends StructureTestBasic<User>{
     private static final String PATH = FirebaseStructure.USERS + "/" + FirebaseStructure.AUTHOR_NAMES;
 
     @Before
     public void setUp(){
-        setStructure(new StructureNamesMapImpl(PATH));
+        setStructure(new StructureNamesAuthorsMapImpl(PATH));
     }
 
     @Override

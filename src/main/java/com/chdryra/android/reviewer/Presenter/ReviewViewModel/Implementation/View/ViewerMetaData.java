@@ -28,7 +28,7 @@ import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.Interfaces.View.ReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Factories.FactoryReviewViewAdapter;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
-        .GvConverterAuthors;
+        .GvConverterAuthorIds;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterComments;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
@@ -47,9 +47,9 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
         .GvConverterReferences;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvConverters
         .GvConverterSubjects;
-import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
-        .GvAuthorList;
+        .GvAuthorIdList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvCommentList;
@@ -154,14 +154,14 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
     }
 
-    public static class Authors extends ViewerMetaData<GvAuthor> implements MetaBinders
+    public static class Authors extends ViewerMetaData<GvAuthorId> implements MetaBinders
             .AuthorsBinder {
-        private GvConverterAuthors mConverter;
+        private GvConverterAuthorIds mConverter;
 
         public Authors(MetaReference reference,
-                       GvConverterAuthors converter,
+                       GvConverterAuthorIds converter,
                        FactoryReviewViewAdapter adapterFactory) {
-            super(reference, new GvAuthorList(getId(reference)), adapterFactory);
+            super(reference, new GvAuthorIdList(getId(reference)), adapterFactory);
             mConverter = converter;
         }
 

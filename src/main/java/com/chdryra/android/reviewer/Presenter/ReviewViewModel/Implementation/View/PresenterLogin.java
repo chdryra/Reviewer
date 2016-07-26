@@ -159,7 +159,7 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
                 EmailPassword emailPassword = data.getParcelableExtra(PresenterSignUp.EMAIL_PASSWORD);
                 if (emailPassword != null) authenticateWithCredentials(emailPassword);
             } else {
-                onSession(mApp.getUserSession().getUserAccount(), null);
+                onLogIn(mApp.getUserSession().getUserAccount(), null);
             }
         } else {
             if (mHandler != null) mHandler.onActivityResult(requestCode, resultCode, data);
@@ -168,12 +168,12 @@ public class PresenterLogin implements ActivityResultListener, AuthenticatorCall
 
     @Override
     public void onAuthenticated(AuthenticatedUser user) {
-        //wait for onLoggedIn to be called
+        //wait for onLogIn to be called
     }
 
     @Override
-    public void onSession(UserAccount account,
-                          @Nullable AuthenticationError error) {
+    public void onLogIn(UserAccount account,
+                        @Nullable AuthenticationError error) {
         if (error == null) {
             if (mListener != null) mListener.onAuthenticated();
         } else {

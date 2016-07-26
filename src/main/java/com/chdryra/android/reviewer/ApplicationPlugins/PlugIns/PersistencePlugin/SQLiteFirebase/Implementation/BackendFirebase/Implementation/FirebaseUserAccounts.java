@@ -83,17 +83,17 @@ public class FirebaseUserAccounts implements UserAccounts {
     @Override
     public void createAccount(final AuthenticatedUser authUser, final AuthorProfile profile,
                               final CreateAccountCallback callback) {
-        Firebase db = mStructure.getAuthorNameMappingDb(mDataRoot, profile.getAuthor().getName());
+        Firebase db = mStructure.getNameAuthorMappingDb(mDataRoot, profile.getAuthor().getName());
         doSingleEvent(db, createAccountIfNoNameConflict(authUser, profile, callback));
     }
 
     @Override
     public void getAccount(final AuthenticatedUser authUser, final GetAccountCallback callback) {
-        Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProvidersId());
         String authorId = authUser.getAuthorId();
         if (authorId != null) {
             callback.onAccount(getUserAccount(authUser), null);
         } else {
+            Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProvidersId());
             doSingleEvent(db, getAuthorIdThenAccount(authUser, callback));
         }
     }

@@ -25,8 +25,8 @@ import java.util.Map;
  * On: 05/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface StructureNamesMap extends DbStructure<User> {
-    String relativePathToAuthor(String name);
+public interface StructureNamesAuthorsMap extends DbStructure<User> {
+    String relativePathToName(String name);
 
     @Override
     void setPathToStructure(Path<User> path);

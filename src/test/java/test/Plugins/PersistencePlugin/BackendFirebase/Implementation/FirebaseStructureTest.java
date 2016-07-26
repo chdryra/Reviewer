@@ -217,7 +217,7 @@ public class FirebaseStructureTest {
         User user = getUser(tester);
 
         checkUserUpdatesMapSize(tester);
-        tester.checkKeyValue(Path.path(FirebaseStructure.USERS_MAP, user.getProviderUserId()),
+        tester.checkKeyValue(Path.path(FirebaseStructure.ProviderIds_AuthorIds, user.getProviderUserId()),
                 user.getAuthorId());
     }
 

@@ -18,16 +18,14 @@ import java.util.ArrayList;
 public class ReviewSummary {
     private String mSubject;
     private float mRating;
-    private String mAuthor;
     private ArrayList<String> mHeadlines;
     private ArrayList<String> mTags;
     private ArrayList<String> mLocations;
 
-    public ReviewSummary(String subject, float rating, String author, ArrayList<String>
+    public ReviewSummary(String subject, float rating, ArrayList<String>
             headlines, ArrayList<String> tags, ArrayList<String> locations) {
         mSubject = subject;
         mRating = rating;
-        mAuthor = author;
         mHeadlines = headlines;
         mTags = tags;
         mLocations = locations;
@@ -39,10 +37,6 @@ public class ReviewSummary {
 
     public float getRating() {
         return mRating;
-    }
-
-    public String getAuthor() {
-        return mAuthor;
     }
 
     public ArrayList<String> getHeadlines() {

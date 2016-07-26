@@ -37,8 +37,10 @@ public class ReviewInserterImpl implements ReviewInserter {
     }
 
     @Override
-    public void addReviewToDb(Review review, TagsManager tagsManager,
-                              ReviewerDb db, TableTransactor transactor) {
+    public void addReviewToDb(Review review,
+                              TagsManager tagsManager,
+                              ReviewerDb db,
+                              TableTransactor transactor) {
         addToTable(review, db.getReviewsTable(), transactor);
         addToTable(review.getCriteria(), db.getCriteriaTable(), transactor, true);
         addToTable(review.getComments(), db.getCommentsTable(), transactor, true);
@@ -66,12 +68,14 @@ public class ReviewInserterImpl implements ReviewInserter {
         }
     }
 
-    private void addToAuthorsTableIfNecessary(NamedAuthor author, DbTable<RowAuthor> table,
+    private void addToAuthorsTableIfNecessary(NamedAuthor author,
+                                              DbTable<RowAuthor> table,
                                               TableTransactor transactor) {
-        String userId = author.getAuthorId().toString();
-        if (!transactor.isIdInTable(userId, table.getColumn(RowAuthor.AUTHOR_ID.getName()), table)) {
-            insertIntoTable(mRowFactory.newRow(table.getRowClass(), author), table, transactor);
-        }
+        transactor.insertOrReplaceRow(mRowFactory.newRow(table.getRowClass(), author), table);
+//        String userId = author.getAuthorId().toString();
+//        if (!transactor.isIdInTable(userId, table.getColumn(RowAuthor.AUTHOR_ID.getName()), table)) {
+//            insertIntoTable(mRowFactory.newRow(table.getRowClass(), author), table, transactor);
+//        }
     }
 
     private void addToTagsTable(ItemTagCollection tags, DbTable<RowTag> table, TableTransactor transactor) {

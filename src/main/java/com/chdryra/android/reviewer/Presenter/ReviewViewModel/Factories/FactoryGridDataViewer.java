@@ -115,7 +115,7 @@ public class FactoryGridDataViewer {
         } else if(type.equals(GvFact.TYPE)) {
             viewer = new ViewerMetaData.Facts(review, converter.getConverterFacts(), mAdapterFactory);
         } else if(type.equals(GvAuthor.TYPE)) {
-            viewer = new ViewerMetaData.Authors(review, converter.getConverterAuthors(), mAdapterFactory);
+            viewer = new ViewerMetaData.Authors(review, converter.getConverterAuthorsIds(), mAdapterFactory);
         } else if(type.equals(GvSubject.TYPE)) {
             viewer = new ViewerMetaData.Subjects(review, converter.getConverterSubjects(), mAdapterFactory);
         } else if(type.equals(GvDate.TYPE)) {

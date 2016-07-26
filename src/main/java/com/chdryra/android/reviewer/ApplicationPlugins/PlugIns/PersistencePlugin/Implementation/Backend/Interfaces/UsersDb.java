@@ -53,8 +53,6 @@ public interface UsersDb {
 
     String getProviderName();
 
-    void checkNameConflict(String authorName, UserConflictCallback callback);
-
     void createUser(EmailPassword emailPassword, CreateUserCallback callback);
 
     void addProfile(User user, CreateAccountCallback callback);

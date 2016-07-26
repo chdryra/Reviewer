@@ -26,7 +26,7 @@ public class ReviewSummariser {
 
     public ReviewSummary summarise(Review review, TagsManager tagsManager) {
         return new ReviewSummary(review.getSubject().getSubject(),
-                review.getRating().getRating(), review.getAuthorId().getName(), getHeadlines(review),
+                review.getRating().getRating(), getHeadlines(review),
                 tagsManager.getTags(review.getReviewId().toString()).toStringArray(),
                 getLocationNames(review));
     }

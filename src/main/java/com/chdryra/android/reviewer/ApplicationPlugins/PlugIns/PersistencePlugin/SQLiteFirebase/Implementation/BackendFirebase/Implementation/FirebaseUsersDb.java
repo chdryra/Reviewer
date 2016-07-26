@@ -95,9 +95,8 @@ public class FirebaseUsersDb implements UsersDb {
         });
     }
 
-    @Override
-    public void checkNameConflict(final String authorName, final UserConflictCallback callback) {
-        Firebase db = mStructure.getAuthorNameMappingDb(mDataRoot, authorName);
+    private void checkNameConflict(final String authorName, final UserConflictCallback callback) {
+        Firebase db = mStructure.getNameAuthorMappingDb(mDataRoot, authorName);
         doSingleEvent(db, checkNameDoesNotExist(authorName, callback));
     }
 

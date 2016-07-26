@@ -10,7 +10,7 @@ package test.Plugins.PersistencePlugin.BackendFirebase.Implementation;
 
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FirebaseStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureUsersMapImpl;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.StructureUsersAuthorsMapImpl;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.Path;
 
 import org.junit.Before;
@@ -23,12 +23,12 @@ import test.Plugins.PersistencePlugin.BackendFirebase.TestUtils.StructureTester;
  * On: 17/05/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUsersMapImplTest extends StructureTestBasic<User> {
-    private static final String USERS_MAP = FirebaseStructure.USERS_MAP;
+public class StructureUsersAuthorsMapImplTest extends StructureTestBasic<User> {
+    private static final String USERS_MAP = FirebaseStructure.ProviderIds_AuthorIds;
 
     @Before
     public void setUp() {
-        setStructure(new StructureUsersMapImpl(USERS_MAP));
+        setStructure(new StructureUsersAuthorsMapImpl(USERS_MAP));
     }
 
     @Override

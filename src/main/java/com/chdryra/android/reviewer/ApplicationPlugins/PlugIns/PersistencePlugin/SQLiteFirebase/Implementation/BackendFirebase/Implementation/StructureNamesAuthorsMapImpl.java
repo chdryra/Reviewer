@@ -12,9 +12,10 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbStructureBasic;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureUsersMap;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.StructureNamesAuthorsMap;
 
 import java.util.Map;
 
@@ -23,24 +24,27 @@ import java.util.Map;
  * On: 10/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class StructureUsersMapImpl extends DbStructureBasic<User> implements StructureUsersMap {
-    public StructureUsersMapImpl(String path) {
+public class StructureNamesAuthorsMapImpl extends DbStructureBasic<User> implements StructureNamesAuthorsMap {
+    public StructureNamesAuthorsMapImpl(String path) {
         setPathToStructure(path);
     }
 
     @Override
-    public String relativePathToUser(String userId) {
-        return userId;
+    public String relativePathToName(String name) {
+        return name;
     }
 
     @NonNull
     @Override
     public Map<String, Object> getUpdatesMap(User user, UpdateType updateType) {
-        String userId = user.getProviderUserId();
+        Profile profile = user.getProfile();
+        if(profile == null) return noUpdates();
+
+        String name = profile.getAuthor().getName();
         String authorId = user.getAuthorId();
 
         Updates updates = new Updates(updateType);
-        updates.atPath(user, relativePathToUser(userId)).putValue(authorId);
+        updates.atPath(user, relativePathToName(name)).putValue(authorId);
 
         return updates.toMap();
     }

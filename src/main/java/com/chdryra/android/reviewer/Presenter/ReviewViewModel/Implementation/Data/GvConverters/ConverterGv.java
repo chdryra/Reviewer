@@ -29,6 +29,7 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthor;
+import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvAuthorId;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData
         .GvAuthorList;
 import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Data.GvData.GvComment;
@@ -87,6 +88,7 @@ public class ConverterGv {
                        GvConverterReferences converterReferences,
                        GvConverterSubjects converterSubjects,
                        GvConverterAuthors converterAuthors,
+                       GvConverterAuthorIds converterAuthorIds,
                        GvConverterDateReviews converterDates,
                        GvConverterDataTags converterTags,
                        GvConverterItemTags converterItemTags) {
@@ -101,6 +103,7 @@ public class ConverterGv {
         mMap.add(converterReferences.getDataType(), converterReferences);
         mMap.add(converterSubjects.getDataType(), converterSubjects);
         mMap.add(converterAuthors.getDataType(), converterAuthors);
+        mMap.add(converterAuthorIds.getDataType(), converterAuthorIds);
         mMap.add(converterDates.getDataType(), converterDates);
         mMap.add(converterTags.getDataType(), converterTags);
         mItemTagsConverter = converterItemTags;
@@ -162,6 +165,10 @@ public class ConverterGv {
         return (GvConverterAuthors) getConverter(GvAuthor.TYPE);
     }
 
+    public GvConverterAuthorIds getConverterAuthorsIds() {
+        return (GvConverterAuthorIds) getConverter(GvAuthorId.TYPE);
+    }
+
     public GvConverterDateReviews getConverterDates() {
         return (GvConverterDateReviews) getConverter(GvDate.TYPE);
     }
@@ -220,9 +227,9 @@ public class ConverterGv {
     //Authors
     public <T extends ReviewReference> GvAuthorList toGvAuthorList(Iterable<T> reviews, ReviewId reviewId) {
         ArrayList<DataAuthor> authors = new ArrayList<>();
-        for(ReviewReference review : reviews) {
-            authors.add(review.getAuthorId());
-        }
+//        for(ReviewReference review : reviews) {
+//            authors.add(review.getAuthorId());
+//        }
         return getConverterAuthors().convert(authors, reviewId);
     }
 

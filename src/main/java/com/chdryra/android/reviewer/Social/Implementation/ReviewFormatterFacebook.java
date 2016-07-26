@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * Email: rizwan.choudrey@gmail.com
  */
 public class ReviewFormatterFacebook implements ReviewFormatter {
-    private static final String RATES = "rates";
     private static final String APP = ApplicationInstance.APP_NAME;
 
     @Override

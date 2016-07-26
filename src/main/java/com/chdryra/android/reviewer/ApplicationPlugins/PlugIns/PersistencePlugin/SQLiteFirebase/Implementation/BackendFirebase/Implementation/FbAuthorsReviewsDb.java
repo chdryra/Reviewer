@@ -27,11 +27,11 @@ import com.firebase.client.Firebase;
  * On: 09/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbAuthorsDb implements FbAuthorsReviews {
+public class FbAuthorsReviewsDb implements FbAuthorsReviews {
     private AuthorId mAuthorId;
     private FbReviews mParent;
 
-    public FbAuthorsDb(AuthorId authorId, FbReviews parent) {
+    public FbAuthorsReviewsDb(AuthorId authorId, FbReviews parent) {
         mAuthorId = authorId;
         mParent = parent;
     }

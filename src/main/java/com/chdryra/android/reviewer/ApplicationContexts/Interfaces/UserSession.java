@@ -25,8 +25,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
  */
 public interface UserSession extends UserAuthenticator.UserStateObserver {
     interface SessionObserver {
-        void onSession(@Nullable UserAccount account,
-                       @Nullable AuthenticationError error);
+        void onLogIn(@Nullable UserAccount account,
+                     @Nullable AuthenticationError error);
     }
 
     @Nullable
