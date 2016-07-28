@@ -19,6 +19,7 @@ import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.SocialContext
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.ViewContext;
 import com.chdryra.android.reviewer.Authentication.Implementation.UsersManager;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
@@ -164,7 +165,7 @@ public abstract class PresenterContextBasic implements PresenterContext {
             public void onRepositoryCallback(RepositoryResult result) {
                 ReviewReference reference = result.getReference();
                 if(result.isReference() && reference != null) {
-                    reference.dereference(new ReviewReference.DereferenceCallback() {
+                    reference.dereference(new DataReference.DereferenceCallback<Review>() {
                         @Override
                         public void onDereferenced(@Nullable Review review, CallbackMessage message) {
                             callback.onRepositoryCallback(new RepositoryResult(review, message));

@@ -34,7 +34,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
 import java.util.ArrayList;
@@ -45,12 +45,12 @@ import java.util.Map;
 import java.util.Random;
 
 public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNodeComponent,
-        ReferenceBinder.DataBinder, ReferenceBinder.DataSizeBinder {
+        ReviewReferenceBinder.DataBinder, ReviewReferenceBinder.DataSizeBinder {
     private final DataReviewInfo mMeta;
     private final MdDataList<ReviewNodeComponent> mChildren;
     private FactoryReviewNode mNodeFactory;
     
-    private Map<ReviewId, ReferenceBinder> mChildBinders;
+    private Map<ReviewId, ReviewReferenceBinder> mChildBinders;
 
     public NodeInternal(DataReviewInfo meta, FactoryReviewNode nodeFactory) {
         super(nodeFactory);
@@ -493,7 +493,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
     
     @Override
-    public void dereference(final DereferenceCallback callback) {
+    public void dereference(final DereferenceCallback<Review> callback) {
         NodeDereferencer dereferencer = new NodeDereferencer();
         dereferencer.dereference(getChildren(), new NodeDereferencer.DereferenceCallback() {
             @Override
@@ -529,37 +529,37 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     private void unbindFromChild(ReviewId childId) {
-        ReferenceBinder remove = mChildBinders.remove(childId);
+        ReviewReferenceBinder remove = mChildBinders.remove(childId);
         getBindersManager().unmanageBinder(remove);
     }
 
     private void bindToChild(ReviewNode child) {
-        ReferenceBinder binder = mNodeFactory.getBinderFactory().bindTo(child, this, this);
+        ReviewReferenceBinder binder = mNodeFactory.getBinderFactory().bindTo(child, this, this);
         getBindersManager().manageBinder(binder);
         mChildBinders.put(child.getReviewId(), binder);
     }
 
     private void notifyOnReviews(IdableList<ReviewReference> data, CallbackMessage message) {
         if (!message.isError()) {
-            for (ValueBinder<IdableList<ReviewReference>> binder : getBindersManager().getReviewsBinders()) {
-                binder.onValue(data);
+            for (ReferenceBinder<IdableList<ReviewReference>> binder : getBindersManager().getReviewsBinders()) {
+                binder.onReferenceValue(data);
             }
         }
     }
 
-    private <T extends HasReviewId> void notifyOnValue(DataImage cover, CallbackMessage message) {
+    private void notifyOnValue(DataImage cover, CallbackMessage message) {
         if (!message.isError()) {
-            for (ValueBinder<DataImage> binder : getBindersManager().getCoverBinders()) {
-                binder.onValue(cover);
+            for (ReferenceBinder<DataImage> binder : getBindersManager().getCoverBinders()) {
+                binder.onReferenceValue(cover);
             }
         }
     }
 
     private <T extends HasReviewId> void notifyOnValue(Collection<? extends
-            ValueBinder<IdableList<? extends T>>> binders, IdableList<? extends T> data, CallbackMessage message) {
+            ReferenceBinder<IdableList<? extends T>>> binders, IdableList<? extends T> data, CallbackMessage message) {
         if (!message.isError()) {
-            for (ValueBinder<IdableList<? extends T>> binder : binders) {
-                binder.onValue(data);
+            for (ReferenceBinder<IdableList<? extends T>> binder : binders) {
+                binder.onReferenceValue(data);
             }
         }
     }
@@ -568,7 +568,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
                                CallbackMessage message) {
         if (!message.isError()) {
             for (ReferenceBinders.SizeBinder binder : binders) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         }
     }
@@ -615,7 +615,7 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
             mTracker = new AsyncMethodTracker(nodes, new AsyncMethodTracker.AsyncMethod() {
                 @Override
                 public CallbackMessage execute(final ReviewNode node) {
-                    node.dereference(new ReviewReference.DereferenceCallback() {
+                    node.dereference(new ReviewReference.DereferenceCallback<Review>() {
                         @Override
                         public void onDereferenced(@Nullable Review review, CallbackMessage message) {
                             if(!message.isError() && review != null) mReviews.add(review);

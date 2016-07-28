@@ -10,7 +10,7 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,10 +32,10 @@ public class BindersManagerNode extends BindersManager {
     private Collection<ReferenceBinders.SizeBinder> mNumSubjectsBinders;
     private Collection<ReferenceBinders.SizeBinder> mNumDatesBinders;
 
-    private List<ReferenceBinder> mBinders;
+    private List<ReviewReferenceBinder> mBinders;
 
     private interface BinderMethod {
-        void execute(ReferenceBinder managedBinder);
+        void execute(ReviewReferenceBinder managedBinder);
     }
 
     public BindersManagerNode() {
@@ -84,12 +84,12 @@ public class BindersManagerNode extends BindersManager {
         return mNumDatesBinders;
     }
 
-    public void manageBinder(ReferenceBinder binder) {
+    public void manageBinder(ReviewReferenceBinder binder) {
         mBinders.add(binder);
         bindWhereNecessary(binder);
     }
 
-    public void unmanageBinder(ReferenceBinder binder) {
+    public void unmanageBinder(ReviewReferenceBinder binder) {
         mBinders.remove(binder);
         unbind(binder);
     }
@@ -97,7 +97,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(final MetaBinders.ReviewsBinder binder) {
         addAndBind(getReviewsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToReviews();
             }
         });
@@ -106,7 +106,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(final MetaBinders.AuthorsBinder binder) {
         addAndBind(getAuthorsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToAuthors();
             }
         });
@@ -115,7 +115,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(final MetaBinders.SubjectsBinder binder) {
         addAndBind(getSubjectsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToSubjects();
             }
         });
@@ -124,7 +124,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(final MetaBinders.DatesBinder binder) {
         addAndBind(getDatesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToDates();
             }
         });
@@ -133,7 +133,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToReviews(final ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumReviewsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumReviews();
             }
         });
@@ -142,7 +142,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToAuthors(final ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumAuthorsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumAuthors();
             }
         });
@@ -151,7 +151,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToSubjects(final ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumSubjectsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumSubjects();
             }
         });
@@ -160,7 +160,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToDates(final ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumDatesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumDates();
             }
         });
@@ -169,7 +169,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(MetaBinders.ReviewsBinder binder) {
         removeAndUnbind(getReviewsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromReviews();
             }
         });
@@ -178,7 +178,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(MetaBinders.AuthorsBinder binder) {
         removeAndUnbind(getAuthorsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromAuthors();
             }
         });
@@ -187,7 +187,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(MetaBinders.SubjectsBinder binder) {
         removeAndUnbind(getSubjectsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromSubjects();
             }
         });
@@ -196,7 +196,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(MetaBinders.DatesBinder binder) {
         removeAndUnbind(getDatesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromDates();
             }
         });
@@ -205,7 +205,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromReviews(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumReviewsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumReviews();
             }
         });
@@ -214,7 +214,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromAuthors(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumAuthorsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumAuthors();
             }
         });
@@ -223,7 +223,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromSubjects(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumSubjectsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumSubjects();
             }
         });
@@ -232,7 +232,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromDates(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumDatesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumDates();
             }
         });
@@ -242,7 +242,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.CoverBinder binder) {
         addAndBind(getCoverBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToCovers();
             }
         });
@@ -252,7 +252,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.TagsBinder binder) {
         addAndBind(getTagsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToTags();
             }
         });
@@ -262,7 +262,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.CriteriaBinder binder) {
         addAndBind(getCriteriaBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToCriteria();
             }
         });
@@ -272,7 +272,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.ImagesBinder binder) {
         addAndBind(getImagesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToImages();
             }
         });
@@ -282,7 +282,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.CommentsBinder binder) {
         addAndBind(getCommentsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToComments();
             }
         });
@@ -292,7 +292,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.LocationsBinder binder) {
         addAndBind(getLocationsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToLocations();
             }
         });
@@ -302,7 +302,7 @@ public class BindersManagerNode extends BindersManager {
     public void bind(ReferenceBinders.FactsBinder binder) {
         addAndBind(getFactsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToFacts();
             }
         });
@@ -312,7 +312,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToTags(ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumTagsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumTags();
             }
         });
@@ -322,7 +322,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToCriteria(ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumCriteriaBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumCriteria();
             }
         });
@@ -332,7 +332,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToImages(ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumImagesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumImages();
             }
         });
@@ -342,7 +342,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToComments(ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumCommentsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumComments();
             }
         });
@@ -352,7 +352,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToLocations(ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumLocationsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumLocations();
             }
         });
@@ -362,7 +362,7 @@ public class BindersManagerNode extends BindersManager {
     public void bindToFacts(ReferenceBinders.SizeBinder binder) {
         addAndBind(getNumFactsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.bindToNumFacts();
             }
         });
@@ -372,7 +372,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.CoverBinder binder) {
         removeAndUnbind(getCoverBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromCovers();
             }
         });
@@ -382,7 +382,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.TagsBinder binder) {
         removeAndUnbind(getTagsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromTags();
             }
         });
@@ -392,7 +392,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.CriteriaBinder binder) {
         removeAndUnbind(getCriteriaBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromCriteria();
             }
         });
@@ -402,7 +402,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.ImagesBinder binder) {
         removeAndUnbind(getImagesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromImages();
             }
         });
@@ -412,7 +412,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.CommentsBinder binder) {
         removeAndUnbind(getCommentsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromComments();
             }
         });
@@ -422,7 +422,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.LocationsBinder binder) {
         removeAndUnbind(getLocationsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromLocations();
             }
         });
@@ -432,7 +432,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbind(ReferenceBinders.FactsBinder binder) {
         removeAndUnbind(getFactsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromFacts();
             }
         });
@@ -442,7 +442,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromTags(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumTagsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumTags();
             }
         });
@@ -452,7 +452,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromCriteria(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumCriteriaBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumCriteria();
             }
         });
@@ -462,7 +462,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromImages(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumImagesBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumImages();
             }
         });
@@ -472,7 +472,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromComments(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumCommentsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumComments();
             }
         });
@@ -482,7 +482,7 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromLocations(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumLocationsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumLocations();
             }
         });
@@ -492,37 +492,37 @@ public class BindersManagerNode extends BindersManager {
     public void unbindFromFacts(ReferenceBinders.SizeBinder binder) {
         removeAndUnbind(getNumFactsBinders(), binder, new BinderMethod() {
             @Override
-            public void execute(ReferenceBinder managedBinder) {
+            public void execute(ReviewReferenceBinder managedBinder) {
                 managedBinder.unbindFromNumFacts();
             }
         });
     }
 
-    private <T extends ValueBinder> void addAndBind(Collection<T> binders, T binder, BinderMethod
+    private <T extends ReferenceBinder> void addAndBind(Collection<T> binders, T binder, BinderMethod
             method) {
         if (!binders.contains(binder)) {
             binders.add(binder);
             if (binders.size() == 1) {
-                for (ReferenceBinder referenceBinder : mBinders) {
+                for (ReviewReferenceBinder referenceBinder : mBinders) {
                     method.execute(referenceBinder);
                 }
             }
         }
     }
 
-    private <T extends ValueBinder> void removeAndUnbind(Collection<T> binders, T binder,
-                                                         BinderMethod method) {
+    private <T extends ReferenceBinder> void removeAndUnbind(Collection<T> binders, T binder,
+                                                             BinderMethod method) {
         if (binders.contains(binder)) {
             binders.remove(binder);
             if (binders.size() == 0) {
-                for (ReferenceBinder referenceBinder : mBinders) {
+                for (ReviewReferenceBinder referenceBinder : mBinders) {
                     method.execute(referenceBinder);
                 }
             }
         }
     }
 
-    private void bindWhereNecessary(ReferenceBinder binder) {
+    private void bindWhereNecessary(ReviewReferenceBinder binder) {
         if (getNumReviewsBinders().size() > 0) binder.bindToNumReviews();
         if (getNumAuthorsBinders().size() > 0) binder.bindToNumAuthors();
         if (getNumSubjectsBinders().size() > 0) binder.bindToNumSubjects();
@@ -545,7 +545,7 @@ public class BindersManagerNode extends BindersManager {
         if (getFactsBinders().size() > 0) binder.bindToFacts();
     }
 
-    private void unbind(ReferenceBinder binder) {
+    private void unbind(ReviewReferenceBinder binder) {
         binder.unbindFromNumReviews();
         binder.unbindFromNumAuthors();
         binder.unbindFromNumSubjects();

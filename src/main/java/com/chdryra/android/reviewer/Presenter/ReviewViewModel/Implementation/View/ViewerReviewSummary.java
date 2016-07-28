@@ -15,7 +15,7 @@ import com.chdryra.android.reviewer.Application.DataTypeCellOrder;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.ReviewStamp;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReferenceBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -45,7 +45,7 @@ import java.util.Map;
  * On: 05/11/2015
  * Email: rizwan.choudrey@gmail.com
  */
-public class ViewerReviewSummary extends ViewerNodeBasic<GvDataSize> implements ReferenceBinder
+public class ViewerReviewSummary extends ViewerNodeBasic<GvDataSize> implements ReviewReferenceBinder
         .DataSizeBinder {
     private static final GvDataType<GvDataSize> TYPE = GvDataSize.TYPE;
     private static final List<GvDataType<?>> ORDER = DataTypeCellOrder.ReviewOrder.ORDER;
@@ -54,7 +54,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvDataSize> implements 
     private ConverterGv mConverter;
     private TagsManager mTagsManager;
     private FactoryReviewViewAdapter mAdapterFactory;
-    private ReferenceBinder mBinder;
+    private ReviewReferenceBinder mBinder;
 
     private Map<GvDataType<?>, DataSize> mNumDataMap;
     private int mNumDataTypes;
@@ -96,7 +96,7 @@ public class ViewerReviewSummary extends ViewerNodeBasic<GvDataSize> implements 
         return mTagsManager;
     }
 
-    protected ReferenceBinder getBinder() {
+    protected ReviewReferenceBinder getBinder() {
         return mBinder;
     }
 

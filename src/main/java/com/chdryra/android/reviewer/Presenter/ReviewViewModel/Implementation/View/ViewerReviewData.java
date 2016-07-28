@@ -117,7 +117,7 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
         }
 
         @Override
-        public void onValue(IdableList<? extends DataTag> value) {
+        public void onReferenceValue(IdableList<? extends DataTag> value) {
             setData(mConverter.convert(value));
         }
 
@@ -141,7 +141,7 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
         }
 
         @Override
-        public void onValue(IdableList<? extends DataCriterion> value) {
+        public void onReferenceValue(IdableList<? extends DataCriterion> value) {
             setData(mConverter.convert(value));
         }
 
@@ -165,7 +165,7 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
         }
 
         @Override
-        public void onValue(IdableList<? extends DataImage> value) {
+        public void onReferenceValue(IdableList<? extends DataImage> value) {
             setData(mConverter.convert(value));
         }
 
@@ -189,7 +189,7 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
         }
 
         @Override
-        public void onValue(IdableList<? extends DataComment> value) {
+        public void onReferenceValue(IdableList<? extends DataComment> value) {
             setData(mConverter.convert(value));
         }
 
@@ -213,7 +213,7 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
         }
 
         @Override
-        public void onValue(IdableList<? extends DataLocation> value) {
+        public void onReferenceValue(IdableList<? extends DataLocation> value) {
             setData(mConverter.convert(value));
         }
 
@@ -237,7 +237,7 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
         }
 
         @Override
-        public void onValue(IdableList<? extends DataFact> value) {
+        public void onReferenceValue(IdableList<? extends DataFact> value) {
             setData(mConverter.convert(value));
         }
 

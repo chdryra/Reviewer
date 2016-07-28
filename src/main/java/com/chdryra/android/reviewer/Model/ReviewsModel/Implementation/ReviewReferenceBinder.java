@@ -30,7 +30,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ValueBinder;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,12 +40,12 @@ import java.util.Map;
  * On: 21/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReferenceBinder implements DataReviewInfo {
+public class ReviewReferenceBinder implements DataReviewInfo {
     private static final CallbackMessage OK = CallbackMessage.ok();
     private MetaReference mReference;
     private DataBinder mDataBinder;
     private DataSizeBinder mSizeBinder;
-    private Map<Class<?>, ValueBinder<?>> mBinders;
+    private Map<Class<?>, ReferenceBinder<?>> mBinders;
 
     public interface DataBinder extends
             ReviewReference.CoverCallback,
@@ -74,7 +74,7 @@ public class ReferenceBinder implements DataReviewInfo {
             MetaReference.DatesSizeCallback {
     }
 
-    public ReferenceBinder(MetaReference reference, DataSizeBinder sizeBinder, @Nullable
+    public ReviewReferenceBinder(MetaReference reference, DataSizeBinder sizeBinder, @Nullable
     DataBinder dataBinder) {
         mReference = reference;
         mSizeBinder = sizeBinder;
@@ -284,166 +284,166 @@ public class ReferenceBinder implements DataReviewInfo {
         return mReference.getReviewId();
     }
 
-    private <T extends ValueBinder> boolean toBind(Class<T> binderClass) {
+    private <T extends ReferenceBinder> boolean toBind(Class<T> binderClass) {
         return mDataBinder != null && !isBound(binderClass);
     }
 
-    private <T extends ValueBinder> T getBinder(Class<T> binderClass) {
+    private <T extends ReferenceBinder> T getBinder(Class<T> binderClass) {
         return (T) mBinders.get(binderClass);
     }
 
-    private <T extends ValueBinder> boolean isBound(Class<T> binderClass) {
+    private <T extends ReferenceBinder> boolean isBound(Class<T> binderClass) {
         return mBinders.get(binderClass) != null;
     }
 
-    private <T extends ValueBinder> T addBinder(T binder) {
+    private <T extends ReferenceBinder> T addBinder(T binder) {
         mBinders.put(binder.getClass(), binder);
         return binder;
     }
 
     private class Cover implements ReferenceBinders.CoverBinder {
         @Override
-        public void onValue(DataImage value) {
+        public void onReferenceValue(DataImage value) {
             if (mDataBinder != null) mDataBinder.onCover(value, OK);
         }
     }
 
     private class Tags implements MetaBinders.TagsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataTag> value) {
+        public void onReferenceValue(final IdableList<? extends DataTag> value) {
             if (mDataBinder != null) mDataBinder.onTags(value, OK);
         }
     }
 
     private class Criteria implements MetaBinders.CriteriaBinder {
         @Override
-        public void onValue(final IdableList<? extends DataCriterion> value) {
+        public void onReferenceValue(final IdableList<? extends DataCriterion> value) {
             if (mDataBinder != null) mDataBinder.onCriteria(value, OK);
         }
     }
 
     private class Images implements MetaBinders.ImagesBinder {
         @Override
-        public void onValue(final IdableList<? extends DataImage> value) {
+        public void onReferenceValue(final IdableList<? extends DataImage> value) {
             if (mDataBinder != null) mDataBinder.onImages(value, OK);
         }
     }
 
     private class Comments implements MetaBinders.CommentsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataComment> value) {
+        public void onReferenceValue(final IdableList<? extends DataComment> value) {
             if (mDataBinder != null) mDataBinder.onComments(value, OK);
         }
     }
 
     private class Locations implements MetaBinders.LocationsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataLocation> value) {
+        public void onReferenceValue(final IdableList<? extends DataLocation> value) {
             if (mDataBinder != null) mDataBinder.onLocations(value, OK);
         }
     }
 
     private class Facts implements MetaBinders.FactsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataFact> value) {
+        public void onReferenceValue(final IdableList<? extends DataFact> value) {
             if (mDataBinder != null) mDataBinder.onFacts(value, OK);
         }
     }
 
     private class TagsSize implements MetaBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumTags(size, OK);
         }
     }
 
     private class CriteriaSize implements MetaBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumCriteria(size, OK);
         }
     }
 
     private class ImagesSize implements MetaBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumImages(size, OK);
         }
     }
 
     private class CommentsSize implements MetaBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumComments(size, OK);
         }
     }
 
     private class LocationsSize implements MetaBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumLocations(size, OK);
         }
     }
 
     private class FactsSize implements MetaBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumFacts(size, OK);
         }
     }
 
     private class Reviews implements MetaBinders.ReviewsBinder {
         @Override
-        public void onValue(final IdableList<ReviewReference> value) {
+        public void onReferenceValue(final IdableList<ReviewReference> value) {
             if (mDataBinder != null) mDataBinder.onReviews(value, OK);
         }
     }
 
     private class Authors implements MetaBinders.AuthorsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataAuthorId> value) {
+        public void onReferenceValue(final IdableList<? extends DataAuthorId> value) {
             if (mDataBinder != null) mDataBinder.onAuthors(value, OK);
         }
     }
 
     private class Subjects implements MetaBinders.SubjectsBinder {
         @Override
-        public void onValue(final IdableList<? extends DataSubject> value) {
+        public void onReferenceValue(final IdableList<? extends DataSubject> value) {
             if (mDataBinder != null) mDataBinder.onSubjects(value, OK);
         }
     }
 
     private class Dates implements MetaBinders.DatesBinder {
         @Override
-        public void onValue(final IdableList<? extends DataDate> value) {
+        public void onReferenceValue(final IdableList<? extends DataDate> value) {
             if (mDataBinder != null) mDataBinder.onDates(value, OK);
         }
     }
 
     private class ReviewsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumReviews(size, OK);
         }
     }
 
     private class AuthorsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumAuthors(size, OK);
         }
     }
 
     private class SubjectsSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumSubjects(size, OK);
         }
     }
 
     private class DatesSize implements ReferenceBinders.SizeBinder {
         @Override
-        public void onValue(final DataSize size) {
+        public void onReferenceValue(final DataSize size) {
             mSizeBinder.onNumDates(size, OK);
         }
     }

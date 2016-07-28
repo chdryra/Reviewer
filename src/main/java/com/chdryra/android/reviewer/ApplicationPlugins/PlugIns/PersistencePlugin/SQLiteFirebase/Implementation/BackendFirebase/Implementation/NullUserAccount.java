@@ -12,7 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedUser;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 
 /**
@@ -31,8 +31,8 @@ public class NullUserAccount implements UserAccount {
     }
 
     @Override
-    public AuthorId getAccountHolderAsAuthorId() {
-        return new DatumAuthorId();
+    public AuthorId getAuthorId() {
+        return new DefaultAuthorId();
     }
 
     @Override

@@ -29,6 +29,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
@@ -41,10 +42,10 @@ import org.jetbrains.annotations.NotNull;
 public class ReviewTree extends ReviewNodeBasic implements
         ReviewNode,
         ReviewNode.NodeObserver,
-        ReferenceBinder.DataBinder,
-        ReferenceBinder.DataSizeBinder{
+        ReviewReferenceBinder.DataBinder,
+        ReviewReferenceBinder.DataSizeBinder{
     private final FactoryBinders mBindersFactory;
-    private ReferenceBinder mNodeBinder;
+    private ReviewReferenceBinder mNodeBinder;
     private ReviewNode mNode;
 
     public ReviewTree(@NotNull ReviewNode node, FactoryBinders bindersFactory) {
@@ -363,7 +364,7 @@ public class ReviewTree extends ReviewNodeBasic implements
     }
 
     @Override
-    public void dereference(DereferenceCallback callback) {
+    public void dereference(DereferenceCallback<Review> callback) {
         mNode.dereference(callback);
     }
 

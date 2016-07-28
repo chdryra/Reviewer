@@ -166,7 +166,7 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
     }
 
     @Override
-    public void dereference(DereferenceCallback callback) {
+    public void dereference(DereferenceCallback<Review> callback) {
         callback.onDereferenced(mReview, OK);
     }
 

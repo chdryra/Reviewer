@@ -43,4 +43,6 @@ public interface UserAccounts {
     void createAccount(AuthenticatedUser authUser, AuthorProfile profile, CreateAccountCallback callback);
 
     void getAccount(AuthenticatedUser authUser, GetAccountCallback callback);
+
+    AuthorReferences getAuthorReferences();
 }

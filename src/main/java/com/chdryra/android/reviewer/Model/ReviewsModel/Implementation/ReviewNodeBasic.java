@@ -82,7 +82,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onReviews(IdableList<ReviewReference> rev, CallbackMessage message) {
                 if (!message.isError()) {
                     for (MetaBinders.ReviewsBinder binder : mBinders.getReviewsBinders()) {
-                        binder.onValue(rev);
+                        binder.onReferenceValue(rev);
                     }
                 }
             }
@@ -95,7 +95,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onAuthors(IdableList<? extends DataAuthorId> rev, CallbackMessage message) {
                 if (!message.isError()) {
                     for (MetaBinders.AuthorsBinder binder : mBinders.getAuthorsBinders()) {
-                        binder.onValue(rev);
+                        binder.onReferenceValue(rev);
                     }
                 }
             }
@@ -108,7 +108,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onSubjects(IdableList<? extends DataSubject> rev, CallbackMessage message) {
                 if (!message.isError()) {
                     for (MetaBinders.SubjectsBinder binder : mBinders.getSubjectsBinders()) {
-                        binder.onValue(rev);
+                        binder.onReferenceValue(rev);
                     }
                 }
             }
@@ -121,7 +121,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onDates(IdableList<? extends DataDate> rev, CallbackMessage message) {
                 if (!message.isError()) {
                     for (MetaBinders.DatesBinder binder : mBinders.getDatesBinders()) {
-                        binder.onValue(rev);
+                        binder.onReferenceValue(rev);
                     }
                 }
             }
@@ -134,7 +134,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onNumReviews(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumReviewsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -147,7 +147,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onNumAuthors(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumAuthorsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -160,7 +160,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onNumSubjects(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumSubjectsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -173,7 +173,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
             public void onNumDates(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumDatesBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -186,7 +186,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getData(new ReviewsCallback() {
             @Override
             public void onReviews(IdableList<ReviewReference> leaves, CallbackMessage message) {
-                binder.onValue(leaves);
+                binder.onReferenceValue(leaves);
             }
         });
     }
@@ -197,7 +197,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getData(new AuthorsCallback() {
             @Override
             public void onAuthors(IdableList<? extends DataAuthorId> leaves, CallbackMessage message) {
-                binder.onValue(leaves);
+                binder.onReferenceValue(leaves);
             }
         });
     }
@@ -208,7 +208,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getData(new SubjectsCallback() {
             @Override
             public void onSubjects(IdableList<? extends DataSubject> leaves, CallbackMessage message) {
-                binder.onValue(leaves);
+                binder.onReferenceValue(leaves);
             }
         });
     }
@@ -219,7 +219,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getData(new DatesCallback() {
             @Override
             public void onDates(IdableList<? extends DataDate> leaves, CallbackMessage message) {
-                binder.onValue(leaves);
+                binder.onReferenceValue(leaves);
             }
         });
     }
@@ -230,7 +230,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getSize(new ReviewsSizeCallback() {
             @Override
             public void onNumReviews(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -241,7 +241,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getSize(new AuthorsSizeCallback() {
             @Override
             public void onNumAuthors(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -252,7 +252,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getSize(new SubjectsSizeCallback() {
             @Override
             public void onNumSubjects(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -263,7 +263,7 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
         getSize(new DatesSizeCallback() {
             @Override
             public void onNumDates(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }

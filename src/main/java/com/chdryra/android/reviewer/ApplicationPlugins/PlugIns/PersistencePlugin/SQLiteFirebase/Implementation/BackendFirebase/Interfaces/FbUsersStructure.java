@@ -9,10 +9,12 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces;
 
 
+
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.firebase.client.Firebase;
 
 /**
@@ -27,9 +29,9 @@ public interface FbUsersStructure {
 
     Firebase getUserAuthorMappingDb(Firebase root, String userId);
 
-    Firebase getAuthorNameMappingDb(Firebase root);
+    Firebase getAuthorNameMappingDb(Firebase root, AuthorId id);
 
     Firebase getNameAuthorMappingDb(Firebase root, String name);
 
-    Firebase getProfileDb(Firebase root, String authorId);
+    Firebase getProfileDb(Firebase root, AuthorId authorId);
 }

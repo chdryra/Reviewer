@@ -32,7 +32,7 @@ public interface UserAccount {
 
     AuthenticatedUser getAccountHolder();
 
-    AuthorId getAccountHolderAsAuthorId();
+    AuthorId getAuthorId();
 
     void getAuthorProfile(GetAuthorProfileCallback callback);
 

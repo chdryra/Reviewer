@@ -139,7 +139,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<ReviewReference> value) {
+        public void onReferenceValue(IdableList<ReviewReference> value) {
             setData(mConverter.convert(value));
         }
 
@@ -166,7 +166,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataAuthorId> value) {
+        public void onReferenceValue(IdableList<? extends DataAuthorId> value) {
             setData(mConverter.convert(value));
         }
 
@@ -193,7 +193,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataSubject> value) {
+        public void onReferenceValue(IdableList<? extends DataSubject> value) {
             setData(mConverter.convert(value));
         }
 
@@ -219,7 +219,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataDate> value) {
+        public void onReferenceValue(IdableList<? extends DataDate> value) {
             setData(mConverter.convert(value));
         }
 
@@ -245,7 +245,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataTag> value) {
+        public void onReferenceValue(IdableList<? extends DataTag> value) {
             setData(mConverter.convert(value));
         }
 
@@ -272,7 +272,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataCriterion> value) {
+        public void onReferenceValue(IdableList<? extends DataCriterion> value) {
             setData(mConverter.convert(value));
         }
 
@@ -298,7 +298,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataImage> value) {
+        public void onReferenceValue(IdableList<? extends DataImage> value) {
             setData(mConverter.convert(value));
         }
 
@@ -325,7 +325,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataComment> value) {
+        public void onReferenceValue(IdableList<? extends DataComment> value) {
             setData(mConverter.convert(value));
         }
 
@@ -352,7 +352,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataLocation> value) {
+        public void onReferenceValue(IdableList<? extends DataLocation> value) {
             setData(mConverter.convert(value));
         }
 
@@ -378,7 +378,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        public void onValue(IdableList<? extends DataFact> value) {
+        public void onReferenceValue(IdableList<? extends DataFact> value) {
             setData(mConverter.convert(value));
         }
 

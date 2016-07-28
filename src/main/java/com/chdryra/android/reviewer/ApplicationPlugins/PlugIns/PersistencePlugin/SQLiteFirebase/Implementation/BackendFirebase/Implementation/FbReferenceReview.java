@@ -6,8 +6,8 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
-
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Implementation;
 
 
 import android.support.annotation.NonNull;
@@ -74,7 +74,7 @@ import java.util.Map;
  * On: 12/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewReference implements ReviewReference {
+public class FbReferenceReview implements ReviewReference {
     private static final CallbackMessage OK = CallbackMessage.ok();
     private final ReviewInfo mInfo;
     private final Firebase mData;
@@ -93,8 +93,8 @@ public class FbReviewReference implements ReviewReference {
     private interface SizeMethod {
         void execute(DataSize size, CallbackMessage message);
     }
-
-    public FbReviewReference(ReviewListEntry entry,
+    
+    public FbReferenceReview(ReviewListEntry entry,
                              Firebase dataReference,
                              Firebase aggregateReference,
                              BackendDataConverter dataConverter,
@@ -474,6 +474,17 @@ public class FbReviewReference implements ReviewReference {
     }
 
     @NonNull
+    private FbDataReference.SnapshotConverter<DataImage> getCoverConverter() {
+        return new SnapshotConverter<DataImage>() {
+            @Override
+            public DataImage convert(DataSnapshot snapshot) {
+                ImageData value = snapshot.getValue(ImageData.class);
+                return mDataConverter.convertImage(getReviewId().toString(), value);
+            }
+        };
+    }
+
+    @NonNull
     private SnapshotConverter<IdableList<DataCriterion>> getCriteriaConverter() {
         return new SnapshotConverter<IdableList<DataCriterion>>() {
             @Override
@@ -486,7 +497,7 @@ public class FbReviewReference implements ReviewReference {
 
     @NonNull
     private SnapshotConverter<IdableList<DataImage>> getImagesConverter() {
-        return new FbDataReference.SnapshotConverter<IdableList<DataImage>>() {
+        return new SnapshotConverter<IdableList<DataImage>>() {
             @Override
             public IdableList<DataImage> convert(DataSnapshot snapshot) {
                 List<ImageData> value = toList(snapshot, ImageData.class);

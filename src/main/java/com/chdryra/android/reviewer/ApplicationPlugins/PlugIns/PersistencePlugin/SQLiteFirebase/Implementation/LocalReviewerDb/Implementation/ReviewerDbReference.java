@@ -54,6 +54,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.BindersManager;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.ReviewReferenceBasic;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
@@ -263,7 +264,7 @@ public class ReviewerDbReference extends ReviewReferenceBasic {
     }
 
     @Override
-    public void dereference(final DereferenceCallback callback) {
+    public void dereference(final DereferenceCallback<Review> callback) {
         mRepo.getReview(mInfo.getReviewId(), new RepositoryCallback() {
             @Override
             public void onRepositoryCallback(RepositoryResult result) {

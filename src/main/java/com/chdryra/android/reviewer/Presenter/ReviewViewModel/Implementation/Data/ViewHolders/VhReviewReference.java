@@ -232,28 +232,28 @@ public class VhReviewReference extends ViewHolderBasic {
 
     private class CoverBinder implements ReferenceBinders.CoverBinder {
         @Override
-        public void onValue(DataImage value) {
+        public void onReferenceValue(DataImage value) {
             setCover(value);
         }
     }
 
     private class TagsBinder implements ReferenceBinders.TagsBinder {
         @Override
-        public void onValue(IdableList<? extends DataTag> value) {
+        public void onReferenceValue(IdableList<? extends DataTag> value) {
             setTags(value);
         }
     }
 
     private class LocationsBinder implements ReferenceBinders.LocationsBinder {
         @Override
-        public void onValue(IdableList<? extends DataLocation> value) {
+        public void onReferenceValue(IdableList<? extends DataLocation> value) {
             setLocation(value);
         }
     }
 
     private class CommentsBinder implements ReferenceBinders.CommentsBinder {
         @Override
-        public void onValue(IdableList<? extends DataComment> value) {
+        public void onReferenceValue(IdableList<? extends DataComment> value) {
             setHeadline(value);
         }
     }

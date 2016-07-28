@@ -40,7 +40,7 @@ public class StructureAuthorsUsersMapImpl extends DbStructureBasic<User> impleme
         String authorId = user.getAuthorId();
 
         Updates updates = new Updates(updateType);
-        updates.atPath(user, relativePathToAuthor(userId)).putValue(authorId);
+        if(authorId != null) updates.atPath(user, relativePathToAuthor(authorId)).putValue(userId);
 
         return updates.toMap();
     }

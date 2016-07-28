@@ -21,6 +21,10 @@ public class DatumCriterion implements DataCriterion {
     private String mSubject;
     private float mRating;
 
+    public DatumCriterion(ReviewId reviewId) {
+        mReviewId = reviewId;
+    }
+
     public DatumCriterion(ReviewId reviewId, String subject, float rating) {
         mReviewId = reviewId;
         mSubject = subject;

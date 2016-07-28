@@ -28,7 +28,8 @@ import com.chdryra.android.reviewer.Utils.EmailPassword;
  * Email: rizwan.choudrey@gmail.com
  */
 public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
-    public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterSignUp.class, "EmailPassword");
+    public static final String EMAIL_PASSWORD = TagKeyGenerator.getKey(PresenterSignUp.class,
+            "EmailPassword");
 
     private static final String APP = ApplicationInstance.APP_NAME;
     private static final AuthenticationError INVALID_LENGTH = new AuthenticationError(APP,
@@ -45,7 +46,8 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
     private EmailPassword mEmailPassword;
 
     public interface SignUpListener {
-        void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable AuthenticationError error);
+        void onSignUpComplete(@Nullable EmailPassword emailPassword, @Nullable
+        AuthenticationError error);
     }
 
     public PresenterSignUp(ApplicationInstance app, SignUpListener listener) {
@@ -58,10 +60,9 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         String author = validation.getName();
         if (author == null) {
             notifySignUpError(getError(validation.getReason()));
-            return;
+        } else {
+            createAccount(user, author);
         }
-
-        createAccount(user, author);
     }
 
     public void signUpNewAuthor(String email, String password, String name) {
@@ -80,11 +81,11 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         }
 
         mEmailPassword = emailPassword;
-        createUserWithProfile(emailPassword, author);
+        createAccount(emailPassword, author);
     }
 
     public void onSignUpComplete(@Nullable EmailPassword emailPassword, Activity activity) {
-        if(emailPassword != null) {
+        if (emailPassword != null) {
             activity.setResult(Activity.RESULT_OK,
                     new Intent().putExtra(EMAIL_PASSWORD, emailPassword));
         }
@@ -92,14 +93,13 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         activity.finish();
     }
 
-    private void notifySignUpError(AuthenticationError error) {
-        mListener.onSignUpComplete(null, error);
+    @Override
+    public void onAccountCreated(UserAccount account, @Nullable AuthenticationError error) {
+        mListener.onSignUpComplete(mEmailPassword, error);
     }
 
-    @Override
-    public void onAccountCreated(UserAccount account, @Nullable
-    AuthenticationError error) {
-        mListener.onSignUpComplete(mEmailPassword, error);
+    private void notifySignUpError(AuthenticationError error) {
+        mListener.onSignUpComplete(null, error);
     }
 
     private void createAccount(AuthenticatedUser user, String author) {
@@ -107,9 +107,9 @@ public class PresenterSignUp implements UserAccounts.CreateAccountCallback {
         accounts.createAccount(user, accounts.newProfile(author), this);
     }
 
-    private void createUserWithProfile(EmailPassword emailPassword, final String author) {
-        UserAccounts accounts = mApp.getUsersManager().getAccounts();
-        accounts.createUser(emailPassword, new UserAccounts.CreateUserCallback() {
+    private void createAccount(EmailPassword emailPassword, final String author) {
+        mApp.getUsersManager().getAccounts().createUser(emailPassword, new UserAccounts
+                .CreateUserCallback() {
             @Override
             public void onUserCreated(AuthenticatedUser user, @Nullable AuthenticationError error) {
                 if (error != null) {

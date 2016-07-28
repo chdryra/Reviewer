@@ -42,7 +42,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onCover(DataImage cover, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.CoverBinder binder : mBinders.getCoverBinders()) {
-                        binder.onValue(cover);
+                        binder.onReferenceValue(cover);
                     }
                 }
             }
@@ -55,7 +55,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onTags(IdableList<? extends DataTag> Tags, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.TagsBinder binder : mBinders.getTagsBinders()) {
-                        binder.onValue(Tags);
+                        binder.onReferenceValue(Tags);
                     }
                 }
             }
@@ -69,7 +69,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
                     message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.CriteriaBinder binder : mBinders.getCriteriaBinders()) {
-                        binder.onValue(Criteria);
+                        binder.onReferenceValue(Criteria);
                     }
                 }
             }
@@ -82,7 +82,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onImages(IdableList<? extends DataImage> Images, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.ImagesBinder binder : mBinders.getImagesBinders()) {
-                        binder.onValue(Images);
+                        binder.onReferenceValue(Images);
                     }
                 }
             }
@@ -96,7 +96,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
                     message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.CommentsBinder binder : mBinders.getCommentsBinders()) {
-                        binder.onValue(Comments);
+                        binder.onReferenceValue(Comments);
                     }
                 }
             }
@@ -110,7 +110,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
                     message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.LocationsBinder binder : mBinders.getLocationsBinders()) {
-                        binder.onValue(Locations);
+                        binder.onReferenceValue(Locations);
                     }
                 }
             }
@@ -123,7 +123,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onFacts(IdableList<? extends DataFact> Facts, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.FactsBinder binder : mBinders.getFactsBinders()) {
-                        binder.onValue(Facts);
+                        binder.onReferenceValue(Facts);
                     }
                 }
             }
@@ -136,7 +136,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onNumTags(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumTagsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -149,7 +149,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onNumCriteria(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumCriteriaBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -162,7 +162,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onNumImages(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumImagesBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -175,7 +175,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onNumComments(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumCommentsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -188,7 +188,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onNumLocations(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumLocationsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -201,7 +201,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             public void onNumFacts(DataSize size, CallbackMessage message) {
                 if (!message.isError()) {
                     for (ReferenceBinders.SizeBinder binder : mBinders.getNumFactsBinders()) {
-                        binder.onValue(size);
+                        binder.onReferenceValue(size);
                     }
                 }
             }
@@ -214,7 +214,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getData(new CoverCallback() {
             @Override
             public void onCover(DataImage cover, CallbackMessage message) {
-                binder.onValue(cover);
+                binder.onReferenceValue(cover);
             }
         });
     }
@@ -225,7 +225,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getData(new TagsCallback() {
             @Override
             public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
-                binder.onValue(tags);
+                binder.onReferenceValue(tags);
             }
         });
     }
@@ -237,7 +237,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             @Override
             public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage
                     message) {
-                binder.onValue(criteria);
+                binder.onReferenceValue(criteria);
             }
         });
     }
@@ -248,7 +248,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getData(new ImagesCallback() {
             @Override
             public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
-                binder.onValue(images);
+                binder.onReferenceValue(images);
             }
         });
     }
@@ -260,7 +260,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             @Override
             public void onComments(IdableList<? extends DataComment> comments, CallbackMessage
                     message) {
-                binder.onValue(comments);
+                binder.onReferenceValue(comments);
             }
         });
     }
@@ -272,7 +272,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
             @Override
             public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage
                     message) {
-                binder.onValue(locations);
+                binder.onReferenceValue(locations);
             }
         });
     }
@@ -283,7 +283,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getData(new FactsCallback() {
             @Override
             public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
-                binder.onValue(facts);
+                binder.onReferenceValue(facts);
             }
         });
     }
@@ -294,7 +294,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getSize(new TagsSizeCallback() {
             @Override
             public void onNumTags(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -305,7 +305,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getSize(new CriteriaSizeCallback() {
             @Override
             public void onNumCriteria(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -316,7 +316,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getSize(new ImagesSizeCallback() {
             @Override
             public void onNumImages(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -327,7 +327,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getSize(new CommentsSizeCallback() {
             @Override
             public void onNumComments(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -338,7 +338,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getSize(new LocationsSizeCallback() {
             @Override
             public void onNumLocations(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }
@@ -349,7 +349,7 @@ public abstract class ReviewReferenceBasic implements ReviewReference {
         getSize(new FactsSizeCallback() {
             @Override
             public void onNumFacts(DataSize size, CallbackMessage message) {
-                binder.onValue(size);
+                binder.onReferenceValue(size);
             }
         });
     }

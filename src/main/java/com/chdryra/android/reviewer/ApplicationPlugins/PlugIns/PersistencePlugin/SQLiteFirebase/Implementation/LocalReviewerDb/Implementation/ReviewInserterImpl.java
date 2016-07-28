@@ -48,7 +48,7 @@ public class ReviewInserterImpl implements ReviewInserter {
         addToTable(review.getLocations(), db.getLocationsTable(), transactor, true);
         addToTable(review.getImages(), db.getImagesTable(), transactor, true);
         addToTagsTable(tagsManager.getTags(review.getReviewId().toString()), db.getTagsTable(), transactor);
-        addToAuthorsTableIfNecessary(review.getAuthorId(), db.getAuthorsTable(), transactor);
+        //addToAuthorsTableIfNecessary(review.getAuthorId(), db.getAuthorsTable(), transactor);
     }
 
     private <DbRow extends DbTableRow, T> void addToTable(T data,

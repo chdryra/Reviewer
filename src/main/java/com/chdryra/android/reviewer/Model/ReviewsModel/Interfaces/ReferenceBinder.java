@@ -8,11 +8,15 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ValueBinder<T> {
-    void onValue(T value);
+public interface ReferenceBinder<T> {
+    void onReferenceValue(T value);
+
+    void onInvalidated(DataReference<T> reference);
 }

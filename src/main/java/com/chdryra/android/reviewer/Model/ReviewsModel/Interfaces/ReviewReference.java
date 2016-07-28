@@ -9,14 +9,13 @@
 package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 
-import android.support.annotation.Nullable;
-
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
@@ -27,11 +26,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewReference extends DataReviewInfo{
-    interface DereferenceCallback {
-        void onDereferenced(@Nullable Review review, CallbackMessage message);
-    }
-
+public interface ReviewReference extends DataReviewInfo, DataReference<Review>{
     interface CoverCallback {
         void onCover(DataImage cover, CallbackMessage message);
     }
@@ -168,9 +163,4 @@ public interface ReviewReference extends DataReviewInfo{
     void unbindFromLocations(ReferenceBinders.SizeBinder binder);
 
     void unbindFromFacts(ReferenceBinders.SizeBinder binder);
-
-    
-    void dereference(DereferenceCallback callback);
-
-    boolean isValidReference();
 }

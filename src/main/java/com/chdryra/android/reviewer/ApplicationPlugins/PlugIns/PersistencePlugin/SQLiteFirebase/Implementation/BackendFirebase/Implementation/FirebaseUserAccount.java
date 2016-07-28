@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -67,13 +66,13 @@ public class FirebaseUserAccount implements UserAccount {
     }
 
     @Override
-    public AuthorId getAccountHolderAsAuthorId() {
-        return new DefaultAuthorId(mAccountHolder.getAuthorId());
+    public AuthorId getAuthorId() {
+        return mAccountHolder.getAuthorId();
     }
 
     @Override
     public void getAuthorProfile(final GetAuthorProfileCallback callback) {
-        String authorId = mAccountHolder.getAuthorId();
+        AuthorId authorId = mAccountHolder.getAuthorId();
         if(authorId == null) {
             callback.onAuthorProfile(mConverter.newNullProfile(), NO_USER_ERROR);
         } else {

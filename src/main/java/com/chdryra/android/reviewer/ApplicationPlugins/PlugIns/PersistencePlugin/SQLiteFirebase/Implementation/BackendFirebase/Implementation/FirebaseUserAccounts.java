@@ -28,7 +28,9 @@ import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticatedU
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthorProfile;
 import com.chdryra.android.reviewer.Authentication.Implementation.UserAccount;
+import com.chdryra.android.reviewer.Authentication.Interfaces.AuthorReferences;
 import com.chdryra.android.reviewer.Authentication.Interfaces.UserAccounts;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
 import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.Password;
@@ -89,13 +91,18 @@ public class FirebaseUserAccounts implements UserAccounts {
 
     @Override
     public void getAccount(final AuthenticatedUser authUser, final GetAccountCallback callback) {
-        String authorId = authUser.getAuthorId();
+        AuthorId authorId = authUser.getAuthorId();
         if (authorId != null) {
             callback.onAccount(getUserAccount(authUser), null);
         } else {
             Firebase db = mStructure.getUserAuthorMappingDb(mDataRoot, authUser.getProvidersId());
             doSingleEvent(db, getAuthorIdThenAccount(authUser, callback));
         }
+    }
+
+    @Override
+    public AuthorReferences getAuthorReferences() {
+        return null;
     }
 
     @NonNull

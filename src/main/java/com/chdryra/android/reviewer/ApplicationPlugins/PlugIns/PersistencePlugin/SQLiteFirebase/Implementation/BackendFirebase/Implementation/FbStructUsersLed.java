@@ -124,13 +124,13 @@ public class FbStructUsersLed implements FirebaseStructure {
     }
 
     @Override
-    public Firebase getProfileDb(Firebase root, String authorId) {
-        return root.child(pathToProfile(authorId));
+    public Firebase getProfileDb(Firebase root, AuthorId authorId) {
+        return root.child(pathToProfile(authorId.toString()));
     }
 
     @Override
-    public Firebase getAuthorNameMappingDb(Firebase root, String name) {
-        return root.child(pathToAuthorNamesMap());
+    public Firebase getAuthorNameMappingDb(Firebase root, AuthorId id) {
+        return root.child(pathToAuthorNameMapping(id.toString()));
     }
 
     @Override
@@ -202,6 +202,10 @@ public class FbStructUsersLed implements FirebaseStructure {
 
     private String pathToNameAuthorMapping(String name) {
         return path(pathToNamesAuthorMap(), mNamesAuthorsMap.relativePathToName(name));
+    }
+
+    private String pathToAuthorNameMapping(String authorId) {
+        return path(pathToAuthorNamesMap(), mAuthorsNamesMap.relativePathToAuthor(authorId));
     }
 
     private String pathToReview(AuthorId authorId, ReviewId reviewId) {

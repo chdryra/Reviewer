@@ -13,6 +13,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 16/03/2016
@@ -67,8 +70,8 @@ public class AuthenticatedUser implements Parcelable{
     }
 
     @Nullable
-    public String getAuthorId() {
-        return mAuthorId;
+    public AuthorId getAuthorId() {
+        return mAuthorId != null ? new DefaultAuthorId(mAuthorId) : null;
     }
 
     @Override

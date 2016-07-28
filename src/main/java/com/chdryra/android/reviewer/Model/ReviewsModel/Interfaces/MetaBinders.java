@@ -19,18 +19,18 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
  * Email: rizwan.choudrey@gmail.com
  */
 public interface MetaBinders extends ReferenceBinders{
-    interface ReviewsBinder extends ValueBinder<IdableList<ReviewReference>> {
+    interface ReviewsBinder extends ReferenceBinder<IdableList<ReviewReference>> {
     }
 
-    interface SubjectsBinder extends ValueBinder<IdableList<? extends DataSubject>> {
-
-    }
-
-    interface AuthorsBinder extends ValueBinder<IdableList<? extends DataAuthorId>> {
+    interface SubjectsBinder extends ReferenceBinder<IdableList<? extends DataSubject>> {
 
     }
 
-    interface DatesBinder extends ValueBinder<IdableList<? extends DataDate>> {
+    interface AuthorsBinder extends ReferenceBinder<IdableList<? extends DataAuthorId>> {
+
+    }
+
+    interface DatesBinder extends ReferenceBinder<IdableList<? extends DataDate>> {
 
     }
 }

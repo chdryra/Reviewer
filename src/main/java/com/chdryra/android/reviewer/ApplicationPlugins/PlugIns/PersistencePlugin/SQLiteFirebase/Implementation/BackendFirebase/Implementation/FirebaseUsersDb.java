@@ -14,20 +14,24 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Interfaces.FbUsersStructure;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
-        .SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
+import com.chdryra.android.reviewer.Application.ApplicationInstance;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.Profile;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
         .Backend.Implementation.User;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Interfaces.UsersDb;
-import com.chdryra.android.reviewer.Application.ApplicationInstance;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Interfaces.UsersDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Interfaces.FbUsersStructure;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Structuring.DbUpdater;
 import com.chdryra.android.reviewer.Authentication.Implementation.AuthenticationError;
-import com.chdryra.android.reviewer.Utils.EmailPassword;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.Utils.EmailAddress;
+import com.chdryra.android.reviewer.Utils.EmailPassword;
 import com.chdryra.android.reviewer.Utils.Password;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -200,7 +204,8 @@ public class FirebaseUsersDb implements UsersDb {
                     notifyNoProfile(listener, new FirebaseError(FirebaseError.USER_DOES_NOT_EXIST,
                             "No mapping for user " + dataSnapshot.getKey()));
                 } else {
-                    Firebase profile = mStructure.getProfileDb(mDataRoot, value.toString());
+                    AuthorId authorId = new DefaultAuthorId(value.toString());
+                    Firebase profile = mStructure.getProfileDb(mDataRoot, authorId);
                     doSingleEvent(profile, newGetProfileForAuthorListener(listener));
                 }
             }

@@ -32,7 +32,7 @@ public interface UserSession extends UserAuthenticator.UserStateObserver {
     @Nullable
     AuthenticatedUser getSessionUser();
 
-    boolean setSessionObserver(SessionObserver observer);
+    void setSessionObserver(SessionObserver observer);
 
     AuthorId getSessionAuthorId();
 
