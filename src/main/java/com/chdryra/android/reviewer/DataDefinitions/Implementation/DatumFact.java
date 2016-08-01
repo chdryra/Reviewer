@@ -22,6 +22,10 @@ public class DatumFact implements DataFact {
     private String mValue;
     private boolean mIsUrl;
 
+    public DatumFact(ReviewId reviewId) {
+        mReviewId = reviewId;
+    }
+
     public DatumFact(ReviewId reviewId, String label, String value) {
         this(reviewId, label, value, false);
     }

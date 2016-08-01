@@ -9,23 +9,16 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
-
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.firebase.client.DataSnapshot;
 
 /**
  * Created by: Rizwan Choudrey
- * On: 28/07/2016
+ * On: 01/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterAuthorId implements SnapshotConverter<AuthorId> {
-    @Override
+public interface SnapshotConverter<T> {
     @Nullable
-    public AuthorId convert(DataSnapshot snapshot) {
-        String authorId = snapshot.getValue(String.class);
-        return authorId != null ? new DefaultAuthorId(authorId) : null;
-    }
+    T convert(DataSnapshot snapshot);
 }

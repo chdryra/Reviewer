@@ -17,6 +17,8 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Structuring.DbUpdater;
 
@@ -46,7 +48,7 @@ public class FirebaseMutableRepository extends FirebaseAuthorsRepository impleme
                                      FbAuthorsReviews structure,
                                      BackendReviewConverter converter,
                                      BackendValidator validator,
-                                     FbReferencer referencer) {
+                                     FactoryFbReference referencer) {
         super(dataBase, structure, referencer);
         mConverter = converter;
         mValidator = validator;

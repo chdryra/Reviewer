@@ -9,11 +9,9 @@
 package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
 
 
+
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultNamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
 import com.firebase.client.DataSnapshot;
 
 /**
@@ -21,12 +19,10 @@ import com.firebase.client.DataSnapshot;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ConverterNamedAuthor implements SnapshotConverter<NamedAuthor> {
+public class ConverterEntry implements SnapshotConverter<ReviewListEntry> {
     @Override
     @Nullable
-    public NamedAuthor convert(DataSnapshot snapshot) {
-        String id = snapshot.getKey();
-        String name = snapshot.getValue(String.class);
-        return name != null ? new DefaultNamedAuthor(name, new DefaultAuthorId(id)) : null;
+    public ReviewListEntry convert(DataSnapshot snapshot) {
+        return snapshot.getValue(ReviewListEntry.class);
     }
 }

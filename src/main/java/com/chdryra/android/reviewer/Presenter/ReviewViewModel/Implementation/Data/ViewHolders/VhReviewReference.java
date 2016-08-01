@@ -88,10 +88,10 @@ public class VhReviewReference extends ViewHolderBasic {
 
     public void unbindFromReference() {
         if (mReference == null) return;
-        mReference.unbind(mCoverBinder);
-        mReference.unbind(mCommentsBinder);
-        mReference.unbind(mLocationsBinder);
-        mReference.unbind(mTagsBinder);
+        mReference.unbindFromValue(mCoverBinder);
+        mReference.unbindFromValue(mCommentsBinder);
+        mReference.unbindFromValue(mLocationsBinder);
+        mReference.unbindFromValue(mTagsBinder);
     }
 
     @Override
@@ -141,10 +141,10 @@ public class VhReviewReference extends ViewHolderBasic {
     private void bindToReference() {
         if (mReference == null) return;
         //dereference();
-        mReference.bind(mCoverBinder);
-        mReference.bind(mCommentsBinder);
-        mReference.bind(mLocationsBinder);
-        mReference.bind(mTagsBinder);
+        mReference.bindToValue(mCoverBinder);
+        mReference.bindToValue(mCommentsBinder);
+        mReference.bindToValue(mLocationsBinder);
+        mReference.bindToValue(mTagsBinder);
     }
 
 //    private void dereference() {

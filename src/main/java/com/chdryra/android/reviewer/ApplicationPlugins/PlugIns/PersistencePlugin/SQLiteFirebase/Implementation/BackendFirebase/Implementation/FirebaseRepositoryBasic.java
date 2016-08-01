@@ -13,6 +13,8 @@ import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendError;
+
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsSubscriber;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Interfaces.FbReviewsStructure;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
@@ -36,17 +38,21 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
-    protected Firebase mDataBase;
-    protected FbReviewsStructure mStructure;
-    protected FbReferencer mReferencer;
-    protected Map<String, ChildEventListener> mSubscribers;
+
+    private Firebase mDataBase;
+    private ConverterEntry mEntryConverter;
+    private FbReviewsStructure mStructure;
+    private FactoryFbReference mReferencer;
+    private Map<String, ChildEventListener> mSubscribers;
 
     protected abstract Firebase getAggregatesDb(ReviewListEntry entry);
 
     protected abstract Firebase getReviewDb(ReviewListEntry entry);
 
-    public FirebaseRepositoryBasic(Firebase dataBase, FbReviewsStructure structure, FbReferencer referencer) {
+    public FirebaseRepositoryBasic(Firebase dataBase, ConverterEntry entryConverter,
+                                   FbReviewsStructure structure, FactoryFbReference referencer) {
         mDataBase = dataBase;
+        mEntryConverter = entryConverter;
         mStructure = structure;
         mSubscribers = new HashMap<>();
         mReferencer = referencer;
@@ -128,10 +134,15 @@ public abstract class FirebaseRepositoryBasic implements ReferencesRepository{
 
     @NonNull
     private ReviewReference newReference(DataSnapshot dataSnapshot) {
-        ReviewListEntry entry = dataSnapshot.getValue(ReviewListEntry.class);
-        Firebase reviewDb = getReviewDb(entry);
-        Firebase aggregatesDb = getAggregatesDb(entry);
-        return mReferencer.newReference(entry, reviewDb, aggregatesDb);
+        ReviewListEntry entry = mEntryConverter.convert(dataSnapshot);
+        ReviewReference ref;
+        if(entry != null) {
+            ref = mReferencer.newReview(entry, getReviewDb(entry), getAggregatesDb(entry));
+        } else {
+            ref = mReferencer.newNullReview();
+        }
+
+        return ref;
     }
 
     private void doSingleEvent(Firebase root, ValueEventListener listener) {

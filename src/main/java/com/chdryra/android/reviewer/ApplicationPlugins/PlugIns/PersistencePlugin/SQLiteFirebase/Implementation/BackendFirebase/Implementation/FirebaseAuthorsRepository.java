@@ -12,6 +12,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 import android.support.annotation.NonNull;
 
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FbAuthorsReviews;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumReviewId;
@@ -26,9 +27,10 @@ public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic {
     private FbAuthorsReviews mStructure;
 
     public FirebaseAuthorsRepository(Firebase dataBase,
+                                     ConverterEntry entryConverter,
                                      FbAuthorsReviews structure,
-                                     FbReferencer referencer) {
-        super(dataBase, structure, referencer);
+                                     FactoryFbReference referencer) {
+        super(dataBase, entryConverter, structure, referencer);
         mStructure = structure;
     }
 
@@ -38,12 +40,12 @@ public class FirebaseAuthorsRepository extends FirebaseRepositoryBasic {
 
     @Override
     protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(mDataBase, toReviewId(entry));
+        return mStructure.getAggregatesDb(getDataBase(), toReviewId(entry));
     }
 
     @Override
     protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(mDataBase, toReviewId(entry));
+        return mStructure.getReviewDb(getDataBase(), toReviewId(entry));
     }
 
     @NonNull

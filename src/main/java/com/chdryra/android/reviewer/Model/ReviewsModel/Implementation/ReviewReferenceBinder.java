@@ -87,91 +87,91 @@ public class ReviewReferenceBinder implements DataReviewInfo {
     }
 
     public void bindToCovers() {
-        if (toBind(Cover.class)) mReference.bind(addBinder(new Cover()));
+        if (toBind(Cover.class)) mReference.bindToValue(addBinder(new Cover()));
     }
 
     public void unbindFromCovers() {
-        if (isBound(Cover.class)) mReference.unbind(getBinder(Cover.class));
+        if (isBound(Cover.class)) mReference.unbindFromValue(getBinder(Cover.class));
     }
 
     public void bindToTags() {
-        if (toBind(Tags.class)) mReference.bind(addBinder(new Tags()));
+        if (toBind(Tags.class)) mReference.bindToValue(addBinder(new Tags()));
     }
 
     public void unbindFromTags() {
-        if (isBound(Tags.class)) mReference.unbind(getBinder(Tags.class));
+        if (isBound(Tags.class)) mReference.unbindFromValue(getBinder(Tags.class));
     }
 
     public void bindToCriteria() {
-        if (toBind(Criteria.class)) mReference.bind(addBinder(new Criteria()));
+        if (toBind(Criteria.class)) mReference.bindToValue(addBinder(new Criteria()));
     }
 
     public void unbindFromCriteria() {
-        if (isBound(Criteria.class)) mReference.unbind(getBinder(Criteria.class));
+        if (isBound(Criteria.class)) mReference.unbindFromValue(getBinder(Criteria.class));
     }
 
     public void bindToComments() {
-        if (toBind(Comments.class)) mReference.bind(addBinder(new Comments()));
+        if (toBind(Comments.class)) mReference.bindToValue(addBinder(new Comments()));
     }
 
     public void unbindFromComments() {
-        if (isBound(Comments.class)) mReference.unbind(getBinder(Comments.class));
+        if (isBound(Comments.class)) mReference.unbindFromValue(getBinder(Comments.class));
     }
 
     public void bindToImages() {
-        if (toBind(Images.class)) mReference.bind(addBinder(new Images()));
+        if (toBind(Images.class)) mReference.bindToValue(addBinder(new Images()));
     }
 
     public void unbindFromImages() {
-        if (isBound(Images.class)) mReference.unbind(getBinder(Images.class));
+        if (isBound(Images.class)) mReference.unbindFromValue(getBinder(Images.class));
     }
 
     public void bindToLocations() {
-        if (toBind(Locations.class)) mReference.bind(addBinder(new Locations()));
+        if (toBind(Locations.class)) mReference.bindToValue(addBinder(new Locations()));
     }
 
     public void unbindFromLocations() {
-        if (isBound(Locations.class)) mReference.unbind(getBinder(Locations.class));
+        if (isBound(Locations.class)) mReference.unbindFromValue(getBinder(Locations.class));
     }
 
     public void bindToFacts() {
-        if (toBind(Facts.class)) mReference.bind(addBinder(new Facts()));
+        if (toBind(Facts.class)) mReference.bindToValue(addBinder(new Facts()));
     }
 
     public void unbindFromFacts() {
-        if (isBound(Facts.class)) mReference.unbind(getBinder(Facts.class));
+        if (isBound(Facts.class)) mReference.unbindFromValue(getBinder(Facts.class));
     }
 
     public void bindToReviews() {
-        if (toBind(Reviews.class)) mReference.bind(addBinder(new Reviews()));
+        if (toBind(Reviews.class)) mReference.bindToValue(addBinder(new Reviews()));
     }
 
     public void unbindFromReviews() {
-        if (isBound(Reviews.class)) mReference.unbind(getBinder(Reviews.class));
+        if (isBound(Reviews.class)) mReference.unbindFromValue(getBinder(Reviews.class));
     }
 
     public void bindToAuthors() {
-        if (toBind(Authors.class)) mReference.bind(addBinder(new Authors()));
+        if (toBind(Authors.class)) mReference.bindToValue(addBinder(new Authors()));
     }
 
     public void unbindFromAuthors() {
-        if (isBound(Authors.class)) mReference.unbind(getBinder(Authors.class));
+        if (isBound(Authors.class)) mReference.unbindFromValue(getBinder(Authors.class));
     }
 
     public void bindToSubjects() {
-        if (toBind(Subjects.class)) mReference.bind(addBinder(new Subjects()));
+        if (toBind(Subjects.class)) mReference.bindToValue(addBinder(new Subjects()));
     }
 
     public void unbindFromSubjects() {
-        if (isBound(Subjects.class)) mReference.unbind(getBinder(Subjects.class));
+        if (isBound(Subjects.class)) mReference.unbindFromValue(getBinder(Subjects.class));
     }
 
     public void bindToDates() {
-        if (toBind(Dates.class)) mReference.bind(addBinder(new Dates()));
+        if (toBind(Dates.class)) mReference.bindToValue(addBinder(new Dates()));
     }
 
     public void unbindFromDates() {
-        if (isBound(Dates.class)) mReference.unbind(getBinder(Dates.class));
+        if (isBound(Dates.class)) mReference.unbindFromValue(getBinder(Dates.class));
     }
 
     public void bindToNumTags() {

@@ -123,12 +123,12 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
 
         @Override
         protected void bind(ReviewReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(ReviewReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -147,12 +147,12 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
 
         @Override
         protected void bind(ReviewReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(ReviewReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -171,12 +171,12 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
 
         @Override
         protected void bind(ReviewReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(ReviewReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -195,12 +195,12 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
 
         @Override
         protected void bind(ReviewReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(ReviewReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -219,12 +219,12 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
 
         @Override
         protected void bind(ReviewReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(ReviewReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -243,12 +243,12 @@ public abstract class ViewerReviewData<T extends GvData> extends GridDataWrapper
 
         @Override
         protected void bind(ReviewReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(ReviewReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 }

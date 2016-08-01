@@ -112,37 +112,37 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
 
     @Override
     public void bind(ReferenceBinders.CoverBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
     public void bind(ReferenceBinders.TagsBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
     public void bind(ReferenceBinders.CriteriaBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
     public void bind(ReferenceBinders.ImagesBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
     public void bind(ReferenceBinders.CommentsBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
     public void bind(ReferenceBinders.LocationsBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
     public void bind(ReferenceBinders.FactsBinder binder) {
-        mReview.bind(binder);
+        mReview.bindToValue(binder);
     }
 
     @Override
@@ -177,37 +177,37 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
 
     @Override
     public void unbind(ReferenceBinders.CoverBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override
     public void unbind(ReferenceBinders.TagsBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override
     public void unbind(ReferenceBinders.CriteriaBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override
     public void unbind(ReferenceBinders.ImagesBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override
     public void unbind(ReferenceBinders.CommentsBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override
     public void unbind(ReferenceBinders.LocationsBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override
     public void unbind(ReferenceBinders.FactsBinder binder) {
-        mReview.unbind(binder);
+        mReview.unbindFromValue(binder);
     }
 
     @Override

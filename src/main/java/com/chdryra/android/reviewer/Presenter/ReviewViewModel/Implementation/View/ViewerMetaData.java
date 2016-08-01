@@ -145,12 +145,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -172,12 +172,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -199,12 +199,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -225,12 +225,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -251,12 +251,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -278,12 +278,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -304,12 +304,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -331,12 +331,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -358,12 +358,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 
@@ -384,12 +384,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
         @Override
         protected void bind(MetaReference reference) {
-            reference.bind(this);
+            reference.bindToValue(this);
         }
 
         @Override
         protected void unbind(MetaReference reference) {
-            reference.unbind(this);
+            reference.unbindFromValue(this);
         }
     }
 }

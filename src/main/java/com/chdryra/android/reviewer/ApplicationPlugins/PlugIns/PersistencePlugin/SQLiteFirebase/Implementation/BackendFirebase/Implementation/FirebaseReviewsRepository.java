@@ -13,6 +13,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.reviewer.ApplicationContexts.Interfaces.UserSession;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
         .Implementation.BackendFirebase.Interfaces.FbReviews;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.DefaultAuthorId;
@@ -35,33 +36,34 @@ public class FirebaseReviewsRepository extends FirebaseRepositoryBasic implement
     private FbReviews mStructure;
 
     public FirebaseReviewsRepository(Firebase dataBase,
+                                     ConverterEntry entryConverter,
                                      FbReviews structure,
-                                     FbReferencer referencer,
+                                     FactoryFbReference referencer,
                                      FactoryAuthorsDb authorsDbFactory) {
-        super(dataBase, structure, referencer);
+        super(dataBase, entryConverter, structure, referencer);
         mStructure = structure;
         mAuthorsDbFactory = authorsDbFactory;
     }
 
     @Override
     public ReferencesRepository getRepository(AuthorId authorId) {
-        return mAuthorsDbFactory.newAuthorReviews(mDataBase, mStructure.getAuthorsDb(authorId));
+        return mAuthorsDbFactory.newAuthorReviews(getDataBase(), mStructure.getAuthorsDb(authorId));
     }
 
     @Override
     public MutableRepository getMutableRepository(UserSession session) {
-        return mAuthorsDbFactory.newAuthorsDb(mDataBase, mStructure.getAuthorsDb(session
+        return mAuthorsDbFactory.newAuthorsDb(getDataBase(), mStructure.getAuthorsDb(session
                 .getSessionAuthorId()));
     }
 
     @Override
     protected Firebase getAggregatesDb(ReviewListEntry entry) {
-        return mStructure.getAggregatesDb(mDataBase, toAuthorId(entry), toReviewId(entry));
+        return mStructure.getAggregatesDb(getDataBase(), toAuthorId(entry), toReviewId(entry));
     }
 
     @Override
     protected Firebase getReviewDb(ReviewListEntry entry) {
-        return mStructure.getReviewDb(mDataBase, toAuthorId(entry), toReviewId(entry));
+        return mStructure.getReviewDb(getDataBase(), toAuthorId(entry), toReviewId(entry));
     }
 
     @NonNull

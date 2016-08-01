@@ -25,9 +25,9 @@ public interface DataReference<T> {
 
     void dereference(DereferenceCallback<T> callback);
 
-    void bind(ReferenceBinder<T> binder);
+    void bindToValue(ReferenceBinder<T> binder);
 
-    void unbind(ReferenceBinder<T> binder);
+    void unbindFromValue(ReferenceBinder<T> binder);
 
     boolean isValidReference();
 

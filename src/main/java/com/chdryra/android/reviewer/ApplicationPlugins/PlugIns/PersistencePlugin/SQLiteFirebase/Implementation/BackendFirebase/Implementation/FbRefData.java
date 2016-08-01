@@ -6,12 +6,11 @@
  *
  */
 
-package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Implementation;
+package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation;
+
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
@@ -29,24 +28,28 @@ import java.util.Map;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbDataReference<T> implements DataReference<T>, ValueEventListener {
-    protected final Firebase mReference;
-    protected final Map<ReferenceBinder<T>, ValueEventListener> mBindings;
-    private SnapshotConverter<T> mConverter;
+public class FbRefData<T> implements DataReference<T>, ValueEventListener {
+    private final Firebase mReference;
+
+    private final Map<ReferenceBinder<T>, ValueEventListener> mBindings;
+    private final SnapshotConverter<T> mConverter;
 
     private boolean mHasValue = true;
     private boolean mDeleted = false;
 
-    public interface SnapshotConverter<T> {
-        @Nullable
-        T convert(DataSnapshot snapshot);
-    }
-
-    public FbDataReference(Firebase reference, SnapshotConverter<T> converter) {
+    public FbRefData(Firebase reference, SnapshotConverter<T> converter) {
         mReference = reference;
         mConverter = converter;
         mBindings = new HashMap<>();
         mReference.addValueEventListener(this);
+    }
+
+    protected Firebase getReference() {
+        return mReference;
+    }
+
+    protected boolean isDeleted() {
+        return mDeleted;
     }
 
     @Override
@@ -55,21 +58,14 @@ public class FbDataReference<T> implements DataReference<T>, ValueEventListener 
     }
 
     @Override
-    public void dereference(final DereferenceCallback<T> callback) {
-        if (isValidReference()) {
-            mReference.addListenerForSingleValueEvent(getDereferencer(callback));
-        }
-    }
-
-    @Override
-    public void unbind(ReferenceBinder<T> binder) {
+    public void unbindFromValue(ReferenceBinder<T> binder) {
         if (isValidReference() && mBindings.containsKey(binder)) {
             mReference.removeEventListener(mBindings.get(binder));
         }
     }
 
     @Override
-    public void bind(final ReferenceBinder<T> binder) {
+    public void bindToValue(final ReferenceBinder<T> binder) {
         if (isValidReference() && !mBindings.containsKey(binder)) {
             ValueEventListener listener = newListener(binder);
             mBindings.put(binder, listener);
@@ -103,6 +99,13 @@ public class FbDataReference<T> implements DataReference<T>, ValueEventListener 
         if (hadValue && !mHasValue) delete();
     }
 
+    @Override
+    public void dereference(final DereferenceCallback<T> callback) {
+        if (isValidReference()) {
+            mReference.addListenerForSingleValueEvent(getDereferencer(callback));
+        }
+    }
+
     @NonNull
     private ValueEventListener getDereferencer(final DereferenceCallback<T> callback) {
         return new ValueEventListener() {
@@ -110,6 +113,7 @@ public class FbDataReference<T> implements DataReference<T>, ValueEventListener 
             public void onDataChange(DataSnapshot dataSnapshot) {
                 T value = mConverter.convert(dataSnapshot);
                 if (value != null) {
+                    onDereferenced(value);
                     callback.onDereferenced(value, CallbackMessage.ok());
                 } else {
                     callback.onDereferenced(null, CallbackMessage.error("Couldn't dereference"));
@@ -122,6 +126,10 @@ public class FbDataReference<T> implements DataReference<T>, ValueEventListener 
                 callback.onDereferenced(null, CallbackMessage.error("Call to Firebase cancelled"));
             }
         };
+    }
+
+    protected void onDereferenced(T value) {
+
     }
 
     @NonNull

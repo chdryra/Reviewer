@@ -21,6 +21,13 @@ public class DatumComment implements DataComment {
     private String mComment;
     private boolean mIsHeadline;
 
+    public DatumComment() {
+    }
+
+    public DatumComment(ReviewId reviewId) {
+        mReviewId = reviewId;
+    }
+
     public DatumComment(ReviewId reviewId, String comment, boolean isHeadline) {
         mReviewId = reviewId;
         mComment = comment;

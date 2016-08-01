@@ -21,11 +21,14 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumImage implements DataImage {
-    private final Bitmap mBitmap;
-    private final DateTime mDate;
-    private final String mCaption;
-    private final ReviewId mReviewId;
+    private Bitmap mBitmap;
+    private DateTime mDate;
+    private String mCaption;
+    private ReviewId mReviewId;
     private boolean mIsCover = false;
+
+    public DatumImage() {
+    }
 
     public DatumImage(ReviewId reviewId) {
         mReviewId = reviewId;

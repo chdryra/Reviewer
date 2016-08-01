@@ -18,9 +18,10 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Factories.BackendReviewConverter;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.BackendValidator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.UserProfileConverter;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryUserAccount;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterEntry;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FactoryAuthorsDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReferencer;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbStructUsersLed;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseAuthenticator;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FirebaseBackend;
@@ -64,12 +65,11 @@ public class BackendFirebase implements Backend {
                 = new BackendReviewConverter(beValidator,
                 model.getReviewsFactory(), model.getTagsManager());
 
-        BackendDataConverter dataConverter = new BackendDataConverter();
-        FbReferencer referencer = new FbReferencer(dataConverter, reviewConverter,
-                cache, model.getReviewsFactory());
+        FactoryFbReference referencer = new FactoryFbReference(new BackendDataConverter(), reviewConverter, model.getReviewsFactory(), cache);
 
-        FactoryAuthorsDb authorsDbFactory = new FactoryAuthorsDb(reviewConverter, beValidator, referencer);
-        return new FirebaseReviewsRepository(mDatabase, mStructure, referencer, authorsDbFactory);
+        ConverterEntry entryConverter = new ConverterEntry();
+        FactoryAuthorsDb authorsDbFactory = new FactoryAuthorsDb(reviewConverter, beValidator, entryConverter, referencer);
+        return new FirebaseReviewsRepository(mDatabase, entryConverter, mStructure, referencer, authorsDbFactory);
     }
 
     @Override

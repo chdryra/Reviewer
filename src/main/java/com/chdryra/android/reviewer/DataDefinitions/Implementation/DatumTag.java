@@ -19,8 +19,15 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
  * Email: rizwan.choudrey@gmail.com
  */
 public class DatumTag implements DataTag {
-    private final ReviewId mReviewId;
-    private final String mTag;
+    private ReviewId mReviewId;
+    private String mTag;
+
+    public DatumTag() {
+    }
+
+    public DatumTag(ReviewId reviewId) {
+        mReviewId = reviewId;
+    }
 
     public DatumTag(ReviewId reviewId, @NonNull String tag) {
         mReviewId = reviewId;
