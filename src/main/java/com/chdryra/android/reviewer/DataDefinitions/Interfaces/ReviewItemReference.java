@@ -13,5 +13,5 @@ package com.chdryra.android.reviewer.DataDefinitions.Interfaces;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDataReference<T extends HasReviewId> extends DataReference<T>, HasReviewId{
+public interface ReviewItemReference<T extends HasReviewId> extends DataReference<T>, HasReviewId{
 }

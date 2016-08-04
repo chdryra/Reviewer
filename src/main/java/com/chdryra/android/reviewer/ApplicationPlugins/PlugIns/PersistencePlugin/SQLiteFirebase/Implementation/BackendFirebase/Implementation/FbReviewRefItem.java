@@ -11,7 +11,7 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.firebase.client.Firebase;
 
@@ -20,10 +20,10 @@ import com.firebase.client.Firebase;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewRefData<T extends HasReviewId> extends FbRefData<T> implements ReviewDataReference<T>{
+public class FbReviewRefItem<T extends HasReviewId> extends FbRefData<T> implements ReviewItemReference<T> {
     private ReviewId mId;
 
-    public FbReviewRefData(ReviewId id, Firebase reference, SnapshotConverter<T> converter) {
+    public FbReviewRefItem(ReviewId id, Firebase reference, SnapshotConverter<T> converter) {
         super(reference, converter);
         mId = id;
     }

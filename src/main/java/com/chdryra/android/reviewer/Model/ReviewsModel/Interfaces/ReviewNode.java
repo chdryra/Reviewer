@@ -23,7 +23,7 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * or a meta review with other reviews as children.
  * </p>
  */
-public interface ReviewNode extends MetaReference {
+public interface ReviewNode extends MetaReviewReference {
     interface NodeObserver {
         void onChildAdded(ReviewNode child);
 
@@ -53,4 +53,7 @@ public interface ReviewNode extends MetaReference {
     boolean isRatingAverageOfChildren();
 
     boolean isLeaf();
+
+    @Nullable
+    ReviewReference getReference();
 }

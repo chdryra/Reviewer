@@ -11,12 +11,9 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewAggregates;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
-        .Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
-        .Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -29,12 +26,10 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Persistence.Interfaces.ReviewsCache;
 import com.firebase.client.Firebase;
@@ -44,22 +39,19 @@ import com.firebase.client.Firebase;
  * On: 12/04/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbReviewReference extends FbReviewRefData<Review> implements ReviewReference {
+public class FbReviewReference extends FbReviewRefItem<Review> implements ReviewReference {
     private final DataReviewInfo mInfo;
     private final Firebase mReference;
     private final Firebase mAggregate;
     private final ReviewsCache mCache;
     private final FactoryFbReference mReferencer;
-    
-    private final ReviewNode mNode;
 
     public FbReviewReference(DataReviewInfo info,
                              Firebase reviewReference,
                              Firebase aggregateReference,
                              SnapshotConverter<Review> converter,
                              FactoryFbReference referencer,
-                             ReviewsCache cache,
-                             FactoryReviews reviewsFactory) {
+                             ReviewsCache cache) {
         super(info.getReviewId(), reviewReference, converter);
         mInfo = info;
         mReference = reviewReference;
@@ -67,7 +59,6 @@ public class FbReviewReference extends FbReviewRefData<Review> implements Review
         mCache = cache;
 
         mReferencer = referencer;
-        mNode = reviewsFactory.createLeafNode(this);
     }
 
     @Override
@@ -96,12 +87,7 @@ public class FbReviewReference extends FbReviewRefData<Review> implements Review
     }
 
     @Override
-    public ReviewNode asNode() {
-        return mNode;
-    }
-
-    @Override
-    public ReviewDataReference<DataImage> getCover() {
+    public ReviewItemReference<DataImage> getCover() {
         return mReferencer.newImage(mReference.child(ReviewDb.COVER), getReviewId());
     }
 
@@ -136,32 +122,32 @@ public class FbReviewReference extends FbReviewRefData<Review> implements Review
     }
 
     @Override
-    public ReviewDataReference<DataSize> getTagsSize() {
+    public ReviewItemReference<DataSize> getTagsSize() {
         return mReferencer.newSize(mAggregate.child(ReviewAggregates.TAGS), getReviewId());
     }
 
     @Override
-    public ReviewDataReference<DataSize> getCriteriaSize() {
+    public ReviewItemReference<DataSize> getCriteriaSize() {
         return mReferencer.newSize(mAggregate.child(ReviewAggregates.CRITERIA), getReviewId());
     }
 
     @Override
-    public ReviewDataReference<DataSize> getCommentsSize() {
+    public ReviewItemReference<DataSize> getCommentsSize() {
         return mReferencer.newSize(mAggregate.child(ReviewAggregates.COMMENTS), getReviewId());
     }
 
     @Override
-    public ReviewDataReference<DataSize> getFactsSize() {
+    public ReviewItemReference<DataSize> getFactsSize() {
         return mReferencer.newSize(mAggregate.child(ReviewAggregates.FACTS), getReviewId());
     }
 
     @Override
-    public ReviewDataReference<DataSize> getImagesSize() {
+    public ReviewItemReference<DataSize> getImagesSize() {
         return mReferencer.newSize(mAggregate.child(ReviewAggregates.IMAGES), getReviewId());
     }
 
     @Override
-    public ReviewDataReference<DataSize> getLocationsSize() {
+    public ReviewItemReference<DataSize> getLocationsSize() {
         return mReferencer.newSize(mAggregate.child(ReviewAggregates.LOCATIONS), getReviewId());
     }
 

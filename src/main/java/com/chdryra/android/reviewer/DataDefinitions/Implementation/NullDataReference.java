@@ -39,7 +39,7 @@ public class NullDataReference<T> implements DataReference<T> {
     }
 
     @Override
-    public void delete() {
+    public void invalidate() {
 
     }
 }

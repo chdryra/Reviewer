@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterReviewTag;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ConverterSize;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbRefData;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewRefData;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewRefItem;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewRefList;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.FbReviewReference;
 import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Implementation.ReviewListEntry;
@@ -38,7 +38,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
@@ -81,12 +81,12 @@ public class FactoryFbReference {
         return new FbRefData<>(ref, new ConverterNamedAuthor());
     }
 
-    public ReviewDataReference<DataSize> newSize(Firebase ref, ReviewId id) {
-        return new FbReviewRefData<>(id, ref, new ConverterSize(id));
+    public ReviewItemReference<DataSize> newSize(Firebase ref, ReviewId id) {
+        return new FbReviewRefItem<>(id, ref, new ConverterSize(id));
     }
 
-    public ReviewDataReference<DataImage> newImage(Firebase ref, ReviewId id) {
-        return new FbReviewRefData<>(id, ref, new ConverterImage(id));
+    public ReviewItemReference<DataImage> newImage(Firebase ref, ReviewId id) {
+        return new FbReviewRefItem<>(id, ref, new ConverterImage(id));
     }
 
     public ReviewListReference<DataCriterion> newCriteria(Firebase ref, ReviewId id) {

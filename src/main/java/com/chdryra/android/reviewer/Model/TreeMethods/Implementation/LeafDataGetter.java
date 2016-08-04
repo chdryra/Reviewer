@@ -9,6 +9,7 @@
 package com.chdryra.android.reviewer.Model.TreeMethods.Implementation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
@@ -27,14 +28,16 @@ public abstract class LeafDataGetter<T extends HasReviewId> implements NodeDataG
     public abstract T getDataIfLeaf(ReviewNode node);
 
     @Override
+    @Nullable
     public T getData(@NonNull ReviewNode node) {
         return node.isLeaf() ? getDataIfLeaf(node) : null;
     }
 
     public static class LeafGetter extends LeafDataGetter<ReviewReference> {
         @Override
+        @Nullable
         public ReviewReference getDataIfLeaf(@NonNull ReviewNode node) {
-            return node;
+            return node.getReference();
         }
     }
 

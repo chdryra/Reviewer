@@ -13,13 +13,14 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 import android.support.annotation.NonNull;
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.DataReferenceBasic;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,33 +29,20 @@ import java.util.Map;
  * On: 28/07/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class FbRefData<T> implements DataReference<T>, ValueEventListener {
-    private final Firebase mReference;
-
-    private final Map<ReferenceBinder<T>, ValueEventListener> mBindings;
-    private final SnapshotConverter<T> mConverter;
-
-    private boolean mHasValue = true;
-    private boolean mDeleted = false;
+public class FbRefData<T> extends DataReferenceBasic<T> {
+    private Firebase mReference;
+    private Map<ReferenceBinder<T>, ValueEventListener> mBindings;
+    private SnapshotConverter<T> mConverter;
 
     public FbRefData(Firebase reference, SnapshotConverter<T> converter) {
         mReference = reference;
         mConverter = converter;
         mBindings = new HashMap<>();
-        mReference.addValueEventListener(this);
+        mListeners = new ArrayList<>();
     }
 
     protected Firebase getReference() {
         return mReference;
-    }
-
-    protected boolean isDeleted() {
-        return mDeleted;
-    }
-
-    @Override
-    public boolean isValidReference() {
-        return !mDeleted && mHasValue;
     }
 
     @Override
@@ -74,29 +62,25 @@ public class FbRefData<T> implements DataReference<T>, ValueEventListener {
     }
 
     @Override
-    public void delete() {
-        if (!mDeleted) {
-            mReference.removeEventListener(this);
-            for (Map.Entry<ReferenceBinder<T>, ValueEventListener> binding : mBindings.entrySet()) {
-                binding.getKey().onInvalidated(this);
-                mReference.removeEventListener(binding.getValue());
-            }
-            mBindings.clear();
-            mHasValue = false;
-            mDeleted = true;
+    protected void onInvalidate() {
+        for (Map.Entry<ReferenceBinder<T>, ValueEventListener> binding : mBindings.entrySet()) {
+            binding.getKey().onInvalidated(this);
+            mReference.removeEventListener(binding.getValue());
         }
+
+        mBindings.clear();
+        mConverter = null;
+        mReference = null;
     }
 
     @Override
-    public void onCancelled(FirebaseError firebaseError) {
-
+    public void registerListener(InvalidationListener listener) {
+        if(!mListeners.contains(listener)) mListeners.add(listener);
     }
 
     @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        boolean hadValue = mHasValue;
-        mHasValue = mConverter.convert(dataSnapshot) != null;
-        if (hadValue && !mHasValue) delete();
+    public void unregisterListener(InvalidationListener listener) {
+        if(mListeners.contains(listener)) mListeners.remove(listener);
     }
 
     @Override

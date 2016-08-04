@@ -24,11 +24,13 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.Review;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTag;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.ItemTagCollection;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -38,20 +40,16 @@ import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
  * On: 27/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class ReviewReferenceWrapper extends ReviewReferenceBasic {
+public class ReviewReferenceWrapper implements ReviewReference {
     private static final CallbackMessage OK = CallbackMessage.ok();
     private Review mReview;
     private TagsManager mTagsManager;
-    private ReviewNode mNode;
 
     public ReviewReferenceWrapper(Review review,
                                   TagsManager tagsManager,
-                                  FactoryReviews reviewsFactory,
                                   FactoryBinders bindersFactory) {
-        super(bindersFactory.newReferenceBindersManager());
         mReview = review;
         mTagsManager = tagsManager;
-        mNode = reviewsFactory.createLeafNode(this);
     }
 
     @Override
@@ -80,13 +78,83 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
     }
 
     @Override
-    public ReviewNode asNode() {
-        return mNode;
+    public ReviewItemReference<DataImage> getCover() {
+        return new StaticItemReference<>(getReviewId(), mReview.getCover());
     }
 
     @Override
-    public void getData(CoverCallback callback) {
-        callback.onCover(mReview.getCover(), OK);
+    public ReviewListReference<DataCriterion> getCriteria() {
+        return null;
+    }
+
+    @Override
+    public ReviewListReference<DataComment> getComments() {
+        return null;
+    }
+
+    @Override
+    public ReviewListReference<DataFact> getFacts() {
+        return null;
+    }
+
+    @Override
+    public ReviewListReference<DataImage> getImages() {
+        return null;
+    }
+
+    @Override
+    public ReviewListReference<DataLocation> getLocations() {
+        return null;
+    }
+
+    @Override
+    public ReviewListReference<DataTag> getTags() {
+        return null;
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getCriteriaSize() {
+        return null;
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getCommentsSize() {
+        return null;
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getFactsSize() {
+        return null;
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getImagesSize() {
+        return null;
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getLocationsSize() {
+        return null;
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getTagsSize() {
+        return null;
+    }
+
+    @Override
+    public void bindToValue(ReferenceBinder<Review> binder) {
+
+    }
+
+    @Override
+    public void unbindFromValue(ReferenceBinder<Review> binder) {
+
+    }
+
+    @Override
+    public void invalidate() {
+
     }
 
     @Override
@@ -99,71 +167,6 @@ public class ReviewReferenceWrapper extends ReviewReferenceBasic {
         callback.onTags(tags, OK);
     }
 
-    @Override
-    public void getData(CriteriaCallback callback) {
-        IdableList<DataCriterion> criteria = new IdableDataList<>(getReviewId());
-        criteria.addAll(mReview.getCriteria());
-        callback.onCriteria(criteria, OK);
-    }
-
-    @Override
-    public void getData(ImagesCallback callback) {
-        IdableList<DataImage> Images = new IdableDataList<>(getReviewId());
-        Images.addAll(mReview.getImages());
-        callback.onImages(Images, OK);
-    }
-
-    @Override
-    public void getData(CommentsCallback callback) {
-        IdableList<DataComment> Comments = new IdableDataList<>(getReviewId());
-        Comments.addAll(mReview.getComments());
-        callback.onComments(Comments, OK);
-    }
-
-    @Override
-    public void getData(LocationsCallback callback) {
-        IdableList<DataLocation> Locations = new IdableDataList<>(getReviewId());
-        Locations.addAll(mReview.getLocations());
-        callback.onLocations(Locations, OK);
-    }
-
-    @Override
-    public void getData(FactsCallback callback) {
-        IdableList<DataFact> Facts = new IdableDataList<>(getReviewId());
-        Facts.addAll(mReview.getFacts());
-        callback.onFacts(Facts, OK);
-    }
-
-    @Override
-    public void getSize(TagsSizeCallback callback) {
-        ItemTagCollection tagCollection = mTagsManager.getTags(getReviewId().toString());
-        callback.onNumTags(newSize(tagCollection.size()), OK);
-    }
-
-    @Override
-    public void getSize(CriteriaSizeCallback callback) {
-        callback.onNumCriteria(newSize(mReview.getCriteria().size()), OK);
-    }
-
-    @Override
-    public void getSize(ImagesSizeCallback callback) {
-        callback.onNumImages(newSize(mReview.getImages().size()), OK);
-    }
-
-    @Override
-    public void getSize(CommentsSizeCallback callback) {
-        callback.onNumComments(newSize(mReview.getComments().size()), OK);
-    }
-
-    @Override
-    public void getSize(LocationsSizeCallback callback) {
-        callback.onNumLocations(newSize(mReview.getLocations().size()), OK);
-    }
-
-    @Override
-    public void getSize(FactsSizeCallback callback) {
-        callback.onNumFacts(newSize(mReview.getFacts().size()), OK);
-    }
 
     @Override
     public void dereference(DereferenceCallback<Review> callback) {

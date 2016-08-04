@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 
 /**
@@ -24,7 +25,7 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
  */
 public abstract class NodeDataCollector<T extends HasReviewId>  {
     private IdableList<ReviewNode> mNodes;
-    private IdableList<T> mData;
+    private ReviewListReference<T> mData;
     private AsyncMethodTracker mTracker;
     private boolean mCollecting = false;
 
@@ -33,7 +34,7 @@ public abstract class NodeDataCollector<T extends HasReviewId>  {
     }
 
     public abstract CallbackMessage doAsyncMethod(ReviewNode node);
-    public abstract void onCompleted(IdableList<T> data, AsyncMethodTracker.AsyncErrors errors);
+    public abstract void onCompleted(ReviewListReference<T> data, AsyncMethodTracker.AsyncErrors errors);
 
     public void collect() {
         if(!mCollecting) {

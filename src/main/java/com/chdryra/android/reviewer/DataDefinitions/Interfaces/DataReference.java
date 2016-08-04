@@ -23,13 +23,21 @@ public interface DataReference<T> {
         void onDereferenced(@Nullable T data, CallbackMessage message);
     }
 
+    interface InvalidationListener {
+        void onReferenceInvalidated(DataReference<?> reference);
+    }
+
     void dereference(DereferenceCallback<T> callback);
 
     void bindToValue(ReferenceBinder<T> binder);
 
     void unbindFromValue(ReferenceBinder<T> binder);
 
+    void registerListener(InvalidationListener listener);
+
+    void unregisterListener(InvalidationListener listener);
+
     boolean isValidReference();
 
-    void delete();
+    void invalidate();
 }

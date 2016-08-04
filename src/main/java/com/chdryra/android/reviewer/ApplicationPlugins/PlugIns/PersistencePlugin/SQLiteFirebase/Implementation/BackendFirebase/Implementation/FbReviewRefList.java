@@ -27,7 +27,7 @@ public class FbReviewRefList<T extends HasReviewId> extends FbRefListData<T, Ida
     private ReviewId mId;
 
     public FbReviewRefList(final ReviewId id, Firebase reference, SnapshotConverter<IdableList<T>> converter, ListItemConverter<T> itemConverter) {
-        super(reference, converter, new ItemConverter<T>(id, itemConverter));
+        super(reference, converter, new ItemConverter<>(id, itemConverter));
         mId = id;
     }
 

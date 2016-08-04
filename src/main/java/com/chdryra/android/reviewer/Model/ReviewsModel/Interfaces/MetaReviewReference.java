@@ -13,28 +13,28 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewDataReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface MetaReference extends ReviewReference {
-    IdableList<ReviewReference> getReviews();
+public interface MetaReviewReference extends ReviewDataReference {
+    ReviewListReference<ReviewReference> getReviews();
 
-    IdableList<ReviewDataReference<DataSubject>> getSubjects();
+    ReviewListReference<DataSubject> getSubjects();
 
-    IdableList<ReviewDataReference<DataAuthorId>> getAuthorIds();
+    ReviewListReference<DataAuthorId> getAuthorIds();
 
-    IdableList<ReviewDataReference<DataDate>> getDates();
+    ReviewListReference<DataDate> getDates();
 
-    ReviewDataReference<DataSize> getNumReviews();
+    ReviewItemReference<DataSize> getNumReviews();
 
-    ReviewDataReference<DataSize> getNumSubjects();
+    ReviewItemReference<DataSize> getNumSubjects();
 
-    ReviewDataReference<DataSize> getNumAuthors();
+    ReviewItemReference<DataSize> getNumAuthors();
 
-    ReviewDataReference<DataSize> getNumDates();
+    ReviewItemReference<DataSize> getNumDates();
 }

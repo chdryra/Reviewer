@@ -8,38 +8,73 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
+import android.support.annotation.Nullable;
+
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
  * On: 30/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements ReviewNode {
-    private BindersManagerNode mBinders;
+public abstract class ReviewNodeBasic implements ReviewNode {
     protected ArrayList<NodeObserver> mObservers;
+    protected Collection<InvalidationListener> mListeners;
+    private boolean mDeleted = false;
 
-    public ReviewNodeBasic(FactoryBinders bindersFactory) {
-        super(bindersFactory.newMetaBindersManager());
-        mBinders = (BindersManagerNode) super.getBindersManager();
+    public ReviewNodeBasic() {
         mObservers = new ArrayList<>();
+        mListeners = new ArrayList<>();
+    }
+
+    @Override
+    public boolean isValidReference() {
+        return !mDeleted;
+    }
+
+    @Override
+    public void registerListener(DataReference.InvalidationListener listener) {
+        if(!mListeners.contains(listener)) mListeners.add(listener);
+    }
+
+    @Override
+    public void unregisterListener(DataReference.InvalidationListener listener) {
+        if(mListeners.contains(listener)) mListeners.remove(listener);
+    }
+
+    @Override
+    public void invalidate() {
+        if(!isDeleted()) {
+            mDeleted = true;
+            onInvalidate();
+            for (DataReference.InvalidationListener listener : mListeners) {
+                listener.onReferenceInvalidated(this);
+            }
+        }
+    }
+
+    protected boolean isDeleted() {
+        return mDeleted;
+    }
+
+    protected void onInvalidate() {
+
     }
 
     @Override
     public boolean isLeaf() {
-        return getChildren().size() == 0 && isValidReference();
+        return getChildren().size() == 0;
+    }
+
+    @Nullable
+    @Override
+    public ReviewReference getReference() {
+        return null;
     }
 
     @Override
@@ -71,260 +106,18 @@ public abstract class ReviewNodeBasic extends ReviewReferenceBasic implements Re
     }
 
     @Override
-    public BindersManagerNode getBindersManager() {
-        return mBinders;
-    }
-
-
-    protected void notifyReviewsBinders() {
-        getData(new ReviewsCallback() {
-            @Override
-            public void onReviews(IdableList<ReviewReference> rev, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (MetaBinders.ReviewsBinder binder : mBinders.getReviewsBinders()) {
-                        binder.onReferenceValue(rev);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifyAuthorsBinders() {
-        getData(new AuthorsCallback() {
-            @Override
-            public void onAuthors(IdableList<? extends DataAuthorId> rev, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (MetaBinders.AuthorsBinder binder : mBinders.getAuthorsBinders()) {
-                        binder.onReferenceValue(rev);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifySubjectsBinders() {
-        getData(new SubjectsCallback() {
-            @Override
-            public void onSubjects(IdableList<? extends DataSubject> rev, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (MetaBinders.SubjectsBinder binder : mBinders.getSubjectsBinders()) {
-                        binder.onReferenceValue(rev);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifyDatesBinders() {
-        getData(new DatesCallback() {
-            @Override
-            public void onDates(IdableList<? extends DataDate> rev, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (MetaBinders.DatesBinder binder : mBinders.getDatesBinders()) {
-                        binder.onReferenceValue(rev);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifyNumReviewsBinders() {
-        getSize(new ReviewsSizeCallback() {
-            @Override
-            public void onNumReviews(DataSize size, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumReviewsBinders()) {
-                        binder.onReferenceValue(size);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifyNumAuthorsBinders() {
-        getSize(new AuthorsSizeCallback() {
-            @Override
-            public void onNumAuthors(DataSize size, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumAuthorsBinders()) {
-                        binder.onReferenceValue(size);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifyNumSubjectsBinders() {
-        getSize(new SubjectsSizeCallback() {
-            @Override
-            public void onNumSubjects(DataSize size, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumSubjectsBinders()) {
-                        binder.onReferenceValue(size);
-                    }
-                }
-            }
-        });
-    }
-
-    protected void notifyNumDatesBinders() {
-        getSize(new DatesSizeCallback() {
-            @Override
-            public void onNumDates(DataSize size, CallbackMessage message) {
-                if (!message.isError()) {
-                    for (ReferenceBinders.SizeBinder binder : mBinders.getNumDatesBinders()) {
-                        binder.onReferenceValue(size);
-                    }
-                }
-            }
-        });
-    }
-
-    @Override
-    public void bind(final MetaBinders.ReviewsBinder binder) {
-        mBinders.bind(binder);
-        getData(new ReviewsCallback() {
-            @Override
-            public void onReviews(IdableList<ReviewReference> leaves, CallbackMessage message) {
-                binder.onReferenceValue(leaves);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final MetaBinders.AuthorsBinder binder) {
-        mBinders.bind(binder);
-        getData(new AuthorsCallback() {
-            @Override
-            public void onAuthors(IdableList<? extends DataAuthorId> leaves, CallbackMessage message) {
-                binder.onReferenceValue(leaves);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final MetaBinders.SubjectsBinder binder) {
-        mBinders.bind(binder);
-        getData(new SubjectsCallback() {
-            @Override
-            public void onSubjects(IdableList<? extends DataSubject> leaves, CallbackMessage message) {
-                binder.onReferenceValue(leaves);
-            }
-        });
-    }
-
-    @Override
-    public void bind(final MetaBinders.DatesBinder binder) {
-        mBinders.bind(binder);
-        getData(new DatesCallback() {
-            @Override
-            public void onDates(IdableList<? extends DataDate> leaves, CallbackMessage message) {
-                binder.onReferenceValue(leaves);
-            }
-        });
-    }
-
-    @Override
-    public void bindToReviews(final ReferenceBinders.SizeBinder binder) {
-        mBinders.bindToReviews(binder);
-        getSize(new ReviewsSizeCallback() {
-            @Override
-            public void onNumReviews(DataSize size, CallbackMessage message) {
-                binder.onReferenceValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToAuthors(final ReferenceBinders.SizeBinder binder) {
-        mBinders.bindToAuthors(binder);
-        getSize(new AuthorsSizeCallback() {
-            @Override
-            public void onNumAuthors(DataSize size, CallbackMessage message) {
-                binder.onReferenceValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToSubjects(final ReferenceBinders.SizeBinder binder) {
-        mBinders.bindToSubjects(binder);
-        getSize(new SubjectsSizeCallback() {
-            @Override
-            public void onNumSubjects(DataSize size, CallbackMessage message) {
-                binder.onReferenceValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void bindToDates(final ReferenceBinders.SizeBinder binder) {
-        mBinders.bindToDates(binder);
-        getSize(new DatesSizeCallback() {
-            @Override
-            public void onNumDates(DataSize size, CallbackMessage message) {
-                binder.onReferenceValue(size);
-            }
-        });
-    }
-
-    @Override
-    public void unbind(MetaBinders.ReviewsBinder binder) {
-        mBinders.unbind(binder);
-    }
-
-    @Override
-    public void unbind(MetaBinders.AuthorsBinder binder) {
-        mBinders.unbind(binder);
-    }
-
-    @Override
-    public void unbind(MetaBinders.SubjectsBinder binder) {
-        mBinders.unbind(binder);
-    }
-
-    @Override
-    public void unbind(MetaBinders.DatesBinder binder) {
-        mBinders.unbind(binder);
-    }
-
-
-    @Override
-    public void unbindFromReviews(ReferenceBinders.SizeBinder binder) {
-        mBinders.unbindFromReviews(binder);
-    }
-
-    @Override
-    public void unbindFromAuthors(ReferenceBinders.SizeBinder binder) {
-        mBinders.unbindFromAuthors(binder);
-    }
-
-    @Override
-    public void unbindFromSubjects(ReferenceBinders.SizeBinder binder) {
-        mBinders.unbindFromSubjects(binder);
-    }
-
-    @Override
-    public void unbindFromDates(ReferenceBinders.SizeBinder binder) {
-        mBinders.unbindFromDates(binder);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ReviewNodeBasic)) return false;
 
         ReviewNodeBasic that = (ReviewNodeBasic) o;
 
-        if (!mBinders.equals(that.mBinders)) return false;
         return mObservers.equals(that.mObservers);
 
     }
 
     @Override
     public int hashCode() {
-        int result = mBinders.hashCode();
-        result = 31 * result + mObservers.hashCode();
-        return result;
+        return mObservers.hashCode();
     }
 }

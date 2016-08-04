@@ -29,17 +29,13 @@ import java.util.Map;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FbRefListData<T, C extends Collection<T>> extends FbRefData<C> implements ListReference<T, C> {
-    private ChildListener mChildListener;
-
-    private final Map<ListItemBinder<T>, ChildEventListener> mChildBindings;
-    private final SnapshotConverter<T> mItemConverter;
+    private Map<ListItemBinder<T>, ChildEventListener> mChildBindings;
+    private SnapshotConverter<T> mItemConverter;
 
     public FbRefListData(Firebase reference, SnapshotConverter<C> listConverter, SnapshotConverter<T> itemConverter) {
         super(reference, listConverter);
         mItemConverter = itemConverter;
-        mChildListener = new ChildListener();
         mChildBindings = new HashMap<>();
-        getReference().addChildEventListener(mChildListener);
     }
 
     @Override
@@ -59,16 +55,13 @@ public class FbRefListData<T, C extends Collection<T>> extends FbRefData<C> impl
     }
 
     @Override
-    public void delete() {
-        if (!isDeleted()) {
-            super.delete();
-            getReference().removeEventListener(mChildListener);
-            for (Map.Entry<ListItemBinder<T>, ChildEventListener> binding : mChildBindings.entrySet()) {
-                binding.getKey().onInvalidated(this);
-                getReference().removeEventListener(binding.getValue());
-            }
-            mChildBindings.clear();
+    protected void onInvalidate() {
+        for (Map.Entry<ListItemBinder<T>, ChildEventListener> binding : mChildBindings.entrySet()) {
+            binding.getKey().onInvalidated(this);
+            getReference().removeEventListener(binding.getValue());
         }
+        mChildBindings.clear();
+        mItemConverter = null;
     }
 
     @NonNull
@@ -101,32 +94,5 @@ public class FbRefListData<T, C extends Collection<T>> extends FbRefData<C> impl
 
             }
         };
-    }
-
-    private class ChildListener implements ChildEventListener {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(FirebaseError firebaseError) {
-
-        }
     }
 }

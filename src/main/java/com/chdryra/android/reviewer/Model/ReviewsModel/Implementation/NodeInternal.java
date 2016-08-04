@@ -27,6 +27,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryDataCollector;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinders;
@@ -169,6 +170,11 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         return this;
     }
 
+    @Override
+    public ReviewListReference<ReviewReference> getReviews() {
+        return null;
+    }
+
     //TODO optimisation that doesn't involve regetting of all data on a single child's update.
     @Override
     public void onAuthors(IdableList<? extends DataAuthorId> Authors, CallbackMessage message) {
@@ -195,234 +201,6 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
     }
 
     @Override
-    public void onDates(IdableList<? extends DataDate> Dates, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new DatesCallback() {
-                @Override
-                public void onDates(IdableList<? extends DataDate> dates, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getDatesBinders(), dates, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumDates(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new DatesSizeCallback() {
-                @Override
-                public void onNumDates(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new ReviewsCallback() {
-                @Override
-                public void onReviews(IdableList<ReviewReference> reviews, CallbackMessage message) {
-                    notifyOnReviews(reviews, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumReviews(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new ReviewsSizeCallback() {
-                @Override
-                public void onNumReviews(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onSubjects(IdableList<? extends DataSubject> subjects, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new SubjectsCallback() {
-                @Override
-                public void onSubjects(IdableList<? extends DataSubject> subjects, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getSubjectsBinders(), subjects, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumSubjects(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new SubjectsSizeCallback() {
-                @Override
-                public void onNumSubjects(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new TagsCallback() {
-                @Override
-                public void onTags(IdableList<? extends DataTag> tags, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getTagsBinders(), tags, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new CommentsCallback() {
-                @Override
-                public void onComments(IdableList<? extends DataComment> comments, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getCommentsBinders(), comments, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onCover(DataImage cover, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new CoverCallback() {
-                @Override
-                public void onCover(DataImage cover, CallbackMessage message) {
-                    notifyOnValue(cover, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new CriteriaCallback() {
-                @Override
-                public void onCriteria(IdableList<? extends DataCriterion> criteria, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getCriteriaBinders(), criteria, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new FactsCallback() {
-                @Override
-                public void onFacts(IdableList<? extends DataFact> facts, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getFactsBinders(), facts, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new ImagesCallback() {
-                @Override
-                public void onImages(IdableList<? extends DataImage> images, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getImagesBinders(), images, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
-        if (!message.isError()) {
-            getData(new LocationsCallback() {
-                @Override
-                public void onLocations(IdableList<? extends DataLocation> locations, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getLocationsBinders(), locations, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumComments(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new CommentsSizeCallback() {
-                @Override
-                public void onNumComments(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumCommentsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumCriteria(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new CriteriaSizeCallback() {
-                @Override
-                public void onNumCriteria(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumCriteriaBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumFacts(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new FactsSizeCallback() {
-                @Override
-                public void onNumFacts(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumFactsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumImages(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new ImagesSizeCallback() {
-                @Override
-                public void onNumImages(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumImagesBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumLocations(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new LocationsSizeCallback() {
-                @Override
-                public void onNumLocations(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumLocationsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onNumTags(DataSize size, CallbackMessage message) {
-        if (!message.isError()) {
-            getSize(new TagsSizeCallback() {
-                @Override
-                public void onNumTags(DataSize size, CallbackMessage message) {
-                    notifyOnValue(getBindersManager().getNumTagsBinders(), size, message);
-                }
-            });
-        }
-    }
-
-    @Override
     public void getData(final CoverCallback callback) {
         getCollectorFactory().newCollector(getChildren(), new TreeDataCollector.CoversCallback() {
             @Override
@@ -437,61 +215,6 @@ public class NodeInternal extends ReviewNodeComponentBasic implements ReviewNode
         getCollectorFactory().newCollector(getChildren(), callback).collect();
     }
 
-    @Override
-    public void getData(CriteriaCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getData(ImagesCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getData(CommentsCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getData(LocationsCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getData(FactsCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getSize(TagsSizeCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getSize(CriteriaSizeCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getSize(ImagesSizeCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getSize(CommentsSizeCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getSize(LocationsSizeCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-
-    @Override
-    public void getSize(FactsSizeCallback callback) {
-        getCollectorFactory().newCollector(getChildren(), callback).collect();
-    }
-    
     @Override
     public void dereference(final DereferenceCallback<Review> callback) {
         NodeDereferencer dereferencer = new NodeDereferencer();
