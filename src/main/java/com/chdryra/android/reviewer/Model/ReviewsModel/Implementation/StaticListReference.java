@@ -8,9 +8,13 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.DatumSize;
+import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 
@@ -31,10 +35,25 @@ public class StaticListReference<T extends HasReviewId> extends StaticItemRefere
     }
 
     @Override
+    public void toItemReferences(ItemReferencesCallback<T> callback) {
+        IdableList<ReviewItemReference<T>> refs = new IdableDataList<>(getReviewId());
+        for(T item : getData()) {
+            refs.add(new StaticItemReference<>(getReviewId(), item));
+        }
+        callback.onItemReferences(refs);
+    }
+
+    @Override
+    public ReviewItemReference<DataSize> getSizeReference() {
+        DataSize size = new DatumSize(getReviewId(), getData().size());
+        return new StaticItemReference<>(getReviewId(), size);
+    }
+
+    @Override
     public void bindToItems(ListItemBinder<T> binder) {
         if(isValidReference() && !mItemBinders.contains(binder)) mItemBinders.add(binder);
         for(T item : getData()) {
-            binder.onItemValue(item);
+            binder.onItemAdded(item);
         }
     }
 

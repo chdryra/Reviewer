@@ -32,10 +32,15 @@ public class FbRefListData<T, C extends Collection<T>> extends FbRefData<C> impl
     private Map<ListItemBinder<T>, ChildEventListener> mChildBindings;
     private SnapshotConverter<T> mItemConverter;
 
-    public FbRefListData(Firebase reference, SnapshotConverter<C> listConverter, SnapshotConverter<T> itemConverter) {
+    public FbRefListData(Firebase reference, SnapshotConverter<C> listConverter,
+                         SnapshotConverter<T> itemConverter) {
         super(reference, listConverter);
         mItemConverter = itemConverter;
         mChildBindings = new HashMap<>();
+    }
+
+    protected SnapshotConverter<T> getItemConverter() {
+        return mItemConverter;
     }
 
     @Override
@@ -70,7 +75,7 @@ public class FbRefListData<T, C extends Collection<T>> extends FbRefData<C> impl
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 T convert = mItemConverter.convert(dataSnapshot);
-                if (convert != null) binder.onItemValue(convert);
+                if (convert != null) binder.onItemAdded(convert);
             }
 
             @Override

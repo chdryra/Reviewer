@@ -8,16 +8,20 @@
 
 package com.chdryra.android.reviewer.Model.Factories;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.AuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataDate;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.LeafDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.ConditionalDataGetter;
+import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemCounter;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorItemGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
 
 /**
@@ -26,25 +30,56 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.NodeDataGetter;
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryVisitorReviewNode {
+    private static final ConditionalDataGetter.Condition IS_LEAF
+            = new ConditionalDataGetter.Condition() {
+        @Override
+        public boolean passesOnNode(ReviewNode node) {
+            return node.isLeaf();
+        }
+    };
 
-    private <T extends HasReviewId> VisitorItemGetter<T> newItemCollector(NodeDataGetter<T> getter) {
-        return new VisitorItemGetter<>(getter);
+    private <T extends HasReviewId> VisitorDataGetter<T> newLeafCollector(NodeDataGetter<T> getter) {
+        return new VisitorDataGetter.ItemGetter<>(new ConditionalDataGetter<>(IS_LEAF, getter));
     }
 
-    public VisitorItemGetter<DataSubject> newSubjectsCollector() {
-        return newItemCollector(new LeafDataGetter.SubjectGetter());
+    public VisitorDataGetter<DataSubject> newSubjectsCollector() {
+        return newLeafCollector(new NodeDataGetter<DataSubject>() {
+            @Nullable
+            @Override
+            public DataSubject getData(@NonNull ReviewNode node) {
+                return node.getSubject();
+            }
+        });
     }
 
-    public VisitorItemGetter<DataAuthorId> newAuthorsCollector() {
-        return newItemCollector(new LeafDataGetter.AuthorGetter());
+    public VisitorDataGetter<DataAuthorId> newAuthorsCollector() {
+        return newLeafCollector(new NodeDataGetter<DataAuthorId>() {
+            @Nullable
+            @Override
+            public DataAuthorId getData(@NonNull ReviewNode node) {
+                return node.getAuthorId();
+            }
+        });
     }
 
-    public VisitorItemGetter<DataDate> newDatesCollector() {
-        return newItemCollector(new LeafDataGetter.DateGetter());
+    public VisitorDataGetter<DataDate> newDatesCollector() {
+        return newLeafCollector(new NodeDataGetter<DataDate>() {
+            @Nullable
+            @Override
+            public DataDate getData(@NonNull ReviewNode node) {
+                return node.getPublishDate();
+            }
+        });
     }
 
-    public VisitorItemGetter<ReviewReference> newLeavesCollector() {
-        return newItemCollector(new LeafDataGetter.LeafGetter());
+    public VisitorDataGetter<ReviewReference> newLeavesCollector() {
+        return newLeafCollector(new NodeDataGetter<ReviewReference>() {
+            @Nullable
+            @Override
+            public ReviewReference getData(@NonNull ReviewNode node) {
+                return node.getReference();
+            }
+        });
     }
 
     public VisitorItemCounter<String> newSubjectsCounter() {

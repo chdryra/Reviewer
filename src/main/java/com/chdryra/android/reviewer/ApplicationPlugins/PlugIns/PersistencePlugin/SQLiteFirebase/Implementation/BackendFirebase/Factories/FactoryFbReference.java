@@ -38,10 +38,9 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.NamedAuthor;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
+import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.Factories.FactoryReviews;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.NullReviewReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Model.TagsModel.Interfaces.TagsManager;
@@ -56,16 +55,13 @@ import com.firebase.client.Firebase;
 public class FactoryFbReference {
     private BackendDataConverter mDataConverter;
     private BackendReviewConverter mReviewConverter;
-    private FactoryReviews mReviewsFactory;
     private ReviewsCache mCache;
 
     public FactoryFbReference(BackendDataConverter dataConverter,
                               BackendReviewConverter reviewConverter,
-                              FactoryReviews reviewsFactory,
                               ReviewsCache cache) {
         mDataConverter = dataConverter;
         mReviewConverter = reviewConverter;
-        mReviewsFactory = reviewsFactory;
         mCache = cache;
     }
 
@@ -89,39 +85,41 @@ public class FactoryFbReference {
         return new FbReviewRefItem<>(id, ref, new ConverterImage(id));
     }
 
-    public ReviewListReference<DataCriterion> newCriteria(Firebase ref, ReviewId id) {
+    public ReviewListReference<DataCriterion> newCriteria(Firebase ref,
+                                                          ReviewId id,
+                                                          ReviewItemReference<DataSize> size) {
         ConverterCriterion converter = new ConverterCriterion();
-        return new FbReviewRefList<>(id, ref, new ConverterList<>(id, converter), converter);
+        return new FbReviewRefList<>(id, ref, size, new ConverterList<>(id, converter), converter);
     }
 
-    public ReviewListReference<DataTag> newTags(Firebase ref, ReviewId id) {
+    public ReviewListReference<DataTag> newTags(Firebase ref, ReviewId id, ReviewItemReference<DataSize> size) {
         ConverterReviewTag converter = new ConverterReviewTag();
-        return new FbReviewRefList<>(id, ref, new ConverterList<>(id, converter), converter);
+        return new FbReviewRefList<>(id, ref, size, new ConverterList<>(id, converter), converter);
     }
 
-    public ReviewListReference<DataImage> newImages(Firebase ref, ReviewId id) {
+    public ReviewListReference<DataImage> newImages(Firebase ref, ReviewId id, ReviewItemReference<DataSize> size) {
         ConverterImage converter = new ConverterImage();
-        return new FbReviewRefList<>(id, ref, new ConverterList<>(id, converter), converter);
+        return new FbReviewRefList<>(id, ref, size, new ConverterList<>(id, converter), converter);
     }
 
-    public ReviewListReference<DataLocation> newLocations(Firebase ref, ReviewId id) {
+    public ReviewListReference<DataLocation> newLocations(Firebase ref, ReviewId id, ReviewItemReference<DataSize> size) {
         ConverterLocation converter = new ConverterLocation();
-        return new FbReviewRefList<>(id, ref, new ConverterList<>(id, converter), converter);
+        return new FbReviewRefList<>(id, ref, size, new ConverterList<>(id, converter), converter);
     }
 
-    public ReviewListReference<DataFact> newFacts(Firebase ref, ReviewId id) {
+    public ReviewListReference<DataFact> newFacts(Firebase ref, ReviewId id, ReviewItemReference<DataSize> size) {
         ConverterFact converter = new ConverterFact();
-        return new FbReviewRefList<>(id, ref, new ConverterList<>(id, converter), converter);
+        return new FbReviewRefList<>(id, ref, size, new ConverterList<>(id, converter), converter);
     }
 
-    public ReviewListReference<DataComment> newComments(Firebase ref, ReviewId id) {
+    public ReviewListReference<DataComment> newComments(Firebase ref, ReviewId id, ReviewItemReference<DataSize> size) {
         ConverterComment converter = new ConverterComment();
-        return new FbReviewRefList<>(id, ref, new ConverterList<>(id, converter), converter);
+        return new FbReviewRefList<>(id, ref, size, new ConverterList<>(id, converter), converter);
     }
 
     public ReviewReference newReview(ReviewListEntry entry, Firebase reviewDb, Firebase aggregatesDb) {
         return new FbReviewReference(mDataConverter.convert(entry), reviewDb, aggregatesDb,
-                new ConverterReview(mReviewConverter), this, mCache, mReviewsFactory);
+                new ConverterReview(mReviewConverter), this, mCache);
     }
 
     public ReviewReference newNullReview() {

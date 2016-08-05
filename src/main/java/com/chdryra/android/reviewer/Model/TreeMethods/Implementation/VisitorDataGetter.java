@@ -19,25 +19,35 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 
 /**
  * Created by: Rizwan Choudrey
- * On: 13/05/2015
+ * On: 05/08/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public class VisitorItemGetter<T extends HasReviewId> implements VisitorReviewNode{
+public abstract class VisitorDataGetter<T extends HasReviewId> implements VisitorReviewNode {
     private IdableList<T> mData;
-    private NodeDataGetter<? extends T> mGetter;
 
-    public VisitorItemGetter(NodeDataGetter<? extends T> getter) {
-        mGetter = getter;
-    }
+    @Override
+    public abstract void visit(@NonNull ReviewNode node);
 
     public IdableList<T> getData() {
         return mData == null ? new IdableDataList<T>(null) : mData;
     }
 
-    @Override
-    public void visit(@NonNull ReviewNode node) {
+    protected IdableList<T> getDataList(@NonNull ReviewNode node) {
         if (mData == null) mData = new IdableDataList<>(node.getReviewId());
-        T data = mGetter.getData(node);
-        if(data != null) mData.add(data);
+        return mData;
+    }
+
+    public static class ItemGetter<T extends HasReviewId> extends VisitorDataGetter<T> {
+        private NodeDataGetter<T> mGetter;
+
+        public ItemGetter(NodeDataGetter<T> getter) {
+            mGetter = getter;
+        }
+
+        @Override
+        public void visit(@NonNull ReviewNode node) {
+            T data = mGetter.getData(node);
+            if(data != null) getDataList(node).add(data);
+        }
     }
 }

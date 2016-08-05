@@ -10,15 +10,19 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces;
 
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ListReference;
 
+import java.util.Collection;
+
 /**
  * Created by: Rizwan Choudrey
  * On: 16/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ListItemBinder<T> {
-    void onItemValue(T value);
+    void onItemAdded(T value);
 
     void onItemRemoved(T value);
+
+    void onListChanged(Collection<T> newItems);
 
     void onInvalidated(ListReference<T, ?> reference);
 }

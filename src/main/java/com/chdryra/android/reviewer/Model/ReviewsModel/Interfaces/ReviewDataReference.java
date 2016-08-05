@@ -15,7 +15,6 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataFact;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataImage;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataLocation;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReviewInfo;
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
@@ -39,16 +38,4 @@ public interface ReviewDataReference extends DataReviewInfo {
     ReviewListReference<DataLocation> getLocations();
 
     ReviewListReference<DataTag> getTags();
-
-    ReviewItemReference<DataSize> getCriteriaSize();
-
-    ReviewItemReference<DataSize> getCommentsSize();
-
-    ReviewItemReference<DataSize> getFactsSize();
-
-    ReviewItemReference<DataSize> getImagesSize();
-
-    ReviewItemReference<DataSize> getLocationsSize();
-
-    ReviewItemReference<DataSize> getTagsSize();
 }

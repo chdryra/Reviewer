@@ -17,6 +17,14 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinde
  * Email: rizwan.choudrey@gmail.com
  */
 public interface ReviewListReference<T extends HasReviewId> extends ListReference<T, IdableList<T>>, HasReviewId{
+    interface ItemReferencesCallback<T extends HasReviewId> {
+        void onItemReferences(IdableList<ReviewItemReference<T>> references);
+    }
+
+    void toItemReferences(ItemReferencesCallback<T> callback);
+
+    ReviewItemReference<DataSize> getSizeReference();
+
     @Override
     void bindToItems(ListItemBinder<T> binder);
 

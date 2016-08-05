@@ -11,9 +11,12 @@ package com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugi
 
 
 import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewAggregates;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation.Backend.Implementation.ReviewDb;
-import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase.Implementation.BackendFirebase.Factories.FactoryFbReference;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewAggregates;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.Implementation
+        .Backend.Implementation.ReviewDb;
+import com.chdryra.android.reviewer.ApplicationPlugins.PlugIns.PersistencePlugin.SQLiteFirebase
+        .Implementation.BackendFirebase.Factories.FactoryFbReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataAuthorId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataComment;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataCriterion;
@@ -93,62 +96,38 @@ public class FbReviewReference extends FbReviewRefItem<Review> implements Review
 
     @Override
     public ReviewListReference<DataCriterion> getCriteria() {
-        return mReferencer.newCriteria(mReference.child(ReviewDb.CRITERIA), getReviewId());
+        return mReferencer.newCriteria(mReference.child(ReviewDb.CRITERIA), getReviewId(),
+                getSize(ReviewAggregates.CRITERIA));
     }
 
     @Override
     public ReviewListReference<DataTag> getTags() {
-        return mReferencer.newTags(mReference.child(ReviewDb.TAGS), getReviewId());
+        return mReferencer.newTags(mReference.child(ReviewDb.TAGS), getReviewId(),
+                getSize(ReviewAggregates.TAGS));
     }
 
     @Override
     public ReviewListReference<DataComment> getComments() {
-        return mReferencer.newComments(mReference.child(ReviewDb.COMMENTS), getReviewId());
+        return mReferencer.newComments(mReference.child(ReviewDb.COMMENTS), getReviewId(),
+                getSize(ReviewAggregates.COMMENTS));
     }
 
     @Override
     public ReviewListReference<DataFact> getFacts() {
-        return mReferencer.newFacts(mReference.child(ReviewDb.FACTS), getReviewId());
+        return mReferencer.newFacts(mReference.child(ReviewDb.FACTS), getReviewId(),
+                getSize(ReviewAggregates.FACTS));
     }
 
     @Override
     public ReviewListReference<DataImage> getImages() {
-        return mReferencer.newImages(mReference.child(ReviewDb.IMAGES), getReviewId());
+        return mReferencer.newImages(mReference.child(ReviewDb.IMAGES), getReviewId(),
+                getSize(ReviewAggregates.IMAGES));
     }
 
     @Override
     public ReviewListReference<DataLocation> getLocations() {
-        return mReferencer.newLocations(mReference.child(ReviewDb.LOCATIONS), getReviewId());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getTagsSize() {
-        return mReferencer.newSize(mAggregate.child(ReviewAggregates.TAGS), getReviewId());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCriteriaSize() {
-        return mReferencer.newSize(mAggregate.child(ReviewAggregates.CRITERIA), getReviewId());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCommentsSize() {
-        return mReferencer.newSize(mAggregate.child(ReviewAggregates.COMMENTS), getReviewId());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getFactsSize() {
-        return mReferencer.newSize(mAggregate.child(ReviewAggregates.FACTS), getReviewId());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getImagesSize() {
-        return mReferencer.newSize(mAggregate.child(ReviewAggregates.IMAGES), getReviewId());
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getLocationsSize() {
-        return mReferencer.newSize(mAggregate.child(ReviewAggregates.LOCATIONS), getReviewId());
+        return mReferencer.newLocations(mReference.child(ReviewDb.LOCATIONS), getReviewId(),
+                getSize(ReviewAggregates.LOCATIONS));
     }
 
     @Override
@@ -164,5 +143,9 @@ public class FbReviewReference extends FbReviewRefItem<Review> implements Review
     @Override
     protected void onDereferenced(Review value) {
         mCache.add(value);
+    }
+
+    private ReviewItemReference<DataSize> getSize(String aggregatesName) {
+        return mReferencer.newSize(mAggregate.child(aggregatesName), getReviewId());
     }
 }

@@ -122,36 +122,6 @@ public class NodeInternal2 extends ReviewNodeComponentBasic implements ReviewNod
     }
 
     @Override
-    public ReviewItemReference<DataSize> getCriteriaSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCommentsSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getFactsSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getImagesSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getLocationsSize() {
-        return null;
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getTagsSize() {
-        return null;
-    }
-
-    @Override
     public void unregisterObserver(NodeObserver binder) {
         if (mObservers.contains(binder)) mObservers.remove(binder);
     }
