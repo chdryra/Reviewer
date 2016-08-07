@@ -52,7 +52,7 @@ public class TreeInfoReference<T extends HasReviewId> extends TreeDataReferenceB
                 IdableList<ReviewItemReference<T>> references = new IdableDataList<>(getReviewId());
                 if(data != null && !message.isError()) {
                     for(T datum : data) {
-                        references.add(mReferenceFactory.newDataReference(getReviewId(), datum));
+                        references.add(mReferenceFactory.newItem(getReviewId(), datum));
                     }
                 }
 
@@ -63,7 +63,7 @@ public class TreeInfoReference<T extends HasReviewId> extends TreeDataReferenceB
 
     @Override
     public ReviewItemReference<DataSize> getSizeReference() {
-        return mReferenceFactory.newSizeReference(this);
+        return mReferenceFactory.newSize(this);
     }
 
     @Override

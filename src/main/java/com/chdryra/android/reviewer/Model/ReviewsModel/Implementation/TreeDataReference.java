@@ -15,6 +15,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryMdReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
@@ -25,16 +26,19 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
  * Email: rizwan.choudrey@gmail.com
  */
 public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceBasic<T> {
+    private FactoryMdReference mReferenceFactory;
     private VisitorFactory<T> mVisitorFactory;
 
     public interface VisitorFactory<T extends HasReviewId> {
         VisitorDataGetter<ReviewListReference<T>> newVisitor();
     }
     public TreeDataReference(ReviewNode root,
+                             FactoryMdReference referenceFactory,
                              FactoryNodeTraverser traverserFactory,
                              VisitorFactory<T> visitorFactory) {
         super(root, traverserFactory);
         mVisitorFactory = visitorFactory;
+        mReferenceFactory = referenceFactory;
     }
 
     @Override
@@ -51,7 +55,7 @@ public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceB
 
     @Override
     public ReviewItemReference<DataSize> getSizeReference() {
-        return null;
+        return mReferenceFactory.newSize(this);
     }
 
     @Override

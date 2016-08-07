@@ -16,6 +16,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReferen
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeDataReferenceSize;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoReferenceSize;
 
@@ -25,15 +27,19 @@ import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoRe
  * Email: rizwan.choudrey@gmail.com
  */
 public class FactoryMdReference {
-    public <T extends HasReviewId> ReviewItemReference<T> newDataReference(ReviewId id, T datum) {
+    public <T extends HasReviewId> ReviewItemReference<T> newItem(ReviewId id, T datum) {
         return new StaticItemReference<>(id, datum);
     }
 
-    public <T extends HasReviewId> ReviewListReference<T> newListReference(ReviewId id, IdableList<T> data) {
+    public <T extends HasReviewId> ReviewListReference<T> newList(ReviewId id, IdableList<T> data) {
         return new StaticListReference<>(id, data);
     }
 
-    public <T extends HasReviewId> ReviewItemReference<DataSize> newSizeReference(TreeInfoReference<T> treeRef) {
+    public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeInfoReference<T> treeRef) {
         return new TreeInfoReferenceSize<>(treeRef);
+    }
+
+    public <T extends HasReviewId> ReviewItemReference<DataSize> newSize(TreeDataReference<T> treeRef) {
+        return new TreeDataReferenceSize<>(treeRef);
     }
 }
