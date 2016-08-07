@@ -49,6 +49,7 @@ public abstract class DataReferenceBasic<T> implements DataReference<T> {
             for (DataReference.InvalidationListener listener : mListeners) {
                 listener.onReferenceInvalidated(this);
             }
+            mListeners.clear();
         }
     }
 

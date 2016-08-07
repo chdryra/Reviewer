@@ -19,7 +19,6 @@ import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ListItemBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReferenceBinder;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
-import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
 
@@ -38,28 +37,21 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         ReviewListReference<T>,
         ReviewNode.NodeObserver {
 
-    private static final String REFERENCES = "References";
-    private VisitorFactory<T> mVisitorFactory;
-    private FactoryNodeTraverser mTraverserFactory;
+    private static final String VISITOR = "References";
+
     private ReviewNode mRoot;
+    private FactoryNodeTraverser mTraverserFactory;
 
     private Collection<ListItemBinder<T>> mItemBinders;
     private Collection<ReferenceBinder<IdableList<T>>> mValueBinders;
 
-    public interface PostTraversalMethod<T extends HasReviewId> {
-        void execute(IdableList<T> items);
+    public interface GetDataCallback<T extends HasReviewId> {
+        void onData(IdableList<T> items);
     }
 
-    public interface VisitorFactory<T extends HasReviewId> {
-        VisitorDataGetter<T> newVisitor();
-    }
-
-    public TreeDataReferenceBasic(ReviewNode root,
-                                  FactoryNodeTraverser traverserFactory,
-                                  VisitorFactory<T> visitorFactory) {
-        mVisitorFactory = visitorFactory;
-        mTraverserFactory = traverserFactory;
+    public TreeDataReferenceBasic(ReviewNode root, FactoryNodeTraverser traverserFactory) {
         mRoot = root;
+        mTraverserFactory = traverserFactory;
 
         mItemBinders = new ArrayList<>();
         mValueBinders = new ArrayList<>();
@@ -67,8 +59,8 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         mRoot.registerObserver(this);
     }
 
-    public void doTraversal(PostTraversalMethod<T> post) {
-        doTraversal(mRoot, post);
+    public void getData(GetDataCallback<T> post) {
+        getData(mRoot, post);
     }
 
     public void registerObserver(ReviewNode.NodeObserver observer) {
@@ -79,12 +71,18 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         mRoot.unregisterObserver(observer);
     }
 
+    public void getData(ReviewId childId, final GetDataCallback<T> post) {
+        ReviewNode child = mRoot.getChild(childId);
+        if (child == null) return;
+        getData(child, post);
+    }
+
     @Override
     public void onChildAdded(ReviewNode child) {
         if (hasItemBinders()) {
-            doTraversal(child, new PostTraversalMethod<T>() {
+            getData(child, new GetDataCallback<T>() {
                 @Override
-                public void execute(IdableList<T> items) {
+                public void onData(IdableList<T> items) {
                     notifyItemBindersAdd(items);
                 }
             });
@@ -96,9 +94,9 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     @Override
     public void onChildRemoved(ReviewNode child) {
         if (hasItemBinders()) {
-            doTraversal(child, new PostTraversalMethod<T>() {
+            getData(child, new GetDataCallback<T>() {
                 @Override
-                public void execute(IdableList<T> items) {
+                public void onData(IdableList<T> items) {
                     notifyItemBindersRemove(items);
                 }
             });
@@ -115,9 +113,9 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     @Override
     public void bindToItems(final ListItemBinder<T> binder) {
         if (!mItemBinders.contains(binder)) mItemBinders.add(binder);
-        doTraversal(new PostTraversalMethod<T>() {
+        getData(new GetDataCallback<T>() {
             @Override
-            public void execute(IdableList<T> items) {
+            public void onData(IdableList<T> items) {
                 notifyItemBinderAdd(binder, items);
             }
         });
@@ -130,10 +128,10 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
 
     @Override
     public void dereference(final DereferenceCallback<IdableList<T>> callback) {
-        if(isValidReference()) {
-            doTraversal(new PostTraversalMethod<T>() {
+        if (isValidReference()) {
+            getData(new GetDataCallback<T>() {
                 @Override
-                public void execute(IdableList<T> items) {
+                public void onData(IdableList<T> items) {
                     callback.onDereferenced(items, CallbackMessage.ok());
                 }
             });
@@ -173,7 +171,6 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
             binder.onInvalidated(this);
         }
 
-        mVisitorFactory = null;
         mTraverserFactory = null;
         mRoot = null;
 
@@ -254,19 +251,26 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         }
     }
 
-    private void doTraversal(ReviewNode root, final PostTraversalMethod<T> post) {
-        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
-        traverser.addVisitor(REFERENCES, mVisitorFactory.newVisitor());
-        traverser.traverse(new TreeTraverser.TraversalCallback() {
+    private void getData(ReviewNode root, final GetDataCallback<T> post) {
+        doTraversal(root, new TreeTraverser.TraversalCallback() {
             @Override
             public void onTraversed(Map<String, VisitorReviewNode> visitors) {
-                post.execute(getVisitor(visitors).getData());
+                onDataTraversalComplete(visitors.get(VISITOR), post);
             }
         });
     }
 
-    private VisitorDataGetter<T> getVisitor(Map<String, VisitorReviewNode>
-                                                    visitors) {
-        return (VisitorDataGetter<T>) visitors.get(REFERENCES);
+    private void doTraversal(ReviewNode root, TreeTraverser.TraversalCallback callback) {
+        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
+        traverser.addVisitor(VISITOR, newVisitor());
+        traverser.traverse(callback);
     }
+
+    protected void doTraversal(TreeTraverser.TraversalCallback callback) {
+        doTraversal(mRoot, callback);
+    }
+
+    public abstract VisitorReviewNode newVisitor();
+
+    public abstract void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T> method);
 }

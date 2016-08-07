@@ -24,7 +24,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewDataReference extends DataReviewInfo {
+public interface ReviewReferenceData extends DataReviewInfo {
     ReviewItemReference<DataImage> getCover();
 
     ReviewListReference<DataCriterion> getCriteria();

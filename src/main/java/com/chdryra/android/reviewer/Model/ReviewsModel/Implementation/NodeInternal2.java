@@ -26,7 +26,8 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewId;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReference;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Factories.FactoryReviewNode;
+import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
+import com.chdryra.android.reviewer.Model.Factories.FactoryVisitorReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNodeComponent;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
@@ -35,13 +36,18 @@ import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNo
 import java.util.ArrayList;
 
 public class NodeInternal2 extends ReviewNodeComponentBasic implements ReviewNode.NodeObserver{
-    protected ArrayList<NodeObserver> mObservers;
     private DataReviewInfo mMeta;
+    private FactoryVisitorReviewNode mVisitorFactory;
+    private FactoryNodeTraverser mTraverserFactory;
+
+    private ArrayList<NodeObserver> mObservers;
     private MdDataList<ReviewNodeComponent> mChildren;
 
-    public NodeInternal2(DataReviewInfo meta, FactoryReviewNode nodeFactory) {
-        super(nodeFactory);
+    public NodeInternal2(DataReviewInfo meta, FactoryVisitorReviewNode visitorFactory,
+                         FactoryNodeTraverser traverserFactory) {
         mMeta = meta;
+        mVisitorFactory = visitorFactory;
+        mTraverserFactory = traverserFactory;
         mChildren = new MdDataList<>(getReviewId());
         mObservers = new ArrayList<>();
     }

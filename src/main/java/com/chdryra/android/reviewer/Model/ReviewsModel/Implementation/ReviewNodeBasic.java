@@ -10,12 +10,10 @@ package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
 import android.support.annotation.Nullable;
 
-import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by: Rizwan Choudrey
@@ -24,46 +22,9 @@ import java.util.Collection;
  */
 public abstract class ReviewNodeBasic implements ReviewNode {
     protected ArrayList<NodeObserver> mObservers;
-    protected Collection<InvalidationListener> mListeners;
-    private boolean mDeleted = false;
 
     public ReviewNodeBasic() {
         mObservers = new ArrayList<>();
-        mListeners = new ArrayList<>();
-    }
-
-    @Override
-    public boolean isValidReference() {
-        return !mDeleted;
-    }
-
-    @Override
-    public void registerListener(DataReference.InvalidationListener listener) {
-        if(!mListeners.contains(listener)) mListeners.add(listener);
-    }
-
-    @Override
-    public void unregisterListener(DataReference.InvalidationListener listener) {
-        if(mListeners.contains(listener)) mListeners.remove(listener);
-    }
-
-    @Override
-    public void invalidate() {
-        if(!isDeleted()) {
-            mDeleted = true;
-            onInvalidate();
-            for (DataReference.InvalidationListener listener : mListeners) {
-                listener.onReferenceInvalidated(this);
-            }
-        }
-    }
-
-    protected boolean isDeleted() {
-        return mDeleted;
-    }
-
-    protected void onInvalidate() {
-
     }
 
     @Override

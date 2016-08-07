@@ -53,22 +53,22 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
 
     @Override
     public ReviewListReference<ReviewReference> getReviews() {
-        return newListReference(mReview);
+        return newStaticReference(mReview);
     }
 
     @Override
     public ReviewListReference<DataSubject> getSubjects() {
-        return newListReference(mReview.getSubject());
+        return newStaticReference(mReview.getSubject());
     }
 
     @Override
     public ReviewListReference<DataAuthorId> getAuthorIds() {
-        return newListReference(mReview.getAuthorId());
+        return newStaticReference(mReview.getAuthorId());
     }
 
     @Override
     public ReviewListReference<DataDate> getDates() {
-        return newListReference(mReview.getPublishDate());
+        return newStaticReference(mReview.getPublishDate());
     }
 
     @Override
@@ -124,36 +124,6 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     @Override
     public ReviewListReference<DataTag> getTags() {
         return mReview.getTags();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCriteriaSize() {
-        return mReview.getCriteriaSize();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getCommentsSize() {
-        return mReview.getCommentsSize();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getFactsSize() {
-        return mReview.getFactsSize();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getImagesSize() {
-        return mReview.getImagesSize();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getLocationsSize() {
-        return mReview.getLocationsSize();
-    }
-
-    @Override
-    public ReviewItemReference<DataSize> getTagsSize() {
-        return mReview.getTagsSize();
     }
 
     @Override
@@ -252,7 +222,7 @@ public class NodeLeaf extends ReviewNodeComponentBasic implements ReviewNodeComp
     }
 
     @NonNull
-    private <T extends HasReviewId> ReviewListReference<T> newListReference(T item) {
+    private <T extends HasReviewId> ReviewListReference<T> newStaticReference(T item) {
         IdableList<T> data = new IdableDataList<>(mReview.getReviewId());
         data.add(item);
         return new StaticListReference<>(mReview.getReviewId(), data);

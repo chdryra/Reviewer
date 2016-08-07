@@ -16,5 +16,5 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewItemReferen
  * On: 13/06/2016
  * Email: rizwan.choudrey@gmail.com
  */
-public interface ReviewReference extends ReviewDataReference, ReviewItemReference<Review> {
+public interface ReviewReference extends ReviewReferenceData, ReviewItemReference<Review> {
 }

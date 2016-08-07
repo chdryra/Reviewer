@@ -21,7 +21,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSubject;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataTag;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.IdableList;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaBinders;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReviewReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.MetaReviewData;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewReference;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvData;
 import com.chdryra.android.reviewer.Presenter.Interfaces.Data.GvDataList;
@@ -86,11 +86,11 @@ import com.chdryra.android.reviewer.Presenter.ReviewViewModel.Implementation.Dat
 public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<T> {
     private FactoryReviewViewAdapter mAdapterFactory;
 
-    protected abstract void bind(MetaReviewReference reference);
+    protected abstract void bind(MetaReviewData reference);
 
-    protected abstract void unbind(MetaReviewReference reference);
+    protected abstract void unbind(MetaReviewData reference);
 
-    protected ViewerMetaData(MetaReviewReference reference,
+    protected ViewerMetaData(MetaReviewData reference,
                              GvDataList<T> initial,
                              FactoryReviewViewAdapter adapterFactory) {
         super(reference, initial);
@@ -99,12 +99,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
 
     @Override
     protected void bind(ReviewReference reference) {
-        bind((MetaReviewReference) reference);
+        bind((MetaReviewData) reference);
     }
 
     @Override
     protected void unbind(ReviewReference reference) {
-        unbind((MetaReviewReference) reference);
+        unbind((MetaReviewData) reference);
     }
 
     @NonNull
@@ -131,7 +131,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
             .ReviewsBinder {
         private GvConverterReferences mConverter;
 
-        public Reviews(MetaReviewReference reference,
+        public Reviews(MetaReviewData reference,
                        GvConverterReferences converter,
                        FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvReferenceList(getId(reference)), adapterFactory);
@@ -144,12 +144,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -158,7 +158,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
             .AuthorsBinder {
         private GvConverterAuthorIds mConverter;
 
-        public Authors(MetaReviewReference reference,
+        public Authors(MetaReviewData reference,
                        GvConverterAuthorIds converter,
                        FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvAuthorIdList(getId(reference)), adapterFactory);
@@ -171,12 +171,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -185,7 +185,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
             .SubjectsBinder {
         private GvConverterSubjects mConverter;
 
-        public Subjects(MetaReviewReference reference,
+        public Subjects(MetaReviewData reference,
                         GvConverterSubjects converter,
                         FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvSubjectList(getId(reference)), adapterFactory);
@@ -198,12 +198,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -211,7 +211,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
     public static class Dates extends ViewerMetaData<GvDate> implements MetaBinders.DatesBinder {
         private GvConverterDateReviews mConverter;
 
-        public Dates(MetaReviewReference reference,
+        public Dates(MetaReviewData reference,
                      GvConverterDateReviews converter,
                      FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvDateList(getId(reference)), adapterFactory);
@@ -224,12 +224,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -237,7 +237,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
     public static class Tags extends ViewerMetaData<GvTag> implements MetaBinders.TagsBinder {
         private GvConverterDataTags mConverter;
 
-        public Tags(MetaReviewReference reference,
+        public Tags(MetaReviewData reference,
                     GvConverterDataTags converter,
                     FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvTagList(getId(reference)), adapterFactory);
@@ -250,12 +250,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -264,7 +264,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
             .CriteriaBinder {
         private GvConverterCriteria mConverter;
 
-        public Criteria(MetaReviewReference reference,
+        public Criteria(MetaReviewData reference,
                         GvConverterCriteria converter,
                         FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvCriterionList(getId(reference)), adapterFactory);
@@ -277,12 +277,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -290,7 +290,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
     public static class Images extends ViewerMetaData<GvImage> implements MetaBinders.ImagesBinder {
         private GvConverterImages mConverter;
 
-        public Images(MetaReviewReference reference,
+        public Images(MetaReviewData reference,
                       GvConverterImages converter,
                       FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvImageList(getId(reference)), adapterFactory);
@@ -303,12 +303,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -317,7 +317,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
             .CommentsBinder {
         private GvConverterComments mConverter;
 
-        public Comments(MetaReviewReference reference,
+        public Comments(MetaReviewData reference,
                         GvConverterComments converter,
                         FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvCommentList(getId(reference)), adapterFactory);
@@ -330,12 +330,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -344,7 +344,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
             .LocationsBinder {
         private GvConverterLocations mConverter;
 
-        public Locations(MetaReviewReference reference,
+        public Locations(MetaReviewData reference,
                          GvConverterLocations converter,
                          FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvLocationList(getId(reference)), adapterFactory);
@@ -357,12 +357,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
@@ -370,7 +370,7 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
     public static class Facts extends ViewerMetaData<GvFact> implements MetaBinders.FactsBinder {
         private GvConverterFacts mConverter;
 
-        public Facts(MetaReviewReference reference,
+        public Facts(MetaReviewData reference,
                      GvConverterFacts converter,
                      FactoryReviewViewAdapter adapterFactory) {
             super(reference, new GvFactList(getId(reference)), adapterFactory);
@@ -383,12 +383,12 @@ public abstract class ViewerMetaData<T extends GvData> extends ViewerReviewData<
         }
 
         @Override
-        protected void bind(MetaReviewReference reference) {
+        protected void bind(MetaReviewData reference) {
             reference.bindToValue(this);
         }
 
         @Override
-        protected void unbind(MetaReviewReference reference) {
+        protected void unbind(MetaReviewData reference) {
             reference.unbindFromValue(this);
         }
     }
