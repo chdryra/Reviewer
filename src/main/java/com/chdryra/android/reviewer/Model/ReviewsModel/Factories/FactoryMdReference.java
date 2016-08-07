@@ -17,7 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticItemReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.StaticListReference;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoReference;
-import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeSizeReference;
+import com.chdryra.android.reviewer.Model.ReviewsModel.Implementation.TreeInfoReferenceSize;
 
 /**
  * Created by: Rizwan Choudrey
@@ -34,6 +34,6 @@ public class FactoryMdReference {
     }
 
     public <T extends HasReviewId> ReviewItemReference<DataSize> newSizeReference(TreeInfoReference<T> treeRef) {
-        return new TreeSizeReference<>(treeRef);
+        return new TreeInfoReferenceSize<>(treeRef);
     }
 }

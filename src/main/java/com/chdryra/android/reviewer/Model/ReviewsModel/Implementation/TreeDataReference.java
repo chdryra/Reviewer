@@ -8,9 +8,6 @@
 
 package com.chdryra.android.reviewer.Model.ReviewsModel.Implementation;
 
-import android.support.annotation.Nullable;
-
-import com.chdryra.android.mygenerallibrary.AsyncUtils.CallbackMessage;
 import com.chdryra.android.reviewer.DataDefinitions.Implementation.IdableDataList;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.DataSize;
 import com.chdryra.android.reviewer.DataDefinitions.Interfaces.HasReviewId;
@@ -20,10 +17,7 @@ import com.chdryra.android.reviewer.DataDefinitions.Interfaces.ReviewListReferen
 import com.chdryra.android.reviewer.Model.Factories.FactoryNodeTraverser;
 import com.chdryra.android.reviewer.Model.ReviewsModel.Interfaces.ReviewNode;
 import com.chdryra.android.reviewer.Model.TreeMethods.Implementation.VisitorDataGetter;
-import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.TreeTraverser;
 import com.chdryra.android.reviewer.Model.TreeMethods.Interfaces.VisitorReviewNode;
-
-import java.util.Map;
 
 /**
  * Created by: Rizwan Choudrey
@@ -45,10 +39,12 @@ public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceB
 
     @Override
     public void toItemReferences(final ItemReferencesCallback<T> callback) {
-        doTraversal(new TreeTraverser.TraversalCallback() {
+        doTraversal(new TreeTraversalCallback() {
             @Override
-            public void onTraversed(Map<String, VisitorReviewNode> visitors) {
-
+            public void onTraversed(VisitorReviewNode visitor) {
+                VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
+                ListRefsToItemRefs converter = new ListRefsToItemRefs(getter.getData(), callback);
+                converter.convert();
             }
         });
     }
@@ -65,42 +61,43 @@ public class TreeDataReference<T extends HasReviewId> extends TreeDataReferenceB
 
     @Override
     public void onDataTraversalComplete(VisitorReviewNode visitor, GetDataCallback<T> method) {
-        VisitorDataGetter<ReviewListReference<T>> getter = getVisitor(visitor);
-        DataDereferencer dereferencer = new DataDereferencer(getter.getData(), method);
+        VisitorDataGetter<ReviewListReference<T>> getter = castVisitor(visitor);
+        ListsDereferencer<T> dereferencer = new ListsDereferencer<>(getter.getData(), method);
         dereferencer.dereference();
     }
 
-    private VisitorDataGetter<ReviewListReference<T>> getVisitor(VisitorReviewNode visitor) {
+    private VisitorDataGetter<ReviewListReference<T>> castVisitor(VisitorReviewNode visitor) {
         return (VisitorDataGetter<ReviewListReference<T>>) visitor;
     }
 
-    private class DataDereferencer {
+    private class ListRefsToItemRefs {
         private IdableList<ReviewListReference<T>> mRefs;
-        private GetDataCallback<T> mPost;
-        private IdableList<T> mData;
+        private ItemReferencesCallback<T> mCallback;
+        private IdableList<ReviewItemReference<T>> mData;
         private int mNumDereferences = 0;
 
-        private DataDereferencer(IdableList<ReviewListReference<T>> refs, GetDataCallback<T> post) {
+        public ListRefsToItemRefs(IdableList<ReviewListReference<T>> refs,
+                                  ItemReferencesCallback<T> callback) {
             mRefs = refs;
-            mPost = post;
+            mCallback = callback;
         }
 
-        private void dereference() {
+        private void convert() {
             mData = new IdableDataList<>(mRefs.getReviewId());
             for(ReviewListReference<T> ref : mRefs) {
-                ref.dereference(new DereferenceCallback<IdableList<T>>() {
+                ref.toItemReferences(new ItemReferencesCallback<T>() {
                     @Override
-                    public void onDereferenced(@Nullable IdableList<T> data, CallbackMessage message) {
-                        add(data, message);
+                    public void onItemReferences(IdableList<ReviewItemReference<T>> references) {
+                        add(references);
                     }
                 });
             }
         }
 
-        private void add(@Nullable IdableList<T> data, CallbackMessage message) {
-            if(data != null && !message.isError()) mData.addAll(data);
+        private void add(IdableList<ReviewItemReference<T>> data) {
+            mData.addAll(data);
             mNumDereferences++;
-            if(mNumDereferences == mRefs.size()) mPost.onData(mData);
+            if(mNumDereferences == mRefs.size()) mCallback.onItemReferences(mData);
         }
     }
 }

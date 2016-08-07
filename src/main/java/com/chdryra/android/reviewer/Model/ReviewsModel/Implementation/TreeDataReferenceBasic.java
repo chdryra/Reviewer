@@ -49,6 +49,10 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
         void onData(IdableList<T> items);
     }
 
+    public interface TreeTraversalCallback {
+        void onTraversed(VisitorReviewNode visitor);
+    }
+
     public TreeDataReferenceBasic(ReviewNode root, FactoryNodeTraverser traverserFactory) {
         mRoot = root;
         mTraverserFactory = traverserFactory;
@@ -252,22 +256,34 @@ public abstract class TreeDataReferenceBasic<T extends HasReviewId> extends
     }
 
     private void getData(ReviewNode root, final GetDataCallback<T> post) {
-        doTraversal(root, new TreeTraverser.TraversalCallback() {
+        doTraversal(root, new TreeTraversalCallback() {
+            @Override
+            public void onTraversed(VisitorReviewNode visitor) {
+                onDataTraversalComplete(visitor, post);
+            }
+        });
+
+    }
+
+    private void doTraversal(ReviewNode root, final TreeTraversalCallback callback) {
+        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
+        traverser.addVisitor(VISITOR, newVisitor());
+        traverser.traverse(new TreeTraverser.TraversalCallback() {
             @Override
             public void onTraversed(Map<String, VisitorReviewNode> visitors) {
-                onDataTraversalComplete(visitors.get(VISITOR), post);
+                callback.onTraversed(visitors.get(VISITOR));
             }
         });
     }
 
-    private void doTraversal(ReviewNode root, TreeTraverser.TraversalCallback callback) {
-        TreeTraverser traverser = mTraverserFactory.newTreeTraverser(root);
-        traverser.addVisitor(VISITOR, newVisitor());
-        traverser.traverse(callback);
+    public void doTraversal(TreeTraversalCallback callback) {
+        doTraversal(mRoot, callback);
     }
 
-    protected void doTraversal(TreeTraverser.TraversalCallback callback) {
-        doTraversal(mRoot, callback);
+    public void doTraversal(ReviewId childId, TreeTraversalCallback callback) {
+        ReviewNode child = mRoot.getChild(childId);
+        if (child == null) return;
+        doTraversal(child, callback);
     }
 
     public abstract VisitorReviewNode newVisitor();
